@@ -198,13 +198,12 @@ CREATE TABLE gem.tequipo_variable (
   id_equipo_variable SERIAL, 
   id_uni_cons INTEGER, 
   id_tipo_variable INTEGER, 
-  valor_min INTEGER, 
-  valor_max INTEGER, 
   obs VARCHAR, 
+  valor_min NUMERIC(18,2), 
+  valor_max NUMERIC(18,2), 
   CONSTRAINT tequipo_variable_pkey PRIMARY KEY(id_equipo_variable)
 ) INHERITS (pxp.tbase)
 WITHOUT OIDS;
-ALTER TABLE gem.tequipo_variable OWNER TO postgres;
  
 CREATE TABLE gem.tfalla (  
   id_falla  SERIAL NOT NULL, 
