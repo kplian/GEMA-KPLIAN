@@ -28,6 +28,14 @@ Phx.vista.Localizacion=Ext.extend(Phx.arbInterfaz,{
 				handler : this.onBtnAddEquipo,
 				tooltip : '<b>Add Equipo</b><br/>Adiciona equipo dede un aplantilla en la ubicacion de referencia'
 			});
+			
+		this.addButton('btnCalGen', {
+				text : 'Generar Calendario',
+				iconCls : 'block',
+				disabled : false,
+				handler : this.onBtnCalGen,
+				tooltip : '<b>Add Equipo</b><br/>GEnera el CAledario para todos los equipos de manera recursiva'
+			});
 		
 		//add for to select  tipouni_cons
 		
@@ -86,6 +94,7 @@ Phx.vista.Localizacion=Ext.extend(Phx.arbInterfaz,{
     
     
      var cmbUC =this.formUC.getForm().findField('id_uni_cons');
+     cmbUC.store.on('exception',this.conexionFailure,this)
      var codigo =this.formUC.getForm().findField('codigo_uni_cons');
     
       cmbUC.on('select',function(c,a,d){ console.log(c,a,d);codigo.setValue(a.data.codigo)})
@@ -117,6 +126,71 @@ Phx.vista.Localizacion=Ext.extend(Phx.arbInterfaz,{
         }]
     });
 		
+    //ventana para desplegar  calendario
+    
+    
+    
+    
+    this.formUCCL = new Ext.form.FormPanel({
+        //baseCls: 'x-plain',
+        autoDestroy: true,
+        labelWidth: 55,
+        autoScroll: true,
+        /*layout: {
+            type: 'vbox',
+            align: 'stretch'  // Child items are stretched to full width
+        },*/
+        defaults: {
+            xtype: 'textfield'
+        },
+
+        items: [{
+				xtype: 'datefield',
+				name: 'fecha_ini',
+				fieldLabel: 'Inicia',
+				format:'d-m-Y',
+				allowBlank: false,
+				allowBlank: false				
+			},{
+				xtype: 'datefield',
+				name: 'fecha_fin',
+				fieldLabel: 'Termina',
+				format:'d-m-Y',
+				allowBlank: false,	
+				allowBlank: false					
+			}]
+    });
+    
+    
+     var dateFechaIni =this.formUCCL.getForm().findField('fecha_ini');
+     var dateFechaFin =this.formUCCL.getForm().findField('fecha_fin');
+    
+     this.wUCCL = new Ext.Window({
+        title: 'Compose message',
+        collapsible: true,
+        maximizable: true,
+         autoDestroy: true,
+        width: 400,
+        height: 350,
+        layout: 'fit',
+        //plain: true,
+        //bodyStyle: 'padding:5px;',
+        buttonAlign: 'center',
+        items: this.formUCCL,
+        modal:true,
+        closeAction: 'hide',
+        buttons: [{
+            text: 'Guardar',
+             handler:this.onCalGen,
+            scope:this
+            
+        },{
+            text: 'Cancelar',
+            handler:function(){this.wUCCL.hide()},
+            scope:this
+        }]
+    });
+    
 		
    //quita la opcion de dmover marcador al cerrar la ventana
     this.window.on('hide',function(){Phx.CP.getPagina(this.idContenedor+'-east').marker.setDraggable(false)},this);
@@ -124,49 +198,114 @@ Phx.vista.Localizacion=Ext.extend(Phx.arbInterfaz,{
 		
 
 	},
+	
+	onCalGen:function(){
+		 if (this.formUCCL.getForm().isValid()) {
+		
+			Phx.CP.loadingShow();
+				
+			var nodo = this.sm.getSelectedNode();
+				
+		
+		    var dateFechaIni =this.formUCCL.getForm().findField('fecha_ini');
+		    var dateFechaFin =this.formUCCL.getForm().findField('fecha_fin');
+		         
+		       
+		    var  id_nodo= nodo.attributes.leaf?nodo.attributes.id_uni_cons:nodo.attributes.id_localizacion
+		      
+		        
+		       
+		       
+				 Ext.Ajax.request({
+		                    form: this.form.getForm().getEl(),
+		                    url: '../../sis_mantenimiento/control/UniCons/GenerarCalendario',
+		                    params: {
+		                    	tipo_nodo:nodo.attributes.tipo_nodo,
+		                    	id_localizacion:id_nodo,
+		                    	fecha_ini:dateFechaIni.getValue().dateFormat('d-m-Y'),
+		                    	fecha_fin:dateFechaFin.getValue().dateFormat('d-m-Y')},
+		                    success: this.successCalGen,
+		                    failure:this.conexionFailure,
+		                    timeout: this.timeout,
+		                    scope: this
+		               });
+        }       
+               
+               
+	},
+	
+	
 	onAddUniCons:function(){
-		 Phx.CP.loadingShow();
 		
-		var nodo = this.sm.getSelectedNode();
-		
-		 var cmbUC =this.formUC.getForm().findField('id_uni_cons');
-         var codigo =this.formUC.getForm().findField('codigo_uni_cons');
+		if (this.formUCCL.getForm().isValid()) {
+			 Phx.CP.loadingShow();
+			
+			 var nodo = this.sm.getSelectedNode();
+			
+			 var cmbUC =this.formUC.getForm().findField('id_uni_cons');
+	         var codigo =this.formUC.getForm().findField('codigo_uni_cons');
+	         
+	       
+			
+			 Ext.Ajax.request({
+	                    form: this.form.getForm().getEl(),
+	                    url: '../../sis_mantenimiento/control/UniCons/addUniCons',
+	                    params: {
+	                    	id_uni_cons:cmbUC.getValue(),
+	                    	codigo_uni_cons:codigo.getValue(),
+	                    	id_localizacion:nodo.attributes.id_localizacion,
+	                    	codigo_localizacion:nodo.attributes.codigo,
+	                    	nombre:nodo.attributes.nombre},
+	                    success: this.successAddUniCons,
+	                    failure:this.conexionFailure,
+	                    timeout: this.timeout,
+	                    scope: this
+	               });
+          }     
+               
+               
+	},
+	
+	successCalGen:function(resp){
+		 Phx.CP.loadingHide();
          
-         cmbUC.store.on('exception',this.conexionFailure,this)
+         var reg = Ext.util.JSON.decode(Ext.util.Format.trim(resp.responseText));
          
-         console.log(nodo.attributes.nombre)
-		
-		 Ext.Ajax.request({
-                    form: this.form.getForm().getEl(),
-                    url: '../../sis_mantenimiento/control/UniCons/addUniCons',
-                    params: {
-                    	id_uni_cons:cmbUC.getValue(),
-                    	codigo_uni_cons:codigo.getValue(),
-                    	id_localizacion:nodo.attributes.id_localizacion,
-                    	codigo_localizacion:nodo.attributes.codigo,
-                    	nombre:nodo.attributes.nombre},
-                    success: this.successAddUniCons,
-                    failure:this.conexionFailure,
-                    timeout: this.timeout,
-                    scope: this
-               });
-               
-               
-               
+         if(reg.ROOT.error){
+			alert("ERROR no esperado")
+		}
+		else{
+			this.wUCCL.hide();
+		}
+
+         
+         
 	},
 	
 	successAddUniCons:function(resp){
 		
 		 Phx.CP.loadingHide();
-            
-		
-		console.log(resp)
+          var reg = Ext.util.JSON.decode(Ext.util.Format.trim(resp.responseText));
+         
+         if(reg.ROOT.error){
+			alert("ERROR no esperado")
+		}
+		else{
+			this.wUC.hide();
+		}
 		
 	},
 	onBtnAddEquipo:function(){
 		var nodo = this.sm.getSelectedNode();
 		if(nodo){
 			this.wUC.show()
+		}
+	},
+	
+	onBtnCalGen:function(){
+		var nodo = this.sm.getSelectedNode();
+		if(nodo){
+			this.wUCCL.show()
 		}
 	},
 	

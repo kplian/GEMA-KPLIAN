@@ -125,6 +125,14 @@ class FuncionesMantenimiento{
 		$res=$obj->listarUniConsPlano();
 		return $res;
 	}
+	
+	function GenerarCalendario(CTParametro $parametro){
+		$obj=new MODUniCons($parametro);
+		$res=$obj->GenerarCalendario();
+		return $res;
+	}
+	
+	
 	/*FinClase: MODUniCons*/
 
 
@@ -582,6 +590,64 @@ class FuncionesMantenimiento{
 		return $res;
 	}
 	/*FinClase: MODDiagramaDecision*/
+	
+	/*Clase: MODUniConsMantPredef
+	* Fecha: 02-11-2012 15:07:12
+	* Autor: admin*/
+	function listarUniConsMantPredef(CTParametro $parametro){
+		$obj=new MODUniConsMantPredef($parametro);
+		$res=$obj->listarUniConsMantPredef();
+		return $res;
+	}
+			
+	function insertarUniConsMantPredef(CTParametro $parametro){
+		$obj=new MODUniConsMantPredef($parametro);
+		$res=$obj->insertarUniConsMantPredef();
+		return $res;
+	}
+			
+	function modificarUniConsMantPredef(CTParametro $parametro){
+		$obj=new MODUniConsMantPredef($parametro);
+		$res=$obj->modificarUniConsMantPredef();
+		return $res;
+	}
+			
+	function eliminarUniConsMantPredef(CTParametro $parametro){
+		$obj=new MODUniConsMantPredef($parametro);
+		$res=$obj->eliminarUniConsMantPredef();
+		return $res;
+	}
+	/*FinClase: MODUniConsMantPredef*/
+	
+	/*Clase: MODCalendarioPlanificado
+	* Fecha: 02-11-2012 15:11:40
+	* Autor: admin*/
+	function listarCalendarioPlanificado(CTParametro $parametro){
+		$obj=new MODCalendarioPlanificado($parametro);
+		$res=$obj->listarCalendarioPlanificado();
+		return $res;
+	}
+			
+	function insertarCalendarioPlanificado(CTParametro $parametro){
+		$obj=new MODCalendarioPlanificado($parametro);
+		$res=$obj->insertarCalendarioPlanificado();
+		return $res;
+	}
+			
+	function modificarCalendarioPlanificado(CTParametro $parametro){
+		$obj=new MODCalendarioPlanificado($parametro);
+		$res=$obj->modificarCalendarioPlanificado();
+		return $res;
+	}
+			
+	function eliminarCalendarioPlanificado(CTParametro $parametro){
+		$obj=new MODCalendarioPlanificado($parametro);
+		$res=$obj->eliminarCalendarioPlanificado();
+		return $res;
+	}
+	/*FinClase: MODCalendarioPlanificado*/
+	
+	
 
 }//marca_generador
 ?>

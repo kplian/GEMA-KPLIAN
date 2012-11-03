@@ -275,16 +275,24 @@ class ACTUniCons extends ACTbase{
 	}
 
 /*
-	 * Author: RCM
+	 * Author: RAC
 	 * Date: 30/08/2012
-	 * Description: Generate Unididad Contructiva from template  */
+	 * Description: Generate "Unididad Contructiva" from template  */
 	 	
 	function addUniCons(){
 		$this->objFunc=new FuncionesMantenimiento();	
 		$this->res=$this->objFunc->addUniCons($this->objParam);			
 		$this->res->imprimirRespuesta($this->res->generarJson());
 	}
-						
+		
+    function GenerarCalendario(){
+		$this->objFunc=new FuncionesMantenimiento();	
+		$this->res=$this->objFunc->GenerarCalendario($this->objParam);			
+		$this->res->imprimirRespuesta($this->res->generarJson());
+	}
+		  
+
+	  				
 	function eliminarUniCons(){
 		$this->objFunc=new FuncionesMantenimiento();	
 		$this->res=$this->objFunc->eliminarUniCons($this->objParam);
