@@ -825,6 +825,66 @@ WITH (
   OIDS=TRUE
 );
 
+
+--CREACION DE TABLAS PARA CALENDARIO --
+--rac 3 de noviembre
+
+
+CREATE TABLE gem.tuni_cons_mant_predef (
+  id_uni_cons_mant_predef SERIAL, 
+  id_mant_predef INTEGER NOT NULL, 
+  id_uni_cons INTEGER NOT NULL, 
+  id_unidad_medida INTEGER NOT NULL, 
+  frecuencia NUMERIC(18,2), 
+  fecha_ini TIMESTAMP WITHOUT TIME ZONE, 
+  ult_fecha_mant TIMESTAMP WITHOUT TIME ZONE, 
+  CONSTRAINT tuni_cons_mant_predef_pkey PRIMARY KEY(id_uni_cons_mant_predef), 
+  CONSTRAINT fk_tuni_cons_mant_predef__id_mant_predef FOREIGN KEY (id_mant_predef)
+    REFERENCES gem.tmant_predef(id_mant_predef)
+    ON DELETE NO ACTION
+    ON UPDATE NO ACTION
+    NOT DEFERRABLE, 
+  CONSTRAINT fk_tuni_cons_mant_predef__id_uni_cons FOREIGN KEY (id_uni_cons)
+    REFERENCES gem.tuni_cons(id_uni_cons)
+    ON DELETE NO ACTION
+    ON UPDATE NO ACTION
+    NOT DEFERRABLE, 
+  CONSTRAINT fk_tuni_cons_mant_predef__id_unidad_medida FOREIGN KEY (id_unidad_medida)
+    REFERENCES param.tunidad_medida(id_unidad_medida)
+    ON DELETE NO ACTION
+    ON UPDATE NO ACTION
+    NOT DEFERRABLE
+) INHERITS (pxp.tbase)
+WITH OIDS;
+    
+    --------------- SQL ---------------
+--------------- SQL ---------------
+
+ALTER TABLE gem.tuni_cons_mant_predef
+  ADD COLUMN horas_dia INTEGER;
+  
+ ALTER TABLE gem.tuni_cons_mant_predef
+  ALTER COLUMN horas_dia SET DEFAULT 24;
+    
+
+CREATE TABLE gem.tcalendario_planificado(
+    id_calendario_planificado SERIAL NOT NULL,
+    id_uni_cons_mant_predef int4,
+    fecha_ini date,
+    fecha_fin int4,
+    estado varchar(20),
+    tipo varchar(25),
+    observaciones int4,
+    PRIMARY KEY (id_calendario_planificado))INHERITS (pxp.tbase)
+    WITH OIDS;
+
+
+
+
+--insercion de MENU sistema de mantenimiento
+
+
+
 select pxp.f_insert_tfuncion ('f_localizacion_ime', 'Funcion para tabla     ', 'GEM');
 select pxp.f_insert_tfuncion ('f_localizacion_sel', 'Funcion para tabla     ', 'GEM');
 select pxp.f_insert_tfuncion ('f_tipo_equipo_ime', 'Funcion para tabla     ', 'GEM');

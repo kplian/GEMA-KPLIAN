@@ -83,9 +83,9 @@ Phx.vista.mapaLocalizacion=Ext.extend(Phx.gmapInterfaz,{
 		    var clog = Phx.CP.getPagina(ICP).getComponente('longitud');
 		    var ccor = Phx.CP.getPagina(ICP).getComponente('coordenadas');
 		    
-		    
-		    clat.setValue(event.latLng.Xa );
-		    clog.setValue(event.latLng.Ya );
+		    console.log(event)
+		    clat.setValue(event.latLng.Ya );
+		    clog.setValue(event.latLng.Za );
 		    ccor.setValue(myMapa.getZoom());
 		    
 		  
