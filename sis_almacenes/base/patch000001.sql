@@ -224,6 +224,7 @@ select pxp.f_insert_tgui ('Ingresos', 'Ingresos', 'ALINGR', 'si', 2, 'sis_almace
 select pxp.f_insert_tgui ('Salidas', 'Salidas', 'ALSAGR', 'si', 2, 'sis_almacenes/vista/movimiento/Salida.php
 ', 3, '', 'Salida', 'ALM');
 select pxp.f_insert_tgui ('Transferencias', 'Transferencias', 'ALTRGR', 'si', 3, 'sis_almacenes/vista/movimiento/Transferencia.php', 3, '', 'Transferencia', 'ALM');
+select pxp.f_insert_testructura_gui('ALM','SISTEMA');
 select pxp.f_insert_testructura_gui ('ALDAGE', 'ALM');
 select pxp.f_insert_testructura_gui ('ALMAIN', 'ALM');
 select pxp.f_insert_testructura_gui ('ALMOVI', 'ALM');
