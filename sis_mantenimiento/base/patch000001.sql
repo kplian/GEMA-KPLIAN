@@ -379,184 +379,6 @@ WITH (
 );
 ALTER TABLE gem.tfuncionario_honorario OWNER TO postgres;
 
-/*
-///////////////
-INSERCION DE REGISTROS PARA LA INTERFAZ DE USUARIO
-/////////////////////
-*/
-
-/*
-INSERT INTO segu.tsubsistema ("id_subsistema", "codigo", "nombre", "fecha_reg", "prefijo", "estado_reg", "nombre_carpeta", "id_subsis_orig")
-VALUES (27, E'SAL', E'Sistema de Almacenes', E'2012-09-20', E'SAL', E'activo', E'ALMACENES', NULL);
-
-
-INSERT INTO segu.tgui ("id_gui", "nombre", "descripcion", "fecha_reg", "codigo_gui", "visible", "orden_logico", "ruta_archivo", "nivel", "icono", "id_subsistema", "clase_vista", "estado_reg")
-VALUES (998, E'SISTEMA DE ALMACENES', E'', E'2012-09-20', E'SAL', E'si', 1, NULL, 1, NULL, 27, NULL, E'activo');
-
-INSERT INTO segu.testructura_gui ("id_estructura_gui", "id_gui", "fk_id_gui", "fecha_reg", "estado_reg")
-VALUES (372, 998, 0, E'2012-09-20', E'activo');
-
-
-
-INSERT INTO segu.tgui ("id_gui", "nombre", "descripcion", "fecha_reg", "codigo_gui", "visible", "orden_logico", "ruta_archivo", "nivel", "icono", "id_subsistema", "clase_vista", "estado_reg")
-VALUES (1000, E'Datos Generales', E'Datos Generales', E'2012-09-20', E'ALDAGE', E'si', 1, E'', 2, E'', NULL, E'', E'activo');
-
-INSERT INTO segu.testructura_gui ("id_estructura_gui", "id_gui", "fk_id_gui", "fecha_reg", "estado_reg")
-VALUES (373, 999, 998, E'2012-09-20', E'activo');
-
-INSERT INTO segu.testructura_gui ("id_estructura_gui", "id_gui", "fk_id_gui", "fecha_reg", "estado_reg")
-VALUES (374, 1000, 998, E'2012-09-20', E'activo');
-
-INSERT INTO segu.testructura_gui ("id_estructura_gui", "id_gui", "fk_id_gui", "fecha_reg", "estado_reg")
-VALUES (375, 1001, 998, E'2012-09-20', E'activo');
-
-INSERT INTO segu.testructura_gui ("id_estructura_gui", "id_gui", "fk_id_gui", "fecha_reg", "estado_reg")
-VALUES (376, 1002, 999, E'2012-09-20', E'activo');
-
-INSERT INTO segu.testructura_gui ("id_estructura_gui", "id_gui", "fk_id_gui", "fecha_reg", "estado_reg")
-VALUES (377, 1003, 999, E'2012-09-20', E'activo');
-
-INSERT INTO segu.testructura_gui ("id_estructura_gui", "id_gui", "fk_id_gui", "fecha_reg", "estado_reg")
-VALUES (378, 1004, 1000, E'2012-09-20', E'activo');
-
-INSERT INTO segu.testructura_gui ("id_estructura_gui", "id_gui", "fk_id_gui", "fecha_reg", "estado_reg")
-VALUES (379, 1005, 1001, E'2012-09-20', E'activo');
-
-INSERT INTO segu.testructura_gui ("id_estructura_gui", "id_gui", "fk_id_gui", "fecha_reg", "estado_reg")
-VALUES (380, 1006, 1001, E'2012-09-20', E'activo');
-
-INSERT INTO segu.testructura_gui ("id_estructura_gui", "id_gui", "fk_id_gui", "fecha_reg", "estado_reg")
-VALUES (381, 1007, 1001, E'2012-09-20', E'activo');
-
-
-
-INSERT INTO segu.tgui ("id_gui", "nombre", "descripcion", "fecha_reg", "codigo_gui", "visible", "orden_logico", "ruta_archivo", "nivel", "icono", "id_subsistema", "clase_vista", "estado_reg")
-VALUES (1001, E'Movimientos', E'Movimientos', E'2012-09-20', E'ALMOVI', E'si', 3, E'', 2, E'', NULL, E'', E'activo');
-
-INSERT INTO segu.tgui ("id_gui", "nombre", "descripcion", "fecha_reg", "codigo_gui", "visible", "orden_logico", "ruta_archivo", "nivel", "icono", "id_subsistema", "clase_vista", "estado_reg")
-VALUES (1002, E'Materiales', E'Registro de Materiales', E'2012-09-20', E'ALREMA', E'si', 1, E'sis_almacenes/vista/item/Item.php\n', 3, E'', NULL, E'Item', E'activo');
-
-INSERT INTO segu.tgui ("id_gui", "nombre", "descripcion", "fecha_reg", "codigo_gui", "visible", "orden_logico", "ruta_archivo", "nivel", "icono", "id_subsistema", "clase_vista", "estado_reg")
-VALUES (1003, E'Clasificaci�n de materiales', E'Clasificaci�n de materiales', E'2012-09-20', E'ALCLMA', E'si', 1, E'sis_almacenes/vista/clasificacion/Clasificacion.php\n', 3, E'', NULL, E'Clasificacion', E'activo');
-
-INSERT INTO segu.tgui ("id_gui", "nombre", "descripcion", "fecha_reg", "codigo_gui", "visible", "orden_logico", "ruta_archivo", "nivel", "icono", "id_subsistema", "clase_vista", "estado_reg")
-VALUES (1004, E'Creaci�n de almacenes', E'Creaci�n de almacenes', E'2012-09-20', E'ALCRAL', E'si', 1, E'sis_almacenes/vista/almacen/Almacen.php\n', 3, E'', NULL, E'Almacen', E'activo');
-
-INSERT INTO segu.tgui ("id_gui", "nombre", "descripcion", "fecha_reg", "codigo_gui", "visible", "orden_logico", "ruta_archivo", "nivel", "icono", "id_subsistema", "clase_vista", "estado_reg")
-VALUES (1005, E'Ingresos', E'Ingresos', E'2012-09-20', E'ALINGR', E'si', 1, E'sis_almacenes/vista/movimiento/Ingreso.php\n', 3, E'', NULL, E'Ingreso', E'activo');
-
-INSERT INTO segu.tgui ("id_gui", "nombre", "descripcion", "fecha_reg", "codigo_gui", "visible", "orden_logico", "ruta_archivo", "nivel", "icono", "id_subsistema", "clase_vista", "estado_reg")
-VALUES (1006, E'Salidas', E'Salidas', E'2012-09-20', E'ALSAGR', E'si', 2, E'sis_almacenes/vista/movimiento/Salida.php\n', 3, E'', NULL, E'Salida', E'activo');
-
-INSERT INTO segu.tgui ("id_gui", "nombre", "descripcion", "fecha_reg", "codigo_gui", "visible", "orden_logico", "ruta_archivo", "nivel", "icono", "id_subsistema", "clase_vista", "estado_reg")
-VALUES (1007, E'Transferencias', E'Transferencias', E'2012-09-20', E'ALTRGR', E'si', 3, E'sis_almacenes/vista/movimiento/Transferencia.php\n', 3, E'', NULL, E'Transferencia', E'activo');
-
-
-*/
-/*
-///////////////////////
-CREACION DEL ESQUEMA ALM
-///////////////////////
-*/
-CREATE SCHEMA alm AUTHORIZATION postgres;
-
-CREATE TABLE alm.tclasificacion (
-	id_clasificacion  SERIAL NOT NULL,
-	id_clasificacion_fk int4,
-	codigo varchar(20),
-	nombre varchar(200),
-	descripcion varchar(1000),
-	PRIMARY KEY (id_clasificacion)
-) INHERITS (pxp.tbase)
-WITHOUT OIDS;
-
-ALTER TABLE alm.tclasificacion
-ADD CONSTRAINT fk_tclasificacion__id_clasificacion_fk FOREIGN KEY (id_clasificacion_fk) REFERENCES alm.tclasificacion (id_clasificacion);
-
-CREATE TABLE alm.talmacen (
-	id_almacen  SERIAL NOT NULL,
-	codigo varchar(10),
-	nombre varchar(100),
-	localizacion varchar(100),
-	PRIMARY KEY (id_almacen)
-)INHERITS (pxp.tbase) WITHOUT OIDS;
-
-CREATE TABLE alm.titem(
-	id_item SERIAL NOT NULL,
-    id_clasificacion int4 NOT NULL,
-    codigo varchar(20),
-    nombre varchar(100),
-    descripcion varchar(1000),
-    palabras_clave varchar(1000),
-    codigo_fabrica varchar(100),
-    observaciones varchar(1000),
-    numero_serie varchar(100),
-    PRIMARY KEY(id_item)
-) INHERITS (pxp.tbase) WITHOUT OIDS;
-ALTER TABLE alm.titem
- ADD CONSTRAINT fk_titem__id_clasificacion FOREIGN KEY (id_clasificacion) REFERENCES alm.tclasificacion(id_clasificacion);
- 
-
-
-CREATE TABLE alm.talmacen_stock (
-	id_almacen_stock  SERIAL NOT NULL,
-	id_almacen int4 NOT NULL,
-	id_item int4,
-	cantidad_min numeric(18, 2),
-	cantidad_alerta_amarilla numeric(18, 2),
-	cantidad_alerta_roja numeric(18, 2),
-	PRIMARY KEY (id_almacen_stock)
-)INHERITS (pxp.tbase) WITHOUT OIDS;
-ALTER TABLE alm.talmacen_stock
-ADD CONSTRAINT fk_talmacen_stock__id_almacen FOREIGN KEY (id_almacen) REFERENCES alm.talmacen (id_almacen);
-ALTER TABLE alm.talmacen_stock
-ADD CONSTRAINT fk_talmacen_stock__id_item FOREIGN KEY (id_item) REFERENCES alm.titem (id_item);
-
-CREATE TABLE alm.tmovimiento_tipo (
-	id_movimiento_tipo  SERIAL NOT NULL,
-	codigo varchar(20),
-	nombre varchar(100), 
-	PRIMARY KEY (id_movimiento_tipo)
-)INHERITS (pxp.tbase) WITHOUT OIDS;
-
-
-CREATE TABLE alm.tmovimiento (
-	id_movimiento  SERIAL NOT NULL,
-	id_movimiento_tipo int4,
-	id_almacen int4,
-	id_funcionario int4,
-	id_proveedor int4,
-	id_almacen_dest int4,
-	fecha_mov timestamp,
-	numero_mov varchar(30),
-	descripcion varchar(1000),
-	observaciones varchar(1000),
-	PRIMARY KEY (id_movimiento)
-)INHERITS (pxp.tbase) WITHOUT OIDS;
-ALTER TABLE alm.tmovimiento
-ADD CONSTRAINT fk_tmovimiento__id_movimiento_tipo FOREIGN KEY (id_movimiento_tipo) REFERENCES alm.tmovimiento_tipo (id_movimiento_tipo);
-ALTER TABLE alm.tmovimiento
-ADD CONSTRAINT fk_tmovimiento__id_almacen FOREIGN KEY (id_almacen) REFERENCES alm.talmacen (id_almacen);
-ALTER TABLE alm.tmovimiento
-ADD CONSTRAINT fk_tmovimiento__id_funcionario FOREIGN KEY (id_funcionario) REFERENCES orga.tfuncionario (id_funcionario);
-ALTER TABLE alm.tmovimiento
-ADD CONSTRAINT fk_tmovimiento__id_proveedor FOREIGN KEY (id_proveedor) REFERENCES param.tproveedor (id_proveedor);
-ALTER TABLE alm.tmovimiento
-ADD CONSTRAINT fk_tmovimiento__id_almacen_dest FOREIGN KEY (id_almacen_dest) REFERENCES alm.talmacen (id_almacen);
-
-CREATE TABLE alm.tmovimiento_det (
-	id_movimiento_det  SERIAL NOT NULL,
-	id_movimiento int4,
-	id_item int4,
-	cantidad numeric(18, 6),
-	costo_unitario numeric(18, 6),
-	fecha_caducidad date, 
-	PRIMARY KEY (id_movimiento_det)
-)INHERITS (pxp.tbase) WITHOUT OIDS;
-ALTER TABLE alm.tmovimiento_det
-ADD CONSTRAINT fk_tmovimiento_det__id_movimiento FOREIGN KEY (id_movimiento) REFERENCES alm.tmovimiento (id_movimiento);
-ALTER TABLE alm.tmovimiento_det
-ADD CONSTRAINT fk_tmovimiento_det__id_item FOREIGN KEY (id_item) REFERENCES alm.titem (id_item);
 
 
 /*
@@ -598,12 +420,7 @@ alter table gem.tequipo_variable
 add column valor_min numeric(18,2);
 alter table gem.tequipo_variable
 add column valor_max numeric(18,2);
-
-ALTER TABLE alm.titem
-  ALTER COLUMN id_clasificacion DROP NOT NULL;
   
-  ALTER TABLE alm.tclasificacion
-  ADD COLUMN codigo_largo VARCHAR(20);
   
 --ADDING FOREIGN KEYS
 alter table gem.ttipo_variable
@@ -773,6 +590,8 @@ CREATE TABLE gem.tcalendario_planificado(
 *	Description: Build the menu definition and the composition
 */
 
+insert into segu.tsubsistema(codigo,nombre,prefijo,nombre_carpeta) values
+('GEM','Mantenimiento Industrial - Plantas y Estaciones','GM','mantenimiento');
 
 /* (1) Menu definition*/
 
