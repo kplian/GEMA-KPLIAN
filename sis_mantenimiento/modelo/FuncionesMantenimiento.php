@@ -645,6 +645,41 @@ class FuncionesMantenimiento{
 		$res=$obj->eliminarCalendarioPlanificado();
 		return $res;
 	}
+	
+	
+	
+	function listarMesesCalendario(CTParametro $parametro){
+		
+		
+		$obj=new MODCalendarioPlanificado($parametro);
+		
+		$res=$obj->listarMesesCalendario();
+		
+		return $res;
+	}
+	
+	function listarMesesCalendarioDet(CTParametro $parametro){
+		
+		
+		$obj=new MODCalendarioPlanificado($parametro);
+		
+		$res=$obj->listarMesesCalendarioDet();
+		
+		return $res;
+	}
+	
+	function listarCalendarioPlanificadoDet(CTParametro $parametro){
+		
+		
+		$obj=new MODCalendarioPlanificado($parametro);
+		
+		$res=$obj->listarCalendarioPlanificadoDet();
+		
+		return $res;
+	}
+	
+	
+	
 	/*FinClase: MODCalendarioPlanificado*/
 	
 	

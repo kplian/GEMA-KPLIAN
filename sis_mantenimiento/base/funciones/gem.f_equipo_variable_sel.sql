@@ -1,3 +1,5 @@
+--------------- SQL ---------------
+
 CREATE OR REPLACE FUNCTION gem.f_equipo_variable_sel (
   p_administrador integer,
   p_id_usuario integer,

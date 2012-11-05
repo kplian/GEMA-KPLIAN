@@ -34,8 +34,17 @@ Phx.vista.Localizacion=Ext.extend(Phx.arbInterfaz,{
 				iconCls : 'block',
 				disabled : false,
 				handler : this.onBtnCalGen,
-				tooltip : '<b>Add Equipo</b><br/>GEnera el CAledario para todos los equipos de manera recursiva'
+				tooltip : '<b>Generar Calendario</b><br/>Genera el Caledario para todos los equipos de manera recursiva'
 			});
+			
+			
+		this.addButton('btnVerCalGen', {
+				text : 'Ver el  Calendario',
+				iconCls : 'block',
+				disabled : false,
+				handler : this.onBtnVerCalGen,
+				tooltip : '<b>Ver el calendario</b><br/>Genera el Caledario para todos los equipos de manera recursiva'
+			});	
 		
 		//add for to select  tipouni_cons
 		
@@ -200,11 +209,12 @@ Phx.vista.Localizacion=Ext.extend(Phx.arbInterfaz,{
 	},
 	
 	onCalGen:function(){
+		var nodo = this.sm.getSelectedNode();
 		 if (this.formUCCL.getForm().isValid()) {
 		
 			Phx.CP.loadingShow();
 				
-			var nodo = this.sm.getSelectedNode();
+			
 				
 		
 		    var dateFechaIni =this.formUCCL.getForm().findField('fecha_ini');
@@ -308,6 +318,20 @@ Phx.vista.Localizacion=Ext.extend(Phx.arbInterfaz,{
 			this.wUCCL.show()
 		}
 	},
+	
+	onBtnVerCalGen:function(){
+		var nodo = this.sm.getSelectedNode();
+           Phx.CP.loadWindows('../../../sis_mantenimiento/vista/localizacion/gridCalendario.php',
+					'Calendario de Planificacion',
+					{
+						width:800,
+						height:400
+				    },nodo.attributes,this.idContenedor,'gridCalendario')
+				    
+	console.log('mostrar caelndario') 
+	
+	},
+	
 	
 	winmodal:false,
 		
@@ -620,15 +644,30 @@ Phx.vista.Localizacion=Ext.extend(Phx.arbInterfaz,{
 			if(n.attributes.tipo_nodo != 'uni_cons' ){	
 				var nivel = n.getDepth();
 		        var direc = this.getNombrePadre(n)
-		        if(direc){				
-				  Phx.CP.getPagina(this.idContenedor+'-east').ubicarPos(direc,nivel,n)
+		        if(direc){
+		          if(Phx.CP.getPagina(this.idContenedor+'-east')){				
+				     Phx.CP.getPagina(this.idContenedor+'-east').ubicarPos(direc,nivel,n)
+				  }
+				  else
+				  {
+				  	 alert("No hay acceso a internet")
+				  	
+				  }
 				}
 			}
 			else{
 				var nivel = n.parentNode.getDepth();
 		        var direc = this.getNombrePadre(n.parentNode)	
-		        if(direc){		
-				  Phx.CP.getPagina(this.idContenedor+'-east').ubicarPos(direc,nivel,n.parentNode)
+		        if(direc){	
+		        	
+		        	if(Phx.CP.getPagina(this.idContenedor+'-east')){	
+				       Phx.CP.getPagina(this.idContenedor+'-east').ubicarPos(direc,nivel,n.parentNode)
+				    }
+				    else{
+				    	
+				    	alert("No hay acceso a internet")
+				    }
+				
 				}
 			}
 			Phx.vista.Localizacion.superclass.EnableSelect.call(this,n)

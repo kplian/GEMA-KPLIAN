@@ -1,0 +1,364 @@
+<?php
+/**
+*@package pXP
+*@file gen-TipoSensor.php
+*@author  (mflores)
+*@date 15-03-2012 10:27:35
+*@description Archivo con la interfaz de usuario que permite la ejecucion de todas las funcionalidades del sistema
+*/
+header("content-type: text/javascript; charset=UTF-8");
+?>
+<script> 
+Phx.vista.gridCalendario=Ext.extend(Phx.gridInterfaz,{
+     constructor:function(config){
+		
+		
+		Ext.apply(this, config);
+        this.panel = Ext.getCmp(this.idContenedor);
+		
+		this.configMaestro=config;
+		this.config=config;
+    	//llama al constructor de la clase padre
+    	
+    	
+    	
+	    this.storeAtributos= new Ext.data.JsonStore({
+          			url:'../../sis_mantenimiento/control/CalendarioPlanificado/listarMesesCalendarioDet',
+				    id: 'id_sem_mes',
+   					root: 'datos',
+   				    totalProperty: 'total',
+   					fields: ['id_sem_mes','ano','mes','semana','codigo'],
+						sortInfo:{
+							field: 'id_sem_mes',
+							direction: 'ASC'
+						}});
+			//evento de error
+			this.storeAtributos.on('loadexception',this.conexionFailure);				
+			
+			
+    	
+	        
+	        //crea una ventana de parametrizacion de fechas
+	        
+		    this.formUCCL = new Ext.form.FormPanel({
+		        //baseCls: 'x-plain',
+		        bodyStyle: 'padding:10 20px 10;',
+		        autoDestroy: true,
+		         border: false,
+                    // title: 'Checkbox Groups',
+                    //autowidth: true,
+                 layout: 'form',
+		      
+		        autoScroll: true,
+		        /*layout: {
+		            type: 'vbox',
+		            align: 'stretch'  // Child items are stretched to full width
+		        },*/
+		        defaults: {
+		            xtype: 'textfield'
+		        },
+		
+		        items: [{
+						xtype: 'datefield',
+						
+						name: 'fecha_ini',
+						fieldLabel: 'Inicia',
+						format:'d-m-Y',
+						allowBlank: false,
+						allowBlank: false				
+					},{
+						xtype: 'datefield',
+						name: 'fecha_fin',
+						fieldLabel: 'Termina',
+						format:'d-m-Y',
+						allowBlank: false,	
+						allowBlank: false					
+					}]
+		    });
+		    
+		  
+		     this.wUCCL = new Ext.Window({
+		     	
+                 
+                    border: false,
+                    // title: 'Checkbox Groups',
+                    //autowidth: true,
+                    layout: 'fit',
+		     	
+		     	
+		     
+		        collapsible: true,
+		        maximizable: true,
+		         autoDestroy: true,
+		        width: 400,
+		        height: 350,
+		       //layout: 'form',
+		        plain: true,
+		        
+		        buttonAlign: 'center',
+		        items: this.formUCCL,
+		        modal:true,
+		        closeAction: 'hide',
+		        buttons: [{
+		            text: 'Guardar',
+		             handler:this.onCalGen,
+		            scope:this
+		            
+		        },{
+		            text: 'Cancelar',
+		            handler:function(){
+		            	this.wUCCL.hide();
+		            	
+		            	 this.panel.close();
+		            	
+		            	},
+		            scope:this
+		        }]
+		    });
+	        
+          
+          
+           this.wUCCL.show(); 	
+	
+	
+	},		
+	
+	onCalGen:function(){
+		
+		if (this.formUCCL.getForm().isValid()) {
+		
+		Phx.CP.loadingShow();
+		
+		 var dateFechaIni =this.formUCCL.getForm().findField('fecha_ini');
+		 var dateFechaFin =this.formUCCL.getForm().findField('fecha_fin');
+		
+		//suponemos que no hay mas de 50 meses
+		this.storeAtributos.load({
+			 params:{
+		     fecha_ini:dateFechaIni.getValue().dateFormat('d-m-Y'),
+		     fecha_fin:dateFechaFin.getValue().dateFormat('d-m-Y'),
+             start:0, 
+             limit:450},
+             callback:this.successConstructor,
+             scope:this})			
+ 
+          }     
+               
+	},
+	
+	successConstructor:function(rec,con,res){
+		
+		
+		
+		
+		this.Atributos=[];
+		this.fields=[];
+		this.id_store='id_sem_mes'
+		
+		this.sortInfo={
+			field: 'nombre_uni_cons',
+			direction: 'ASC'
+		};
+		this.fields.push(this.id_store)
+		this.fields.push('id_uni_cons')
+		this.fields.push('id_mant_predef')
+		this.fields.push('nombre_uni_cons')		
+		this.fields.push('nombre_mant')
+		this.fields.push('codigo_man')
+		
+		
+		if(res)
+		{
+			this.Atributos[0]={
+			//configuracion del componente
+								config:{
+										labelSeparator:'',
+										inputType:'hidden',
+										name: this.id_store
+								},
+								type:'Field',
+								form:true 
+						};
+			
+			this.Atributos[1]={
+			//configuracion del componente
+								config:{
+										labelSeparator:'',
+										inputType:'hidden',
+										name: 'id_uni_cons'
+								},
+								type:'Field',
+								form:true 
+						};
+						
+			this.Atributos[2]={
+			//configuracion del componente
+								config:{
+										labelSeparator:'',
+										inputType:'hidden',
+										name: 'id_mant_predef'
+								},
+								type:'Field',
+								form:true 
+						};
+			
+			this.Atributos[3]={
+			//configuracion del componente
+								config:{
+										
+										name: 'nombre_uni_cons',
+										fieldLabel: 'Equipo'
+								},
+								type:'Field',
+								filters:{pfiltro:'nombre_uni_cons',type:'string'},
+								grid:true,
+								form:false 
+						};
+						
+			this.Atributos[4]={
+			//configuracion del componente
+								config:{
+										
+										fieldLabel: 'Mantenimiento',
+										name: 'nombre_mant',
+										gwidth:200 ,
+								},
+								type:'Field',
+								filters:{pfiltro:'nombre_mant',type:'string'},
+								grid:true,
+								form:false 
+						};	
+						
+			var mesesGroups = [];	
+			
+			 mesesGroups.push({
+                    header: 'E/M',
+                    colspan: 3,
+                    align: 'center'
+                });					 		
+						
+			var recText = this.id_store + '#integer@id_uni_cons#integer@id_mant_predef#integer@nombre_uni_cons#varchar@nombre_mant#varchar@codigo_man#varchar';			
+				//console.log('this.id_store: ', this.id_store);		
+			
+			for (var i=0;i<rec.length;i++){
+				var configDef={};
+				
+				if(rec[i].data.semana=='s1'){
+					mesesGroups.push({
+	                    header: rec[i].data.mes+'/'+rec[i].data.ano,
+	                    colspan: 4,
+	                    align: 'center'
+	                });	
+                }
+				
+					
+				this.fields.push(rec[i].data.codigo)
+				
+				
+			    recText=recText+'@'+rec[i].data.codigo+'#varchar@cp_'+rec[i].data.codigo+'#int4'
+				
+				
+				this.Atributos[i+5]={config:{
+									 name: rec[i].data.codigo,
+									 fieldLabel: rec[i].data.semana,
+									 allowBlank: true,
+									 anchor: '80%',
+									 gwidth: 25,
+									 maxLength:100,
+									 sortable:false,
+									  renderer:function (value, p, record){
+										if(value=='1'){
+										
+												return "<div style='text-align:center'><img src = '../../../lib/imagenes/ball_green.png' align='center' width='18' height='18'/></div>"
+									   		}
+										}
+									 
+									},
+									type:'Field',
+									id_grupo:1,
+									filters:{pfiltro:rec[i].data.codigo,type:'string'},
+									egrid:false,
+									grid:true,
+									form:false
+							};
+					
+			}
+			this.wUCCL.hide();
+			
+			
+			
+			 this.plugingGroup = new Ext.ux.grid.ColumnHeaderGroup({
+                 rows: [mesesGroups]
+               });
+			
+			
+			
+			Phx.CP.loadingHide();
+			Phx.vista.gridCalendario.superclass.constructor.call(this,this.config);
+			
+			 var dateFechaIni =this.formUCCL.getForm().findField('fecha_ini');
+		     var dateFechaFin =this.formUCCL.getForm().findField('fecha_fin');
+			
+			this.argumentExtraSubmit={
+				fecha_ini:dateFechaIni.getValue().dateFormat('d-m-Y'),
+		        fecha_fin:dateFechaFin.getValue().dateFormat('d-m-Y')};
+		    
+			
+			
+		
+			this.init();
+			
+			this.store.baseParams={
+				fecha_ini:dateFechaIni.getValue().dateFormat('d-m-Y'),
+		        fecha_fin:dateFechaFin.getValue().dateFormat('d-m-Y'),
+		        id_localizacion:this.id_localizacion,
+				datos:recText};			               
+				                   
+			this.load({params:{start:0, limit:50}})
+			
+		}
+		
+	},
+	
+	
+	
+	
+	
+		
+	
+	
+	title:'Calendario de Planificacion',
+	ActSave:'../../sis_hidrologia/control/TipoSensorCodigo/insertarTipoSensorCodigo',
+	ActDel:'../../sis_hidrologia/control/TipoSensorCodigo/eliminarTipoSensorCodigo',
+	ActList:'../../sis_mantenimiento/control/CalendarioPlanificado/listarCalendarioPlanificadoDet',
+	bdel:false,
+	bsave:false,
+	bnew:false,
+	bedit:false,
+	preparaMenu:function(tb){
+			Phx.vista.gridCalendario.superclass.preparaMenu.call(this,tb)
+			return tb
+		},
+	liberaMenu:function(tb){
+			Phx.vista.gridCalendario.superclass.liberaMenu.call(this,tb)
+			return tb
+		},
+	loadValoresIniciales:function()
+	{
+		Phx.vista.gridCalendario.superclass.loadValoresIniciales.call(this);
+		//this.getComponente('id_sensor').setValue(this.config.id_sensor);	
+			
+	},
+				
+	onReloadPage:function(m)
+	{
+		this.maestro=m;						
+		//this.store.baseParams={id_sensor:this.maestro.id_sensor};
+		this.load({params:{start:0, limit:50}});			
+	}
+		
+}
+)
+</script>
+		
+		
