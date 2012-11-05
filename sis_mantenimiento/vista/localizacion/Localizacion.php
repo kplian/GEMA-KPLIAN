@@ -45,6 +45,86 @@ Phx.vista.Localizacion=Ext.extend(Phx.arbInterfaz,{
 				handler : this.onBtnVerCalGen,
 				tooltip : '<b>Ver el calendario</b><br/>Genera el Caledario para todos los equipos de manera recursiva'
 			});	
+		this.ctxMenu.add('-');
+		this.ctxMenu.addMenuItem({text:'Agregar Equipo',handler:this.onBtnAddEquipo});
+		this.ctxMenu.addMenuItem({text:'Datos Equipos',handler:this.onClickDatosEq});
+		this.ctxMenu.addMenuItem({text:'Mantenimientos predefinidos',handler: this.onEqMantClick,scope:this});
+		this.ctxMenu.addMenuItem({text:'Mediciones'});
+		this.ctxMenu.addMenuItem({text:'Upload archivos'});
+		this.ctxMenu.add('-');
+			
+		this.ctxMenu.addMenuItem({
+			text:'Metodologías',
+			menu:{
+				items:[{
+						text:'RCM',
+						menu:{
+							items:[
+								{text:'Análisis',handler:this.onBtnRCMAnalisis,scope:this},
+								{text:'Planificación'}
+							]
+						}
+				},
+				{
+						text:'TPM',
+						menu:{
+							items:[
+								{text:'Análisis'},
+								{text:'Planificación'}
+							]
+						}
+				},
+				{
+						text:'RBI',
+						menu:{
+							items:[
+								{text:'Análisis'},
+								{text:'Planificación'}
+							]
+						}
+					}
+				]
+			}
+		});
+		this.ctxMenu.add('-');
+		this.ctxMenu.addMenuItem({text:'Generar Calendario'});
+		this.ctxMenu.addMenuItem({text:'Ver Calendario'});
+		this.ctxMenu.addMenuItem({text:'Indicadores'});
+		this.ctxMenu.add('-');
+		this.ctxMenu.addMenuItem({text:'Ficha técnica'});
+		this.ctxMenu.addMenuItem({
+			text:'Reportes Metodologías',
+			menu:{
+				items:[{
+						text:'RCM',
+						menu:{
+							items:[
+								{text:'Análisis'},
+								{text:'Planificación'}
+							]
+						}
+				},
+				{
+						text:'TPM',
+						menu:{
+							items:[
+								{text:'Análisis'},
+								{text:'Planificación'}
+							]
+						}
+				},
+				{
+						text:'RBI',
+						menu:{
+							items:[
+								{text:'Análisis'},
+								{text:'Planificación'}
+							]
+						}
+					}
+				]
+			}
+		});
 		
 		//add for to select  tipouni_cons
 		
@@ -695,7 +775,22 @@ Phx.vista.Localizacion=Ext.extend(Phx.arbInterfaz,{
 		}
 
 		
-	 }
+	 },
+	 onEqMantClick: function(){					
+		var node=this.sm.getSelectedNode();
+		var data =node.attributes;
+		if(data){
+			console.log(data);
+			Phx.CP.loadWindows('../../../sis_mantenimiento/vista/uni_cons_mant_predef/UniConsMantPredef.php',
+				'UniConsMantPredef',{
+						modal:true,
+						width:900,
+						height:400
+				    },
+				    data,this.idContenedor,'UniConsMantPredef')
+				    
+			}
+	}
 	
 	
 	

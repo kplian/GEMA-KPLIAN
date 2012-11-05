@@ -3,17 +3,17 @@
 *@package pXP
 *@file gen-UniConsMantPredef.php
 *@author  (admin)
-*@date 02-11-2012 15:07:12
+*@date 12-10-2012 23:35:54
 *@description Archivo con la interfaz de usuario que permite la ejecucion de todas las funcionalidades del sistema
 */
-
 header("content-type: text/javascript; charset=UTF-8");
 ?>
 <script>
 Phx.vista.UniConsMantPredef=Ext.extend(Phx.gridInterfaz,{
 
 	constructor:function(config){
-		this.maestro=config.maestro;
+		this.maestro=config;
+		console.log(config);
     	//llama al constructor de la clase padre
 		Phx.vista.UniConsMantPredef.superclass.constructor.call(this,config);
 		this.init();
@@ -33,6 +33,151 @@ Phx.vista.UniConsMantPredef=Ext.extend(Phx.gridInterfaz,{
 		},
 		{
 			config:{
+				name: 'id_mant_predef',
+				fieldLabel: 'Mantenimiento',
+				allowBlank: false,
+				emptyText:'Elija una mantenimiento...',
+				store:new Ext.data.JsonStore({
+					url: '../../sis_mantenimiento/control/MantPredef/listarMantPredef',
+					id: 'id_mant_predef',
+					root:'datos',
+					sortInfo:{
+						field:'nombre',
+						direction:'ASC'
+					},
+					totalProperty:'total',
+					fields: ['id_mant_predef','nombre','codigo','descripcion'],
+					// turn on remote sorting
+					remoteSort: true,
+					baseParams:{par_filtro:'nombre'}
+				}),
+				valueField: 'id_mant_predef',
+				displayField: 'nombre',
+				gdisplayField:'desc_mant_predef',
+				//hiddenName: 'id_administrador',
+				forceSelection:true,
+				typeAhead: false,
+    			triggerAction: 'all',
+    			lazyRender:true,
+				mode:'remote',
+				pageSize:20,
+				queryDelay:500,
+				width:210,
+				gwidth:220,
+				minChars:2,
+				renderer:function (value, p, record){return String.format('{0}', record.data['desc_mant_predef']);}
+			},
+			type:'ComboBox',
+			filters:{pfiltro:'gemapr.nombre',type:'string'},
+			id_grupo:0,
+			grid:true,
+			form:true
+		},
+		{
+			//configuracion del componente
+			config:{
+					labelSeparator:'',
+					inputType:'hidden',
+					name: 'id_uni_cons'
+			},
+			type:'Field',
+			form:true 
+		},
+		{
+       			config:{
+       				name:'id_unidad_medida',
+       				fieldLabel:'Unidad de Medida',
+       				allowBlank:false,
+       				emptyText:'Unidades...',
+       				store: new Ext.data.JsonStore({
+    					url: '../../sis_parametros/control/UnidadMedida/listarUnidadMedida',
+    					id: 'id_unidad_medida',
+    					root: 'datos',
+    					sortInfo:{
+    						field: 'codigo',
+    						direction: 'ASC'
+    					},
+    					totalProperty: 'total',
+    					fields: ['id_unidad_medida','codigo','descripcion'],
+      					// turn on remote sorting
+    					remoteSort: true,
+    					baseParams:{par_filtro:'codigo#descripcion'}
+    				}),
+    				tpl:'<tpl for="."><div class="x-combo-list-item"><p>{codigo} - {descripcion} </p></div></tpl>',
+	       			
+       				valueField: 'id_unidad_medida',
+       				displayField: 'codigo',
+       				gdisplayField: 'desc_unidad_medida',
+       				hiddenName: 'id_unidad_medida',
+       				//forceSelection:false,
+       				typeAhead: true,
+           			triggerAction: 'all',
+           			lazyRender:true,
+       				mode:'remote',
+       				pageSize:10,
+       				queryDelay:1000,
+       				width:150,
+       				minChars:2,
+       				minListWidth:300,
+       				renderer:function(value, p, record){return String.format('{0}', record.data['desc_unidad_medida']);}
+
+       			},
+       			type:'ComboBox',
+       			id_grupo:0,
+       			filters:{   pfiltro:'um.codigo',
+       						type:'string'
+       					},
+       			grid:true,
+       			form:true
+       	},
+		{
+			config:{
+				name: 'frecuencia',
+				fieldLabel: 'Frecuencia',
+				allowBlank: true,
+				anchor: '80%',
+				gwidth: 100,
+				maxLength:1179650
+			},
+			type:'NumberField',
+			filters:{pfiltro:'geeqma.frecuencia',type:'numeric'},
+			id_grupo:1,
+			grid:true,
+			form:true
+		},
+		{
+			config:{
+				name: 'ult_fecha_mant',
+				fieldLabel: 'Últ. Fecha Mant.',
+				allowBlank: true,
+				anchor: '80%',
+				gwidth: 100,
+				renderer:function (value,p,record){return value?value.dateFormat('d/m/Y h:i:s'):''}
+			},
+			type:'DateField',
+			filters:{pfiltro:'geeqma.ult_fecha_mant',type:'date'},
+			id_grupo:1,
+			grid:true,
+			form:false
+		},
+		{
+			config:{
+				name: 'fecha_ini',
+				fieldLabel: 'Desde',
+				allowBlank: true,
+				anchor: '80%',
+				gwidth: 100,
+				renderer:function (value,p,record){return value?value.dateFormat('d/m/Y h:i:s'):''},
+				format:'m/d/Y'
+			},
+			type:'DateField',
+			filters:{pfiltro:'geeqma.fecha_ini',type:'date'},
+			id_grupo:1,
+			grid:true,
+			form:true
+		},
+		{
+			config:{
 				name: 'estado_reg',
 				fieldLabel: 'Estado Reg.',
 				allowBlank: true,
@@ -41,127 +186,7 @@ Phx.vista.UniConsMantPredef=Ext.extend(Phx.gridInterfaz,{
 				maxLength:10
 			},
 			type:'TextField',
-			filters:{pfiltro:'mapr.estado_reg',type:'string'},
-			id_grupo:1,
-			grid:true,
-			form:false
-		},
-		{
-			config:{
-				name: 'ult_fecha_mant',
-				fieldLabel: 'ult_fecha_mant',
-				allowBlank: true,
-				anchor: '80%',
-				gwidth: 100,
-				renderer:function (value,p,record){return value?value.dateFormat('d/m/Y h:i:s'):''}
-			},
-			type:'DateField',
-			filters:{pfiltro:'mapr.ult_fecha_mant',type:'date'},
-			id_grupo:1,
-			grid:true,
-			form:true
-		},
-		{
-			config:{
-				name: 'id_unidad_medida',
-				fieldLabel: 'id_unidad_medida',
-				allowBlank: false,
-				anchor: '80%',
-				gwidth: 100,
-				maxLength:4
-			},
-			type:'NumberField',
-			filters:{pfiltro:'mapr.id_unidad_medida',type:'numeric'},
-			id_grupo:1,
-			grid:true,
-			form:true
-		},
-		{
-			config:{
-				name: 'id_uni_cons',
-				fieldLabel: 'id_uni_cons',
-				allowBlank: false,
-				anchor: '80%',
-				gwidth: 100,
-				maxLength:4
-			},
-			type:'NumberField',
-			filters:{pfiltro:'mapr.id_uni_cons',type:'numeric'},
-			id_grupo:1,
-			grid:true,
-			form:true
-		},
-		{
-			config:{
-				name: 'fecha_ini',
-				fieldLabel: 'fecha_ini',
-				allowBlank: true,
-				anchor: '80%',
-				gwidth: 100,
-				renderer:function (value,p,record){return value?value.dateFormat('d/m/Y h:i:s'):''}
-			},
-			type:'DateField',
-			filters:{pfiltro:'mapr.fecha_ini',type:'date'},
-			id_grupo:1,
-			grid:true,
-			form:true
-		},
-		{
-			config:{
-				name: 'id_mant_predef',
-				fieldLabel: 'id_mant_predef',
-				allowBlank: false,
-				anchor: '80%',
-				gwidth: 100,
-				maxLength:4
-			},
-			type:'NumberField',
-			filters:{pfiltro:'mapr.id_mant_predef',type:'numeric'},
-			id_grupo:1,
-			grid:true,
-			form:true
-		},
-		{
-			config:{
-				name: 'frecuencia',
-				fieldLabel: 'frecuencia',
-				allowBlank: true,
-				anchor: '80%',
-				gwidth: 100,
-				maxLength:4
-			},
-			type:'NumberField',
-			filters:{pfiltro:'mapr.frecuencia',type:'numeric'},
-			id_grupo:1,
-			grid:true,
-			form:true
-		},
-		{
-			config:{
-				name: 'horas_dia',
-				fieldLabel: 'horas_dia',
-				allowBlank: true,
-				anchor: '80%',
-				gwidth: 100,
-				maxLength:4
-			},
-			type:'NumberField',
-			filters:{pfiltro:'mapr.horas_dia',type:'numeric'},
-			id_grupo:1,
-			grid:true,
-			form:true
-		},
-		{
-			config:{
-				name: 'usr_reg',
-				fieldLabel: 'Creado por',
-				allowBlank: true,
-				anchor: '80%',
-				gwidth: 100,
-				maxLength:4
-			},
-			type:'NumberField',
-			filters:{pfiltro:'usu1.cuenta',type:'string'},
+			filters:{pfiltro:'geeqma.estado_reg',type:'string'},
 			id_grupo:1,
 			grid:true,
 			form:false
@@ -176,7 +201,22 @@ Phx.vista.UniConsMantPredef=Ext.extend(Phx.gridInterfaz,{
 				renderer:function (value,p,record){return value?value.dateFormat('d/m/Y h:i:s'):''}
 			},
 			type:'DateField',
-			filters:{pfiltro:'mapr.fecha_reg',type:'date'},
+			filters:{pfiltro:'geeqma.fecha_reg',type:'date'},
+			id_grupo:1,
+			grid:true,
+			form:false
+		},
+		{
+			config:{
+				name: 'usr_reg',
+				fieldLabel: 'Creado por',
+				allowBlank: true,
+				anchor: '80%',
+				gwidth: 100,
+				maxLength:4
+			},
+			type:'NumberField',
+			filters:{pfiltro:'usu1.cuenta',type:'string'},
 			id_grupo:1,
 			grid:true,
 			form:false
@@ -206,33 +246,34 @@ Phx.vista.UniConsMantPredef=Ext.extend(Phx.gridInterfaz,{
 				renderer:function (value,p,record){return value?value.dateFormat('d/m/Y h:i:s'):''}
 			},
 			type:'DateField',
-			filters:{pfiltro:'mapr.fecha_mod',type:'date'},
+			filters:{pfiltro:'geeqma.fecha_mod',type:'date'},
 			id_grupo:1,
 			grid:true,
 			form:false
 		}
 	],
-	title:'mantenimientos',
+	title:'Equipo - Mantenimiento',
 	ActSave:'../../sis_mantenimiento/control/UniConsMantPredef/insertarUniConsMantPredef',
 	ActDel:'../../sis_mantenimiento/control/UniConsMantPredef/eliminarUniConsMantPredef',
 	ActList:'../../sis_mantenimiento/control/UniConsMantPredef/listarUniConsMantPredef',
 	id_store:'id_uni_cons_mant_predef',
 	fields: [
 		{name:'id_uni_cons_mant_predef', type: 'numeric'},
-		{name:'estado_reg', type: 'string'},
-		{name:'ult_fecha_mant', type: 'date', dateFormat:'Y-m-d H:i:s'},
-		{name:'id_unidad_medida', type: 'numeric'},
-		{name:'id_uni_cons', type: 'numeric'},
-		{name:'fecha_ini', type: 'date', dateFormat:'Y-m-d H:i:s'},
 		{name:'id_mant_predef', type: 'numeric'},
+		{name:'id_uni_cons', type: 'numeric'},
+		{name:'id_unidad_medida', type: 'numeric'},
 		{name:'frecuencia', type: 'numeric'},
-		{name:'horas_dia', type: 'numeric'},
-		{name:'id_usuario_reg', type: 'numeric'},
+		{name:'ult_fecha_mant', type: 'date', dateFormat:'Y-m-d H:i:s'},
+		{name:'fecha_ini', type: 'date', dateFormat:'Y-m-d H:i:s'},
+		{name:'estado_reg', type: 'string'},
 		{name:'fecha_reg', type: 'date', dateFormat:'Y-m-d H:i:s'},
+		{name:'id_usuario_reg', type: 'numeric'},
 		{name:'id_usuario_mod', type: 'numeric'},
 		{name:'fecha_mod', type: 'date', dateFormat:'Y-m-d H:i:s'},
 		{name:'usr_reg', type: 'string'},
 		{name:'usr_mod', type: 'string'},
+		{name:'desc_mant_predef', type: 'string'},
+		{name:'desc_unidad_medida', type: 'string'}
 		
 	],
 	sortInfo:{
@@ -240,8 +281,17 @@ Phx.vista.UniConsMantPredef=Ext.extend(Phx.gridInterfaz,{
 		direction: 'ASC'
 	},
 	bdel:true,
-	bsave:true
-	}
+	bsave:true,
+	loadValoresIniciales:function(){
+		Phx.vista.UniConsMantPredef.superclass.loadValoresIniciales.call(this);
+		this.getComponente('id_uni_cons').setValue(this.maestro.id_uni_cons);		
+	},	
+	onReloadPage:function(m){
+		this.maestro=m;						
+		this.store.baseParams={id_uni_cons:this.maestro.id_uni_cons};
+		this.load({params:{start:0, limit:50}});			
+	},
+}
 )
 </script>
 		
