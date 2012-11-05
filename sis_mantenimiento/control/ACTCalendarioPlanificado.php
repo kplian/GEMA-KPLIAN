@@ -38,6 +38,43 @@ class ACTCalendarioPlanificado extends ACTbase{
 		$this->res=$this->objFunc->eliminarCalendarioPlanificado($this->objParam);
 		$this->res->imprimirRespuesta($this->res->generarJson());
 	}
+	function listarMesesCalendario(){
+		
+		
+		$this->objParam->defecto('ordenacion','id_mes');
+        $this->objParam->defecto('dir_ordenacion','asc');
+		
+		$this->objFunc=new FuncionesMantenimiento();	
+	    $this->res=$this->objFunc->listarMesesCalendario($this->objParam);
+		
+		$this->res->imprimirRespuesta($this->res->generarJson());
+	}
+	function listarMesesCalendarioDet(){
+		
+		
+		$this->objParam->defecto('ordenacion','id_mes');
+        $this->objParam->defecto('dir_ordenacion','asc');
+		
+		$this->objFunc=new FuncionesMantenimiento();	
+	    $this->res=$this->objFunc->listarMesesCalendarioDet($this->objParam);
+		
+		$this->res->imprimirRespuesta($this->res->generarJson());
+	}
+	function listarCalendarioPlanificadoDet(){
+		$this->objParam->defecto('ordenacion','nombre_uni_cons');
+
+		$this->objParam->defecto('dir_ordenacion','asc');
+		if($this->objParam->getParametro('tipoReporte')=='excel_grid' || $this->objParam->getParametro('tipoReporte')=='pdf_grid'){
+			$this->objReporte = new Reporte($this->objParam);
+			$this->res = $this->objReporte->generarReporteListado('FuncionesMantenimiento','listarCalendarioPlanificadoDet');
+		} else{
+			$this->objFunc=new FuncionesMantenimiento();	
+			$this->res=$this->objFunc->listarCalendarioPlanificadoDet($this->objParam);
+		}
+		$this->res->imprimirRespuesta($this->res->generarJson());
+	}
+	
+	
 			
 }
 

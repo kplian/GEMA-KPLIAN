@@ -41,6 +41,7 @@ DECLARE
     g_registros record;
     v_resp_bool boolean;
     v_id_uni_cons_base integer;
+    v_bool boolean;
   
    
 BEGIN
@@ -485,6 +486,74 @@ BEGIN
 
 		end;   
         
+
+
+
+
+ /*********************************    
+ 	#TRANSACCION:  'GEM_GENCAL_MOD'
+ 	#DESCRIPCION:	Genera calendario para los quipos seleccionados
+ 	#AUTOR:		rac	KPLIAN
+ 	#FECHA:		09-08-2012 00:42:57
+	***********************************/
+    
+     elseif(p_transaccion='GEM_GENCAL_MOD')then
+		     BEGIN   
+             
+             
+             --si es el nodo es de tipo localizacion
+             
+             if v_parametros.tipo_nodo <> 'uni_cons' THEN
+             
+                   -- 1)  busca recursivamente los equipos que correponden a la localizacion indicada
+                       
+                    FOR g_registros in  (
+                     WITH RECURSIVE sub_localizacion(id_localizacion, id_localizacion_fk, nombre) 
+                          AS (
+                              SELECT id_localizacion, id_localizacion_fk, nombre 
+                              FROM gem.tlocalizacion WHERE id_localizacion =  v_parametros.id_localizacion
+                                UNION ALL
+                              SELECT l.id_localizacion, l.id_localizacion_fk, l.nombre
+                              FROM sub_localizacion subl, gem.tlocalizacion l
+                              WHERE l.id_localizacion_fk = subl.id_localizacion
+                             )
+                          SELECT unicon.id_uni_cons FROM gem.tuni_cons unicon 
+                          WHERE unicon.id_localizacion 
+                          IN ( SELECT id_localizacion FROM sub_localizacion ORDER BY id_localizacion) 
+                          AND unicon.tipo_nodo ilike 'raiz' and unicon.tipo = 'uc') LOOP
+                   
+                  
+                   
+                   -- 2) for llama a una funcion para generar el calendaio para el equipo indicado
+                   
+                    v_bool =  gem.f_genera_calendario_equipo (g_registros.id_uni_cons,v_parametros.fecha_ini,v_parametros.fecha_fin,p_id_usuario);
+                      IF NOT v_bool THEN
+                       raise exception 'error al generar calendario para %',g_registros.id_uni_cons;
+                      END IF;
+                   
+                   END LOOP;
+             
+             ELSE
+              --si no es localizacion es la unidad constructiva, generamos directamente
+             
+              v_bool =  gem.f_genera_calendario_equipo (v_parametros.id_localizacion,v_parametros.fecha_ini,v_parametros.fecha_fin,p_id_usuario);
+                   
+             
+             END IF;
+             
+             
+             
+             -- 3) retonra exito
+             
+             
+            
+
+             v_resp = pxp.f_agrega_clave(v_resp,'mensaje','Generando el calendario para la localizacion : '|| v_parametros.id_localizacion ); 
+             
+             return v_resp;
+     
+
+            END;
 
 	/*********************************    
  	#TRANSACCION:  'GEM_TUC_ELI'

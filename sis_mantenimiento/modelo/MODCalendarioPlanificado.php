@@ -10,10 +10,13 @@
 class MODCalendarioPlanificado extends MODbase{
 	
 	function __construct(CTParametro $pParam){
+		
 		parent::__construct($pParam);
 	}
 			
 	function listarCalendarioPlanificado(){
+		
+		
 		//Definicion de variables para ejecucion del procedimientp
 		$this->procedimiento='gem.f_calendario_planificado_sel';
 		$this->transaccion='GEM_CALE_SEL';
@@ -103,6 +106,107 @@ class MODCalendarioPlanificado extends MODbase{
 		//Devuelve la respuesta
 		return $this->respuesta;
 	}
+
+     function listarMesesCalendario(){
+     	
+		
+		//Definicion de variables para ejecucion del procedimientp
+		$this->procedimiento='gem.f_calendario_meses_sel';
+		$this->transaccion='GEM_CALMES_SEL';
+		$this->tipo_procedimiento='SEL';//tipo de transaccion
+			
+		//Definicion de la lista del resultado del query
+		$this->setParametro('fecha_ini','fecha_ini','date');
+		
+		$this->setParametro('fecha_fin','fecha_fin','date');
+		$this->captura('id_mes','int4');
+		$this->captura('nombre','varchar');
+		$this->captura('fecha_ini','date');
+		$this->captura('fecha_fin','date');
+		$this->captura('codigo_col','varchar');
+		
+		
+		//Ejecuta la instruccion
+		$this->armarConsulta();
+		$this->ejecutarConsulta();
+		
+		//Devuelve la respuesta
+		return $this->respuesta;
+	}
+	 
+	 function listarMesesCalendarioDet(){
+     	
+		
+		//Definicion de variables para ejecucion del procedimientp
+		$this->procedimiento='gem.f_calendario_meses_det_sel';
+		$this->transaccion='GEM_CALMESDET_SEL';
+		$this->tipo_procedimiento='SEL';//tipo de transaccion
+		$this->count=false;
+			
+		//Definicion de la lista del resultado del query
+		$this->setParametro('fecha_ini','fecha_ini','date');
+		$this->setParametro('fecha_fin','fecha_fin','date');
+		$this->captura('id_sem_mes','int4');
+		$this->captura('ano','varchar');
+		$this->captura('mes','varchar');
+		$this->captura('semana','varchar');
+		$this->captura('codigo','varchar');
+		
+		
+		
+		
+		//Ejecuta la instruccion
+		$this->armarConsulta();
+		$this->ejecutarConsulta();
+		
+		//Devuelve la respuesta
+		return $this->respuesta;
+	}
+
+   function listarCalendarioPlanificadoDet(){
+		//Definicion de variables para ejecucion del procedimientp
+		$this->procedimiento='gem.f_calendario_meses_det_sel';
+		$this->transaccion='GEM_PLANCALEQ_SEL';
+		$this->tipo_procedimiento='SEL';//tipo de transaccion
+		//$this->objParam->defecto('ordenacion','id_tipo_sensor_columna');
+        //$this->objParam->defecto('dir_ordenacion','asc');
+        //$this->count=false;
+        
+		$datos = $this->objParam->getParametro('datos');
+		//$this->setParametro('id_tipo_sensor','id_tipo_sensor','integer');
+		//$this->setParametro('id_sensor','id_sensor','integer');	
+		$this->setParametro('datos','datos','varchar');	
+		$this->setParametro('id_localizacion','id_localizacion','integer');	
+		$this->setParametro('fecha_ini','fecha_ini','date');
+		$this->setParametro('fecha_fin','fecha_fin','date');
+		
+		$parametros= explode('@',$datos);
+		
+		$tamaño = sizeof($parametros);
+		
+		for($i=0;$i<$tamaño;$i++){
+				
+			
+			
+			$parametros_tipo=explode('#',$parametros[$i]);
+			
+			$this->captura($parametros_tipo[0],$parametros_tipo[1]);
+			
+		}
+		//Definicion de la lista del resultado del query
+		
+		
+		//Ejecuta la instruccion
+		$this->armarConsulta();
+		$this->ejecutarConsulta();
+		
+		
+		
+		//Devuelve la respuesta
+		return $this->respuesta;
+	}
+
+
 			
 }
 ?>
