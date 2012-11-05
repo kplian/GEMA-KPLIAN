@@ -172,13 +172,14 @@ CREATE TABLE gem.tuni_cons_comp (
     ON UPDATE NO ACTION
     NOT DEFERRABLE, 
   CONSTRAINT tuni_cons_comp_fk1 FOREIGN KEY (id_uni_cons_padre)
-    REFEREALTER TABLE gem.tuni_cons_comp OWNER TO postgres;NCES gem.tuni_cons(id_uni_cons)
+    REFERENCES gem.tuni_cons(id_uni_cons)
     ON DELETE NO ACTION
     ON UPDATE NO ACTION
     NOT DEFERRABLE
 ) INHERITS (pxp.tbase)
 WITHOUT OIDS;
 ALTER TABLE gem.tuni_cons_comp OWNER TO postgres;
+
 
 CREATE UNIQUE INDEX ttipo_equipo_idx ON gem.ttipo_equipo
   USING btree (estado_reg, nombre);
