@@ -198,13 +198,12 @@ CREATE TABLE gem.tequipo_variable (
   id_equipo_variable SERIAL, 
   id_uni_cons INTEGER, 
   id_tipo_variable INTEGER, 
-  valor_min INTEGER, 
-  valor_max INTEGER, 
   obs VARCHAR, 
+  valor_min NUMERIC(18,2), 
+  valor_max NUMERIC(18,2), 
   CONSTRAINT tequipo_variable_pkey PRIMARY KEY(id_equipo_variable)
 ) INHERITS (pxp.tbase)
 WITHOUT OIDS;
-ALTER TABLE gem.tequipo_variable OWNER TO postgres;
  
 CREATE TABLE gem.tfalla (  
   id_falla  SERIAL NOT NULL, 
@@ -380,184 +379,6 @@ WITH (
 );
 ALTER TABLE gem.tfuncionario_honorario OWNER TO postgres;
 
-/*
-///////////////
-INSERCION DE REGISTROS PARA LA INTERFAZ DE USUARIO
-/////////////////////
-*/
-
-/*
-INSERT INTO segu.tsubsistema ("id_subsistema", "codigo", "nombre", "fecha_reg", "prefijo", "estado_reg", "nombre_carpeta", "id_subsis_orig")
-VALUES (27, E'SAL', E'Sistema de Almacenes', E'2012-09-20', E'SAL', E'activo', E'ALMACENES', NULL);
-
-
-INSERT INTO segu.tgui ("id_gui", "nombre", "descripcion", "fecha_reg", "codigo_gui", "visible", "orden_logico", "ruta_archivo", "nivel", "icono", "id_subsistema", "clase_vista", "estado_reg")
-VALUES (998, E'SISTEMA DE ALMACENES', E'', E'2012-09-20', E'SAL', E'si', 1, NULL, 1, NULL, 27, NULL, E'activo');
-
-INSERT INTO segu.testructura_gui ("id_estructura_gui", "id_gui", "fk_id_gui", "fecha_reg", "estado_reg")
-VALUES (372, 998, 0, E'2012-09-20', E'activo');
-
-
-
-INSERT INTO segu.tgui ("id_gui", "nombre", "descripcion", "fecha_reg", "codigo_gui", "visible", "orden_logico", "ruta_archivo", "nivel", "icono", "id_subsistema", "clase_vista", "estado_reg")
-VALUES (1000, E'Datos Generales', E'Datos Generales', E'2012-09-20', E'ALDAGE', E'si', 1, E'', 2, E'', NULL, E'', E'activo');
-
-INSERT INTO segu.testructura_gui ("id_estructura_gui", "id_gui", "fk_id_gui", "fecha_reg", "estado_reg")
-VALUES (373, 999, 998, E'2012-09-20', E'activo');
-
-INSERT INTO segu.testructura_gui ("id_estructura_gui", "id_gui", "fk_id_gui", "fecha_reg", "estado_reg")
-VALUES (374, 1000, 998, E'2012-09-20', E'activo');
-
-INSERT INTO segu.testructura_gui ("id_estructura_gui", "id_gui", "fk_id_gui", "fecha_reg", "estado_reg")
-VALUES (375, 1001, 998, E'2012-09-20', E'activo');
-
-INSERT INTO segu.testructura_gui ("id_estructura_gui", "id_gui", "fk_id_gui", "fecha_reg", "estado_reg")
-VALUES (376, 1002, 999, E'2012-09-20', E'activo');
-
-INSERT INTO segu.testructura_gui ("id_estructura_gui", "id_gui", "fk_id_gui", "fecha_reg", "estado_reg")
-VALUES (377, 1003, 999, E'2012-09-20', E'activo');
-
-INSERT INTO segu.testructura_gui ("id_estructura_gui", "id_gui", "fk_id_gui", "fecha_reg", "estado_reg")
-VALUES (378, 1004, 1000, E'2012-09-20', E'activo');
-
-INSERT INTO segu.testructura_gui ("id_estructura_gui", "id_gui", "fk_id_gui", "fecha_reg", "estado_reg")
-VALUES (379, 1005, 1001, E'2012-09-20', E'activo');
-
-INSERT INTO segu.testructura_gui ("id_estructura_gui", "id_gui", "fk_id_gui", "fecha_reg", "estado_reg")
-VALUES (380, 1006, 1001, E'2012-09-20', E'activo');
-
-INSERT INTO segu.testructura_gui ("id_estructura_gui", "id_gui", "fk_id_gui", "fecha_reg", "estado_reg")
-VALUES (381, 1007, 1001, E'2012-09-20', E'activo');
-
-
-
-INSERT INTO segu.tgui ("id_gui", "nombre", "descripcion", "fecha_reg", "codigo_gui", "visible", "orden_logico", "ruta_archivo", "nivel", "icono", "id_subsistema", "clase_vista", "estado_reg")
-VALUES (1001, E'Movimientos', E'Movimientos', E'2012-09-20', E'ALMOVI', E'si', 3, E'', 2, E'', NULL, E'', E'activo');
-
-INSERT INTO segu.tgui ("id_gui", "nombre", "descripcion", "fecha_reg", "codigo_gui", "visible", "orden_logico", "ruta_archivo", "nivel", "icono", "id_subsistema", "clase_vista", "estado_reg")
-VALUES (1002, E'Materiales', E'Registro de Materiales', E'2012-09-20', E'ALREMA', E'si', 1, E'sis_almacenes/vista/item/Item.php\n', 3, E'', NULL, E'Item', E'activo');
-
-INSERT INTO segu.tgui ("id_gui", "nombre", "descripcion", "fecha_reg", "codigo_gui", "visible", "orden_logico", "ruta_archivo", "nivel", "icono", "id_subsistema", "clase_vista", "estado_reg")
-VALUES (1003, E'Clasificaci�n de materiales', E'Clasificaci�n de materiales', E'2012-09-20', E'ALCLMA', E'si', 1, E'sis_almacenes/vista/clasificacion/Clasificacion.php\n', 3, E'', NULL, E'Clasificacion', E'activo');
-
-INSERT INTO segu.tgui ("id_gui", "nombre", "descripcion", "fecha_reg", "codigo_gui", "visible", "orden_logico", "ruta_archivo", "nivel", "icono", "id_subsistema", "clase_vista", "estado_reg")
-VALUES (1004, E'Creaci�n de almacenes', E'Creaci�n de almacenes', E'2012-09-20', E'ALCRAL', E'si', 1, E'sis_almacenes/vista/almacen/Almacen.php\n', 3, E'', NULL, E'Almacen', E'activo');
-
-INSERT INTO segu.tgui ("id_gui", "nombre", "descripcion", "fecha_reg", "codigo_gui", "visible", "orden_logico", "ruta_archivo", "nivel", "icono", "id_subsistema", "clase_vista", "estado_reg")
-VALUES (1005, E'Ingresos', E'Ingresos', E'2012-09-20', E'ALINGR', E'si', 1, E'sis_almacenes/vista/movimiento/Ingreso.php\n', 3, E'', NULL, E'Ingreso', E'activo');
-
-INSERT INTO segu.tgui ("id_gui", "nombre", "descripcion", "fecha_reg", "codigo_gui", "visible", "orden_logico", "ruta_archivo", "nivel", "icono", "id_subsistema", "clase_vista", "estado_reg")
-VALUES (1006, E'Salidas', E'Salidas', E'2012-09-20', E'ALSAGR', E'si', 2, E'sis_almacenes/vista/movimiento/Salida.php\n', 3, E'', NULL, E'Salida', E'activo');
-
-INSERT INTO segu.tgui ("id_gui", "nombre", "descripcion", "fecha_reg", "codigo_gui", "visible", "orden_logico", "ruta_archivo", "nivel", "icono", "id_subsistema", "clase_vista", "estado_reg")
-VALUES (1007, E'Transferencias', E'Transferencias', E'2012-09-20', E'ALTRGR', E'si', 3, E'sis_almacenes/vista/movimiento/Transferencia.php\n', 3, E'', NULL, E'Transferencia', E'activo');
-
-
-*/
-/*
-///////////////////////
-CREACION DEL ESQUEMA ALM
-///////////////////////
-*/
-CREATE SCHEMA alm AUTHORIZATION postgres;
-
-CREATE TABLE alm.tclasificacion (
-	id_clasificacion  SERIAL NOT NULL,
-	id_clasificacion_fk int4,
-	codigo varchar(20),
-	nombre varchar(200),
-	descripcion varchar(1000),
-	PRIMARY KEY (id_clasificacion)
-) INHERITS (pxp.tbase)
-WITHOUT OIDS;
-
-ALTER TABLE alm.tclasificacion
-ADD CONSTRAINT fk_tclasificacion__id_clasificacion_fk FOREIGN KEY (id_clasificacion_fk) REFERENCES alm.tclasificacion (id_clasificacion);
-
-CREATE TABLE alm.talmacen (
-	id_almacen  SERIAL NOT NULL,
-	codigo varchar(10),
-	nombre varchar(100),
-	localizacion varchar(100),
-	PRIMARY KEY (id_almacen)
-)INHERITS (pxp.tbase) WITHOUT OIDS;
-
-CREATE TABLE alm.titem(
-	id_item SERIAL NOT NULL,
-    id_clasificacion int4 NOT NULL,
-    codigo varchar(20),
-    nombre varchar(100),
-    descripcion varchar(1000),
-    palabras_clave varchar(1000),
-    codigo_fabrica varchar(100),
-    observaciones varchar(1000),
-    numero_serie varchar(100),
-    PRIMARY KEY(id_item)
-) INHERITS (pxp.tbase) WITHOUT OIDS;
-ALTER TABLE alm.titem
- ADD CONSTRAINT fk_titem__id_clasificacion FOREIGN KEY (id_clasificacion) REFERENCES alm.tclasificacion(id_clasificacion);
- 
-
-
-CREATE TABLE alm.talmacen_stock (
-	id_almacen_stock  SERIAL NOT NULL,
-	id_almacen int4 NOT NULL,
-	id_item int4,
-	cantidad_min numeric(18, 2),
-	cantidad_alerta_amarilla numeric(18, 2),
-	cantidad_alerta_roja numeric(18, 2),
-	PRIMARY KEY (id_almacen_stock)
-)INHERITS (pxp.tbase) WITHOUT OIDS;
-ALTER TABLE alm.talmacen_stock
-ADD CONSTRAINT fk_talmacen_stock__id_almacen FOREIGN KEY (id_almacen) REFERENCES alm.talmacen (id_almacen);
-ALTER TABLE alm.talmacen_stock
-ADD CONSTRAINT fk_talmacen_stock__id_item FOREIGN KEY (id_item) REFERENCES alm.titem (id_item);
-
-CREATE TABLE alm.tmovimiento_tipo (
-	id_movimiento_tipo  SERIAL NOT NULL,
-	codigo varchar(20),
-	nombre varchar(100), 
-	PRIMARY KEY (id_movimiento_tipo)
-)INHERITS (pxp.tbase) WITHOUT OIDS;
-
-
-CREATE TABLE alm.tmovimiento (
-	id_movimiento  SERIAL NOT NULL,
-	id_movimiento_tipo int4,
-	id_almacen int4,
-	id_funcionario int4,
-	id_proveedor int4,
-	id_almacen_dest int4,
-	fecha_mov timestamp,
-	numero_mov varchar(30),
-	descripcion varchar(1000),
-	observaciones varchar(1000),
-	PRIMARY KEY (id_movimiento)
-)INHERITS (pxp.tbase) WITHOUT OIDS;
-ALTER TABLE alm.tmovimiento
-ADD CONSTRAINT fk_tmovimiento__id_movimiento_tipo FOREIGN KEY (id_movimiento_tipo) REFERENCES alm.tmovimiento_tipo (id_movimiento_tipo);
-ALTER TABLE alm.tmovimiento
-ADD CONSTRAINT fk_tmovimiento__id_almacen FOREIGN KEY (id_almacen) REFERENCES alm.talmacen (id_almacen);
-ALTER TABLE alm.tmovimiento
-ADD CONSTRAINT fk_tmovimiento__id_funcionario FOREIGN KEY (id_funcionario) REFERENCES orga.tfuncionario (id_funcionario);
-ALTER TABLE alm.tmovimiento
-ADD CONSTRAINT fk_tmovimiento__id_proveedor FOREIGN KEY (id_proveedor) REFERENCES param.tproveedor (id_proveedor);
-ALTER TABLE alm.tmovimiento
-ADD CONSTRAINT fk_tmovimiento__id_almacen_dest FOREIGN KEY (id_almacen_dest) REFERENCES alm.talmacen (id_almacen);
-
-CREATE TABLE alm.tmovimiento_det (
-	id_movimiento_det  SERIAL NOT NULL,
-	id_movimiento int4,
-	id_item int4,
-	cantidad numeric(18, 6),
-	costo_unitario numeric(18, 6),
-	fecha_caducidad date, 
-	PRIMARY KEY (id_movimiento_det)
-)INHERITS (pxp.tbase) WITHOUT OIDS;
-ALTER TABLE alm.tmovimiento_det
-ADD CONSTRAINT fk_tmovimiento_det__id_movimiento FOREIGN KEY (id_movimiento) REFERENCES alm.tmovimiento (id_movimiento);
-ALTER TABLE alm.tmovimiento_det
-ADD CONSTRAINT fk_tmovimiento_det__id_item FOREIGN KEY (id_item) REFERENCES alm.titem (id_item);
 
 
 /*
@@ -599,12 +420,7 @@ alter table gem.tequipo_variable
 add column valor_min numeric(18,2);
 alter table gem.tequipo_variable
 add column valor_max numeric(18,2);
-
-ALTER TABLE alm.titem
-  ALTER COLUMN id_clasificacion DROP NOT NULL;
   
-  ALTER TABLE alm.tclasificacion
-  ADD COLUMN codigo_largo VARCHAR(20);
   
 --ADDING FOREIGN KEYS
 alter table gem.ttipo_variable
@@ -774,6 +590,8 @@ CREATE TABLE gem.tcalendario_planificado(
 *	Description: Build the menu definition and the composition
 */
 
+insert into segu.tsubsistema(codigo,nombre,prefijo,nombre_carpeta) values
+('GEM','Mantenimiento Industrial - Plantas y Estaciones','GM','mantenimiento');
 
 /* (1) Menu definition*/
 
@@ -785,31 +603,31 @@ select pxp.f_insert_tgui ('GESTIÓN DE MANTENIMIENTO - PLANTAS Y ESTACIONES', ''
 ---------
 --Level 2
 ---------
-select pxp.f_insert_tgui ('Catálogos', 'catalogos', 'GEM.1', 'si', 2, '', 1, '', '', 'GEM');
+select pxp.f_insert_tgui ('Catálogos', 'Catálogos varios', 'GEM.1', 'si', 1, '', 2, '', '', 'GEM');
 select pxp.f_insert_tgui ('Equipos, Planificación y Seguimiento', 'Datos detallados de los equipos y Planificación del Mantenimiento', 'GEM.2', 'si', 2, '', 2, '', '', 'GEM');
-select pxp.f_insert_tgui ('Documentación', 'Archivos, Procedimientos , Instructivos, etc.', 'GEM.3', 'si', 2, '', 3, '', '', 'GEM');
+select pxp.f_insert_tgui ('Documentación', 'Archivos, Procedimientos , Instructivos, etc.', 'GEM.3', 'si', 3, '', 2, '', '', 'GEM');
 
 ---------
 --Level 3
 ---------
-select pxp.f_insert_tgui ('Proveedores', 'Registro de Proveedores', 'GEM.1.1', 'si', 3, 'sis_matenimiento/vista/proveedor/Proveedor.php', 1, '', 'Proveedor', 'GEM');
-select pxp.f_insert_tgui ('Metodologías', 'Registro de Metodologías', 'GEM.1.2', 'si', 3, 'sis_mantenimiento/vista/metodologia/Metodologia.php', 2, '', 'Meotodologia', 'GEM');
+select pxp.f_insert_tgui ('Proveedores', 'Registro de Proveedores', 'GEM.1.1', 'si', 1, 'sis_matenimiento/vista/proveedor/Proveedor.php', 3, '', 'Proveedor', 'GEM');
+select pxp.f_insert_tgui ('Metodologías', 'Registro de Metodologías', 'GEM.1.2', 'si', 2, 'sis_mantenimiento/vista/metodologia/Metodologia.php', 3, '', 'Meotodologia', 'GEM');
 select pxp.f_insert_tgui ('Tipos de Equipos', 'Registro de Tipos de Equipos', 'GEM.1.3', 'si', 3, 'sis_mantenimiento/vista/tipo_equipo/TipoEquipo.php', 3, '', 'TipoEquipo', 'GEM');
-select pxp.f_insert_tgui ('Tipos de Mantenimiento', 'Registro de Tipos de Mantenimiento', 'GEM.1.4', 'si', 3, 'sis_mantenimiento/vista/tipo_mant/TipoMant.php', 4, '', 'TipoMant', 'GEM');
-select pxp.f_insert_tgui ('Horarios', 'Registro de Horarios', 'GEM.1.5', 'si', 3, 'sis_recursos_humanos/vista/horario/Horario.php', 5, '', 'Horario', 'GEM');
-select pxp.f_insert_tgui ('Niveles Especialidades Técnicas', 'Registro de los niveles de especialidades técnicas', 'GEM.1.6', 'si', 3, 'sis_recursos_humanos/vista/especialidad_nivel/EspecialidadNivel.php', 6, '', 'EspecialidadNivel', 'GEM');
-select pxp.f_insert_tgui ('Especialidades Técnicas', 'Registro de especialidades técnicas', 'GEM.1.7', 'si', 3, 'sis_recursos_humanos/vista/especialidad/Especialidad.php', 7, '', 'Especialidad', 'GEM');
-select pxp.f_insert_tgui ('Funcionarios', 'Registro de Funcionarios', 'GEM.1.8', 'si', 3, 'sis_recursos_humanos/vista/funcionario/Funcionario.php', 8, '', 'Funcionario', 'GEM');
-select pxp.f_insert_tgui ('Diagrama de Decisión', 'Registro Diagrama de Decisión', 'GEM.1.9', 'si', 3, 'sis_mantenimiento/vista/diagrama_decision/DiagramaDecision.php', 8, '', 'DiagramaDecision', 'GEM');
+select pxp.f_insert_tgui ('Tipos de Mantenimiento', 'Registro de Tipos de Mantenimiento', 'GEM.1.4', 'si', 4, 'sis_mantenimiento/vista/tipo_mant/TipoMant.php', 3, '', 'TipoMant', 'GEM');
+select pxp.f_insert_tgui ('Horarios', 'Registro de Horarios', 'GEM.1.5', 'si', 5, 'sis_recursos_humanos/vista/horario/Horario.php', 3, '', 'Horario', 'GEM');
+select pxp.f_insert_tgui ('Niveles Especialidades Técnicas', 'Registro de los niveles de especialidades técnicas', 'GEM.1.6', 'si', 6, 'sis_recursos_humanos/vista/especialidad_nivel/EspecialidadNivel.php', 3, '', 'EspecialidadNivel', 'GEM');
+select pxp.f_insert_tgui ('Especialidades Técnicas', 'Registro de especialidades técnicas', 'GEM.1.7', 'si', 7, 'sis_recursos_humanos/vista/especialidad/Especialidad.php', 3, '', 'Especialidad', 'GEM');
+select pxp.f_insert_tgui ('Funcionarios', 'Registro de Funcionarios', 'GEM.1.8', 'si', 8, 'sis_recursos_humanos/vista/funcionario/Funcionario.php', 3, '', 'Funcionario', 'GEM');
+select pxp.f_insert_tgui ('Diagrama de Decisión', 'Registro Diagrama de Decisión', 'GEM.1.9', 'si', 9, 'sis_mantenimiento/vista/diagrama_decision/DiagramaDecision.php', 3, '', 'DiagramaDecision', 'GEM');
 
-select pxp.f_insert_tgui ('Localizaciones', 'Registro de Localizaciones', 'GEM.2.1', 'si', 3, 'sis_mantenimiento/vista/localizacion/Localizacion.php', 1, '', 'Localizacion', 'GEM');
-select pxp.f_insert_tgui ('Plantilla de Equipos', 'Registro Plantilla de Equipos', 'GEM.2.2', 'si', 3, 'sis_mantenimiento/vista/plantilla_equipo/PlantillaEquipo.php', 2, '', 'PlantillaEquipo', 'GEM');
+select pxp.f_insert_tgui ('Localizaciones', 'Registro de Localizaciones', 'GEM.2.1', 'si', 1, 'sis_mantenimiento/vista/localizacion/Localizacion.php', 3, '', 'Localizacion', 'GEM');
+select pxp.f_insert_tgui ('Plantilla de Equipos', 'Registro Plantilla de Equipos', 'GEM.2.2', 'si', 2, 'sis_mantenimiento/vista/uni_cons/UniCons.php', 3, '', 'UniCons', 'GEM');
 select pxp.f_insert_tgui ('Mantenimientos Predefinidos', 'Registro de Mantenimientos predefinidos', 'GEM.2.3', 'si', 3, 'sis_mantenimiento/vista/mant_predef/MantPredef.php', 3, '', 'MantPredef', 'GEM');
-select pxp.f_insert_tgui ('Órdenes de Trabajo', 'Registro Órdenes de Trabajo', 'GEM.2.4', 'si', 3, 'sis_mantenimiento/vista/orden_trabajo/OrdenTrabajo.php', 4, '', 'OrdenTrabajo', 'GEM');
-select pxp.f_insert_tgui ('Mediciones por Equipo', 'Registro de Mediciones por Equipo', 'GEM.2.5', 'si', 3, 'sis_mantenimiento/vista/equipo_medicion/EquipoMedicion.php', 5, '', 'EquipoMedicion', 'GEM');
-select pxp.f_insert_tgui ('Eventos/Incidentes por Equipo', 'Registro de Eventos/Incidentes por equipo', 'GEM.2.6', 'si', 3, 'sis_mantenimiento/vista/equipo_evento/EquipoEvento.php', 6, '', 'EquipoEvento', 'GEM');
+select pxp.f_insert_tgui ('Órdenes de Trabajo', 'Registro Órdenes de Trabajo', 'GEM.2.4', 'si', 4, 'sis_mantenimiento/vista/orden_trabajo/OrdenTrabajo.php', 3, '', 'OrdenTrabajo', 'GEM');
+select pxp.f_insert_tgui ('Mediciones por Equipo', 'Registro de Mediciones por Equipo', 'GEM.2.5', 'si', 5, 'sis_mantenimiento/vista/equipo_medicion/EquipoMedicion.php', 3, '', 'EquipoMedicion', 'GEM');
+select pxp.f_insert_tgui ('Eventos/Incidentes por Equipo', 'Registro de Eventos/Incidentes por equipo', 'GEM.2.6', 'si', 6, 'sis_mantenimiento/vista/equipo_evento/EquipoEvento.php', 3, '', 'EquipoEvento', 'GEM');
 
-select pxp.f_insert_tgui ('Procedimientos, Instructivos ...', 'Registro de Procedimientos, Instructivos, etc.', 'GEM.3.1', 'si', 3, 'sis_mantenimiento/vista/documento/Documento.php', 3, '', 'Documento', 'GEM');
+select pxp.f_insert_tgui ('Procedimientos, Instructivos ...', 'Registro de Procedimientos, Instructivos, etc.', 'GEM.3.1', 'si', 1, 'sis_mantenimiento/vista/documento/Documento.php', 3, '', 'Documento', 'GEM');
 
 /*(2) Composition*/
 

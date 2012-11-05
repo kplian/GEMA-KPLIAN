@@ -1,24 +1,25 @@
-﻿CREATE OR REPLACE FUNCTION alm.ft_salida_sel (
+CREATE OR REPLACE FUNCTION alm.ft_almacen_sel (
   p_administrador integer,
   p_id_usuario integer,
-  p_tabla varchar,
-  p_transaccion varchar
+  p_tabla character varying,
+  p_transaccion character varying
 )
-RETURNS varchar AS
+RETURNS varchar
+AS
 $body$
 /**************************************************************************
  SISTEMA:        Almacenes
- FUNCION:        alm.ft_salida_sel
- DESCRIPCION:    Funcion que devuelve conjuntos de registros de las consultas relacionadas con la tabla 'alm.tmovimiento' referido a salidas
+ FUNCION:        alm.ft_almacen_sel
+ DESCRIPCION:    Funcion que devuelve conjuntos de registros de las consultas relacionadas con la tabla 'alm.talmacen'
  AUTOR:          Gonzalo Sarmiento
- FECHA:          25-09-2012
- COMENTARIOS:   
+ FECHA:          21-09-2012
+ COMENTARIOS:  
 ***************************************************************************
  HISTORIAL DE MODIFICACIONES:
 
- DESCRIPCION:   
- AUTOR:           
- FECHA:       
+ DESCRIPCION:  
+ AUTOR:          
+ FECHA:      
 ***************************************************************************/
 
 DECLARE
@@ -27,74 +28,72 @@ DECLARE
     v_parametros          record;
     v_nombre_funcion       text;
     v_resp                varchar;
-               
+              
 BEGIN
 
-    v_nombre_funcion = 'alm.ft_salida_sel';
+    v_nombre_funcion = 'alm.ft_almacen_sel';
     v_parametros = f_get_record(p_tabla);
 
-    /*********************************   
-     #TRANSACCION:  'SAL_SAL_SEL'
+    /*********************************  
+     #TRANSACCION:  'SAL_ALM_SEL'
      #DESCRIPCION:  Consulta de datos
-     #AUTOR:        Gonzalo Sarmiento   
-     #FECHA:        25-09-2012
+     #AUTOR:        Gonzalo Sarmiento  
+     #FECHA:        21-09-2012
     ***********************************/
 
-    if(p_transaccion='SAL_SAL_SEL')then
-                  
+    if(p_transaccion='SAL_ALM_SEL')then
+                   
         begin
             --Sentencia de la consulta
             v_consulta:='select
-                        mov.id_movimiento,
-                        mov.id_movimiento_tipo,
-                        mov.fecha_mov,
-                        mov.numero_mov,
-                        mov.descripcion,                       
-                        mov.observaciones                     
-                        from alm.tmovimiento mov
-                        where mov.id_movimiento_tipo=2 and ';
-
+                        al.id_almacen,
+                        al.codigo,
+                        al.nombre,
+                        al.localizacion                      
+                        from alm.talmacen al
+                        where ';
+          
             --Definicion de la respuesta--
             v_consulta:=v_consulta||v_parametros.filtro;
             v_consulta:=v_consulta||' order by ' ||v_parametros.ordenacion|| ' ' || v_parametros.dir_ordenacion || ' limit ' || v_parametros.cantidad || ' offset ' || v_parametros.puntero;
-			--raise exception '%',v_consulta;
+           
             --Devuelve la respuesta--
             return v_consulta;
-            
-                       
+           
+                      
         end;
 
-    /*********************************   
-     #TRANSACCION:  'SAL_SAL_CONT'
+    /*********************************  
+     #TRANSACCION:  'SAL_ALM_CONT'
      #DESCRIPCION:  Conteo de registros
-     #AUTOR:        Gonzalo Sarmiento   
-     #FECHA:        25-09-2012
+     #AUTOR:        Gonzalo Sarmiento  
+     #FECHA:        21-09-2012
     ***********************************/
 
-    elsif(p_transaccion='SAL_SAL_CONT')then
+    elsif(p_transaccion='SAL_ALM_CONT')then
 
         begin
             --Sentencia de la consulta de conteo de registros--
-            v_consulta:='select count(mov.id_movimiento)
-                        from alm.tmovimiento mov
+            v_consulta:='select count(al.id_almacen)
+                        from alm.talmacen al
                         where ';
-           
-            --Definicion de la respuesta--           
+          
+            --Definicion de la respuesta--          
             v_consulta:=v_consulta||v_parametros.filtro;
 
             --Devuelve la respuesta
             return v_consulta;
 
         end;
-                   
+                  
     else
-                        
+                       
         raise exception 'Transaccion inexistente';
-                            
+                           
     end if;
-                   
+                  
 EXCEPTION
-                   
+                  
     WHEN OTHERS THEN
             v_resp='';
             v_resp = f_agrega_clave(v_resp,'mensaje',SQLERRM);
@@ -103,8 +102,7 @@ EXCEPTION
             raise exception '%',v_resp;
 END;
 $body$
-LANGUAGE 'plpgsql'
-VOLATILE
-CALLED ON NULL INPUT
-SECURITY INVOKER
-COST 100;
+    LANGUAGE plpgsql;
+--
+-- Definition for function ft_clasificacion_ime (OID = 688784) :
+--
