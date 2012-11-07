@@ -795,7 +795,6 @@ Phx.vista.Localizacion=Ext.extend(Phx.arbInterfaz,{
 	
 	
 	
-	
 	}	
 )
 </script>
