@@ -580,7 +580,7 @@ CREATE TABLE gem.tcalendario_planificado(
     fecha_fin int4,
     estado varchar(20),
     tipo varchar(25),
-    observaciones int4,
+    observaciones varchar(1000),
     PRIMARY KEY (id_calendario_planificado))INHERITS (pxp.tbase)
     WITH OIDS;
 
