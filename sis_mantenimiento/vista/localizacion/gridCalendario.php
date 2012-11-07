@@ -35,9 +35,71 @@ Phx.vista.gridCalendario=Ext.extend(Phx.gridInterfaz,{
 			//evento de error
 			this.storeAtributos.on('loadexception',this.conexionFailure);				
 			
+			//ventana para modificar fecha
 			
+			  this.formCP2 = new Ext.form.FormPanel({
+		        //baseCls: 'x-plain',
+		        id: this.idContenedor + '_FCP2',
+		        //bodyStyle: 'padding:10 20px 10;',
+		        autoDestroy: true,
+		        // border: false,
+                    // title: 'Checkbox Groups',
+                    //autowidth: true,
+               //  layout: 'form',
+		      
+		        autoScroll: true,
+		       
+		        items: [{
+						xtype: 'datefield',
+						
+						name: 'cp2_fecha_ini',
+						fieldLabel: 'Inicia',
+						format:'d-m-Y',
+						allowBlank: false,
+						allowBlank: false				
+					}]
+		    });
+		    
+		  
+		     this.wCP2 = new Ext.Window({
+		     	
+                    id: this.idContenedor + '_WCP2',
+                    bodyStyle: 'padding:10 20px 10;',
+                    //autoEl:this.idContenedor,
+                    //autoLoad:false,
+                   //border: false,
+                    // title: 'Checkbox Groups',
+                    //autowidth: true,
+                    layout: 'fit',
+		     	
+		     	
+		     
+		        collapsible: true,
+		        maximizable: true,
+		         autoDestroy: true,
+		        width: 400,
+		        height: 350,
+		       //layout: 'form',
+		        //plain: true,
+		        
+		        //buttonAlign: 'center',
+		        items: this.formCP2,
+		        //modal:false,
+		        //autoShow:true,
+		        closeAction: 'hide',
+		        buttons: [{
+		            text: 'Guardar',
+		             handler:this.onUpdateCP,
+		            scope:this
+		            
+		        },{
+		            text: 'Cancelar',
+		            handler:function(){this.wCP2.hide()},
+		            scope:this
+		        }]
+		    });
     	
-	        
+	        this.wCP2.show()
 	        //crea una ventana de parametrizacion de fechas
 	        
 		    this.formUCCL = new Ext.form.FormPanel({
@@ -115,13 +177,16 @@ Phx.vista.gridCalendario=Ext.extend(Phx.gridInterfaz,{
 		            scope:this
 		        }]
 		    });
-	        
-          
-          
-           this.wUCCL.show(); 	
+	      this.wUCCL.show(); 
+	      
+	      
+	    
+	     	
 	
 	
-	},		
+	},
+	
+	CellSelectionModel:true,		
 	
 	onCalGen:function(){
 		
@@ -252,7 +317,8 @@ Phx.vista.gridCalendario=Ext.extend(Phx.gridInterfaz,{
                 }
 				
 					
-				this.fields.push(rec[i].data.codigo)
+				this.fields.push(rec[i].data.codigo);
+				this.fields.push('cp_'+rec[i].data.codigo);
 				
 				
 			    recText=recText+'@'+rec[i].data.codigo+'#varchar@cp_'+rec[i].data.codigo+'#int4'
@@ -292,6 +358,17 @@ Phx.vista.gridCalendario=Ext.extend(Phx.gridInterfaz,{
                });
 			
 			
+			//creamos una ventana para modificacion 
+			//de fecha de mantenimiento de fecha de mantenimiento
+			//puede servir para insertar tambien
+			
+			
+			
+			
+			
+			
+			
+			
 			
 			Phx.CP.loadingHide();
 			Phx.vista.gridCalendario.superclass.constructor.call(this,this.config);
@@ -308,10 +385,15 @@ Phx.vista.gridCalendario=Ext.extend(Phx.gridInterfaz,{
 		
 			this.init();
 			
+			
+			
+			var id_l = (this.tipo_nodo=='uni_cons')?this.id_uni_cons:this.id_localizacion;
+			
 			this.store.baseParams={
 				fecha_ini:dateFechaIni.getValue().dateFormat('d-m-Y'),
 		        fecha_fin:dateFechaFin.getValue().dateFormat('d-m-Y'),
-		        id_localizacion:this.id_localizacion,
+		        tipo_nodo:this.tipo_nodo,
+		        id_localizacion:id_l,
 				datos:recText};			               
 				                   
 			this.load({params:{start:0, limit:50}})
@@ -356,8 +438,70 @@ Phx.vista.gridCalendario=Ext.extend(Phx.gridInterfaz,{
 		//this.store.baseParams={id_sensor:this.maestro.id_sensor};
 		this.load({params:{start:0, limit:50}});			
 	}
+	,
+	
+	EnableSelect:function(n,b,c){
 		
-}
+		console.log(n,b,c)
+		console.log(n.getSelectedCell())
+		
+		//recuperar datos
+		
+		var record = this.store.getAt(b);
+		var valcol = this.cm.getDataIndex(c);
+		var cp_val= 'cp_'+valcol;
+		
+		console.log(valcol,cp_val, record.data[valcol], record.data[cp_val] ,record.data['cp_november_2012_s1'])
+		
+		//llamada para cargar dattos del mantenimiento
+		
+		Ext.Ajax.request({
+		                    form: this.form.getForm().getEl(),
+		                    url: '../../sis_mantenimiento/control/CalendarioPlanificado/OtenerCalPla',
+		                    params: {
+		                         	calendario_planificado: record.data[cp_val]
+		                         	},		                    	
+		                    success: this.successObtCalPlan,
+		                    failure:this.conexionFailure,
+		                    timeout: this.timeout,
+		                    scope: this
+		               });
+		
+		 
+		 
+		 //this.wCP.toFront(this.idContenedor)
+		 //this.panel.toBack();
+		 
+		 console.log('abre ventana')
+		//Phx.vista.gridCalendario.superclass.EnableSelect.call(this,n)
+       },
+       successObtCalPlan:function(r){
+		this.wCP2.show(); 
+		console.log(r)
+		
+	   },
+	     onDestroy: function(c) {
+	     	
+	     	this.formUCCL.destroy();
+	     	this.wUCCL.destroy();
+       
+        if (this.wCP2) {
+            this.wCP2.destroy();
+            
+        }
+        if (this.formCP2) {
+            this.formCP2.destroy();
+        }
+
+        
+        
+        Phx.vista.gridCalendario.superclass.onDestroy.call(this,c);
+
+    },
+        	
+		
+   }
+
 )
 </script>
 		

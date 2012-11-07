@@ -176,6 +176,7 @@ class MODCalendarioPlanificado extends MODbase{
 		//$this->setParametro('id_tipo_sensor','id_tipo_sensor','integer');
 		//$this->setParametro('id_sensor','id_sensor','integer');	
 		$this->setParametro('datos','datos','varchar');	
+		$this->setParametro('tipo_nodo','tipo_nodo','varchar');	
 		$this->setParametro('id_localizacion','id_localizacion','integer');	
 		$this->setParametro('fecha_ini','fecha_ini','date');
 		$this->setParametro('fecha_fin','fecha_fin','date');
@@ -202,6 +203,23 @@ class MODCalendarioPlanificado extends MODbase{
 		
 		
 		
+		//Devuelve la respuesta
+		return $this->respuesta;
+	}
+
+    function OtenerCalPla(){
+		//Definicion de variables para ejecucion del procedimiento
+		$this->procedimiento='gem.f_calendario_planificado_ime';
+		$this->transaccion='GEM_OBTCALPLA_EMI';
+		$this->tipo_procedimiento='IME';
+				
+		//Define los parametros para la funcion
+		$this->setParametro('calendario_planificado','calendario_planificado','int4');
+
+		//Ejecuta la instruccion
+		$this->armarConsulta();
+		$this->ejecutarConsulta();
+
 		//Devuelve la respuesta
 		return $this->respuesta;
 	}

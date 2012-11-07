@@ -254,6 +254,11 @@ BEGIN
            raise notice 'CREA TABLA TEMPORAL,%',v_consulta;
            execute(v_consulta);
           
+         
+       --si es el nodo es de tipo localizacion
+             
+        if v_parametros.tipo_nodo <> 'uni_cons' THEN   
+         
           --2) consulta recusiva  de los equipos correspondientes a la localizacion
           
           v_consulta= 'WITH RECURSIVE sub_localizacion(id_localizacion, id_localizacion_fk, nombre) 
@@ -293,6 +298,20 @@ BEGIN
                    
                    END LOOP;
          
+        ELSE
+        
+         --  2.1) llamada a la funcion para llenar la tabla temporal          
+                   
+                        
+                           v_bool = gem.f_llena_tt_calendario_equipo (
+                                      v_parametros.id_localizacion,
+                                      v_fecha_ini,
+                                      v_fecha_fin,
+                                      p_id_usuario
+                                    );
+        
+        END IF;
+        
           
          --3) consulta de la tabla temporal
          
