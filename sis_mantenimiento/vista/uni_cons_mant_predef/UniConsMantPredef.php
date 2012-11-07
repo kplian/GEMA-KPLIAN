@@ -17,7 +17,7 @@ Phx.vista.UniConsMantPredef=Ext.extend(Phx.gridInterfaz,{
     	//llama al constructor de la clase padre
 		Phx.vista.UniConsMantPredef.superclass.constructor.call(this,config);
 		this.init();
-		this.load({params:{start:0, limit:50}})
+		this.load({params:{start:0, limit:50, id_uni_cons:this.maestro.id_uni_cons}})
 	},
 			
 	Atributos:[
@@ -62,7 +62,7 @@ Phx.vista.UniConsMantPredef=Ext.extend(Phx.gridInterfaz,{
 				mode:'remote',
 				pageSize:20,
 				queryDelay:500,
-				width:210,
+				width:300,
 				gwidth:220,
 				minChars:2,
 				renderer:function (value, p, record){return String.format('{0}', record.data['desc_mant_predef']);}

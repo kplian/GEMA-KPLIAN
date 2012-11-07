@@ -13,7 +13,7 @@ class ACTUniConsMantPredef extends ACTbase{
 		$this->objParam->defecto('ordenacion','id_uni_cons_mant_predef');
 
 		$this->objParam->defecto('dir_ordenacion','asc');
-		
+		//var_dump($this->objParam);exit;
 		if($this->objParam->getParametro('id_uni_cons')!=''){
 			$this->objParam->addFiltro("geeqma.id_uni_cons = ".$this->objParam->getParametro('id_uni_cons'));	
 		} else{
