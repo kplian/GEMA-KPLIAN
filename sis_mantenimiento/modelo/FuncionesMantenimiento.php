@@ -684,6 +684,13 @@ class FuncionesMantenimiento{
 		return $res;
 	}
 	
+	function UpdateCalPla(CTParametro $parametro){
+		$obj=new MODCalendarioPlanificado($parametro);
+		$res=$obj->UpdateCalPla();
+		return $res;
+	}
+	
+	
 	
 	
 	

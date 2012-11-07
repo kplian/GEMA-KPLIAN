@@ -40,7 +40,7 @@ Phx.vista.gridCalendario=Ext.extend(Phx.gridInterfaz,{
 			  this.formCP2 = new Ext.form.FormPanel({
 		        //baseCls: 'x-plain',
 		        id: this.idContenedor + '_FCP2',
-		        //bodyStyle: 'padding:10 20px 10;',
+		        bodyStyle: 'padding:10 20px 10;',
 		        autoDestroy: true,
 		        // border: false,
                     // title: 'Checkbox Groups',
@@ -57,14 +57,29 @@ Phx.vista.gridCalendario=Ext.extend(Phx.gridInterfaz,{
 						format:'d-m-Y',
 						allowBlank: false,
 						allowBlank: false				
-					}]
+					},
+					{
+		                xtype: 'checkbox',
+		                checked: true,
+		                fieldLabel: '',
+		                labelSeparator: '',
+		                boxLabel: 'Recorrer los mantenimientos siguientes',
+		                name: 'recursivo'
+		            },
+		            {
+		                xtype: 'field',
+		                fieldLabel: '',
+		                inputType:'hidden',
+		                labelSeparator: '',
+		                name: 'id_calendario_plan'
+		            }]
 		    });
 		    
 		  
 		     this.wCP2 = new Ext.Window({
 		     	
                     id: this.idContenedor + '_WCP2',
-                    bodyStyle: 'padding:10 20px 10;',
+                   
                     //autoEl:this.idContenedor,
                     //autoLoad:false,
                    //border: false,
@@ -99,7 +114,7 @@ Phx.vista.gridCalendario=Ext.extend(Phx.gridInterfaz,{
 		        }]
 		    });
     	
-	        this.wCP2.show()
+	       
 	        //crea una ventana de parametrizacion de fechas
 	        
 		    this.formUCCL = new Ext.form.FormPanel({
@@ -364,12 +379,6 @@ Phx.vista.gridCalendario=Ext.extend(Phx.gridInterfaz,{
 			
 			
 			
-			
-			
-			
-			
-			
-			
 			Phx.CP.loadingHide();
 			Phx.vista.gridCalendario.superclass.constructor.call(this,this.config);
 			
@@ -454,32 +463,81 @@ Phx.vista.gridCalendario=Ext.extend(Phx.gridInterfaz,{
 		console.log(valcol,cp_val, record.data[valcol], record.data[cp_val] ,record.data['cp_november_2012_s1'])
 		
 		//llamada para cargar dattos del mantenimiento
+		if(record.data[valcol]=='1'){
+			Phx.CP.loadingShow();
+			Ext.Ajax.request({
+			                    form: this.form.getForm().getEl(),
+			                    url: '../../sis_mantenimiento/control/CalendarioPlanificado/OtenerCalPla',
+			                    params: {
+			                         	calendario_planificado: record.data[cp_val]
+			                         	},		                    	
+			                    success: this.successObtCalPlan,
+			                    failure:this.conexionFailure,
+			                    timeout: this.timeout,
+			                    scope: this
+			               });
+		}
+       },
+       successObtCalPlan:function(r){
+       	Phx.CP.loadingHide();
+		this.wCP2.show(); 
+		console.log(r)
 		
-		Ext.Ajax.request({
+		 var regreso = Ext.util.JSON.decode(Ext.util.Format.trim(r.responseText));
+		 
+		if(!regreso.ROOT.error){
+			console.log(regreso.ROOT.datos)
+			
+			var cpFechaIni =this.formCP2.getForm().findField('cp2_fecha_ini');
+			var cpIdCal =this.formCP2.getForm().findField('id_calendario_plan');
+			
+			
+			cpIdCal.setValue(regreso.ROOT.datos.id_calendario_planificado);
+			cpFechaIni.setValue(regreso.ROOT.datos.fecha_ini);
+			
+		}
+		else{
+			alert('Error al recuperar las fecha desde la base de datos')
+			
+		}
+		
+		
+	   },
+	   
+	   onUpdateCP:function(){
+	   	
+	   	if (this.formCP2.getForm().isValid()) {
+		
+			Phx.CP.loadingShow();
+			
+			 var cpFechaIni =this.formCP2.getForm().findField('cp2_fecha_ini');
+			 var ckRecursivo =this.formCP2.getForm().findField('recursivo');
+			 var idCalPlan =this.formCP2.getForm().findField('id_calendario_plan');
+			 
+			 Ext.Ajax.request({
 		                    form: this.form.getForm().getEl(),
-		                    url: '../../sis_mantenimiento/control/CalendarioPlanificado/OtenerCalPla',
+		                    url: '../../sis_mantenimiento/control/CalendarioPlanificado/UpdateCalPla',
 		                    params: {
-		                         	calendario_planificado: record.data[cp_val]
+		                         	fecha_ini:cpFechaIni.getValue().dateFormat('d-m-Y'),
+			                        recursivo:ckRecursivo.getValue(),
+			                        id_calendario_planificado:idCalPlan.getValue()
 		                         	},		                    	
-		                    success: this.successObtCalPlan,
+		                    success: this.successUpdateCalPlan,
 		                    failure:this.conexionFailure,
 		                    timeout: this.timeout,
 		                    scope: this
 		               });
-		
-		 
-		 
-		 //this.wCP.toFront(this.idContenedor)
-		 //this.panel.toBack();
-		 
-		 console.log('abre ventana')
-		//Phx.vista.gridCalendario.superclass.EnableSelect.call(this,n)
-       },
-       successObtCalPlan:function(r){
-		this.wCP2.show(); 
-		console.log(r)
-		
+			 
+	   	}
 	   },
+	   
+	   successUpdateCalPlan:function(resp){
+	   	Phx.CP.loadingHide();
+	   	this.wCP2.hide(); 
+	   	this.reload();
+	   	
+	   },
+	   
 	     onDestroy: function(c) {
 	     	
 	     	this.formUCCL.destroy();
