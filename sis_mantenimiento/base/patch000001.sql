@@ -648,6 +648,41 @@ ALTER TABLE gem.ttipo_variable
 ALTER TABLE gem.ttipo_variable
   ALTER COLUMN id_unidad_medida SET NOT NULL;  
   
+  /*
+  RAC
+  08-11-2012
+  */
+  
+ CREATE TABLE gem.tuni_cons_det(
+    id_uni_cons_det SERIAL NOT NULL,
+    id_unidad_medida int4,
+    id_uni_cons int4,
+    codigo varchar(20),
+    nombre varchar(100),
+    descripcion varchar(2000),
+    valor varchar(2000),
+    PRIMARY KEY (id_uni_cons_det))
+    INHERITS (pxp.tbase)
+WITH OIDS;
+
+--------------- SQL ---------------
+
+ALTER TABLE gem.tuni_cons_det
+  ADD CONSTRAINT tuni_cons_det_id_unidad_medida_fk FOREIGN KEY (id_unidad_medida)
+    REFERENCES param.tunidad_medida(id_unidad_medida)
+    ON DELETE NO ACTION
+    ON UPDATE NO ACTION
+    NOT DEFERRABLE;
+
+--------------- SQL ---------------
+
+ALTER TABLE gem.tuni_cons_det
+  ADD CONSTRAINT tuni_cons_det_id_uni_cons_fk FOREIGN KEY (id_uni_cons)
+    REFERENCES gem.tuni_cons(id_uni_cons)
+    ON DELETE NO ACTION
+    ON UPDATE NO ACTION
+    NOT DEFERRABLE;
+
   
   
 
