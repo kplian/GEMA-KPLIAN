@@ -82,7 +82,7 @@ BEGIN
                         inner join gem.tmodo_falla mod on mod.id_modo_falla=tare.id_modo_falla
                         left join gem.tuni_cons unicons on unicons.id_uni_cons=tare.id_uni_cons_hijo
                         left join gem.tfalla_evento fal on fal.id_falla_evento=tare.id_falla_evento
-                        left join rhum.tespecialidad esp on esp.id_especialidad=tare.id_especialidad
+                        left join orga.tespecialidad esp on esp.id_especialidad=tare.id_especialidad
                         inner join param.tunidad_medida uni on uni.id_unidad_medida=tare.id_unidad_medida
 						left join segu.tusuario usu2 on usu2.id_usuario = tare.id_usuario_mod
 				        where id_plan_mant='||v_parametros.id_plan_mant||' and ';
