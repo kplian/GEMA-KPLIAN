@@ -583,6 +583,30 @@ CREATE TABLE gem.tcalendario_planificado(
     observaciones varchar(1000),
     PRIMARY KEY (id_calendario_planificado))INHERITS (pxp.tbase)
     WITH OIDS;
+    
+-- Table: orga.ttipo_horario
+
+-- DROP TABLE orga.ttipo_horario;
+
+CREATE TABLE orga.ttipo_horario
+(
+  id_tipo_horario serial NOT NULL,
+  codigo character varying(255),
+  nombre character varying(255),
+  estado_reg character varying(10),
+  id_usuario_reg integer,
+  fecha_reg date NOT NULL DEFAULT now(),
+  id_usuario_mod integer,
+  fecha_mod date DEFAULT now(),
+  CONSTRAINT ttipo_horario_pkey PRIMARY KEY (id_tipo_horario)
+)
+WITH (
+  OIDS=FALSE
+);
+ALTER TABLE orga.ttipo_horario OWNER TO postgres;
+
+    
+    
 
 
 /*
@@ -615,7 +639,7 @@ select pxp.f_insert_tgui ('Proveedores', 'Registro de Proveedores', 'GEM.1.1', '
 select pxp.f_insert_tgui ('Metodologías', 'Registro de Metodologías', 'GEM.1.2', 'si', 3, 'sis_mantenimiento/vista/metodologia/Metodologia.php', 2, '', 'Metodologia', 'GEM');
 select pxp.f_insert_tgui ('Tipos de Equipos', 'Registro de Tipos de Equipos', 'GEM.1.3', 'si', 3, 'sis_mantenimiento/vista/tipo_equipo/TipoEquipo.php', 3, '', 'TipoEquipo', 'GEM');
 select pxp.f_insert_tgui ('Tipos de Mantenimiento', 'Registro de Tipos de Mantenimiento', 'GEM.1.4', 'si', 4, 'sis_mantenimiento/vista/tipo_mant/TipoMant.php', 3, '', 'TipoMant', 'GEM');
-select pxp.f_insert_tgui ('Horarios', 'Registro de Horarios', 'GEM.1.5', 'si', 5, 'sis_organigrama/vista/horario/Horario.php', 3, '', 'Horario', 'GEM');
+select pxp.f_insert_tgui ('Horarios', 'Registro de Horarios', 'GEM.1.5', 'si', 5, 'sis_organigrama/vista/tipo_horario/TipoHorario.php', 3, '', 'TipoHorario', 'GEM');
 select pxp.f_insert_tgui ('Niveles Especialidades Técnicas', 'Registro de los niveles de especialidades técnicas', 'GEM.1.6', 'si', 6, 'sis_organigrama/vista/especialidad_nivel/EspecialidadNivel.php', 3, '', 'EspecialidadNivel', 'GEM');
 select pxp.f_insert_tgui ('Especialidades Técnicas', 'Registro de especialidades técnicas', 'GEM.1.7', 'si', 7, 'sis_organigrama/vista/especialidad/Especialidad.php', 3, '', 'Especialidad', 'GEM');
 select pxp.f_insert_tgui ('Funcionarios', 'Registro de Funcionarios', 'GEM.1.8', 'si', 8, 'sis_organigrama/vista/funcionario/Funcionario.php', 3, '', 'Funcionario', 'GEM');

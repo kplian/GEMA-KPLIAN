@@ -16,7 +16,12 @@ VALUES (4,1,1,'activo','CBA','Cochabamba',7,'Regional Cochabamba','-66.173336123
 INSERT INTO gem.tlocalizacion(id_localizacion,id_localizacion_fk,id_usuario_reg, estado_reg,codigo, nombre, coordenadas,desc_ubicacion, longitud,latitud)
 VALUES (5,3,1,'activo','EST-SCZ-01','Estación Montero',8,null,'-63.23998651406248','-17.324554957334563');
 INSERT INTO gem.tlocalizacion(id_localizacion,id_localizacion_fk,id_usuario_reg, estado_reg,codigo, nombre, coordenadas,desc_ubicacion, longitud,latitud)
-VALUES (6,4,1,'activo','EST-CBA-01','Estación Quillacollo',8,null,'-66.28319940468748','-17.40843908149394');
+VALUES (6,4,1,'activo','EST-CBA-01','Sayari',8,null,'-66.28319940468748','-17.40843908149394');
+INSERT INTO gem.tlocalizacion(id_localizacion,id_localizacion_fk,id_usuario_reg, estado_reg,codigo, nombre, coordenadas,desc_ubicacion, longitud,latitud)
+VALUES (11,5,1,'activo','EST-SCZ-01','Unidad de Bombeo 1',8,null,'-63.23998651406248','-17.324554957334563');
+INSERT INTO gem.tlocalizacion(id_localizacion,id_localizacion_fk,id_usuario_reg, estado_reg,codigo, nombre, coordenadas,desc_ubicacion, longitud,latitud)
+VALUES (12,6,1,'activo','EST-CBA-01','Unidad de Bombeo 2',8,null,'-66.28319940468748','-17.40843908149394');
+--Localizaciones -> Plantas
 INSERT INTO gem.tlocalizacion(id_localizacion,id_localizacion_fk,id_usuario_reg, estado_reg,codigo, nombre, coordenadas,desc_ubicacion, longitud,latitud)
 VALUES (7,2,1,'activo','SCZ','Santa Cruz',7,'Of. Central','-63.01476678749998','-17.87433754489201');
 INSERT INTO gem.tlocalizacion(id_localizacion,id_localizacion_fk,id_usuario_reg, estado_reg,codigo, nombre, coordenadas,desc_ubicacion, longitud,latitud)
@@ -54,13 +59,13 @@ VALUES (1,'activo',4, 3, null, 'CCO', 'COMBUSTIBLES Y  CONSUMIBLES','tuc', 'borr
 INSERT INTO gem.tuni_cons(id_usuario_reg, estado_reg,id_uni_cons, id_tipo_equipo, id_localizacion, codigo, nombre,tipo, estado, tipo_nodo, id_plantilla)
 VALUES (1,'activo',5, null, 5, 'EST-SCZ-01', 'ESTACIÓN MONTERO','uc', 'registrado', 'base', null);
 INSERT INTO gem.tuni_cons(id_usuario_reg, estado_reg,id_uni_cons, id_tipo_equipo, id_localizacion, codigo, nombre,tipo, estado, tipo_nodo, id_plantilla)
-VALUES (1,'activo',6, 1, 5, 'MCBI-001', 'MOTOR DE COMBUSTIÓN INTERNA','uc', 'registrado', 'raiz', 2);
+VALUES (1,'activo',6, 1, 11, 'MCBI-001', 'MOTOR DE COMBUSTIÓN INTERNA','uc', 'registrado', 'raiz', 2);
 INSERT INTO gem.tuni_cons(id_usuario_reg, estado_reg,id_uni_cons, id_tipo_equipo, id_localizacion, codigo, nombre,tipo, estado, tipo_nodo, id_plantilla)
 VALUES (1,'activo',7, 2, null, 'SLB', 'SISTEMA DE LUBRICACIÓN','uc', 'registrado', 'rama', null);
 INSERT INTO gem.tuni_cons(id_usuario_reg, estado_reg,id_uni_cons, id_tipo_equipo, id_localizacion, codigo, nombre,tipo, estado, tipo_nodo, id_plantilla)
 VALUES (1,'activo',8, 3, null, 'CCO', 'COMBUSTIBLES Y  CONSUMIBLES','uc', 'registrado', 'rama', null);
 INSERT INTO gem.tuni_cons(id_usuario_reg, estado_reg,id_uni_cons, id_tipo_equipo, id_localizacion, codigo, nombre,tipo, estado, tipo_nodo, id_plantilla)
-VALUES (1,'activo',9, 1, 5, 'MCBI-002', 'MOTOR DE COMBUSTIÓN INTERNA','uc', 'registrado', 'raiz', 2);
+VALUES (1,'activo',9, 1, 12, 'MCBI-002', 'MOTOR DE COMBUSTIÓN INTERNA','uc', 'registrado', 'raiz', 2);
 INSERT INTO gem.tuni_cons(id_usuario_reg, estado_reg,id_uni_cons, id_tipo_equipo, id_localizacion, codigo, nombre,tipo, estado, tipo_nodo, id_plantilla)
 VALUES (1,'activo',10, 2, null, 'SLB', 'SISTEMA DE LUBRICACIÓN','uc', 'registrado', 'rama', null);
 INSERT INTO gem.tuni_cons(id_usuario_reg, estado_reg,id_uni_cons, id_tipo_equipo, id_localizacion, codigo, nombre,tipo, estado, tipo_nodo, id_plantilla)
@@ -103,6 +108,10 @@ VALUES (1, 1, E'2012-11-02 13:34:20', E'2012-11-03 09:46:29.882', E'activo', 3, 
 --MANTENIMIENTOS PREDEFINIDOS
 INSERT INTO gem.tmant_predef ("id_usuario_reg", "id_usuario_mod", "fecha_reg", "fecha_mod", "estado_reg", "id_mant_predef", "codigo", "nombre", "descripcion", "id_tipo_equipo")
 VALUES (1, NULL, E'2012-11-06 12:26:37.546', NULL, E'activo', 1, E'MPP01', E'Mantenimiento Preventivo Planificado 01', NULL, 1);
+INSERT INTO gem.tmant_predef ("id_usuario_reg", "id_usuario_mod", "fecha_reg", "fecha_mod", "estado_reg", "id_mant_predef", "codigo", "nombre", "descripcion", "id_tipo_equipo")
+VALUES (1, NULL, E'2012-11-06 12:26:37.546', NULL, E'activo', 2, E'MPP02', E'Mantenimiento Preventivo Planificado 02', NULL, 1);
+INSERT INTO gem.tmant_predef ("id_usuario_reg", "id_usuario_mod", "fecha_reg", "fecha_mod", "estado_reg", "id_mant_predef", "codigo", "nombre", "descripcion", "id_tipo_equipo")
+VALUES (1, NULL, E'2012-11-06 12:26:37.546', NULL, E'activo', 3, E'MPP03', E'Mantenimiento Preventivo Planificado 03', NULL, 1);
 
 
 --MANTENIMIENTOS PREDEFINIDOS DETALLE
@@ -110,3 +119,13 @@ INSERT INTO gem.tmant_predef_det ("id_usuario_reg", "id_usuario_mod", "fecha_reg
 VALUES (1, NULL, E'2012-11-06 12:26:50.745', NULL, E'activo', 1, 1, E'Revisión de la compresión del motor', E'Revisión de la compresión del motor', E'');
 INSERT INTO gem.tmant_predef_det ("id_usuario_reg", "id_usuario_mod", "fecha_reg", "fecha_mod", "estado_reg", "id_mant_predef_det", "id_mant_predef", "nombre", "descripcion", "observacion")
 VALUES (1, NULL, E'2012-11-06 12:27:00.244', NULL, E'activo', 2, 1, E'Cambio de filtro de aceite', E'Cambio de filtro de aceite', E'');
+
+INSERT INTO gem.tmant_predef_det ("id_usuario_reg", "id_usuario_mod", "fecha_reg", "fecha_mod", "estado_reg", "id_mant_predef_det", "id_mant_predef", "nombre", "descripcion", "observacion")
+VALUES (1, NULL, E'2012-11-06 12:26:50.745', NULL, E'activo', 3, 2, E'Revisión de la compresión del motor', E'Revisión de la compresión del motor', E'');
+INSERT INTO gem.tmant_predef_det ("id_usuario_reg", "id_usuario_mod", "fecha_reg", "fecha_mod", "estado_reg", "id_mant_predef_det", "id_mant_predef", "nombre", "descripcion", "observacion")
+VALUES (1, NULL, E'2012-11-06 12:27:00.244', NULL, E'activo', 4, 2, E'Cambio de filtro de aceite', E'Cambio de filtro de aceite', E'');
+
+INSERT INTO gem.tmant_predef_det ("id_usuario_reg", "id_usuario_mod", "fecha_reg", "fecha_mod", "estado_reg", "id_mant_predef_det", "id_mant_predef", "nombre", "descripcion", "observacion")
+VALUES (1, NULL, E'2012-11-06 12:26:50.745', NULL, E'activo', 5, 3, E'Revisión de la compresión del motor', E'Revisión de la compresión del motor', E'');
+INSERT INTO gem.tmant_predef_det ("id_usuario_reg", "id_usuario_mod", "fecha_reg", "fecha_mod", "estado_reg", "id_mant_predef_det", "id_mant_predef", "nombre", "descripcion", "observacion")
+VALUES (1, NULL, E'2012-11-06 12:27:00.244', NULL, E'activo', 6, 3, E'Cambio de filtro de aceite', E'Cambio de filtro de aceite', E'');
