@@ -79,8 +79,8 @@ BEGIN
 						from gem.torden_trabajo geoott
 						inner join segu.tusuario usu1 on usu1.id_usuario = geoott.id_usuario_reg
 						left join segu.tusuario usu2 on usu2.id_usuario = geoott.id_usuario_mod
-						inner join rhum.vfuncionario fun on fun.id_funcionario = geoott.id_funcionario_sol
-						inner join rhum.vfuncionario fun1 on fun1.id_funcionario = geoott.id_funcionario_asig
+						inner join orga.vfuncionario fun on fun.id_funcionario = geoott.id_funcionario_sol
+						inner join orga.vfuncionario fun1 on fun1.id_funcionario = geoott.id_funcionario_asig
 						inner join gem.tuni_cons unicons on unicons.id_uni_cons = geoott.id_uni_cons
 						inner join gem.ttipo_mant tipman on tipman.id_tipo_mant = geoott.id_tipo_mant
 						inner join param.tunidad_medida unimed on unimed.id_unidad_medida = geoott.id_unidad_medida
@@ -110,8 +110,8 @@ BEGIN
 					    from gem.torden_trabajo geoott
 					    inner join segu.tusuario usu1 on usu1.id_usuario = geoott.id_usuario_reg
 						left join segu.tusuario usu2 on usu2.id_usuario = geoott.id_usuario_mod
-						inner join rhum.vfuncionario fun on fun.id_funcionario = geoott.id_funcionario_sol
-						inner join rhum.vfuncionario fun1 on fun1.id_funcionario = geoott.id_funcionario_asig
+						inner join orga.vfuncionario fun on fun.id_funcionario = geoott.id_funcionario_sol
+						inner join orga.vfuncionario fun1 on fun1.id_funcionario = geoott.id_funcionario_asig
 						inner join gem.tuni_cons unicons on unicons.id_uni_cons = geoott.id_uni_cons
 						inner join gem.ttipo_mant tipman on tipman.id_tipo_mant = geoott.id_tipo_mant
 						inner join param.tunidad_medida unimed on unimed.id_unidad_medida = geoott.id_unidad_medida

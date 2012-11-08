@@ -37,6 +37,8 @@ class MODEquipoVariable extends MODbase{
 		$this->captura('usr_mod','varchar');
 		$this->captura('nombre_tipo_variable','varchar');
 		$this->captura('codigo_unidad_medida','varchar');
+		$this->captura('id_unidad_medida','int4');
+		
 		
 		//Ejecuta la instruccion
 		$this->armarConsulta();
@@ -59,6 +61,9 @@ class MODEquipoVariable extends MODbase{
 		$this->setParametro('obs','obs','varchar');
 		$this->setParametro('valor_min','valor_min','int4');
 		$this->setParametro('id_tipo_variable','id_tipo_variable','int4');
+        $this->setParametro('nombre_tipo_variable','nombre_tipo_variable','varchar');
+         $this->setParametro('id_unidad_medida','id_unidad_medida','int4');
+        $this->setParametro('id_tipo_equipo','id_tipo_equipo','int4');
 
 		//Ejecuta la instruccion
 		$this->armarConsulta();
@@ -82,6 +87,10 @@ class MODEquipoVariable extends MODbase{
 		$this->setParametro('obs','obs','varchar');
 		$this->setParametro('valor_min','valor_min','int4');
 		$this->setParametro('id_tipo_variable','id_tipo_variable','int4');
+		$this->setParametro('nombre_tipo_variable','nombre_tipo_variable','varchar');
+        
+		$this->setParametro('id_unidad_medida','id_unidad_medida','int4');
+        $this->setParametro('id_tipo_equipo','id_tipo_equipo','int4');
 
 		//Ejecuta la instruccion
 		$this->armarConsulta();
