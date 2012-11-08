@@ -63,9 +63,9 @@ BEGIN
 						usu2.cuenta as usr_mod	
 						from gem.tplan_mant plama
 						inner join segu.tusuario usu1 on usu1.id_usuario = plama.id_usuario_reg
-                        inner join rhum.tfuncionario fun on fun.id_funcionario=plama.id_funcionario
+                        inner join orga.tfuncionario fun on fun.id_funcionario=plama.id_funcionario
                         inner join segu.vpersona vper on vper.id_persona=fun.id_persona
-                        inner join rhum.tfuncionario funrev on funrev.id_funcionario=plama.id_funcionario_rev                          
+                        inner join orga.tfuncionario funrev on funrev.id_funcionario=plama.id_funcionario_rev                          
                         inner join segu.vpersona vperev on vperev.id_persona=funrev.id_persona
 						left join segu.tusuario usu2 on usu2.id_usuario = plama.id_usuario_mod
 				        where  plama.id_uni_cons='||v_parametros.id_uni_cons||' and ';

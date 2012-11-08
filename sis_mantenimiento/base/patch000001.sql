@@ -771,3 +771,175 @@ select pxp.f_insert_tprocedimiento ('GEM_EQV_MOD', '	Modificacion de registros
  	', 'si', '', '', 'f_equipo_variable_ime');
 select pxp.f_insert_tprocedimiento ('GEM_EQV_ELI', '	Eliminacion de registros
  	', 'si', '', '', 'f_equipo_variable_ime');
+
+ 
+ CREATE TABLE gem.tmodo_falla (
+  id_modo_falla SERIAL, 
+  id_funcion_falla INTEGER, 
+  modo_falla VARCHAR(1000), 
+  efecto_falla VARCHAR(1000), 
+  orden INTEGER, 
+  CONSTRAINT tmodo_falla_pkey PRIMARY KEY(id_modo_falla), 
+  CONSTRAINT fk_tmodo_falla__id_funcion_falla FOREIGN KEY (id_funcion_falla)
+    REFERENCES gem.tfuncion_falla(id_funcion_falla)
+    ON DELETE NO ACTION
+    ON UPDATE NO ACTION
+    NOT DEFERRABLE
+) INHERITS (pxp.tbase)
+WITH OIDS;
+ALTER TABLE gem.tmodo_falla OWNER TO postgres;
+	
+ CREATE TABLE gem.tplan_mant (
+  id_plan_mant SERIAL, 
+  id_uni_cons INTEGER, 
+  id_tipo_mant INTEGER, 
+  id_funcionario INTEGER, 
+  id_funcionario_rev INTEGER, 
+  fecha TIMESTAMP WITHOUT TIME ZONE, 
+  descripcion VARCHAR(500), 
+  CONSTRAINT tplan_mant_pkey PRIMARY KEY(id_plan_mant), 
+  CONSTRAINT fk_tplan_mant__id_funcionario FOREIGN KEY (id_funcionario)
+    REFERENCES orga.tfuncionario(id_funcionario)
+    ON DELETE NO ACTION
+    ON UPDATE NO ACTION
+    NOT DEFERRABLE, 
+  CONSTRAINT fk_tplan_mant__id_funcionario_rev FOREIGN KEY (id_funcionario_rev)
+    REFERENCES orga.tfuncionario(id_funcionario)
+    ON DELETE NO ACTION
+    ON UPDATE NO ACTION
+    NOT DEFERRABLE, 
+  CONSTRAINT fk_tplan_mant__id_tipo_mant FOREIGN KEY (id_tipo_mant)
+    REFERENCES gem.ttipo_mant(id_tipo_mant)
+    ON DELETE NO ACTION
+    ON UPDATE NO ACTION
+    NOT DEFERRABLE, 
+  CONSTRAINT fk_tplan_mant__id_uni_cons FOREIGN KEY (id_uni_cons)
+    REFERENCES gem.tuni_cons(id_uni_cons)
+    ON DELETE NO ACTION
+    ON UPDATE NO ACTION
+    NOT DEFERRABLE
+) INHERITS (pxp.tbase)
+WITH OIDS;
+ALTER TABLE gem.tplan_mant OWNER TO postgres;
+
+CREATE TABLE gem.ttarea (
+  id_tarea SERIAL, 
+  id_plan_mant INTEGER, 
+  id_falla_evento INTEGER, 
+  id_uni_cons INTEGER NOT NULL, 
+  id_uni_cons_hijo INTEGER NOT NULL, 
+  id_modo_falla INTEGER, 
+  id_especialidad INTEGER, 
+  id_unidad_medida INTEGER, 
+  tareas VARCHAR(1000), 
+  frecuencia NUMERIC(18,2), 
+  col_h VARCHAR(2), 
+  col_s VARCHAR(2), 
+  col_o VARCHAR(2), 
+  col_n VARCHAR(2), 
+  col_hson1 VARCHAR(2), 
+  col_hson2 VARCHAR(2), 
+  col_hson3 VARCHAR(2), 
+  col_h4 VARCHAR(2), 
+  col_h5 VARCHAR(2), 
+  col_s4 VARCHAR(2), 
+  CONSTRAINT ttarea_pkey PRIMARY KEY(id_tarea), 
+  CONSTRAINT fk_ttarea__id_falla_evento FOREIGN KEY (id_falla_evento)
+    REFERENCES gem.tfalla_evento(id_falla_evento)
+    ON DELETE NO ACTION
+    ON UPDATE NO ACTION
+    NOT DEFERRABLE, 
+  CONSTRAINT fk_ttarea__id_modo_falla FOREIGN KEY (id_modo_falla)
+    REFERENCES gem.tmodo_falla(id_modo_falla)
+    ON DELETE NO ACTION
+    ON UPDATE NO ACTION
+    NOT DEFERRABLE, 
+  CONSTRAINT fk_ttarea__id_plan_mant FOREIGN KEY (id_plan_mant)
+    REFERENCES gem.tplan_mant(id_plan_mant)
+    ON DELETE NO ACTION
+    ON UPDATE NO ACTION
+    NOT DEFERRABLE, 
+  CONSTRAINT fk_ttarea__id_uni_cons FOREIGN KEY (id_uni_cons)
+    REFERENCES gem.tuni_cons(id_uni_cons)
+    ON DELETE NO ACTION
+    ON UPDATE NO ACTION
+    NOT DEFERRABLE, 
+  CONSTRAINT fk_ttarea__id_uni_cons_hijo FOREIGN KEY (id_uni_cons_hijo)
+    REFERENCES gem.tuni_cons(id_uni_cons)
+    ON DELETE NO ACTION
+    ON UPDATE NO ACTION
+    NOT DEFERRABLE, 
+  CONSTRAINT fk_ttarea__id_unidad_medida FOREIGN KEY (id_unidad_medida)
+    REFERENCES param.tunidad_medida(id_unidad_medida)
+    ON DELETE NO ACTION
+    ON UPDATE NO ACTION
+    NOT DEFERRABLE
+) INHERITS (pxp.tbase)
+WITH OIDS;
+ALTER TABLE gem.ttarea OWNER TO postgres;
+
+CREATE TABLE gem.tuni_cons_archivo (
+  id_uni_cons_archivo SERIAL, 
+  id_uni_cons_archivo_padre INTEGER, 
+  nombre VARCHAR(150), 
+  nombre_archivo VARCHAR(100), 
+  resumen VARCHAR(1000), 
+  extension VARCHAR(10), 
+  palabras_clave VARCHAR(3000), 
+  codigo VARCHAR(40), 
+  archivo BYTEA, 
+  tipo VARCHAR(10) DEFAULT 'padre'::character varying, 
+  CONSTRAINT tuni_cons_archivo_pkey PRIMARY KEY(id_uni_cons_archivo), 
+  CONSTRAINT fk_tuni_cos_archivo__id_uni_cons_archivo_padre FOREIGN KEY (id_uni_cons_archivo_padre)
+    REFERENCES gem.tuni_cons_archivo(id_uni_cons_archivo)
+    ON DELETE NO ACTION
+    ON UPDATE NO ACTION
+    NOT DEFERRABLE
+) INHERITS (pxp.tbase)
+WITH OIDS;
+ALTER TABLE gem.tuni_cons_archivo OWNER TO postgres;
+
+CREATE TABLE gem.tuni_cons_proveedor (
+  id_uni_cons_proveedor SERIAL, 
+  id_uni_cons INTEGER, 
+  id_proveedor INTEGER, 
+  CONSTRAINT tuni_cons_proveedor_pkey PRIMARY KEY(id_uni_cons_proveedor), 
+  CONSTRAINT chk_tuni_cons_item__estado_reg CHECK ((estado_reg)::text = ANY ((ARRAY['activo'::character varying, 'inactivo'::character varying])::text[])), 
+  CONSTRAINT fk_tuni_cons_item__id_proveedor FOREIGN KEY (id_proveedor)
+    REFERENCES param.tproveedor(id_proveedor)
+    ON DELETE NO ACTION
+    ON UPDATE NO ACTION
+    NOT DEFERRABLE, 
+  CONSTRAINT fk_tuni_cons_proveedor__id_uni_cons FOREIGN KEY (id_uni_cons)
+    REFERENCES gem.tuni_cons(id_uni_cons)
+    ON DELETE NO ACTION
+    ON UPDATE NO ACTION
+    NOT DEFERRABLE
+) INHERITS (pxp.tbase)
+WITH OIDS;
+ALTER TABLE gem.tuni_cons_proveedor OWNER TO postgres;
+
+CREATE TABLE gem.tuni_cons_item (
+  id_uni_cons_item SERIAL, 
+  id_uni_cons INTEGER, 
+  id_item INTEGER,
+  CONSTRAINT tuni_cons_item_pkey PRIMARY KEY(id_uni_cons_item),
+    CONSTRAINT chk_tuni_cons_item__estado_reg CHECK ((estado_reg)::text = ANY ((ARRAY['activo'::character varying, 'inactivo'::character varying])::text[]))
+) INHERITS (pxp.tbase)
+WITH OIDS;
+
+ALTER TABLE gem.tuni_cons_item ADD
+  CONSTRAINT fk_tuni_cons_item__id_item FOREIGN KEY (id_item)
+    REFERENCES alm.titem(id_item)
+    ON DELETE NO ACTION
+    ON UPDATE NO ACTION
+    NOT DEFERRABLE, 
+ ADD CONSTRAINT fk_tuni_cons_item__id_uni_cons FOREIGN KEY (id_uni_cons)
+    REFERENCES gem.tuni_cons(id_uni_cons)
+    ON DELETE NO ACTION
+    ON UPDATE NO ACTION
+    NOT DEFERRABLE;
+ALTER TABLE gem.tuni_cons_item OWNER TO postgres;
+
+ALTER TABLE gem.tdocumento
+ADD COLUMN tipo VARCHAR(10) DEFAULT 'padre'::character varying;
