@@ -100,6 +100,8 @@ v_count  integer;
  V_semana integer;
  v_sum integer;
  
+ v_pos integer;
+ 
 
 
 BEGIN
@@ -176,22 +178,33 @@ BEGIN
                           
                           raise notice ' -------->  SEMANA %',v_semana;
                           
-             --1.1.2)   arma cadena de insercion de atributos (col_semana) 
-              --         arma cadena de insercion de atributos (id col_semana)             
+             
+             -- 1.1.3) freapra el nombre de la columna
+             
              v_mes = TRIM(to_char(g_registros2.fecha_ini, 'Month'));
              v_ano =  to_char(g_registros2.fecha_ini, 'YYYY');
             
                v_cod = lower(v_mes||'_'||v_ano||'_s'||v_semana);
-               
-               v_consulta1=v_consulta1||','||v_cod||', cp_'||v_cod ;
              
+             -- 1.1.4)  VERIFICA QUE NO EXISTA DUPLIDICAD  
              
-             --         arma cadena de insercion de valroes   (valor col_semana)
-             --         arma cadena de insercion de valroes   (valor id col_semana)
+               v_pos = position (v_cod in v_consulta1);
              
-              v_consulta2=v_consulta2||(',''1'',')::varchar||g_registros2.id_calendario_planificado;
+                 if(v_pos = 0) then
+                                                 
+                 --1.1.4.1)   arma cadena de insercion de atributos (col_semana) 
+                  --         arma cadena de insercion de atributos (id col_semana)             
+                 
+                   
+                   v_consulta1=v_consulta1||','||v_cod||', cp_'||v_cod ;
+                 
+                 
+                 --         arma cadena de insercion de valroes   (valor col_semana)
+                 --         arma cadena de insercion de valroes   (valor id col_semana)
+                 
+                  v_consulta2=v_consulta2||(',''1'',')::varchar||g_registros2.id_calendario_planificado;
    
-   
+                 end IF;  
          
           END LOOP; --FIN DEL SEGUNDO FOR
           

@@ -223,6 +223,26 @@ class MODCalendarioPlanificado extends MODbase{
 		//Devuelve la respuesta
 		return $this->respuesta;
 	}
+	
+	function UpdateCalPla(){
+		//Definicion de variables para ejecucion del procedimiento
+		$this->procedimiento='gem.f_calendario_planificado_ime';
+		$this->transaccion='GEM_UPDCALPLA_IME';
+		$this->tipo_procedimiento='IME';
+				
+		//Define los parametros para la funcion
+		$this->setParametro('fecha_ini','fecha_ini','date');
+        $this->setParametro('recursivo','recursivo','varchar');
+        $this->setParametro('id_calendario_planificado','id_calendario_planificado','int4');
+
+		//Ejecuta la instruccion
+		$this->armarConsulta();
+		$this->ejecutarConsulta();
+
+		//Devuelve la respuesta
+		return $this->respuesta;
+	}
+	
 
 
 			
