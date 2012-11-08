@@ -247,6 +247,28 @@ BEGIN
 			return v_consulta;
 
 		end;
+		
+	/*********************************    
+ 	#TRANSACCION:  'GEM_TUCHIJO_SEL'
+ 	#DESCRIPCION:	Para listar las unidades cosntructivas segun el id_uni_cons_padre de la unidad constructiva
+ 	#AUTOR:			Gonzalo Sarmiento	
+ 	#FECHA:			23-10-2012
+	***********************************/
+	elsif(p_transaccion='GEM_TUCHIJO_SEL')then
+    	begin
+        	v_consulta:='select
+				uni.codigo,
+		    	uni.nombre,
+                uni.id_uni_cons as id_uni_cons_hijo
+				from gem.tuni_cons uni
+            	inner join gem.tuni_cons_comp unicomp on unicomp.id_uni_cons_hijo=uni.id_uni_cons
+            	where unicomp.id_uni_cons_padre='||v_parametros.id_uni_cons||' and unicomp.estado_reg=''activo'' and uni.tipo_nodo=''rama'' ';
+                --Definicion de la respuesta
+			v_consulta:=v_consulta||' order by uni.nombre';
+
+			--Devuelve la respuesta
+			return v_consulta;
+    	end;				
 					
 	else
 					     

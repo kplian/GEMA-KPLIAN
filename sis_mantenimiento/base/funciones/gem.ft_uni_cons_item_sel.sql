@@ -1,4 +1,4 @@
-CREATE OR REPLACE FUNCTION gem.f_tipo_mant_sel (
+﻿CREATE OR REPLACE FUNCTION gem.ft_uni_cons_item_sel (
   p_administrador integer,
   p_id_usuario integer,
   p_tabla varchar,
@@ -8,10 +8,10 @@ RETURNS varchar AS
 $body$
 /**************************************************************************
  SISTEMA:		SISTEMA DE GESTION DE MANTENIMIENTO
- FUNCION: 		gem.f_tipo_mant_sel
- DESCRIPCION:   Funcion que devuelve conjuntos de registros de las consultas relacionadas con la tabla 'gem.ttipo_mant'
- AUTOR: 		 (admin)
- FECHA:	        17-08-2012 12:04:42
+ FUNCION: 		gem.ft_uni_cons_item_sel
+ DESCRIPCION:   Funcion que devuelve conjuntos de registros de las consultas relacionadas con la tabla 'gem.tuni_cons_item'
+ AUTOR: 		 (rac)
+ FECHA:	        01-11-2012 11:53:15
  COMENTARIOS:	
 ***************************************************************************
  HISTORIAL DE MODIFICACIONES:
@@ -30,35 +30,37 @@ DECLARE
 			    
 BEGIN
 
-	v_nombre_funcion = 'gem.f_tipo_mant_sel';
+	v_nombre_funcion = 'gem.ft_uni_cons_item_sel';
     v_parametros = pxp.f_get_record(p_tabla);
 
 	/*********************************    
- 	#TRANSACCION:  'GEM_GETIMA_SEL'
+ 	#TRANSACCION:  'GEM_UNITEM_SEL'
  	#DESCRIPCION:	Consulta de datos
- 	#AUTOR:		admin	
- 	#FECHA:		17-08-2012 12:04:42
+ 	#AUTOR:		rac	
+ 	#FECHA:		01-11-2012 11:53:15
 	***********************************/
 
-	if(p_transaccion='GEM_GETIMA_SEL')then
+	if(p_transaccion='GEM_UNITEM_SEL')then
      				
     	begin
     		--Sentencia de la consulta
 			v_consulta:='select
-						getima.id_tipo_mant,
-						getima.codigo,
-						getima.nombre,
-						getima.estado_reg,
-						getima.id_usuario_reg,
-						getima.fecha_reg,
-						getima.id_usuario_mod,
-						getima.fecha_mod,
+						unitem.id_uni_cons_item,
+						unitem.estado_reg,
+						unitem.id_uni_cons,
+						unitem.id_item,
+                        item.nombre,
+						unitem.fecha_reg,
+						unitem.id_usuario_reg,
+						unitem.fecha_mod,
+						unitem.id_usuario_mod,
 						usu1.cuenta as usr_reg,
 						usu2.cuenta as usr_mod	
-						from gem.ttipo_mant getima
-						inner join segu.tusuario usu1 on usu1.id_usuario = getima.id_usuario_reg
-						left join segu.tusuario usu2 on usu2.id_usuario = getima.id_usuario_mod
-				        where  ';
+						from gem.tuni_cons_item unitem
+						inner join segu.tusuario usu1 on usu1.id_usuario = unitem.id_usuario_reg
+						left join segu.tusuario usu2 on usu2.id_usuario = unitem.id_usuario_mod
+                        inner join alm.titem item on item.id_item=unitem.id_item
+				        where unitem.id_uni_cons='||v_parametros.id_uni_cons||' and ';
 			
 			--Definicion de la respuesta
 			v_consulta:=v_consulta||v_parametros.filtro;
@@ -70,20 +72,20 @@ BEGIN
 		end;
 
 	/*********************************    
- 	#TRANSACCION:  'GEM_GETIMA_CONT'
+ 	#TRANSACCION:  'GEM_UNITEM_CONT'
  	#DESCRIPCION:	Conteo de registros
- 	#AUTOR:		admin	
- 	#FECHA:		17-08-2012 12:04:42
+ 	#AUTOR:		rac	
+ 	#FECHA:		01-11-2012 11:53:15
 	***********************************/
 
-	elsif(p_transaccion='GEM_GETIMA_CONT')then
+	elsif(p_transaccion='GEM_UNITEM_CONT')then
 
 		begin
 			--Sentencia de la consulta de conteo de registros
-			v_consulta:='select count(id_tipo_mant)
-					    from gem.ttipo_mant getima
-					    inner join segu.tusuario usu1 on usu1.id_usuario = getima.id_usuario_reg
-						left join segu.tusuario usu2 on usu2.id_usuario = getima.id_usuario_mod
+			v_consulta:='select count(id_uni_cons_item)
+					    from gem.tuni_cons_item unitem
+					    inner join segu.tusuario usu1 on usu1.id_usuario = unitem.id_usuario_reg
+						left join segu.tusuario usu2 on usu2.id_usuario = unitem.id_usuario_mod
 					    where ';
 			
 			--Definicion de la respuesta		    

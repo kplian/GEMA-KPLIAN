@@ -1,10 +1,10 @@
 <?php
 /**
-*@package pXP
-*@file gen-FuncionesMantenimiento.php
-*@author  (rac)
-*@date 14-06-2012 03:46:45
-*@description Clase que centraliza todos los metodos de todas las clases del Sistema de SISTEMA DE GESTION DE MANTENIMIENTO
+*@package       pXP
+*@file          gen-FuncionesMantenimiento.php
+*@author        (rac)
+*@date          14-06-2012 03:46:45
+*@description   Clase que centraliza todos los metodos de todas las clases del Sistema de SISTEMA DE GESTION DE MANTENIMIENTO
 */
 
 class FuncionesMantenimiento{
@@ -88,7 +88,13 @@ class FuncionesMantenimiento{
 		$res=$obj->listarUniCons();
 		return $res;
 	}
-			
+		
+    function listarUniConsHijo(CTParametro $parametro){
+        $obj=new MODUniCons($parametro);
+        $res=$obj->listarUniConsHijo();
+        return $res;
+    }
+    	
 	function insertarUniCons(CTParametro $parametro){
 		$obj=new MODUniCons($parametro);
 		$res=$obj->insertarUniCons();
@@ -106,8 +112,7 @@ class FuncionesMantenimiento{
 		$res=$obj->setBlockUnblockUniCons();
 		return $res;
 	}
-		
-			
+					
 	function eliminarUniCons(CTParametro $parametro){
 		$obj=new MODUniCons($parametro);
 		$res=$obj->eliminarUniCons();
@@ -247,6 +252,7 @@ class FuncionesMantenimiento{
 		$res=$obj->eliminarEquipoVariable();
 		return $res;
 	}
+    
 	function listarVariables(CTParametro $parametro){
 		$obj=new MODEquipoVariable($parametro);
 		$res=$obj->listarVariables();
@@ -343,28 +349,46 @@ class FuncionesMantenimiento{
 	* Fecha: 28-08-2012 21:50:02
 	* Autor: admin*/
 	function listarDocumento(CTParametro $parametro){
-		$obj=new MODDocumento($parametro);
-		$res=$obj->listarDocumento();
-		return $res;
-	}
-			
-	function insertarDocumento(CTParametro $parametro){
-		$obj=new MODDocumento($parametro);
-		$res=$obj->insertarDocumento();
-		return $res;
-	}
-			
-	function modificarDocumento(CTParametro $parametro){
-		$obj=new MODDocumento($parametro);
-		$res=$obj->modificarDocumento();
-		return $res;
-	}
-			
-	function eliminarDocumento(CTParametro $parametro){
-		$obj=new MODDocumento($parametro);
-		$res=$obj->eliminarDocumento();
-		return $res;
-	}
+        $obj=new MODDocumento($parametro);
+        $res=$obj->listarDocumento();
+        return $res;
+    }
+            
+    function insertarDocumento(CTParametro $parametro){
+        $obj=new MODDocumento($parametro);
+        $res=$obj->insertarDocumento();
+        return $res;
+    }
+            
+    function modificarDocumento(CTParametro $parametro){
+        $obj=new MODDocumento($parametro);
+        $res=$obj->modificarDocumento();
+        return $res;
+    }
+            
+    function eliminarDocumento(CTParametro $parametro){
+        $obj=new MODDocumento($parametro);
+        $res=$obj->eliminarDocumento();
+        return $res;
+    }
+    
+    function subirDocumento(CTParametro $parametro){
+        $obj=new MODDocumento($parametro);
+        $res=$obj->subirDocumento();
+        return $res;
+    }
+    
+    function subirVersionDocumento(CTParametro $parametro){
+        $obj=new MODDocumento($parametro);
+        $res=$obj->subirVersionDocumento();
+        return $res;
+    }
+    
+    function listarVersionDocumento(CTParametro $parametro){
+        $obj = new MODDocumento($parametro);
+        $res = $obj->listarVersionDocumento();
+        return $res;
+    }
 	/*FinClase: MODDocumento*/
 	
 	/*Clase: MODOrdenTrabajo
@@ -423,7 +447,7 @@ class FuncionesMantenimiento{
 	}
 	/*FinClase: MODFuncionarioHonorario*/
 	
-		/*Clase: MODEquipoMedicion
+	/*Clase: MODEquipoMedicion
 	* Fecha: 27-09-2012 03:02:35
 	* Autor: admin*/
 	function listarEquipoMedicion(CTParametro $parametro){
@@ -647,36 +671,23 @@ class FuncionesMantenimiento{
 	}
 	
 	
-	
 	function listarMesesCalendario(CTParametro $parametro){
-		
-		
 		$obj=new MODCalendarioPlanificado($parametro);
-		
 		$res=$obj->listarMesesCalendario();
-		
 		return $res;
 	}
 	
 	function listarMesesCalendarioDet(CTParametro $parametro){
-		
-		
 		$obj=new MODCalendarioPlanificado($parametro);
-		
 		$res=$obj->listarMesesCalendarioDet();
-		
 		return $res;
 	}
 	
 	function listarCalendarioPlanificadoDet(CTParametro $parametro){
-		
-		
 		$obj=new MODCalendarioPlanificado($parametro);
-		
 		$res=$obj->listarCalendarioPlanificadoDet();
-		
 		return $res;
-	}
+	}		
 	
 	function OtenerCalPla(CTParametro $parametro){
 		$obj=new MODCalendarioPlanificado($parametro);
@@ -688,15 +699,9 @@ class FuncionesMantenimiento{
 		$obj=new MODCalendarioPlanificado($parametro);
 		$res=$obj->UpdateCalPla();
 		return $res;
-	}
-	
-	
-	
-	
-	
-	
+	}		
 	/*FinClase: MODCalendarioPlanificado*/
-	
+
 	
 	/*Clase: MODUniConsDet
 	* Fecha: 08-11-2012 21:12:55
@@ -726,8 +731,219 @@ class FuncionesMantenimiento{
 	}
 	/*FinClase: MODUniConsDet*/
 	
-	
-	
 
+	/*Clase: MODIncidenteEquipo
+	* Fecha: 08-11-2012 17:11:08
+	* Autor: admin*/
+	function listarIncidenteEquipo(CTParametro $parametro){
+		$obj=new MODIncidenteEquipo($parametro);
+		$res=$obj->listarIncidenteEquipo();
+		return $res;
+	}
+			
+	function insertarIncidenteEquipo(CTParametro $parametro){
+		$obj=new MODIncidenteEquipo($parametro);
+		$res=$obj->insertarIncidenteEquipo();
+		return $res;
+	}
+			
+	function modificarIncidenteEquipo(CTParametro $parametro){
+		$obj=new MODIncidenteEquipo($parametro);
+		$res=$obj->modificarIncidenteEquipo();
+		return $res;
+	}
+			
+	function eliminarIncidenteEquipo(CTParametro $parametro){
+		$obj=new MODIncidenteEquipo($parametro);
+		$res=$obj->eliminarIncidenteEquipo();
+		return $res;
+	}
+	/*FinClase: MODIncidenteEquipo*/
+	
+	/*Clase: MODPlanMant
+    * Fecha: 12-10-2012 16:15:31
+    * Autor: rac*/
+    function listarPlanMant(CTParametro $parametro){
+        $obj=new MODPlanMant($parametro);
+        $res=$obj->listarPlanMant();
+        return $res;
+    }
+            
+    function insertarPlanMant(CTParametro $parametro){
+        $obj=new MODPlanMant($parametro);
+        $res=$obj->insertarPlanMant();
+        return $res;
+    }
+            
+    function modificarPlanMant(CTParametro $parametro){
+        $obj=new MODPlanMant($parametro);
+        $res=$obj->modificarPlanMant();
+        return $res;
+    }
+            
+    function eliminarPlanMant(CTParametro $parametro){
+        $obj=new MODPlanMant($parametro);
+        $res=$obj->eliminarPlanMant();
+        return $res;
+    }
+    /*FinClase: MODPlanMant*/
+    
+    /*Clase: MODTarea
+    * Fecha: 17-10-2012 18:22:11
+    * Autor: rac*/
+    function listarTarea(CTParametro $parametro){
+        $obj=new MODTarea($parametro);
+        $res=$obj->listarTarea();
+        return $res;
+    }
+            
+    function insertarTarea(CTParametro $parametro){
+        $obj=new MODTarea($parametro);
+        $res=$obj->insertarTarea();
+        return $res;
+    }
+            
+    function modificarTarea(CTParametro $parametro){
+        $obj=new MODTarea($parametro);
+        $res=$obj->modificarTarea();
+        return $res;
+    }
+            
+    function eliminarTarea(CTParametro $parametro){
+        $obj=new MODTarea($parametro);
+        $res=$obj->eliminarTarea();
+        return $res;
+    }
+    /*FinClase: MODTarea*/
+    
+    /*Clase: MODUniConsArchivo
+    * Fecha: 26-10-2012 18:08:27
+    * Autor: rac*/
+    function listarUniConsArchivo(CTParametro $parametro){
+        $obj=new MODUniConsArchivo($parametro);
+        $res=$obj->listarUniConsArchivo();
+        return $res;
+    }
+            
+    function insertarUniConsArchivo(CTParametro $parametro){
+        $obj=new MODUniConsArchivo($parametro);
+        $res=$obj->insertarUniConsArchivo();
+        return $res;
+    }
+            
+    function modificarUniConsArchivo(CTParametro $parametro){
+        $obj=new MODUniConsArchivo($parametro);
+        $res=$obj->modificarUniConsArchivo();
+        return $res;
+    }
+            
+    function eliminarUniConsArchivo(CTParametro $parametro){
+        $obj=new MODUniConsArchivo($parametro);
+        $res=$obj->eliminarUniConsArchivo();
+        return $res;
+    }
+    
+    function subirUniConsArchivo(CTParametro $parametro){
+        $obj=new MODUniConsArchivo($parametro);
+        $res=$obj->subirUniConsArchivo();
+        return $res;
+    }
+    
+    function subirVersionUniConsArchivo(CTParametro $parametro){
+        $obj=new MODUniConsArchivo($parametro);
+        $res=$obj->subirVersionUniConsArchivo();
+        return $res;
+    }
+    
+    function listarVersionArchivo(CTParametro $parametro){
+        $obj = new MODUniConsArchivo($parametro);
+        $res = $obj->listarVersionArchivo();
+        return $res;
+    }
+    /*FinClase: MODUniConsArchivo*/
+    
+    /*Clase: MODUniConsItem
+    * Fecha: 01-11-2012 11:53:15
+    * Autor: rac*/
+    function listarUniConsItem(CTParametro $parametro){
+        $obj=new MODUniConsItem($parametro);
+        $res=$obj->listarUniConsItem();
+        return $res;
+    }
+            
+    function insertarUniConsItem(CTParametro $parametro){
+        $obj=new MODUniConsItem($parametro);
+        $res=$obj->insertarUniConsItem();
+        return $res;
+    }
+            
+    function modificarUniConsItem(CTParametro $parametro){
+        $obj=new MODUniConsItem($parametro);
+        $res=$obj->modificarUniConsItem();
+        return $res;
+    }
+            
+    function eliminarUniConsItem(CTParametro $parametro){
+        $obj=new MODUniConsItem($parametro);
+        $res=$obj->eliminarUniConsItem();
+        return $res;
+    }
+    /*FinClase: MODUniConsItem*/
+    
+    /*Clase: MODUniConsProveedor
+    * Fecha: 01-11-2012 14:45:49
+    * Autor: rac*/
+    function listarUniConsProveedor(CTParametro $parametro){
+        $obj=new MODUniConsProveedor($parametro);
+        $res=$obj->listarUniConsProveedor();
+        return $res;
+    }
+            
+    function insertarUniConsProveedor(CTParametro $parametro){
+        $obj=new MODUniConsProveedor($parametro);
+        $res=$obj->insertarUniConsProveedor();
+        return $res;
+    }
+            
+    function modificarUniConsProveedor(CTParametro $parametro){
+        $obj=new MODUniConsProveedor($parametro);
+        $res=$obj->modificarUniConsProveedor();
+        return $res;
+    }
+            
+    function eliminarUniConsProveedor(CTParametro $parametro){
+        $obj=new MODUniConsProveedor($parametro);
+        $res=$obj->eliminarUniConsProveedor();
+        return $res;
+    }
+    /*FinClase: MODUniConsProveedor*/
+    
+    /*Clase: MODModoFalla
+    * Fecha: 18-10-2012 04:54:08
+    * Autor: Gonzalo Sarmiento Sejas*/
+    function listarModoFalla(CTParametro $parametro){
+        $obj=new MODModoFalla($parametro);
+        $res=$obj->listarModoFalla();
+        return $res;
+    }
+            
+    function insertarModoFalla(CTParametro $parametro){
+        $obj=new MODModoFalla($parametro);
+        $res=$obj->insertarModoFalla();
+        return $res;
+    }
+            
+    function modificarModoFalla(CTParametro $parametro){
+        $obj=new MODModoFalla($parametro);
+        $res=$obj->modificarModoFalla();
+        return $res;
+    }
+            
+    function eliminarModoFalla(CTParametro $parametro){
+        $obj=new MODModoFalla($parametro);
+        $res=$obj->eliminarModoFalla();
+        return $res;
+    }
+    /*FinClase: MODModoFalla*/  
 }//marca_generador
 ?>

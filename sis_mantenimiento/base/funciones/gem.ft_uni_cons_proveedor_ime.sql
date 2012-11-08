@@ -1,4 +1,4 @@
-CREATE OR REPLACE FUNCTION gem.f_tipo_mant_ime (
+﻿CREATE OR REPLACE FUNCTION gem.ft_uni_cons_proveedor_ime (
   p_administrador integer,
   p_id_usuario integer,
   p_tabla varchar,
@@ -8,10 +8,10 @@ RETURNS varchar AS
 $body$
 /**************************************************************************
  SISTEMA:		SISTEMA DE GESTION DE MANTENIMIENTO
- FUNCION: 		gem.f_tipo_mant_ime
- DESCRIPCION:   Funcion que gestiona las operaciones basicas (inserciones, modificaciones, eliminaciones de la tabla 'gem.ttipo_mant'
- AUTOR: 		 (admin)
- FECHA:	        17-08-2012 12:04:42
+ FUNCION: 		gem.ft_uni_cons_proveedor_ime
+ DESCRIPCION:   Funcion que gestiona las operaciones basicas (inserciones, modificaciones, eliminaciones de la tabla 'gem.tuni_cons_proveedor'
+ AUTOR: 		 (rac)
+ FECHA:	        01-11-2012 14:45:49
  COMENTARIOS:	
 ***************************************************************************
  HISTORIAL DE MODIFICACIONES:
@@ -29,45 +29,45 @@ DECLARE
 	v_resp		            varchar;
 	v_nombre_funcion        text;
 	v_mensaje_error         text;
-	v_id_tipo_mant	integer;
+	v_id_uni_cons_proveedor	integer;
 			    
 BEGIN
 
-    v_nombre_funcion = 'gem.f_tipo_mant_ime';
+    v_nombre_funcion = 'gem.ft_uni_cons_proveedor_ime';
     v_parametros = pxp.f_get_record(p_tabla);
 
 	/*********************************    
- 	#TRANSACCION:  'GEM_GETIMA_INS'
+ 	#TRANSACCION:  'GEM_unipro_INS'
  	#DESCRIPCION:	Insercion de registros
- 	#AUTOR:		admin	
- 	#FECHA:		17-08-2012 12:04:42
+ 	#AUTOR:		rac	
+ 	#FECHA:		01-11-2012 14:45:49
 	***********************************/
 
-	if(p_transaccion='GEM_GETIMA_INS')then
+	if(p_transaccion='GEM_unipro_INS')then
 					
         begin
         	--Sentencia de la insercion
-        	insert into gem.ttipo_mant(
-			codigo,
-			nombre,
+        	insert into gem.tuni_cons_proveedor(
 			estado_reg,
+			id_uni_cons,
+			id_proveedor,
 			id_usuario_reg,
 			fecha_reg,
 			id_usuario_mod,
 			fecha_mod
           	) values(
-			v_parametros.codigo,
-			v_parametros.nombre,
-			'activo',
+			v_parametros.estado_reg,
+			v_parametros.id_uni_cons,
+			v_parametros.id_proveedor,
 			p_id_usuario,
 			now(),
 			null,
 			null
-			)RETURNING id_tipo_mant into v_id_tipo_mant;
+			)RETURNING id_uni_cons_proveedor into v_id_uni_cons_proveedor;
                
 			--Definicion de la respuesta
-			v_resp = pxp.f_agrega_clave(v_resp,'mensaje','Tipo de Mantenimiento almacenado(a) con exito (id_tipo_mant'||v_id_tipo_mant||')'); 
-            v_resp = pxp.f_agrega_clave(v_resp,'id_tipo_mant',v_id_tipo_mant::varchar);
+			v_resp = pxp.f_agrega_clave(v_resp,'mensaje','Proveedores del equipo almacenado(a) con exito (id_uni_cons_proveedor'||v_id_uni_cons_proveedor||')'); 
+            v_resp = pxp.f_agrega_clave(v_resp,'id_uni_cons_proveedor',v_id_uni_cons_proveedor::varchar);
 
             --Devuelve la respuesta
             return v_resp;
@@ -75,26 +75,27 @@ BEGIN
 		end;
 
 	/*********************************    
- 	#TRANSACCION:  'GEM_GETIMA_MOD'
+ 	#TRANSACCION:  'GEM_unipro_MOD'
  	#DESCRIPCION:	Modificacion de registros
- 	#AUTOR:		admin	
- 	#FECHA:		17-08-2012 12:04:42
+ 	#AUTOR:		rac	
+ 	#FECHA:		01-11-2012 14:45:49
 	***********************************/
 
-	elsif(p_transaccion='GEM_GETIMA_MOD')then
+	elsif(p_transaccion='GEM_unipro_MOD')then
 
 		begin
 			--Sentencia de la modificacion
-			update gem.ttipo_mant set
-			codigo = v_parametros.codigo,
-			nombre = v_parametros.nombre,
+			update gem.tuni_cons_proveedor set
+			id_uni_cons = v_parametros.id_uni_cons,
+			id_proveedor = v_parametros.id_proveedor,
+            estado_reg=v_parametros.estado_reg,
 			id_usuario_mod = p_id_usuario,
 			fecha_mod = now()
-			where id_tipo_mant=v_parametros.id_tipo_mant;
+			where id_uni_cons_proveedor=v_parametros.id_uni_cons_proveedor;
                
 			--Definicion de la respuesta
-            v_resp = pxp.f_agrega_clave(v_resp,'mensaje','Tipo de Mantenimiento modificado(a)'); 
-            v_resp = pxp.f_agrega_clave(v_resp,'id_tipo_mant',v_parametros.id_tipo_mant::varchar);
+            v_resp = pxp.f_agrega_clave(v_resp,'mensaje','Proveedores del equipo modificado(a)'); 
+            v_resp = pxp.f_agrega_clave(v_resp,'id_uni_cons_proveedor',v_parametros.id_uni_cons_proveedor::varchar);
                
             --Devuelve la respuesta
             return v_resp;
@@ -102,22 +103,22 @@ BEGIN
 		end;
 
 	/*********************************    
- 	#TRANSACCION:  'GEM_GETIMA_ELI'
+ 	#TRANSACCION:  'GEM_unipro_ELI'
  	#DESCRIPCION:	Eliminacion de registros
- 	#AUTOR:		admin	
- 	#FECHA:		17-08-2012 12:04:42
+ 	#AUTOR:		rac	
+ 	#FECHA:		01-11-2012 14:45:49
 	***********************************/
 
-	elsif(p_transaccion='GEM_GETIMA_ELI')then
+	elsif(p_transaccion='GEM_unipro_ELI')then
 
 		begin
 			--Sentencia de la eliminacion
-			delete from gem.ttipo_mant
-            where id_tipo_mant=v_parametros.id_tipo_mant;
+			delete from gem.tuni_cons_proveedor
+            where id_uni_cons_proveedor=v_parametros.id_uni_cons_proveedor;
                
             --Definicion de la respuesta
-            v_resp = pxp.f_agrega_clave(v_resp,'mensaje','Tipo de Mantenimiento eliminado(a)'); 
-            v_resp = pxp.f_agrega_clave(v_resp,'id_tipo_mant',v_parametros.id_tipo_mant::varchar);
+            v_resp = pxp.f_agrega_clave(v_resp,'mensaje','Proveedores del equipo eliminado(a)'); 
+            v_resp = pxp.f_agrega_clave(v_resp,'id_uni_cons_proveedor',v_parametros.id_uni_cons_proveedor::varchar);
               
             --Devuelve la respuesta
             return v_resp;
