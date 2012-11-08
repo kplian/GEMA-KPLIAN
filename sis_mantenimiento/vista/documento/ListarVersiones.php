@@ -15,7 +15,7 @@ Phx.vista.ListarVersiones=Ext.extend(Phx.gridInterfaz,{
     constructor: function(config){
         Phx.vista.ListarVersiones.superclass.constructor.call(this,config);
         this.init();
-        this.load({params:{start:0, limit:50, id_documento: this.id_documento}})
+        //this.load({params:{start:0, limit:50, id_documento: this.id_documento}})
     },
         
     Atributos:[
@@ -61,6 +61,30 @@ Phx.vista.ListarVersiones=Ext.extend(Phx.gridInterfaz,{
         },
         {
             config:{
+                fieldLabel: "Link",
+                gwidth: 130,
+                inputType:'file',
+                name: 'archivo',
+                buttonText: '',   
+                maxLength:150,
+                anchor:'100%',
+                renderer:function (value, p, record){
+                    
+                    if(record.data['extension'].length!=0)
+                    return  String.format('{0}',"<div style='text-align:center'><a href = '../../../sis_mantenimiento/control/documentos/"+ record.data['archivo']+"' align='center' width='70' height='70'>documento</a></div>");
+                },  
+                buttonCfg: {
+                    iconCls: 'upload-icon'
+                }
+            },
+            type:'Field',
+            sortable:false,
+            id_grupo:0,
+            grid:true,
+            form:false
+        },
+        {
+            config:{
                 name: 'resumen',
                 fieldLabel: 'Resumen',
                 allowBlank: true,
@@ -88,7 +112,7 @@ Phx.vista.ListarVersiones=Ext.extend(Phx.gridInterfaz,{
             id_grupo:1,
             grid:true,
             form:true
-        },
+        },        
         {
             config:{
                 name: 'extension',
@@ -118,31 +142,7 @@ Phx.vista.ListarVersiones=Ext.extend(Phx.gridInterfaz,{
             id_grupo:1,
             grid:true,
             form:true
-        },
-        {
-            config:{
-                fieldLabel: "Documento",
-                gwidth: 130,
-                inputType:'file',
-                name: 'archivo',
-                buttonText: '',   
-                maxLength:150,
-                anchor:'100%',
-                renderer:function (value, p, record){
-                    
-                    if(record.data['extension'].length!=0)
-                    return  String.format('{0}',"<div style='text-align:center'><a href = '../../../sis_mantenimiento/control/documentos/"+ record.data['archivo']+"' align='center' width='70' height='70'>documento</a></div>");
-                },  
-                buttonCfg: {
-                    iconCls: 'upload-icon'
-                }
-            },
-            type:'Field',
-            sortable:false,
-            id_grupo:0,
-            grid:true,
-            form:false
-        },
+        },        
         {
             config:{
                 name: 'tipo',
@@ -267,7 +267,21 @@ Phx.vista.ListarVersiones=Ext.extend(Phx.gridInterfaz,{
     bsave:false,
     bnew:false,
     bedit:false,
-    bexcel:false    
+    bexcel:false,
+    
+    onReloadPage:function(m){       
+        this.maestro=m;
+        this.Atributos[1].valorInicial=this.maestro.id_documento;
+        if(m.id != 'id'){
+        this.store.baseParams={id_documento:this.maestro.id_documento};
+        this.load({params:{start:0, limit:50}})       
+       }
+       else{
+         this.grid.getTopToolbar().disable();
+         this.grid.getBottomToolbar().disable(); 
+         this.store.removeAll();            
+       }
+    }   
 }
 )
 </script>

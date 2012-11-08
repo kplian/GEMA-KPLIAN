@@ -35,7 +35,7 @@ Phx.vista.Item=Ext.extend(Phx.gridInterfaz,{
             config:{
                 name:'id_clasificacion',
                 fieldLabel:'Clasificacion',
-                allowBlank:false,
+                allowBlank:true,
                 emptyText:'Clasificacion...',
                 store: new Ext.data.JsonStore({
 

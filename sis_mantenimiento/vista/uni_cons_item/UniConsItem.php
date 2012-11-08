@@ -38,42 +38,7 @@ Phx.vista.UniConsItem=Ext.extend(Phx.gridInterfaz,{
 			form:true 
 		},
 		{
-			config:{				
-			    name:'estado_reg',
-                fieldLabel:'Estado reg.',
-                allowBlank:false,
-                emptyText:'Estado reg...',
-                store: ['activo','inactivo'],
-                valueField: 'estado_reg',
-                displayField: 'estado_reg',
-                forceSelection:true,
-                triggerAction: 'all',
-                lazyRender:true,
-                mode:'local',
-                pageSize:10,
-                width:250,               
-                renderer:function(value, p, record){return String.format('{0}', record.data['estado_reg']);}
-            },
-            type:'ComboBox',
-            id_grupo:0,
-            filters:{   
-                pfiltro:'estado_reg',
-                type:'string'
-            },
-            grid:true,
-            form:true
-		},
-		{
-			config:{
-				name: 'id_uni_cons',
-				labelSeparator:'',
-				inputType:'hidden'				
-			},
-			type:'Field',
-			form:true
-		},
-		{
-		  config:{
+          config:{
                 name:'id_item',
                 fieldLabel:'Item',
                 allowBlank:false,
@@ -115,6 +80,41 @@ Phx.vista.UniConsItem=Ext.extend(Phx.gridInterfaz,{
             grid:true,
             form:true
         },
+		{
+			config:{				
+			    name:'estado_reg',
+                fieldLabel:'Estado reg.',
+                allowBlank:false,
+                emptyText:'Estado reg...',
+                store: ['activo','inactivo'],
+                valueField: 'estado_reg',
+                displayField: 'estado_reg',
+                forceSelection:true,
+                triggerAction: 'all',
+                lazyRender:true,
+                mode:'local',
+                pageSize:10,
+                width:250,               
+                renderer:function(value, p, record){return String.format('{0}', record.data['estado_reg']);}
+            },
+            type:'ComboBox',
+            id_grupo:0,
+            filters:{   
+                pfiltro:'estado_reg',
+                type:'string'
+            },
+            grid:true,
+            form:true
+		},
+		{
+			config:{
+				name: 'id_uni_cons',
+				labelSeparator:'',
+				inputType:'hidden'				
+			},
+			type:'Field',
+			form:true
+		},		
 		{
 			config:{
 				name: 'fecha_reg',

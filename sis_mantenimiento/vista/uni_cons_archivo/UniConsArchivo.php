@@ -23,14 +23,15 @@ Phx.vista.UniConsArchivo=Ext.extend(Phx.gridInterfaz,{
                 disabled : true,
                 handler : SubirArchivo,
                 tooltip : '<b>Upload</b><br/>Subir Archivo'
-        });                
+        });
+        /*                
         this.addButton('btnVersion',{
            text: 'Versiones de archivo',
            iconCls : 'blist',
            disabled: true,
            handler: versionesArchivo,
            tooltip: '<b>Versiones</b><br/>Versiones de Archivo' 
-        });
+        });*/
         
         function SubirArchivo()
         {                   
@@ -39,11 +40,11 @@ Phx.vista.UniConsArchivo=Ext.extend(Phx.gridInterfaz,{
             'Subir Archivo',
             {
                 modal:true,
-                width:400,
+                width:450,
                 height:150
             },rec.data,this.idContenedor,'SubirArchivo')
         }
-        
+        /*
         function versionesArchivo(){
             var rec= this.sm.getSelected();
             Phx.CP.loadWindows('../../../sis_mantenimiento/vista/uni_cons_archivo/ListarVersionesArchivo.php',
@@ -54,7 +55,7 @@ Phx.vista.UniConsArchivo=Ext.extend(Phx.gridInterfaz,{
                 height:400
             },
             rec.data,this.idContenedor,'ListarVersionesArchivo')            
-        }
+        }*/
 	},
 			
 	Atributos:[
@@ -99,6 +100,30 @@ Phx.vista.UniConsArchivo=Ext.extend(Phx.gridInterfaz,{
         },
         {
             config:{
+                fieldLabel: "Link",
+                gwidth: 130,
+                inputType:'file',
+                name: 'archivo',
+                //allowBlank:true,
+                buttonText: '',   
+                maxLength:150,
+                anchor:'100%',
+                renderer:function (value, p, record){  
+                            if(record.data['extension'].length!=0)
+                            return  String.format('{0}',"<div style='text-align:center'><a href = '../../../sis_mantenimiento/control/archivos_uni_cons/"+ record.data['archivo']+"' align='center' width='70' height='70'>documento</a></div>");
+                        },  
+                buttonCfg: {
+                    iconCls: 'upload-icon'
+                }
+            },
+            type:'Field',
+            sortable:false,
+            id_grupo:0,
+            grid:true,
+            form:false
+        },
+        {
+            config:{
                 name: 'codigo',
                 fieldLabel: 'Codigo',
                 allowBlank: true,
@@ -126,7 +151,7 @@ Phx.vista.UniConsArchivo=Ext.extend(Phx.gridInterfaz,{
             id_grupo:1,
             grid:true,
             form:true
-        },
+        },        
 		{
 			config:{
 				name: 'extension',
@@ -186,38 +211,14 @@ Phx.vista.UniConsArchivo=Ext.extend(Phx.gridInterfaz,{
 			id_grupo:1,
 			grid:false,
 			form:false
-		},		
-		{
-            config:{
-                fieldLabel: "Archivo",
-                gwidth: 130,
-                inputType:'file',
-                name: 'archivo',
-                //allowBlank:true,
-                buttonText: '',   
-                maxLength:150,
-                anchor:'100%',
-                renderer:function (value, p, record){  
-                            if(record.data['extension'].length!=0)
-                            return  String.format('{0}',"<div style='text-align:center'><a href = '../../../sis_mantenimiento/control/archivos_uni_cons/"+ record.data['archivo']+"' align='center' width='70' height='70'>documento</a></div>");
-                        },  
-                buttonCfg: {
-                    iconCls: 'upload-icon'
-                }
-            },
-            type:'Field',
-            sortable:false,
-            id_grupo:0,
-            grid:true,
-            form:false
-        },
+		},
 		{
 			config:{
 				name: 'fecha_reg',
 				fieldLabel: 'Fecha creación',
 				allowBlank: true,
 				anchor: '80%',
-				gwidth: 100,
+				//gwidth: 100,
 				//renderer:function (value,p,record){return value?value.dateFormat('d/m/Y h:i:s'):''},
 				format : 'Y-m-d'
 			},
@@ -263,7 +264,7 @@ Phx.vista.UniConsArchivo=Ext.extend(Phx.gridInterfaz,{
 				fieldLabel: 'Fecha Modif.',
 				allowBlank: true,
 				anchor: '80%',
-				gwidth: 109,
+				//gwidth: 109,
 				//renderer:function (value,p,record){return value?value.dateFormat('d/m/Y h:i:s'):''}
 				format:'Y-m-d'
 			},
@@ -306,13 +307,20 @@ Phx.vista.UniConsArchivo=Ext.extend(Phx.gridInterfaz,{
 	preparaMenu:function(tb){
         Phx.vista.UniConsArchivo.superclass.preparaMenu.call(this,tb)
         this.getBoton('btnUpload').enable();
-        this.getBoton('btnVersion').enable();
+        //this.getBoton('btnVersion').enable();
     },
     
     liberaMenu:function(tb){
         Phx.vista.UniConsArchivo.superclass.liberaMenu.call(this,tb)
         this.getBoton('btnUpload').disable();
-        this.getBoton('btnVersion').disable();       
+        //this.getBoton('btnVersion').disable();       
+    },
+    south:{
+          url:'../../../sis_mantenimiento/vista/uni_cons_archivo/ListarVersionesArchivo.php',
+          title:'Versiones de archivo',
+          height:'40%', 
+          width:400,
+          cls:'ListarVersionesArchivo'
     }
 }
 )
