@@ -42,6 +42,37 @@ Phx.vista.UniCons=Ext.extend(Phx.arbInterfaz,{
 			tooltip: '<b>Mediciones/Indicadores</b><br/>Detalle de las mediciones / Indicadores'
 			}
 		);*/
+		this.addButton('btnList',{
+            text :'Tareas',
+            iconCls : 'blist',
+            disabled: true,
+            handler : this.onButtonList,
+            tooltip : '<b>Listar</b><br/><b>Lista las tareas para determinada Uni Cons</b>'
+        });
+        this.addButton('btnUpload',{
+           text :'Upload',
+           iconCls : 'bupload',
+           disabled : true,
+           handler : this.onButtonUpload,
+           tooltip : '<b>Upload</b><br/><b>Subir archivos de Unidades Constructoras</b>'
+        });
+        
+        this.addButton('btnItems',{
+            text : 'Items',
+            iconCls : 'bven1',
+            disabled : true,
+            handler : this.onButtonItems,
+            tooltip : '<b>Items</b><br/><b>Registro de items del equipo</b>'
+        });
+        
+        this.addButton('btnProveedores',{
+            text : 'Proveedores',
+            iconCls : 'bven1',
+            disabled : true,
+            handler : this.onButtonProv,
+            tooltip : '<b>Proveedores</b><br/><b>Registro de proveedores del equipo</b>'
+        });
+		
 		//Incluye un menú
    		this.menuOp = new Ext.Toolbar.SplitButton({
    			text: 'Mediciones/Indicadores',
@@ -345,8 +376,7 @@ Phx.vista.UniCons=Ext.extend(Phx.arbInterfaz,{
 		{name:'fecha_mod', type: 'date', dateFormat:'Y-m-d H:i:s'},
 		{name:'id_usuario_mod', type: 'numeric'},
 		{name:'usr_reg', type: 'string'},
-		{name:'usr_mod', type: 'string'},
-		
+		{name:'usr_mod', type: 'string'}		
 	],
 	sortInfo:{
 		field: 'id_uni_cons',
@@ -391,7 +421,11 @@ Phx.vista.UniCons=Ext.extend(Phx.arbInterfaz,{
 		var tiponodo = n.attributes.tipo_nodo;
 			//si es una nodo tipo carpeta habilitamos la opcion de nuevo	
 			if((tiponodo == 'raiz_borrador' || tiponodo == 'raiz_aprobado' )&& n.attributes.id != 'id'){
-				this.getBoton('btnBlock').enable();
+				this.getBoton('btnBlock').enable();				
+                this.getBoton('btnList').disable();
+                this.getBoton('btnUpload').disable();
+                this.getBoton('btnItems').disable();
+                this.getBoton('btnProveedores').disable();
 				if(tiponodo == 'raiz_aprobado'){
 					this.getBoton('btnBlock').setIconClass('bunlock'); 
 		            this.getBoton('btnBlock').setText( 'Desbloquear' ); 
@@ -406,7 +440,11 @@ Phx.vista.UniCons=Ext.extend(Phx.arbInterfaz,{
 				
 			}
 			else {
-				this.getBoton('btnBlock').disable()
+				this.getBoton('btnBlock').disable();
+				this.getBoton('btnList').enable();
+                this.getBoton('btnUpload').enable();
+                this.getBoton('btnItems').enable();
+                this.getBoton('btnProveedores').enable();
 			}
 			// llamada funcion clace padre
 			Phx.vista.UniCons.superclass.preparaMenu.call(this,n)
@@ -454,6 +492,66 @@ Phx.vista.UniCons=Ext.extend(Phx.arbInterfaz,{
 			});
 		}
 	},
+	
+	onButtonList: function(){          
+        
+            var rec=this.sm.getSelectedNode();
+            var data = rec.attributes;
+            if(data){
+            Phx.CP.loadWindows('../../../sis_mantenimiento/vista/plan_mant/PlanMant.php',
+                    'Plan de Mantenimiento',
+                    {
+                        modal:true,
+                        width:900,
+                        height:400
+                    },
+                    data,this.idContenedor,'PlanMant')
+            }
+    },  
+    
+    onButtonUpload: function(){
+       var rec = this.sm.getSelectedNode();
+       var data = rec.attributes;
+       if(data){
+           Phx.CP.loadWindows('../../../sis_mantenimiento/vista/uni_cons_archivo/UniConsArchivo.php',
+                               'Archivos de Unidades Constructoras',
+                               {
+                                   modal:true,
+                                   width:900,
+                                   height:400
+                               },
+                               data,this.idContenedor,'UniConsArchivo');
+           
+       }  
+    },
+    onButtonItems: function(){
+      var rec = this.sm.getSelectedNode();
+      var data = rec.attributes;
+      if(data){
+          Phx.CP.loadWindows('../../../sis_mantenimiento/vista/uni_cons_item/UniConsItem.php',
+          'Registro de items por equipo',{
+              modal:true,
+              width:900,
+              height:400
+          },
+          data,this.idContenedor,'UniConsItem');
+      }  
+    },
+    
+    onButtonProv : function(){
+       var rec = this.sm.getSelectedNode();
+       var data = rec.attributes;
+       if(data){
+           Phx.CP.loadWindows('../../../sis_mantenimiento/vista/uni_cons_proveedor/UniConsProveedor.php',
+           'Registro de proveedores por equipo',{
+               modal:true,
+               width:900,
+               height:400
+           },
+           data,this.idContenedor,'UniConsProveedor')
+       }    
+    },
+    
 	onMedicionesClick: function(){					
 		var node=this.sm.getSelectedNode();
 		var data =node.attributes;

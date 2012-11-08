@@ -263,6 +263,17 @@ class ACTUniCons extends ACTbase{
 		$this->res->imprimirRespuesta($this->res->generarJson());
 	}
 	/*Fin RCM*/
+	
+	function listarUniConsHijo(){
+        $this->objParam->defecto('ordenacion','id_uni_cons');
+
+        $this->objParam->defecto('dir_ordenacion','asc');
+
+        $this->objFunc=new FuncionesMantenimiento();    
+        $this->res=$this->objFunc->listarUniConsHijo($this->objParam);
+
+        $this->res->imprimirRespuesta($this->res->generarJson());
+    }
 				
 	function insertarUniCons(){
 		$this->objFunc=new FuncionesMantenimiento();	

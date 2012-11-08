@@ -75,17 +75,10 @@ header("content-type:text/javascript; charset=UTF-8");
                 queryDelay:1000,
                 width:260,
                 gwidth:100,
-                minChars:2,
-                turl:'../../../sis_almacenes/vista/item/Almacen.php',
-                ttitle:'Almacenes',
-               // tconfig:{width:1800,height:500},
-                tdata:{},
-                tcls:'almacen',
-                pid:this.idContenedor,
-            
+                
                 renderer:function (value, p, record){return String.format('{0}', record.data['nombre_origen']);}
             },
-            type:'TrigguerCombo',
+            type:'ComboBox',
             //type:'ComboRec',
             id_grupo:0,
             filters:{   
@@ -184,18 +177,10 @@ header("content-type:text/javascript; charset=UTF-8");
                 pageSize:10,
                 queryDelay:1000,
                 width:260,
-                gwidth:100,
-                minChars:2,
-                turl:'../../../sis_almacenes/vista/item/Almacen.php',
-                ttitle:'Almacenes',
-               // tconfig:{width:1800,height:500},
-                tdata:{},
-                tcls:'almacen',
-                pid:this.idContenedor,
-            
+                
                 renderer:function (value, p, record){return String.format('{0}', record.data['nombre_destino']);}
             },
-            type:'TrigguerCombo',
+            type:'ComboBox',
             //type:'ComboRec',
             id_grupo:0,
             filters:{   

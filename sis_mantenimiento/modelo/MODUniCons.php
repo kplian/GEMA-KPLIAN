@@ -97,6 +97,24 @@ class MODUniCons extends MODbase{
 		return $this->respuesta;
 	}
 	/*Fin RCM*/
+	
+	function listarUniConsHijo(){
+        $this->procedimiento='gem.f_uni_cons_sel';
+        $this->transaccion='GEM_TUCHIJO_SEL';
+        $this->tipo_procedimiento='SEL';
+        $this->setCount(false);
+        
+        $this->setParametro('id_uni_cons','id_uni_cons','int4');
+        
+        $this->captura('codigo','varchar');
+        $this->captura('nombre','varchar');
+        $this->captura('id_uni_cons_hijo','int4');
+        
+        $this->armarConsulta();
+        $this->ejecutarConsulta();
+        
+        return $this->respuesta;        
+    }
 			
 	function insertarUniCons(){
 		//Definicion de variables para ejecucion del procedimiento
