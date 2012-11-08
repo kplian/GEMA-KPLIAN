@@ -31,7 +31,7 @@ DECLARE
 BEGIN
 
 	v_nombre_funcion = 'gem.f_metodologia_sel';
-    v_parametros = f_get_record(p_tabla);
+    v_parametros = pxp.f_get_record(p_tabla);
 
 	/*********************************    
  	#TRANSACCION:  'GEM_GEMETO_SEL'
@@ -104,9 +104,9 @@ EXCEPTION
 					
 	WHEN OTHERS THEN
 			v_resp='';
-			v_resp = f_agrega_clave(v_resp,'mensaje',SQLERRM);
-			v_resp = f_agrega_clave(v_resp,'codigo_error',SQLSTATE);
-			v_resp = f_agrega_clave(v_resp,'procedimientos',v_nombre_funcion);
+			v_resp = pxp.f_agrega_clave(v_resp,'mensaje',SQLERRM);
+			v_resp = pxp.f_agrega_clave(v_resp,'codigo_error',SQLSTATE);
+			v_resp = pxp.f_agrega_clave(v_resp,'procedimientos',v_nombre_funcion);
 			raise exception '%',v_resp;
 END;
 $body$
