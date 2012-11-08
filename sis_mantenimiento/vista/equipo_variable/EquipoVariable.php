@@ -20,6 +20,8 @@ Phx.vista.EquipoVariable=Ext.extend(Phx.gridInterfaz,{
 		this.grid.getTopToolbar().disable();
 		this.grid.getBottomToolbar().disable();
 		
+		this.iniciarEventos();
+		
 		
 	},
 			
@@ -62,7 +64,7 @@ Phx.vista.EquipoVariable=Ext.extend(Phx.gridInterfaz,{
 	    						direction: 'ASC'
 	    					},
 	    					totalProperty: 'total',
-	    					fields: ['id_tipo_variable','nombre','descripcion','codigo_unidad_medida'],
+	    					fields: ['id_tipo_variable','nombre','descripcion','codigo_unidad_medida','id_unidad_medida'],
 	    					// turn on remote sorting
 	    					remoteSort: true,
 	    					baseParams:{par_filtro:'tva.nombre#tva.descripcion'}
@@ -92,21 +94,52 @@ Phx.vista.EquipoVariable=Ext.extend(Phx.gridInterfaz,{
 	       			form:true
 	       	},
 	       	{
-			config:{
-				name: 'codigo_unidad_medida',
-				fieldLabel: 'Unidad',
-				allowBlank: true,
-				anchor: '80%',
-				gwidth: 100,
-				maxLength:4,
-				disabled:true
-			},
-			type:'Field',
-			filters:{pfiltro:'um.codigo',type:'string'},
-			id_grupo:1,
-			grid:true,
-			form:true
-		},
+       			config:{
+       				name:'id_unidad_medida',
+       				fieldLabel:'Unidad de Medida',
+       				allowBlank:false,
+       				emptyText:'Unidades...',
+       				store: new Ext.data.JsonStore({
+    					url: '../../sis_parametros/control/UnidadMedida/listarUnidadMedida',
+    					id: 'id_unidad_medida',
+    					root: 'datos',
+    					sortInfo:{
+    						field: 'codigo',
+    						direction: 'ASC'
+    					},
+    					totalProperty: 'total',
+    					fields: ['id_unidad_medida','codigo','descripcion'],
+      					// turn on remote sorting
+    					remoteSort: true,
+    					baseParams:{par_filtro:'codigo#descripcion'}
+    				}),
+    				tpl:'<tpl for="."><div class="x-combo-list-item"><p>{codigo} - {descripcion} </p></div></tpl>',
+	       			
+       				valueField: 'id_unidad_medida',
+       				displayField: 'codigo',
+       				gdisplayField: 'codigo_unidad_medida',
+       				hiddenName: 'id_unidad_medida',
+       				//forceSelection:false,
+       				typeAhead: true,
+           			triggerAction: 'all',
+           			lazyRender:true,
+       				mode:'remote',
+       				pageSize:10,
+       				queryDelay:1000,
+       				width:150,
+       				minChars:2,
+       				minListWidth:300,
+       				renderer:function(value, p, record){return String.format('{0}', record.data['codigo_unidad_medida']);}
+
+       			},
+       			type:'ComboBox',
+       			id_grupo:0,
+       			filters:{   pfiltro:'um.codigo',
+       						type:'string'
+       					},
+       			grid:true,
+       			form:true
+       	},
 		{
 			config:{
 				name: 'valor_min',
@@ -234,14 +267,13 @@ Phx.vista.EquipoVariable=Ext.extend(Phx.gridInterfaz,{
 	id_store:'id_equipo_variable',
 	
 	onReloadPage:function(m){
-
-       
-		this.maestro=m;
+        this.maestro=m;
 		this.Atributos[1].valorInicial=this.maestro.id_uni_cons;
 		
 		var cmb = this.getComponente('id_tipo_variable');
 		cmb.store.baseParams.id_tipo_equipo = this.maestro.id_tipo_equipo;
-
+		
+		
         cmb.modificado=true;
  
 		// this.Atributos.config['id_subsistema'].setValue(this.maestro.id_subsistema);
@@ -263,7 +295,7 @@ Phx.vista.EquipoVariable=Ext.extend(Phx.gridInterfaz,{
 
 
 	},
-	fields: ['codigo_unidad_medida','nombre_tipo_variable',
+	fields: ['codigo_unidad_medida','id_unidad_medida','nombre_tipo_variable',
 		{name:'id_equipo_variable', type: 'numeric'},
 		{name:'estado_reg', type: 'string'},
 		{name:'valor_max', type: 'numeric'},
@@ -279,6 +311,30 @@ Phx.vista.EquipoVariable=Ext.extend(Phx.gridInterfaz,{
 		{name:'usr_mod', type: 'string'},
 		
 	],
+		iniciarEventos:function(){
+			
+			var cmbUM = this.getComponente('id_unidad_medida');
+		
+			this.getComponente('id_tipo_variable').on('beforeselect',function(combo,record,index){
+				
+				console.log(combo,record,index)
+					cmbUM.setValue(record.data.id_unidad_medida);
+					cmbUM.setRawValue(record.data.codigo_unidad_medida);
+				    
+				
+			},this)
+		
+		
+		
+		
+	},
+	agregarArgsExtraSubmit: function(){
+		//Inicializa el objeto de los argumentos extra
+		this.argumentExtraSubmit={};
+    	this.argumentExtraSubmit.id_tipo_equipo=this.maestro.id_tipo_equipo;
+	},
+	
+	
 	sortInfo:{
 		field: 'id_equipo_variable',
 		direction: 'ASC'

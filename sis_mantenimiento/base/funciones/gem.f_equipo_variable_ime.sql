@@ -1,3 +1,5 @@
+--------------- SQL ---------------
+
 CREATE OR REPLACE FUNCTION gem.f_equipo_variable_ime (
   p_administrador integer,
   p_id_usuario integer,
@@ -30,6 +32,8 @@ DECLARE
 	v_nombre_funcion        text;
 	v_mensaje_error         text;
 	v_id_equipo_variable	integer;
+    
+    v_id_tipo_variable  integer;
 			    
 BEGIN
 
@@ -46,6 +50,62 @@ BEGIN
 	if(p_transaccion='GEM_EQV_INS')then
 					
         begin
+        
+      
+         --  verifica si es necesario insertar un tipo variable
+         
+         IF (pxp.f_existe_parametro(p_tabla,'nombre_tipo_variable')) THEN
+                            
+             --verifie if "tipo_equipo" don't exist    
+              
+             if v_parametros.id_tipo_variable is null and v_parametros.nombre_tipo_variable  != '' then
+                 --search for other sames
+                
+             
+                 select teq.id_tipo_variable into v_id_tipo_variable  
+                 from gem.ttipo_variable  teq 
+                 where teq.nombre ilike v_parametros.nombre_tipo_variable
+                       and teq.id_unidad_medida = v_parametros.id_unidad_medida 
+                       and teq.estado_reg='activo' limit 1 offset 0;
+                 
+                        if v_id_tipo_variable is null then
+                           
+                           --insert new "tipo_variable"
+                           
+                          INSERT INTO 
+                            gem.ttipo_variable
+                          (
+                            id_usuario_reg,
+                            fecha_reg,
+                            estado_reg,
+                           id_tipo_equipo,
+                            id_unidad_medida,
+                            nombre,
+                            descripcion
+                          ) 
+                          VALUES (
+                            p_id_usuario,
+                            now(),
+                            'activo',
+                            v_parametros.id_tipo_equipo,
+                            v_parametros.id_unidad_medida,
+                            v_parametros.nombre_tipo_variable,
+                            'reg indirecto'
+                          )RETURNING id_tipo_variable into v_id_tipo_variable;  
+                     
+                         
+                         end if;
+              else
+                   v_id_tipo_variable = v_parametros.id_tipo_variable;                   
+              end IF;
+       else
+          v_id_tipo_variable = v_parametros.id_tipo_variable;                   
+       END IF;
+            
+    
+    raise notice 'TIPO_VARIABLE %',  v_id_tipo_variable;
+    
+        --------------------------------
         	--Sentencia de la insercion
         	insert into gem.tequipo_variable(
 			estado_reg,
@@ -64,7 +124,7 @@ BEGIN
 			v_parametros.id_uni_cons,
 			v_parametros.obs,
 			v_parametros.valor_min,
-			v_parametros.id_tipo_variable,
+			v_id_tipo_variable,
 			p_id_usuario,
 			now(),
 			null,
@@ -90,13 +150,67 @@ BEGIN
 	elsif(p_transaccion='GEM_EQV_MOD')then
 
 		begin
+        
+            --  verifica si es necesario insertar un tipo variable
+         
+         IF (pxp.f_existe_parametro(p_tabla,'nombre_tipo_variable')) THEN
+                            
+             --verifie if "tipo_equipo" don't exist    
+              
+             if v_parametros.id_tipo_variable is null and v_parametros.nombre_tipo_variable  != '' then
+                 --search for other sames
+               
+             
+                 select teq.id_tipo_variable into v_id_tipo_variable  
+                 from gem.ttipo_variable  teq 
+                 where teq.nombre ilike v_parametros.nombre_tipo_variable
+                       and teq.id_unidad_medida = v_parametros.id_unidad_medida 
+                       and teq.estado_reg='activo' limit 1 offset 0;
+                 
+                        if v_id_tipo_variable is null then
+                           
+                           --insert new "tipo_variable"
+                           
+                          INSERT INTO 
+                            gem.ttipo_variable
+                          (
+                            id_usuario_reg,
+                            fecha_reg,
+                            estado_reg,
+                           id_tipo_equipo,
+                            id_unidad_medida,
+                            nombre,
+                            descripcion
+                          ) 
+                          VALUES (
+                            p_id_usuario,
+                            now(),
+                            'activo',
+                            v_parametros.id_tipo_equipo,
+                            v_parametros.id_unidad_medida,
+                            v_parametros.nombre_tipo_variable,
+                            'reg indirecto'
+                          )RETURNING id_tipo_variable into v_id_tipo_variable;  
+                     
+                         
+                         end if;
+              else
+                   v_id_tipo_variable = v_parametros.id_tipo_variable;                   
+              end IF;
+       else
+          v_id_tipo_variable = v_parametros.id_tipo_variable;                   
+       END IF;
+        
+       
+      
+        
 			--Sentencia de la modificacion
 			update gem.tequipo_variable set
 			valor_max = v_parametros.valor_max,
 			id_uni_cons = v_parametros.id_uni_cons,
 			obs = v_parametros.obs,
 			valor_min = v_parametros.valor_min,
-			id_tipo_variable = v_parametros.id_tipo_variable,
+			id_tipo_variable = v_id_tipo_variable,
 			id_usuario_mod = p_id_usuario,
 			fecha_mod = now()
 			where id_equipo_variable=v_parametros.id_equipo_variable;
