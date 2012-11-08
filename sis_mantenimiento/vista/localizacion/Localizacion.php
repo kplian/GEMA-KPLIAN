@@ -327,7 +327,7 @@ Phx.vista.Localizacion=Ext.extend(Phx.arbInterfaz,{
 	
 	onAddUniCons:function(){
 		
-		if (this.formUCCL.getForm().isValid()) {
+		if (this.formUC.getForm().isValid()) {
 			 Phx.CP.loadingShow();
 			
 			 var nodo = this.sm.getSelectedNode();
@@ -382,6 +382,8 @@ Phx.vista.Localizacion=Ext.extend(Phx.arbInterfaz,{
 		}
 		else{
 			this.wUC.hide();
+			var nodo = this.sm.getSelectedNode();
+			nodo.reload();
 		}
 		
 	},
