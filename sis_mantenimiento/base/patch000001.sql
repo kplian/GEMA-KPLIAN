@@ -610,6 +610,29 @@ ALTER TABLE orga.ttipo_horario OWNER TO postgres;
 
 
 /*
+
+RAC
+8/11/2012
+
+modificacion de columnas tipo variable para evitar datos nulos
+
+
+
+*/
+--------------- SQL ---------------
+
+ALTER TABLE gem.ttipo_variable
+  ALTER COLUMN id_tipo_equipo SET NOT NULL;
+  
+--------------- SQL ---------------
+
+ALTER TABLE gem.ttipo_variable
+  ALTER COLUMN id_unidad_medida SET NOT NULL;  
+  
+  
+  
+
+/*
 *	Author: RCM
 *	Date: 03/11/2012
 *	Description: Build the menu definition and the composition
