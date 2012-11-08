@@ -1,8 +1,11 @@
-CREATE OR REPLACE FUNCTION "gem"."ft_documento_ime" (	
-				p_administrador integer, p_id_usuario integer, p_tabla character varying, p_transaccion character varying)
-RETURNS character varying AS
-$BODY$
-
+CREATE OR REPLACE FUNCTION gem.ft_documento_ime (
+  p_administrador integer,
+  p_id_usuario integer,
+  p_tabla varchar,
+  p_transaccion varchar
+)
+RETURNS varchar AS
+$body$
 /**************************************************************************
  SISTEMA:		SISTEMA DE GESTION DE MANTENIMIENTO
  FUNCION: 		gem.ft_documento_ime
@@ -26,7 +29,8 @@ DECLARE
 	v_resp		            varchar;
 	v_nombre_funcion        text;
 	v_mensaje_error         text;
-	v_id_documento	integer;
+	v_id_documento			integer;
+    v_transferencia			record;
 			    
 BEGIN
 
@@ -49,7 +53,6 @@ BEGIN
 			codigo,
 			resumen,
 			nombre_archivo,
-			extension,
 			palabras_clave,
 			estado_reg,
 			fecha_reg,
@@ -61,7 +64,6 @@ BEGIN
 			v_parametros.codigo,
 			v_parametros.resumen,
 			v_parametros.nombre_archivo,
-			v_parametros.extension,
 			v_parametros.palabras_clave,
 			'activo',
 			now(),
@@ -95,7 +97,6 @@ BEGIN
 			codigo = v_parametros.codigo,
 			resumen = v_parametros.resumen,
 			nombre_archivo = v_parametros.nombre_archivo,
-			extension = v_parametros.extension,
 			palabras_clave = v_parametros.palabras_clave,
 			fecha_mod = now(),
 			id_usuario_mod = p_id_usuario
@@ -132,7 +133,54 @@ BEGIN
             return v_resp;
 
 		end;
-         
+     elsif(p_transaccion='GEM_UPDOCU_MOD')then
+     	begin
+        	update gem.tdocumento set
+            archivo=v_parametros.archivo,
+            extension=v_parametros.extension
+            where id_documento=v_parametros.id_documento;
+            
+             v_resp = pxp.f_agrega_clave(v_resp,'mensaje','Documento modificado con exito '||v_parametros.id_documento); 
+             v_resp = pxp.f_agrega_clave(v_resp,'id_documento',v_parametros.id_documento::varchar);
+             
+             return v_resp;
+        end;
+     elsif(p_transaccion='GEM_UPDOCVER_MOD')then
+     	begin
+			select * into v_transferencia from gem.tdocumento doc where doc.id_documento=v_parametros.id_documento;         	
+            insert into gem.tdocumento(
+            id_documento_padre, codigo,
+            nombre, nombre_archivo,
+            resumen, extension,
+            palabras_clave, archivo,
+            tipo,
+            id_usuario_reg,
+            fecha_reg,
+            estado_reg
+            )values(
+            v_transferencia.id_documento,
+            v_transferencia.codigo,
+            v_transferencia.nombre,
+            v_transferencia.nombre_archivo,
+            v_transferencia.resumen,
+            v_transferencia.extension,
+            v_transferencia.palabras_clave,
+            v_transferencia.archivo,
+            'hijo',            
+            p_id_usuario,
+            now(),
+			'activo'
+            );
+            
+            update gem.tdocumento set
+            extension=v_parametros.extension,
+            archivo=v_parametros.archivo
+            where id_documento=v_parametros.id_documento;
+            
+            v_resp=pxp.f_agrega_clave(v_resp,'mensaje','Documento versionado con exito');
+            v_resp=pxp.f_agrega_clave(v_resp,'id_documento',v_parametros.id_documento::varchar);
+            return v_resp;            
+        end;         
 	else
      
     	raise exception 'Transaccion inexistente: %',p_transaccion;
@@ -149,7 +197,9 @@ EXCEPTION
 		raise exception '%',v_resp;
 				        
 END;
-$BODY$
-LANGUAGE 'plpgsql' VOLATILE
+$body$
+LANGUAGE 'plpgsql'
+VOLATILE
+CALLED ON NULL INPUT
+SECURITY INVOKER
 COST 100;
-ALTER FUNCTION "gem"."ft_documento_ime"(integer, integer, character varying, character varying) OWNER TO postgres;

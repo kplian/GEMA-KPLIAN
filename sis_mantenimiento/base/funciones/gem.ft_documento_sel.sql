@@ -1,7 +1,11 @@
-CREATE OR REPLACE FUNCTION "gem"."ft_documento_sel"(	
-				p_administrador integer, p_id_usuario integer, p_tabla character varying, p_transaccion character varying)
-RETURNS character varying AS
-$BODY$
+CREATE OR REPLACE FUNCTION gem.ft_documento_sel (
+  p_administrador integer,
+  p_id_usuario integer,
+  p_tabla varchar,
+  p_transaccion varchar
+)
+RETURNS varchar AS
+$body$
 /**************************************************************************
  SISTEMA:		SISTEMA DE GESTION DE MANTENIMIENTO
  FUNCION: 		gem.ft_documento_sel
@@ -47,8 +51,10 @@ BEGIN
 						gedocu.resumen,
 						gedocu.nombre_archivo,
 						gedocu.extension,
+                        gedocu.archivo,
 						gedocu.palabras_clave,
-						gedocu.estado_reg,
+                        gedocu.tipo,
+						gedocu.estado_reg,                        
 						gedocu.id_documento_padre,
 						gedocu.fecha_reg,
 						gedocu.id_usuario_reg,
@@ -59,7 +65,7 @@ BEGIN
 						from gem.tdocumento gedocu
 						inner join segu.tusuario usu1 on usu1.id_usuario = gedocu.id_usuario_reg
 						left join segu.tusuario usu2 on usu2.id_usuario = gedocu.id_usuario_mod
-				        where  ';
+				        where gedocu.id_documento_padre is NULL and ';
 			
 			--Definicion de la respuesta
 			v_consulta:=v_consulta||v_parametros.filtro;
@@ -69,6 +75,39 @@ BEGIN
 			return v_consulta;
 						
 		end;
+    
+    elsif(p_transaccion='GEM_GEDOCUVER_SEL')then
+    	begin
+        	v_consulta:='select
+						gedocu.id_documento,
+						gedocu.nombre,
+						gedocu.codigo,
+						gedocu.resumen,
+						gedocu.nombre_archivo,
+						gedocu.extension,
+                        gedocu.archivo,
+						gedocu.palabras_clave,
+                        gedocu.tipo,
+						gedocu.estado_reg,                        
+						gedocu.id_documento_padre,
+						gedocu.fecha_reg,
+						gedocu.id_usuario_reg,
+						gedocu.fecha_mod,
+						gedocu.id_usuario_mod,
+						usu1.cuenta as usr_reg,
+						usu2.cuenta as usr_mod	
+						from gem.tdocumento gedocu
+						inner join segu.tusuario usu1 on usu1.id_usuario = gedocu.id_usuario_reg
+						left join segu.tusuario usu2 on usu2.id_usuario = gedocu.id_usuario_mod
+				        where gedocu.id_documento_padre='||v_parametros.id_documento|| ' and ';
+                        
+            --Definicion de la respuesta
+			v_consulta:=v_consulta||v_parametros.filtro;
+			v_consulta:=v_consulta||' order by ' ||v_parametros.ordenacion|| ' ' || v_parametros.dir_ordenacion || ' limit ' || v_parametros.cantidad || ' offset ' || v_parametros.puntero;
+
+			--Devuelve la respuesta
+			return v_consulta;
+        end;
 
 	/*********************************    
  	#TRANSACCION:  'GEM_GEDOCU_CONT'
@@ -110,7 +149,9 @@ EXCEPTION
 			v_resp = pxp.f_agrega_clave(v_resp,'procedimientos',v_nombre_funcion);
 			raise exception '%',v_resp;
 END;
-$BODY$
-LANGUAGE 'plpgsql' VOLATILE
+$body$
+LANGUAGE 'plpgsql'
+VOLATILE
+CALLED ON NULL INPUT
+SECURITY INVOKER
 COST 100;
-ALTER FUNCTION "gem"."ft_documento_sel"(integer, integer, character varying, character varying) OWNER TO postgres;
