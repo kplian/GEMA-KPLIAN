@@ -698,6 +698,36 @@ class FuncionesMantenimiento{
 	/*FinClase: MODCalendarioPlanificado*/
 	
 	
+	/*Clase: MODUniConsDet
+	* Fecha: 08-11-2012 21:12:55
+	* Autor: admin*/
+	function listarUniConsDet(CTParametro $parametro){
+		$obj=new MODUniConsDet($parametro);
+		$res=$obj->listarUniConsDet();
+		return $res;
+	}
+			
+	function insertarUniConsDet(CTParametro $parametro){
+		$obj=new MODUniConsDet($parametro);
+		$res=$obj->insertarUniConsDet();
+		return $res;
+	}
+			
+	function modificarUniConsDet(CTParametro $parametro){
+		$obj=new MODUniConsDet($parametro);
+		$res=$obj->modificarUniConsDet();
+		return $res;
+	}
+			
+	function eliminarUniConsDet(CTParametro $parametro){
+		$obj=new MODUniConsDet($parametro);
+		$res=$obj->eliminarUniConsDet();
+		return $res;
+	}
+	/*FinClase: MODUniConsDet*/
+	
+	
+	
 
 }//marca_generador
 ?>

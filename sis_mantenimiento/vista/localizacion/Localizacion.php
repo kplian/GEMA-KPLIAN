@@ -335,7 +335,7 @@ Phx.vista.Localizacion=Ext.extend(Phx.arbInterfaz,{
 			 var cmbUC =this.formUC.getForm().findField('id_uni_cons');
 	         var codigo =this.formUC.getForm().findField('codigo_uni_cons');
 	         
-	       
+	       console.log(nodo.attributes.id_localizacion);
 			
 			 Ext.Ajax.request({
 	                    form: this.form.getForm().getEl(),
@@ -409,8 +409,7 @@ Phx.vista.Localizacion=Ext.extend(Phx.arbInterfaz,{
 						width:800,
 						height:400
 				    },nodo.attributes,this.idContenedor,'gridCalendario')
-				    
-	console.log('mostrar caelndario') 
+	
 	
 	},
 	

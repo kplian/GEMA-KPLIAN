@@ -13,14 +13,16 @@ header("content-type: text/javascript; charset=UTF-8");
 Phx.vista.EquipoVariable=Ext.extend(Phx.gridInterfaz,{
 
 	constructor:function(config){
-		this.maestro=config.maestro;
+		this.maestro=config;
     	//llama al constructor de la clase padre
 		Phx.vista.EquipoVariable.superclass.constructor.call(this,config);
 		this.init();
-		this.grid.getTopToolbar().disable();
-		this.grid.getBottomToolbar().disable();
+		//this.grid.getTopToolbar().disable();
+		//this.grid.getBottomToolbar().disable();
 		
 		this.iniciarEventos();
+		this.onReloadPage(this.maestro)
+		
 		
 		
 	},
@@ -344,5 +346,4 @@ Phx.vista.EquipoVariable=Ext.extend(Phx.gridInterfaz,{
 	}
 )
 </script>
-		
 		

@@ -33,6 +33,16 @@ Phx.vista.UniCons=Ext.extend(Phx.arbInterfaz,{
 				handler : this.onBtnBlock,
 				tooltip : '<b>Bloquear</b><br/>Bloquea la edición del equipo'
 			});
+			
+			
+		//para definir atributos del equipo	
+		this.addButton('btnAtrib', {
+				text : 'Atributos',
+				iconCls : 'blist',
+				disabled : false,
+				handler : this.onBtnAtribPlan,
+				tooltip : '<b>Atributos de la plantilla</b><br/>Definir atributos de la plantilla'
+			});
 		
 		/*this.addButton('btn_MedicionGraf',{
 			text:'Mediciones/Indicadores',
@@ -66,10 +76,10 @@ Phx.vista.UniCons=Ext.extend(Phx.arbInterfaz,{
 		
     	
     	// initButtons:[this.cmbTipo],
-		this.tbar.add('->');
+		/*this.tbar.add('->');
    		this.tbar.add(' Filtrar:');
    		this.tbar.add(this.datoFiltro);
-   		
+   		*/
    		
    		
    		this.loaderTree.baseParams={tipo:'tuc'};
@@ -454,6 +464,19 @@ Phx.vista.UniCons=Ext.extend(Phx.arbInterfaz,{
 			});
 		}
 	},
+	
+	onBtnAtribPlan:function(){
+		var nodo = this.sm.getSelectedNode();
+           Phx.CP.loadWindows('../../../sis_mantenimiento/vista/equipo_variable/EquipoVariable.php',
+					'Calendario de Planificacion',
+					{
+						width:800,
+						height:400
+				    },nodo.attributes,this.idContenedor,'EquipoVariable')
+		
+		
+	},
+	
 	onMedicionesClick: function(){					
 		var node=this.sm.getSelectedNode();
 		var data =node.attributes;
@@ -504,10 +527,10 @@ Phx.vista.UniCons=Ext.extend(Phx.arbInterfaz,{
 		},
 	
     	east:{
-		  url:'../../../sis_mantenimiento/vista/equipo_variable/EquipoVariable.php',
+		  url:'../../../sis_mantenimiento/vista/uni_cons_det/UniConsDet.php',
 		  title:'Variables del Equipo', 
 		  width:400,
-		  cls:'EquipoVariable'
+		  cls:'UniConsDet'
 		 }
 	
 	
