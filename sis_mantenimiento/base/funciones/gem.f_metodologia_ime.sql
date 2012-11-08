@@ -35,7 +35,7 @@ DECLARE
 BEGIN
 
     v_nombre_funcion = 'gem.f_metodologia_ime';
-    v_parametros = f_get_record(p_tabla);
+    v_parametros = pxp.f_get_record(p_tabla);
 
 	/*********************************    
  	#TRANSACCION:  'GEM_GEMETO_INS'
@@ -67,8 +67,8 @@ BEGIN
 			)RETURNING id_metodologia into v_id_metodologia;
                
 			--Definicion de la respuesta
-			v_resp = f_agrega_clave(v_resp,'mensaje','Metodologías de Mantenimiento almacenado(a) con exito (id_metodologia'||v_id_metodologia||')'); 
-            v_resp = f_agrega_clave(v_resp,'id_metodologia',v_id_metodologia::varchar);
+			v_resp = pxp.f_agrega_clave(v_resp,'mensaje','Metodologías de Mantenimiento almacenado(a) con exito (id_metodologia'||v_id_metodologia||')'); 
+            v_resp = pxp.f_agrega_clave(v_resp,'id_metodologia',v_id_metodologia::varchar);
 
             --Devuelve la respuesta
             return v_resp;
@@ -95,8 +95,8 @@ BEGIN
 			where id_metodologia=v_parametros.id_metodologia;
                
 			--Definicion de la respuesta
-            v_resp = f_agrega_clave(v_resp,'mensaje','Metodologías de Mantenimiento modificado(a)'); 
-            v_resp = f_agrega_clave(v_resp,'id_metodologia',v_parametros.id_metodologia::varchar);
+            v_resp = pxp.f_agrega_clave(v_resp,'mensaje','Metodologías de Mantenimiento modificado(a)'); 
+            v_resp = pxp.f_agrega_clave(v_resp,'id_metodologia',v_parametros.id_metodologia::varchar);
                
             --Devuelve la respuesta
             return v_resp;
@@ -118,8 +118,8 @@ BEGIN
             where id_metodologia=v_parametros.id_metodologia;
                
             --Definicion de la respuesta
-            v_resp = f_agrega_clave(v_resp,'mensaje','Metodologías de Mantenimiento eliminado(a)'); 
-            v_resp = f_agrega_clave(v_resp,'id_metodologia',v_parametros.id_metodologia::varchar);
+            v_resp = pxp.f_agrega_clave(v_resp,'mensaje','Metodologías de Mantenimiento eliminado(a)'); 
+            v_resp = pxp.f_agrega_clave(v_resp,'id_metodologia',v_parametros.id_metodologia::varchar);
               
             --Devuelve la respuesta
             return v_resp;
@@ -136,9 +136,9 @@ EXCEPTION
 				
 	WHEN OTHERS THEN
 		v_resp='';
-		v_resp = f_agrega_clave(v_resp,'mensaje',SQLERRM);
-		v_resp = f_agrega_clave(v_resp,'codigo_error',SQLSTATE);
-		v_resp = f_agrega_clave(v_resp,'procedimientos',v_nombre_funcion);
+		v_resp = pxp.f_agrega_clave(v_resp,'mensaje',SQLERRM);
+		v_resp = pxp.f_agrega_clave(v_resp,'codigo_error',SQLSTATE);
+		v_resp = pxp.f_agrega_clave(v_resp,'procedimientos',v_nombre_funcion);
 		raise exception '%',v_resp;
 				        
 END;
