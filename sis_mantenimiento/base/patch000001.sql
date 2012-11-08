@@ -216,6 +216,25 @@ CREATE TABLE gem.tfalla (
 ) INHERITS (pxp.tbase)
 WITHOUT OIDS;
 ALTER TABLE gem.tfalla OWNER TO postgres;
+
+CREATE TABLE gem.tincidente_equipo(
+  id_incidente_equipo  SERIAL NOT NULL,
+  id_uni_cons int4,
+  id_falla_evento int4 NOT NULL,
+  descripcion varchar(2000),
+  fecha_desde timestamp,
+  fecha_hasta timestamp,
+  PRIMARY KEY (id_incidente_equipo),
+  CONSTRAINT fk_tincidente_equipo__id_uni_cons FOREIGN KEY (id_uni_cons)
+      REFERENCES gem.tuni_cons (id_uni_cons) MATCH SIMPLE
+      ON UPDATE NO ACTION ON DELETE NO ACTION,
+  CONSTRAINT fk_tincidente_equipo__id_falla_evento FOREIGN KEY (id_falla_evento)
+      REFERENCES gem.tfalla_evento (id_falla_evento) MATCH SIMPLE
+      ON UPDATE NO ACTION ON DELETE NO ACTION
+) INHERITS (pxp.tbase)
+WITH OIDS;
+ALTER TABLE gem.tincidente_equipo OWNER TO postgres;
+
  
 
 /*

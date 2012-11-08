@@ -688,14 +688,36 @@ class FuncionesMantenimiento{
 		$obj=new MODCalendarioPlanificado($parametro);
 		$res=$obj->UpdateCalPla();
 		return $res;
-	}
-	
-	
-	
-	
-	
-	
+	}	
 	/*FinClase: MODCalendarioPlanificado*/
+	
+	/*Clase: MODIncidenteEquipo
+	* Fecha: 08-11-2012 17:11:08
+	* Autor: admin*/
+	function listarIncidenteEquipo(CTParametro $parametro){
+		$obj=new MODIncidenteEquipo($parametro);
+		$res=$obj->listarIncidenteEquipo();
+		return $res;
+	}
+			
+	function insertarIncidenteEquipo(CTParametro $parametro){
+		$obj=new MODIncidenteEquipo($parametro);
+		$res=$obj->insertarIncidenteEquipo();
+		return $res;
+	}
+			
+	function modificarIncidenteEquipo(CTParametro $parametro){
+		$obj=new MODIncidenteEquipo($parametro);
+		$res=$obj->modificarIncidenteEquipo();
+		return $res;
+	}
+			
+	function eliminarIncidenteEquipo(CTParametro $parametro){
+		$obj=new MODIncidenteEquipo($parametro);
+		$res=$obj->eliminarIncidenteEquipo();
+		return $res;
+	}
+	/*FinClase: MODIncidenteEquipo*/
 	
 	
 
