@@ -39,7 +39,7 @@ Phx.vista.FuncionarioHonorario=Ext.extend(Phx.gridInterfaz,{
 				allowBlank: false,
 				emptyText:'Elija una horario...',
 				store:new Ext.data.JsonStore({
-					url: '../../sis_recursos_humanos/control/TipoHorario/listarTipoHorario',
+					url: '../../sis_organigrama/control/TipoHorario/listarTipoHorario',
 					id: 'id_tipo_horario',
 					root:'datos',
 					sortInfo:{

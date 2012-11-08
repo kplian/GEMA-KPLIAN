@@ -58,7 +58,7 @@ BEGIN
 						from gem.tfuncionario_honorario gefuho
 						inner join segu.tusuario usu1 on usu1.id_usuario = gefuho.id_usuario_reg
 						left join segu.tusuario usu2 on usu2.id_usuario = gefuho.id_usuario_mod
-						inner join rhum.ttipo_horario tiphor on tiphor.id_tipo_horario = gefuho.id_tipo_horario
+						inner join orga.ttipo_horario tiphor on tiphor.id_tipo_horario = gefuho.id_tipo_horario
 						inner join param.tmoneda moneda on moneda.id_moneda = gefuho.id_moneda
 				        where  ';
 			
@@ -86,7 +86,7 @@ BEGIN
 					    from gem.tfuncionario_honorario gefuho
 					    inner join segu.tusuario usu1 on usu1.id_usuario = gefuho.id_usuario_reg
 						left join segu.tusuario usu2 on usu2.id_usuario = gefuho.id_usuario_mod
-						inner join rhum.ttipo_horario tiphor on tiphor.id_tipo_horario = gefuho.id_tipo_horario
+						inner join orga.ttipo_horario tiphor on tiphor.id_tipo_horario = gefuho.id_tipo_horario
 						inner join param.tmoneda moneda on moneda.id_moneda = gefuho.id_moneda
 					    where ';
 			
