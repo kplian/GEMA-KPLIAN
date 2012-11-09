@@ -50,10 +50,10 @@ Phx.vista.UniConsDet=Ext.extend(Phx.gridInterfaz,{
 				allowBlank: true,
 				anchor: '80%',
 				gwidth: 100,
-				maxLength:4
+				maxLength:8
 			},
 			type:'TextField',
-			filters:{pfiltro:'ucdet.codigo',type:'numeric'},
+			filters:{pfiltro:'ucdet.codigo',type:'string'},
 			id_grupo:1,
 			grid:true,
 			form:true
@@ -65,10 +65,10 @@ Phx.vista.UniConsDet=Ext.extend(Phx.gridInterfaz,{
 				allowBlank: true,
 				anchor: '80%',
 				gwidth: 100,
-				maxLength:4
+				maxLength:25
 			},
 			type:'TextField',
-			filters:{pfiltro:'ucdet.nombre',type:'numeric'},
+			filters:{pfiltro:'ucdet.nombre',type:'string'},
 			id_grupo:1,
 			grid:true,
 			form:true
@@ -143,10 +143,10 @@ Phx.vista.UniConsDet=Ext.extend(Phx.gridInterfaz,{
 				allowBlank: true,
 				anchor: '80%',
 				gwidth: 100,
-				maxLength:4
+				maxLength:500
 			},
 			type:'TextArea',
-			filters:{pfiltro:'ucdet.descripcion',type:'numeric'},
+			filters:{pfiltro:'ucdet.descripcion',type:'string'},
 			id_grupo:1,
 			grid:true,
 			form:true
