@@ -49,7 +49,7 @@ VALUES (1,'activo',3,'COM','Combustibles','Combustibles');
 
 --EQUIPOS
 INSERT INTO gem.tuni_cons(id_usuario_reg, estado_reg,id_uni_cons, id_tipo_equipo, id_localizacion, codigo, nombre,tipo, estado, tipo_nodo, id_plantilla)
-VALUES (1,'activo',1, null, null, 'MTCI', 'MOTOR DE COMBUSTIÓN INTERNA','tuc', 'borrador', 'base', null);
+VALUES (1,'activo',1, null, null, 'MTCI', 'MOTOR DE COMBUSTIÓN INTERNA','tuc', 'aprobado', 'base', null);
 INSERT INTO gem.tuni_cons(id_usuario_reg, estado_reg,id_uni_cons, id_tipo_equipo, id_localizacion, codigo, nombre,tipo, estado, tipo_nodo, id_plantilla)
 VALUES (1,'activo',2, 1, null, 'MCBI', 'MOTOR DE COMBUSTIÓN INTERNA','tuc', 'borrador', 'raiz', null);
 INSERT INTO gem.tuni_cons(id_usuario_reg, estado_reg,id_uni_cons, id_tipo_equipo, id_localizacion, codigo, nombre,tipo, estado, tipo_nodo, id_plantilla)

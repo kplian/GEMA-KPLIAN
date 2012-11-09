@@ -53,18 +53,18 @@ Phx.vista.UniCons=Ext.extend(Phx.arbInterfaz,{
 			}
 		);*/
 		this.addButton('btnList',{
-            text :'Tareas',
+            text :'PLAN RCM',
             iconCls : 'blist',
             disabled: true,
             handler : this.onButtonList,
-            tooltip : '<b>Listar</b><br/><b>Lista las tareas para determinada Uni Cons</b>'
+            tooltip : '<b>PLAN RCM</b><br/><b>PLAN RCM para un Uni Cons</b>'
         });
         this.addButton('btnUpload',{
-           text :'Upload',
+           text :'Archivos',
            iconCls : 'bupload',
            disabled : true,
            handler : this.onButtonUpload,
-           tooltip : '<b>Upload</b><br/><b>Subir archivos de Unidades Constructoras</b>'
+           tooltip : '<b>Archivos</b><br/><b>Archivos de Unidades Constructoras</b>'
         });
         
         this.addButton('btnItems',{
@@ -432,7 +432,7 @@ Phx.vista.UniCons=Ext.extend(Phx.arbInterfaz,{
 			//si es una nodo tipo carpeta habilitamos la opcion de nuevo	
 			if((tiponodo == 'raiz_borrador' || tiponodo == 'raiz_aprobado' )&& n.attributes.id != 'id'){
 				this.getBoton('btnBlock').enable();				
-                this.getBoton('btnList').disable();
+                //this.getBoton('btnList').disable();
                 this.getBoton('btnUpload').disable();
                 this.getBoton('btnItems').disable();
                 this.getBoton('btnProveedores').disable();
@@ -527,7 +527,7 @@ Phx.vista.UniCons=Ext.extend(Phx.arbInterfaz,{
                     {
                         modal:true,
                         width:900,
-                        height:400
+                        height:600
                     },
                     data,this.idContenedor,'PlanMant')
             }
@@ -542,7 +542,7 @@ Phx.vista.UniCons=Ext.extend(Phx.arbInterfaz,{
                                {
                                    modal:true,
                                    width:900,
-                                   height:400
+                                   height:500
                                },
                                data,this.idContenedor,'UniConsArchivo');
            

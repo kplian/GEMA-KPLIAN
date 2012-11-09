@@ -21,13 +21,13 @@ Phx.vista.Documento=Ext.extend(Phx.gridInterfaz,{
         this.load({params:{start:0, limit:50}});
         
         this.addButton('btnUpload', {
-                text : 'Upload documento',
+                text : 'Archivos',
                 iconCls : 'bupload1',
                 disabled : true,
                 handler : SubirArchivo,
-                tooltip : '<b>Upload</b><br/>Subir documentos'
+                tooltip : '<b>Archivos</b><br/>Archivos subidos'
         });
-        
+        /*       
         this.addButton('btnVersion',{
             text:'Versiones de documento',
             iconCls: 'bven1',
@@ -35,7 +35,7 @@ Phx.vista.Documento=Ext.extend(Phx.gridInterfaz,{
             handler: listarVersionesArchivo,
             tooltip:'<b>Versiones</b><br/>Listar Versiones'         
         });
-        
+        */
         function SubirArchivo()
         {                   
             var rec=this.sm.getSelected();
@@ -45,11 +45,11 @@ Phx.vista.Documento=Ext.extend(Phx.gridInterfaz,{
             'Subir documento',
             {
                 modal:true,
-                width:400,
+                width:450,
                 height:150
             },rec.data,this.idContenedor,'SubirDocumento')
         }
-        
+        /*
         function listarVersionesArchivo(){      
                         
                 
@@ -62,7 +62,7 @@ Phx.vista.Documento=Ext.extend(Phx.gridInterfaz,{
                 width:900,
                 height:400              
             },rec.data, this.idContenedor,'ListarVersiones')
-        }   
+        }*/   
         
     },
             
@@ -109,6 +109,31 @@ Phx.vista.Documento=Ext.extend(Phx.gridInterfaz,{
         },
         {
             config:{
+                fieldLabel: "Link",
+                gwidth: 130,
+                inputType:'file',
+                name: 'archivo',
+                //allowBlank:true,
+                buttonText: '',   
+                maxLength:150,
+                anchor:'100%',
+                renderer:function (value, p, record){                      
+                            if(record.data['extension'].length!=0)
+                            return  String.format('{0}',"<div style='text-align:center'><a href = '../../../sis_mantenimiento/control/documentos/"+ record.data['archivo']+"' align='center' width='70' height='70'>documento</a></div>");
+                        },  
+                buttonCfg: {
+                    iconCls: 'upload-icon'
+                }
+            },
+            type:'Field',
+            sortable:false,
+            //filters:{type:'string'},
+            id_grupo:0,
+            grid:true,
+            form:false
+        },
+        {
+            config:{
                 name: 'resumen',
                 fieldLabel: 'Resumen',
                 allowBlank: true,
@@ -136,7 +161,7 @@ Phx.vista.Documento=Ext.extend(Phx.gridInterfaz,{
             id_grupo:1,
             grid:true,
             form:true
-        },
+        },        
         {
             config:{
                 name: 'extension',
@@ -166,31 +191,6 @@ Phx.vista.Documento=Ext.extend(Phx.gridInterfaz,{
             id_grupo:1,
             grid:true,
             form:true
-        },
-        {
-            config:{
-                fieldLabel: "Documento",
-                gwidth: 130,
-                inputType:'file',
-                name: 'archivo',
-                //allowBlank:true,
-                buttonText: '',   
-                maxLength:150,
-                anchor:'100%',
-                renderer:function (value, p, record){                      
-                            if(record.data['extension'].length!=0)
-                            return  String.format('{0}',"<div style='text-align:center'><a href = '../../../sis_mantenimiento/control/documentos/"+ record.data['archivo']+"' align='center' width='70' height='70'>documento</a></div>");
-                        },  
-                buttonCfg: {
-                    iconCls: 'upload-icon'
-                }
-            },
-            type:'Field',
-            sortable:false,
-            //filters:{type:'string'},
-            id_grupo:0,
-            grid:true,
-            form:false
         },
         {
             config:{
@@ -321,14 +321,21 @@ Phx.vista.Documento=Ext.extend(Phx.gridInterfaz,{
         // llamada funcion clase padre
         Phx.vista.Documento.superclass.preparaMenu.call(this,tb)
         this.getBoton('btnUpload').enable();
-        this.getBoton('btnVersion').enable();
+        //this.getBoton('btnVersion').enable();
     },
     
     liberaMenu:function(tb){
         // llamada funcion clase padre
         Phx.vista.Documento.superclass.liberaMenu.call(this,tb)
         this.getBoton('btnUpload').disable();
-        this.getBoton('btnVersion').disable();      
+        //this.getBoton('btnVersion').disable();      
+    },
+    south:{
+          url:'../../../sis_mantenimiento/vista/documento/ListarVersiones.php',
+          title:'Versiones del archivo', 
+          width:400,
+          height:300,
+          cls:'ListarVersiones'
     }
 }
 )
