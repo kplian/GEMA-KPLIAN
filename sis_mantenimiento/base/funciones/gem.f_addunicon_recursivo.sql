@@ -152,7 +152,12 @@ BEGIN
  	 --   2.3) llamamos recursivamente a la funcion pxp.f_addunicon_recursivo con el nuevo 
   	 --         id_cop la insercions y el nuevo id_orgig
            
-      v_resp_bool = gem.f_addunicon_recursivo(g_registros.id_uni_cons ,v_id_uni_cons,v_id_usuario);
+        v_resp_bool = gem.f_addunicon_recursivo(g_registros.id_uni_cons ,v_id_uni_cons,v_id_usuario);
+      
+      
+      -- 2.4) llamada a la clonacion de datos
+      
+        v_resp_bool= gem.f_clon_unicons(g_registros.id_uni_cons ,v_id_uni_cons,v_id_usuario);
                          
                                   
       END LOOP;

@@ -355,7 +355,7 @@ BEGIN
              
              
              IF exists( select 1 from  gem.tuni_cons  uc 
-                      where uc.codigo = upper(v_parametros.codigo_uni_cons )) THEN
+                      where  upper(uc.codigo) = upper(v_parametros.codigo_uni_cons )) THEN
               raise exception 'El codigo de equipo ya existe';
              END IF;
               
@@ -467,7 +467,9 @@ BEGIN
                         now(),
                         null,
                         null
-                        )RETURNING id_uni_cons_comp into v_id_uni_cons_comp;    
+                        )RETURNING id_uni_cons_comp into v_id_uni_cons_comp; 
+                        
+                   
            
                         
       END LOOP;
@@ -475,7 +477,14 @@ BEGIN
       
              v_resp_bool = gem.f_addunicon_recursivo(v_parametros.id_uni_cons,v_id_uni_cons,p_id_usuario);
              
-         
+            -- 3.1) llamada a la clonacion de datos
+            
+             -- LLAMADA A LA FUNCION CLONAR DATOS UNICONS  PARA 
+                    --  v_id_uni_cons              CLONADO
+                    --  v_parametros.id_uni_cons   ORIGINAL      
+                    --  p_id_usuario
+      
+             v_resp_bool = gem.f_clon_unicons(g_registros.id_uni_cons ,v_id_uni_cons,p_id_usuario);
           
 			--Definicion de la respuesta
 			v_resp = pxp.f_agrega_clave(v_resp,'mensaje','Dulicado desde plantilla  el uni_con  (id_uni_cons'||v_id_uni_cons||')'); 
