@@ -249,6 +249,77 @@ class MODUniCons extends MODbase{
 		//Devuelve la respuesta
 		return $this->respuesta;
 	}
-			
+	
+	function obtenerUniCons() {
+		$this->procedimiento='gem.f_uni_cons_sel';
+		$this->transaccion='GEM_TUCGET_SEL';
+		$this->tipo_procedimiento='SEL';
+		
+		$this->setParametro('id_uni_cons', 'id_uni_cons', 'int4');
+		
+		$this->captura('id_uni_cons','int4');
+		$this->captura('codigo','varchar');
+		$this->captura('nombre','varchar');
+		$this->captura('tipo','varchar');
+		$this->captura('estado','varchar');
+		$this->captura('tipo_nodo','varchar');
+		$this->captura('cod_localizacion','varchar');
+		$this->captura('nombre_localizacion','varchar');
+		$this->captura('ubicacion','varchar');
+		$this->captura('codigo_tipo_equipo','varchar');
+		$this->captura('nombre_tipo_equipo','varchar');
+		$this->captura('fecha_reg', 'text');
+		$this->captura('fecha_mod', 'text');
+		
+		$this->armarConsulta();
+		$this->ejecutarConsulta();
+		
+		return $this->respuesta;
+	}
+
+	function listarUniConsHijos() {
+		$this->procedimiento='gem.f_uni_cons_sel';
+		$this->transaccion='GEM_TUCHIJOS_SEL';
+		$this->tipo_procedimiento="SEL";
+		
+		$this->setParametro('id_uni_cons_padre', 'id_uni_cons_padre', 'int4');
+		
+		$this->captura('id_uni_cons','int4');
+		$this->captura('codigo','varchar');
+		$this->captura('nombre','varchar');
+		$this->captura('tipo','varchar');
+		$this->captura('estado','varchar');
+		$this->captura('tipo_nodo','varchar');
+		$this->captura('cod_localizacion','varchar');
+		$this->captura('nombre_localizacion','varchar');
+		$this->captura('ubicacion','varchar');
+		$this->captura('codigo_tipo_equipo','varchar');
+		$this->captura('nombre_tipo_equipo','varchar');
+		
+		$this->armarConsulta();
+		$this->ejecutarConsulta();
+		
+		return $this->respuesta;
+	}
+	
+	function listarUniConsDetalle() {
+		$this->procedimiento = 'gem.f_uni_cons_sel';
+		$this->transaccion = 'GEM_TUCDETALLE_SEL';
+		$this->tipo_procedimiento = "SEL";
+		
+		$this->setParametro('id_uni_cons', 'id_uni_cons', 'int4');
+		
+		$this->captura('id_equipo_det', 'int4');
+		$this->captura('codigo', 'varchar');
+		$this->captura('nombre', 'varchar');
+		$this->captura('descripcion', 'varchar');
+		$this->captura('valor', 'varchar');
+		$this->captura('unidad_medida', 'varchar');
+		
+		$this->armarConsulta();
+		$this->ejecutarConsulta();
+		
+		return $this->respuesta;
+	}
 }
 ?>
