@@ -40,6 +40,8 @@ class MODClasificacion extends MODbase{
         $this->transaccion='ALM_CLA_ARB_SEL';
         $this->tipo_procedimiento='SEL';//tipo de transaccion
         
+        $id_padre = $this->objParam->getParametro('id_padre');
+        
         $this->setParametro('id_padre','id_padre','varchar');       
         //$this->setParametro('id_subsistema','id_subsistema','integer');
                 
@@ -54,6 +56,34 @@ class MODClasificacion extends MODbase{
         //Ejecuta la instruccion
         $this->armarConsulta();
         $this->ejecutarConsulta();
+        
+        if($this->respuesta->getTipo()=='ERROR'){
+            return $this->respuesta;
+        }
+        elseif($id_padre!= '%'){
+            $this->procedimiento='alm.ft_item_sel';
+            $this->transaccion='SAL_ARB_SEL';
+            $this->tipo_procedimiento='SEL';
+            $this->setCount(false);
+            //$this->setCount(false);
+            $this->resetCaptura();
+            $this->addConsulta();
+            
+            $this->setParametro('id_clasificacion','id_padre','varchar');    
+            
+            $this->captura('id_item','integer');
+            $this->captura('nombre','varchar');
+            $this->captura('codigo','varchar');
+            $this->captura('id_clasificacion_fk','integer');
+            $this->captura('id_clasificacion','varchar');
+            $this->captura('tipo_nodo','varchar');
+            
+            $this->armarConsulta();
+            $consulta=$this->getConsulta();
+            
+      
+            $this->ejecutarConsulta($this->respuesta);
+        }
         
         //Devuelve la respuesta
         return $this->respuesta;

@@ -303,7 +303,7 @@ Phx.vista.UniCons=Ext.extend(Phx.arbInterfaz,{
 				fieldLabel: 'Fecha creación',
 				allowBlank: true,
 				anchor: '80%',
-				gwidth: 100,
+				//gwidth: 100,
 				renderer:function (value,p,record){return value?value.dateFormat('d/m/Y h:i:s'):''}
 			},
 			type:'DateField',
@@ -318,7 +318,7 @@ Phx.vista.UniCons=Ext.extend(Phx.arbInterfaz,{
 				fieldLabel: 'Fecha Modif.',
 				allowBlank: true,
 				anchor: '80%',
-				gwidth: 100,
+				//gwidth: 100,
 				renderer:function (value,p,record){return value?value.dateFormat('d/m/Y h:i:s'):''}
 			},
 			type:'DateField',
@@ -431,8 +431,7 @@ Phx.vista.UniCons=Ext.extend(Phx.arbInterfaz,{
 		var tiponodo = n.attributes.tipo_nodo;
 			//si es una nodo tipo carpeta habilitamos la opcion de nuevo	
 			if((tiponodo == 'raiz_borrador' || tiponodo == 'raiz_aprobado' )&& n.attributes.id != 'id'){
-				this.getBoton('btnBlock').enable();				
-                //this.getBoton('btnList').disable();
+				this.getBoton('btnBlock').enable();	
                 this.getBoton('btnUpload').disable();
                 this.getBoton('btnItems').disable();
                 this.getBoton('btnProveedores').disable();

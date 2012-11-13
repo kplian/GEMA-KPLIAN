@@ -19,8 +19,6 @@ Phx.vista.SubirDocumento=Ext.extend(Phx.frmInterfaz,{
 		Phx.vista.SubirDocumento.superclass.constructor.call(this,config);
 		this.init();	
 		this.loadValoresIniciales();
-		
-		//this.ActSave='../../sis_mantenimiento/control/Documento/subirDocumento';
 	},
 	
 	loadValoresIniciales:function()
@@ -66,7 +64,6 @@ Phx.vista.SubirDocumento=Ext.extend(Phx.frmInterfaz,{
 		},		
 	],
 	title:'Subir documento',
-	//ActSave:'../../sis_mantenimiento/control/Documento/subirDocumento',
 	fileUpload:true,
 	
 	guardar: function(o){

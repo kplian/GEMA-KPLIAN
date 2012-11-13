@@ -14,7 +14,6 @@ Phx.vista.ListarVersionesArchivo=Ext.extend(Phx.gridInterfaz,{
    constructor: function(config){
        Phx.vista.ListarVersionesArchivo.superclass.constructor.call(this,config);
        this.init();
-       //this.load({params:{start:0,limit:50,id_uni_cons_archivo:this.id_uni_cons_archivo}})
    },
    
    Atributos:[
@@ -176,7 +175,7 @@ Phx.vista.ListarVersionesArchivo=Ext.extend(Phx.gridInterfaz,{
                 fieldLabel: 'Fecha creación',
                 allowBlank: true,
                 anchor: '80%',
-                gwidth: 109,
+                //gwidth: 109,
                 //renderer:function (value,p,record){return value?value.dateFormat('d/m/Y h:i:s'):''}
                 format:'Y-m-d'
             },
@@ -207,7 +206,7 @@ Phx.vista.ListarVersionesArchivo=Ext.extend(Phx.gridInterfaz,{
                 fieldLabel: 'Fecha Modif.',
                 allowBlank: true,
                 anchor: '80%',
-                gwidth: 109,
+                //gwidth: 109,
                 //renderer:function (value,p,record){return value?value.dateFormat('d/m/Y h:i:s'):''}
                 format:'Y-m-d'
             },
