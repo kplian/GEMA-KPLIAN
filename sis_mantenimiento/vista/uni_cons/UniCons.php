@@ -581,13 +581,13 @@ Phx.vista.UniCons=Ext.extend(Phx.arbInterfaz,{
 		var node=this.sm.getSelectedNode();
 		var data =node.attributes;
 		if(data){
-			Phx.CP.loadWindows('../../../sis_mantenimiento/vista/equipo_medicion/EquipoMedicion.php',
+			Phx.CP.loadWindows('../../../sis_mantenimiento/vista/equipo_medicion/EquipoMedicionDinamico.php',
 				'EquipoMedicion',{
 						modal:true,
 						width:900,
 						height:400
 				    },
-				    data,this.idContenedor,'EquipoMedicion')
+				    data,this.idContenedor,'EquipoMedicionDinamico')
 				    
 			}
 	},
