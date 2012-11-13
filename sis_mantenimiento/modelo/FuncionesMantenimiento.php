@@ -137,7 +137,23 @@ class FuncionesMantenimiento{
 		return $res;
 	}
 	
+	function obtenerUniCons(CTParametro $parametro) {
+		$obj=new MODUniCons($parametro);
+		$res=$obj->obtenerUniCons();
+		return $res;
+	}
 	
+	function listarUniConsHijos(CTParametro $parametro) {
+		$obj=new MODUniCons($parametro);
+		$res=$obj->listarUniConsHijos();
+		return $res;
+	}
+	
+	function listarUniConsDetalle(CTParametro $parametro) {
+		$obj = new MODUniCons($parametro);
+		$res = $obj->listarUniConsDetalle();
+		return $res;
+	}
 	/*FinClase: MODUniCons*/
 
 

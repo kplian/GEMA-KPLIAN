@@ -6,6 +6,9 @@
 *@date 09-08-2012 00:42:57
 *@description Clase que recibe los parametros enviados por la vista para mandar a la capa de Modelo
 */
+require_once(dirname(__FILE__).'/../reportes/pxpReport/ReportWriter.php');
+require_once(dirname(__FILE__).'/../reportes/RUniCons_FichaTecnica.php');
+require_once(dirname(__FILE__).'/../reportes/pxpReport/DataSource.php');
 
 class ACTUniCons extends ACTbase{
 	
@@ -193,7 +196,7 @@ class ACTUniCons extends ACTbase{
 		/*se ande un nivel al arbol incluyendo con tido de nivel carpeta con su arreglo de equivalencias
 			  es importante que entre los resultados devueltos por la base exista la variable\
 			  tipo_dato que tenga el valor en texto = 'carpeta' */
-		
+			+
 			$this->res->addNivelArbol('tipo_nodo','base',array('leaf'=>false,
 															'allowDelete'=>true,
 															'allowEdit'=>true,
@@ -295,15 +298,13 @@ class ACTUniCons extends ACTbase{
 		$this->res=$this->objFunc->addUniCons($this->objParam);			
 		$this->res->imprimirRespuesta($this->res->generarJson());
 	}
-		
+
     function GenerarCalendario(){
 		$this->objFunc=new FuncionesMantenimiento();	
 		$this->res=$this->objFunc->GenerarCalendario($this->objParam);			
 		$this->res->imprimirRespuesta($this->res->generarJson());
 	}
 		  
-
-	  				
 	function eliminarUniCons(){
 		$this->objFunc=new FuncionesMantenimiento();	
 		$this->res=$this->objFunc->eliminarUniCons($this->objParam);
@@ -311,11 +312,56 @@ class ACTUniCons extends ACTbase{
 	}
 	
 	function setBlockUnblockUniCons(){
-		$this->objFunc=new FuncionesMantenimiento();	
+		$this->objFunc=new FuncionesMantenimiento();
 		$this->res=$this->objFunc->setBlockUnblockUniCons($this->objParam);
 		$this->res->imprimirRespuesta($this->res->generarJson());
 	}
+	
+	function reporteUniConsFichaTecnica() {
+		$this->objFunc = new FuncionesMantenimiento();
+		
+		$resultPadre=$this->objFunc->obtenerUniCons($this->objParam);
+		
+		$this->objParam->addParametro('id_uni_cons_padre', $this->objParam->getParametro('id_uni_cons'));
+		
+		$resultHijos=$this->objFunc->listarUniConsHijos($this->objParam);
+		
+		
+		$resultDetalle = $this->objFunc->listarUniConsDetalle($this->objParam);
+		//TODO: iterar sobre los hijos, obtener sus variables y llenar datasets para el reporte de cada uno
+		
+		//armamos el array parametros y metemos ahi los data sets de las otras tablas
+		$dataSource = new DataSource();
+		$datosUniConsPadre = $resultPadre->getDatos();
+		$dataSource->putParameter('nombre', $datosUniConsPadre[0]['nombre']);
+		$dataSource->putParameter('codigo', $datosUniConsPadre[0]['codigo']);
+		$dataSource->putParameter('localizacion', $datosUniConsPadre[0]['nombre_localizacion']);
+		if($datosUniConsPadre[0]['fecha_mod'] != null) {
+			$dataSource->putParameter('fechaEmision', $datosUniConsPadre[0]['fecha_mod']);
+		} else {
+			$dataSource->putParameter('fechaEmision', $datosUniConsPadre[0]['fecha_reg']);
+		}
+		
+		$dataSource->setDataset($resultDetalle->getDatos());
+		$arrayHijos = array();
+		
+		foreach($resultHijos->getDatos() as $rowHijo) {
+			$dataSourceHijo = new DataSource();
+			$this->objParam->addParametro('id_uni_cons', $rowHijo['id_uni_cons']);
 			
+			$resultDetalleHijo = $this->objFunc->listarUniConsDetalle($this->objParam);
+			$dataSourceHijo->putParameter('nombreUniConsHijo', $rowHijo['nombre']);
+			$dataSourceHijo->setDataset($resultDetalleHijo->getDatos());
+			$arrayHijos[] = $dataSourceHijo;
+		}
+		
+		$dataSource->putParameter('arrayHijos', $arrayHijos);
+		
+		$reporte = new RUniCons_FichaTecnica();
+		$reporte->setDataSource($dataSource);
+		$reportWriter = new ReportWriter($reporte, dirname(__FILE__).'/../../reportes_generados/UniCons_FichaTecnica.pdf');
+		$reportWriter->writeReport(ReportWriter::PDF);
+		
+	}
 }
-
 ?>
