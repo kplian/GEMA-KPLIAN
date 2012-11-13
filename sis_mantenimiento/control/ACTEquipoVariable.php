@@ -22,6 +22,21 @@ class ACTEquipoVariable extends ACTbase{
 		}
 		$this->res->imprimirRespuesta($this->res->generarJson());
 	}
+	
+	function listarColumnasEquipoVariable(){
+		$this->objParam->defecto('ordenacion','id_equipo_variable');
+
+		$this->objParam->defecto('dir_ordenacion','asc');
+		
+		if($this->objParam->getParametro('id_uni_cons')!=''){
+			$this->objParam->addFiltro("eqv.id_uni_cons = ".$this->objParam->getParametro('id_uni_cons'));	
+		}
+		$this->objFunc=new FuncionesMantenimiento();	
+		$this->res=$this->objFunc->listarEquipoVariable($this->objParam);
+		
+		$this->res->imprimirRespuesta($this->res->generarJson());
+	}
+	
 				
 	function insertarEquipoVariable(){
 		$this->objFunc=new FuncionesMantenimiento();	

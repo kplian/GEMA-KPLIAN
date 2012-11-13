@@ -38,6 +38,7 @@ class MODEquipoVariable extends MODbase{
 		$this->captura('nombre_tipo_variable','varchar');
 		$this->captura('codigo_unidad_medida','varchar');
 		$this->captura('id_unidad_medida','int4');
+		$this->captura('key','int4');
 		
 		
 		//Ejecuta la instruccion
