@@ -31,20 +31,31 @@ Phx.vista.AlmacenUsuario=Ext.extend(Phx.gridInterfaz,{
 			form:true 
 		},
 		{
-			config:{
-				name: 'estado_reg',
-				fieldLabel: 'Estado Reg.',
-				allowBlank: true,
-				anchor: '80%',
-				gwidth: 100,
-				maxLength:10
-			},
-			type:'TextField',
-			filters:{pfiltro:'almusu.estado_reg',type:'string'},
-			id_grupo:1,
-			grid:true,
-			form:false
-		},
+            config:{                
+                name:'estado_reg',
+                fieldLabel:'Estado reg.',
+                allowBlank:false,
+                emptyText:'Estado reg...',
+                store: ['activo','inactivo'],
+                valueField: 'estado_reg',
+                displayField: 'estado_reg',
+                forceSelection:true,
+                triggerAction: 'all',
+                lazyRender:true,
+                mode:'local',
+                pageSize:10,
+                width:250,               
+                renderer:function(value, p, record){return String.format('{0}', record.data['estado_reg']);}
+            },
+            type:'ComboBox',
+            id_grupo:0,
+            filters:{   
+                pfiltro:'estado_reg',
+                type:'string'
+            },
+            grid:true,
+            form:true
+        },
 		{
 			config:{
 				name: 'id_usuario',

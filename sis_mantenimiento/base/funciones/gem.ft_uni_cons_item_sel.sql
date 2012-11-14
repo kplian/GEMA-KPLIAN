@@ -1,4 +1,4 @@
-﻿CREATE OR REPLACE FUNCTION gem.ft_uni_cons_item_sel (
+CREATE OR REPLACE FUNCTION gem.ft_uni_cons_item_sel (
   p_administrador integer,
   p_id_usuario integer,
   p_tabla varchar,
@@ -50,6 +50,7 @@ BEGIN
 						unitem.id_uni_cons,
 						unitem.id_item,
                         item.nombre,
+                        unitem.observaciones,
 						unitem.fecha_reg,
 						unitem.id_usuario_reg,
 						unitem.fecha_mod,
