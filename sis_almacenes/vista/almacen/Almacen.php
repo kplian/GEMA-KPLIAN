@@ -16,8 +16,25 @@ header("content-type:text/javascript; charset=UTF-8");
     	//llama al constructor de la clase padre
 		Phx.vista.Almacen.superclass.constructor.call(this,config);
 		this.init();
-		this.load({params:{start:0, limit:50}})
+		this.load({params:{start:0, limit:50}});
+		this.addButton('Almacenero',{
+		    text:'Almacenero',
+		    iconCls:'bassign',
+		    disabled:true,
+		    handler:this.onAlmacenUsuario,
+		    tooltip:'<b>Registrar Almacenero'});
 	},
+	onAlmacenUsuario : function (){                   
+            var rec=this.sm.getSelected();
+                        
+            Phx.CP.loadWindows('../../../sis_almacenes/vista/almacenUsuario/AlmacenUsuario.php',
+            'Registrar Almacenero',
+            {
+                modal:true,
+                width:600,
+                height:300
+            },rec.data,this.idContenedor,'AlmacenUsuario')
+    },
 			
 	Atributos:[
 		{
@@ -74,7 +91,31 @@ header("content-type:text/javascript; charset=UTF-8");
 			id_grupo:1,
 			grid:true,
 			form:true
-		}		
+		},
+		{
+            config:{
+                    labelSeparator:'',
+                    inputType:'hidden',
+                    name: 'id_almacen_usuario'
+            },
+            type:'Field',
+            form:true
+        },
+		{
+            config:{
+                name: 'nombre_completo1',
+                fieldLabel: 'Almacenero',
+                allowBlank: true,
+                anchor: '80%',
+                gwidth: 100,
+                maxLength:50
+            },
+            type:'TextField',
+            filters:{type:'string'},
+            id_grupo:1,
+            grid:true,
+            form:false
+        }		
 	],
 	title:'Almacen',
 	ActSave:'../../sis_almacenes/control/Almacen/insertarAlmacen',
@@ -85,7 +126,9 @@ header("content-type:text/javascript; charset=UTF-8");
 		{name:'id_almacen'},
 		{name:'codigo', type: 'string'},
 		{name:'nombre', type: 'string'},
-		{name:'localizacion', type: 'string'}
+		{name:'localizacion', type: 'string'},
+		{name:'id_almacen_usuario', type: 'numeric'},
+		{name:'nombre_completo1', type: 'string'}
 	],
 	sortInfo:{
 		field: 'id_almacen',
@@ -94,13 +137,31 @@ header("content-type:text/javascript; charset=UTF-8");
 	bdel:true,
 	bsave:true,
 	
-		east:{
-			  url:'../../../sis_almacenes/vista/almacenStock/AlmacenStock.php',
-			  title:'Stock Minimo de almacenes', 
-			  width:400,
-			  cls:'AlmacenStock'
-			 }
-	}
+	east:{
+		  url:'../../../sis_almacenes/vista/almacenStock/AlmacenStock.php',
+		  title:'Stock Minimo de almacenes', 
+		  width:400,
+		  cls:'AlmacenStock'
+		 },
+		 
+    preparaMenu:function(tb){
+            //llamada funcion clace padre
+            if(!this.sm.getSelected().data.nombre_completo1){              
+                this.getBoton('Almacenero').enable();
+            }
+            else{                   
+                this.getBoton('Almacenero').disable();        
+            }
+            Phx.vista.Almacen.superclass.preparaMenu.call(this,tb);
+        },
+        
+    south:{
+          url:'../../../sis_almacenes/vista/almacenUsuario/AlmacenUsuario.php',
+          title:'Almaceneros', 
+          height:300,
+          cls:'AlmacenUsuario'
+    }    
+}
 )
 </script>		
 		

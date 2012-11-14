@@ -234,4 +234,27 @@ select pxp.f_insert_testructura_gui ('ALCLMA', 'ALMAIN');
 select pxp.f_insert_testructura_gui ('ALINGR', 'ALMOVI');
 select pxp.f_insert_testructura_gui ('ALSAGR', 'ALMOVI');
 select pxp.f_insert_testructura_gui ('ALTRGR', 'ALMOVI');
+
+CREATE TABLE alm.talmacen_usuario (
+  id_almacen_usuario INTEGER NOT NULL, 
+  id_usuario INTEGER, 
+  CONSTRAINT talmacen_usuario_pkey PRIMARY KEY(id_almacen_usuario), 
+  CONSTRAINT fk_talmacen_usuario__id_usuario FOREIGN KEY (id_usuario)
+    REFERENCES segu.tusuario(id_usuario)
+    ON DELETE NO ACTION
+    ON UPDATE NO ACTION
+    NOT DEFERRABLE
+) INHERITS (pxp.tbase)
+WITHOUT OIDS;
+
+ALTER TABLE alm.talmacen
+  ADD COLUMN id_almacen_usuario INTEGER,
+  ADD CONSTRAINT fk_talmacen__id_almacen_usuario FOREIGN KEY (id_almacen_usuario)
+    REFERENCES alm.talmacen_usuario(id_almacen_usuario)
+    ON DELETE NO ACTION
+    ON UPDATE NO ACTION
+    NOT DEFERRABLE;
+
+
+
     

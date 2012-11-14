@@ -83,7 +83,7 @@ Phx.vista.Item=Ext.extend(Phx.gridInterfaz,{
         {
             config:{
                 name: 'codigo_largo',
-                fieldLabel: 'Codigo',
+                fieldLabel: 'Codigo Clasificacion',
                 allowBlank: false,
                 anchor: '80%',
                 gwidth: 110,
@@ -175,7 +175,7 @@ Phx.vista.Item=Ext.extend(Phx.gridInterfaz,{
             config:{
                 name: 'numero_serie',
                 fieldLabel: 'Serie del item',
-                allowBlank: false,
+                allowBlank: true,
                 anchor: '80%',
                 gwidth: 90,
                 maxLength:10

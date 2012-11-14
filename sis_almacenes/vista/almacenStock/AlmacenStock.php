@@ -171,7 +171,7 @@ Phx.vista.AlmacenStock=Ext.extend(Phx.gridInterfaz,{
                 name: 'fecha_reg',
                 fieldLabel: 'Fecha creación',
                 anchor: '80%',
-                gwidth: 100,
+                //gwidth: 100,
                 //renderer:function (value,p,record){return value?value.dateFormat('d/m/Y h:i:s'):''}
             },
             type:'DateField',
@@ -197,7 +197,7 @@ Phx.vista.AlmacenStock=Ext.extend(Phx.gridInterfaz,{
                 name: 'fecha_mod',
                 fieldLabel: 'Fecha Modif.',
                 anchor: '80%',
-                gwidth: 90,
+                //gwidth: 90,
                 //renderer:function (value,p,record){return value?value.dateFormat('d/m/Y h:i:s'):''}
             },
             type:'DateField',

@@ -27,19 +27,10 @@ Phx.vista.Documento=Ext.extend(Phx.gridInterfaz,{
                 handler : SubirArchivo,
                 tooltip : '<b>Archivos</b><br/>Archivos subidos'
         });
-        /*       
-        this.addButton('btnVersion',{
-            text:'Versiones de documento',
-            iconCls: 'bven1',
-            disabled: true,
-            handler: listarVersionesArchivo,
-            tooltip:'<b>Versiones</b><br/>Listar Versiones'         
-        });
-        */
+
         function SubirArchivo()
         {                   
             var rec=this.sm.getSelected();
-            //console.log(' rec',rec)
                         
             Phx.CP.loadWindows('../../../sis_mantenimiento/vista/documento/SubirDocumento.php',
             'Subir documento',
@@ -48,21 +39,7 @@ Phx.vista.Documento=Ext.extend(Phx.gridInterfaz,{
                 width:450,
                 height:150
             },rec.data,this.idContenedor,'SubirDocumento')
-        }
-        /*
-        function listarVersionesArchivo(){      
-                        
-                
-            var rec=this.sm.getSelected();
-            
-            Phx.CP.loadWindows('../../../sis_mantenimiento/vista/documento/ListarVersiones.php',
-            'Versiones archivo',
-            {
-                modal:true,
-                width:900,
-                height:400              
-            },rec.data, this.idContenedor,'ListarVersiones')
-        }*/   
+        }  
         
     },
             
@@ -113,7 +90,6 @@ Phx.vista.Documento=Ext.extend(Phx.gridInterfaz,{
                 gwidth: 130,
                 inputType:'file',
                 name: 'archivo',
-                //allowBlank:true,
                 buttonText: '',   
                 maxLength:150,
                 anchor:'100%',
@@ -228,7 +204,7 @@ Phx.vista.Documento=Ext.extend(Phx.gridInterfaz,{
                 fieldLabel: 'Fecha creación',
                 allowBlank: true,
                 anchor: '80%',
-                gwidth: 109,
+                //gwidth: 109,
                 //renderer:function (value,p,record){return value?value.dateFormat('d/m/Y h:i:s'):''}
                 format:'Y-m-d'
             },
@@ -259,7 +235,7 @@ Phx.vista.Documento=Ext.extend(Phx.gridInterfaz,{
                 fieldLabel: 'Fecha Modif.',
                 allowBlank: true,
                 anchor: '80%',
-                gwidth: 109,
+                //gwidth: 109,
                 //renderer:function (value,p,record){return value?value.dateFormat('d/m/Y h:i:s'):''}
                 format:'Y-m-d'
             },
@@ -321,14 +297,12 @@ Phx.vista.Documento=Ext.extend(Phx.gridInterfaz,{
         // llamada funcion clase padre
         Phx.vista.Documento.superclass.preparaMenu.call(this,tb)
         this.getBoton('btnUpload').enable();
-        //this.getBoton('btnVersion').enable();
     },
     
     liberaMenu:function(tb){
         // llamada funcion clase padre
         Phx.vista.Documento.superclass.liberaMenu.call(this,tb)
-        this.getBoton('btnUpload').disable();
-        //this.getBoton('btnVersion').disable();      
+        this.getBoton('btnUpload').disable();     
     },
     south:{
           url:'../../../sis_mantenimiento/vista/documento/ListarVersiones.php',

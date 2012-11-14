@@ -24,14 +24,6 @@ Phx.vista.UniConsArchivo=Ext.extend(Phx.gridInterfaz,{
                 handler : SubirArchivo,
                 tooltip : '<b>Upload</b><br/>Subir Archivo'
         });
-        /*                
-        this.addButton('btnVersion',{
-           text: 'Versiones de archivo',
-           iconCls : 'blist',
-           disabled: true,
-           handler: versionesArchivo,
-           tooltip: '<b>Versiones</b><br/>Versiones de Archivo' 
-        });*/
         
         function SubirArchivo()
         {                   
@@ -44,18 +36,6 @@ Phx.vista.UniConsArchivo=Ext.extend(Phx.gridInterfaz,{
                 height:150
             },rec.data,this.idContenedor,'SubirArchivo')
         }
-        /*
-        function versionesArchivo(){
-            var rec= this.sm.getSelected();
-            Phx.CP.loadWindows('../../../sis_mantenimiento/vista/uni_cons_archivo/ListarVersionesArchivo.php',
-            'Versiones Archivo',
-            {
-                modal:true,
-                width:900,
-                height:400
-            },
-            rec.data,this.idContenedor,'ListarVersionesArchivo')            
-        }*/
 	},
 			
 	Atributos:[
@@ -104,7 +84,6 @@ Phx.vista.UniConsArchivo=Ext.extend(Phx.gridInterfaz,{
                 gwidth: 130,
                 inputType:'file',
                 name: 'archivo',
-                //allowBlank:true,
                 buttonText: '',   
                 maxLength:150,
                 anchor:'100%',
@@ -307,13 +286,11 @@ Phx.vista.UniConsArchivo=Ext.extend(Phx.gridInterfaz,{
 	preparaMenu:function(tb){
         Phx.vista.UniConsArchivo.superclass.preparaMenu.call(this,tb)
         this.getBoton('btnUpload').enable();
-        //this.getBoton('btnVersion').enable();
     },
     
     liberaMenu:function(tb){
         Phx.vista.UniConsArchivo.superclass.liberaMenu.call(this,tb)
-        this.getBoton('btnUpload').disable();
-        //this.getBoton('btnVersion').disable();       
+        this.getBoton('btnUpload').disable();      
     },
     south:{
           url:'../../../sis_mantenimiento/vista/uni_cons_archivo/ListarVersionesArchivo.php',

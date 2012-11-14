@@ -59,7 +59,7 @@ header("content-type:text/javascript; charset=UTF-8");
                     fields: ['id_almacen','nombre'],
                     // turn on remote sorting
                     remoteSort: true,
-                    baseParams:{par_filtro:'nombre#cuenta'}
+                    baseParams:{par_filtro:'nombre'}
                 }),
                 valueField: 'id_almacen',
                 displayField: 'nombre',
@@ -79,7 +79,6 @@ header("content-type:text/javascript; charset=UTF-8");
                 renderer:function (value, p, record){return String.format('{0}', record.data['nombre_origen']);}
             },
             type:'ComboBox',
-            //type:'ComboRec',
             id_grupo:0,
             filters:{   
                         pfiltro:'nombre',
@@ -162,7 +161,7 @@ header("content-type:text/javascript; charset=UTF-8");
                     fields: ['id_almacen','nombre'],
                     // turn on remote sorting
                     remoteSort: true,
-                    baseParams:{par_filtro:'nombre#cuenta'}
+                    baseParams:{par_filtro:'nombre'}
                 }),
                 valueField: 'id_almacen',
                 displayField: 'nombre',
@@ -181,7 +180,6 @@ header("content-type:text/javascript; charset=UTF-8");
                 renderer:function (value, p, record){return String.format('{0}', record.data['nombre_destino']);}
             },
             type:'ComboBox',
-            //type:'ComboRec',
             id_grupo:0,
             filters:{   
                         pfiltro:'nombre',
@@ -197,7 +195,7 @@ header("content-type:text/javascript; charset=UTF-8");
                 fieldLabel: 'Fecha de movimiento',
                 allowBlank: false,
                 anchor: '80%',
-                gwidth: 120,
+                //gwidth: 120,
                 //renderer:function (value,p,record){return value?value.dateFormat('d/m/Y'):''},
                 format:'d/m/Y'
             },
@@ -269,7 +267,7 @@ header("content-type:text/javascript; charset=UTF-8");
                 name: 'fecha_reg',
                 fieldLabel: 'Fecha de registro',
                 anchor: '80%',
-                gwidth: 110,
+                //gwidth: 110,
                 //renderer:function (value,p,record){return value?value.dateFormat('d/m/Y'):''},
                 format:'d/m/Y'
             },
@@ -296,7 +294,7 @@ header("content-type:text/javascript; charset=UTF-8");
                 name: 'fecha_mod',
                 fieldLabel: 'Fecha de modificacion',
                 anchor: '80%',
-                gwidth: 110,
+                //gwidth: 110,
                 //renderer:function (value,p,record){return value?value.dateFormat('d/m/Y'):''},
                 format:'d/m/Y'
             },

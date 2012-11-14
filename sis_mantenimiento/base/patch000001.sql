@@ -1044,3 +1044,6 @@ ALTER TABLE gem.tuni_cons_item OWNER TO postgres;
 
 ALTER TABLE gem.tdocumento
 ADD COLUMN tipo VARCHAR(10) DEFAULT 'padre'::character varying;
+
+ALTER TABLE gem.tuni_cons
+  ADD COLUMN observaciones VARCHAR(2000);

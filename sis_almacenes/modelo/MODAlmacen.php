@@ -26,6 +26,8 @@ class MODAlmacen extends MODbase{
         $this->captura('codigo','varchar');
         $this->captura('nombre','varchar');
         $this->captura('localizacion','varchar');
+        $this->captura('id_almacen_usuario','integer');
+        $this->captura('nombre_completo1','text');
         
         //Ejecuta la instruccion
         $this->armarConsulta();

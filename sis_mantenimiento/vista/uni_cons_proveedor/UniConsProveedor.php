@@ -135,7 +135,7 @@ Phx.vista.UniConsProveedor=Ext.extend(Phx.gridInterfaz,{
 				fieldLabel: 'Fecha creación',
 				allowBlank: true,
 				anchor: '80%',
-				gwidth: 110,
+				//gwidth: 110,
 				//renderer:function (value,p,record){return value?value.dateFormat('d/m/Y h:i:s'):''}
 				format:'Y-m-d'
 			},
@@ -166,7 +166,7 @@ Phx.vista.UniConsProveedor=Ext.extend(Phx.gridInterfaz,{
 				fieldLabel: 'Fecha Modif.',
 				allowBlank: true,
 				anchor: '80%',
-				gwidth: 110,
+				//gwidth: 110,
 				//renderer:function (value,p,record){return value?value.dateFormat('d/m/Y h:i:s'):''}
 				format:'Y-m-d'
 			},
