@@ -27,6 +27,7 @@ class MODUniConsItem extends MODbase{
 		$this->captura('id_item','int4');
         $this->captura('nombre','varchar');
         $this->captura('observaciones','varchar');
+        $this->captura('codigo','varchar');		
 		$this->captura('fecha_reg','timestamp');
 		$this->captura('id_usuario_reg','int4');
 		$this->captura('fecha_mod','timestamp');

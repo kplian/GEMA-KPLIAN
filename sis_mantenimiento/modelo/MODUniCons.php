@@ -268,6 +268,7 @@ class MODUniCons extends MODbase{
 		$this->captura('ubicacion','varchar');
 		$this->captura('codigo_tipo_equipo','varchar');
 		$this->captura('nombre_tipo_equipo','varchar');
+		$this->captura('id_uni_cons_padre','int4');
 		$this->captura('fecha_reg', 'text');
 		$this->captura('fecha_mod', 'text');
 		
