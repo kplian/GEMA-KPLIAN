@@ -1,8 +1,10 @@
-﻿CREATE OR REPLACE FUNCTION gem.ft_uni_cons_item_sel (
-  p_administrador integer,
-  p_id_usuario integer,
-  p_tabla varchar,
-  p_transaccion varchar
+--------------- SQL ---------------
+
+CREATE OR REPLACE FUNCTION "gem"."ft_uni_cons_item_sel" (
+  "p_administrador" integer,
+  "p_id_usuario" integer,
+  "p_tabla" varchar,
+  "p_transaccion" varchar
 )
 RETURNS varchar AS
 $body$
@@ -50,6 +52,7 @@ BEGIN
 						unitem.id_uni_cons,
 						unitem.id_item,
                         item.nombre,
+                        item.codigo,
 						unitem.fecha_reg,
 						unitem.id_usuario_reg,
 						unitem.fecha_mod,
@@ -60,7 +63,7 @@ BEGIN
 						inner join segu.tusuario usu1 on usu1.id_usuario = unitem.id_usuario_reg
 						left join segu.tusuario usu2 on usu2.id_usuario = unitem.id_usuario_mod
                         inner join alm.titem item on item.id_item=unitem.id_item
-				        where unitem.id_uni_cons='||v_parametros.id_uni_cons||' and ';
+				        where unitem.id_uni_cons = '||v_parametros.id_uni_cons||' and ';
 			
 			--Definicion de la respuesta
 			v_consulta:=v_consulta||v_parametros.filtro;
@@ -87,7 +90,7 @@ BEGIN
 					    inner join segu.tusuario usu1 on usu1.id_usuario = unitem.id_usuario_reg
 						left join segu.tusuario usu2 on usu2.id_usuario = unitem.id_usuario_mod
 					    where ';
-			
+		
 			--Definicion de la respuesta		    
 			v_consulta:=v_consulta||v_parametros.filtro;
 
@@ -95,7 +98,6 @@ BEGIN
 			return v_consulta;
 
 		end;
-					
 	else
 					     
 		raise exception 'Transaccion inexistente';

@@ -1,3 +1,5 @@
+--------------- SQL ---------------
+
 CREATE OR REPLACE FUNCTION "gem"."f_uni_cons_sel" (
   "p_administrador" integer,
   "p_id_usuario" integer,
@@ -289,11 +291,13 @@ BEGIN
                             loc.ubicacion as ubicacion,
                             teq.codigo as codigo_tipo_equipo,
                             teq.nombre as nombre_tipo_equipo,
+						    tcc.id_uni_cons_padre,
                             to_char(tuc.fecha_reg, ''dd/MM/YYYY'') as fecha_reg,
                             to_char(tuc.fecha_mod, ''dd/MM/YYYY'') as fecha_mod
                         from gem.tuni_cons tuc
                         left join gem.ttipo_equipo teq on tuc.id_tipo_equipo = teq.id_tipo_equipo
                         left join gem.tlocalizacion loc on tuc.id_localizacion = loc.id_localizacion
+                        left join gem.tuni_cons_comp tcc on tuc.id_uni_cons = tcc.id_uni_cons_hijo
                         where tuc.id_uni_cons = '|| v_parametros.id_uni_cons;
 
 			--Devuelve la respuesta

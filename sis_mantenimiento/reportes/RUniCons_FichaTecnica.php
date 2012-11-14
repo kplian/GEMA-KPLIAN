@@ -143,7 +143,7 @@ Class RUniCons_FichaTecnica extends Report {
 		$pdf->Cell($width1, $height, 'Punto:', 0, 0, 'L', false, '', 0, false, 'M', 'M');
 		$pdf->SetFont('', 'B');
 		$pdf->setTextColor(51,51,153);
-		$pdf->Cell($width2, $height, '**', 'B', 0, 'L', false, '', 0, false, 'M', 'M');
+		$pdf->Cell($width2, $height, $this->getDataSource()->getParameter('punto'), 'B', 0, 'L', false, '', 0, false, 'M', 'M');
 		
 		$pdf->Ln();
 		$pdf->SetFont('', '');
@@ -185,34 +185,13 @@ Class RUniCons_FichaTecnica extends Report {
 			}
 		}
 		
-		//pintamos los hijos.
+		//pintamos repuestos
+		$this->writeRepuestos($this->getDataSource()->getParameter('repuestoDataSource'), $pdf);
 		
+		//pintamos los hijos.
 		foreach($this->getDataSource()->getParameter('arrayHijos') as $hijoDataSource) {
 			$this->writeHijoUniCons($hijoDataSource, $pdf);
 		}
-		
-		// $pdf->Ln();
-		// $pdf->setTextColor(51,51,153);
-		// $pdf->setTextColor(51,51,153);
-		// $pdf->SetFont('', 'B');
-		// $pdf->Cell(0, $height, 'REPUESTOS:', 1, 0, 'L', false, '', 0, false, 'M', 'M');
-		// $pdf->Ln();
-		
-		// $pdf->Ln();
-		// $pdf->Ln();
-		// foreach($this->getDataSource()->getParam('dataSourceHijos') as $hijoDataSource) {
-			// $this->writeHijoUniCons($hijoDataSource, $pdf);
-		// }
-		
-		// $pdf->SetFont('', '');
-		// $pdf->setTextColor(0,0,0);
-		// $pdf->Cell($width3, $height, 'TAG:', 1, 0, 'L', false, '', 0, false, 'M', 'M');
-// 		
-		// $pdf->SetFont('', 'B');
-		// $pdf->setTextColor(51,51,153);
-		// $pdf->Cell($width4, $height, 'PLATAFORMA DE BOMBEO', 1, 0, 'C', false, '', 0, false, 'M', 'M');
-// 		
-// 		
 		
 		//Close and output PDF document
 		$pdf->Output($fileName, 'F');
@@ -259,6 +238,38 @@ Class RUniCons_FichaTecnica extends Report {
 				$pdf->Ln();	
 				$colCount = 0;			
 			}
+		}
+	}
+	
+	function writeRepuestos (DataSource $dataSource, TCPDF $pdf) {
+		$widthMarginLeft = 20;
+		$widthNombre = 50;
+		$widthItem = 20;
+		$widthObservaciones = 70;
+		
+		$pdf->Ln();
+		$pdf->Ln();
+		$pdf->SetFontSize(7.5);
+		$pdf->SetFont('', 'B');
+		$height = 5;
+		$pdf->SetFillColor(51,51,153, true);
+		$pdf->setTextColor(255,255,255);
+		$pdf->Cell($widthMarginLeft, $height, '', 0, 0, 'C', false, '', 0, false, 'M', 'M');
+		$pdf->Cell($widthNombre + $widthItem + $widthObservaciones, $height, 'Repuestos', 1, 0, 'C', true, '', 0, false, 'M', 'M');
+		$pdf->Ln();
+		
+		$pdf->Cell($widthMarginLeft, $height, '', 0, 0, 'C', false, '', 0, false, 'M', 'M');
+		$pdf->Cell($widthNombre, $height, 'Nombre', 1, 0, 'C', true, '', 0, false, 'M', 'M');
+		$pdf->Cell($widthItem, $height, 'Nº Item', 1, 0, 'C', true, '', 0, false, 'M', 'M');
+		$pdf->Cell($widthObservaciones, $height, 'Observaciones', 1, 0, 'C', true, '', 0, false, 'M', 'M');
+		$pdf->Ln();
+		$pdf->setTextColor(51,51,153);
+		foreach($dataSource->getDataset() as $row) {
+			$pdf->Cell($widthMarginLeft, $height, '', 0, 0, 'C', false, '', 0, false, 'M', 'M');
+			$pdf->Cell($widthNombre, $height, $row['nombre'], 1, 0, 'C', false, '', 0, false, 'M', 'M');
+			$pdf->Cell($widthItem, $height, $row['codigo'], 1, 0, 'C', false, '', 0, false, 'M', 'M');
+			//$pdf->Cell($widthObservaciones, $height, $dataset['nombre'], 1, 0, 'C', true, '', 0, false, 'M', 'M');
+			$pdf->Ln();
 		}
 	}
 }
