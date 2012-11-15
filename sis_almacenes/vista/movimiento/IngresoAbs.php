@@ -16,7 +16,7 @@ header("content-type:text/javascript; charset=UTF-8");
         //llama al constructor de la clase padre
         Phx.vista.IngresoAbs.superclass.constructor.call(this,config);
         this.init();
-        this.load({params:{start:0, limit:50, codigo:'ING'}})
+        this.load({params:{start:0, limit:50, codigo:'INGRESO'}})
         this.iniciarEventos();
     },
     
@@ -60,7 +60,7 @@ header("content-type:text/javascript; charset=UTF-8");
             },
             type:'Field',
             form:true,
-            valorInicial : 'ING'
+            valorInicial : 'INGRESO'
         },
         {
             config:{
@@ -69,7 +69,6 @@ header("content-type:text/javascript; charset=UTF-8");
                 allowBlank:false,
                 emptyText:'Almacen...',
                 store: new Ext.data.JsonStore({
-
                     url: '../../sis_almacenes/control/Almacen/listarAlmacen',
                     id: 'id_almacen',
                     root: 'datos',
@@ -244,14 +243,14 @@ header("content-type:text/javascript; charset=UTF-8");
                 fieldLabel: 'Nº movimiento',
                 allowBlank: false,
                 anchor: '80%',
-                gwidth: 80,
+                gwidth: 150,
                 maxLength:5
             },
             type:'TextField',
             filters:{type:'string'},
             id_grupo:1,
             grid:true,
-            form:true
+            form:false
         },
         {
             config:{

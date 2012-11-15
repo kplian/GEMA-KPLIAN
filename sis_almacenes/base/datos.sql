@@ -82,13 +82,13 @@ VALUES (1, NULL, '2012-11-10 13:01:46', '2012-11-10 13:01:46', 'activo', 2, 'SAL
 
 -- Movimiento
 INSERT INTO alm.tmovimiento (id_usuario_reg, id_usuario_mod, fecha_reg, fecha_mod, estado_reg, id_movimiento, id_movimiento_tipo, id_almacen, id_funcionario, id_proveedor, id_almacen_dest, fecha_mov, numero_mov, descripcion, observaciones, estado_mov)
-VALUES (1, NULL, '2012-11-13 10:28:58', '2012-11-13 10:28:58', 'activo', 1, 1, NULL, 1, 2, 1, '2012-11-13 12:00:00', 'ING001', 'Ingreso de Humidificados y cardiografos', NULL, 'borrador');
+VALUES (1, NULL, '2012-11-13 10:28:58', '2012-11-13 10:28:58', 'activo', 1, 1, 1, 1, 2, 1, '2012-11-13 12:00:00', 'ING001', 'Ingreso de Humidificados y cardiografos', NULL, 'borrador');
 
 INSERT INTO alm.tmovimiento (id_usuario_reg, id_usuario_mod, fecha_reg, fecha_mod, estado_reg, id_movimiento, id_movimiento_tipo, id_almacen, id_funcionario, id_proveedor, id_almacen_dest, fecha_mov, numero_mov, descripcion, observaciones, estado_mov)
-VALUES (1, NULL, '2012-11-13 11:40:56', '2012-11-13 11:40:56', 'activo', 2, 1, NULL, 1, 1, 1, '2012-11-13 11:44:02', 'ING002', 'Ingreso equipos de computacion', NULL, 'borrador');
+VALUES (1, NULL, '2012-11-13 11:40:56', '2012-11-13 11:40:56', 'activo', 2, 1, 1, 1, 1, 1, '2012-11-13 11:44:02', 'ING002', 'Ingreso equipos de computacion', NULL, 'borrador');
 
 INSERT INTO alm.tmovimiento (id_usuario_reg, id_usuario_mod, fecha_reg, fecha_mod, estado_reg, id_movimiento, id_movimiento_tipo, id_almacen, id_funcionario, id_proveedor, id_almacen_dest, fecha_mov, numero_mov, descripcion, observaciones, estado_mov)
-VALUES (1, NULL, '2012-11-13 11:42:38', '2012-11-13 11:42:38', 'activo', 3, 1, NULL, 1, 1, 2, '2012-11-13 11:47:16', 'ING003', 'Ingreso equipos de computacion', NULL, 'finalizado');
+VALUES (1, NULL, '2012-11-13 11:42:38', '2012-11-13 11:42:38', 'activo', 3, 1, 1, 1, 1, 2, '2012-11-13 11:47:16', 'ING003', 'Ingreso equipos de computacion', NULL, 'finalizado');
 
 INSERT INTO alm.tmovimiento (id_usuario_reg, id_usuario_mod, fecha_reg, fecha_mod, estado_reg, id_movimiento, id_movimiento_tipo, id_almacen, id_funcionario, id_proveedor, id_almacen_dest, fecha_mov, numero_mov, descripcion, observaciones, estado_mov)
 VALUES (1, NULL, '2012-11-13 11:51:08', '2012-11-13 11:51:08', 'activo', 4, 2, 1, 1, NULL, NULL, '2012-11-13 11:54:07', 'SAL001', 'Salida de equipos de computacion', NULL, 'finalizado');

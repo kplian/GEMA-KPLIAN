@@ -30,7 +30,7 @@
                     scope:this
                 });     
             }
-            this.load({params:{start:0, limit:50, codigo:'TRA'}})
+            this.load({params:{start:0, limit:50, codigo:'TRANSFERENCIA'}})
         },
         successSinc:function(resp){
             
