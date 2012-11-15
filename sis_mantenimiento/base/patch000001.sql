@@ -1044,3 +1044,21 @@ ALTER TABLE gem.tuni_cons_item OWNER TO postgres;
 
 ALTER TABLE gem.tdocumento
 ADD COLUMN tipo VARCHAR(10) DEFAULT 'padre'::character varying;
+
+--RAC 13 11 2012
+--aumenta el campo time en la tabla de equipo_medicion
+
+ALTER TABLE gem.tequipo_medicion
+  ADD COLUMN hora TIME(0) WITHOUT TIME ZONE;
+
+ALTER TABLE gem.tequipo_medicion
+  ALTER COLUMN hora SET DEFAULT now();
+  
+--------------- SQL ---------------
+
+ALTER TABLE gem.tequipo_medicion
+  ALTER COLUMN fecha_medicion TYPE DATE;  
+  
+ ALTER TABLE gem.tequipo_variable
+  ADD COLUMN tipo VARCHAR(10) DEFAULT 'numeric' NOT NULL; 
+

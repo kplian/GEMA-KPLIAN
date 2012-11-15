@@ -63,7 +63,8 @@ BEGIN
                         tva.nombre as nombre_tipo_variable,
                         um.codigo as codigo_unidad_medida,
                         um.id_unidad_medida,
-                        eqv.id_equipo_variable as key
+                        eqv.id_equipo_variable as key,
+                        tipo
 						from gem.tequipo_variable eqv
 						inner join gem.ttipo_variable tva on tva.id_tipo_variable = eqv.id_tipo_variable
                         inner join segu.tusuario usu1 on usu1.id_usuario = eqv.id_usuario_reg

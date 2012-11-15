@@ -142,6 +142,32 @@ Phx.vista.EquipoVariable=Ext.extend(Phx.gridInterfaz,{
        			grid:true,
        			form:true
        	},
+	       	{
+	       		config:{
+	       			name:'tipo',
+	       			fieldLabel:'Tipo dato',
+	       			allowBlank:false,
+	       			emptyText:'Estilo...',
+	       			
+	       			typeAhead: true,
+	       		    triggerAction: 'all',
+	       		    lazyRender:true,
+	       		    mode: 'local',
+	       		    //readOnly:true,
+	       		    valueField: 'tipo',
+	       		   // displayField: 'descestilo',
+	       		    store:['numeric','text']
+	       		    
+	       		},
+	       		type:'ComboBox',
+	       		id_grupo:0,
+	       		filters:{	
+	       		         type: 'list',
+	       				 options: ['numeric','text'],	
+	       		 	},
+	       		grid:true,
+	       		form:true
+	       	},
 		{
 			config:{
 				name: 'valor_min',
@@ -297,7 +323,7 @@ Phx.vista.EquipoVariable=Ext.extend(Phx.gridInterfaz,{
 
 
 	},
-	fields: ['codigo_unidad_medida','id_unidad_medida','nombre_tipo_variable',
+	fields: ['tipo','codigo_unidad_medida','id_unidad_medida','nombre_tipo_variable',
 		{name:'id_equipo_variable', type: 'numeric'},
 		{name:'estado_reg', type: 'string'},
 		{name:'valor_max', type: 'numeric'},

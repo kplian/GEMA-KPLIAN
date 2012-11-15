@@ -274,6 +274,8 @@ class FuncionesMantenimiento{
 		$res=$obj->listarVariables();
 		return $res;
 	}
+	
+	
 	/*FinClase: MODEquipoVariable*/
 
 
@@ -477,6 +479,12 @@ class FuncionesMantenimiento{
 		$res=$obj->insertarEquipoMedicion();
 		return $res;
 	}
+	
+	function insertarEquipoMedicionDinamico(CTParametro $parametro){
+		$obj=new MODEquipoMedicion($parametro);
+		$res=$obj->insertarEquipoMedicionDinamico();
+		return $res;
+	}
 			
 	function modificarEquipoMedicion(CTParametro $parametro){
 		$obj=new MODEquipoMedicion($parametro);
@@ -487,6 +495,20 @@ class FuncionesMantenimiento{
 	function eliminarEquipoMedicion(CTParametro $parametro){
 		$obj=new MODEquipoMedicion($parametro);
 		$res=$obj->eliminarEquipoMedicion();
+		return $res;
+	}
+	
+	function eliminarEquipoMedicionDinamico(CTParametro $parametro){
+		$obj=new MODEquipoMedicion($parametro);
+		$res=$obj->eliminarEquipoMedicionDinamico();
+		return $res;
+	}
+	
+	
+	
+	function listarEquipoMedicionDinamico(CTParametro $parametro){
+		$obj=new MODEquipoMedicion($parametro);
+		$res=$obj->listarEquipoMedicionDinamico();
 		return $res;
 	}
 	/*FinClase: MODEquipoMedicion*/

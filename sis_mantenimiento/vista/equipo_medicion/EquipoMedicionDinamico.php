@@ -41,22 +41,26 @@ Phx.vista.EquipoMedicionDinamico=Ext.extend(Phx.gridInterfaz,{
 				                              "dir":"ASC",
 				                              'id_uni_cons':config.id_uni_cons,
 				                               start:0, 
-				                               limit:50},callback:this.successConstructor,scope:this})			
+				                               limit:500},callback:this.successConstructor,scope:this})			
 	},		
 	
 	successConstructor:function(rec,con,res){
+		
+		this.recColumnas = rec;
 		console.log(rec,con,res)
 		
 		this.Atributos=[];
 		this.fields=[];
-		this.id_store='id_equipo_med_uni_cons'
+		this.id_store='id_mediciones_mes'
 		
 		this.sortInfo={
-			field: this.id_store,
+			field: 'fecha',
 			direction: 'ASC'
 		};
 		this.fields.push(this.id_store)
 		this.fields.push('id_uni_cons')
+		this.fields.push({name:'fecha', type: 'date', dateFormat:'Y-m-d'})
+		this.fields.push('hora')
 		
 		if(res)
 		{
@@ -76,27 +80,46 @@ Phx.vista.EquipoMedicionDinamico=Ext.extend(Phx.gridInterfaz,{
 								config:{
 										
 										name: 'fecha',
-										fieldLabel: 'Fecha'
+										fieldLabel: 'Fecha',
+										allowBlank: false,
+										anchor: '80%',
+										format: 'd/m/Y',
+										renderer:function (value,p,record){return value?value.dateFormat('d/m/Y'):''}
 								},
 								type:'DateField',
 								filters:{pfiltro:'fecha',type:'date'},
 								grid:true,
 								form:true 
 						};
-						;
 						
-			var recText = this.id_store +'#integer@fecha#date';			
+			this.Atributos[2]={
+			//configuracion del componente
+								config:{
+										
+										name: 'hora',
+										fieldLabel: 'Hora',
+										format:'H:i:s',
+										allowBlank: false
+								},
+								type:'TimeField',
+								grid:true,
+								form:true 
+						};
+									
+			var recText = this.id_store +'#integer@fecha#date@hora#time';			
 				//console.log('this.id_store: ', this.id_store);		
 			
 			for (var i=0;i<rec.length;i++){
 				var configDef={};
 				
-			var codigo_col = Ext.util.Format.trim(Ext.util.Format.lowercase(rec[i].data.nombre_tipo_variable))+'_'+rec[i].data.key;
+			var codigo_col = 'col_'+rec[i].data.key;
 				
-				this.fields.push(codigo_col)
-			    recText=recText+'@'+codigo_col+'#varchar'
+				this.fields.push(codigo_col);
+				this.fields.push(codigo_col+'_key');
 				
-				this.Atributos[i+2]={config:{
+			    recText=recText+'@'+codigo_col+'#varchar'+'@'+codigo_col+'_key#integer'
+				
+				this.Atributos.push({config:{
 									 name: codigo_col,
 									 fieldLabel: rec[i].data.nombre_tipo_variable+ ' ['+rec[i].data.codigo_unidad_medida +']',
 									 allowBlank: true,
@@ -104,13 +127,23 @@ Phx.vista.EquipoMedicionDinamico=Ext.extend(Phx.gridInterfaz,{
 									 gwidth: 100,
 									 maxLength:100
 									},
-									type:'Field',
+									type:'NumberField',
 									filters:{pfiltro:rec[i].data.codigo_columna,type:'string'},
 									id_grupo:1,
 									egrid:true,
 									grid:true,
 									form:true
-							};
+							});
+							
+				
+				
+				this.Atributos.push({config:{
+									 name: codigo_col+'_key',
+									 inputType:'hidden'
+									},
+									type:'Field',
+									form:true
+							});
 					
 			}
 			
@@ -128,66 +161,77 @@ Phx.vista.EquipoMedicionDinamico=Ext.extend(Phx.gridInterfaz,{
 			
 			this.store.baseParams={'id_uni_cons':this.config.id_uni_cons,'datos':recText};			               
 				                   
-			this.load({params:{start:0, limit:50}})
+			this.load({params:{start:0, limit:500}})
 			
 		}
 		
 	},
 	
-	
-	promedios: function()
-	{
-		/*var datos = {
-			id_sensor:this.config.id_sensor,
-			tipo_sensor_codigo:this.config.tipo_sensor_codigo,
-			id_tipo_sensor:this.config.id_tipo_sensor,
-			tabla:this.id_store,
-			}; 
-		
-		Phx.CP.loadWindows('../../../sis_hidrologia/vista/tipo_sensor_codigo/Promedios.php',
-		'Promedio',
-		{
-			modal:true,
-			width:500,
-			height:300
-	    },datos,this.idContenedor,'Promedios')*/
-	},
-	
-	reporteHidro:function()
-	{															
-		var data = {
-			id_sensor:this.config.id_sensor,
-			tipo_sensor_codigo:this.config.tipo_sensor_codigo,
-			id_tipo_sensor:this.config.id_tipo_sensor,
-			tabla:this.id_store,
-			};   
+	onButtonDel:function(){
+		if(confirm('¿Está seguro de eliminar el registro?')){
+			//recupera los registros seleccionados
+			var filas=this.sm.getSelections();
+			var data= {},aux={};
+			//console.log(filas,i)
+			
+            //arma una matriz de los identificadores de registros que se van a eliminar
+            this.agregarArgsExtraSubmit();
+            console.log(this.recColulmanas)
+            
+			for(var i=0;i<this.sm.getCount();i++){
+				
+				aux={};
+				aux[this.id_store]=filas[i].data[this.id_store];
+				var keys ='';
+				var j=0;
+				for (j=0;j<this.recColumnas.length -1;j++){
 					
-		Phx.CP.loadWindows('../../../sis_hidrologia/vista/tipo_sensor_codigo/RepHidro.php',
-		'Reporte',
-		{
-			modal:true,
-			width:500,
-			height:300
-	    },data,this.idContenedor,'RepHidro')			
-	},
+					var codigo_col = 'col_'+this.recColumnas[j].data.key+'_key';
+					
+					keys=keys+filas[i].data[codigo_col]+',';
+				}
+				
+				var codigo_col = 'col_'+this.recColumnas[j].data.key+'_key';
+				keys=keys+filas[i].data[codigo_col];
+				
+				
+				aux['keys'] = keys;
+				
+				
+				
+				data[i]=aux;
+				data[i]._fila=this.store.indexOf(filas[i])+1
+				//rac 22032012
+				
+				Ext.apply(data[i],this.argumentExtraSubmit);
+				
+				
+			}
+			
+	
 		
-	aSubirExcel:function()
-	{							
-		Phx.CP.loadWindows('../../../sis_hidrologia/vista/tipo_sensor_codigo/SubirExcelDinamico.php',
-		'Subir archivo',
-		{
-			modal:true,
-			width:500,
-			height:250
-	    },{id_sensor:this.config.id_sensor,
-	    	tipo_sensor_codigo:this.config.tipo_sensor_codigo,
-	    	id_tipo_sensor:this.config.id_tipo_sensor},this.idContenedor,'SubirExcelDinamico')
+			Phx.CP.loadingShow();
+			
+			//llama el metodo en la capa de control para eliminación
+			Ext.Ajax.request({
+				url:this.ActDel,
+				success:this.successDel,
+				failure:this.conexionFailure,
+				//params:this.id_store+"="+this.sm.getSelected().data[this.id_store],
+				params:{_tipo:'matriz','row':Ext.util.JSON.encode(data)},
+				//argument :{'foo':'xxx'},
+				timeout:this.timeout,
+				scope:this
+			})
+		}
 	},
+	
+	
 	
 	title:'Tipo Sensor',
-	ActSave:'../../sis_hidrologia/control/TipoSensorCodigo/insertarTipoSensorCodigo',
-	ActDel:'../../sis_hidrologia/control/TipoSensorCodigo/eliminarTipoSensorCodigo',
-	ActList:'../../sis_hidrologia/control/TipoSensorCodigo/listarTipoSensorCodigo',
+	ActSave:'../../sis_mantenimiento/control/EquipoMedicion/insertarEquipoMedicionDinamico',
+	ActDel:'../../sis_mantenimiento/control/EquipoMedicion/eliminarEquipoMedicionDinamico',
+	ActList:'../../sis_mantenimiento/control/EquipoMedicion/listarEquipoMedicionDinamico',
 	bdel:true,
 	bsave:true,
 	bnew:true,
@@ -212,8 +256,8 @@ Phx.vista.EquipoMedicionDinamico=Ext.extend(Phx.gridInterfaz,{
 	onReloadPage:function(m)
 	{
 		this.maestro=m;						
-		this.store.baseParams={id_sensor:this.maestro.id_sensor};
-		this.load({params:{start:0, limit:50}});			
+		this.store.baseParams={id_uni_cons:this.maestro.id_uni_cons};
+		this.load({params:{start:0, limit:500}});			
 	}
 		
 }

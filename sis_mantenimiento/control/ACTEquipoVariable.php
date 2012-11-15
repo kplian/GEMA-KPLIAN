@@ -30,6 +30,8 @@ class ACTEquipoVariable extends ACTbase{
 		
 		if($this->objParam->getParametro('id_uni_cons')!=''){
 			$this->objParam->addFiltro("eqv.id_uni_cons = ".$this->objParam->getParametro('id_uni_cons'));	
+			$this->objParam->addFiltro("eqv.tipo = ''numeric''");	
+		
 		}
 		$this->objFunc=new FuncionesMantenimiento();	
 		$this->res=$this->objFunc->listarEquipoVariable($this->objParam);

@@ -117,7 +117,8 @@ BEGIN
 			id_usuario_reg,
 			fecha_reg,
 			id_usuario_mod,
-			fecha_mod
+			fecha_mod,
+            tipo
           	) values(
 			'activo',
 			v_parametros.valor_max,
@@ -128,7 +129,8 @@ BEGIN
 			p_id_usuario,
 			now(),
 			null,
-			null
+			null,
+            v_parametros.tipo
 			)RETURNING id_equipo_variable into v_id_equipo_variable;
                
 			--Definicion de la respuesta
@@ -212,7 +214,8 @@ BEGIN
 			valor_min = v_parametros.valor_min,
 			id_tipo_variable = v_id_tipo_variable,
 			id_usuario_mod = p_id_usuario,
-			fecha_mod = now()
+			fecha_mod = now(),
+            tipo=v_parametros.tipo
 			where id_equipo_variable=v_parametros.id_equipo_variable;
                
 			--Definicion de la respuesta
