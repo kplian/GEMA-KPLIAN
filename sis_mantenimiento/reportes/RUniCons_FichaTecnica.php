@@ -154,7 +154,6 @@ Class RUniCons_FichaTecnica extends Report {
 		$pdf->Cell($width2, $height, '**', 'B', 0, 'L', false, '', 0, false, 'M', 'M');
 		
 		//paint el detalle del padre
-		
 		$dataset = $this->getDataSource()->getDataset();
 		$pdf->Ln();
 		$pdf->Ln();
@@ -164,8 +163,8 @@ Class RUniCons_FichaTecnica extends Report {
 		$pdf->Cell(0, $height, 'IDENTIFICACIÓN:', 0, 0, 'L', false, '', 0, false, 'M', 'M');
 		$pdf->Ln();
 		// end title
-		//counter 
-		$colCount = 0; 
+		
+		$colCount = 0;
 		$pdf->SetFontSize(6.5);
 		foreach($dataset as $row) {
 			
@@ -185,15 +184,14 @@ Class RUniCons_FichaTecnica extends Report {
 			}
 		}
 		
-		//pintamos repuestos
 		$this->writeRepuestos($this->getDataSource()->getParameter('repuestoDataSource'), $pdf);
 		
-		//pintamos los hijos.
 		foreach($this->getDataSource()->getParameter('arrayHijos') as $hijoDataSource) {
 			$this->writeHijoUniCons($hijoDataSource, $pdf);
 		}
 		
-		//Close and output PDF document
+		$this->writeProveedores(new DataSource(), $pdf);
+		
 		$pdf->Output($fileName, 'F');
 	}
 
@@ -270,6 +268,59 @@ Class RUniCons_FichaTecnica extends Report {
 			$pdf->Cell($widthNombre, $height, $row['nombre'], 1, 0, 'L', false, '', 0, false, 'M', 'M');
 			$pdf->Cell($widthItem, $height, $row['codigo'], 1, 0, 'C', false, '', 0, false, 'M', 'M');
 			$pdf->Cell($widthObservaciones, $height, $row['observaciones'], 1, 0, 'L', false, '', 0, false, 'M', 'M');
+			$pdf->Ln();
+		}
+	}
+
+	function writeProveedores(DataSource $dataSource, TCPDF $pdf) {
+		$widthMarginLeft = 0;
+		$widthDescripcion = 35;
+		$widthParte = 15;
+		$widthProveedor = 30;
+		$widthContacto = 30;
+		$widthDireccion = 40;
+		$widthTelefono = 15;
+		$widthEmail = 20;
+		$totalWidth = $widthDescripcion + $widthParte + $widthProveedor + $widthContacto + $widthDireccion + $widthTelefono + $widthEmail;
+		
+		$pdf->Ln();
+		$pdf->Ln();
+		$pdf->SetFontSize(7.5);
+		$pdf->SetFont('', 'B');
+		$height = 5;
+		$pdf->SetFillColor(51,51,153, true);
+		$pdf->setTextColor(255,255,255);
+		if($widthMarginLeft > 0) {
+			$pdf->Cell($widthMarginLeft, $height, '', 0, 0, 'C', false, '', 0, false, 'M', 'M');
+		}
+		$pdf->Cell($totalWidth, $height, 'Proveedor de Repuestos', 1, 0, 'C', true, '', 0, false, 'M', 'M');
+		$pdf->Ln();
+		
+		$pdf->SetFontSize(6);
+		if ($widthMarginLeft > 0) {
+			$pdf->Cell($widthMarginLeft, $height, '', 0, 0, 'C', false, '', 0, false, 'M', 'M');
+		}
+		$pdf->Cell($widthDescripcion, $height, 'Descripción', 1, 0, 'C', true, '', 0, false, 'M', 'M');
+		$pdf->Cell($widthParte, $height, 'NºParte/cod.', 1, 0, 'C', true, '', 0, false, 'M', 'M');
+		$pdf->Cell($widthProveedor, $height, 'Proveedor', 1, 0, 'C', true, '', 0, false, 'M', 'M');
+		$pdf->Cell($widthContacto, $height, 'Contacto', 1, 0, 'C', true, '', 0, false, 'M', 'M');
+		$pdf->Cell($widthDireccion, $height, 'Dirección', 1, 0, 'C', true, '', 0, false, 'M', 'M');
+		$pdf->Cell($widthTelefono, $height, 'Telefono', 1, 0, 'C', true, '', 0, false, 'M', 'M');
+		$pdf->Cell($widthEmail, $height, 'Email', 1, 0, 'C', true, '', 0, false, 'M', 'M');
+		$pdf->Ln();
+		$pdf->setTextColor(0,0,0);
+		
+		foreach($dataSource->getDataset() as $row) {
+			if ($widthMarginLeft > 0) {
+				$pdf->Cell($widthMarginLeft, $height, '', 0, 0, 'C', false, '', 0, false, 'M', 'M');
+			}
+			$pdf->Cell($widthDescripcion, $height, 'Descripción', 1, 0, 'C', false, '', 0, false, 'M', 'M');
+			$pdf->Cell($widthParte, $height, 'NºParte/cod.', 1, 0, 'C', false, '', 0, false, 'M', 'M');
+			$pdf->Cell($widthProveedor, $height, 'Proveedor', 1, 0, 'C', false, '', 0, false, 'M', 'M');
+			$pdf->Cell($widthContacto, $height, 'Contacto', 1, 0, 'C', false, '', 0, false, 'M', 'M');
+			$pdf->Cell($widthDireccion, $height, 'Dirección', 1, 0, 'C', false, '', 0, false, 'M', 'M');
+			$pdf->Cell($widthTelefono, $height, 'Telefono', 1, 0, 'C', false, '', 0, false, 'M', 'M');
+			$pdf->Cell($widthEmail, $height, 'Email', 1, 0, 'C', false, '', 0, false, 'M', 'M');
 			$pdf->Ln();
 		}
 	}

@@ -306,7 +306,7 @@ class ACTUniCons extends ACTbase{
 	}
 		  
 	function eliminarUniCons(){
-		$this->objFunc=new FuncionesMantenimiento();	
+		$this->objFunc=new FuncionesMantenimiento();
 		$this->res=$this->objFunc->eliminarUniCons($this->objParam);
 		$this->res->imprimirRespuesta($this->res->generarJson());
 	}
@@ -322,7 +322,7 @@ class ACTUniCons extends ACTbase{
 		$dataSource = new DataSource();
 		$idUniCons = $this->objParam->getParametro('id_uni_cons');
 		
-		$resultUniCons=$this->objFunc->obtenerUniCons($this->objParam);
+		$resultUniCons = $this->objFunc->obtenerUniCons($this->objParam);
 		$datosUniCons = $resultUniCons->getDatos();
 		//armamos el array parametros y metemos ahi los data sets de las otras tablas
 		$dataSource->putParameter('nombre', $datosUniCons[0]['nombre']);
@@ -345,7 +345,7 @@ class ACTUniCons extends ACTbase{
 			$resultRaiz = $this->objFunc->obtenerUniCons($this->objParam);
 			$datosRaiz = $resultRaiz->getDatos();
 		}
-		$dataSource->putParameter('punto', $datoRaiz[0]['nombre']);
+		$dataSource->putParameter('punto', $datosRaiz[0]['nombre']);
 		
 		//get repuestos
 		//Reset all extra params:
