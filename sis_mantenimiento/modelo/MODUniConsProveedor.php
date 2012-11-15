@@ -32,6 +32,11 @@ class MODUniConsProveedor extends MODbase{
 		$this->captura('fecha_mod','timestamp');
 		$this->captura('usr_reg','varchar');
 		$this->captura('usr_mod','varchar');
+		$this->captura('institucion','varchar');
+		$this->captura('contacto','varchar');
+		$this->captura('direccion','varchar');
+		$this->captura('telefono','varchar');
+		$this->captura('email','varchar');
 		
 		//Ejecuta la instruccion
 		$this->armarConsulta();
