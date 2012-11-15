@@ -97,7 +97,17 @@ header("content-type:text/javascript; charset=UTF-8");
     id_store:'id_clasificacion',
     textRoot:'EQUIPOS',
     id_nodo:'id_clasificacion',
-    id_nodo_p:'id_clasificacion_fk',    
+    id_nodo_p:'id_clasificacion_fk',
+    
+    onButtonNew:function(){
+            var nodo = this.sm.getSelectedNode();           
+            Phx.vista.Clasificacion.superclass.onButtonNew.call(this);
+            
+        
+            //Phx.CP.getPagina(this.idContenedor+'-east').setMarkerDragableOn();
+            
+        //this.getComponente('nivel').setValue((nodo.attributes.nivel*1)+1);
+     },    
     
     fields: [
         'id',
@@ -118,7 +128,8 @@ header("content-type:text/javascript; charset=UTF-8");
     bexcel:true,
     rootVisible:true,
     //sobrecarga prepara menu
-    preparaMenu:function(n){
+    
+     preparaMenu:function(n){
             //si es una nodo tipo carpeta habilitamos la opcion de nuevo
                             
             if(n.attributes.tipo_nodo == 'hijo' || n.attributes.tipo_nodo == 'raiz' || n.attributes.id == 'id'){
@@ -130,7 +141,7 @@ header("content-type:text/javascript; charset=UTF-8");
             
         
             // llamada funcion clace padre
-            Phx.vista.Clasificacion.superclass.preparaMenu.call(this,n)
+            Phx.vista.Clasificacion.superclass.preparaMenu.call(this,n);
         },
         
     EnableSelect:function(n){
@@ -163,7 +174,8 @@ header("content-type:text/javascript; charset=UTF-8");
                 return undefined;
         }       
      }
-    }
+
+}
 )
 </script>       
         

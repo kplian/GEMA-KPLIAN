@@ -172,7 +172,7 @@ Phx.vista.UniConsDet=Ext.extend(Phx.gridInterfaz,{
 				fieldLabel: 'Fecha creación',
 				allowBlank: true,
 				anchor: '80%',
-				gwidth: 100,
+				//gwidth: 100,
 				renderer:function (value,p,record){return value?value.dateFormat('d/m/Y h:i:s'):''}
 			},
 			type:'DateField',
@@ -217,7 +217,7 @@ Phx.vista.UniConsDet=Ext.extend(Phx.gridInterfaz,{
 				fieldLabel: 'Fecha Modif.',
 				allowBlank: true,
 				anchor: '80%',
-				gwidth: 100,
+				//gwidth: 100,
 				renderer:function (value,p,record){return value?value.dateFormat('d/m/Y h:i:s'):''}
 			},
 			type:'DateField',

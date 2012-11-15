@@ -114,6 +114,21 @@ Phx.vista.UniConsItem=Ext.extend(Phx.gridInterfaz,{
 			},
 			type:'Field',
 			form:true
+		},
+		{
+		    config:{
+		        name:'observaciones',
+		        fieldLabel:'Observaciones',
+		        anchor:'80%',
+		        allowBlank:true,
+		        gwidth:150,
+		        maxLength:2000		        
+		    },
+		    type:'TextField',
+		    filters:{pfiltro:'unitem.observaciones',type:'string'},
+		    id_grupo:1,
+		    grid:true,
+		    form:true
 		},		
 		{
 			config:{
@@ -121,7 +136,7 @@ Phx.vista.UniConsItem=Ext.extend(Phx.gridInterfaz,{
 				fieldLabel: 'Fecha creación',
 				allowBlank: true,
 				anchor: '80%',
-				gwidth: 110,
+				//gwidth: 110,
 				//renderer:function (value,p,record){return value?value.dateFormat('d/m/Y h:i:s'):''}
 				format:'Y-m-d'
 			},
@@ -152,7 +167,7 @@ Phx.vista.UniConsItem=Ext.extend(Phx.gridInterfaz,{
 				fieldLabel: 'Fecha Modif.',
 				allowBlank: true,
 				anchor: '80%',
-				gwidth: 110,
+				//gwidth: 110,
 				//renderer:function (value,p,record){return value?value.dateFormat('d/m/Y h:i:s'):''}
 				format:'Y-m-d'
 			},
@@ -189,6 +204,7 @@ Phx.vista.UniConsItem=Ext.extend(Phx.gridInterfaz,{
 		{name:'id_uni_cons', type: 'numeric'},
 		{name:'id_item', type: 'numeric'},
 		{name:'nombre',type:'string'},
+		{name:'observaciones',type:'string'},
 		{name:'fecha_reg', type: 'timestamp'},
 		{name:'id_usuario_reg', type: 'numeric'},
 		{name:'fecha_mod', type: 'timestamp'},

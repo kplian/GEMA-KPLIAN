@@ -1,37 +1,33 @@
 <?php
 /**
-*@package       pXP
-*@file          gen-MODUniConsItem.php
-*@author        (rac)
-*@date          01-11-2012 11:53:15
-*@description   Clase que envia los parametros requeridos a la Base de datos para la ejecucion de las funciones, y que recibe la respuesta del resultado de la ejecucion de las mismas
+*@package pXP
+*@file gen-MODAlmacenUsuario.php
+*@author  (admin)
+*@date 13-11-2012 01:30:22
+*@description Clase que envia los parametros requeridos a la Base de datos para la ejecucion de las funciones, y que recibe la respuesta del resultado de la ejecucion de las mismas
 */
 
-class MODUniConsItem extends MODbase{
+class MODAlmacenUsuario extends MODbase{
 	
 	function __construct(CTParametro $pParam){
 		parent::__construct($pParam);
 	}
 			
-	function listarUniConsItem(){
+	function listarAlmacenUsuario(){
 		//Definicion de variables para ejecucion del procedimientp
-		$this->procedimiento='gem.ft_uni_cons_item_sel';
-		$this->transaccion='GEM_UNITEM_SEL';
+		$this->procedimiento='alm.f_almacen_usuario_sel';
+		$this->transaccion='SAL_ALMUSU_SEL';
 		$this->tipo_procedimiento='SEL';//tipo de transaccion
 		
-		$this->setParametro('id_uni_cons','id_uni_cons','int4');				
+		$this->setParametro('id_almacen_usuario','id_almacen_usuario','int4');				
 		//Definicion de la lista del resultado del query
-		$this->captura('id_uni_cons_item','int4');
+		$this->captura('id_almacen_usuario','int4');
 		$this->captura('estado_reg','varchar');
-		$this->captura('id_uni_cons','int4');
-		$this->captura('id_item','int4');
-        $this->captura('nombre','varchar');
-        $this->captura('observaciones','varchar');
-        $this->captura('codigo','varchar');		
-		$this->captura('fecha_reg','timestamp');
+		$this->captura('id_usuario','int4');
 		$this->captura('id_usuario_reg','int4');
-		$this->captura('fecha_mod','timestamp');
+		$this->captura('fecha_reg','timestamp');
 		$this->captura('id_usuario_mod','int4');
+		$this->captura('fecha_mod','timestamp');
 		$this->captura('usr_reg','varchar');
 		$this->captura('usr_mod','varchar');
 		
@@ -43,16 +39,15 @@ class MODUniConsItem extends MODbase{
 		return $this->respuesta;
 	}
 			
-	function insertarUniConsItem(){
+	function insertarAlmacenUsuario(){
 		//Definicion de variables para ejecucion del procedimiento
-		$this->procedimiento='gem.ft_uni_cons_item_ime';
-		$this->transaccion='GEM_UNITEM_INS';
+		$this->procedimiento='alm.f_almacen_usuario_ime';
+		$this->transaccion='SAL_ALMUSU_INS';
 		$this->tipo_procedimiento='IME';
 				
 		//Define los parametros para la funcion
 		$this->setParametro('estado_reg','estado_reg','varchar');
-		$this->setParametro('id_uni_cons','id_uni_cons','int4');
-		$this->setParametro('id_item','id_item','int4');
+		$this->setParametro('id_usuario','id_usuario','int4');
 
 		//Ejecuta la instruccion
 		$this->armarConsulta();
@@ -62,17 +57,16 @@ class MODUniConsItem extends MODbase{
 		return $this->respuesta;
 	}
 			
-	function modificarUniConsItem(){
+	function modificarAlmacenUsuario(){
 		//Definicion de variables para ejecucion del procedimiento
-		$this->procedimiento='gem.ft_uni_cons_item_ime';
-		$this->transaccion='GEM_UNITEM_MOD';
+		$this->procedimiento='alm.f_almacen_usuario_ime';
+		$this->transaccion='SAL_ALMUSU_MOD';
 		$this->tipo_procedimiento='IME';
 				
 		//Define los parametros para la funcion
-		$this->setParametro('id_uni_cons_item','id_uni_cons_item','int4');
+		$this->setParametro('id_almacen_usuario','id_almacen_usuario','int4');
 		$this->setParametro('estado_reg','estado_reg','varchar');
-		$this->setParametro('id_uni_cons','id_uni_cons','int4');
-		$this->setParametro('id_item','id_item','int4');
+		$this->setParametro('id_usuario','id_usuario','int4');
 
 		//Ejecuta la instruccion
 		$this->armarConsulta();
@@ -82,14 +76,14 @@ class MODUniConsItem extends MODbase{
 		return $this->respuesta;
 	}
 			
-	function eliminarUniConsItem(){
+	function eliminarAlmacenUsuario(){
 		//Definicion de variables para ejecucion del procedimiento
-		$this->procedimiento='gem.ft_uni_cons_item_ime';
-		$this->transaccion='GEM_UNITEM_ELI';
+		$this->procedimiento='alm.f_almacen_usuario_ime';
+		$this->transaccion='SAL_ALMUSU_ELI';
 		$this->tipo_procedimiento='IME';
 				
 		//Define los parametros para la funcion
-		$this->setParametro('id_uni_cons_item','id_uni_cons_item','int4');
+		$this->setParametro('id_almacen_usuario','id_almacen_usuario','int4');
 
 		//Ejecuta la instruccion
 		$this->armarConsulta();

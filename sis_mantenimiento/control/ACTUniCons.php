@@ -319,30 +319,53 @@ class ACTUniCons extends ACTbase{
 	
 	function reporteUniConsFichaTecnica() {
 		$this->objFunc = new FuncionesMantenimiento();
-		
-		$resultPadre=$this->objFunc->obtenerUniCons($this->objParam);
-		
-		$this->objParam->addParametro('id_uni_cons_padre', $this->objParam->getParametro('id_uni_cons'));
-		
-		$resultHijos=$this->objFunc->listarUniConsHijos($this->objParam);
-		
-		
-		$resultDetalle = $this->objFunc->listarUniConsDetalle($this->objParam);
-		//TODO: iterar sobre los hijos, obtener sus variables y llenar datasets para el reporte de cada uno
-		
-		//armamos el array parametros y metemos ahi los data sets de las otras tablas
 		$dataSource = new DataSource();
-		$datosUniConsPadre = $resultPadre->getDatos();
-		$dataSource->putParameter('nombre', $datosUniConsPadre[0]['nombre']);
-		$dataSource->putParameter('codigo', $datosUniConsPadre[0]['codigo']);
-		$dataSource->putParameter('localizacion', $datosUniConsPadre[0]['nombre_localizacion']);
-		if($datosUniConsPadre[0]['fecha_mod'] != null) {
-			$dataSource->putParameter('fechaEmision', $datosUniConsPadre[0]['fecha_mod']);
+		$idUniCons = $this->objParam->getParametro('id_uni_cons');
+		
+		$resultUniCons=$this->objFunc->obtenerUniCons($this->objParam);
+		$datosUniCons = $resultUniCons->getDatos();
+		//armamos el array parametros y metemos ahi los data sets de las otras tablas
+		$dataSource->putParameter('nombre', $datosUniCons[0]['nombre']);
+		$dataSource->putParameter('codigo', $datosUniCons[0]['codigo']);
+		$dataSource->putParameter('localizacion', $datosUniCons[0]['nombre_localizacion']);
+		if($datosUniCons[0]['fecha_mod'] != null) {
+			$dataSource->putParameter('fechaEmision', $datosUniCons[0]['fecha_mod']);
 		} else {
-			$dataSource->putParameter('fechaEmision', $datosUniConsPadre[0]['fecha_reg']);
+			$dataSource->putParameter('fechaEmision', $datosUniCons[0]['fecha_reg']);
 		}
 		
+		//get detalle
+		$resultDetalle = $this->objFunc->listarUniConsDetalle($this->objParam);
 		$dataSource->setDataset($resultDetalle->getDatos());
+		
+		//get Raiz
+		$datosRaiz = array();
+		if($datosUniCons['id_uni_cons_padre'] != null) {
+			$this->objParam->addParametro('id_uni_cons', $datosUniCons['id_uni_cons_padre']);
+			$resultRaiz = $this->objFunc->obtenerUniCons($this->objParam);
+			$datosRaiz = $resultRaiz->getDatos();
+		}
+		$dataSource->putParameter('punto', $datoRaiz[0]['nombre']);
+		
+		//get repuestos
+		//Reset all extra params:
+		$this->objParam->defecto('ordenacion', 'id_uni_cons_item');
+		$this->objParam->defecto('cantidad', 1000);
+		$this->objParam->defecto('puntero', 0);
+		$this->objParam->addParametro('id_uni_cons', $idUniCons);
+		$resultRepuestos = $this->objFunc->listarUniConsItem($this->objParam);		
+		
+		$repuestoDataSource = new DataSource();
+		$repuestoDataSource->setDataSet($resultRepuestos->getDatos());
+		$dataSource->putParameter('repuestoDataSource', $repuestoDataSource);
+		
+		//get Provedores
+		//TODO: get proveedores.
+		
+		
+		//get hijos
+		$this->objParam->addParametro('id_uni_cons_padre', $idUniCons);
+		$resultHijos = $this->objFunc->listarUniConsHijos($this->objParam);
 		$arrayHijos = array();
 		
 		foreach($resultHijos->getDatos() as $rowHijo) {
@@ -354,14 +377,13 @@ class ACTUniCons extends ACTbase{
 			$dataSourceHijo->setDataset($resultDetalleHijo->getDatos());
 			$arrayHijos[] = $dataSourceHijo;
 		}
-		
 		$dataSource->putParameter('arrayHijos', $arrayHijos);
 		
+		//build the report
 		$reporte = new RUniCons_FichaTecnica();
 		$reporte->setDataSource($dataSource);
 		$reportWriter = new ReportWriter($reporte, dirname(__FILE__).'/../../reportes_generados/UniCons_FichaTecnica.pdf');
 		$reportWriter->writeReport(ReportWriter::PDF);
-		
 	}
 }
 ?>

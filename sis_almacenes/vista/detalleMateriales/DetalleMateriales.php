@@ -134,7 +134,7 @@ Phx.vista.DetalleMateriales=Ext.extend(Phx.gridInterfaz,{
                 fieldLabel: 'Fecha de caducidad',
                 allowBlank: true,
                 anchor: '80%',
-                gwidth: 120,
+                //gwidth: 120,
                 renderer:function (value,p,record){return value?value.dateFormat('d/m/Y'):''},
                 format:'d/m/Y'              
             },
@@ -164,7 +164,7 @@ Phx.vista.DetalleMateriales=Ext.extend(Phx.gridInterfaz,{
                 fieldLabel: 'Fecha registro',
                 allowBlank: true,
                 anchor: '80%',
-                gwidth: 110,
+                //gwidth: 110,
                 //renderer:function (value,p,record){return value?value.dateFormat('d/m/Y h:i:s'):''}
             },
             type:'DateField',
@@ -192,7 +192,7 @@ Phx.vista.DetalleMateriales=Ext.extend(Phx.gridInterfaz,{
                 name: 'fecha_mod',
                 fieldLabel: 'Fecha de modif.',
                 anchor: '80%',
-                gwidth: 110,
+                //gwidth: 110,
                 //renderer:function (value,p,record){return value?value.dateFormat('d/m/Y'):''},
                 format:'d/m/Y'
             },

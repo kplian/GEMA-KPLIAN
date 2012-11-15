@@ -63,7 +63,6 @@ Phx.vista.SubirArchivo=Ext.extend(Phx.frmInterfaz,{
     guardar: function(o){
         // arma json en cadena para enviar al servidor
         Ext.apply(this.argumentSave, o.argument);
-        //console.log(this.argumentSave,o.argument)
         if (this.fileUpload) {
             Ext.Ajax.request({
                 form: this.form.getForm().getEl(),

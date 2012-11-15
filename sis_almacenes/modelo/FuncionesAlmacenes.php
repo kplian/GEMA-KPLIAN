@@ -152,101 +152,6 @@ class FuncionesAlmacenes{
     }
     /*FinClase: MODAlmacen*/
     
-    
-    /**
-    * Clase: MODIngreso
-    * Fecha: 24-09-2012
-    * Autor: Gonzalo Sarmiento
-    */
-    /*
-    function listarIngreso(CTParametro $parametro){
-        $obj=new MODIngreso($parametro);
-        $res=$obj->listarIngreso();
-        return $res;
-    }
-            
-    function insertarIngreso(CTParametro $parametro){
-        $obj=new MODIngreso($parametro);
-        $res=$obj->insertarIngreso();
-        return $res;
-    }
-            
-    function modificarIngreso(CTParametro $parametro){
-        $obj=new MODIngreso($parametro);
-        $res=$obj->modificarIngreso();
-        return $res;
-    }
-            
-    function eliminarIngreso(CTParametro $parametro){
-        $obj=new MODIngreso($parametro);
-        $res=$obj->eliminarIngreso();
-        return $res;
-    }
-    /*FinClase: MODIngreso*/    
-    
-    /**
-    * Clase: MODSalida
-    * Fecha: 25-09-2012
-    * Autor: Gonzalo Sarmiento
-    */
-    /*
-    function listarSalida(CTParametro $parametro){
-        $obj=new MODSalida($parametro);
-        $res=$obj->listarSalida();
-        return $res;
-    }
-            
-    function insertarSalida(CTParametro $parametro){
-        $obj=new MODSalida($parametro);
-        $res=$obj->insertarSalida();
-        return $res;
-    }
-            
-    function modificarSalida(CTParametro $parametro){
-        $obj=new MODSalida($parametro);
-        $res=$obj->modificarSalida();
-        return $res;
-    }
-            
-    function eliminarSalida(CTParametro $parametro){
-        $obj=new MODSalida($parametro);
-        $res=$obj->eliminarSalida();
-        return $res;
-    }
-    /*FinClase: MODSalida*/
-    
-    /**
-    * Clase: MODTransferencia
-    * Fecha: 27-09-2012
-    * Autor: Gonzalo Sarmiento
-    */
-    /*
-    function listarTransferencia(CTParametro $parametro){
-        $obj=new MODTransferencia($parametro);
-        $res=$obj->listarTransferencia();
-        return $res;
-    }
-            
-    function insertarTransferencia(CTParametro $parametro){
-        $obj=new MODTransferencia($parametro);
-        $res=$obj->insertarTransferencia();
-        return $res;
-    }
-            
-    function modificarTransferencia(CTParametro $parametro){
-        $obj=new MODTransferencia($parametro);
-        $res=$obj->modificarTransferencia();
-        return $res;
-    }
-            
-    function eliminarTransferencia(CTParametro $parametro){
-        $obj=new MODTransferencia($parametro);
-        $res=$obj->eliminarTransferencia();
-        return $res;
-    }
-    */
-    /*FinClase: MODTransferencia*/
-    
     /**
     * Clase: MODMovimiento
     * Fecha: 03-10-2012
@@ -311,6 +216,35 @@ class FuncionesAlmacenes{
         $res = $obj->eliminarDetalleMateriales();
         return $res;
      }
-     /* Fin de clase MODDetalleMateriales*/                 
+     /* Fin de clase MODDetalleMateriales*/
+     
+     /*Clase: MODAlmacenUsuario
+    * Fecha: 13-11-2012 01:30:22
+    * Autor: admin*/
+    function listarAlmacenUsuario(CTParametro $parametro){
+        $obj=new MODAlmacenUsuario($parametro);
+        $res=$obj->listarAlmacenUsuario();
+        return $res;
+    }
+            
+    function insertarAlmacenUsuario(CTParametro $parametro){
+        $obj=new MODAlmacenUsuario($parametro);
+        $res=$obj->insertarAlmacenUsuario();
+        return $res;
+    }
+            
+    function modificarAlmacenUsuario(CTParametro $parametro){
+        $obj=new MODAlmacenUsuario($parametro);
+        $res=$obj->modificarAlmacenUsuario();
+        return $res;
+    }
+            
+    function eliminarAlmacenUsuario(CTParametro $parametro){
+        $obj=new MODAlmacenUsuario($parametro);
+        $res=$obj->eliminarAlmacenUsuario();
+        return $res;
+    }
+    /*FinClase: MODAlmacenUsuario*/
+                      
 }//marca_generador
 ?>

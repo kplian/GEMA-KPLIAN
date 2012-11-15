@@ -1,4 +1,4 @@
-﻿CREATE OR REPLACE FUNCTION alm.ft_item_sel (
+CREATE OR REPLACE FUNCTION alm.ft_item_sel (
   p_administrador integer,
   p_id_usuario integer,
   p_tabla varchar,
@@ -66,6 +66,31 @@ BEGIN
             return v_consulta;
             
                        
+        end;
+    /*********************************   
+     #TRANSACCION:  'SAL_ITEM_SEL'
+     #DESCRIPCION:    Consulta de datos
+     #AUTOR:        Gonzalo Sarmiento   
+     #FECHA:        20-09-2012
+    ***********************************/     
+            
+    elseif(p_transaccion='SAL_ARB_SEL')then
+    	begin
+        	v_consulta:='select
+						it.id_item,
+						it.nombre,
+						it.codigo,
+						it.id_clasificacion as id_clasificacion_fk,
+                        (it.id_clasificacion::varchar||''_''||it.id_item::varchar)::varchar as id_clasificacion,
+                        (''item'')::varchar as tipo_nodo						
+						from alm.titem it
+						inner join segu.tusuario usu1 on usu1.id_usuario = it.id_usuario_reg
+						left join segu.tusuario usu2 on usu2.id_usuario = it.id_usuario_mod
+                        where it.id_clasificacion= '|| v_parametros.id_clasificacion||' and ';
+            --Definicion de la respuesta
+            v_consulta:=v_consulta||v_parametros.filtro;
+            --Devuelve la respuesta
+        	return v_consulta;
         end;
 	
     /*********************************   

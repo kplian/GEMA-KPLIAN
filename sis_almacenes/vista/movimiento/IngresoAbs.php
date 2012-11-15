@@ -17,6 +17,28 @@ header("content-type:text/javascript; charset=UTF-8");
         Phx.vista.IngresoAbs.superclass.constructor.call(this,config);
         this.init();
         this.load({params:{start:0, limit:50, codigo:'ING'}})
+        this.iniciarEventos();
+    },
+    
+    iniciarEventos: function(){
+        //Adding a listener to component item_servicio
+        var rbtItSer = this.getComponente('funcionario_proveedor');
+        rbtItSer.on('change',function(groupRadio,radio){
+            this.enableDisable(radio.inputValue);
+        },this);
+    },
+    
+    enableDisable: function(val){
+        var cmbIt = this.getComponente('id_funcionario');
+        var cmbServ = this.getComponente('id_proveedor');
+        if(val=='funcionario'){
+            cmbIt.enable();
+            cmbServ.disable();
+        } else{
+            cmbServ.enable();
+            cmbIt.disable();
+        }
+        
     },
             
     Atributos:[
@@ -59,7 +81,7 @@ header("content-type:text/javascript; charset=UTF-8");
                     fields: ['id_almacen','nombre'],
                     // turn on remote sorting
                     remoteSort: true,
-                    baseParams:{par_filtro:'nombre#cuenta'}
+                    baseParams:{par_filtro:'nombre'}
                 }),
                 valueField: 'id_almacen',
                 displayField: 'nombre',
@@ -77,7 +99,6 @@ header("content-type:text/javascript; charset=UTF-8");
                 renderer:function (value, p, record){return String.format('{0}', record.data['nombre_origen']);}
             },
             type:'ComboBox',
-            //type:'ComboRec',
             id_grupo:0,
             filters:{   
                         pfiltro:'nombre',
@@ -85,6 +106,23 @@ header("content-type:text/javascript; charset=UTF-8");
                     },
            
             grid:true,
+            form:true
+        },
+        {
+            config:{
+                name: 'funcionario_proveedor',
+                fieldLabel: 'Funcionario/<br/>Proveedor',
+                anchor: '80%',
+                gwidth: 100,
+                maxLength:30,
+                items: [
+                    {boxLabel: 'Funcionario', name: 'rg-auto', inputValue: 'funcionario', checked:true},
+                    {boxLabel: 'Proveedor', name: 'rg-auto', inputValue: 'proveedor'}
+                ]
+            },
+            type:'RadioGroup',
+            id_grupo:1,
+            grid:false,
             form:true
         },
         {
@@ -122,7 +160,6 @@ header("content-type:text/javascript; charset=UTF-8");
                 enableMultiSelect:true,
             
                 renderer:function(value, p, record){return String.format('{0}', record.data['desc_funcionario1']);}
-
             },
             type:'ComboBox',
             id_grupo:0,
@@ -132,21 +169,6 @@ header("content-type:text/javascript; charset=UTF-8");
             grid:true,
             form:true
         },
-        /*
-        {
-            config:{
-                name: 'id_funcionario',
-                fieldLabel: 'Id funcionario',
-                allowBlank: false,
-                anchor: '80%',
-                gwidth: 90,
-                maxLength:5
-            },
-            type:'NumberField',
-            id_grupo:1,
-            grid:true,
-            form:true
-        },*/
         {
           config:{
                 name:'id_proveedor',
@@ -181,8 +203,8 @@ header("content-type:text/javascript; charset=UTF-8");
                 width:250,
                 enableMultiSelect:true,
             
-                renderer:function(value, p, record){return String.format('{0}', record.data['desc_proveedor']);}
-
+                renderer:function(value, p, record){return String.format('{0}', record.data['desc_proveedor']);},
+                disabled:true
             },
             type:'ComboBox',
             id_grupo:0,
@@ -192,21 +214,6 @@ header("content-type:text/javascript; charset=UTF-8");
             grid:true,
             form:true
         },
-        /*        
-        {
-            config:{
-                name: 'id_proveedor',
-                fieldLabel: 'Id proveedor',
-                allowBlank: false,
-                anchor: '80%',
-                gwidth: 90,
-                maxLength:5
-            },
-            type:'NumberField',
-            id_grupo:1,
-            grid:true,
-            form:true
-        },*/
         {           
             config:{
                     labelSeparator:'',
@@ -222,7 +229,7 @@ header("content-type:text/javascript; charset=UTF-8");
                 fieldLabel: 'Fecha de movimiento',
                 allowBlank: false,
                 anchor: '80%',
-                gwidth: 120,
+                //gwidth: 120,
                 //renderer:function (value,p,record){return value?value.dateFormat('d/m/Y'):''},
                 format:'d/m/Y'
             },
@@ -294,7 +301,7 @@ header("content-type:text/javascript; charset=UTF-8");
                 name: 'fecha_reg',
                 fieldLabel: 'Fecha de reg.',
                 anchor: '80%',
-                gwidth: 110,
+                //gwidth: 110,
                 //renderer:function (value,p,record){return value?value.dateFormat('d/m/Y'):''},
                 format:'d/m/Y'
             },
@@ -321,7 +328,7 @@ header("content-type:text/javascript; charset=UTF-8");
                 name: 'fecha_mod',
                 fieldLabel: 'Fecha de modif.',
                 anchor: '80%',
-                gwidth: 110,
+                //gwidth: 110,
                 //renderer:function (value,p,record){return value?value.dateFormat('d/m/Y'):''},
                 format:'d/m/Y'
             },

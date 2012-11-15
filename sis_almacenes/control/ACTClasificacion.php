@@ -77,6 +77,24 @@
                                                         'tipo_nodo'=>'hijo',
                                                         'icon'=>'../../../lib/imagenes/a_form.png'),
                                                         $arreglo);
+        
+        $arreglo=array();
+            
+        array_push($arreglo,array('nombre'=>'id','valor'=>'id_clasificacion'));
+        array_push($arreglo,array('nombre'=>'id_p','valor'=>'id_clasificacion_fk'));
+        
+        array_push($arreglo,array('nombre'=>'text','valores'=>'#nombre#'));
+        array_push($arreglo,array('nombre'=>'cls','valor'=>'nombre'));
+        array_push($arreglo,array('nombre'=>'qtip','valores'=>'#nombre#'));
+        
+        
+        $this->res->addNivelArbol('tipo_nodo','item',array('leaf'=>true,
+                                                        'allowDelete'=>false,
+                                                        'allowEdit'=>false,
+                                                        'cls'=>'folder',
+                                                        'tipo_nodo'=>'item',
+                                                        'icon'=>'../../../lib/imagenes/gear.png'),
+                                                        $arreglo);
             
 
         //Se imprime el arbol en formato JSON
