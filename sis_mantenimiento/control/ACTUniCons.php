@@ -340,8 +340,8 @@ class ACTUniCons extends ACTbase{
 		
 		//get Raiz
 		$datosRaiz = array();
-		if($datosUniCons['id_uni_cons_padre'] != null) {
-			$this->objParam->addParametro('id_uni_cons', $datosUniCons['id_uni_cons_padre']);
+		if($datosUniCons[0]['id_uni_cons_padre'] != null) {
+			$this->objParam->addParametro('id_uni_cons', $datosUniCons[0]['id_uni_cons_padre']);
 			$resultRaiz = $this->objFunc->obtenerUniCons($this->objParam);
 			$datosRaiz = $resultRaiz->getDatos();
 		}
@@ -353,7 +353,8 @@ class ACTUniCons extends ACTbase{
 		$this->objParam->defecto('cantidad', 1000);
 		$this->objParam->defecto('puntero', 0);
 		$this->objParam->addParametro('id_uni_cons', $idUniCons);
-		$resultRepuestos = $this->objFunc->listarUniConsItem($this->objParam);		
+		
+		$resultRepuestos = $this->objFunc->listarUniConsItem($this->objParam);
 		
 		$repuestoDataSource = new DataSource();
 		$repuestoDataSource->setDataSet($resultRepuestos->getDatos());
@@ -361,7 +362,6 @@ class ACTUniCons extends ACTbase{
 		
 		//get Provedores
 		//TODO: get proveedores.
-		
 		
 		//get hijos
 		$this->objParam->addParametro('id_uni_cons_padre', $idUniCons);

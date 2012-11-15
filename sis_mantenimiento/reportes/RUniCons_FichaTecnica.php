@@ -242,10 +242,10 @@ Class RUniCons_FichaTecnica extends Report {
 	}
 	
 	function writeRepuestos (DataSource $dataSource, TCPDF $pdf) {
-		$widthMarginLeft = 20;
-		$widthNombre = 50;
+		$widthMarginLeft = 10;
+		$widthNombre = 60;
 		$widthItem = 20;
-		$widthObservaciones = 70;
+		$widthObservaciones = 90;
 		
 		$pdf->Ln();
 		$pdf->Ln();
@@ -263,12 +263,13 @@ Class RUniCons_FichaTecnica extends Report {
 		$pdf->Cell($widthItem, $height, 'Nº Item', 1, 0, 'C', true, '', 0, false, 'M', 'M');
 		$pdf->Cell($widthObservaciones, $height, 'Observaciones', 1, 0, 'C', true, '', 0, false, 'M', 'M');
 		$pdf->Ln();
-		$pdf->setTextColor(51,51,153);
+		$pdf->setTextColor(0,0,0);
+		$pdf->SetFontSize(6.5);
 		foreach($dataSource->getDataset() as $row) {
 			$pdf->Cell($widthMarginLeft, $height, '', 0, 0, 'C', false, '', 0, false, 'M', 'M');
-			$pdf->Cell($widthNombre, $height, $row['nombre'], 1, 0, 'C', false, '', 0, false, 'M', 'M');
+			$pdf->Cell($widthNombre, $height, $row['nombre'], 1, 0, 'L', false, '', 0, false, 'M', 'M');
 			$pdf->Cell($widthItem, $height, $row['codigo'], 1, 0, 'C', false, '', 0, false, 'M', 'M');
-			//$pdf->Cell($widthObservaciones, $height, $dataset['nombre'], 1, 0, 'C', true, '', 0, false, 'M', 'M');
+			$pdf->Cell($widthObservaciones, $height, $row['observaciones'], 1, 0, 'L', false, '', 0, false, 'M', 'M');
 			$pdf->Ln();
 		}
 	}
