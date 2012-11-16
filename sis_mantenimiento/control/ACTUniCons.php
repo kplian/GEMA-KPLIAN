@@ -306,7 +306,7 @@ class ACTUniCons extends ACTbase{
 	}
 		  
 	function eliminarUniCons(){
-		$this->objFunc=new FuncionesMantenimiento();	
+		$this->objFunc=new FuncionesMantenimiento();
 		$this->res=$this->objFunc->eliminarUniCons($this->objParam);
 		$this->res->imprimirRespuesta($this->res->generarJson());
 	}
@@ -322,7 +322,7 @@ class ACTUniCons extends ACTbase{
 		$dataSource = new DataSource();
 		$idUniCons = $this->objParam->getParametro('id_uni_cons');
 		
-		$resultUniCons=$this->objFunc->obtenerUniCons($this->objParam);
+		$resultUniCons = $this->objFunc->obtenerUniCons($this->objParam);
 		$datosUniCons = $resultUniCons->getDatos();
 		//armamos el array parametros y metemos ahi los data sets de las otras tablas
 		$dataSource->putParameter('nombre', $datosUniCons[0]['nombre']);
@@ -340,12 +340,12 @@ class ACTUniCons extends ACTbase{
 		
 		//get Raiz
 		$datosRaiz = array();
-		if($datosUniCons['id_uni_cons_padre'] != null) {
-			$this->objParam->addParametro('id_uni_cons', $datosUniCons['id_uni_cons_padre']);
+		if($datosUniCons[0]['id_uni_cons_padre'] != null) {
+			$this->objParam->addParametro('id_uni_cons', $datosUniCons[0]['id_uni_cons_padre']);
 			$resultRaiz = $this->objFunc->obtenerUniCons($this->objParam);
 			$datosRaiz = $resultRaiz->getDatos();
 		}
-		$dataSource->putParameter('punto', $datoRaiz[0]['nombre']);
+		$dataSource->putParameter('punto', $datosRaiz[0]['nombre']);
 		
 		//get repuestos
 		//Reset all extra params:
@@ -353,14 +353,19 @@ class ACTUniCons extends ACTbase{
 		$this->objParam->defecto('cantidad', 1000);
 		$this->objParam->defecto('puntero', 0);
 		$this->objParam->addParametro('id_uni_cons', $idUniCons);
-		$resultRepuestos = $this->objFunc->listarUniConsItem($this->objParam);		
+		
+		$resultRepuestos = $this->objFunc->listarUniConsItem($this->objParam);
 		
 		$repuestoDataSource = new DataSource();
 		$repuestoDataSource->setDataSet($resultRepuestos->getDatos());
 		$dataSource->putParameter('repuestoDataSource', $repuestoDataSource);
 		
 		//get Provedores
-		//TODO: get proveedores.
+		$this->objParam->addParametroConsulta('ordenacion', 'id_uni_cons_proveedor');
+		$resultProveedor = $this->objFunc->listarUniConsProveedor($this->objParam);
+		$proveedorDataSource = new DataSource();
+		$proveedorDataSource->setDataSet($resultProveedor->getDatos());
+		$dataSource->putParameter('proveedorDataSource', $proveedorDataSource);
 		
 		
 		//get hijos

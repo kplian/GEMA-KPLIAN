@@ -49,6 +49,110 @@ class MODEquipoMedicion extends MODbase{
 		//Devuelve la respuesta
 		return $this->respuesta;
 	}
+
+   function listarEquipoMedicionDinamico(){
+		//Definicion de variables para ejecucion del procedimientp
+		$this->procedimiento='gem.ft_equipo_medicion_sel';
+		$this->transaccion='GEM_EQMEDI_SEL';
+		$this->tipo_procedimiento='SEL';//tipo de transaccion
+		//$this->objParam->defecto('ordenacion','id_tipo_sensor_columna');
+        //$this->objParam->defecto('dir_ordenacion','asc');
+        //$this->count=false;
+        
+		$datos = $this->objParam->getParametro('datos');
+		
+		//$this->setParametro('datos','datos','varchar');	
+		$this->setParametro('id_uni_cons','id_uni_cons','integer');	
+		
+		
+		$parametros= explode('@',$datos);
+		
+		$tamaño = sizeof($parametros);
+		
+		for($i=0;$i<$tamaño;$i++){
+				
+			
+			
+			$parametros_tipo=explode('#',$parametros[$i]);
+			
+			$this->captura($parametros_tipo[0],$parametros_tipo[1]);
+			
+		}
+		//Definicion de la lista del resultado del query
+		
+		
+		//Ejecuta la instruccion
+		$this->armarConsulta();
+		$this->ejecutarConsulta();
+		
+		
+		
+		//Devuelve la respuesta
+		return $this->respuesta;
+	}
+   
+     function insertarEquipoMedicionDinamico(){
+		
+		
+		//Definicion de variables para ejecucion del procedimiento
+		$this->procedimiento='gem.ft_equipo_medicion_ime';
+		$this->transaccion='GEM_EQUMEDDIN_INS';
+		$this->tipo_procedimiento='IME';
+		
+		//$id33 = $this->objParam->getParametro('id_mediciones_mes');
+		//$datos =$id33['datos'];
+		
+		$aux = $this->objParam->getParametro(0);
+		$datos = $aux['datos'];
+		
+		
+		if (!isset($datos)){
+		
+			
+			$datos = $this->objParam->getParametro('datos');
+		}
+        
+		
+		$this->setParametro('datos','datos','varchar');	
+		
+		
+		$parametros= explode('@',$datos);
+		
+		$tamaño = sizeof($parametros);
+		
+		for($i=0;$i<$tamaño;$i++){
+			
+			$parametros_tipo=explode('#',$parametros[$i]);
+			
+			$this->setParametro($parametros_tipo[0],$parametros_tipo[0],$parametros_tipo[1]);
+		
+			
+		}
+		//Ejecuta la instruccion
+		$this->armarConsulta();
+		$this->ejecutarConsulta();
+		
+
+		//Devuelve la respuesta
+		return $this->respuesta;
+	}
+		
+	function eliminarEquipoMedicionDinamico(){
+		//Definicion de variables para ejecucion del procedimiento
+		$this->procedimiento='gem.ft_equipo_medicion_ime';
+		$this->transaccion='GEM_EQUMEDDIN_ELI';
+		$this->tipo_procedimiento='IME';
+		
+				
+		$this->setParametro('keys','keys','varchar');	
+		
+		//Ejecuta la instruccion
+		$this->armarConsulta();
+		$this->ejecutarConsulta();
+        //Devuelve la respuesta
+		return $this->respuesta;
+	}
+	
 			
 	function insertarEquipoMedicion(){
 		//Definicion de variables para ejecucion del procedimiento
