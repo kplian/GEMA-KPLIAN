@@ -1045,7 +1045,6 @@ ALTER TABLE gem.tuni_cons_item OWNER TO postgres;
 ALTER TABLE gem.tdocumento
 ADD COLUMN tipo VARCHAR(10) DEFAULT 'padre'::character varying;
 
-<<<<<<< Updated upstream
 
 --RAC 13 11 2012
 --aumenta el campo time en la tabla de equipo_medicion
