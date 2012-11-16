@@ -1045,6 +1045,7 @@ ALTER TABLE gem.tuni_cons_item OWNER TO postgres;
 ALTER TABLE gem.tdocumento
 ADD COLUMN tipo VARCHAR(10) DEFAULT 'padre'::character varying;
 
+<<<<<<< Updated upstream
 
 --RAC 13 11 2012
 --aumenta el campo time en la tabla de equipo_medicion
@@ -1067,3 +1068,205 @@ ALTER TABLE gem.tequipo_medicion
 ALTER TABLE gem.tuni_cons_item
   ADD COLUMN observaciones VARCHAR(2000);
 
+CREATE TABLE gem.tactividad (
+  id_actividad  SERIAL NOT NULL,
+  id_orden_trabajo integer,
+  id_usuario_resp integer,
+  estado varchar(10),
+  descripcion varchar(2000),
+  observaciones varchar(2000),
+  fecha_plan_ini timestamp,
+  fecha_plan_fin timestamp,
+  fecha_eje_ini timestamp,
+  fecha_eje_fin timestamp,
+  CONSTRAINT tactividad__id_actividad PRIMARY KEY (id_actividad),
+  CONSTRAINT fk_tactividad__id_orden_trabajo FOREIGN KEY (id_orden_trabajo)
+      REFERENCES gem.torden_trabajo (id_orden_trabajo) MATCH SIMPLE
+      ON UPDATE NO ACTION ON DELETE NO ACTION,
+  CONSTRAINT fk_tactividad__id_usuario_resp FOREIGN KEY (id_usuario_resp)
+      REFERENCES segu.tusuario (id_usuario) MATCH SIMPLE
+      ON UPDATE NO ACTION ON DELETE NO ACTION
+) INHERITS (pxp.tbase)
+WITH (
+  OIDS=TRUE
+);
+ALTER TABLE gem.tactividad OWNER TO postgres;
+
+--Table: gem.trecurso
+
+CREATE TABLE gem.trecurso (
+  id_recurso serial NOT NULL,
+  id_item integer,
+  id_funcionario integer,
+  id_especialidad integer,
+  id_servicio integer,
+  id_tarea integer,
+  id_actividad integer,
+  id_moneda integer,
+  cantidad numeric(18,2),
+  costo numeric(18,2),
+  observaciones varchar(2000),
+  CONSTRAINT trecurso__id_recurso PRIMARY KEY (id_recurso),
+  CONSTRAINT fk_trecurso__id_item FOREIGN KEY (id_item)
+      REFERENCES alm.titem (id_item) MATCH SIMPLE
+      ON UPDATE NO ACTION ON DELETE NO ACTION,
+  CONSTRAINT fk_trecurso__id_funcionario FOREIGN KEY (id_funcionario)
+      REFERENCES orga.tfuncionario (id_funcionario) MATCH SIMPLE
+      ON UPDATE NO ACTION ON DELETE NO ACTION,
+  CONSTRAINT fk_trecurso__id_especialidad FOREIGN KEY (id_especialidad)
+      REFERENCES orga.tespecialidad (id_especialidad) MATCH SIMPLE
+      ON UPDATE NO ACTION ON DELETE NO ACTION,
+  CONSTRAINT fk_trecurso__id_servicio FOREIGN KEY (id_servicio)
+      REFERENCES param.tservicio (id_servicio) MATCH SIMPLE
+      ON UPDATE NO ACTION ON DELETE NO ACTION,
+  CONSTRAINT fk_trecurso__id_tarea FOREIGN KEY (id_tarea)
+      REFERENCES gem.ttarea (id_tarea) MATCH SIMPLE
+      ON UPDATE NO ACTION ON DELETE NO ACTION,    
+  CONSTRAINT fk_trecurso__id_actividad FOREIGN KEY (id_actividad)
+      REFERENCES gem.tactividad (id_actividad) MATCH SIMPLE
+      ON UPDATE NO ACTION ON DELETE NO ACTION,    
+  CONSTRAINT fk_trecurso__id_moneda FOREIGN KEY (id_moneda)
+      REFERENCES param.tmoneda (id_moneda) MATCH SIMPLE
+      ON UPDATE NO ACTION ON DELETE NO ACTION
+) INHERITS (pxp.tbase)
+WITH (
+  OIDS=TRUE
+);
+ALTER TABLE gem.trecurso OWNER TO postgres;
+
+
+--Table; gem.tlocalizacion_usuario
+
+CREATE TABLE gem.tlocalizacion_usuario (
+  id_localizacion_usuario  SERIAL NOT NULL,
+  id_localizacion integer,
+  id_usuario integer,
+  tipo varchar(15),
+  CONSTRAINT tlocalizacion_usuario__id_localizacion_usuario PRIMARY KEY (id_localizacion_usuario),
+  CONSTRAINT fk_tlocalizacion_usuario__id_localizacion FOREIGN KEY (id_localizacion)
+      REFERENCES gem.tlocalizacion (id_localizacion) MATCH SIMPLE
+      ON UPDATE NO ACTION ON DELETE NO ACTION,
+  CONSTRAINT fk_tlocalizacion_usuario__id_usuario FOREIGN KEY (id_usuario)
+      REFERENCES segu.tusuario (id_usuario) MATCH SIMPLE
+      ON UPDATE NO ACTION ON DELETE NO ACTION,
+  CONSTRAINT chk_tlocalizacion_usuario__tipo CHECK (tipo in ('gerente','ingeniero','jefe','operador'))
+) INHERITS (pxp.tbase)
+WITH (
+  OIDS=TRUE
+);
+ALTER TABLE gem.tlocalizacion_usuario OWNER TO postgres;
+
+
+--Table: gem.tcentro_costo
+
+CREATE TABLE gem.tcentro_costo (
+  id_centro_costo  SERIAL NOT NULL,
+  codigo varchar(20),
+  descripcion varchar(200),
+  tipo varchar(15),
+  codigo_anh varchar(20),
+  descripcion_anh varchar(100),
+  CONSTRAINT tcentro_costo__id_centro_costo PRIMARY KEY (id_centro_costo)
+) INHERITS (pxp.tbase)
+WITH (
+  OIDS=TRUE
+);
+ALTER TABLE gem.tcentro_costo OWNER TO postgres;
+
+
+--Table: gem.tinstruc_seg
+
+CREATE TABLE gem.tinstruc_seg (
+  id_instruc_seg  SERIAL NOT NULL,
+  codigo varchar(20),
+  descripcion varchar(200),
+  CONSTRAINT tinstruc_seg__id_instruc_seg PRIMARY KEY (id_instruc_seg)
+) INHERITS (pxp.tbase)
+WITH (
+  OIDS=TRUE
+);
+ALTER TABLE gem.tinstruc_seg OWNER TO postgres;
+
+
+--Adición de columna tipo gem.ttipo_mant
+alter table gem.ttipo_mant
+add column tipo varchar(20);
+alter table gem.ttipo_mant
+add constraint chk_ttipo_mant__tipo check (tipo in ('planificado','no_planificado'));
+
+--Nuevos campos para orden de trabajo
+alter table gem.torden_trabajo
+add column id_cat_prior integer, add column id_cat_estado integer,
+add column id_instruc_seg integer,add column id_cat_tipo integer;
+
+--Se aumenta campo tipo_unicons
+alter table gem.tuni_cons
+add column tipo_unicons varchar(15),add constraint chk_tuni_cons__tipo_unicos check (tipo_unicons in ('estacion','planta'));
+
+
+--Presupuestos
+
+CREATE TABLE gem.tpresupuesto (
+  id_presupuesto  SERIAL NOT NULL,
+  codigo varchar(20),
+  descripcion varchar(200),
+  gestion integer,
+  estado varchar(15),
+  CONSTRAINT tpresupuesto__id_presupuesto PRIMARY KEY (id_presupuesto)
+) INHERITS (pxp.tbase)
+WITH (
+  OIDS=TRUE
+);
+ALTER TABLE gem.tpresupuesto OWNER TO postgres;
+
+
+CREATE TABLE gem.tpartida (
+  id_partida  SERIAL NOT NULL,
+  codigo varchar(20),
+  descripcion varchar(200),
+  CONSTRAINT tpartida__id_partida PRIMARY KEY (id_partida)
+) INHERITS (pxp.tbase)
+WITH (
+  OIDS=TRUE
+);
+ALTER TABLE gem.tpartida OWNER TO postgres;
+
+
+CREATE TABLE gem.tpresup_partida (
+  id_presup_partida  SERIAL NOT NULL,
+  id_presupuesto integer,
+  id_partida integer,
+  id_centro_costo integer,
+  id_moneda integer,
+  fecha_hora timestamp,
+  importe numeric(18,2),
+  tipo varchar(15),
+  CONSTRAINT tpresup_partida__id_presup_partida PRIMARY KEY (id_presup_partida),
+  CONSTRAINT fk_tpresup_partida__id_presupuesto FOREIGN KEY (id_presupuesto)
+      REFERENCES gem.tpresupuesto (id_presupuesto) MATCH SIMPLE
+      ON UPDATE NO ACTION ON DELETE NO ACTION,
+  CONSTRAINT fk_tpresup_partida__id_partida FOREIGN KEY (id_partida)
+      REFERENCES gem.tpartida (id_partida) MATCH SIMPLE
+      ON UPDATE NO ACTION ON DELETE NO ACTION,
+  CONSTRAINT fk_tpresup_partida__id_centro_costo FOREIGN KEY (id_centro_costo)
+      REFERENCES gem.tcentro_costo (id_centro_costo) MATCH SIMPLE
+      ON UPDATE NO ACTION ON DELETE NO ACTION,
+  CONSTRAINT fk_tpresup_partida__id_moneda FOREIGN KEY (id_moneda)
+      REFERENCES param.tmoneda (id_moneda) MATCH SIMPLE
+      ON UPDATE NO ACTION ON DELETE NO ACTION,
+  CONSTRAINT chk_tpresup_partida__tipo check (tipo in ('presupuestado','ejecutado'))
+) INHERITS (pxp.tbase)
+WITH (
+  OIDS=TRUE
+);
+ALTER TABLE gem.tpartida OWNER TO postgres;
+
+alter table gem.torden_trabajo
+add column id_cat_estado integer,
+add column id_cat_prior integer,
+add column id_cat_tipo integer,
+add column id_instruc_seg integer,
+add constraint fk_torden_trabajo__id_cat_estado foreign key(id_cat_estado) references param.tcatalogo(id_catalogo),
+add constraint fk_torden_trabajo__id_cat_prior foreign key(id_cat_prior) references param.tcatalogo(id_catalogo),
+add constraint fk_torden_trabajo__id_cat_tipo foreign key(id_cat_tipo) references param.tcatalogo(id_catalogo),
+add constraint fk_torden_trabajo__id_instruc_seg foreign key(id_instruc_seg) references gem.tinstruc_seg(id_instruc_seg)
