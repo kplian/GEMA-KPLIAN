@@ -11,8 +11,6 @@ header("content-type: text/javascript; charset=UTF-8");
 <script>
 Phx.vista.EquipoMedicionDinamico=Ext.extend(Phx.gridInterfaz,{
      constructor:function(config){
-		//console.log(config,'config')
-		
 		this.configMaestro=config;
 		this.config=config;
     	//llama al constructor de la clase padre
@@ -47,8 +45,6 @@ Phx.vista.EquipoMedicionDinamico=Ext.extend(Phx.gridInterfaz,{
 	successConstructor:function(rec,con,res){
 		
 		this.recColumnas = rec;
-		console.log(rec,con,res)
-		
 		this.Atributos=[];
 		this.fields=[];
 		this.id_store='id_mediciones_mes'
@@ -107,7 +103,6 @@ Phx.vista.EquipoMedicionDinamico=Ext.extend(Phx.gridInterfaz,{
 						};
 									
 			var recText = this.id_store +'#integer@fecha#date@hora#time';			
-				//console.log('this.id_store: ', this.id_store);		
 			
 			for (var i=0;i<rec.length;i++){
 				var configDef={};
@@ -157,13 +152,87 @@ Phx.vista.EquipoMedicionDinamico=Ext.extend(Phx.gridInterfaz,{
 		    //this.addButton('promedios',{text:'Promedios',iconCls: 'blist',disabled:false,handler:this.promedios,tooltip: '<b>Obtener promedios</b>'});
 		
 		
+		    this.tbar.add('Desde: ',this.dateFechaIni);
+		    this.tbar.add('Hasta: ',this.dateFechaFin);
+		    this.tbar.add('Limite: ',this.cmbLimit);
+		    
+		
+		    this.addButton('btnGrafica',{
+            text : 'Gráficar',
+            iconCls : 'bstatistics',
+            disabled : false,
+            handler : this.onButtonGrafica,
+            tooltip : '<b>Gráfica</b><br/><b>Genera gráfica (La ordenación de los resultados afecta la gráfica)</b>'
+             });
+        
+		
 			this.init();
 			
 			this.store.baseParams={'id_uni_cons':this.config.id_uni_cons,'datos':recText};			               
 				                   
-			this.load({params:{start:0, limit:500}})
+			//this.load({params:{start:0, limit:500}})
 			
 		}
+		
+	},
+	onButtonGrafica:function(){
+		
+		var rec = this.store.data.items;
+	
+		var data = new google.visualization.DataTable();
+		//adciona columnas
+		//data.addColumn('string', 'nombre');
+		data.addColumn('date', 'Fecha');
+		//data.addColumn('string', 'Hora');
+		for (j=0;j<this.recColumnas.length ;j++){
+			data.addColumn('number', this.recColumnas[j].data.nombre_tipo_variable);
+					
+		}
+		for (var i=0;i<rec.length;i++){
+			var fila = [];
+		    
+		   // fila[0]='prueba';
+		    fila[0]=rec[i].data['fecha']
+		    //fila[1]=rec[i].data['hora']
+		    
+		    for (j=0;j<this.recColumnas.length ;j++){
+		      var codigo_col = 'col_'+this.recColumnas[j].data.key;
+			   
+			   
+			   
+			   var aux = parseFloat(rec[i].data[codigo_col])
+			   fila[j+1]=aux?aux:0;
+		      }
+		     data.addRow(fila)
+		  }
+		  var pagIndicadores =  Phx.CP.getPagina(this.idContenedor+'-east');
+		  if(pagIndicadores){
+		     pagIndicadores.setDatachart(data);
+	      }
+	},
+	
+	onButtonAct:function(){
+		if(this.dateFechaIni.isValid() && this.dateFechaFin.isValid())
+		{
+			this.store.baseParams=Ext.apply(this.store.baseParams,{fecha_ini:this.dateFechaIni.getValue().dateFormat('d/m/Y'),fecha_fin:this.dateFechaFin.getValue().dateFormat('d/m/Y')   })
+			
+			
+			this.limit = this.cmbLimit.getValue();
+			if(this.store.lastOptions){
+			 //Phx.vista.EquipoMedicionDinamico.superclass.onButtonAct.call(this);
+			 
+			 this.load({params:{start:0, limit:this.limit},callback:this.successReloadGrid,scope:this})
+			}
+			else{
+				this.load({params:{start:0, limit:this.limit},callback:this.successReloadGrid,scope:this})
+			}
+			
+		}
+		
+	},
+	
+	successReloadGrid:function(rec,con,res){
+
 		
 	},
 	
@@ -172,13 +241,9 @@ Phx.vista.EquipoMedicionDinamico=Ext.extend(Phx.gridInterfaz,{
 			//recupera los registros seleccionados
 			var filas=this.sm.getSelections();
 			var data= {},aux={};
-			//console.log(filas,i)
-			
-            //arma una matriz de los identificadores de registros que se van a eliminar
+			//arma una matriz de los identificadores de registros que se van a eliminar
             this.agregarArgsExtraSubmit();
-            console.log(this.recColulmanas)
-            
-			for(var i=0;i<this.sm.getCount();i++){
+         	for(var i=0;i<this.sm.getCount();i++){
 				
 				aux={};
 				aux[this.id_store]=filas[i].data[this.id_store];
@@ -228,7 +293,7 @@ Phx.vista.EquipoMedicionDinamico=Ext.extend(Phx.gridInterfaz,{
 	
 	
 	
-	title:'Tipo Sensor',
+	title:'Mediciones del Equipo',
 	ActSave:'../../sis_mantenimiento/control/EquipoMedicion/insertarEquipoMedicionDinamico',
 	ActDel:'../../sis_mantenimiento/control/EquipoMedicion/eliminarEquipoMedicionDinamico',
 	ActList:'../../sis_mantenimiento/control/EquipoMedicion/listarEquipoMedicionDinamico',
@@ -252,13 +317,56 @@ Phx.vista.EquipoMedicionDinamico=Ext.extend(Phx.gridInterfaz,{
 		this.getComponente('id_sensor').setValue(this.config.id_sensor);	
 			
 	},*/
+	
+	
+					       		
+	cmbLimit:new Ext.form.ComboBox({
+	        store:[100,200,500,1000,5000,10000,20000,50000],
+	        value:1000,
+	        typeAhead: true,
+	        mode: 'local',
+	        triggerAction: 'all',
+	        emptyText:'Tipo..',
+	        selectOnFocus:true,
+	        width:135
+	    }),
 				
 	onReloadPage:function(m)
 	{
-		this.maestro=m;						
+		this.maestro=m;	
+		this.limit = this.cmbLimit.getValue();					
 		this.store.baseParams={id_uni_cons:this.maestro.id_uni_cons};
-		this.load({params:{start:0, limit:500}});			
-	}
+		this.load({params:{start:0, limit:this.limit}});			
+	},
+	dateFechaIni:new Ext.form.DateField({
+		      
+	          vtype: 'daterange',
+	          name:  'startdt',
+	          format: 'd/m/Y',
+	          allowBlank: false,
+             id: 'startdt'+this.idContenedor,
+              endDateField: 'enddt'+this.idContenedor
+	         	
+	    }),
+	 dateFechaFin:new Ext.form.DateField({
+		    
+	         vtype: 'daterange',
+	         name: 'enddt',
+	         format: 'd/m/Y',
+	         allowBlank: false,
+             id: 'enddt'+this.idContenedor,
+             startDateField: 'startdt'+this.idContenedor
+	         	
+	    }),  
+	 east:{
+		  url:'../../../sis_mantenimiento/vista/equipo_medicion/IndicadoresMediciones.php',
+		  title:'Indicadores', 
+		  //height:'50%',	//altura de la ventana hijo
+		  width:'50%',		//ancho de la ventana hjo
+		  cls:'IndicadoresMediciones'
+	} 
+	    
+	
 		
 }
 )

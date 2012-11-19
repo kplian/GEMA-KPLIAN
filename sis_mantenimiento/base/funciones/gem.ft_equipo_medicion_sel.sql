@@ -242,6 +242,7 @@ BEGIN
                                       on ev.id_equipo_variable = em.id_equipo_variable 
                                       where  ev.id_uni_cons = v_parametros.id_uni_cons
                                               and  ev.estado_reg = 'activo' and ev.tipo='numeric'
+                                                and em.fecha_medicion between  v_parametros.fecha_ini and v_parametros.fecha_fin 
                                       order by em.fecha_medicion) LOOP
                                       
                       --2.0) (atributos) arma primera parte de la cadena de insercion con datos del equipo y del mantenimiento

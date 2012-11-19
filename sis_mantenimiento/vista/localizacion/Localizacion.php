@@ -44,7 +44,16 @@ Phx.vista.Localizacion=Ext.extend(Phx.arbInterfaz,{
 				disabled : false,
 				handler : this.onBtnVerCalGen,
 				tooltip : '<b>Ver el calendario</b><br/>Genera el Caledario para todos los equipos de manera recursiva'
+			});
+				
+		this.addButton('btnGenerarOT', {
+				text : 'Generar OT',
+				iconCls : 'block',
+				disabled : false,
+				handler : this.onBtnGenerarOT,
+				tooltip : '<b>Generar Orden de Trabajo</b><br/>Genera las Ordenes de Trabajo correspondientes al nodo y sus hijos'
 			});	
+			
 		this.ctxMenu.add('-');
 		this.ctxMenu.addMenuItem({text:'Agregar Equipo',handler:this.onBtnAddEquipo});
 		this.ctxMenu.addMenuItem({text:'Datos Equipos',handler:this.onClickDatosEq});
@@ -413,6 +422,17 @@ Phx.vista.Localizacion=Ext.extend(Phx.arbInterfaz,{
 	
 	},
 	
+	onBtnGenerarOT:function(){
+		var nodo = this.sm.getSelectedNode();
+           Phx.CP.loadWindows('../../../sis_mantenimiento/vista/orden_trabajo/GenerarOrdenTrabajo.php',
+					'Generar Ordenes de Trabajo',
+					{
+						width:800,
+						height:400
+				    },nodo.attributes,this.idContenedor,'GenerarOdenTrabajo')
+	
+	
+	},
 	
 	winmodal:false,
 		
