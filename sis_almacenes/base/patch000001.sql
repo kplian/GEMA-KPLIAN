@@ -254,6 +254,27 @@ ALTER TABLE alm.talmacen
     ON DELETE NO ACTION
     ON UPDATE NO ACTION
     NOT DEFERRABLE;
+    
+CREATE TABLE alm.talmacen_correlativo (
+  id_almacen_correl SERIAL, 
+  id_almacen INTEGER, 
+  id_movimiento_tipo INTEGER, 
+  periodo VARCHAR, 
+  correl_act INTEGER DEFAULT 0, 
+  correl_sig INTEGER DEFAULT 1, 
+  CONSTRAINT talmacen_correlativo_pkey PRIMARY KEY(id_almacen_correl), 
+  CONSTRAINT fk_talmacen__id_almacen FOREIGN KEY (id_almacen)
+    REFERENCES alm.talmacen(id_almacen)
+    ON DELETE NO ACTION
+    ON UPDATE NO ACTION
+    NOT DEFERRABLE, 
+  CONSTRAINT fk_tmovimiento_tipo__id_movimiento_tipo FOREIGN KEY (id_movimiento_tipo)
+    REFERENCES alm.tmovimiento_tipo(id_movimiento_tipo)
+    ON DELETE NO ACTION
+    ON UPDATE NO ACTION
+    NOT DEFERRABLE
+) INHERITS (pxp.tbase)
+WITHOUT OIDS;
 
 
 

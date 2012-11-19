@@ -1,8 +1,10 @@
-﻿CREATE OR REPLACE FUNCTION gem.ft_uni_cons_proveedor_sel (
-  p_administrador integer,
-  p_id_usuario integer,
-  p_tabla varchar,
-  p_transaccion varchar
+--------------- SQL ---------------
+
+CREATE OR REPLACE FUNCTION "gem"."ft_uni_cons_proveedor_sel" (
+  "p_administrador" integer,
+  "p_id_usuario" integer,
+  "p_tabla" varchar,
+  "p_transaccion" varchar
 )
 RETURNS varchar AS
 $body$
@@ -55,11 +57,32 @@ BEGIN
 						unipro.id_usuario_mod,
 						unipro.fecha_mod,
 						usu1.cuenta as usr_reg,
-						usu2.cuenta as usr_mod	
+						usu2.cuenta as usr_mod,
+                        inst.nombre as institucion,
+                        ((case when contact.nombre is null then '''' else contact.nombre end)
+                        || '' '' || 
+                        (case when contact.apellido_paterno is null then '''' else contact.apellido_paterno end)
+                        || '' '' || 
+                        (case when contact.apellido_materno is null then '''' else contact.apellido_materno end))
+                        ::varchar as contacto,
+                        CASE
+                            when inst.id_institucion is not null then inst.direccion
+                            else contact.direccion
+                        end as direccion,
+                        CASE
+                            when inst.id_institucion is not null then inst.telefono1
+                            else contact.telefono1
+                        end as telefono,
+                        CASE
+                            when inst.id_institucion is not null then inst.email1
+                            else contact.correo
+                        end as email
 						from gem.tuni_cons_proveedor unipro
 						inner join segu.tusuario usu1 on usu1.id_usuario = unipro.id_usuario_reg
 						left join segu.tusuario usu2 on usu2.id_usuario = unipro.id_usuario_mod
                         inner join param.vproveedor prov on prov.id_proveedor=unipro.id_proveedor
+                        left join param.tinstitucion inst on prov.id_institucion = inst.id_institucion
+    					left join segu.tpersona contact on prov.id_persona = contact.id_persona
 				        where unipro.id_uni_cons='||v_parametros.id_uni_cons||' and ';
 			
 			--Definicion de la respuesta

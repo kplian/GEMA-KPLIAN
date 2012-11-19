@@ -16,7 +16,7 @@ header("content-type:text/javascript; charset=UTF-8");
         //llama al constructor de la clase padre
         Phx.vista.SalidaAbs.superclass.constructor.call(this,config);
         this.init();
-        this.load({params:{start:0, limit:50, codigo:'SAL'}})
+        this.load({params:{start:0, limit:50, codigo:'SALIDA'}})
     },
             
     Atributos:[
@@ -38,7 +38,7 @@ header("content-type:text/javascript; charset=UTF-8");
             },
             type:'Field',
             form:true,
-            valorInicial : 'SAL'
+            valorInicial : 'SALIDA'
         },
         {
             config:{
@@ -172,14 +172,14 @@ header("content-type:text/javascript; charset=UTF-8");
                 fieldLabel: 'Nº de movimiento',
                 allowBlank: false,
                 anchor: '80%',
-                gwidth: 100,
+                gwidth: 150,
                 maxLength:5
             },
             type:'TextField',
             filters:{type:'string'},
             id_grupo:1,
             grid:true,
-            form:true
+            form:false
         },
         {
             config:{

@@ -30,7 +30,7 @@
                     scope:this
                 });     
             }
-            this.load({params:{start:0, limit:50, codigo:'SAL'}})
+            this.load({params:{start:0, limit:50, codigo:'SALIDA'}})
         },
         successSinc:function(resp){
             

@@ -1,4 +1,4 @@
-﻿CREATE OR REPLACE FUNCTION alm.ft_movimiento_ime (
+CREATE OR REPLACE FUNCTION alm.ft_movimiento_ime (
   p_administrador integer,
   p_id_usuario integer,
   p_tabla varchar,
@@ -27,6 +27,7 @@ DECLARE
   v_transferencia				record;
   v_consulta					varchar;
   v_detalle						record;
+  v_num_mov						varchar;
 
 BEGIN
   v_nombre_funcion='alm.ft_movimiento_ime';
@@ -43,6 +44,8 @@ BEGIN
   	begin    	
 		v_id_movimiento_tipo=(select id_movimiento_tipo from alm.tmovimiento_tipo 
   						where codigo=v_parametros.codigo);    	
+		
+        v_num_mov = alm.f_get_num_mov(v_parametros.id_almacen,v_id_movimiento_tipo,v_parametros.fecha_mov);
 
     	insert into alm.tmovimiento
          			 (id_movimiento_tipo, id_almacen,
@@ -54,7 +57,7 @@ BEGIN
                      values(v_id_movimiento_tipo,v_parametros.id_almacen,
                      v_parametros.id_funcionario, v_parametros.id_proveedor,
                      v_parametros.id_almacen_dest,v_parametros.fecha_mov,
-                     v_parametros.numero_mov, v_parametros.descripcion,
+                     v_num_mov, v_parametros.descripcion,
                      v_parametros.observaciones, p_id_usuario,
                      now(),'activo', 'borrador')
                      RETURNING id_movimiento into v_id_movimiento;
@@ -117,10 +120,10 @@ BEGIN
         	begin
             	select * into v_transferencia from alm.tmovimiento where id_movimiento=v_parametros.id_movimiento;
                 v_id_movimiento_tipo_ingreso=(select id_movimiento_tipo from alm.tmovimiento_tipo 
-  						where codigo='ING');                        
+  						where codigo='INGRESO');                        
                 
                 v_id_movimiento_tipo_salida=(select id_movimiento_tipo from alm.tmovimiento_tipo 
-  						where codigo='SAL');
+  						where codigo='SALIDA');
                 
                 insert into alm.tmovimiento(
                 id_movimiento_tipo,

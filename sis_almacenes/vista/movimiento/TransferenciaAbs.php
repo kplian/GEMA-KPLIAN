@@ -16,7 +16,7 @@ header("content-type:text/javascript; charset=UTF-8");
         //llama al constructor de la clase padre
         Phx.vista.TransferenciaAbs.superclass.constructor.call(this,config);
         this.init();
-        this.load({params:{start:0, limit:50, codigo:'TRA'}})
+        this.load({params:{start:0, limit:50, codigo:'TRANSFERENCIA'}})
     },
             
     Atributos:[

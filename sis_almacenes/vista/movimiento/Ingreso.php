@@ -30,7 +30,7 @@
                     scope:this
                 });     
             }
-            this.load({params:{start:0, limit:50, codigo:'ING'}})
+            this.load({params:{start:0, limit:50, codigo:'INGRESO'}})
         },
         successSinc:function(resp){
             

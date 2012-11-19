@@ -40,7 +40,7 @@ Phx.vista.OrdenTrabajo=Ext.extend(Phx.gridInterfaz,{
 				allowBlank: true,
 				gwidth: 100,
 				renderer:function (value,p,record){return value?value.dateFormat('d/m/Y'):''},
-   				format:'m/d/Y'
+   				format:'d/m/Y'
 			},
 			type:'DateField',
 			filters:{pfiltro:'geoott.fecha_emision',type:'date'},
@@ -348,14 +348,14 @@ Phx.vista.OrdenTrabajo=Ext.extend(Phx.gridInterfaz,{
 				allowBlank: false,
 				gwidth: 100,
 				//renderer:function (value,p,record){return value?value.dateFormat('d/m/Y h:i:s'):''},
-   				format:'m/d/Y'
+   				format:'d/m/Y'
 			},
 			type:'DateField',
 			filters:{pfiltro:'geoott.fecha_plan_ini',type:'date'},
 			id_grupo:2,
 			grid:true,
 			form:true,
-	       	dateFormat:'m-d-Y'
+	       	dateFormat:'d-m-Y'
 		},
 		{
 			config:{
@@ -364,14 +364,14 @@ Phx.vista.OrdenTrabajo=Ext.extend(Phx.gridInterfaz,{
 				allowBlank: true,
 				gwidth: 100,
 				//renderer:function (value,p,record){return value?value.dateFormat('d/m/Y h:i:s'):''},
-   				format:'m/d/Y'
+   				format:'d/m/Y'
 			},
 			type:'DateField',
 			filters:{pfiltro:'geoott.fecha_eje_ini',type:'date'},
 			id_grupo:3,
 			grid:true,
 			form:true,
-	       	dateFormat:'m-d-Y'
+	       	dateFormat:'d-m-Y'
 		},
 		
 		{
@@ -397,14 +397,14 @@ Phx.vista.OrdenTrabajo=Ext.extend(Phx.gridInterfaz,{
 				allowBlank: true,
 				gwidth: 100,
 				//renderer:function (value,p,record){return value?value.dateFormat('d/m/Y h:i:s'):''},
-   				format:'m/d/Y'
+   				format:'d/m/Y'
 			},
 			type:'DateField',
 			filters:{pfiltro:'geoott.fecha_eje_fin',type:'date'},
 			id_grupo:3,
 			grid:true,
 			form:true,
-	       	dateFormat:'m-d-Y'
+	       	dateFormat:'d-m-Y'
 		},
 		{
 			config:{
@@ -429,14 +429,14 @@ Phx.vista.OrdenTrabajo=Ext.extend(Phx.gridInterfaz,{
 				allowBlank: false,
 				gwidth: 100,
 				//renderer:function (value,p,record){return value?value.dateFormat('d/m/Y h:i:s'):''},
-   				format:'m/d/Y'
+   				format:'d/m/Y'
 			},
 			type:'DateField',
 			filters:{pfiltro:'geoott.fecha_plan_fin',type:'date'},
 			id_grupo:2,
 			grid:true,
 			form:true,
-	       	dateFormat:'m-d-Y'
+	       	dateFormat:'d-m-Y'
 		},
 		{
 			config:{
