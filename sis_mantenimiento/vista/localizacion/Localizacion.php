@@ -6,7 +6,6 @@
 *@date 14-06-2012 03:46:45
 *@description Archivo con la interfaz de usuario que permite la ejecucion de todas las funcionalidades del sistema
 */
-
 header("content-type: text/javascript; charset=UTF-8");
 ?>
 <script>
@@ -45,6 +44,8 @@ Phx.vista.Localizacion=Ext.extend(Phx.arbInterfaz,{
 				handler : this.onBtnVerCalGen,
 				tooltip : '<b>Ver el calendario</b><br/>Genera el Caledario para todos los equipos de manera recursiva'
 			});	
+			
+			
 		this.ctxMenu.add('-');
 		this.ctxMenu.addMenuItem({text:'Agregar Equipo',handler:this.onBtnAddEquipo});
 		this.ctxMenu.addMenuItem({text:'Datos Equipos',handler:this.onClickDatosEq});
@@ -129,7 +130,7 @@ Phx.vista.Localizacion=Ext.extend(Phx.arbInterfaz,{
 		//add for to select  tipouni_cons
 		
 		this.formUC = new Ext.form.FormPanel({
-        baseCls: 'x-plain',
+        baseCls: 'x-plain-'+this.idContenedor,
         autoDestroy: true,
         labelWidth: 55,
         layout: {
@@ -282,10 +283,22 @@ Phx.vista.Localizacion=Ext.extend(Phx.arbInterfaz,{
     
 		
    //quita la opcion de dmover marcador al cerrar la ventana
-    this.window.on('hide',function(){Phx.CP.getPagina(this.idContenedor+'-east').marker.setDraggable(false)},this);
+        this.window.on('hide',function(){Phx.CP.getPagina(this.idContenedor+'-east').marker.setDraggable(false)},this);
     		
 		
+		
+		this.baseParams={}
 
+	},
+	
+	onBeforeLoad:function(treeLoader, node) {
+		
+		treeLoader.baseParams.tipo_nodo = node.attributes.tipo_nodo;
+		if(node.attributes.tipo_nodo=='uni_cons'){
+			treeLoader.baseParams.id_uni_cons = node.attributes.id_uni_cons;
+		}
+		Phx.vista.Localizacion.superclass.onBeforeLoad.call(this,treeLoader, node)
+		
 	},
 	
 	onCalGen:function(){
@@ -307,7 +320,6 @@ Phx.vista.Localizacion=Ext.extend(Phx.arbInterfaz,{
 		       
 		       
 				 Ext.Ajax.request({
-		                    form: this.form.getForm().getEl(),
 		                    url: '../../sis_mantenimiento/control/UniCons/GenerarCalendario',
 		                    params: {
 		                    	tipo_nodo:nodo.attributes.tipo_nodo,
@@ -335,10 +347,9 @@ Phx.vista.Localizacion=Ext.extend(Phx.arbInterfaz,{
 			 var cmbUC =this.formUC.getForm().findField('id_uni_cons');
 	         var codigo =this.formUC.getForm().findField('codigo_uni_cons');
 	         
-	       console.log(nodo.attributes.id_localizacion);
+	         console.log(nodo.attributes.id_localizacion);
 			
 			 Ext.Ajax.request({
-	                    form: this.form.getForm().getEl(),
 	                    url: '../../sis_mantenimiento/control/UniCons/addUniCons',
 	                    params: {
 	                    	id_uni_cons:cmbUC.getValue(),
@@ -639,7 +650,9 @@ Phx.vista.Localizacion=Ext.extend(Phx.arbInterfaz,{
 	 },
 	 
 	 onButtonEdit:function(){
-			var nodo = this.sm.getSelectedNode();			
+			var nodo = this.sm.getSelectedNode();	
+			
+					
 			Phx.vista.Localizacion.superclass.onButtonEdit.call(this);
 			
 		
@@ -710,7 +723,7 @@ Phx.vista.Localizacion=Ext.extend(Phx.arbInterfaz,{
 		
 			// llamada funcion clace padre
 			Phx.vista.Localizacion.superclass.preparaMenu.call(this,n)
-			  if(n.attributes.tipo_nodo == 'uni_cons'){
+			  if(n.attributes.tipo_nodo == 'uni_cons' || n.attributes.tipo_nodo=='rama'){
 			  	
 			  	this.getBoton('btnBlock').disable();
 			  	this.tbar.items.get('b-new-'+this.idContenedor).disable()
@@ -722,7 +735,7 @@ Phx.vista.Localizacion=Ext.extend(Phx.arbInterfaz,{
 		},
 		
 		EnableSelect:function(n){
-			if(n.attributes.tipo_nodo != 'uni_cons' ){	
+			if(n.attributes.tipo_nodo != 'uni_cons' &&n.attributes.tipo_nodo !='rama'){	
 				var nivel = n.getDepth();
 		        var direc = this.getNombrePadre(n)
 		        if(direc){
@@ -736,13 +749,24 @@ Phx.vista.Localizacion=Ext.extend(Phx.arbInterfaz,{
 				  }
 				}
 			}
-			else{
-				var nivel = n.parentNode.getDepth();
-		        var direc = this.getNombrePadre(n.parentNode)	
+			else {
+				
+				var nodo_aux;	
+				console.log('nodo',n)
+				if(n.attributes.tipo_nodo == 'rama'){
+					nodo_aux=n.parentNode.parentNode
+				}
+				else{
+					 nodo_aux=n.parentNode
+				}
+				var nivel = nodo_aux.getDepth();
+		        var direc = this.getNombrePadre(nodo_aux)	
+				
+		        
 		        if(direc){	
 		        	
 		        	if(Phx.CP.getPagina(this.idContenedor+'-east')){	
-				       Phx.CP.getPagina(this.idContenedor+'-east').ubicarPos(direc,nivel,n.parentNode)
+				       Phx.CP.getPagina(this.idContenedor+'-east').ubicarPos(direc,nivel,nodo_aux)
 				    }
 				    else{
 				    	

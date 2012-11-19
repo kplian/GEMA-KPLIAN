@@ -201,6 +201,9 @@ class MODUniCons extends MODbase{
 		$this->setParametro('codigo_localizacion','codigo_localizacion','varchar');
 		$this->setParametro('nombre','nombre','varchar');
 		
+		//var_dump('XXXXxxx');
+		//exit;
+		
 		//Ejecuta la instruccion
 		$this->armarConsulta();
 		$this->ejecutarConsulta();

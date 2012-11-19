@@ -33,23 +33,9 @@ Phx.vista.mapaLocalizacion=Ext.extend(Phx.gmapInterfaz,{
 		this.regiones.push(this.gm);
 		/*arma los panles de ventanas hijo*/
 	    this.definirRegiones();
-    	
-            
-           // this.panel.add(this.gm)
-            
-            console.log(this.gm.isVisible())
-            //this.gm.syncSize() 
-             console.log(this.gm.isVisible())
-            
-            this.gm.expand(true);
-            
-             
-             
-             this.panel.doLayout(true,true)
-            
-            
-           
-		 this.geocoder = new google.maps.Geocoder();
+    	this.gm.expand(true);
+        this.panel.doLayout(true,true)
+        this.geocoder = new google.maps.Geocoder();
 	
 			
 		
@@ -61,8 +47,6 @@ Phx.vista.mapaLocalizacion=Ext.extend(Phx.gmapInterfaz,{
 	},
 	
 	onReloadPage:function(dat){
-		console.log(dat)
-		
 		
 		//this.ubicarPos('Rio Btanco - Acre - Brasil');
 		
@@ -82,8 +66,6 @@ Phx.vista.mapaLocalizacion=Ext.extend(Phx.gmapInterfaz,{
 		    var clat = Phx.CP.getPagina(ICP).getComponente('latitud');
 		    var clog = Phx.CP.getPagina(ICP).getComponente('longitud');
 		    var ccor = Phx.CP.getPagina(ICP).getComponente('coordenadas');
-		    
-		    console.log(event)
 		    clat.setValue(event.latLng.Ya );
 		    clog.setValue(event.latLng.Za );
 		    ccor.setValue(myMapa.getZoom());
@@ -111,7 +93,7 @@ Phx.vista.mapaLocalizacion=Ext.extend(Phx.gmapInterfaz,{
 		    zoom=(coo!='')?coo:zoom;
 		    
 		    
-			console.log(zoom)
+			
 			
 			if(!this.marker){
 			this.marker = new google.maps.Marker({
@@ -135,8 +117,7 @@ Phx.vista.mapaLocalizacion=Ext.extend(Phx.gmapInterfaz,{
 			 }
 			 else{
 			 	var ll = new google.maps.LatLng(lat,lon)
-			 	console.log(ll,zoom/1)
-			 	 myMapa.setCenter(ll);
+			 	myMapa.setCenter(ll);
 			 	myMapa.setZoom(zoom/1);
 			    marker.setPosition(ll);
 			    delete ll;
