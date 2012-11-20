@@ -1,3 +1,4 @@
+/***********************************I-SCP-JRR-GEM-1-19/11/2012****************************************/
 /*
 *	Author: RAC
 *	Date: 11/2012
@@ -1044,3 +1045,5 @@ ALTER TABLE gem.tuni_cons_item OWNER TO postgres;
 
 ALTER TABLE gem.tdocumento
 ADD COLUMN tipo VARCHAR(10) DEFAULT 'padre'::character varying;
+
+/***********************************F-SCP-JRR-GEM-1-19/11/2012*****************************************/

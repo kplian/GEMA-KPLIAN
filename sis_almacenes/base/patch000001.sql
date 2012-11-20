@@ -1,3 +1,4 @@
+/***********************************I-SCP-JRR-ALM-1-19/11/2012****************************************/
 /*
 *	Author: JRR
 *	Date: 11/2012
@@ -234,4 +235,6 @@ select pxp.f_insert_testructura_gui ('ALCLMA', 'ALMAIN');
 select pxp.f_insert_testructura_gui ('ALINGR', 'ALMOVI');
 select pxp.f_insert_testructura_gui ('ALSAGR', 'ALMOVI');
 select pxp.f_insert_testructura_gui ('ALTRGR', 'ALMOVI');
+
+/***********************************F-SCP-JRR-ALM-1-19/11/2012****************************************/
     
