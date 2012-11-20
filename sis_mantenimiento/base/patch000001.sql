@@ -17,9 +17,9 @@ CREATE TABLE orga.ttipo_horario (
   nombre VARCHAR(255), 
   estado_reg VARCHAR(10), 
   id_usuario_reg INTEGER, 
-  fecha_reg DATE DEFAULT now() NOT NULL, 
+  fecha_reg TIMESTAMP DEFAULT now() NOT NULL, 
   id_usuario_mod INTEGER, 
-  fecha_mod DATE DEFAULT now(), 
+  fecha_mod TIMESTAMP DEFAULT now(), 
   CONSTRAINT ttipo_horario_pkey PRIMARY KEY(id_tipo_horario)
 ) INHERITS (pxp.tbase)
 WITH OIDS;
@@ -218,6 +218,23 @@ CREATE TABLE gem.tfalla (
 WITHOUT OIDS;
 ALTER TABLE gem.tfalla OWNER TO postgres;
 
+--analisis rcm fallas
+CREATE TABLE gem.tfalla_evento(
+	id_falla_evento  SERIAL NOT NULL, 
+	id_tipo_equipo int4, 
+	codigo varchar(20), 
+	nombre varchar(100), 
+	tipo varchar(10),
+	PRIMARY KEY (id_falla_evento),
+	CONSTRAINT fk_tfalla_evento__id_tipo_equipo FOREIGN KEY (id_tipo_equipo)
+      REFERENCES gem.ttipo_equipo (id_tipo_equipo) MATCH SIMPLE
+      ON UPDATE NO ACTION ON DELETE NO ACTION,
+    CONSTRAINT chk_tfalla_evento__tipo check (tipo in ('falla','evento'))
+)INHERITS (pxp.tbase)
+WITH (
+  OIDS=TRUE
+);
+
 CREATE TABLE gem.tincidente_equipo(
   id_incidente_equipo  SERIAL NOT NULL,
   id_uni_cons int4,
@@ -362,7 +379,25 @@ INHERITS (pxp.tbase)
 WITH (
   OIDS=TRUE
 );
-ALTER TABLE gem.tdiagrama_decision OWNER TO rcm;
+ALTER TABLE gem.tdiagrama_decision OWNER TO postgres;
+
+--Diagrama de decisión
+/*
+CREATE TABLE gem.tdiagrama_decision(
+	id_diagrama_decision  SERIAL NOT NULL, 
+	id_metodologia int4, 
+	codigo varchar(20), 
+	nombre varchar(100), 
+	fecha_desde_validez timestamp, 
+	PRIMARY KEY (id_diagrama_decision),
+	CONSTRAINT fk_tdiagrama_decision__id_metodologia FOREIGN KEY (id_metodologia)
+      REFERENCES gem.tmetodologia (id_metodologia) MATCH SIMPLE
+      ON UPDATE NO ACTION ON DELETE NO ACTION
+)INHERITS (pxp.tbase)
+WITH (
+  OIDS=TRUE
+);
+*/
 
 CREATE OR REPLACE VIEW param.vproveedor AS 
  SELECT provee.id_proveedor, provee.id_persona, provee.codigo, provee.numero_sigma,
@@ -498,23 +533,6 @@ WITH (
   OIDS=TRUE
 );
 
---analisis rcm fallas
-CREATE TABLE gem.tfalla_evento(
-	id_falla_evento  SERIAL NOT NULL, 
-	id_tipo_equipo int4, 
-	codigo varchar(20), 
-	nombre varchar(100), 
-	tipo varchar(10),
-	PRIMARY KEY (id_falla_evento),
-	CONSTRAINT fk_tfalla_evento__id_tipo_equipo FOREIGN KEY (id_tipo_equipo)
-      REFERENCES gem.ttipo_equipo (id_tipo_equipo) MATCH SIMPLE
-      ON UPDATE NO ACTION ON DELETE NO ACTION,
-    CONSTRAINT chk_tfalla_evento__tipo check (tipo in ('falla','evento'))
-)INHERITS (pxp.tbase)
-WITH (
-  OIDS=TRUE
-);
-
 CREATE TABLE gem.tfuncion_falla(
 	id_funcion_falla  SERIAL NOT NULL,
 	id_funcion int4 NOT NULL,
@@ -528,23 +546,6 @@ CREATE TABLE gem.tfuncion_falla(
       ON UPDATE NO ACTION ON DELETE NO ACTION,
     CONSTRAINT fk_tfuncion_falla__id_falla_evento FOREIGN KEY (id_falla_evento)
       REFERENCES gem.tfalla_evento (id_falla_evento) MATCH SIMPLE
-      ON UPDATE NO ACTION ON DELETE NO ACTION
-)INHERITS (pxp.tbase)
-WITH (
-  OIDS=TRUE
-);
-
-
---Diagrama de decisión
-CREATE TABLE gem.tdiagrama_decision(
-	id_diagrama_decision  SERIAL NOT NULL, 
-	id_metodologia int4, 
-	codigo varchar(20), 
-	nombre varchar(100), 
-	fecha_desde_validez timestamp, 
-	PRIMARY KEY (id_diagrama_decision),
-	CONSTRAINT fk_tdiagrama_decision__id_metodologia FOREIGN KEY (id_metodologia)
-      REFERENCES gem.tmetodologia (id_metodologia) MATCH SIMPLE
       ON UPDATE NO ACTION ON DELETE NO ACTION
 )INHERITS (pxp.tbase)
 WITH (
@@ -604,28 +605,7 @@ CREATE TABLE gem.tcalendario_planificado(
     PRIMARY KEY (id_calendario_planificado))INHERITS (pxp.tbase)
     WITH OIDS;
     
--- Table: orga.ttipo_horario
-
--- DROP TABLE orga.ttipo_horario;
-
-CREATE TABLE orga.ttipo_horario
-(
-  id_tipo_horario serial NOT NULL,
-  codigo character varying(255),
-  nombre character varying(255),
-  estado_reg character varying(10),
-  id_usuario_reg integer,
-  fecha_reg date NOT NULL DEFAULT now(),
-  id_usuario_mod integer,
-  fecha_mod date DEFAULT now(),
-  CONSTRAINT ttipo_horario_pkey PRIMARY KEY (id_tipo_horario)
-)
-WITH (
-  OIDS=FALSE
-);
-ALTER TABLE orga.ttipo_horario OWNER TO postgres;
-
-    
+   
     
 
 
@@ -795,16 +775,16 @@ select pxp.f_insert_tfuncion ('ft_analisis_mant_ime', 'Funcion para tabla     ',
 select pxp.f_insert_tfuncion ('ft_analisis_mant_sel', 'Funcion para tabla     ', 'GEM');
 select pxp.f_insert_tfuncion ('ft_diagrama_decision_ime', 'Funcion para tabla     ', 'GEM');
 select pxp.f_insert_tfuncion ('ft_diagrama_decision_sel', 'Funcion para tabla     ', 'GEM');
-select pxp.f_insert_tfuncion ('ft_documento_ime', 'Funcion para tabla     ', 'GEM');
-select pxp.f_insert_tfuncion ('ft_documento_sel', 'Funcion para tabla     ', 'GEM');
+--select pxp.f_insert_tfuncion ('ft_documento_ime', 'Funcion para tabla     ', 'GEM');
+--select pxp.f_insert_tfuncion ('ft_documento_sel', 'Funcion para tabla     ', 'GEM');
 select pxp.f_insert_tfuncion ('ft_equipo_medicion_ime', 'Funcion para tabla     ', 'GEM');
 select pxp.f_insert_tfuncion ('ft_equipo_medicion_sel', 'Funcion para tabla     ', 'GEM');
 select pxp.f_insert_tfuncion ('ft_falla_evento_ime', 'Funcion para tabla     ', 'GEM');
 select pxp.f_insert_tfuncion ('ft_falla_evento_sel', 'Funcion para tabla     ', 'GEM');
 select pxp.f_insert_tfuncion ('ft_funcion_falla_ime', 'Funcion para tabla     ', 'GEM');
 select pxp.f_insert_tfuncion ('ft_funcion_falla_sel', 'Funcion para tabla     ', 'GEM');
-select pxp.f_insert_tfuncion ('ft_funcion_sel', 'Funcion para tabla     ', 'GEM');
-select pxp.f_insert_tfuncion ('ft_funcion_ime', 'Funcion para tabla     ', 'GEM');
+--select pxp.f_insert_tfuncion ('ft_funcion_sel', 'Funcion para tabla     ', 'GEM');
+--select pxp.f_insert_tfuncion ('ft_funcion_ime', 'Funcion para tabla     ', 'GEM');
 select pxp.f_insert_tfuncion ('ft_funcionario_honorario_ime', 'Funcion para tabla     ', 'GEM');
 select pxp.f_insert_tfuncion ('ft_funcionario_honorario_sel', 'Funcion para tabla     ', 'GEM');
 select pxp.f_insert_tfuncion ('ft_mant_predef_det_ime', 'Funcion para tabla     ', 'GEM');
@@ -1194,10 +1174,13 @@ alter table gem.ttipo_mant
 add constraint chk_ttipo_mant__tipo check (tipo in ('planificado','no_planificado'));
 
 --Nuevos campos para orden de trabajo
+/*
 alter table gem.torden_trabajo
-add column id_cat_prior integer, add column id_cat_estado integer,
-add column id_instruc_seg integer,add column id_cat_tipo integer;
-
+add column id_cat_prior integer, 
+add column id_cat_estado integer,
+add column id_instruc_seg integer,
+add column id_cat_tipo integer;
+*/
 --Se aumenta campo tipo_unicons
 alter table gem.tuni_cons
 add column tipo_unicons varchar(15),add constraint chk_tuni_cons__tipo_unicos check (tipo_unicons in ('estacion','planta'));
@@ -1268,6 +1251,6 @@ add column id_instruc_seg integer,
 add constraint fk_torden_trabajo__id_cat_estado foreign key(id_cat_estado) references param.tcatalogo(id_catalogo),
 add constraint fk_torden_trabajo__id_cat_prior foreign key(id_cat_prior) references param.tcatalogo(id_catalogo),
 add constraint fk_torden_trabajo__id_cat_tipo foreign key(id_cat_tipo) references param.tcatalogo(id_catalogo),
-add constraint fk_torden_trabajo__id_instruc_seg foreign key(id_instruc_seg) references gem.tinstruc_seg(id_instruc_seg)
+add constraint fk_torden_trabajo__id_instruc_seg foreign key(id_instruc_seg) references gem.tinstruc_seg(id_instruc_seg);
 
 /***********************************F-SCP-JRR-GEM-1-19/11/2012*****************************************/
