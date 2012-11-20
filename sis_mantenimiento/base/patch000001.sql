@@ -1,4 +1,3 @@
-/***********************************I-SCP-JRR-GEM-1-19/11/2012****************************************/
 /*
 *	Author: RAC
 *	Date: 11/2012
@@ -1025,6 +1024,7 @@ ALTER TABLE gem.tuni_cons_item OWNER TO postgres;
 ALTER TABLE gem.tdocumento
 ADD COLUMN tipo VARCHAR(10) DEFAULT 'padre'::character varying;
 
+
 --RAC 13 11 2012
 --aumenta el campo time en la tabla de equipo_medicion
 
@@ -1245,5 +1245,3 @@ add constraint fk_torden_trabajo__id_cat_estado foreign key(id_cat_estado) refer
 add constraint fk_torden_trabajo__id_cat_prior foreign key(id_cat_prior) references param.tcatalogo(id_catalogo),
 add constraint fk_torden_trabajo__id_cat_tipo foreign key(id_cat_tipo) references param.tcatalogo(id_catalogo),
 add constraint fk_torden_trabajo__id_instruc_seg foreign key(id_instruc_seg) references gem.tinstruc_seg(id_instruc_seg)
-
-/***********************************F-SCP-JRR-GEM-1-19/11/2012*****************************************/
