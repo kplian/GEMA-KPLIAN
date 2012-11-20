@@ -6,6 +6,7 @@
 *@date 09-08-2012 00:42:57
 *@description Archivo con la interfaz de usuario que permite la ejecucion de todas las funcionalidades del sistema
 */
+
 header("content-type: text/javascript; charset=UTF-8");
 ?>
 <script>

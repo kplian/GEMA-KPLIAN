@@ -63,8 +63,6 @@ class MODEquipoMedicion extends MODbase{
 		
 		//$this->setParametro('datos','datos','varchar');	
 		$this->setParametro('id_uni_cons','id_uni_cons','integer');	
-		$this->setParametro('fecha_ini','fecha_ini','date');	
-		$this->setParametro('fecha_fin','fecha_fin','date');	
 		
 		
 		$parametros= explode('@',$datos);

@@ -122,9 +122,6 @@ VALUES (1, NULL, '2012-11-13 11:55:00', '2012-11-13 11:55:00', 'activo', 7, 4, 5
 INSERT INTO alm.tmovimiento_det (id_usuario_reg, id_usuario_mod, fecha_reg, fecha_mod, estado_reg, id_movimiento_det, id_movimiento, id_item, cantidad, costo_unitario, fecha_caducidad)
 VALUES (1, NULL, '2012-11-13 11:55:26', '2012-11-13 11:55:26', 'activo', 8, 5, 1, 4.000000, 2600.000000, NULL);
 
-INSERT INTO alm.tmovimiento_det (id_usuario_reg, id_usuario_mod, fecha_reg, fecha_mod, estado_reg, id_movimiento_det, id_movimiento, id_item, cantidad, costo_unitario, fecha_caducidad)
-VALUES (1, NULL, '2012-11-13 11:55:26', '2012-11-13 11:55:26', 'activo', 9, 5, 5, 1.000000, 2000.000000, NULL);
-
 
 -- Actalizacion de Secuencias
 

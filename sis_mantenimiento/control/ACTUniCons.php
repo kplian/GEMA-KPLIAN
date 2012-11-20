@@ -196,7 +196,7 @@ class ACTUniCons extends ACTbase{
 		/*se ande un nivel al arbol incluyendo con tido de nivel carpeta con su arreglo de equivalencias
 			  es importante que entre los resultados devueltos por la base exista la variable\
 			  tipo_dato que tenga el valor en texto = 'carpeta' */
-			
+			+
 			$this->res->addNivelArbol('tipo_nodo','base',array('leaf'=>false,
 															'allowDelete'=>true,
 															'allowEdit'=>true,
@@ -295,10 +295,6 @@ class ACTUniCons extends ACTbase{
 	 	
 	function addUniCons(){
 		$this->objFunc=new FuncionesMantenimiento();	
-		
-		//var_dump('XXXXxxx');
-		//exit;
-		
 		$this->res=$this->objFunc->addUniCons($this->objParam);			
 		$this->res->imprimirRespuesta($this->res->generarJson());
 	}
