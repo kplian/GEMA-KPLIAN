@@ -10,7 +10,50 @@
 */
  
  /* (1) Table creation*/
-  
+ 
+CREATE TABLE orga.ttipo_horario (
+  id_tipo_horario SERIAL, 
+  codigo VARCHAR(255), 
+  nombre VARCHAR(255), 
+  estado_reg VARCHAR(10), 
+  id_usuario_reg INTEGER, 
+  fecha_reg TIMESTAMP DEFAULT now() NOT NULL, 
+  id_usuario_mod INTEGER, 
+  fecha_mod TIMESTAMP DEFAULT now(), 
+  CONSTRAINT ttipo_horario_pkey PRIMARY KEY(id_tipo_horario)
+) INHERITS (pxp.tbase)
+WITH OIDS;
+ 
+CREATE TABLE orga.tespecialidad_nivel (
+  id_especialidad_nivel SERIAL, 
+  codigo VARCHAR(20) NOT NULL, 
+  nombre VARCHAR(100) NOT NULL, 
+  CONSTRAINT tespecialidad_nivel_pkey PRIMARY KEY(id_especialidad_nivel)
+) INHERITS (pxp.tbase)
+WITH OIDS;
+
+CREATE TABLE orga.tespecialidad (
+  id_especialidad serial NOT NULL,
+  codigo character varying(20) NOT NULL,
+  nombre character varying(150) NOT NULL,
+  id_especialidad_nivel integer,
+  CONSTRAINT tespecialidad_pkey PRIMARY KEY (id_especialidad),
+  CONSTRAINT fk_tespecialidad__id_especialidad_nivel FOREIGN KEY (id_especialidad_nivel)
+      REFERENCES orga.tespecialidad_nivel (id_especialidad_nivel) MATCH SIMPLE
+      ON UPDATE NO ACTION ON DELETE NO ACTION
+) INHERITS (pxp.tbase)
+WITH OIDS;
+ALTER TABLE orga.tespecialidad OWNER TO postgres;
+ 
+CREATE TABLE orga.tfuncionario_especialidad(
+  id_funcionario_especialidad serial NOT NULL,
+  id_funcionario integer NOT NULL,
+  id_especialidad integer NOT NULL,
+  CONSTRAINT tfuncionario_especialidad_pkey PRIMARY KEY (id_funcionario_especialidad),
+  CONSTRAINT uq__id_funcionario_especialidad UNIQUE (id_funcionario, id_especialidad)
+) INHERITS (pxp.tbase)
+WITH OIDS;
+ALTER TABLE orga.tfuncionario_especialidad OWNER TO postgres;
 
 CREATE TABLE param.tproveedor_item_servicio (  
   id_proveedor_item serial NOT NULL,
@@ -27,7 +70,7 @@ CREATE TABLE gem.ttipo_mant (
   id_tipo_mant serial NOT NULL,
   codigo character varying(20),
   nombre character varying(100),
-  CONSTRAINT pk_ttipo_mant__id_tipo_mant PRIMARY KEY (id_tipo_mant)
+  CONSTRAINT ttipo_mant_pkey PRIMARY KEY (id_tipo_mant)
 ) INHERITS (pxp.tbase)
 WITH OIDS;
 ALTER TABLE gem.ttipo_mant OWNER TO postgres;
@@ -36,7 +79,7 @@ CREATE TABLE gem.tmetodologia (
   id_metodologia serial NOT NULL,
   codigo character varying(20),
   nombre character varying(100),
-  CONSTRAINT pk_tmetodologia__id_metodologia PRIMARY KEY (id_metodologia)
+  CONSTRAINT tmetodologia_pkey PRIMARY KEY (id_metodologia)
 ) INHERITS (pxp.tbase)
 WITH OIDS;
 ALTER TABLE gem.tmetodologia OWNER TO postgres;
@@ -51,8 +94,8 @@ CREATE TABLE gem.tlocalizacion (
   desc_ubicacion VARCHAR(2000), 
   latitud TEXT, 
   longitud TEXT, 
-  CONSTRAINT pk_tlocalizacion__id_localizacion PRIMARY KEY(id_localizacion), 
-  CONSTRAINT fk_tlocalizacion__id_localizacion_fk FOREIGN KEY (id_localizacion_fk)
+  CONSTRAINT tlocalizacion_pkey PRIMARY KEY(id_localizacion), 
+  CONSTRAINT tlocalizacion_fk FOREIGN KEY (id_localizacion_fk)
     REFERENCES gem.tlocalizacion(id_localizacion)
     ON DELETE NO ACTION
     ON UPDATE NO ACTION
@@ -66,13 +109,13 @@ CREATE TABLE gem.ttipo_equipo (
   codigo VARCHAR(20), 
   nombre VARCHAR(200), 
   descripcion TEXT, 
-  CONSTRAINT pk_ttipo_equipo__id_tipo_equipo PRIMARY KEY(id_tipo_equipo), 
-  CONSTRAINT fk_ttipo_equipo__id_usuario_reg FOREIGN KEY (id_usuario_reg)
+  CONSTRAINT ttipo_equipo_pkey PRIMARY KEY(id_tipo_equipo), 
+  CONSTRAINT ttipo_equipo_fk FOREIGN KEY (id_usuario_reg)
     REFERENCES segu.tusuario(id_usuario)
     ON DELETE NO ACTION
     ON UPDATE NO ACTION
     NOT DEFERRABLE, 
-  CONSTRAINT fk_ttipo_equipo__id_usuario_mod FOREIGN KEY (id_usuario_mod)
+  CONSTRAINT ttipo_equipo_fk1 FOREIGN KEY (id_usuario_mod)
     REFERENCES segu.tusuario(id_usuario)
     ON DELETE NO ACTION
     ON UPDATE NO ACTION
@@ -89,23 +132,23 @@ CREATE TABLE gem.tuni_cons (
   nombre VARCHAR(200), 
   tipo VARCHAR(15), 
   estado VARCHAR(20), 
-  CONSTRAINT pk_tuni_cons__id_uni_cons PRIMARY KEY(id_uni_cons), 
-  CONSTRAINT fk_tuni_cons__id_tipo_equipo FOREIGN KEY (id_tipo_equipo)
+  CONSTRAINT tuni_cons_pkey PRIMARY KEY(id_uni_cons), 
+  CONSTRAINT tuni_cons_fk FOREIGN KEY (id_tipo_equipo)
     REFERENCES gem.ttipo_equipo(id_tipo_equipo)
     ON DELETE NO ACTION
     ON UPDATE NO ACTION
     NOT DEFERRABLE, 
-  CONSTRAINT fk_tuni_cons__id_localizacion FOREIGN KEY (id_localizacion)
+  CONSTRAINT tuni_cons_fk1 FOREIGN KEY (id_localizacion)
     REFERENCES gem.tlocalizacion(id_localizacion)
     ON DELETE NO ACTION
     ON UPDATE NO ACTION
     NOT DEFERRABLE, 
-  CONSTRAINT fk_tuni_cons__id_usuario_reg FOREIGN KEY (id_usuario_reg)
+  CONSTRAINT tuni_cons_fk2 FOREIGN KEY (id_usuario_reg)
     REFERENCES segu.tusuario(id_usuario)
     ON DELETE NO ACTION
     ON UPDATE NO ACTION
     NOT DEFERRABLE, 
-  CONSTRAINT fk_tuni_cons__id_usuario_mod FOREIGN KEY (id_usuario_mod)
+  CONSTRAINT tuni_cons_fk3 FOREIGN KEY (id_usuario_mod)
     REFERENCES segu.tusuario(id_usuario)
     ON DELETE NO ACTION
     ON UPDATE NO ACTION
@@ -123,13 +166,13 @@ CREATE TABLE gem.tuni_cons_comp (
   id_uni_cons_padre INTEGER NOT NULL, 
   opcional VARCHAR(2) DEFAULT 'no'::character varying NOT NULL, 
   cantidad INTEGER, 
-  CONSTRAINT pk_tuni_cons_comp__id_unji_cons_comp PRIMARY KEY(id_uni_cons_comp), 
-  CONSTRAINT fk_tuni_cons_comp__id_uni_cons_hijo FOREIGN KEY (id_uni_cons_hijo)
+  CONSTRAINT tuni_cons_comp_pkey PRIMARY KEY(id_uni_cons_comp), 
+  CONSTRAINT tuni_cons_comp_fk FOREIGN KEY (id_uni_cons_hijo)
     REFERENCES gem.tuni_cons(id_uni_cons)
     ON DELETE NO ACTION
     ON UPDATE NO ACTION
     NOT DEFERRABLE, 
-  CONSTRAINT fk_tuni_cons_comp__id_uni_cons_padre FOREIGN KEY (id_uni_cons_padre)
+  CONSTRAINT tuni_cons_comp_fk1 FOREIGN KEY (id_uni_cons_padre)
     REFERENCES gem.tuni_cons(id_uni_cons)
     ON DELETE NO ACTION
     ON UPDATE NO ACTION
@@ -139,8 +182,7 @@ WITHOUT OIDS;
 ALTER TABLE gem.tuni_cons_comp OWNER TO postgres;
 
 
-CREATE UNIQUE INDEX uq_ttipo_equipo__estado_reg__nombre
-ON gem.ttipo_equipo
+CREATE UNIQUE INDEX ttipo_equipo_idx ON gem.ttipo_equipo
   USING btree (estado_reg, nombre);
   
 CREATE TABLE gem.ttipo_variable (
@@ -149,7 +191,7 @@ CREATE TABLE gem.ttipo_variable (
   id_unidad_medida INTEGER, 
   nombre VARCHAR(50), 
   descripcion VARCHAR, 
-  CONSTRAINT pk_ttipo_variable__id_tipo_variable PRIMARY KEY(id_tipo_variable)
+  CONSTRAINT ttipo_variable_pkey PRIMARY KEY(id_tipo_variable)
 ) INHERITS (pxp.tbase)
 WITHOUT OIDS;
 ALTER TABLE gem.ttipo_variable OWNER TO postgres;
@@ -161,7 +203,7 @@ CREATE TABLE gem.tequipo_variable (
   obs VARCHAR, 
   valor_min NUMERIC(18,2), 
   valor_max NUMERIC(18,2), 
-  CONSTRAINT pk_tequipo_variable__id_equipo_variable PRIMARY KEY(id_equipo_variable)
+  CONSTRAINT tequipo_variable_pkey PRIMARY KEY(id_equipo_variable)
 ) INHERITS (pxp.tbase)
 WITHOUT OIDS;
  
@@ -171,15 +213,11 @@ CREATE TABLE gem.tfalla (
   codigo varchar(20), 
   nombre varchar(250),
   obs varchar ,
-  CONSTRAINT pk_tfalla__id_falla PRIMARY KEY (id_falla)
+  PRIMARY KEY (id_falla)
 ) INHERITS (pxp.tbase)
 WITHOUT OIDS;
 ALTER TABLE gem.tfalla OWNER TO postgres;
 
-<<<<<<< HEAD
-=======
-
->>>>>>> 16960e01a895780cb7d933826c41ffcf36db4e62
 --analisis rcm fallas
 CREATE TABLE gem.tfalla_evento(
 	id_falla_evento  SERIAL NOT NULL, 
@@ -187,11 +225,7 @@ CREATE TABLE gem.tfalla_evento(
 	codigo varchar(20), 
 	nombre varchar(100), 
 	tipo varchar(10),
-<<<<<<< HEAD
 	PRIMARY KEY (id_falla_evento),
-=======
-	CONSTRAINT pk_tfalla_evento__id_falla_evento PRIMARY KEY (id_falla_evento),
->>>>>>> 16960e01a895780cb7d933826c41ffcf36db4e62
 	CONSTRAINT fk_tfalla_evento__id_tipo_equipo FOREIGN KEY (id_tipo_equipo)
       REFERENCES gem.ttipo_equipo (id_tipo_equipo) MATCH SIMPLE
       ON UPDATE NO ACTION ON DELETE NO ACTION,
@@ -208,7 +242,7 @@ CREATE TABLE gem.tincidente_equipo(
   descripcion varchar(2000),
   fecha_desde timestamp,
   fecha_hasta timestamp,
-  CONSTRAINT pk_tincidente__id_incidente PRIMARY KEY (id_incidente_equipo),
+  PRIMARY KEY (id_incidente_equipo),
   CONSTRAINT fk_tincidente_equipo__id_uni_cons FOREIGN KEY (id_uni_cons)
       REFERENCES gem.tuni_cons (id_uni_cons) MATCH SIMPLE
       ON UPDATE NO ACTION ON DELETE NO ACTION,
@@ -218,6 +252,8 @@ CREATE TABLE gem.tincidente_equipo(
 ) INHERITS (pxp.tbase)
 WITH OIDS;
 ALTER TABLE gem.tincidente_equipo OWNER TO postgres;
+
+ 
 
 /*
 Author: RCM
@@ -238,7 +274,7 @@ CREATE TABLE gem.tmant_predef (
   codigo varchar(20),
   nombre varchar(100),
   descripcion varchar(1000),
-  CONSTRAINT pk_tmant_predef__id_mant_predef PRIMARY KEY (id_mant_predef)
+  PRIMARY KEY (id_mant_predef)
 ) INHERITS (pxp.tbase)
 WITHOUT OIDS;
 ALTER TABLE gem.tmant_predef OWNER TO postgres;
@@ -252,7 +288,7 @@ CREATE TABLE gem.tmant_predef_det (
   nombre varchar(100),
   descripcion varchar(2000),
   observacion varchar(2000),
-  CONSTRAINT pk_tmant_predef_det__id_mant_predef_det PRIMARY KEY (id_mant_predef_det)
+  PRIMARY KEY (id_mant_predef_det)
 ) INHERITS (pxp.tbase)
 WITHOUT OIDS;
 alter table gem.tmant_predef_det owner to postgres;
@@ -270,16 +306,13 @@ CREATE TABLE gem.tdocumento(
   extension varchar(10),
   palabras_clave varchar(3000),
   archivo bytea,
-  CONSTRAINT pk_tdocumento__id_documento PRIMARY KEY (id_documento),
-  CONSTRAINT fk_tdocumento__id_documento_padre FOREIGN KEY (id_documento_padre)
-      REFERENCES gem.tfalla_evento (id_falla_evento) MATCH SIMPLE
-      ON UPDATE NO ACTION ON DELETE NO ACTION
-  CONSTRAINT  FOREIGN KEY () REFERENCES gem.tdocumento (id_documento);  
+  PRIMARY KEY (id_documento)
 ) INHERITS (pxp.tbase)
 WITHOUT OIDS;
 ALTER TABLE gem.tdocumento OWNER TO postgres;
 
-
+ALTER TABLE gem.tdocumento
+ADD CONSTRAINT fk_tdocumento__id_documento_padre FOREIGN KEY (id_documento_padre) REFERENCES gem.tdocumento (id_documento);
 
 --
 --4)
@@ -308,7 +341,7 @@ CREATE TABLE gem.torden_trabajo(
   observacion varchar(5000),
   nota_tecnico_equipo varchar(1000),
   nota_tecnico_loc varchar(1000),
-  CONSTRAINT pk_torden_trabajo__id_orden_trabajo PRIMARY KEY (id_orden_trabajo)
+  PRIMARY KEY (id_orden_trabajo)
 ) INHERITS (pxp.tbase)
 WITHOUT OIDS;
 ALTER TABLE gem.torden_trabajo OWNER TO postgres;
@@ -324,13 +357,20 @@ ALTER TABLE gem.torden_trabajo OWNER TO postgres;
 ALTER TABLE gem.tuni_cons
   ADD COLUMN id_plantilla INTEGER;
  
+--Adding new column to table param.tproveedor
+alter table param.tproveedor
+add column id_lugar integer;
+
+alter table param.tproveedor
+add constraint fk_tproveedor__id_lugar foreign key(id_lugar) references param.tlugar(id_lugar);
+
 CREATE TABLE gem.tdiagrama_decision (
   id_diagrama_decision serial NOT NULL,
   id_metodologia integer,
   codigo character varying(20),
   nombre character varying(100),
   fecha_desde_validez timestamp without time zone,
-  CONSTRAINT pk_tdiagrama_decision__id_diagrama_decision PRIMARY KEY (id_diagrama_decision),
+  CONSTRAINT tdiagrama_decision_pkey PRIMARY KEY (id_diagrama_decision),
   CONSTRAINT fk_tdiagrama_decision__id_metodologia FOREIGN KEY (id_metodologia)
       REFERENCES gem.tmetodologia (id_metodologia) MATCH SIMPLE
       ON UPDATE NO ACTION ON DELETE NO ACTION
@@ -359,13 +399,26 @@ WITH (
 );
 */
 
+CREATE OR REPLACE VIEW param.vproveedor AS 
+ SELECT provee.id_proveedor, provee.id_persona, provee.codigo, provee.numero_sigma,
+ provee.tipo, provee.id_institucion, 
+ pxp.f_iif(provee.id_persona IS NOT NULL, person.nombre_completo1::character varying,
+ ((instit.codigo::text || '-'::text) || instit.nombre::text)::character varying) AS desc_proveedor,
+ provee.nit, provee.id_lugar, lug.nombre as lugar, param.f_obtener_padre_lugar(provee.id_lugar,'pais') as pais
+   FROM param.tproveedor provee
+   LEFT JOIN segu.vpersona person ON person.id_persona = provee.id_persona
+   LEFT JOIN param.tinstitucion instit ON instit.id_institucion = provee.id_institucion
+   LEFT JOIN param.tlugar lug ON lug.id_lugar = provee.id_lugar
+  WHERE provee.estado_reg::text = 'activo'::text;
+ALTER TABLE param.vproveedor OWNER TO postgres;
+
 CREATE TABLE gem.tfuncionario_honorario(
   id_funcionario_honorario serial not null,
   id_tipo_horario integer,
   id_funcionario integer,
   id_moneda integer,
   costo_hora numeric(18,2),
-  CONSTRAINT pk_tfuncionario_honorario__id_funcionario_honorario PRIMARY KEY (id_funcionario_honorario),
+  CONSTRAINT tfuncionario_honorario_pkey PRIMARY KEY (id_funcionario_honorario),
   CONSTRAINT fk_tfuncionario_honorario__id_tipo_horario FOREIGN KEY (id_tipo_horario)
       REFERENCES orga.ttipo_horario (id_tipo_horario) MATCH SIMPLE
       ON UPDATE NO ACTION ON DELETE NO ACTION,
@@ -405,7 +458,7 @@ CREATE TABLE gem.tequipo_medicion(
 	fecha_medicion timestamp, 
 	medicion varchar(100),
 	observaciones varchar(2000), 
-	CONSTRAINT pk_tequipo_medicion__id_equipo_medicion PRIMARY KEY (id_equipo_medicion),
+	PRIMARY KEY (id_equipo_medicion),
 	CONSTRAINT fk_tequipo_medicion__id_equipo_variable FOREIGN KEY (id_equipo_variable)
       REFERENCES gem.tequipo_variable (id_equipo_variable) MATCH SIMPLE
       ON UPDATE NO ACTION ON DELETE NO ACTION
@@ -450,7 +503,7 @@ CREATE TABLE gem.tanalisis_mant(
 	fecha_emision date, 
 	fecha_rev date, 
 	descripcion varchar(100), 
-	CONSTRAINT pk_tanalisis_mant__id_analisis_mant PRIMARY KEY (id_analisis_mant),
+	PRIMARY KEY (id_analisis_mant),
 	CONSTRAINT fk_tanalisis_mant__id_uni_cons FOREIGN KEY (id_uni_cons)
       REFERENCES gem.tuni_cons (id_uni_cons) MATCH SIMPLE
       ON UPDATE NO ACTION ON DELETE NO ACTION,
@@ -471,7 +524,7 @@ CREATE TABLE gem.tfuncion(
 	id_analisis_mant int4, 
 	descripcion varchar(1000), 
 	orden int4, 
-	CONSTRAINT pk_tfuncion__id_funcion PRIMARY KEY (id_funcion),
+	PRIMARY KEY (id_funcion),
 	CONSTRAINT fk_tfuncion__id_analisis_mant FOREIGN KEY (id_analisis_mant)
       REFERENCES gem.tanalisis_mant (id_analisis_mant) MATCH SIMPLE
       ON UPDATE NO ACTION ON DELETE NO ACTION
@@ -480,10 +533,6 @@ WITH (
   OIDS=TRUE
 );
 
-<<<<<<< HEAD
-=======
-
->>>>>>> 16960e01a895780cb7d933826c41ffcf36db4e62
 CREATE TABLE gem.tfuncion_falla(
 	id_funcion_falla  SERIAL NOT NULL,
 	id_funcion int4 NOT NULL,
@@ -491,7 +540,7 @@ CREATE TABLE gem.tfuncion_falla(
 	modo_falla varchar(1000),
 	efecto_falla varchar(1000),
 	orden int4,
-	CONSTRAINT pk_tfuncion_falla__id_funcion_falla PRIMARY KEY (id_funcion_falla),
+	PRIMARY KEY (id_funcion_falla),
 	CONSTRAINT fk_tfuncion_falla__id_funcion FOREIGN KEY (id_funcion)
       REFERENCES gem.tfuncion (id_funcion) MATCH SIMPLE
       ON UPDATE NO ACTION ON DELETE NO ACTION,
@@ -504,26 +553,6 @@ WITH (
 );
 
 
-<<<<<<< HEAD
-=======
---Diagrama de decisión
-CREATE TABLE gem.tdiagrama_decision(
-	id_diagrama_decision  SERIAL NOT NULL, 
-	id_metodologia int4, 
-	codigo varchar(20), 
-	nombre varchar(100), 
-	fecha_desde_validez timestamp, 
-	CONSTRAINT pk_tdiagrama_decision__id_diagrama_decision PRIMARY KEY (id_diagrama_decision),
-	CONSTRAINT fk_tdiagrama_decision__id_metodologia FOREIGN KEY (id_metodologia)
-      REFERENCES gem.tmetodologia (id_metodologia) MATCH SIMPLE
-      ON UPDATE NO ACTION ON DELETE NO ACTION
-)INHERITS (pxp.tbase)
-WITH (
-  OIDS=TRUE
-);
-
-
->>>>>>> 16960e01a895780cb7d933826c41ffcf36db4e62
 --CREACION DE TABLAS PARA CALENDARIO --
 --rac 3 de noviembre
 
@@ -536,7 +565,7 @@ CREATE TABLE gem.tuni_cons_mant_predef (
   frecuencia NUMERIC(18,2), 
   fecha_ini TIMESTAMP WITHOUT TIME ZONE, 
   ult_fecha_mant TIMESTAMP WITHOUT TIME ZONE, 
-  CONSTRAINT pk_tuni_cons_mant_predef__id_uni_cons_mant_predef PRIMARY KEY(id_uni_cons_mant_predef), 
+  CONSTRAINT tuni_cons_mant_predef_pkey PRIMARY KEY(id_uni_cons_mant_predef), 
   CONSTRAINT fk_tuni_cons_mant_predef__id_mant_predef FOREIGN KEY (id_mant_predef)
     REFERENCES gem.tmant_predef(id_mant_predef)
     ON DELETE NO ACTION
@@ -555,6 +584,7 @@ CREATE TABLE gem.tuni_cons_mant_predef (
 ) INHERITS (pxp.tbase)
 WITH OIDS;
     
+    --------------- SQL ---------------
 --------------- SQL ---------------
 
 ALTER TABLE gem.tuni_cons_mant_predef
@@ -572,17 +602,13 @@ CREATE TABLE gem.tcalendario_planificado(
     estado varchar(20),
     tipo varchar(25),
     observaciones varchar(1000),
-<<<<<<< HEAD
     PRIMARY KEY (id_calendario_planificado))INHERITS (pxp.tbase)
     WITH OIDS;
     
    
-=======
-    CONSTRAINT pk_tcalendario_planificado__id_calendario_planificado PRIMARY KEY (id_calendario_planificado)
-)INHERITS (pxp.tbase)
-WITH OIDS;
->>>>>>> 16960e01a895780cb7d933826c41ffcf36db4e62
     
+
+
 /*
 
 RAC
@@ -616,14 +642,14 @@ ALTER TABLE gem.ttipo_variable
     nombre varchar(100),
     descripcion varchar(2000),
     valor varchar(2000),
-    CONSTRAINT pk_tuni_cons_det__id_uni_cons_det PRIMARY KEY (id_uni_cons_det)
-) INHERITS (pxp.tbase)
+    PRIMARY KEY (id_uni_cons_det))
+    INHERITS (pxp.tbase)
 WITH OIDS;
 
 --------------- SQL ---------------
 
 ALTER TABLE gem.tuni_cons_det
-  ADD CONSTRAINT fk_tuni_cons_det__id_unidad_medida FOREIGN KEY (id_unidad_medida)
+  ADD CONSTRAINT tuni_cons_det_id_unidad_medida_fk FOREIGN KEY (id_unidad_medida)
     REFERENCES param.tunidad_medida(id_unidad_medida)
     ON DELETE NO ACTION
     ON UPDATE NO ACTION
@@ -632,7 +658,7 @@ ALTER TABLE gem.tuni_cons_det
 --------------- SQL ---------------
 
 ALTER TABLE gem.tuni_cons_det
-  ADD CONSTRAINT fk_tuni_cons_det__id_uni_cons FOREIGN KEY (id_uni_cons)
+  ADD CONSTRAINT tuni_cons_det_id_uni_cons_fk FOREIGN KEY (id_uni_cons)
     REFERENCES gem.tuni_cons(id_uni_cons)
     ON DELETE NO ACTION
     ON UPDATE NO ACTION
@@ -829,13 +855,13 @@ select pxp.f_insert_tprocedimiento ('GEM_EQV_ELI', '	Eliminacion de registros
  	', 'si', '', '', 'f_equipo_variable_ime');
 
  
-CREATE TABLE gem.tmodo_falla (
+ CREATE TABLE gem.tmodo_falla (
   id_modo_falla SERIAL, 
   id_funcion_falla INTEGER, 
   modo_falla VARCHAR(1000), 
   efecto_falla VARCHAR(1000), 
   orden INTEGER, 
-  CONSTRAINT pk_tmodo_falla__id_modo_falla PRIMARY KEY(id_modo_falla), 
+  CONSTRAINT tmodo_falla_pkey PRIMARY KEY(id_modo_falla), 
   CONSTRAINT fk_tmodo_falla__id_funcion_falla FOREIGN KEY (id_funcion_falla)
     REFERENCES gem.tfuncion_falla(id_funcion_falla)
     ON DELETE NO ACTION
@@ -845,7 +871,7 @@ CREATE TABLE gem.tmodo_falla (
 WITH OIDS;
 ALTER TABLE gem.tmodo_falla OWNER TO postgres;
 	
-CREATE TABLE gem.tplan_mant (
+ CREATE TABLE gem.tplan_mant (
   id_plan_mant SERIAL, 
   id_uni_cons INTEGER, 
   id_tipo_mant INTEGER, 
@@ -853,7 +879,7 @@ CREATE TABLE gem.tplan_mant (
   id_funcionario_rev INTEGER, 
   fecha TIMESTAMP WITHOUT TIME ZONE, 
   descripcion VARCHAR(500), 
-  CONSTRAINT pk_tplan_mant__id_plant_mant PRIMARY KEY(id_plan_mant), 
+  CONSTRAINT tplan_mant_pkey PRIMARY KEY(id_plan_mant), 
   CONSTRAINT fk_tplan_mant__id_funcionario FOREIGN KEY (id_funcionario)
     REFERENCES orga.tfuncionario(id_funcionario)
     ON DELETE NO ACTION
@@ -899,7 +925,7 @@ CREATE TABLE gem.ttarea (
   col_h4 VARCHAR(2), 
   col_h5 VARCHAR(2), 
   col_s4 VARCHAR(2), 
-  CONSTRAINT pk_ttarea__id_tarea PRIMARY KEY(id_tarea), 
+  CONSTRAINT ttarea_pkey PRIMARY KEY(id_tarea), 
   CONSTRAINT fk_ttarea__id_falla_evento FOREIGN KEY (id_falla_evento)
     REFERENCES gem.tfalla_evento(id_falla_evento)
     ON DELETE NO ACTION
@@ -945,7 +971,7 @@ CREATE TABLE gem.tuni_cons_archivo (
   codigo VARCHAR(40), 
   archivo BYTEA, 
   tipo VARCHAR(10) DEFAULT 'padre'::character varying, 
-  CONSTRAINT pk_tuni_cons_archivo__id_uni_cons_archivo PRIMARY KEY(id_uni_cons_archivo), 
+  CONSTRAINT tuni_cons_archivo_pkey PRIMARY KEY(id_uni_cons_archivo), 
   CONSTRAINT fk_tuni_cos_archivo__id_uni_cons_archivo_padre FOREIGN KEY (id_uni_cons_archivo_padre)
     REFERENCES gem.tuni_cons_archivo(id_uni_cons_archivo)
     ON DELETE NO ACTION
@@ -959,7 +985,7 @@ CREATE TABLE gem.tuni_cons_proveedor (
   id_uni_cons_proveedor SERIAL, 
   id_uni_cons INTEGER, 
   id_proveedor INTEGER, 
-  CONSTRAINT pk_tuni_cons_proveedor__id_uni_cons_proveedor PRIMARY KEY(id_uni_cons_proveedor), 
+  CONSTRAINT tuni_cons_proveedor_pkey PRIMARY KEY(id_uni_cons_proveedor), 
   CONSTRAINT chk_tuni_cons_item__estado_reg CHECK ((estado_reg)::text = ANY ((ARRAY['activo'::character varying, 'inactivo'::character varying])::text[])), 
   CONSTRAINT fk_tuni_cons_item__id_proveedor FOREIGN KEY (id_proveedor)
     REFERENCES param.tproveedor(id_proveedor)
@@ -979,7 +1005,7 @@ CREATE TABLE gem.tuni_cons_item (
   id_uni_cons_item SERIAL, 
   id_uni_cons INTEGER, 
   id_item INTEGER,
-  CONSTRAINT pk_tuni_cons_item__id_uni_cons_item PRIMARY KEY(id_uni_cons_item),
+  CONSTRAINT tuni_cons_item_pkey PRIMARY KEY(id_uni_cons_item),
     CONSTRAINT chk_tuni_cons_item__estado_reg CHECK ((estado_reg)::text = ANY ((ARRAY['activo'::character varying, 'inactivo'::character varying])::text[]))
 ) INHERITS (pxp.tbase)
 WITH OIDS;
@@ -1014,7 +1040,7 @@ ALTER TABLE gem.tequipo_medicion
 ALTER TABLE gem.tequipo_medicion
   ALTER COLUMN fecha_medicion TYPE DATE;  
   
-ALTER TABLE gem.tequipo_variable
+ ALTER TABLE gem.tequipo_variable
   ADD COLUMN tipo VARCHAR(10) DEFAULT 'numeric' NOT NULL; 
 
 
@@ -1032,7 +1058,7 @@ CREATE TABLE gem.tactividad (
   fecha_plan_fin timestamp,
   fecha_eje_ini timestamp,
   fecha_eje_fin timestamp,
-  CONSTRAINT pk_tactividad__id_actividad PRIMARY KEY (id_actividad),
+  CONSTRAINT tactividad__id_actividad PRIMARY KEY (id_actividad),
   CONSTRAINT fk_tactividad__id_orden_trabajo FOREIGN KEY (id_orden_trabajo)
       REFERENCES gem.torden_trabajo (id_orden_trabajo) MATCH SIMPLE
       ON UPDATE NO ACTION ON DELETE NO ACTION,
@@ -1059,7 +1085,7 @@ CREATE TABLE gem.trecurso (
   cantidad numeric(18,2),
   costo numeric(18,2),
   observaciones varchar(2000),
-  CONSTRAINT pk_trecurso__id_recurso PRIMARY KEY (id_recurso),
+  CONSTRAINT trecurso__id_recurso PRIMARY KEY (id_recurso),
   CONSTRAINT fk_trecurso__id_item FOREIGN KEY (id_item)
       REFERENCES alm.titem (id_item) MATCH SIMPLE
       ON UPDATE NO ACTION ON DELETE NO ACTION,
@@ -1095,7 +1121,7 @@ CREATE TABLE gem.tlocalizacion_usuario (
   id_localizacion integer,
   id_usuario integer,
   tipo varchar(15),
-  CONSTRAINT pk_tlocalizacion_usuario__id_localizacion_usuario PRIMARY KEY (id_localizacion_usuario),
+  CONSTRAINT tlocalizacion_usuario__id_localizacion_usuario PRIMARY KEY (id_localizacion_usuario),
   CONSTRAINT fk_tlocalizacion_usuario__id_localizacion FOREIGN KEY (id_localizacion)
       REFERENCES gem.tlocalizacion (id_localizacion) MATCH SIMPLE
       ON UPDATE NO ACTION ON DELETE NO ACTION,
@@ -1119,7 +1145,7 @@ CREATE TABLE gem.tcentro_costo (
   tipo varchar(15),
   codigo_anh varchar(20),
   descripcion_anh varchar(100),
-  CONSTRAINT pk_tcentro_costo__id_centro_costo PRIMARY KEY (id_centro_costo)
+  CONSTRAINT tcentro_costo__id_centro_costo PRIMARY KEY (id_centro_costo)
 ) INHERITS (pxp.tbase)
 WITH (
   OIDS=TRUE
@@ -1133,7 +1159,7 @@ CREATE TABLE gem.tinstruc_seg (
   id_instruc_seg  SERIAL NOT NULL,
   codigo varchar(20),
   descripcion varchar(200),
-  CONSTRAINT pk_tinstruc_seg__id_instruc_seg PRIMARY KEY (id_instruc_seg)
+  CONSTRAINT tinstruc_seg__id_instruc_seg PRIMARY KEY (id_instruc_seg)
 ) INHERITS (pxp.tbase)
 WITH (
   OIDS=TRUE
@@ -1147,7 +1173,6 @@ add column tipo varchar(20);
 alter table gem.ttipo_mant
 add constraint chk_ttipo_mant__tipo check (tipo in ('planificado','no_planificado'));
 
-<<<<<<< HEAD
 --Nuevos campos para orden de trabajo
 /*
 alter table gem.torden_trabajo
@@ -1156,8 +1181,6 @@ add column id_cat_estado integer,
 add column id_instruc_seg integer,
 add column id_cat_tipo integer;
 */
-=======
->>>>>>> 16960e01a895780cb7d933826c41ffcf36db4e62
 --Se aumenta campo tipo_unicons
 alter table gem.tuni_cons
 add column tipo_unicons varchar(15),add constraint chk_tuni_cons__tipo_unicos check (tipo_unicons in ('estacion','planta'));
@@ -1171,7 +1194,7 @@ CREATE TABLE gem.tpresupuesto (
   descripcion varchar(200),
   gestion integer,
   estado varchar(15),
-  CONSTRAINT pk_tpresupuesto__id_presupuesto PRIMARY KEY (id_presupuesto)
+  CONSTRAINT tpresupuesto__id_presupuesto PRIMARY KEY (id_presupuesto)
 ) INHERITS (pxp.tbase)
 WITH (
   OIDS=TRUE
@@ -1183,7 +1206,7 @@ CREATE TABLE gem.tpartida (
   id_partida  SERIAL NOT NULL,
   codigo varchar(20),
   descripcion varchar(200),
-  CONSTRAINT pk_tpartida__id_partida PRIMARY KEY (id_partida)
+  CONSTRAINT tpartida__id_partida PRIMARY KEY (id_partida)
 ) INHERITS (pxp.tbase)
 WITH (
   OIDS=TRUE
@@ -1200,7 +1223,7 @@ CREATE TABLE gem.tpresup_partida (
   fecha_hora timestamp,
   importe numeric(18,2),
   tipo varchar(15),
-  CONSTRAINT pk_tpresup_partida__id_presup_partida PRIMARY KEY (id_presup_partida),
+  CONSTRAINT tpresup_partida__id_presup_partida PRIMARY KEY (id_presup_partida),
   CONSTRAINT fk_tpresup_partida__id_presupuesto FOREIGN KEY (id_presupuesto)
       REFERENCES gem.tpresupuesto (id_presupuesto) MATCH SIMPLE
       ON UPDATE NO ACTION ON DELETE NO ACTION,
