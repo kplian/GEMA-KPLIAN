@@ -36,8 +36,8 @@ INSERT INTO segu.tpersona(id_usuario_reg, estado_reg, id_persona, nombre, apelli
 VALUES (1,  'activo', 2, 'Juan', 'Perez');
 
 --Institución
-INSERT INTO param.tinstitucion(id_usuario_reg,  estado_reg, id_institucion, id_persona,doc_id,codigo,direccion,nombre)
-VALUES (1, 'activo', 1, 2, '234321','INS-01','Av. América #349','Los Alamos');
+--INSERT INTO param.tinstitucion(id_usuario_reg,  estado_reg, id_institucion, id_persona,doc_id,codigo,direccion,nombre)
+--VALUES (1, 'activo', 1, 2, '234321','INS-01','Av. América #349','Los Alamos');
 
 --Tipo Equipo
 INSERT INTO gem.ttipo_equipo(id_usuario_reg,  estado_reg,id_tipo_equipo, codigo, nombre, descripcion)
