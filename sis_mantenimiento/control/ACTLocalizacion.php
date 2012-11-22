@@ -116,17 +116,22 @@ class ACTLocalizacion extends ACTbase{
 				
 				$arreglo=array();
 				
-				array_push($arreglo,array('nombre'=>'id','valor'=>'id_uni_cons'));
+				array_push($arreglo,array('nombre'=>'id','valor'=>'id_uni_loc'));
 				array_push($arreglo,array('nombre'=>'id_p','valor'=>'id_unic_cons_padre'));
 				//array_push($arreglo,array('nombre'=>'cls','valor'=>'descripcion'));
 			
-				$this->res->addNivelArbol('tipo_nodo','raiz_aprobado',array('leaf'=>false,
+				
+				
+				
+				$this->res->addNivelArbol('incluir_calgen','false',array(
+															'leaf'=>true,
 															'allowDelete'=>true,
 															'allowEdit'=>true,
-			 												'icon'=>'../../../lib/imagenes/otros/tuc.png'),
-			 												$arreglo);	
+			 												'icon'=>'../../../lib/imagenes/otros/gear_red.png'),
+			 												$arreglo);
 				
-				$this->res->addNivelArbol('tipo_nodo','rama',array(
+				
+				$this->res->addNivelArbol('incluir_calgen','true',array(
 															'leaf'=>true,
 															'allowDelete'=>true,
 															'allowEdit'=>true,

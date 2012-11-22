@@ -179,36 +179,38 @@ Phx.vista.EquipoMedicionDinamico=Ext.extend(Phx.gridInterfaz,{
 		
 		var rec = this.store.data.items;
 	
-		var data = new google.visualization.DataTable();
-		//adciona columnas
-		//data.addColumn('string', 'nombre');
-		data.addColumn('date', 'Fecha');
-		//data.addColumn('string', 'Hora');
-		for (j=0;j<this.recColumnas.length ;j++){
-			data.addColumn('number', this.recColumnas[j].data.nombre_tipo_variable);
-					
-		}
-		for (var i=0;i<rec.length;i++){
-			var fila = [];
-		    
-		   // fila[0]='prueba';
-		    fila[0]=rec[i].data['fecha']
-		    //fila[1]=rec[i].data['hora']
-		    
-		    for (j=0;j<this.recColumnas.length ;j++){
-		      var codigo_col = 'col_'+this.recColumnas[j].data.key;
-			   
-			   
-			   
-			   var aux = parseFloat(rec[i].data[codigo_col])
-			   fila[j+1]=aux?aux:0;
+		if(google&&google.visualization){
+			var data = new google.visualization.DataTable();
+			//adciona columnas
+			//data.addColumn('string', 'nombre');
+			data.addColumn('date', 'Fecha');
+			//data.addColumn('string', 'Hora');
+			for (j=0;j<this.recColumnas.length ;j++){
+				data.addColumn('number', this.recColumnas[j].data.nombre_tipo_variable);
+						
+			}
+			for (var i=0;i<rec.length;i++){
+				var fila = [];
+			    
+			   // fila[0]='prueba';
+			    fila[0]=rec[i].data['fecha']
+			    //fila[1]=rec[i].data['hora']
+			    
+			    for (j=0;j<this.recColumnas.length ;j++){
+			      var codigo_col = 'col_'+this.recColumnas[j].data.key;
+				   
+				   
+				   
+				   var aux = parseFloat(rec[i].data[codigo_col])
+				   fila[j+1]=aux?aux:0;
+			      }
+			     data.addRow(fila)
+			  }
+			  var pagIndicadores =  Phx.CP.getPagina(this.idContenedor+'-east');
+			  if(pagIndicadores){
+			     pagIndicadores.setDatachart(data);
 		      }
-		     data.addRow(fila)
-		  }
-		  var pagIndicadores =  Phx.CP.getPagina(this.idContenedor+'-east');
-		  if(pagIndicadores){
-		     pagIndicadores.setDatachart(data);
-	      }
+	     }
 	},
 	
 	onButtonAct:function(){

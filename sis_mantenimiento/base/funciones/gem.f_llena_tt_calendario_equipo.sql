@@ -4,7 +4,9 @@ CREATE OR REPLACE FUNCTION gem.f_llena_tt_calendario_equipo (
   v_id_uni_cons integer,
   v_fecha_ini date,
   v_fecha_fin date,
-  v_id_usuario integer
+  v_id_usuario integer,
+  v_codigo text,
+  v_nombre text
 )
 RETURNS boolean AS
 $body$
@@ -117,7 +119,15 @@ BEGIN
    
    --1)   for listado de los mantenimientos correspondientes al equipo indicado
    
-    FOR g_registros in  (select  man.frecuencia, man.horas_dia, man.id_uni_cons_mant_predef,uni.id_uni_cons, uni.codigo,man.id_mant_predef,mp.codigo as codigo_man,mp.nombre
+    FOR g_registros in  (select  man.frecuencia, 
+                         man.horas_dia, 
+                         man.id_uni_cons_mant_predef,
+                         uni.id_uni_cons, 
+                         uni.codigo,
+                         man.id_mant_predef,
+                         mp.codigo as codigo_man,
+                         uni.nombre as nombre_equipo,
+                         mp.nombre
                          from gem.tuni_cons_mant_predef man 
                          inner join gem.tuni_cons uni on uni.id_uni_cons = man.id_uni_cons
                          inner join gem.tmant_predef mp on mp.id_mant_predef = man.id_mant_predef
@@ -128,16 +138,17 @@ BEGIN
    --1.0.A)  (atributos) arma primera parte de la cadena de insercion con datos del equipo y del mantenimiento
      
                
-            v_consulta1= 'INSERT into tt_calendario_meses ( id_uni_cons ,
+            v_consulta1= 'INSERT into tt_calendario_meses_'||v_id_usuario||'( id_uni_cons ,
                                                        id_mant_predef ,
                                                        nombre_uni_cons ,
                                                        nombre_mant ,
-                                                       codigo_man  ';
+                                                       codigo_man,
+                                                       codigo_equipo  ';
                                                        
  -- 1.0.B)  (valores)   arma la cadena de insercion de valores 
          
          
-            v_consulta2= ') values('||g_registros.id_uni_cons||','||g_registros.id_uni_cons_mant_predef||','''||g_registros.codigo||''','''||g_registros.nombre||''','''||g_registros.codigo_man||'''';                  
+            v_consulta2= ') values('||g_registros.id_uni_cons||','||g_registros.id_uni_cons_mant_predef||','''||v_nombre||''','''||g_registros.nombre||''','''||g_registros.codigo_man||''','''||v_codigo||'''';                  
                                                                               
                                                        
    
