@@ -236,6 +236,7 @@ select pxp.f_insert_testructura_gui ('ALINGR', 'ALMOVI');
 select pxp.f_insert_testructura_gui ('ALSAGR', 'ALMOVI');
 select pxp.f_insert_testructura_gui ('ALTRGR', 'ALMOVI');
 
+
 CREATE TABLE alm.talmacen_usuario (
   id_almacen_usuario INTEGER NOT NULL, 
   id_usuario INTEGER, 
@@ -276,6 +277,7 @@ CREATE TABLE alm.talmacen_correlativo (
     NOT DEFERRABLE
 ) INHERITS (pxp.tbase)
 WITHOUT OIDS;
+
 
 /***********************************F-SCP-JRR-ALM-1-19/11/2012****************************************/
 

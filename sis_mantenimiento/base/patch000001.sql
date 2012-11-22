@@ -1028,26 +1028,8 @@ ALTER TABLE gem.tuni_cons_item OWNER TO postgres;
 ALTER TABLE gem.tdocumento
 ADD COLUMN tipo VARCHAR(10) DEFAULT 'padre'::character varying;
 
---RAC 13 11 2012
---aumenta el campo time en la tabla de equipo_medicion
-
-ALTER TABLE gem.tequipo_medicion
-  ADD COLUMN hora TIME(0) WITHOUT TIME ZONE;
-
-ALTER TABLE gem.tequipo_medicion
-  ALTER COLUMN hora SET DEFAULT now();
-  
---------------- SQL ---------------
-
-ALTER TABLE gem.tequipo_medicion
-  ALTER COLUMN fecha_medicion TYPE DATE;  
-  
- ALTER TABLE gem.tequipo_variable
-  ADD COLUMN tipo VARCHAR(10) DEFAULT 'numeric' NOT NULL; 
 
 
-ALTER TABLE gem.tuni_cons_item
-  ADD COLUMN observaciones VARCHAR(2000);
 
 CREATE TABLE gem.tactividad (
   id_actividad  SERIAL NOT NULL,
@@ -1253,6 +1235,42 @@ add column id_instruc_seg integer,
 add constraint fk_torden_trabajo__id_cat_estado foreign key(id_cat_estado) references param.tcatalogo(id_catalogo),
 add constraint fk_torden_trabajo__id_cat_prior foreign key(id_cat_prior) references param.tcatalogo(id_catalogo),
 add constraint fk_torden_trabajo__id_cat_tipo foreign key(id_cat_tipo) references param.tcatalogo(id_catalogo),
-add constraint fk_torden_trabajo__id_instruc_seg foreign key(id_instruc_seg) references gem.tinstruc_seg(id_instruc_seg);
+<<<<<<< HEAD
+add constraint fk_torden_trabajo__id_instruc_seg foreign key(id_instruc_seg) references gem.tinstruc_seg(id_instruc_seg)
+
 
 /***********************************F-SCP-JRR-GEM-1-19/11/2012*****************************************/
+
+/***********************************I-SCP-RAC-GEM-40-22/11/2012*****************************************/
+
+
+--RAC 13 11 2012
+--aumenta el campo time en la tabla de equipo_medicion
+
+ALTER TABLE gem.tequipo_medicion
+  ADD COLUMN hora TIME(0) WITHOUT TIME ZONE;
+
+ALTER TABLE gem.tequipo_medicion
+  ALTER COLUMN hora SET DEFAULT now();
+  
+--------------- SQL ---------------
+
+ALTER TABLE gem.tequipo_medicion
+  ALTER COLUMN fecha_medicion TYPE DATE;  
+  
+ ALTER TABLE gem.tequipo_variable
+  ADD COLUMN tipo VARCHAR(10) DEFAULT 'numeric' NOT NULL; 
+
+
+ALTER TABLE gem.tuni_cons_item
+  ADD COLUMN observaciones VARCHAR(2000);
+
+
+--RAC 19-11-2012
+--agregar campo en la tabla  para marcar la unidades 
+--que se consideran en la generacion de calendario
+ALTER TABLE gem.tuni_cons
+  ADD COLUMN incluir_calgen BOOLEAN DEFAULT false NOT NULL;
+  
+/***********************************F-SCP-JRR-GEM-1-19/11/2012*****************************************/
+
