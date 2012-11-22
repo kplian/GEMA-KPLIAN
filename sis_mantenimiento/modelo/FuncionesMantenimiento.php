@@ -982,6 +982,34 @@ class FuncionesMantenimiento{
         $res=$obj->eliminarModoFalla();
         return $res;
     }
-    /*FinClase: MODModoFalla*/  
+    /*FinClase: MODModoFalla*/
+    
+    // /*Clase: MODActividad
+    // * Fecha: 19-11-2012 11:46:08
+    // * Autor: Ariel Ayaviri Omonte*/
+    function listarActividadOT(CTParametro $parametro) {
+        $obj = new MODActividadOT($parametro);
+        $res = $obj->listarActividadOT();
+        return $res;
+    }
+            
+    function insertarActividadOT(CTParametro $parametro) {
+        $obj = new MODActividadOT($parametro);
+        $res = $obj->insertarActividadOT();
+        return $res;
+    }
+            
+    function modificarActividadOT(CTParametro $parametro) {
+        $obj = new MODActividadOT($parametro);
+        $res = $obj->modificarActividadOT();
+        return $res;
+    }
+            
+    function eliminarActividadOT(CTParametro $parametro) {
+        $obj = new MODActividadOT($parametro);
+        $res = $obj->eliminarActividadOT();
+        return $res;
+    }
+    /*FinClase: MODActividad*/  
 }//marca_generador
 ?>
