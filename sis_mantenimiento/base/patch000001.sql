@@ -1269,3 +1269,10 @@ add constraint fk_torden_trabajo__id_cat_estado foreign key(id_cat_estado) refer
 add constraint fk_torden_trabajo__id_cat_prior foreign key(id_cat_prior) references param.tcatalogo(id_catalogo),
 add constraint fk_torden_trabajo__id_cat_tipo foreign key(id_cat_tipo) references param.tcatalogo(id_catalogo),
 add constraint fk_torden_trabajo__id_instruc_seg foreign key(id_instruc_seg) references gem.tinstruc_seg(id_instruc_seg)
+
+
+--RAC 19-11-2012
+--agregar campo en la tabla  para marcar la unidades 
+--que se consideran en la generacion de calendario
+ALTER TABLE gem.tuni_cons
+  ADD COLUMN incluir_calgen BOOLEAN DEFAULT false NOT NULL;
