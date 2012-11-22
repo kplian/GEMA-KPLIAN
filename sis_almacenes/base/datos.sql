@@ -172,8 +172,8 @@ SELECT pg_catalog.setval('tmovimiento_tipo_id_movimiento_tipo_seq', 2, true);
 --
 -- Data for sequence alm.tmovimiento_id_movimiento_seq (OID = 1409069)
 --
-SELECT pg_catalog.setval('tmovimiento_id_movimiento_seq', 5, true);
+SELECT pg_catalog.setval('tmovimiento_id_movimiento_seq', 7, true);
 --
 -- Data for sequence alm.tmovimiento_det_id_movimiento_det_seq (OID = 1409081)
 --
-SELECT pg_catalog.setval('tmovimiento_det_id_movimiento_det_seq', 8, true);
+SELECT pg_catalog.setval('tmovimiento_det_id_movimiento_det_seq', 11, true);
