@@ -34,6 +34,8 @@ DECLARE
 	v_id_calendario_planificado	integer;
     
     v_fecha_ini  date;
+    v_dif integer;
+    v_id_uni_cons_mant_predef integer;
 
 BEGIN
 
@@ -140,7 +142,7 @@ BEGIN
   	/*********************************    
  	#TRANSACCION:  'GEM_OBTCALPLA_EMI'
  	#DESCRIPCION:	Obtiene datos del calendario planificado indicado
- 	#AUTOR:		admin	
+ 	#AUTOR:		rac 	
  	#FECHA:		02-11-2012 15:11:40
 	***********************************/
 
@@ -178,6 +180,52 @@ BEGIN
 	elsif(p_transaccion='GEM_UPDCALPLA_IME')then
 
 		begin
+        
+                       
+            --verifica si desea modificar en cadena las fecha siguientes
+            
+            IF v_parametros.recursivo = 'true' THEN
+            
+                --recupero la fecha anterio 
+                 select c.fecha_ini,c.id_uni_cons_mant_predef 
+                     into 
+                       v_fecha_ini,v_id_uni_cons_mant_predef
+                from gem.tcalendario_planificado c
+                where id_calendario_planificado=v_parametros.id_calendario_planificado;
+                
+                --definimos si sumamos o restamos
+                --calculo la diferencia en dias
+                  v_dif=   v_fecha_ini - v_parametros.fecha_ini::date; 
+                 
+                
+                
+                -- modifico en cadenas todos los mantenimiento siguientes en que esten en estado planificado
+                
+                	update gem.tcalendario_planificado set
+                    fecha_ini = fecha_ini -  CAST(v_dif::varchar||' days' as INTERVAL) ,
+                    id_usuario_mod = p_id_usuario,
+                    fecha_mod = now(),
+                    observaciones=observaciones||',fecha modificada en cadena'
+                    where id_uni_cons_mant_predef=v_id_uni_cons_mant_predef 
+                    and fecha_ini > v_fecha_ini and tipo='planificado';
+                    
+                    --modificamos la fecha pivote
+                    
+                    update gem.tcalendario_planificado set
+                    fecha_ini = v_parametros.fecha_ini,
+                    id_usuario_mod = p_id_usuario,
+                    fecha_mod = now()
+                    where id_calendario_planificado=v_parametros.id_calendario_planificado;
+            
+            
+            
+            
+            
+            ELSE
+            
+            
+            --en caso de que no queire modificar en cadena
+          
 			--Sentencia de la modificacion
 			update gem.tcalendario_planificado set
 			fecha_ini = v_parametros.fecha_ini,
@@ -188,7 +236,9 @@ BEGIN
 			--Definicion de la respuesta
             v_resp = pxp.f_agrega_clave(v_resp,'mensaje','Calendario modificado desde vista de calendario(a)'); 
             v_resp = pxp.f_agrega_clave(v_resp,'id_calendario_planificado',v_parametros.id_calendario_planificado::varchar);
-               
+            
+            
+            END IF;   
             --Devuelve la respuesta
             return v_resp;
             

@@ -6,8 +6,7 @@
 *@date 15-03-2012 10:27:35
 *@description Archivo con la interfaz de usuario que permite la ejecucion de todas las funcionalidades del sistema
 */
-header("content-type: text/javascript; charset=UTF-8");
-?>
+header("content-type: text/javascript; charset=UTF-8");?>
 <script> 
 Phx.vista.gridCalendario=Ext.extend(Phx.gridInterfaz,{
      constructor:function(config){
@@ -39,7 +38,7 @@ Phx.vista.gridCalendario=Ext.extend(Phx.gridInterfaz,{
 			
 			  this.formCP2 = new Ext.form.FormPanel({
 		        //baseCls: 'x-plain',
-		        id: this.idContenedor + '_FCP2',
+		        //id: this.idContenedor + '_FCP2',
 		        bodyStyle: 'padding:10 20px 10;',
 		        autoDestroy: true,
 		        // border: false,
@@ -78,7 +77,7 @@ Phx.vista.gridCalendario=Ext.extend(Phx.gridInterfaz,{
 		  
 		     this.wCP2 = new Ext.Window({
 		     	
-                    id: this.idContenedor + '_WCP2',
+                    //id: this.idContenedor + '_WCP2',
                    
                     //autoEl:this.idContenedor,
                     //autoLoad:false,
@@ -207,7 +206,7 @@ Phx.vista.gridCalendario=Ext.extend(Phx.gridInterfaz,{
 		
 		if (this.formUCCL.getForm().isValid()) {
 		
-		Phx.CP.loadingShow();
+		Phx.CP.loadingShow(this.idContenedor);
 		
 		 var dateFechaIni =this.formUCCL.getForm().findField('fecha_ini');
 		 var dateFechaFin =this.formUCCL.getForm().findField('fecha_fin');
@@ -380,7 +379,7 @@ Phx.vista.gridCalendario=Ext.extend(Phx.gridInterfaz,{
 							};
 					
 			}
-			this.wUCCL.hide();
+			
 			
 			
 			
@@ -395,7 +394,7 @@ Phx.vista.gridCalendario=Ext.extend(Phx.gridInterfaz,{
 			
 			
 			
-			Phx.CP.loadingHide();
+			
 			Phx.vista.gridCalendario.superclass.constructor.call(this,this.config);
 			
 			 var dateFechaIni =this.formUCCL.getForm().findField('fecha_ini');
@@ -422,7 +421,9 @@ Phx.vista.gridCalendario=Ext.extend(Phx.gridInterfaz,{
 		        id_uni_cons:this.id_uni_cons,
 				datos:recText};			               
 				                   
-			this.load({params:{start:0, limit:50}})
+				                   
+			this.load({params:{start:0, limit:50},callback:function(){Phx.CP.loadingHide();this.wUCCL.hide();},scope:this});
+			
 			
 		}
 		
@@ -578,6 +579,4 @@ Phx.vista.gridCalendario=Ext.extend(Phx.gridInterfaz,{
    }
 
 )
-</script>
-		
-		
+</script>		
