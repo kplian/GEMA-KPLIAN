@@ -12,8 +12,8 @@
 INSERT INTO segu.tpersona (id_usuario_reg, id_usuario_mod, fecha_reg, fecha_mod, estado_reg, id_persona, nombre, apellido_paterno, apellido_materno, ci, correo, celular1, num_documento, telefono1, telefono2, celular2, foto, extension, genero, fecha_nacimiento, direccion)
 VALUES (1, NULL, '2012-11-08 13:12:37.648965', '2012-11-08 13:12:37.648965', 'activo', 2, 'Juan', 'Perez', NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL);
 
---INSERT INTO segu.tpersona (id_usuario_reg, id_usuario_mod, fecha_reg, fecha_mod, estado_reg, id_persona, nombre, apellido_paterno, apellido_materno, ci, correo, celular1, num_documento, telefono1, telefono2, celular2, foto, extension, genero, fecha_nacimiento, direccion)
---VALUES (1, NULL, '2012-11-13 10:24:20', '2012-11-13 10:24:20', 'activo', 3, 'Sancho', 'Panza', NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL);
+INSERT INTO segu.tpersona (id_usuario_reg, id_usuario_mod, fecha_reg, fecha_mod, estado_reg, id_persona, nombre, apellido_paterno, apellido_materno, ci, correo, celular1, num_documento, telefono1, telefono2, celular2, foto, extension, genero, fecha_nacimiento, direccion)
+VALUES (1, NULL, '2012-11-13 10:24:20', '2012-11-13 10:24:20', 'activo', 3, 'Sancho', 'Panza', NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL);
 
 -- Institucion
 INSERT INTO param.tinstitucion (id_usuario_reg, id_usuario_mod, fecha_reg, fecha_mod, estado_reg, id_institucion, doc_id, nombre, casilla, telefono1, telefono2, celular1, celular2, fax, email1, email2, pag_web, observaciones, id_persona, direccion, codigo_banco, es_banco, codigo, cargo_representante)
@@ -26,11 +26,11 @@ INSERT INTO param.tinstitucion (id_usuario_reg, id_usuario_mod, fecha_reg, fecha
 VALUES (1, NULL, '2012-11-13 11:43:13', '2012-11-13 11:43:13', 'activo', 3, '789456', '3M', NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, 2, 'San Martin Nro 254', NULL, 'NO', '3M', 'Representante Legal');
 
 -- Proveedor
-INSERT INTO param.tproveedor (id_usuario_reg, id_usuario_mod, fecha_reg, fecha_mod, estado_reg, id_proveedor, id_institucion, id_persona, tipo, numero_sigma, codigo, nit, id_lugar)
-VALUES (1, NULL, '2012-11-13 10:31:22', '2012-11-13 10:31:22', 'activo', 1, 2, 3, NULL, NULL, NULL, NULL, 3);
+INSERT INTO param.tproveedor (id_usuario_reg, id_usuario_mod, fecha_reg, fecha_mod, estado_reg, id_proveedor, id_institucion, id_persona, tipo, numero_sigma, codigo, nit)
+VALUES (1, NULL, '2012-11-13 10:31:22', '2012-11-13 10:31:22', 'activo', 1, 2, 3, NULL, NULL, NULL, NULL);
 
-INSERT INTO param.tproveedor (id_usuario_reg, id_usuario_mod, fecha_reg, fecha_mod, estado_reg, id_proveedor, id_institucion, id_persona, tipo, numero_sigma, codigo, nit, id_lugar)
-VALUES (1, NULL, '2012-11-13 11:44:11', '2012-11-13 11:44:11', 'activo', 2, 2, 2, NULL, NULL, NULL, NULL, NULL);
+INSERT INTO param.tproveedor (id_usuario_reg, id_usuario_mod, fecha_reg, fecha_mod, estado_reg, id_proveedor, id_institucion, id_persona, tipo, numero_sigma, codigo, nit)
+VALUES (1, NULL, '2012-11-13 11:44:11', '2012-11-13 11:44:11', 'activo', 2, 2, 2, NULL, NULL, NULL, NULL);
 
 -- Funcionario
 INSERT INTO orga.tfuncionario (id_usuario_reg, id_usuario_mod, fecha_reg, fecha_mod, estado_reg, id_funcionario, id_persona, codigo, email_empresa, interno, fecha_ingreso)

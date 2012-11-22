@@ -32,8 +32,8 @@ INSERT INTO gem.tlocalizacion(id_localizacion,id_localizacion_fk,id_usuario_reg,
 VALUES (10,8,1,'activo','PLA-CBA-01','Planta Punata',8,null,'-65.83275995156248','-17.549906180561642');
 
 --Persona
-INSERT INTO segu.tpersona(id_usuario_reg, estado_reg, id_persona, nombre, apellido_paterno)
-VALUES (1,  'activo', 2, 'Juan', 'Perez');
+--INSERT INTO segu.tpersona(id_usuario_reg, estado_reg, id_persona, nombre, apellido_paterno)
+--VALUES (1,  'activo', 2, 'Juan', 'Perez');
 
 --Institución
 --INSERT INTO param.tinstitucion(id_usuario_reg,  estado_reg, id_institucion, id_persona,doc_id,codigo,direccion,nombre)
