@@ -982,6 +982,35 @@ class FuncionesMantenimiento{
         $res=$obj->eliminarModoFalla();
         return $res;
     }
-    /*FinClase: MODModoFalla*/  
+    /*FinClase: MODModoFalla*/
+    
+    /*Clase: MODInstrucSeg
+    * Fecha: 22-11-2012 15:45:32
+    * Autor: admin*/
+    function listarInstrucSeg(CTParametro $parametro){
+        $obj=new MODInstrucSeg($parametro);
+        $res=$obj->listarInstrucSeg();
+        return $res;
+    }
+            
+    function insertarInstrucSeg(CTParametro $parametro){
+        $obj=new MODInstrucSeg($parametro);
+        $res=$obj->insertarInstrucSeg();
+        return $res;
+    }
+            
+    function modificarInstrucSeg(CTParametro $parametro){
+        $obj=new MODInstrucSeg($parametro);
+        $res=$obj->modificarInstrucSeg();
+        return $res;
+    }
+            
+    function eliminarInstrucSeg(CTParametro $parametro){
+        $obj=new MODInstrucSeg($parametro);
+        $res=$obj->eliminarInstrucSeg();
+        return $res;
+    }
+    /*FinClase: MODInstrucSeg*/
+      
 }//marca_generador
 ?>
