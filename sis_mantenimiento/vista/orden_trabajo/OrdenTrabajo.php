@@ -17,30 +17,6 @@ Phx.vista.OrdenTrabajo=Ext.extend(Phx.gridInterfaz,{
     	//llama al constructor de la clase padre
 		Phx.vista.OrdenTrabajo.superclass.constructor.call(this,config);
 		this.init();
-		
-		this.addButton('Actividad', 
-			{
-				text:'Actividades',
-				iconCls: 'blist',
-				disabled: false,
-				handler: loadActividadesOT,
-				tooltip: '<b>Ver las actividades de la Orden de Trabajo Actual</b>'
-			}
-		);
-		function loadActividadesOT(){
-			var rec=this.sm.getSelected();
-			Phx.CP.loadWindows('../../../sis_mantenimiento/vista/actividad_ot/ActividadOT.php',
-					'Actividades',
-					{
-						width:900,
-						height:400
-				    },
-				    rec.data,
-				    this.idContenedor,
-				    'actividad'
-			);
-		}
-		
 		this.load({params:{start:0, limit:50}})
 	},
 	fheight:'80%',

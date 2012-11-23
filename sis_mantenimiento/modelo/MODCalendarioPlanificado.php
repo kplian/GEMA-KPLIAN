@@ -178,7 +178,6 @@ class MODCalendarioPlanificado extends MODbase{
 		$this->setParametro('datos','datos','varchar');	
 		$this->setParametro('tipo_nodo','tipo_nodo','varchar');	
 		$this->setParametro('id_localizacion','id_localizacion','integer');	
-		$this->setParametro('id_uni_cons','id_uni_cons','integer');	
 		$this->setParametro('fecha_ini','fecha_ini','date');
 		$this->setParametro('fecha_fin','fecha_fin','date');
 		

@@ -3,8 +3,7 @@
 CREATE OR REPLACE FUNCTION gem.f_addunicon_recursivo (
   v_id_orig integer,
   v_id_cop integer,
-  v_id_usuario integer,
-  v_tipo_nodo varchar
+  v_id_usuario integer
 )
 RETURNS boolean AS
 $body$
@@ -65,10 +64,9 @@ DECLARE
 g_registros                record;  -- PARA ALMACENAR EL CONJUNTO DE DATOS RESULTADO DEL SELECT
 v_id_uni_cons integer;
 
- v_id_uni_cons_comp integer;
- v_count  integer;
+v_id_uni_cons_comp integer;
+v_count  integer;
  v_resp_bool boolean;
- v_incluir_calgen boolean;
 
 
 BEGIN
@@ -100,14 +98,6 @@ BEGIN
   --   2.2) insertamos el nuevo id con la llave forane de padre v_id_cop
         
    --Sentencia de la insercion
-             if v_tipo_nodo = 'raiz' then
-             -- revisame si el padre es raiz si es raiz el primer hijo se incluye en la generacion de calendario pro defecto
-                v_incluir_calgen = true;
-             else
-                v_incluir_calgen = false;
-             end if;
-   
-   
                 insert into gem.tuni_cons(
                 estado_reg,
                 estado,
@@ -119,8 +109,7 @@ BEGIN
                 id_usuario_reg,
                 fecha_reg,
                 
-                tipo_nodo,
-                incluir_calgen
+                tipo_nodo
                 ) values(
                 'activo',
                'registrado',
@@ -130,8 +119,7 @@ BEGIN
                 g_registros.id_tipo_equipo,
                 v_id_usuario,
                 now(),
-                'rama',
-                v_incluir_calgen
+                'rama'
                 )RETURNING id_uni_cons into v_id_uni_cons;
             
    
@@ -164,7 +152,7 @@ BEGIN
  	 --   2.3) llamamos recursivamente a la funcion pxp.f_addunicon_recursivo con el nuevo 
   	 --         id_cop la insercions y el nuevo id_orgig
            
-        v_resp_bool = gem.f_addunicon_recursivo(g_registros.id_uni_cons ,v_id_uni_cons,v_id_usuario,'rama');
+        v_resp_bool = gem.f_addunicon_recursivo(g_registros.id_uni_cons ,v_id_uni_cons,v_id_usuario);
       
       
       -- 2.4) llamada a la clonacion de datos

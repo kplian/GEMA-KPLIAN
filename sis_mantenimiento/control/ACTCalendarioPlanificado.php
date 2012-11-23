@@ -73,18 +73,6 @@ class ACTCalendarioPlanificado extends ACTbase{
 		}
 		$this->res->imprimirRespuesta($this->res->generarJson());
 	}
-	
-	function OtenerCalPla(){
-		$this->objFunc=new FuncionesMantenimiento();	
-		$this->res=$this->objFunc->OtenerCalPla($this->objParam);
-		$this->res->imprimirRespuesta($this->res->generarJson());
-	}
-
-	function UpdateCalPla(){
-		$this->objFunc=new FuncionesMantenimiento();	
-		$this->res=$this->objFunc->UpdateCalPla($this->objParam);
-		$this->res->imprimirRespuesta($this->res->generarJson());
-	}
 
 
 

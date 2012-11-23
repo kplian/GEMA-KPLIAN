@@ -6,7 +6,8 @@
 *@date 15-03-2012 10:27:35
 *@description Archivo con la interfaz de usuario que permite la ejecucion de todas las funcionalidades del sistema
 */
-header("content-type: text/javascript; charset=UTF-8");?>
+header("content-type: text/javascript; charset=UTF-8");
+?>
 <script> 
 Phx.vista.gridCalendario=Ext.extend(Phx.gridInterfaz,{
      constructor:function(config){
@@ -38,7 +39,7 @@ Phx.vista.gridCalendario=Ext.extend(Phx.gridInterfaz,{
 			
 			  this.formCP2 = new Ext.form.FormPanel({
 		        //baseCls: 'x-plain',
-		        //id: this.idContenedor + '_FCP2',
+		        id: this.idContenedor + '_FCP2',
 		        bodyStyle: 'padding:10 20px 10;',
 		        autoDestroy: true,
 		        // border: false,
@@ -77,7 +78,7 @@ Phx.vista.gridCalendario=Ext.extend(Phx.gridInterfaz,{
 		  
 		     this.wCP2 = new Ext.Window({
 		     	
-                    //id: this.idContenedor + '_WCP2',
+                    id: this.idContenedor + '_WCP2',
                    
                     //autoEl:this.idContenedor,
                     //autoLoad:false,
@@ -206,7 +207,7 @@ Phx.vista.gridCalendario=Ext.extend(Phx.gridInterfaz,{
 		
 		if (this.formUCCL.getForm().isValid()) {
 		
-		Phx.CP.loadingShow(this.idContenedor);
+		Phx.CP.loadingShow();
 		
 		 var dateFechaIni =this.formUCCL.getForm().findField('fecha_ini');
 		 var dateFechaFin =this.formUCCL.getForm().findField('fecha_fin');
@@ -238,13 +239,12 @@ Phx.vista.gridCalendario=Ext.extend(Phx.gridInterfaz,{
 			field: 'nombre_uni_cons',
 			direction: 'ASC'
 		};
-		this.fields.push(this.id_store);
-		this.fields.push('id_uni_cons');
-		this.fields.push('id_mant_predef');
-		this.fields.push('nombre_uni_cons')	;	
-		this.fields.push('nombre_mant');
-		this.fields.push('codigo_man');
-		this.fields.push('codigo_equipo');
+		this.fields.push(this.id_store)
+		this.fields.push('id_uni_cons')
+		this.fields.push('id_mant_predef')
+		this.fields.push('nombre_uni_cons')		
+		this.fields.push('nombre_mant')
+		this.fields.push('codigo_man')
 		
 		
 		if(res)
@@ -286,12 +286,11 @@ Phx.vista.gridCalendario=Ext.extend(Phx.gridInterfaz,{
 			//configuracion del componente
 								config:{
 										
-										name: 'codigo_equipo',
-										fieldLabel: 'Código',
-										gwidth:150 
+										name: 'nombre_uni_cons',
+										fieldLabel: 'Equipo'
 								},
 								type:'Field',
-								filters:{pfiltro:'codigo_equipo',type:'string'},
+								filters:{pfiltro:'nombre_uni_cons',type:'string'},
 								grid:true,
 								form:false 
 						};
@@ -300,39 +299,25 @@ Phx.vista.gridCalendario=Ext.extend(Phx.gridInterfaz,{
 			//configuracion del componente
 								config:{
 										
-										fieldLabel: 'Equipo/Parte',
-										name: 'nombre_uni_cons',
-										gwidth:200 
+										fieldLabel: 'Mantenimiento',
+										name: 'nombre_mant',
+										gwidth:200 ,
 								},
 								type:'Field',
 								filters:{pfiltro:'nombre_mant',type:'string'},
 								grid:true,
 								form:false 
 						};	
-				
-				
-			this.Atributos[5]={
-			//configuracion del componente
-								config:{
-										
-										fieldLabel: 'Mantenimiento',
-										name: 'nombre_mant',
-										gwidth:200 
-								},
-								type:'Field',
-								filters:{pfiltro:'nombre_mant',type:'string'},
-								grid:true,
-								form:false 
-						};				
+						
 			var mesesGroups = [];	
 			
 			 mesesGroups.push({
                     header: 'E/M',
-                    colspan: 4,
+                    colspan: 3,
                     align: 'center'
                 });					 		
 						
-			var recText = this.id_store + '#integer@id_uni_cons#integer@id_mant_predef#integer@nombre_uni_cons#text@nombre_mant#varchar@codigo_man#varchar@codigo_equipo#text';			
+			var recText = this.id_store + '#integer@id_uni_cons#integer@id_mant_predef#integer@nombre_uni_cons#varchar@nombre_mant#varchar@codigo_man#varchar';			
 				//console.log('this.id_store: ', this.id_store);		
 			
 			for (var i=0;i<rec.length;i++){
@@ -354,7 +339,7 @@ Phx.vista.gridCalendario=Ext.extend(Phx.gridInterfaz,{
 			    recText=recText+'@'+rec[i].data.codigo+'#varchar@cp_'+rec[i].data.codigo+'#int4'
 				
 				
-				this.Atributos[i+6]={config:{
+				this.Atributos[i+5]={config:{
 									 name: rec[i].data.codigo,
 									 fieldLabel: rec[i].data.semana,
 									 allowBlank: true,
@@ -379,7 +364,7 @@ Phx.vista.gridCalendario=Ext.extend(Phx.gridInterfaz,{
 							};
 					
 			}
-			
+			this.wUCCL.hide();
 			
 			
 			
@@ -394,7 +379,7 @@ Phx.vista.gridCalendario=Ext.extend(Phx.gridInterfaz,{
 			
 			
 			
-			
+			Phx.CP.loadingHide();
 			Phx.vista.gridCalendario.superclass.constructor.call(this,this.config);
 			
 			 var dateFechaIni =this.formUCCL.getForm().findField('fecha_ini');
@@ -417,13 +402,10 @@ Phx.vista.gridCalendario=Ext.extend(Phx.gridInterfaz,{
 				fecha_ini:dateFechaIni.getValue().dateFormat('d-m-Y'),
 		        fecha_fin:dateFechaFin.getValue().dateFormat('d-m-Y'),
 		        tipo_nodo:this.tipo_nodo,
-		        id_localizacion:(this.tipo_nodo=='uni_cons'||this.tipo_nodo=='rama')?undefined:this.id_localizacion,
-		        id_uni_cons:this.id_uni_cons,
+		        id_localizacion:id_l,
 				datos:recText};			               
 				                   
-				                   
-			this.load({params:{start:0, limit:50},callback:function(){Phx.CP.loadingHide();this.wUCCL.hide();},scope:this});
-			
+			this.load({params:{start:0, limit:50}})
 			
 		}
 		
@@ -579,4 +561,6 @@ Phx.vista.gridCalendario=Ext.extend(Phx.gridInterfaz,{
    }
 
 )
-</script>		
+</script>
+		
+		

@@ -154,13 +154,6 @@ class FuncionesMantenimiento{
 		$res = $obj->listarUniConsDetalle();
 		return $res;
 	}
-
-	function modificarInclucionGeneracionCalendarioUniCons(CTParametro $parametro) {
-		$obj = new MODUniCons($parametro);
-		$res = $obj->modificarInclucionGeneracionCalendarioUniCons();
-		return $res;
-	}
-	
 	/*FinClase: MODUniCons*/
 
 
@@ -989,63 +982,6 @@ class FuncionesMantenimiento{
         $res=$obj->eliminarModoFalla();
         return $res;
     }
-    /*FinClase: MODModoFalla*/
-
-    // /*Clase: MODActividad
-    // * Fecha: 19-11-2012 11:46:08
-    // * Autor: Ariel Ayaviri Omonte*/
-    function listarActividadOT(CTParametro $parametro) {
-        $obj = new MODActividadOT($parametro);
-        $res = $obj->listarActividadOT();
-        return $res;
-    }
-            
-    function insertarActividadOT(CTParametro $parametro) {
-        $obj = new MODActividadOT($parametro);
-        $res = $obj->insertarActividadOT();
-        return $res;
-    }
-            
-    function modificarActividadOT(CTParametro $parametro) {
-        $obj = new MODActividadOT($parametro);
-        $res = $obj->modificarActividadOT();
-        return $res;
-    }
-            
-    function eliminarActividadOT(CTParametro $parametro) {
-        $obj = new MODActividadOT($parametro);
-        $res = $obj->eliminarActividadOT();
-        return $res;
-    }
-    /*FinClase: MODActividad*/
-    
-    /*Clase: MODInstrucSeg
-    * Fecha: 22-11-2012 15:45:32
-    * Autor: Gonzalo Sarmiento Sejas*/
-    function listarInstrucSeg(CTParametro $parametro){
-        $obj=new MODInstrucSeg($parametro);
-        $res=$obj->listarInstrucSeg();
-        return $res;
-    }
-            
-    function insertarInstrucSeg(CTParametro $parametro){
-        $obj=new MODInstrucSeg($parametro);
-        $res=$obj->insertarInstrucSeg();
-        return $res;
-    }
-            
-    function modificarInstrucSeg(CTParametro $parametro){
-        $obj=new MODInstrucSeg($parametro);
-        $res=$obj->modificarInstrucSeg();
-        return $res;
-    }
-            
-    function eliminarInstrucSeg(CTParametro $parametro){
-        $obj=new MODInstrucSeg($parametro);
-        $res=$obj->eliminarInstrucSeg();
-        return $res;
-    }
-    /*FinClase: MODInstrucSeg*/
-      
+    /*FinClase: MODModoFalla*/  
 }//marca_generador
 ?>
