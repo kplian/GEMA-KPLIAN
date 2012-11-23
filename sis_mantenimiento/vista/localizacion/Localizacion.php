@@ -20,31 +20,54 @@ Phx.vista.Localizacion=Ext.extend(Phx.arbInterfaz,{
 		this.tbar.items.get('b-new-'+this.idContenedor).disable()
 		
 		
-		this.addButton('btnBlock', {
+		this.addButton('AddBlock', {
 				text : 'Add Equipo',
-				iconCls : 'block',
+				iconCls : 'bgear',
 				disabled : true,
 				handler : this.onBtnAddEquipo,
 				tooltip : '<b>Add Equipo</b><br/>Adiciona equipo dede un aplantilla en la ubicacion de referencia'
 			});
-			
-		this.addButton('btnCalGen', {
-				text : 'Generar Calendario',
-				iconCls : 'block',
-				disabled : false,
-				handler : this.onBtnCalGen,
-				tooltip : '<b>Generar Calendario</b><br/>Genera el Caledario para todos los equipos de manera recursiva'
+		
+		this.addButton('btnInCalGen', {
+				text : 'Inc./Ret.',
+				iconCls : 'blist',
+				disabled : true,
+				handler : this.onBtnIncluCalGen,
+				tooltip : '<b>Considerar o no</b><br/>si la unidad es roja no se la considera en la generacion del calendario'
 			});
+		
 			
+	
 			
-		this.addButton('btnVerCalGen', {
-				text : 'Ver el  Calendario',
-				iconCls : 'block',
-				disabled : false,
-				handler : this.onBtnVerCalGen,
-				tooltip : '<b>Ver el calendario</b><br/>Genera el Caledario para todos los equipos de manera recursiva'
-			});
-				
+		this.menuOp = new Ext.Toolbar.SplitButton({
+   			id:'b-btnCalendar-' + this.idContenedor,
+   			text: 'Calendario',
+   			//handler: this.onMedicionesClick,
+   			iconCls : 'bcalendar',
+   			scope: this,
+   			menu:{
+   				items: [
+   				{
+   					id:'b-btnVerCalGen-' + this.idContenedor,
+   					text: 'Ver el  Calendario', 
+   					disabled : true,
+   					tooltip : '<b>Ver el calendario</b><br/>Genera el Caledario para todos los equipos de manera recursiva',
+   					 handler:this.onBtnVerCalGen, scope: this
+   				},{
+   					id:'b-btnCalGen-' + this.idContenedor,
+   					text : 'Generar Calendario',
+   					disabled : true,
+   					handler: this.onBtnCalGen,
+   					tooltip : '<b>Generar Calendario</b><br/>Genera el Caledario para todos los equipos de manera recursiva',
+		            scope: this
+   				}
+   				]
+   			}
+   		});
+   		
+   		this.tbar.add(this.menuOp);	
+			
+	
 		this.addButton('btnGenerarOT', {
 				text : 'Generar OT',
 				iconCls : 'block',
@@ -139,16 +162,10 @@ Phx.vista.Localizacion=Ext.extend(Phx.arbInterfaz,{
 		
 		this.formUC = new Ext.form.FormPanel({
         baseCls: 'x-plain-'+this.idContenedor,
-        autoDestroy: true,
-        labelWidth: 55,
-        layout: {
-            type: 'vbox',
-            align: 'stretch'  // Child items are stretched to full width
-        },
-        defaults: {
-            xtype: 'textfield'
-        },
-
+        bodyStyle: 'padding:10 20px 10;',
+		autoDestroy: true,
+		border: false,
+        layout: 'form',
         items: [{
         	    xtype: 'combo',
 				name: 'id_uni_cons',
@@ -179,8 +196,8 @@ Phx.vista.Localizacion=Ext.extend(Phx.arbInterfaz,{
 				mode:'remote',
 				pageSize:20,
 				queryDelay:500,
-				width:210,
-				gwidth:220,
+				width:250,
+		   		listWidth:'280',
 				minChars:2
 			},{
 				xtype: 'textfield',
@@ -203,8 +220,8 @@ Phx.vista.Localizacion=Ext.extend(Phx.arbInterfaz,{
         collapsible: true,
         maximizable: true,
          autoDestroy: true,
-        width: 350,
-        height: 200,
+        width: 450,
+        height: 250,
         layout: 'fit',
         plain: true,
         bodyStyle: 'padding:5px;',
@@ -231,8 +248,11 @@ Phx.vista.Localizacion=Ext.extend(Phx.arbInterfaz,{
     
     this.formUCCL = new Ext.form.FormPanel({
         //baseCls: 'x-plain',
-        autoDestroy: true,
-        labelWidth: 55,
+       bodyStyle: 'padding:10 20px 10;',
+		autoDestroy: true,
+		border: false,
+        layout: 'form',
+        
         autoScroll: true,
         /*layout: {
             type: 'vbox',
@@ -309,36 +329,87 @@ Phx.vista.Localizacion=Ext.extend(Phx.arbInterfaz,{
 		
 	},
 	
+	onBtnIncluCalGen:function(){
+		var node = this.sm.getSelectedNode();
+		var data =node.attributes;
+		//el boton de bloqueo solo se habilita para
+		//noso raiz del tipo TUC
+		if(data && (data.tipo_nodo == 'rama' )){
+		    Phx.CP.loadingShow();
+			
+			var aux;
+			
+			if(data.incluir_calgen=="false"){
+				aux=true;
+			}
+			else{
+				
+				aux=false;
+			}
+			
+			
+			
+			Ext.Ajax.request({
+				// form:this.form.getForm().getEl(),
+				
+				
+				url:'../../sis_mantenimiento/control/UniCons/modificarInclucionGeneracionCalendarioUniCons',
+				params:{'id_uni_cons':data.id_uni_cons,incluir_calgen:aux},
+				success:this.successIncluCalGen,
+				argument: {node:node.parentNode},
+				failure: this.conexionFailure,
+				timeout:this.timeout,
+				scope:this
+			});
+		}
+	},
+	
+	successIncluCalGen:function(resp){
+			Phx.CP.loadingHide();
+			var reg = Ext.util.JSON.decode(Ext.util.Format.trim(resp.responseText));
+			if(!reg.ROOT.error){
+				//alert(reg.ROOT.detalle.mensaje)
+				
+			}else{
+				
+				alert('ocurrio un error durante el proceso')
+			}
+			resp.argument.node.reload();
+			
+		},
+	
+	
 	onCalGen:function(){
 		var nodo = this.sm.getSelectedNode();
 		 if (this.formUCCL.getForm().isValid()) {
 		
 			Phx.CP.loadingShow();
 				
-			
-				
 		
 		    var dateFechaIni =this.formUCCL.getForm().findField('fecha_ini');
 		    var dateFechaFin =this.formUCCL.getForm().findField('fecha_fin');
 		         
-		       
-		    var  id_nodo= nodo.attributes.leaf?nodo.attributes.id_uni_cons:nodo.attributes.id_localizacion
+		    if(nodo.attributes.tipo_nodo == 'uni_cons' || nodo.attributes.tipo_nodo == 'rama'){
+		    	var  id_nodo= nodo.attributes.id_uni_cons;
+		    }
+		    else{
+		    	id_nodo= nodo.attributes.id_localizacion;
+		    	
+		    }
 		      
-		        
-		       
-		       
-				 Ext.Ajax.request({
-		                    url: '../../sis_mantenimiento/control/UniCons/GenerarCalendario',
-		                    params: {
-		                    	tipo_nodo:nodo.attributes.tipo_nodo,
-		                    	id_localizacion:id_nodo,
-		                    	fecha_ini:dateFechaIni.getValue().dateFormat('d-m-Y'),
-		                    	fecha_fin:dateFechaFin.getValue().dateFormat('d-m-Y')},
-		                    success: this.successCalGen,
-		                    failure:this.conexionFailure,
-		                    timeout: this.timeout,
-		                    scope: this
-		               });
+	 	 Ext.Ajax.request({
+	                    url: '../../sis_mantenimiento/control/UniCons/GenerarCalendario',
+	                    params: {
+	                    	tipo_nodo:nodo.attributes.tipo_nodo,
+	                    	id_localizacion:id_nodo,
+	                    	id_uni_cons:nodo.attributes.id_uni_cons,
+	                    	fecha_ini:dateFechaIni.getValue().dateFormat('d-m-Y'),
+	                    	fecha_fin:dateFechaFin.getValue().dateFormat('d-m-Y')},
+	                    success: this.successCalGen,
+	                    failure:this.conexionFailure,
+	                    timeout: this.timeout,
+	                    scope: this
+	               });
         }       
                
                
@@ -385,6 +456,9 @@ Phx.vista.Localizacion=Ext.extend(Phx.arbInterfaz,{
 		}
 		else{
 			this.wUCCL.hide();
+			
+			alert("Se incluyeron "+reg.ROOT.datos.contador+" equipos o partes");
+			
 		}
 
          
@@ -414,6 +488,7 @@ Phx.vista.Localizacion=Ext.extend(Phx.arbInterfaz,{
 	},
 	
 	onBtnCalGen:function(){
+		
 		var nodo = this.sm.getSelectedNode();
 		if(nodo){
 			this.wUCCL.show()
@@ -422,14 +497,15 @@ Phx.vista.Localizacion=Ext.extend(Phx.arbInterfaz,{
 	
 	onBtnVerCalGen:function(){
 		var nodo = this.sm.getSelectedNode();
-           Phx.CP.loadWindows('../../../sis_mantenimiento/vista/localizacion/gridCalendario.php',
+		if(nodo){
+		    Phx.CP.loadWindows('../../../sis_mantenimiento/vista/localizacion/gridCalendario.php',
 					'Calendario de Planificacion',
 					{
 						width:800,
 						height:400
 				    },nodo.attributes,this.idContenedor,'gridCalendario')
 	
-	
+	   }
 	},
 	
 	onBtnGenerarOT:function(){
@@ -718,23 +794,46 @@ Phx.vista.Localizacion=Ext.extend(Phx.arbInterfaz,{
 	bsave:true,
 	rootVisible:true,
 	
+	liberaMenu:function(n){
+		
+		Phx.vista.Localizacion.superclass.liberaMenu.call(this,n);
+		this.menuOp.menu.items.get('b-btnVerCalGen-' + this.idContenedor).disable();
+		this.menuOp.menu.items.get('b-btnCalGen-' + this.idContenedor).enable();
+		this.getBoton('btnInCalGen').disable();
+		this.getBoton('AddBlock').disable();
+		this.menuOp.disable();
+		
+	},
+	
 	preparaMenu:function(n){
 			//si es una nodo tipo carpeta habilitamos la opcion de nuevo
 							
 			if(n.attributes.tipo_nodo == 'hijo' || n.attributes.tipo_nodo == 'raiz' || n.attributes.id == 'id'){
-					
 					this.tbar.items.get('b-new-'+this.idContenedor).enable()
 				}
 				else {
-					
 					this.tbar.items.get('b-new-'+this.idContenedor).disable()
 				}
 			
-			 if(n.attributes.tipo_nodo == 'hijo'){
-			    this.getBoton('btnBlock').enable();
+			 if(n.attributes.tipo_nodo != 'id'){
+			 	this.menuOp.enable();
+			    this.menuOp.menu.items.get('b-btnVerCalGen-' + this.idContenedor).enable();
+			    this.menuOp.menu.items.get('b-btnCalGen-' + this.idContenedor).enable();
 			 }
 			 else{
-			 	this.getBoton('btnBlock').disable();
+			 	this.menuOp.disable();
+			 	this.menuOp.menu.items.get('b-btnVerCalGen-' + this.idContenedor).disable();
+			 	this.menuOp.menu.items.get('b-btnCalGen-' + this.idContenedor).enable();
+			 }
+			 	
+				
+				
+			
+			 if(n.attributes.tipo_nodo == 'hijo'){
+			    this.getBoton('AddBlock').enable();
+			 }
+			 else{
+			 	this.getBoton('AddBlock').disable();
 			 	
 			 }
 			 
@@ -744,11 +843,21 @@ Phx.vista.Localizacion=Ext.extend(Phx.arbInterfaz,{
 			Phx.vista.Localizacion.superclass.preparaMenu.call(this,n)
 			  if(n.attributes.tipo_nodo == 'uni_cons' || n.attributes.tipo_nodo=='rama'){
 			  	
-			  	this.getBoton('btnBlock').disable();
+			  	this.getBoton('AddBlock').disable();
+			  	
 			  	this.tbar.items.get('b-new-'+this.idContenedor).disable()
 			  	this.tbar.items.get('b-edit-'+this.idContenedor).disable()
 			  	this.tbar.items.get('b-del-'+this.idContenedor).disable()
 			 	
+			  }
+			  
+			  
+			  if(n.attributes.tipo_nodo=='rama'){
+			  	this.getBoton('btnInCalGen').enable();
+			  }
+			  else
+			  {
+			  	this.getBoton('btnInCalGen').disable();
 			  }
 			 
 		},

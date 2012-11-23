@@ -1,6 +1,6 @@
 /***********************************I-SCP-JRR-GEM-1-19/11/2012****************************************/
-/*
-*	Author: RAC
+
+/**	Author: RAC
 *	Date: 11/2012
 *	Description: Build the menu definition and composition
 *
@@ -610,14 +610,11 @@ CREATE TABLE gem.tcalendario_planificado(
 
 
 /*
-
-RAC
-8/11/2012
-
-modificacion de columnas tipo variable para evitar datos nulos
-
-
-
+*
+*RAC
+*8/11/2012
+*
+*modificacion de columnas tipo variable para evitar datos nulos
 */
 --------------- SQL ---------------
 
@@ -629,10 +626,10 @@ ALTER TABLE gem.ttipo_variable
 ALTER TABLE gem.ttipo_variable
   ALTER COLUMN id_unidad_medida SET NOT NULL;  
   
-  /*
-  RAC
-  08-11-2012
-  */
+/*
+* RAC
+* 08-11-2012
+*/
   
  CREATE TABLE gem.tuni_cons_det(
     id_uni_cons_det SERIAL NOT NULL,
@@ -702,6 +699,7 @@ select pxp.f_insert_tgui ('Niveles Especialidades Técnicas', 'Registro de los n
 select pxp.f_insert_tgui ('Especialidades Técnicas', 'Registro de especialidades técnicas', 'GEM.1.7', 'si', 7, 'sis_organigrama/vista/especialidad/Especialidad.php', 3, '', 'Especialidad', 'GEM');
 select pxp.f_insert_tgui ('Funcionarios', 'Registro de Funcionarios', 'GEM.1.8', 'si', 8, 'sis_organigrama/vista/funcionario/Funcionario.php', 3, '', 'funcionario', 'GEM');
 select pxp.f_insert_tgui ('Diagrama de Decisión', 'Registro Diagrama de Decisión', 'GEM.1.9', 'si', 9, 'sis_mantenimiento/vista/diagrama_decision/DiagramaDecision.php', 3, '', 'DiagramaDecision', 'GEM');
+select pxp.f_insert_tgui ('Instrucciones de Seguridad', 'Registro de instrucciones de seguridad', 'GEM.1.10', 'si', 10, 'sis_mantenimiento/vista/instrucciones_seguridad/InstrucSeg.php', 3, '', 'InstrucSeg', 'GEM');
 
 select pxp.f_insert_tgui ('Localizaciones', 'Registro de Localizaciones', 'GEM.2.1', 'si', 1, 'sis_mantenimiento/vista/localizacion/Localizacion.php', 3, '', 'Localizacion', 'GEM');
 select pxp.f_insert_tgui ('Plantilla de Equipos', 'Registro Plantilla de Equipos', 'GEM.2.2', 'si', 2, 'sis_mantenimiento/vista/uni_cons/UniCons.php', 3, '', 'UniCons', 'GEM');
@@ -738,6 +736,7 @@ select pxp.f_insert_testructura_gui ('GEM.1.6', 'GEM.1');
 select pxp.f_insert_testructura_gui ('GEM.1.7', 'GEM.1');
 select pxp.f_insert_testructura_gui ('GEM.1.8', 'GEM.1');
 select pxp.f_insert_testructura_gui ('GEM.1.9', 'GEM.1');
+select pxp.f_insert_testructura_gui ('GEM.1.10', 'GEM.1');
 
 select pxp.f_insert_testructura_gui ('GEM.2.1', 'GEM.2');
 select pxp.f_insert_testructura_gui ('GEM.2.2', 'GEM.2');
@@ -1026,26 +1025,8 @@ ALTER TABLE gem.tuni_cons_item OWNER TO postgres;
 ALTER TABLE gem.tdocumento
 ADD COLUMN tipo VARCHAR(10) DEFAULT 'padre'::character varying;
 
---RAC 13 11 2012
---aumenta el campo time en la tabla de equipo_medicion
-
-ALTER TABLE gem.tequipo_medicion
-  ADD COLUMN hora TIME(0) WITHOUT TIME ZONE;
-
-ALTER TABLE gem.tequipo_medicion
-  ALTER COLUMN hora SET DEFAULT now();
-  
---------------- SQL ---------------
-
-ALTER TABLE gem.tequipo_medicion
-  ALTER COLUMN fecha_medicion TYPE DATE;  
-  
- ALTER TABLE gem.tequipo_variable
-  ADD COLUMN tipo VARCHAR(10) DEFAULT 'numeric' NOT NULL; 
 
 
-ALTER TABLE gem.tuni_cons_item
-  ADD COLUMN observaciones VARCHAR(2000);
 
 CREATE TABLE gem.tactividad (
   id_actividad  SERIAL NOT NULL,
@@ -1253,4 +1234,38 @@ add constraint fk_torden_trabajo__id_cat_prior foreign key(id_cat_prior) referen
 add constraint fk_torden_trabajo__id_cat_tipo foreign key(id_cat_tipo) references param.tcatalogo(id_catalogo),
 add constraint fk_torden_trabajo__id_instruc_seg foreign key(id_instruc_seg) references gem.tinstruc_seg(id_instruc_seg);
 
-/***********************************F-SCP-JRR-GEM-1-19/11/2012*****************************************/
+
+/***********************************F-SCP-JRR-GEM-1-19/11/2012****************************************/
+
+/***********************************I-SCP-RAC-GEM-40-22/11/2012*****************************************/
+
+
+--RAC 13 11 2012
+--aumenta el campo time en la tabla de equipo_medicion
+
+ALTER TABLE gem.tequipo_medicion
+  ADD COLUMN hora TIME(0) WITHOUT TIME ZONE;
+
+ALTER TABLE gem.tequipo_medicion
+  ALTER COLUMN hora SET DEFAULT now();
+  
+--------------- SQL ---------------
+
+ALTER TABLE gem.tequipo_medicion
+  ALTER COLUMN fecha_medicion TYPE DATE;  
+  
+ ALTER TABLE gem.tequipo_variable
+  ADD COLUMN tipo VARCHAR(10) DEFAULT 'numeric' NOT NULL; 
+
+
+ALTER TABLE gem.tuni_cons_item
+  ADD COLUMN observaciones VARCHAR(2000);
+
+
+--RAC 19-11-2012
+--agregar campo en la tabla  para marcar la unidades 
+--que se consideran en la generacion de calendario
+ALTER TABLE gem.tuni_cons
+  ADD COLUMN incluir_calgen BOOLEAN DEFAULT false NOT NULL;
+  
+/***********************************F-SCP-RAC-GEM-40-22/11/2012*****************************************/
