@@ -161,7 +161,8 @@ BEGIN
    
              FOR g_registros2 in  (select cp.fecha_ini,cp.id_calendario_planificado,cp.estado
                                    from gem.tcalendario_planificado cp 
-                                   where cp.fecha_ini >= v_fecha_ini and cp.fecha_ini <= v_fecha_fin
+                                   where cp.fecha_ini >= v_fecha_ini and cp.fecha_ini <= v_fecha_fin 
+                                   and cp.tipo = 'planificado'
                                    and cp.id_uni_cons_mant_predef = g_registros.id_uni_cons_mant_predef ) LOOP
    
    

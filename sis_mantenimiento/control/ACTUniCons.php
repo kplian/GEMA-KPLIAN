@@ -311,7 +311,12 @@ class ACTUniCons extends ACTbase{
 	
 	
 	
-	
+	function GenerarCalendarioConfirmado(){
+		$this->objFunc=new FuncionesMantenimiento();	
+		$this->res=$this->objFunc->GenerarCalendarioConfirmado($this->objParam);			
+		$this->res->imprimirRespuesta($this->res->generarJson());
+	}
+		
 
     function GenerarCalendario(){
 		$this->objFunc=new FuncionesMantenimiento();	
