@@ -284,7 +284,163 @@ BEGIN
 			--Devuelve la respuesta
 			return v_consulta;
     	end;				
-					
+	
+        /*********************************
+        #TRANSACCION: 'GEM_TUCGET_SEL'
+        #DESCRIPCION: para obtener una unidad constructiva
+        #AUTOR: aao
+        #FECHA: 12/11/2012
+        ***********************************/
+
+        elsif(p_transaccion='GEM_TUCGET_SEL')then
+             
+             begin
+             --Sentencia de la consulta
+        v_consulta:='select tuc.id_uni_cons,
+                        tuc.codigo,
+                        tuc.nombre,
+                        tuc.tipo,
+                        tuc.estado,
+                        tuc.tipo_nodo,
+                        loc.codigo as cod_localizacion,
+                        loc.nombre as nombre_localizacion,
+                        loc.ubicacion as ubicacion,
+                        teq.codigo as codigo_tipo_equipo,
+                        teq.nombre as nombre_tipo_equipo,
+                        tcc.id_uni_cons_padre,
+                        to_char(tuc.fecha_reg, ''dd/MM/YYYY'') as fecha_reg,
+                        to_char(tuc.fecha_mod, ''dd/MM/YYYY'') as fecha_mod
+                      from gem.tuni_cons tuc
+                      left join gem.ttipo_equipo teq on tuc.id_tipo_equipo = teq.id_tipo_equipo
+                      left join gem.tlocalizacion loc on tuc.id_localizacion = loc.id_localizacion
+                      left join gem.tuni_cons_comp tcc on tuc.id_uni_cons = tcc.id_uni_cons_hijo
+                      where tuc.id_uni_cons = '|| v_parametros.id_uni_cons;
+
+        --Devuelve la respuesta
+        return v_consulta;
+        end;
+
+        /*********************************
+        #TRANSACCION: 'GEM_TUCGET_CONT'
+        #DESCRIPCION: Conteo de registros
+        #AUTOR: aao
+        #FECHA: 12-11-2012 10:33:00
+        ***********************************/
+
+        elsif(p_transaccion='GEM_TUCGET_CONT')then
+
+        begin
+        --Sentencia de la consulta de conteo de registros
+        v_consulta:='select count(tuc.id_uni_cons)
+                        from gem.tuni_cons tuc
+                    where tuc.id_uni_cons = '|| v_parametros.id_uni_cons;
+
+        --Devuelve la respuesta
+        return v_consulta;
+
+        end;
+            
+        /*********************************
+        #TRANSACCION: 'GEM_TUCHIJOS_SEL'
+        #DESCRIPCION: obtiene los hijos de una unidad constructiva en su primer nivel
+        #AUTOR: aao
+        #FECHA: 12/11/2012
+        ***********************************/
+
+        elsif(p_transaccion='GEM_TUCHIJOS_SEL')then
+             
+             begin
+             --Sentencia de la consulta
+              v_consulta:='select tuc.id_uni_cons,
+                              tuc.codigo,
+                              tuc.nombre,
+                              tuc.tipo,
+                              tuc.estado,
+                              tuc.tipo_nodo,
+                              loc.codigo as cod_localizacion,
+                              loc.nombre as nombre_localizacion,
+                              loc.ubicacion as ubicacion,
+                              teq.codigo as codigo_tipo_equipo,
+                              teq.nombre as nombre_tipo_equipo
+                          from gem.tuni_cons tuc
+                          inner join gem.tuni_cons_comp tcc on tuc.id_uni_cons = tcc.id_uni_cons_hijo
+                          left join gem.ttipo_equipo teq on tuc.id_tipo_equipo = teq.id_tipo_equipo
+                          left join gem.tlocalizacion loc on tuc.id_localizacion = loc.id_localizacion
+                          where tcc.estado_reg = ''activo''
+                          and tcc.id_uni_cons_padre = '|| v_parametros.id_uni_cons_padre;
+
+            --Devuelve la respuesta
+            return v_consulta;
+        end;
+
+        /*********************************
+        #TRANSACCION: 'GEM_TUCHIJOS_CONT'
+        #DESCRIPCION: Conteo de registros
+        #AUTOR: aao
+        #FECHA: 12-11-2012 10:49:00
+        ***********************************/
+
+        elsif(p_transaccion='GEM_TUCHIJOS_CONT')then
+
+        begin
+        --Sentencia de la consulta de conteo de registros
+            v_consulta:='select count(tuc.id_uni_cons)
+                        from gem.tuni_cons tuc
+                        inner join gem.tuni_cons_comp tcc on tuc.id_uni_cons = tcc.id_uni_cons_hijo
+                        where tcc.estado_reg = ''activo''
+                        and tcc.id_uni_cons_padre = '|| v_parametros.id_uni_cons_padre;
+
+            --Devuelve la respuesta
+            return v_consulta;
+
+        end;
+            
+        /*********************************
+        #TRANSACCION: 'GEM_TUCDETALLE_SEL'
+        #DESCRIPCION: obtiene los pares ordenados del detalle de una unidad constructiva
+        #AUTOR: aao
+        #FECHA: 12/11/2012
+        ***********************************/
+
+        elsif(p_transaccion='GEM_TUCDETALLE_SEL')then
+             
+             begin
+             --Sentencia de la consulta
+                  v_consulta:='select tcd.id_uni_cons_det,
+                                  tcd.codigo,
+                                  tcd.nombre,
+                                  tcd.descripcion,
+                                  tcd.valor,
+                                  tum.codigo as unidad_medidad
+                              from gem.tuni_cons_det tcd
+                              left join param.tunidad_medida tum on tcd.id_unidad_medida = tum.id_unidad_medida
+                              where tcd.estado_reg = ''activo''
+                              and tcd.id_uni_cons = '|| v_parametros.id_uni_cons;
+
+            --Devuelve la respuesta
+            return v_consulta;
+        end;
+
+        /*********************************
+        #TRANSACCION: 'GEM_TUCDETALLE_CONT'
+        #DESCRIPCION: Conteo de registros
+        #AUTOR: aao
+        #FECHA: 12-11-2012 10:49:00
+        ***********************************/
+
+        elsif(p_transaccion='GEM_TUCDETALLE_CONT')then
+
+        begin
+            --Sentencia de la consulta de conteo de registros
+            v_consulta:='select count(tcd.id_uni_cons_det)
+                        from gem.tuni_cons_det tcd
+                        where tcd.estado_reg = ''activo''
+                        and tcd.id_uni_cons = '|| v_parametros.id_uni_cons;
+
+            --Devuelve la respuesta
+            return v_consulta;
+
+        end;
 	else
 					     
 		raise exception 'Transaccion inexistente';
