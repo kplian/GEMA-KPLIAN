@@ -1224,3 +1224,11 @@ ALTER TABLE gem.tuni_cons
   ADD COLUMN incluir_calgen BOOLEAN DEFAULT false NOT NULL;
   
 /***********************************F-SCP-RAC-GEM-40-22/11/2012*****************************************/
+
+/***********************************I-SCP-AAO-GEM-7-22/11/2012*****************************************/
+ALTER TABLE gem.tactividad
+  ALTER COLUMN fecha_plan_ini TYPE DATE,
+  ALTER COLUMN fecha_plan_fin TYPE DATE,
+  ALTER COLUMN fecha_eje_ini TYPE DATE,
+  ALTER COLUMN fecha_eje_fin TYPE DATE;
+/***********************************F-SCP-AAO-GEM-7-22/11/2012*****************************************/
