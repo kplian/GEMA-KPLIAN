@@ -105,7 +105,7 @@ VALUES (1, NULL, '2012-11-13 11:52:49', '2012-11-13 11:52:49', 'activo', 7, 2, 1
 
 -- Movimiento_det
 INSERT INTO alm.tmovimiento_det (id_usuario_reg, id_usuario_mod, fecha_reg, fecha_mod, estado_reg, id_movimiento_det, id_movimiento, id_item, cantidad, costo_unitario, fecha_caducidad)
-VALUES (1, NULL, '2012-11-13 11:39:59', '2012-11-13 11:39:59', 'activo', 2, 1, 2, 5.000000, 9000.000000, NULL);
+VALUES (1, NULL, '2012-11-13 11:39:59', '2012-11-13 11:39:59', 'activo', 2, 1, 2, 5.000000, 20000.000000, NULL);
 
 INSERT INTO alm.tmovimiento_det (id_usuario_reg, id_usuario_mod, fecha_reg, fecha_mod, estado_reg, id_movimiento_det, id_movimiento, id_item, cantidad, costo_unitario, fecha_caducidad)
 VALUES (1, NULL, '2012-11-13 10:35:12', '2012-11-13 10:35:12', 'activo', 1, 1, 1, 10.000000, 2600.000000, NULL);
@@ -132,7 +132,10 @@ INSERT INTO alm.tmovimiento_det (id_usuario_reg, id_usuario_mod, fecha_reg, fech
 VALUES (1, NULL, '2012-11-13 11:55:26', '2012-11-13 11:55:26', 'activo', 9, 5, 5, 1.000000, 20000.000000, NULL);
 
 INSERT INTO alm.tmovimiento_det (id_usuario_reg, id_usuario_mod, fecha_reg, fecha_mod, estado_reg, id_movimiento_det, id_movimiento, id_item, cantidad, costo_unitario, fecha_caducidad)
-VALUES (1, NULL, '2012-11-13 11:55:26', '2012-11-13 11:55:26', 'activo', 9, 5, 5, 1.000000, 20000.000000, NULL);
+VALUES (1, NULL, '2012-11-13 11:55:26', '2012-11-13 11:55:26', 'activo', 10, 6, 5, 2.000000, 20000.000000, NULL);
+
+INSERT INTO alm.tmovimiento_det (id_usuario_reg, id_usuario_mod, fecha_reg, fecha_mod, estado_reg, id_movimiento_det, id_movimiento, id_item, cantidad, costo_unitario, fecha_caducidad)
+VALUES (1, NULL, '2012-11-13 11:55:26', '2012-11-13 11:55:26', 'activo', 11, 7, 5, 1.000000, 21500.000000, NULL);
 
 -- Actalizacion de Secuencias
 
