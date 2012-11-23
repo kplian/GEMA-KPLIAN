@@ -1235,7 +1235,7 @@ add column id_instruc_seg integer,
 add constraint fk_torden_trabajo__id_cat_estado foreign key(id_cat_estado) references param.tcatalogo(id_catalogo),
 add constraint fk_torden_trabajo__id_cat_prior foreign key(id_cat_prior) references param.tcatalogo(id_catalogo),
 add constraint fk_torden_trabajo__id_cat_tipo foreign key(id_cat_tipo) references param.tcatalogo(id_catalogo),
-<<<<<<< HEAD
+
 add constraint fk_torden_trabajo__id_instruc_seg foreign key(id_instruc_seg) references gem.tinstruc_seg(id_instruc_seg)
 
 
