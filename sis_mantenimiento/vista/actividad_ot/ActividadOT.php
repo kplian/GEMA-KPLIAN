@@ -139,6 +139,9 @@ Phx.vista.actividad=Ext.extend(Phx.gridInterfaz,{
 				fieldLabel: 'Fecha Inicio Plan',
 				allowBlank: false,
 				gwidth: 150,
+				renderer:function (value, p, record) {
+					return value?value.dateFormat('d/m/Y'):''
+				},
 				format: 'd/m/Y'
 			},
 			type: 'DateField',
@@ -156,6 +159,9 @@ Phx.vista.actividad=Ext.extend(Phx.gridInterfaz,{
 				fieldLabel: 'Fecha Fin Plan',
 				allowBlank: false,
 				gwidth: 150,
+				renderer:function (value, p, record) {
+					return value?value.dateFormat('d/m/Y'):''
+				},
 				format: 'd/m/Y'
 			},
 			type: 'DateField',
@@ -173,6 +179,9 @@ Phx.vista.actividad=Ext.extend(Phx.gridInterfaz,{
 				fieldLabel: 'Fecha Inicio Ejec.',
 				allowBlank: true,
 				gwidth: 150,
+				renderer:function (value, p, record) {
+					return value?value.dateFormat('d/m/Y'):''
+				},
 				format: 'd/m/Y'
 			},
 			type: 'DateField',
@@ -190,6 +199,9 @@ Phx.vista.actividad=Ext.extend(Phx.gridInterfaz,{
 				fieldLabel: 'Fecha Fin Ejec.',
 				allowBlank: true,
 				gwidth: 150,
+				renderer:function (value, p, record) {
+					return value?value.dateFormat('d/m/Y'):''
+				},
 				format: 'd/m/Y'
 			},
 			type: 'DateField',
@@ -224,10 +236,10 @@ Phx.vista.actividad=Ext.extend(Phx.gridInterfaz,{
 		{name: 'estado', type: 'varchar'},
 		{name: 'descripcion', type: 'varchar'},
 		{name: 'observaciones', type: 'varchar'},
-		{name: 'fecha_plan_ini', type: 'timestamp'},
-		{name: 'fecha_plan_fin', type: 'timestamp'},
-		{name: 'fecha_eje_ini', type: 'timestamp'},
-		{name: 'fecha_eje_fin', type: 'timestamp'}
+		{name: 'fecha_plan_ini', type: 'date', dateFormat:'Y-m-d'},
+		{name: 'fecha_plan_fin', type: 'date', dateFormat:'Y-m-d'},
+		{name: 'fecha_eje_ini', type: 'date', dateFormat:'Y-m-d'},
+		{name: 'fecha_eje_fin', type: 'date', dateFormat:'Y-m-d'},
 	],
 	sortInfo:{
 		field: 'id_actividad',
