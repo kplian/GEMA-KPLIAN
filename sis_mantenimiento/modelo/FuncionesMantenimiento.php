@@ -1046,6 +1046,34 @@ class FuncionesMantenimiento{
         return $res;
     }
     /*FinClase: MODInstrucSeg*/
+    
+    /*Clase: MODPartida
+    * Fecha: 23-11-2012 16:37:48
+    * Autor: admin*/
+    function listarPartida(CTParametro $parametro){
+        $obj=new MODPartida($parametro);
+        $res=$obj->listarPartida();
+        return $res;
+    }
+            
+    function insertarPartida(CTParametro $parametro){
+        $obj=new MODPartida($parametro);
+        $res=$obj->insertarPartida();
+        return $res;
+    }
+            
+    function modificarPartida(CTParametro $parametro){
+        $obj=new MODPartida($parametro);
+        $res=$obj->modificarPartida();
+        return $res;
+    }
+            
+    function eliminarPartida(CTParametro $parametro){
+        $obj=new MODPartida($parametro);
+        $res=$obj->eliminarPartida();
+        return $res;
+    }
+    /*FinClase: MODPartida*/
       
 }//marca_generador
 ?>

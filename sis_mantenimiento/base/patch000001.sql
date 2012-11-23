@@ -700,6 +700,7 @@ select pxp.f_insert_tgui ('Especialidades Técnicas', 'Registro de especialidade
 select pxp.f_insert_tgui ('Funcionarios', 'Registro de Funcionarios', 'GEM.1.8', 'si', 8, 'sis_organigrama/vista/funcionario/Funcionario.php', 3, '', 'funcionario', 'GEM');
 select pxp.f_insert_tgui ('Diagrama de Decisión', 'Registro Diagrama de Decisión', 'GEM.1.9', 'si', 9, 'sis_mantenimiento/vista/diagrama_decision/DiagramaDecision.php', 3, '', 'DiagramaDecision', 'GEM');
 select pxp.f_insert_tgui ('Instrucciones de Seguridad', 'Registro de instrucciones de seguridad', 'GEM.1.10', 'si', 10, 'sis_mantenimiento/vista/instrucciones_seguridad/InstrucSeg.php', 3, '', 'InstrucSeg', 'GEM');
+select pxp.f_insert_tgui ('Partidas', 'Registro de partidas', 'GEM.1.11', 'si', 11, 'sis_mantenimiento/vista/partida/Partida.php', 3, '', 'Partida', 'GEM');
 
 select pxp.f_insert_tgui ('Localizaciones', 'Registro de Localizaciones', 'GEM.2.1', 'si', 1, 'sis_mantenimiento/vista/localizacion/Localizacion.php', 3, '', 'Localizacion', 'GEM');
 select pxp.f_insert_tgui ('Plantilla de Equipos', 'Registro Plantilla de Equipos', 'GEM.2.2', 'si', 2, 'sis_mantenimiento/vista/uni_cons/UniCons.php', 3, '', 'UniCons', 'GEM');
@@ -737,6 +738,7 @@ select pxp.f_insert_testructura_gui ('GEM.1.7', 'GEM.1');
 select pxp.f_insert_testructura_gui ('GEM.1.8', 'GEM.1');
 select pxp.f_insert_testructura_gui ('GEM.1.9', 'GEM.1');
 select pxp.f_insert_testructura_gui ('GEM.1.10', 'GEM.1');
+select pxp.f_insert_testructura_gui ('GEM.1.11', 'GEM.1');
 
 select pxp.f_insert_testructura_gui ('GEM.2.1', 'GEM.2');
 select pxp.f_insert_testructura_gui ('GEM.2.2', 'GEM.2');
