@@ -54,7 +54,8 @@ BEGIN
 			id_usuario_reg,
 			fecha_reg,
 			id_usuario_mod,
-			fecha_mod
+			fecha_mod,
+			tipo
           	) values(
 			v_parametros.codigo,
 			v_parametros.nombre,
@@ -62,7 +63,8 @@ BEGIN
 			p_id_usuario,
 			now(),
 			null,
-			null
+			null,
+			v_parametros.tipo
 			)RETURNING id_tipo_mant into v_id_tipo_mant;
                
 			--Definicion de la respuesta
@@ -89,7 +91,8 @@ BEGIN
 			codigo = v_parametros.codigo,
 			nombre = v_parametros.nombre,
 			id_usuario_mod = p_id_usuario,
-			fecha_mod = now()
+			fecha_mod = now(),
+			tipo = v_parametros.tipo
 			where id_tipo_mant=v_parametros.id_tipo_mant;
                
 			--Definicion de la respuesta
