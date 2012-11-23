@@ -1,6 +1,6 @@
 /***********************************I-SCP-JRR-GEM-1-19/11/2012****************************************/
-/*
-*	Author: RAC
+
+/**	Author: RAC
 *	Date: 11/2012
 *	Description: Build the menu definition and composition
 *
@@ -610,14 +610,11 @@ CREATE TABLE gem.tcalendario_planificado(
 
 
 /*
-
-RAC
-8/11/2012
-
-modificacion de columnas tipo variable para evitar datos nulos
-
-
-
+*
+*RAC
+*8/11/2012
+*
+*modificacion de columnas tipo variable para evitar datos nulos
 */
 --------------- SQL ---------------
 
@@ -629,10 +626,10 @@ ALTER TABLE gem.ttipo_variable
 ALTER TABLE gem.ttipo_variable
   ALTER COLUMN id_unidad_medida SET NOT NULL;  
   
-  /*
-  RAC
-  08-11-2012
-  */
+/*
+* RAC
+* 08-11-2012
+*/
   
  CREATE TABLE gem.tuni_cons_det(
     id_uni_cons_det SERIAL NOT NULL,
@@ -1235,11 +1232,10 @@ add column id_instruc_seg integer,
 add constraint fk_torden_trabajo__id_cat_estado foreign key(id_cat_estado) references param.tcatalogo(id_catalogo),
 add constraint fk_torden_trabajo__id_cat_prior foreign key(id_cat_prior) references param.tcatalogo(id_catalogo),
 add constraint fk_torden_trabajo__id_cat_tipo foreign key(id_cat_tipo) references param.tcatalogo(id_catalogo),
+add constraint fk_torden_trabajo__id_instruc_seg foreign key(id_instruc_seg) references gem.tinstruc_seg(id_instruc_seg);
 
-add constraint fk_torden_trabajo__id_instruc_seg foreign key(id_instruc_seg) references gem.tinstruc_seg(id_instruc_seg)
 
-
-/***********************************F-SCP-JRR-GEM-1-19/11/2012*****************************************/
+/***********************************F-SCP-JRR-GEM-1-19/11/2012****************************************/
 
 /***********************************I-SCP-RAC-GEM-40-22/11/2012*****************************************/
 
@@ -1272,5 +1268,4 @@ ALTER TABLE gem.tuni_cons_item
 ALTER TABLE gem.tuni_cons
   ADD COLUMN incluir_calgen BOOLEAN DEFAULT false NOT NULL;
   
-/***********************************F-SCP-JRR-GEM-1-19/11/2012*****************************************/
-
+/***********************************F-SCP-RAC-GEM-40-22/11/2012*****************************************/
