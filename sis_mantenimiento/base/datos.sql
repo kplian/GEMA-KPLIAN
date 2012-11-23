@@ -129,3 +129,11 @@ INSERT INTO gem.tmant_predef_det ("id_usuario_reg", "id_usuario_mod", "fecha_reg
 VALUES (1, NULL, E'2012-11-06 12:26:50.745', NULL, E'activo', 5, 3, E'Revisión de la compresión del motor', E'Revisión de la compresión del motor', E'');
 INSERT INTO gem.tmant_predef_det ("id_usuario_reg", "id_usuario_mod", "fecha_reg", "fecha_mod", "estado_reg", "id_mant_predef_det", "id_mant_predef", "nombre", "descripcion", "observacion")
 VALUES (1, NULL, E'2012-11-06 12:27:00.244', NULL, E'activo', 6, 3, E'Cambio de filtro de aceite', E'Cambio de filtro de aceite', E'');
+
+--TIPOS DE MANTENIMIENTO - AAO
+INSERT INTO gem.ttipo_mant ("id_usuario_reg", "id_usuario_mod", "fecha_reg", "fecha_mod", "estado_reg", "id_tipo_mant", "codigo", "nombre", "tipo")
+VALUES (1, NULL, E'2012-11-23 16:41:18.149', NULL, E'activo', 1, E'MT-1', E'Mantenimiento de Balbulas', E'planificado');
+
+--ORDEN DE TRABAJO - AAO
+INSERT INTO gem.torden_trabajo ("id_usuario_reg", "id_usuario_mod", "fecha_reg", "fecha_mod", "estado_reg", "id_orden_trabajo", "id_uni_cons_mant_predef", "id_uni_cons", "id_tipo_mant", "id_unidad_medida", "id_funcionario_sol", "id_funcionario_asig", "fecha_plan_ini", "fecha_plan_fin", "fecha_eje_ini", "fecha_eje_fin", "descripcion", "fecha_emision", "num_oit", "codigo_oit", "planta_estacion", "prioridad", "ubicacion_tecnica", "periodicidad", "acumulado", "observacion", "nota_tecnico_equipo", "nota_tecnico_loc", "id_cat_estado", "id_cat_prior", "id_cat_tipo", "id_instruc_seg")
+VALUES (1, NULL, E'2012-11-23 16:50:35.765', NULL, E'activo', 2, NULL, 6, 1, 2, 1, 1, E'2012-11-25', E'2012-11-26', NULL, NULL, E'Matenimiento de las balbulas principales de combustión', E'2012-11-23', E'1', E'OIT-1', E'planta', E'1', E'Subestación S3', '20', NULL, E'máximo de retraso de 3 dias', E'', E'SS1-S3', NULL, NULL, NULL, NULL);
