@@ -101,8 +101,8 @@ BEGIN
     delete from gem.tcalendario_planificado c
          where  c.id_uni_cons_mant_predef in ( Select id_uni_cons_mant_predef 
                                                from  gem.tuni_cons_mant_predef mt 
-                                               where mt.id_uni_cons = v_id_uni_cons)
-         and c.fecha_ini >= v_fecha_ini;
+                                               where mt.id_uni_cons = v_id_uni_cons )
+         and c.fecha_ini >= v_fecha_ini and c.tipo = 'planificado';
     
  
  

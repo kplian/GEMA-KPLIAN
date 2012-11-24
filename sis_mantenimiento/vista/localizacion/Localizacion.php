@@ -321,31 +321,45 @@ Phx.vista.Localizacion=Ext.extend(Phx.arbInterfaz,{
 		    var dateFechaIni =this.formUCCL.getForm().findField('fecha_ini');
 		    var dateFechaFin =this.formUCCL.getForm().findField('fecha_fin');
 		         
-		       
-		    var  id_nodo= nodo.attributes.leaf?nodo.attributes.id_uni_cons:nodo.attributes.id_localizacion
+		    if(nodo.attributes.tipo_nodo == 'uni_cons' || nodo.attributes.tipo_nodo == 'rama'){
+		    	var  id_nodo= nodo.attributes.id_uni_cons;
+		    }
+		    else{
+		    	id_nodo= nodo.attributes.id_localizacion;
+		    	
+		    }
+		    var parametros = {
+	                    	tipo_nodo:nodo.attributes.tipo_nodo,
+	                    	id_localizacion:id_nodo,
+	                    	id_uni_cons:nodo.attributes.id_uni_cons,
+	                    	fecha_ini:dateFechaIni.getValue().dateFormat('d-m-Y'),
+	                    	fecha_fin:dateFechaFin.getValue().dateFormat('d-m-Y')};
 		      
-		        
-		       
-		       
-				 Ext.Ajax.request({
-		                    url: '../../sis_mantenimiento/control/UniCons/GenerarCalendario',
-		                    params: {
-		                    	tipo_nodo:nodo.attributes.tipo_nodo,
-		                    	id_localizacion:id_nodo,
-		                    	fecha_ini:dateFechaIni.getValue().dateFormat('d-m-Y'),
-		                    	fecha_fin:dateFechaFin.getValue().dateFormat('d-m-Y')},
-		                    success: this.successCalGen,
-		                    failure:this.conexionFailure,
-		                    timeout: this.timeout,
-		                    scope: this
-		               });
+	 	 Ext.Ajax.request({
+	                    url: '../../sis_mantenimiento/control/UniCons/GenerarCalendario',
+	                    params: parametros,
+	                    success: this.successCalGen,
+	                    argument:parametros,
+	                    failure:this.conexionFailure,
+	                    timeout: this.timeout,
+	                    scope: this
+	               });
         }       
                
                
 	},
-	
-	
-	onAddUniCons:function(){
+	onCalGenConfirmado:function(parametros){
+		Phx.CP.loadingShow();
+	 	 Ext.Ajax.request({
+	                    url: '../../sis_mantenimiento/control/UniCons/GenerarCalendarioConfirmado',
+	                    params: parametros,
+	                    success: this.successCalGen,
+	                     failure:this.conexionFailure,
+	                    timeout: this.timeout,
+	                    scope: this
+	               });
+        },
+        onAddUniCons:function(){
 		
 		if (this.formUC.getForm().isValid()) {
 			 Phx.CP.loadingShow();
@@ -385,6 +399,18 @@ Phx.vista.Localizacion=Ext.extend(Phx.arbInterfaz,{
 		}
 		else{
 			this.wUCCL.hide();
+			if(reg.ROOT.datos.generado=='true'){
+				alert("Se incluyeron "+reg.ROOT.datos.contador+" equipos o partes");
+			}
+			else{
+				
+				if (confirm('La siguientes unidades se perderan: \n'+reg.ROOT.datos.unidades+'\n Desea continuar y sobreescribir esta planificación')){
+					
+				
+					this.onCalGenConfirmado(resp.argument)
+				
+			        }
+			    }
 		}
 
          

@@ -10,51 +10,6 @@
 */
  
  /* (1) Table creation*/
- 
-CREATE TABLE orga.ttipo_horario (
-  id_tipo_horario SERIAL, 
-  codigo VARCHAR(255), 
-  nombre VARCHAR(255), 
-  estado_reg VARCHAR(10), 
-  id_usuario_reg INTEGER, 
-  fecha_reg TIMESTAMP DEFAULT now() NOT NULL, 
-  id_usuario_mod INTEGER, 
-  fecha_mod TIMESTAMP DEFAULT now(), 
-  CONSTRAINT ttipo_horario_pkey PRIMARY KEY(id_tipo_horario)
-) INHERITS (pxp.tbase)
-WITH OIDS;
- 
-CREATE TABLE orga.tespecialidad_nivel (
-  id_especialidad_nivel SERIAL, 
-  codigo VARCHAR(20) NOT NULL, 
-  nombre VARCHAR(100) NOT NULL, 
-  CONSTRAINT tespecialidad_nivel_pkey PRIMARY KEY(id_especialidad_nivel)
-) INHERITS (pxp.tbase)
-WITH OIDS;
-
-CREATE TABLE orga.tespecialidad (
-  id_especialidad serial NOT NULL,
-  codigo character varying(20) NOT NULL,
-  nombre character varying(150) NOT NULL,
-  id_especialidad_nivel integer,
-  CONSTRAINT tespecialidad_pkey PRIMARY KEY (id_especialidad),
-  CONSTRAINT fk_tespecialidad__id_especialidad_nivel FOREIGN KEY (id_especialidad_nivel)
-      REFERENCES orga.tespecialidad_nivel (id_especialidad_nivel) MATCH SIMPLE
-      ON UPDATE NO ACTION ON DELETE NO ACTION
-) INHERITS (pxp.tbase)
-WITH OIDS;
-ALTER TABLE orga.tespecialidad OWNER TO postgres;
- 
-CREATE TABLE orga.tfuncionario_especialidad(
-  id_funcionario_especialidad serial NOT NULL,
-  id_funcionario integer NOT NULL,
-  id_especialidad integer NOT NULL,
-  CONSTRAINT tfuncionario_especialidad_pkey PRIMARY KEY (id_funcionario_especialidad),
-  CONSTRAINT uq__id_funcionario_especialidad UNIQUE (id_funcionario, id_especialidad)
-) INHERITS (pxp.tbase)
-WITH OIDS;
-ALTER TABLE orga.tfuncionario_especialidad OWNER TO postgres;
-
 CREATE TABLE param.tproveedor_item_servicio (  
   id_proveedor_item serial NOT NULL,
   id_proveedor integer NOT NULL,
@@ -698,7 +653,7 @@ select pxp.f_insert_tgui ('Metodologías', 'Registro de Metodologías', 'GEM.1.2
 select pxp.f_insert_tgui ('Tipos de Equipos', 'Registro de Tipos de Equipos', 'GEM.1.3', 'si', 3, 'sis_mantenimiento/vista/tipo_equipo/TipoEquipo.php', 3, '', 'TipoEquipo', 'GEM');
 select pxp.f_insert_tgui ('Tipos de Mantenimiento', 'Registro de Tipos de Mantenimiento', 'GEM.1.4', 'si', 4, 'sis_mantenimiento/vista/tipo_mant/TipoMant.php', 3, '', 'TipoMant', 'GEM');
 select pxp.f_insert_tgui ('Horarios', 'Registro de Horarios', 'GEM.1.5', 'si', 5, 'sis_organigrama/vista/tipo_horario/TipoHorario.php', 3, '', 'TipoHorario', 'GEM');
-select pxp.f_insert_tgui ('Niveles Especialidades Técnicas', 'Registro de los niveles de especialidades técnicas', 'GEM.1.6', 'si', 6, 'sis_organigrama/vista/especialidad_nivel/EspecialidadNivel.php', 3, '', 'EspecialidadNivel', 'GEM');
+select pxp.f_insert_tgui ('Niveles Especialidades Técnicas', 'Registro de los niveles de especialidades técnicas', 'GEM.1.6', 'no', 6, 'sis_organigrama/vista/especialidad_nivel/EspecialidadNivel.php', 3, '', 'EspecialidadNivel', 'GEM');
 select pxp.f_insert_tgui ('Especialidades Técnicas', 'Registro de especialidades técnicas', 'GEM.1.7', 'si', 7, 'sis_organigrama/vista/especialidad/Especialidad.php', 3, '', 'Especialidad', 'GEM');
 select pxp.f_insert_tgui ('Funcionarios', 'Registro de Funcionarios', 'GEM.1.8', 'si', 8, 'sis_organigrama/vista/funcionario/Funcionario.php', 3, '', 'funcionario', 'GEM');
 select pxp.f_insert_tgui ('Diagrama de Decisión', 'Registro Diagrama de Decisión', 'GEM.1.9', 'si', 9, 'sis_mantenimiento/vista/diagrama_decision/DiagramaDecision.php', 3, '', 'DiagramaDecision', 'GEM');
@@ -1253,4 +1208,45 @@ add constraint fk_torden_trabajo__id_cat_prior foreign key(id_cat_prior) referen
 add constraint fk_torden_trabajo__id_cat_tipo foreign key(id_cat_tipo) references param.tcatalogo(id_catalogo),
 add constraint fk_torden_trabajo__id_instruc_seg foreign key(id_instruc_seg) references gem.tinstruc_seg(id_instruc_seg);
 
-/***********************************F-SCP-JRR-GEM-1-19/11/2012*****************************************/
+/***********************************F-SCP-JRR-GEM-1-19/11/2012****************************************/
+
+/***********************************I-SCP-RAC-GEM-40-22/11/2012*****************************************/
+
+
+--RAC 13 11 2012
+--aumenta el campo time en la tabla de equipo_medicion
+
+ALTER TABLE gem.tequipo_medicion
+  ADD COLUMN hora TIME(0) WITHOUT TIME ZONE;
+
+ALTER TABLE gem.tequipo_medicion
+  ALTER COLUMN hora SET DEFAULT now();
+  
+--------------- SQL ---------------
+
+ALTER TABLE gem.tequipo_medicion
+  ALTER COLUMN fecha_medicion TYPE DATE;  
+  
+ ALTER TABLE gem.tequipo_variable
+  ADD COLUMN tipo VARCHAR(10) DEFAULT 'numeric' NOT NULL; 
+
+
+ALTER TABLE gem.tuni_cons_item
+  ADD COLUMN observaciones VARCHAR(2000);
+
+
+--RAC 19-11-2012
+--agregar campo en la tabla  para marcar la unidades 
+--que se consideran en la generacion de calendario
+ALTER TABLE gem.tuni_cons
+  ADD COLUMN incluir_calgen BOOLEAN DEFAULT false NOT NULL;
+  
+/***********************************F-SCP-RAC-GEM-40-22/11/2012*****************************************/
+
+/***********************************I-SCP-AAO-GEM-7-22/11/2012*****************************************/
+ALTER TABLE gem.tactividad
+  ALTER COLUMN fecha_plan_ini TYPE DATE,
+  ALTER COLUMN fecha_plan_fin TYPE DATE,
+  ALTER COLUMN fecha_eje_ini TYPE DATE,
+  ALTER COLUMN fecha_eje_fin TYPE DATE;
+/***********************************F-SCP-AAO-GEM-7-22/11/2012*****************************************/

@@ -303,6 +303,25 @@ class ACTUniCons extends ACTbase{
 		$this->res->imprimirRespuesta($this->res->generarJson());
 	}
 
+	/*
+	 * Author: RAC
+	 * Date: 19/11/2012
+	 * Description: modifica inclusion en el calendario da la unidad constructiva  */
+	function modificarInclucionGeneracionCalendarioUniCons(){
+		$this->objFunc=new FuncionesMantenimiento();
+		$this->res=$this->objFunc->modificarInclucionGeneracionCalendarioUniCons($this->objParam);
+		$this->res->imprimirRespuesta($this->res->generarJson());
+	}
+	
+	
+	
+	function GenerarCalendarioConfirmado(){
+		$this->objFunc=new FuncionesMantenimiento();	
+		$this->res=$this->objFunc->GenerarCalendarioConfirmado($this->objParam);			
+		$this->res->imprimirRespuesta($this->res->generarJson());
+	}
+		
+
     function GenerarCalendario(){
 		$this->objFunc=new FuncionesMantenimiento();	
 		$this->res=$this->objFunc->GenerarCalendario($this->objParam);			

@@ -33,9 +33,38 @@ Phx.vista.TipoMant=Ext.extend(Phx.gridInterfaz,{
 		},
 		{
 			config:{
+				name: 'tipo',
+				fieldLabel: 'Tipo',
+				allowBlank: false,
+			    triggerAction: 'all',
+			    lazyRender:true,
+			    mode: 'local',
+			    gwidth:120,
+			    store: new Ext.data.ArrayStore({
+			    	fields: ['codigo','nombre'],
+					data: [['planificado','Planificado'], ['no_planificado','No Planificado']]
+				}),
+				valueField:'codigo',
+				displayField: 'nombre',
+				renderer: function(value,p,record){
+					if(value=='planificado'){
+						return 'Planificado';
+					} else{
+						return 'No Planificado';
+					}
+				}
+		    },
+		    type:'ComboBox',
+		    filters:{pfiltro:'getima.tipo',type:'string'},
+		    id_grupo:1,
+		    form:true,
+		    grid:true
+		},
+		{
+			config:{
 				name: 'codigo',
 				fieldLabel: 'Código',
-				allowBlank: true,
+				allowBlank: false,
 				anchor: '80%',
 				gwidth: 100,
 				maxLength:20
@@ -49,8 +78,8 @@ Phx.vista.TipoMant=Ext.extend(Phx.gridInterfaz,{
 		{
 			config:{
 				name: 'nombre',
-				fieldLabel: 'Tipo de Mantenimiento',
-				allowBlank: true,
+				fieldLabel: 'Nombre',
+				allowBlank: false,
 				anchor: '80%',
 				gwidth: 200,
 				maxLength:100
@@ -153,7 +182,7 @@ Phx.vista.TipoMant=Ext.extend(Phx.gridInterfaz,{
 		{name:'fecha_mod', type: 'date', dateFormat:'Y-m-d H:i:s'},
 		{name:'usr_reg', type: 'string'},
 		{name:'usr_mod', type: 'string'},
-		
+		{name:'tipo', type: 'string'}
 	],
 	sortInfo:{
 		field: 'id_tipo_mant',
