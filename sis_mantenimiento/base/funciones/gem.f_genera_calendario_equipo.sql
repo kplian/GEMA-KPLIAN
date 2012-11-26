@@ -97,6 +97,8 @@ BEGIN
     -- validamos si la misma unidad ya tiene registro con fecha superior a la fecha de inicia indicada
     -- si existen los eliminamos
     
+   -- raise exception '%',v_id_uni_cons;
+    
     
     delete from gem.tcalendario_planificado c
          where  c.id_uni_cons_mant_predef in ( Select id_uni_cons_mant_predef 
@@ -123,7 +125,7 @@ BEGIN
     
        
      --      -  obtener la id_unidad_medida ( horas,dias,semanas,meses)
-          IF ( g_registros.descripcion not in ('Hora','Dia','Semana','Mes','Demana','Año)')) THEN
+          IF ( g_registros.descripcion not in ('Hora','Dia','Semana','Mes','Semana','Año)')) THEN
           
                raise exception 'No se permite la unid ad de frecuencia en % , solo son validos los valores: Hora,Dia,Semana, Mes, Año (Considerar mayusculas) ',g_registros.descripcion;
           
@@ -134,26 +136,29 @@ BEGIN
      --      - con la frecuencia  y unidad   convertir a  la unidad de "dias" en la variable dias_dic
      
      
-     if (g_registros.descripcion= 'Hora') THEN
+     if (g_registros.descripcion= 'Hora' or g_registros.descripcion= 'mes') THEN
      
            v_dias_dic =  round ( (g_registros.frecuencia / g_registros.horas_dia) , 0 );  
      
-     elseif(g_registros.descripcion= 'dia') THEN
+     elseif(g_registros.descripcion= 'Dia' or g_registros.descripcion= 'dia') THEN
      
            v_dias_dic =  round ((g_registros.frecuencia) * 1, 0 ); 
  
-     elseif(g_registros.descripcion= 'semana') then 
+     elseif(g_registros.descripcion= 'Semana' or g_registros.descripcion= 'semana') then 
      
            v_dias_dic =  round ((g_registros.frecuencia ) * 7, 0 ); 
            
-     elseif(g_registros.descripcion= 'mes')then 
+     elseif(g_registros.descripcion= 'Mes' or g_registros.descripcion= 'mes')then 
      
            v_dias_dic =  round ((g_registros.frecuencia) * 30, 0 );     
      
-      else
+      elseif(g_registros.descripcion in ('Año','ano','año','ano')) then 
       --anho
      
-           v_dias_dic =  round ((g_registros.frecuencia) * 365, 0 ); 
+           v_dias_dic =  round ((g_registros.frecuencia) * 365, 0 );
+           
+      else
+      raise exception 'Unidad no reconocida %', g_registros.descripcion;     
      
      end if;
            

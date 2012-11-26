@@ -48,6 +48,8 @@ class MODUniCons extends MODbase{
 		$this->captura('usr_mod','varchar');
 		$this->captura('nombre_tipo_equipo','varchar');
 		$this->captura('text','varchar');
+		$this->captura('incluir_calgen','boolean');
+		$this->captura('id_uni_loc','varchar');
 		
 		
 		//Ejecuta la instruccion
@@ -169,6 +171,25 @@ class MODUniCons extends MODbase{
 		return $this->respuesta;
 	}
 
+    function modificarInclucionGeneracionCalendarioUniCons(){
+		//Definicion de variables para ejecucion del procedimiento
+		$this->procedimiento='gem.f_uni_cons_ime';
+		$this->transaccion='GEM_TUCGENCAL_MOD';
+		$this->tipo_procedimiento='IME';
+				
+		//Define los parametros para la funcion
+		$this->setParametro('id_uni_cons','id_uni_cons','int4');
+		$this->setParametro('incluir_calgen','incluir_calgen','boolean');
+		
+		
+		//Ejecuta la instruccion
+		$this->armarConsulta();
+		$this->ejecutarConsulta();
+
+		//Devuelve la respuesta
+		return $this->respuesta;
+	}
+
      function setBlockUnblockUniCons(){
 		//Definicion de variables para ejecucion del procedimiento
 		$this->procedimiento='gem.f_uni_cons_ime';
@@ -221,6 +242,8 @@ class MODUniCons extends MODbase{
 				
 		//Define los parametros para la funcion
 		$this->setParametro('id_localizacion','id_localizacion','int4');
+		$this->setParametro('id_uni_cons','id_uni_cons','int4');
+		
 		$this->setParametro('fecha_ini','fecha_ini','date');
 		$this->setParametro('fecha_fin','fecha_fin','date');
 		$this->setParametro('tipo_nodo','tipo_nodo','varchar');
