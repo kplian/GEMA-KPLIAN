@@ -312,10 +312,6 @@ ALTER TABLE gem.torden_trabajo OWNER TO postgres;
 ALTER TABLE gem.tuni_cons
   ADD COLUMN id_plantilla INTEGER;
  
---Adding new column to table param.tproveedor
-alter table param.tproveedor
-add column id_lugar integer;
-
 alter table param.tproveedor
 add constraint fk_tproveedor__id_lugar foreign key(id_lugar) references param.tlugar(id_lugar);
 
@@ -1236,3 +1232,8 @@ ALTER TABLE gem.tactividad
   ALTER COLUMN fecha_eje_ini TYPE DATE,
   ALTER COLUMN fecha_eje_fin TYPE DATE;
 /***********************************F-SCP-AAO-GEM-7-22/11/2012*****************************************/
+
+/***********************************I-SCP-RCM-GEM-41-23/11/2012*****************************************/
+alter table gem.ttipo_variable
+add column observaciones varchar(300);
+/***********************************F-SCP-RCM-GEM-41-23/11/2012*****************************************/
