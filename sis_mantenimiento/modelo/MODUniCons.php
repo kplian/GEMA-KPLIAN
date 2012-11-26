@@ -234,10 +234,33 @@ class MODUniCons extends MODbase{
 	}
 	 
 	 
-	function GenerarCalendario(){
+	function GenerarCalendarioConfirmado(){
 		//Definicion de variables para ejecucion del procedimiento
 	 	$this->procedimiento='gem.f_uni_cons_ime';
 		$this->transaccion='GEM_GENCAL_MOD';
+		$this->tipo_procedimiento='IME';
+				
+		//Define los parametros para la funcion
+		$this->setParametro('id_localizacion','id_localizacion','int4');
+		$this->setParametro('id_uni_cons','id_uni_cons','int4');
+		
+		$this->setParametro('fecha_ini','fecha_ini','date');
+		$this->setParametro('fecha_fin','fecha_fin','date');
+		$this->setParametro('tipo_nodo','tipo_nodo','varchar');
+		
+				
+		//Ejecuta la instruccion
+		$this->armarConsulta();
+		$this->ejecutarConsulta();
+
+		//Devuelve la respuesta
+		return $this->respuesta;
+	} 
+	 
+	function GenerarCalendario(){
+		//Definicion de variables para ejecucion del procedimiento
+	 	$this->procedimiento='gem.f_uni_cons_ime';
+		$this->transaccion='GEM_VERCALGEN_MOD';
 		$this->tipo_procedimiento='IME';
 				
 		//Define los parametros para la funcion
@@ -303,6 +326,10 @@ class MODUniCons extends MODbase{
 		
 		return $this->respuesta;
 	}
+	
+	
+	
+	
 
 	function listarUniConsHijos() {
 		$this->procedimiento='gem.f_uni_cons_sel';

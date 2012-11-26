@@ -44,6 +44,12 @@ DECLARE
     v_bool boolean;
     v_contador integer;
     g_registros2 record;
+    v_resul varchar;
+    v_resul_par varchar;
+    v_vector_uni_cons INTEGER[];
+    v_uni_cons_aux integer;
+    v_tamano integer;
+    v_i integer;
   
    
 BEGIN
@@ -530,7 +536,203 @@ BEGIN
 
 		end;   
         
+/*********************************    
+ 	#TRANSACCION:  'GEM_VERCALGEN_MOD'
+ 	#DESCRIPCION:	Verifica si tiene calendario generados para lanzar un mensaje 
+                     de advertencia si no tiene procesde con la generacion
+ 	#AUTOR:		rac	KPLIAN
+ 	#FECHA:		09-08-2012 00:42:57
+	***********************************/
+    
+     elseif(p_transaccion='GEM_VERCALGEN_MOD')then
+		     BEGIN   
+             
+              --iniciamos el contador de unidades procesadas
+              v_contador=0;
+              v_resul ='';
+              
+             
+             --si es el nodo es de tipo localizacion
+             
+             if v_parametros.tipo_nodo <> 'uni_cons' and v_parametros.tipo_nodo <> 'rama' THEN
+             
+                   -- 1)  busca recursivamente los equipos que correponden a la localizacion indicada
+                       
+                    FOR g_registros in  (
+                     WITH RECURSIVE sub_localizacion(id_localizacion, id_localizacion_fk, nombre) 
+                          AS (
+                              SELECT id_localizacion, id_localizacion_fk, nombre 
+                              FROM gem.tlocalizacion WHERE id_localizacion =  v_parametros.id_localizacion
+                                UNION ALL
+                              SELECT l.id_localizacion, l.id_localizacion_fk, l.nombre
+                              FROM sub_localizacion subl, gem.tlocalizacion l
+                              WHERE l.id_localizacion_fk = subl.id_localizacion
+                             )
+                          SELECT unicon.id_uni_cons,unicon.codigo  FROM gem.tuni_cons unicon 
+                          WHERE unicon.id_localizacion 
+                          IN ( SELECT id_localizacion FROM sub_localizacion ORDER BY id_localizacion) 
+                          AND unicon.tipo_nodo ilike 'raiz' and unicon.tipo = 'uc') LOOP
+                   
+                       --por cada unidad raiz vamos verificar sus partes para determinar si es necesario generar el calendario
+                   
+                   
+                     
+                          FOR g_registros2 in (
+                               WITH RECURSIVE arbol (id_uni_cons,id_uni_cons_padre, id_uni_cons_hijo, codigo, incluir_calgen) AS (  
+                                   select  uc.id_uni_cons, ucc.id_uni_cons_padre, ucc.id_uni_cons_hijo, uc.codigo , uc.incluir_calgen
 
+                                    from gem.tuni_cons uc
+                                    LEFT join  gem.tuni_cons_comp ucc 
+                                                on ucc.id_uni_cons_padre = uc.id_uni_cons
+                                    where    uc.id_uni_cons = g_registros.id_uni_cons   
+                                      UNION ALL  
+                                       SELECT uc2.id_uni_cons, ucc2.id_uni_cons_padre, ucc2.id_uni_cons_hijo,uc2.codigo ,uc2.incluir_calgen  
+                                        FROM arbol a 
+                                        INNER JOIN  gem.tuni_cons uc2   ON uc2.id_uni_cons = a.id_uni_cons_hijo
+                                        LEFT JOIN   gem.tuni_cons_comp ucc2 on ucc2.id_uni_cons_padre = uc2.id_uni_cons
+                                      )  
+                                     SELECT distinct id_uni_cons, codigo,incluir_calgen FROM arbol 
+                        
+                        
+                           ) LOOP
+                                
+                                 --    llama a una funcion para generar el calendaio para el equipo indicado
+                                IF g_registros2.incluir_calgen THEN
+                                
+                                     v_resul_par='';
+                                     
+                                     
+                                     v_vector_uni_cons=  array_append(v_vector_uni_cons,g_registros2.id_uni_cons);
+                   
+                                     v_resul_par = gem.f_verifica_calendario_equipo (g_registros2.id_uni_cons,v_parametros.fecha_ini,v_parametros.fecha_fin,p_id_usuario);
+                       
+                                     IF(v_resul_par!=''  )THEN
+                                         IF(v_resul=''  ) THEN
+                                            v_resul = '-- '|| g_registros.codigo||'-- ['|| v_resul_par||']\n';
+                                         ELSE
+                                             v_resul = v_resul||'-- '|| g_registros.codigo||'-- ['||v_resul_par||']\n';
+                                         END IF;
+                                                               
+                                     END IF;
+                                     
+                        
+                                     v_contador = v_contador + 1;
+                          
+                                 END IF;
+                  
+             				END LOOP;
+             
+             
+                END LOOP;
+             
+             ELSEIF    v_parametros.tipo_nodo = 'uni_cons' THEN
+              --si no es localizacion es la unidad constructiva,buscamos recursivamente las partes que entran al calendario
+                 
+                FOR g_registros in (
+                     WITH RECURSIVE arbol (id_uni_cons,id_uni_cons_padre, id_uni_cons_hijo, codigo, incluir_calgen) AS (  
+                         select  uc.id_uni_cons, ucc.id_uni_cons_padre, ucc.id_uni_cons_hijo, uc.codigo , uc.incluir_calgen
+
+                          from gem.tuni_cons uc
+                          LEFT join  gem.tuni_cons_comp ucc 
+                                      on ucc.id_uni_cons_padre = uc.id_uni_cons
+                          where    uc.id_uni_cons = v_parametros.id_uni_cons   
+                            UNION ALL  
+                             SELECT uc2.id_uni_cons, ucc2.id_uni_cons_padre, ucc2.id_uni_cons_hijo,uc2.codigo ,uc2.incluir_calgen  
+                              FROM arbol a 
+                              INNER JOIN  gem.tuni_cons uc2   ON uc2.id_uni_cons = a.id_uni_cons_hijo
+                              LEFT JOIN   gem.tuni_cons_comp ucc2 on ucc2.id_uni_cons_padre = uc2.id_uni_cons
+                            )  
+                           SELECT distinct id_uni_cons, codigo,incluir_calgen FROM arbol 
+              
+              
+                 ) LOOP
+                 
+                     IF g_registros.incluir_calgen THEN
+                     
+                     v_vector_uni_cons= array_append( v_vector_uni_cons,g_registros.id_uni_cons);
+              
+                         v_resul_par =  gem.f_verifica_calendario_equipo (g_registros.id_uni_cons,v_parametros.fecha_ini,v_parametros.fecha_fin,p_id_usuario);
+                        
+                        
+                         IF(v_resul_par!=''  )THEN
+                               IF(v_resul=''  )THEN
+                                  v_resul = '['||v_resul_par||']\n';
+                               ELSE
+                                   v_resul = v_resul||''||'['||v_resul_par||']\n';
+                               END IF;
+                          END IF;
+                        
+                       
+                       v_contador = v_contador + 1;
+                     END IF; 
+             
+             
+                END LOOP;
+             ELSE
+              --si no es localizacion es la unidad constructiva, generamos directamente
+                     
+                     v_vector_uni_cons= array_append(v_vector_uni_cons,v_parametros.id_uni_cons);
+                     v_resul_par =  gem.f_verifica_calendario_equipo (v_parametros.id_uni_cons,v_parametros.fecha_ini,v_parametros.fecha_fin,p_id_usuario);
+               
+                     IF(v_resul_par!=''  )THEN
+                          IF(v_resul=''  )THEN
+                             v_resul = v_resul_par;
+                          ELSE
+                             v_resul = v_resul||','||v_resul_par;
+                          END IF;
+                      END IF;
+               
+               
+               v_contador = v_contador + 1;  
+             
+             END IF;
+             
+             --armar un vector de uni_cons
+               
+            -- raise exception '%',v_resul; 
+                -- verificamos si existe elementos
+             IF  v_resul!='' THEN
+                --si existen sacamos un error detallado
+                   v_resp = pxp.f_agrega_clave(v_resp,'mensaje','La verificacion se realizado con exito, existen calendarios '||v_resul); 
+                   v_resp = pxp.f_agrega_clave(v_resp,'unidades',v_resul); 
+                   v_resp = pxp.f_agrega_clave(v_resp,'generado','false');
+                   v_resp = pxp.f_agrega_clave(v_resp,'contador',v_contador::varchar); 
+                   
+            
+              ELSE
+                -- raise exception 'LLEGa  %',v_vector_uni_cons[1];
+              --si no hay calendarios los generamos
+              
+             
+             v_tamano = coalesce(array_length(v_vector_uni_cons, 1),0);
+             
+
+            
+             FOR v_i IN 1..v_tamano LOOP
+              
+                   v_bool =  gem.f_genera_calendario_equipo (v_vector_uni_cons[v_i],v_parametros.fecha_ini,v_parametros.fecha_fin,p_id_usuario);
+                       
+                                             
+                    IF NOT v_bool THEN
+                     raise exception 'error al generar calendario para %',g_registros.id_uni_cons;
+                    END IF;  
+               
+                END LOOP;
+                
+                
+                -- 3) retonra exito
+             v_resp = pxp.f_agrega_clave(v_resp,'mensaje','Verificado y Generando el calendario para la localizaciones'); 
+             v_resp = pxp.f_agrega_clave(v_resp,'generado','true');
+             v_resp = pxp.f_agrega_clave(v_resp,'contador',v_contador::varchar); 
+                
+            END IF;
+             
+             
+              
+             return v_resp;
+     
+
+            END;
 
 
 
@@ -655,7 +857,8 @@ BEGIN
              
              -- 3) retonra exito
              v_resp = pxp.f_agrega_clave(v_resp,'mensaje','Generando el calendario para la localizacion : '|| v_parametros.id_localizacion ); 
-             
+
+              v_resp = pxp.f_agrega_clave(v_resp,'generado','true');
              v_resp = pxp.f_agrega_clave(v_resp,'contador',v_contador::varchar); 
               
              return v_resp;

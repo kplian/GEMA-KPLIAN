@@ -9,17 +9,6 @@
 header("content-type: text/javascript; charset=UTF-8");
 ?>
 
-<?php
-/**
-*@package pXP
-*@file ActividadOT.php
-*@author KPLIAN (aao)
-*@date 14-02-2011
-*@description  Vista para registrar  procediemintos
-*/
-
-header("content-type: text/javascript; charset=UTF-8");
-?>
 <script>
 
 Phx.vista.actividad=Ext.extend(Phx.gridInterfaz,{
@@ -90,13 +79,49 @@ Phx.vista.actividad=Ext.extend(Phx.gridInterfaz,{
 		},
 		{
 			config:{
-					fieldLabel: 'Estado',
+					labelSeparator: '',
 					inputType: 'hidden',
-					name: 'estado'
+					name: 'estado',
+					value: 'pendiente'
 			},
 			type: 'Field',
-			grid: true,
 			form: true
+		},
+		{
+			config: {
+				name: 'estado',
+				fieldLabel: 'Estado',
+				allowBlank: true,
+			    triggerAction: 'all',
+			    lazyRender: true,
+			    mode: 'local',
+			    gwidth: 120,
+			    store: new Ext.data.ArrayStore({
+			    	fields: ['codigo','nombre'],
+					data: [
+						['pendiente','Pendiente'], 
+						['finalizado','Finalizado']
+					]
+				}),
+				valueField: 'codigo',
+				displayField: 'nombre',
+				renderer: function(value, p, record) {
+					if(value == 'finalizado') {
+						return 'Finalizado';
+					} else {
+						return 'Pendiente';
+					}
+				}
+		    },
+		    type: 'ComboBox',
+		    egrid: true,
+		    filters: {
+		    	pfiltro: 'acti.estado', 
+		    	type:'string'
+		   	},
+		    id_grupo: 1,
+		    form: false,
+		    grid: true
 		},
 		{
 			config: {
@@ -139,6 +164,9 @@ Phx.vista.actividad=Ext.extend(Phx.gridInterfaz,{
 				fieldLabel: 'Fecha Inicio Plan',
 				allowBlank: false,
 				gwidth: 150,
+				renderer:function (value, p, record) {
+					return value?value.dateFormat('d/m/Y'):''
+				},
 				format: 'd/m/Y'
 			},
 			type: 'DateField',
@@ -156,6 +184,9 @@ Phx.vista.actividad=Ext.extend(Phx.gridInterfaz,{
 				fieldLabel: 'Fecha Fin Plan',
 				allowBlank: false,
 				gwidth: 150,
+				renderer:function (value, p, record) {
+					return value?value.dateFormat('d/m/Y'):''
+				},
 				format: 'd/m/Y'
 			},
 			type: 'DateField',
@@ -173,6 +204,9 @@ Phx.vista.actividad=Ext.extend(Phx.gridInterfaz,{
 				fieldLabel: 'Fecha Inicio Ejec.',
 				allowBlank: true,
 				gwidth: 150,
+				renderer:function (value, p, record) {
+					return value?value.dateFormat('d/m/Y'):''
+				},
 				format: 'd/m/Y'
 			},
 			type: 'DateField',
@@ -190,6 +224,9 @@ Phx.vista.actividad=Ext.extend(Phx.gridInterfaz,{
 				fieldLabel: 'Fecha Fin Ejec.',
 				allowBlank: true,
 				gwidth: 150,
+				renderer:function (value, p, record) {
+					return value?value.dateFormat('d/m/Y'):''
+				},
 				format: 'd/m/Y'
 			},
 			type: 'DateField',
@@ -224,10 +261,10 @@ Phx.vista.actividad=Ext.extend(Phx.gridInterfaz,{
 		{name: 'estado', type: 'varchar'},
 		{name: 'descripcion', type: 'varchar'},
 		{name: 'observaciones', type: 'varchar'},
-		{name: 'fecha_plan_ini', type: 'timestamp'},
-		{name: 'fecha_plan_fin', type: 'timestamp'},
-		{name: 'fecha_eje_ini', type: 'timestamp'},
-		{name: 'fecha_eje_fin', type: 'timestamp'}
+		{name: 'fecha_plan_ini', type: 'date', dateFormat:'Y-m-d'},
+		{name: 'fecha_plan_fin', type: 'date', dateFormat:'Y-m-d'},
+		{name: 'fecha_eje_ini', type: 'date', dateFormat:'Y-m-d'},
+		{name: 'fecha_eje_fin', type: 'date', dateFormat:'Y-m-d'},
 	],
 	sortInfo:{
 		field: 'id_actividad',
@@ -249,7 +286,7 @@ Phx.vista.actividad=Ext.extend(Phx.gridInterfaz,{
 		})
 	},
 	bdel: true,
-	bsave: false,
+	bsave: true,
 
 	preparaMenu:function(tb) {
 		//llamada procedimiento clace padre

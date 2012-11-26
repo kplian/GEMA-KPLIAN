@@ -33,10 +33,10 @@ class MODActividadOT extends MODbase {
 		$this->captura('estado','varchar');
 		$this->captura('descripcion','varchar');
 		$this->captura('observaciones','varchar');
-		$this->captura('fecha_plan_ini','timestamp');
-		$this->captura('fecha_plan_fin','timestamp');
-		$this->captura('fecha_eje_ini','timestamp');
-		$this->captura('fecha_eje_fin','timestamp');
+		$this->captura('fecha_plan_ini','date');
+		$this->captura('fecha_plan_fin','date');
+		$this->captura('fecha_eje_ini','date');
+		$this->captura('fecha_eje_fin','date');
 		
 		$this->armarConsulta();
 		$this->ejecutarConsulta();
@@ -53,10 +53,10 @@ class MODActividadOT extends MODbase {
 		$this->setParametro('estado','estado','varchar');
 		$this->setParametro('descripcion','descripcion','varchar');
 		$this->setParametro('observaciones','observaciones','varchar');
-		$this->setParametro('fecha_plan_ini','fecha_plan_ini','timestamp');
-		$this->setParametro('fecha_plan_fin','fecha_plan_fin','timestamp');
-		$this->setParametro('fecha_eje_ini','fecha_eje_ini','timestamp');
-		$this->setParametro('fecha_eje_fin','fecha_eje_fin','timestamp');
+		$this->setParametro('fecha_plan_ini','fecha_plan_ini','date');
+		$this->setParametro('fecha_plan_fin','fecha_plan_fin','date');
+		$this->setParametro('fecha_eje_ini','fecha_eje_ini','date');
+		$this->setParametro('fecha_eje_fin','fecha_eje_fin','date');
 		
 		$this->armarConsulta();
 		$this->ejecutarConsulta();
@@ -74,10 +74,10 @@ class MODActividadOT extends MODbase {
 		$this->setParametro('estado','estado','varchar');
 		$this->setParametro('descripcion','descripcion','varchar');
 		$this->setParametro('observaciones','observaciones','varchar');
-		$this->setParametro('fecha_plan_ini','fecha_plan_ini','timestamp');
-		$this->setParametro('fecha_plan_fin','fecha_plan_fin','timestamp');
-		$this->setParametro('fecha_eje_ini','fecha_eje_ini','timestamp');
-		$this->setParametro('fecha_eje_fin','fecha_eje_fin','timestamp');
+		$this->setParametro('fecha_plan_ini','fecha_plan_ini','date');
+		$this->setParametro('fecha_plan_fin','fecha_plan_fin','date');
+		$this->setParametro('fecha_eje_ini','fecha_eje_ini','date');
+		$this->setParametro('fecha_eje_fin','fecha_eje_fin','date');
 
 		$this->armarConsulta();
 		$this->ejecutarConsulta();

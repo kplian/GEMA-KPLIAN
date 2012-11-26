@@ -137,6 +137,12 @@ class FuncionesMantenimiento{
 		return $res;
 	}
 	
+	function GenerarCalendarioConfirmado(CTParametro $parametro){
+		$obj=new MODUniCons($parametro);
+		$res=$obj->GenerarCalendarioConfirmado();
+		return $res;
+	}
+	
 	function obtenerUniCons(CTParametro $parametro) {
 		$obj=new MODUniCons($parametro);
 		$res=$obj->obtenerUniCons();
