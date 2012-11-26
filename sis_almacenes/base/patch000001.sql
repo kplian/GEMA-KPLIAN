@@ -213,7 +213,7 @@ ALTER TABLE ONLY alm.tmovimiento_det
 INSERT INTO segu.tsubsistema ("codigo", "nombre", "fecha_reg", "prefijo", "estado_reg", "nombre_carpeta", "id_subsis_orig")
 VALUES (E'ALM', E'Sistema de Almacenes', E'2012-09-20', E'SAL', E'activo', E'ALMACENES', NULL);
     
-select pxp.f_insert_tgui ('SISTEMA DE ALMACENES', '', 'ALM', 'si',NULL , '', 1, '', '', 'ALM');
+select pxp.f_insert_tgui ('SISTEMA DE ALMACENES', '', 'ALM', 'si',NULL , '', 1, '../../../lib/imagenes/alma32x32.png', '', 'ALM');
 select pxp.f_insert_tgui ('Datos Generales', 'Datos Generales', 'ALDAGE', 'si', 1, '', 2, '', '', 'ALM');
 select pxp.f_insert_tgui ('Catálogos', 'Catálogos', 'ALMAIN', 'si', 2, '', 2, '', '', 'ALM');
 select pxp.f_insert_tgui ('Movimientos', 'Movimientos', 'ALMOVI', 'si', 3, '', 2, '', '', 'ALM');

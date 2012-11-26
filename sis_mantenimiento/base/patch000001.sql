@@ -632,7 +632,7 @@ insert into segu.tsubsistema(codigo,nombre,prefijo,nombre_carpeta) values
 ---------
 --Level 1
 ---------
-select pxp.f_insert_tgui ('GESTIÓN DE MANTENIMIENTO - PLANTAS Y ESTACIONES', '', 'GEM', 'si', 1, '', 1, '', '', 'GEM');
+select pxp.f_insert_tgui ('GESTIÓN DE MANTENIMIENTO - PLANTAS Y ESTACIONES', '', 'GEM', 'si', 1, '', 1, '../../../lib/imagenes/gema32x32.png', '', 'GEM');
 
 ---------
 --Level 2
