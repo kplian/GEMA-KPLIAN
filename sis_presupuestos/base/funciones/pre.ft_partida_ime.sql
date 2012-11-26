@@ -1,14 +1,17 @@
-CREATE OR REPLACE FUNCTION "gem"."ft_partida_ime" (	
-				p_administrador integer, p_id_usuario integer, p_tabla character varying, p_transaccion character varying)
-RETURNS character varying AS
-$BODY$
-
+CREATE OR REPLACE FUNCTION pre.ft_partida_ime (
+  p_administrador integer,
+  p_id_usuario integer,
+  p_tabla varchar,
+  p_transaccion varchar
+)
+RETURNS varchar AS
+$body$
 /**************************************************************************
- SISTEMA:		Mantenimiento Industrial - Plantas y Estaciones
- FUNCION: 		gem.ft_partida_ime
- DESCRIPCION:   Funcion que gestiona las operaciones basicas (inserciones, modificaciones, eliminaciones de la tabla 'gem.tpartida'
+ SISTEMA:		Sistema de presupuesto
+ FUNCION: 		pre.ft_partida_ime
+ DESCRIPCION:   Funcion que gestiona las operaciones basicas (inserciones, modificaciones, eliminaciones de la tabla 'pre.tpartida'
  AUTOR: 		 (admin)
- FECHA:	        23-11-2012 16:37:48
+ FECHA:	        23-11-2012 20:06:53
  COMENTARIOS:	
 ***************************************************************************
  HISTORIAL DE MODIFICACIONES:
@@ -30,22 +33,24 @@ DECLARE
 			    
 BEGIN
 
-    v_nombre_funcion = 'gem.ft_partida_ime';
+    v_nombre_funcion = 'pre.ft_partida_ime';
     v_parametros = pxp.f_get_record(p_tabla);
 
 	/*********************************    
- 	#TRANSACCION:  'GM_PAR_INS'
+ 	#TRANSACCION:  'PRE_PAR_INS'
  	#DESCRIPCION:	Insercion de registros
  	#AUTOR:		admin	
- 	#FECHA:		23-11-2012 16:37:48
+ 	#FECHA:		23-11-2012 20:06:53
 	***********************************/
 
-	if(p_transaccion='GM_PAR_INS')then
+	if(p_transaccion='PRE_PAR_INS')then
 					
         begin
         	--Sentencia de la insercion
-        	insert into gem.tpartida(
+        	insert into pre.tpartida(
 			estado_reg,
+			id_partida_fk,
+			tipo,
 			descripcion,
 			codigo,
 			id_usuario_reg,
@@ -54,6 +59,8 @@ BEGIN
 			fecha_mod
           	) values(
 			'activo',
+			v_parametros.id_partida_fk,
+			v_parametros.tipo,
 			v_parametros.descripcion,
 			v_parametros.codigo,
 			p_id_usuario,
@@ -72,17 +79,19 @@ BEGIN
 		end;
 
 	/*********************************    
- 	#TRANSACCION:  'GM_PAR_MOD'
+ 	#TRANSACCION:  'PRE_PAR_MOD'
  	#DESCRIPCION:	Modificacion de registros
  	#AUTOR:		admin	
- 	#FECHA:		23-11-2012 16:37:48
+ 	#FECHA:		23-11-2012 20:06:53
 	***********************************/
 
-	elsif(p_transaccion='GM_PAR_MOD')then
+	elsif(p_transaccion='PRE_PAR_MOD')then
 
 		begin
 			--Sentencia de la modificacion
-			update gem.tpartida set
+			update pre.tpartida set
+			id_partida_fk = v_parametros.id_partida_fk,
+			tipo = v_parametros.tipo,
 			descripcion = v_parametros.descripcion,
 			codigo = v_parametros.codigo,
 			id_usuario_mod = p_id_usuario,
@@ -99,17 +108,17 @@ BEGIN
 		end;
 
 	/*********************************    
- 	#TRANSACCION:  'GM_PAR_ELI'
+ 	#TRANSACCION:  'PRE_PAR_ELI'
  	#DESCRIPCION:	Eliminacion de registros
  	#AUTOR:		admin	
- 	#FECHA:		23-11-2012 16:37:48
+ 	#FECHA:		23-11-2012 20:06:53
 	***********************************/
 
-	elsif(p_transaccion='GM_PAR_ELI')then
+	elsif(p_transaccion='PRE_PAR_ELI')then
 
 		begin
 			--Sentencia de la eliminacion
-			delete from gem.tpartida
+			delete from pre.tpartida
             where id_partida=v_parametros.id_partida;
                
             --Definicion de la respuesta
@@ -137,7 +146,9 @@ EXCEPTION
 		raise exception '%',v_resp;
 				        
 END;
-$BODY$
-LANGUAGE 'plpgsql' VOLATILE
+$body$
+LANGUAGE 'plpgsql'
+VOLATILE
+CALLED ON NULL INPUT
+SECURITY INVOKER
 COST 100;
-ALTER FUNCTION "gem"."ft_partida_ime"(integer, integer, character varying, character varying) OWNER TO postgres;

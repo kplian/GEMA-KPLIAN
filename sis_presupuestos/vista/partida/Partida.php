@@ -3,21 +3,20 @@
 *@package pXP
 *@file gen-Partida.php
 *@author  (admin)
-*@date 23-11-2012 16:37:48
+*@date 23-11-2012 20:06:53
 *@description Archivo con la interfaz de usuario que permite la ejecucion de todas las funcionalidades del sistema
 */
 
 header("content-type: text/javascript; charset=UTF-8");
 ?>
 <script>
-Phx.vista.Partida=Ext.extend(Phx.gridInterfaz,{
+Phx.vista.Partida=Ext.extend(Phx.arbInterfaz,{
 
 	constructor:function(config){
 		this.maestro=config.maestro;
     	//llama al constructor de la clase padre
 		Phx.vista.Partida.superclass.constructor.call(this,config);
 		this.init();
-		this.load({params:{start:0, limit:50}})
 	},
 			
 	Atributos:[
@@ -43,20 +42,28 @@ Phx.vista.Partida=Ext.extend(Phx.gridInterfaz,{
 			type:'TextField',
 			filters:{pfiltro:'par.estado_reg',type:'string'},
 			id_grupo:1,
-			grid:false,
+			grid:true,
 			form:false
 		},
 		{
 			config:{
-				name: 'descripcion',
-				fieldLabel: 'Descripcion',
+				name: 'id_partida_fk',
+				inputType:'hidden'
+			},
+			type:'Field',
+			form:true
+		},
+		{
+			config:{
+				name: 'tipo',
+				fieldLabel: 'Tipo',
 				allowBlank: true,
 				anchor: '80%',
 				gwidth: 100,
-				maxLength:200
+				maxLength:15
 			},
 			type:'TextField',
-			filters:{pfiltro:'par.descripcion',type:'string'},
+			filters:{pfiltro:'par.tipo',type:'string'},
 			id_grupo:1,
 			grid:true,
 			form:true
@@ -76,6 +83,21 @@ Phx.vista.Partida=Ext.extend(Phx.gridInterfaz,{
 			grid:true,
 			form:true
 		},
+        {
+            config:{
+                name: 'descripcion',
+                fieldLabel: 'Descripcion',
+                allowBlank: true,
+                anchor: '80%',
+                gwidth: 100,
+                maxLength:200
+            },
+            type:'TextField',
+            filters:{pfiltro:'par.descripcion',type:'string'},
+            id_grupo:1,
+            grid:true,
+            form:true
+        },
 		{
 			config:{
 				name: 'usr_reg',
@@ -138,13 +160,19 @@ Phx.vista.Partida=Ext.extend(Phx.gridInterfaz,{
 		}
 	],
 	title:'Partida',
-	ActSave:'../../sis_mantenimiento/control/Partida/insertarPartida',
-	ActDel:'../../sis_mantenimiento/control/Partida/eliminarPartida',
-	ActList:'../../sis_mantenimiento/control/Partida/listarPartida',
+	ActSave:'../../sis_presupuestos/control/Partida/insertarPartida',
+	ActDel:'../../sis_presupuestos/control/Partida/eliminarPartida',
+	ActList:'../../sis_presupuestos/control/Partida/listarPartidaArb',
 	id_store:'id_partida',
+	textRoot:'PARTIDAS',
+    id_nodo:'id_partida',
+    id_nodo_p:'id_partida_fk',
 	fields: [
+		'id',
+        'tipo_meta',
 		{name:'id_partida', type: 'numeric'},
-		{name:'estado_reg', type: 'string'},
+		{name:'id_partida_fk', type: 'numeric'},
+		{name:'tipo', type: 'string'},
 		{name:'descripcion', type: 'string'},
 		{name:'codigo', type: 'string'},
 		{name:'id_usuario_reg', type: 'numeric'},
@@ -160,8 +188,50 @@ Phx.vista.Partida=Ext.extend(Phx.gridInterfaz,{
 		direction: 'ASC'
 	},
 	bdel:true,
-	bsave:true
-	}
+	bsave:true,
+	rootVisible:true,
+	
+	onButtonNew:function(){
+        var nodo = this.sm.getSelectedNode();           
+        Phx.vista.Partida.superclass.onButtonNew.call(this);
+    },
+    
+    preparaMenu:function(n){
+        if(n.attributes.tipo_nodo == 'hijo' || n.attributes.tipo_nodo == 'raiz' || n.attributes.id == 'id'){
+            this.tbar.items.get('b-new-'+this.idContenedor).enable()
+        }
+        else {
+            this.tbar.items.get('b-new-'+this.idContenedor).disable()
+        }
+        // llamada funcion clase padre
+            Phx.vista.Partida.superclass.preparaMenu.call(this,n);
+    },
+    
+    EnableSelect:function(n){
+        var nivel = n.getDepth();
+        var direc = this.getNombrePadre(n)
+        if(direc){            
+            Phx.vista.Partida.superclass.EnableSelect.call(this,n)
+        }        
+    },
+    
+    getNombrePadre:function(n){
+        var direc
+        var padre = n.parentNode;
+        if(padre){
+            if(padre.attributes.id!='id'){
+               direc = n.attributes.nombre +' - '+ this.getNombrePadre(padre)
+               return direc;
+            }else{
+                
+                return n.attributes.nombre;
+            }
+        }
+        else{
+                return undefined;
+        }       
+     }
+}
 )
 </script>
 		

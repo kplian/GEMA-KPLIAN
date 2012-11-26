@@ -654,7 +654,6 @@ select pxp.f_insert_tgui ('Especialidades Técnicas', 'Registro de especialidade
 select pxp.f_insert_tgui ('Funcionarios', 'Registro de Funcionarios', 'GEM.1.8', 'si', 8, 'sis_organigrama/vista/funcionario/Funcionario.php', 3, '', 'funcionario', 'GEM');
 select pxp.f_insert_tgui ('Diagrama de Decisión', 'Registro Diagrama de Decisión', 'GEM.1.9', 'si', 9, 'sis_mantenimiento/vista/diagrama_decision/DiagramaDecision.php', 3, '', 'DiagramaDecision', 'GEM');
 select pxp.f_insert_tgui ('Instrucciones de Seguridad', 'Registro de instrucciones de seguridad', 'GEM.1.10', 'si', 10, 'sis_mantenimiento/vista/instrucciones_seguridad/InstrucSeg.php', 3, '', 'InstrucSeg', 'GEM');
-select pxp.f_insert_tgui ('Partidas', 'Registro de partidas', 'GEM.1.11', 'si', 11, 'sis_mantenimiento/vista/partida/Partida.php', 3, '', 'Partida', 'GEM');
 
 select pxp.f_insert_tgui ('Localizaciones', 'Registro de Localizaciones', 'GEM.2.1', 'si', 1, 'sis_mantenimiento/vista/localizacion/Localizacion.php', 3, '', 'Localizacion', 'GEM');
 select pxp.f_insert_tgui ('Plantilla de Equipos', 'Registro Plantilla de Equipos', 'GEM.2.2', 'si', 2, 'sis_mantenimiento/vista/uni_cons/UniCons.php', 3, '', 'UniCons', 'GEM');
@@ -692,7 +691,6 @@ select pxp.f_insert_testructura_gui ('GEM.1.7', 'GEM.1');
 select pxp.f_insert_testructura_gui ('GEM.1.8', 'GEM.1');
 select pxp.f_insert_testructura_gui ('GEM.1.9', 'GEM.1');
 select pxp.f_insert_testructura_gui ('GEM.1.10', 'GEM.1');
-select pxp.f_insert_testructura_gui ('GEM.1.11', 'GEM.1');
 
 select pxp.f_insert_testructura_gui ('GEM.2.1', 'GEM.2');
 select pxp.f_insert_testructura_gui ('GEM.2.2', 'GEM.2');
@@ -1125,64 +1123,6 @@ add column id_cat_tipo integer;
 --Se aumenta campo tipo_unicons
 alter table gem.tuni_cons
 add column tipo_unicons varchar(15),add constraint chk_tuni_cons__tipo_unicos check (tipo_unicons in ('estacion','planta'));
-
-
---Presupuestos
-
-CREATE TABLE gem.tpresupuesto (
-  id_presupuesto  SERIAL NOT NULL,
-  codigo varchar(20),
-  descripcion varchar(200),
-  gestion integer,
-  estado varchar(15),
-  CONSTRAINT tpresupuesto__id_presupuesto PRIMARY KEY (id_presupuesto)
-) INHERITS (pxp.tbase)
-WITH (
-  OIDS=TRUE
-);
-ALTER TABLE gem.tpresupuesto OWNER TO postgres;
-
-
-CREATE TABLE gem.tpartida (
-  id_partida  SERIAL NOT NULL,
-  codigo varchar(20),
-  descripcion varchar(200),
-  CONSTRAINT tpartida__id_partida PRIMARY KEY (id_partida)
-) INHERITS (pxp.tbase)
-WITH (
-  OIDS=TRUE
-);
-ALTER TABLE gem.tpartida OWNER TO postgres;
-
-
-CREATE TABLE gem.tpresup_partida (
-  id_presup_partida  SERIAL NOT NULL,
-  id_presupuesto integer,
-  id_partida integer,
-  id_centro_costo integer,
-  id_moneda integer,
-  fecha_hora timestamp,
-  importe numeric(18,2),
-  tipo varchar(15),
-  CONSTRAINT tpresup_partida__id_presup_partida PRIMARY KEY (id_presup_partida),
-  CONSTRAINT fk_tpresup_partida__id_presupuesto FOREIGN KEY (id_presupuesto)
-      REFERENCES gem.tpresupuesto (id_presupuesto) MATCH SIMPLE
-      ON UPDATE NO ACTION ON DELETE NO ACTION,
-  CONSTRAINT fk_tpresup_partida__id_partida FOREIGN KEY (id_partida)
-      REFERENCES gem.tpartida (id_partida) MATCH SIMPLE
-      ON UPDATE NO ACTION ON DELETE NO ACTION,
-  CONSTRAINT fk_tpresup_partida__id_centro_costo FOREIGN KEY (id_centro_costo)
-      REFERENCES gem.tcentro_costo (id_centro_costo) MATCH SIMPLE
-      ON UPDATE NO ACTION ON DELETE NO ACTION,
-  CONSTRAINT fk_tpresup_partida__id_moneda FOREIGN KEY (id_moneda)
-      REFERENCES param.tmoneda (id_moneda) MATCH SIMPLE
-      ON UPDATE NO ACTION ON DELETE NO ACTION,
-  CONSTRAINT chk_tpresup_partida__tipo check (tipo in ('presupuestado','ejecutado'))
-) INHERITS (pxp.tbase)
-WITH (
-  OIDS=TRUE
-);
-ALTER TABLE gem.tpartida OWNER TO postgres;
 
 alter table gem.torden_trabajo
 add column id_cat_estado integer,
