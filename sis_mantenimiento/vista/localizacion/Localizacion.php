@@ -74,6 +74,14 @@ Phx.vista.Localizacion=Ext.extend(Phx.arbInterfaz,{
 				disabled : false,
 				handler : this.onBtnGenerarOT,
 				tooltip : '<b>Generar Orden de Trabajo</b><br/>Genera las Ordenes de Trabajo correspondientes al nodo y sus hijos'
+			});
+			
+		this.addButton('btnUsuario', {
+				text : 'Usuarios',
+				iconCls : 'block',
+				disabled : false,
+				handler : this.onBtnUsuario,
+				tooltip : '<b>Usuarios</b><br/>Usuarios permitidos para ver los equipos por localización'
 			});	
 			
 
@@ -539,6 +547,20 @@ Phx.vista.Localizacion=Ext.extend(Phx.arbInterfaz,{
 	
 	
 	},
+	onBtnUsuario: function(){          
+            var rec=this.sm.getSelectedNode();
+            var data = rec.attributes;
+            if(data){
+            Phx.CP.loadWindows('../../../sis_mantenimiento/vista/localizacion_usuario/LocalizacionUsuario.php',
+                    'Usuarios por Localización',
+                    {
+                        modal:true,
+                        width:900,
+                        height:600
+                    },
+                    data,this.idContenedor,'LocalizacionUsuario')
+            }
+   },
 	
 	winmodal:false,
 		
