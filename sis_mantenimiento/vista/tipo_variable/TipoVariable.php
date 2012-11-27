@@ -201,6 +201,21 @@ Phx.vista.TipoVariable=Ext.extend(Phx.gridInterfaz,{
 			id_grupo:1,
 			grid:true,
 			form:false
+		},
+		{
+			config:{
+				name: 'observaciones',
+				fieldLabel: 'Observaciones',
+				allowBlank: true,
+				anchor: '100%',
+				maxLength:300,
+				gwidth: 200
+			},
+			type:'TextArea',
+			filters:{pfiltro:'tva.observaciones',type:'string'},
+			id_grupo:1,
+			grid:true,
+			form:true
 		}
 	],
 	title:'Variables Tipo',
@@ -220,8 +235,9 @@ Phx.vista.TipoVariable=Ext.extend(Phx.gridInterfaz,{
 		{name:'id_usuario_mod', type: 'numeric'},
 		{name:'fecha_mod', type: 'date', dateFormat:'Y-m-d H:i:s'},
 		{name:'usr_reg', type: 'string'},
-		{name:'usr_mod', type: 'string'},'codigo_unidad_medida'
-		
+		{name:'usr_mod', type: 'string'},
+		{name:'codigo_unidad_medida', type: 'string'},
+		{name:'observaciones', type: 'string'}
 	],
 	sortInfo:{
 		field: 'id_tipo_variable',
