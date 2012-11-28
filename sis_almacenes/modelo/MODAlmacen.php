@@ -47,6 +47,7 @@ class MODAlmacen extends MODbase{
         $this->setParametro('codigo','codigo','varchar');
         $this->setParametro('nombre','nombre','varchar');
         $this->setParametro('localizacion','localizacion','varchar');
+        $this->setParametro('id_almacen_usuario','id_almacen_usuario','int4');
         
         //Ejecuta la instruccion
         $this->armarConsulta();

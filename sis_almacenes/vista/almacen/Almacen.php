@@ -18,14 +18,14 @@ header("content-type:text/javascript; charset=UTF-8");
 		this.init();
 		this.load({params:{start:0, limit:50}});
 		this.addButton('Almacenero',{
-		    text:'Almacenero',
+		    text:'Almaceneros',
 		    iconCls:'bassign',
-		    disabled:true,
+		    disabled:false,
 		    handler:this.onAlmacenUsuario,
 		    tooltip:'<b>Registrar Almacenero'});
 	},
 	onAlmacenUsuario : function (){                   
-            var rec=this.sm.getSelected();
+            //var rec=this.sm.getSelected();
                         
             Phx.CP.loadWindows('../../../sis_almacenes/vista/almacenUsuario/AlmacenUsuario.php',
             'Registrar Almacenero',
@@ -33,7 +33,7 @@ header("content-type:text/javascript; charset=UTF-8");
                 modal:true,
                 width:600,
                 height:300
-            },rec.data,this.idContenedor,'AlmacenUsuario')
+            },'',this.idContenedor,'AlmacenUsuario')
     },
 			
 	Atributos:[
@@ -101,21 +101,50 @@ header("content-type:text/javascript; charset=UTF-8");
             type:'Field',
             form:true
         },
-		{
+        {
             config:{
-                name: 'nombre_completo1',
-                fieldLabel: 'Almacenero',
-                allowBlank: true,
-                anchor: '80%',
-                gwidth: 100,
-                maxLength:50
+                name:'id_almacen_usuario',
+                fieldLabel:'Almacenero',
+                allowBlank:true,
+                emptyText:'Almacenero...',
+                store: new Ext.data.JsonStore({
+                    url: '../../sis_almacenes/control/AlmacenUsuario/listarAlmacenUsuario',
+                    id: 'id_almacen_usuario',
+                    root: 'datos',
+                    sortInfo:{
+                        field: 'cuenta',
+                        direction: 'ASC'
+                    },
+                    totalProperty: 'total',
+                    fields: ['id_almacen_usuario','cuenta'],
+                    // turn on remote sorting
+                    remoteSort: true,
+                    baseParams:{par_filtro:'cuenta'}
+                }),
+                valueField: 'id_almacen_usuario',
+                displayField: 'cuenta',
+                gdisplayField: 'nombre_completo1',
+                hiddenName: 'id_almacen_usuario',
+                forceSelection:true,
+                typeAhead: true,
+                triggerAction: 'all',
+                lazyRender:true,
+                mode:'remote',
+                pageSize:10,
+                queryDelay:1000,
+                width:250,
+                minChars:2,            
+                renderer:function(value, p, record){return String.format('{0}', record.data['nombre_completo1']);}
             },
-            type:'TextField',
-            filters:{type:'string'},
-            id_grupo:1,
+            type:'ComboBox',
+            id_grupo:0,
+            filters:{   
+                pfiltro:'nombre_completo1',
+                type:'string'
+            },
             grid:true,
-            form:false
-        }		
+            form:true
+    }		
 	],
 	title:'Almacen',
 	ActSave:'../../sis_almacenes/control/Almacen/insertarAlmacen',
@@ -146,21 +175,15 @@ header("content-type:text/javascript; charset=UTF-8");
 		 
     preparaMenu:function(tb){
             //llamada funcion clace padre
+            /*
             if(!this.sm.getSelected().data.nombre_completo1){              
                 this.getBoton('Almacenero').enable();
             }
             else{                   
                 this.getBoton('Almacenero').disable();        
-            }
+            }*/
             Phx.vista.Almacen.superclass.preparaMenu.call(this,tb);
-        },
-        
-    south:{
-          url:'../../../sis_almacenes/vista/almacenUsuario/AlmacenUsuario.php',
-          title:'Almaceneros', 
-          height:300,
-          cls:'AlmacenUsuario'
-    }    
+    }  
 }
 )
 </script>		
