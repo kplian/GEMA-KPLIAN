@@ -283,8 +283,15 @@ Phx.vista.actividad=Ext.extend(Phx.gridInterfaz,{
 				limit: 50,
 				id_orden_trabajo: this.id_orden_trabajo
 			}
-		})
+		});		
 	},
+	
+	south:{
+		  url:'../../../sis_mantenimiento/vista/recurso/Recurso.php',
+		  title:'Recurso',
+		  height: 300,
+		  cls:'recurso'
+		},
 	bdel: true,
 	bsave: true,
 

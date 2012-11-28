@@ -1045,7 +1045,33 @@ class FuncionesMantenimiento{
         return $res;
     }
     /*FinClase: MODInstrucSeg*/
-    
-      
+
+    // /*Clase: MODRecurso
+    // * Fecha: 26-11-2012 17:29:08
+    // * Autor: Ariel Ayaviri Omonte*/
+    function listarRecursoActividad(CTParametro $parametro) {
+        $obj = new MODRecurso($parametro);
+        $res = $obj->listarRecursoActividad();
+        return $res;
+    }
+            
+    function insertarRecursoActividad(CTParametro $parametro) {
+        $obj = new MODRecurso($parametro);
+        $res = $obj->insertarRecursoActividad();
+        return $res;
+    }
+            
+    function modificarRecursoActividad(CTParametro $parametro) {
+        $obj = new MODRecurso($parametro);
+        $res = $obj->modificarRecursoActividad();
+        return $res;
+    }
+            
+    function eliminarRecurso(CTParametro $parametro) {
+        $obj = new MODRecurso($parametro);
+        $res = $obj->eliminarRecurso();
+        return $res;
+    }
+    /*FinClase: MODRecurso*/
 }//marca_generador
 ?>

@@ -32,8 +32,8 @@ Phx.vista.OrdenTrabajo=Ext.extend(Phx.gridInterfaz,{
 			Phx.CP.loadWindows('../../../sis_mantenimiento/vista/actividad_ot/ActividadOT.php',
 					'Actividades',
 					{
-						width:900,
-						height:400
+						width:1000,
+						height:600
 				    },
 				    rec.data,
 				    this.idContenedor,
