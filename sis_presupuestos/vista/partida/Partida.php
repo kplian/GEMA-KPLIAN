@@ -54,20 +54,31 @@ Phx.vista.Partida=Ext.extend(Phx.arbInterfaz,{
 			form:true
 		},
 		{
-			config:{
-				name: 'tipo',
-				fieldLabel: 'Tipo',
-				allowBlank: true,
-				anchor: '80%',
-				gwidth: 100,
-				maxLength:15
-			},
-			type:'TextField',
-			filters:{pfiltro:'par.tipo',type:'string'},
-			id_grupo:1,
-			grid:true,
-			form:true
-		},
+            config:{                
+                name:'tipo',
+                fieldLabel:'Tipo',
+                allowBlank:false,
+                emptyText:'Tipo...',
+                store: ['trans','no_trans'],
+                valueField: 'tipo',
+                displayField: 'tipo',
+                forceSelection:true,
+                triggerAction: 'all',
+                lazyRender:true,
+                mode:'local',
+                pageSize:10,
+                width:250,               
+                renderer:function(value, p, record){return String.format('{0}', record.data['tipo']);}
+            },
+            type:'ComboBox',
+            id_grupo:0,
+            filters:{   
+                pfiltro:'tipo',
+                type:'string'
+            },
+            grid:true,
+            form:true
+        },
 		{
 			config:{
 				name: 'codigo',
