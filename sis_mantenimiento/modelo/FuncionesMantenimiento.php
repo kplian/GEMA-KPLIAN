@@ -160,6 +160,21 @@ class FuncionesMantenimiento{
 		$res = $obj->listarUniConsDetalle();
 		return $res;
 	}
+	
+	  	
+  function modificarInclucionGeneracionCalendarioUniCons(CTParametro $parametro) {
+	  	
+   $obj = new MODUniCons($parametro);
+	  	    $res = $obj->modificarInclucionGeneracionCalendarioUniCons();
+	  	
+   return $res;
+  	
+ }
+	
+	
+	
+	
+	
 	/*FinClase: MODUniCons*/
 
 
