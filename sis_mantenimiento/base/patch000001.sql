@@ -1187,3 +1187,119 @@ ALTER TABLE gem.tfalla_evento
   ADD COLUMN descripcion VARCHAR(500);
 
 /***********************************F-SCP-FRH-GEM-49-27/11/2012****************************************/
+
+/***********************************I-SCP-GSS-GEM-17-28/11/2012*****************************************/
+create table gem.tanalisis_porque (
+  id_analisis_porque serial not null,
+  id_uni_cons integer,
+  numero integer,
+  problema varchar(2000),
+  fecha timestamp,
+  estado varchar(15),
+  operadores varchar(1000),
+  tecnicos varchar(1000),
+  coordinadores varchar(1000),
+  CONSTRAINT tanalisis_porque__id_analisis_porque PRIMARY KEY (id_analisis_porque),
+  CONSTRAINT fk_tanalisis_porque__id_uni_cons FOREIGN KEY (id_uni_cons)
+      REFERENCES gem.tuni_cons (id_uni_cons) MATCH SIMPLE
+      ON UPDATE NO ACTION ON DELETE NO ACTION
+)  inherits (pxp.tbase)
+with (
+  oids=true
+);
+alter table gem.tanalisis_porque owner to postgres;
+
+create table gem.tanalisis_porque_det (
+  id_analisis_porque_det serial not null,
+  id_analisis_porque integer,
+  porque varchar(2000),
+  respuesta varchar(3000),
+  solucion varchar(3000),
+  CONSTRAINT tanalisis_porque_det__id_analisis_porque_det PRIMARY KEY (id_analisis_porque_det),
+  CONSTRAINT fk_tanalisis_porque_det__id_analisis_porque FOREIGN KEY (id_analisis_porque)
+      REFERENCES gem.tanalisis_porque (id_analisis_porque) MATCH SIMPLE
+      ON UPDATE NO ACTION ON DELETE NO ACTION
+)  inherits (pxp.tbase)
+with (
+  oids=true
+);
+alter table gem.tanalisis_porque_det owner to postgres;
+
+create table gem.tanalisis_porque_sol (
+  id_analisis_porque_sol serial not null,
+  id_analisis_porque integer,
+  id_funcionario integer,
+  descripcion varchar(2000),
+  fecha timestamp,
+  estado varchar(15),
+  CONSTRAINT tanalisis_porque_sol__id_analisis_porque_sol PRIMARY KEY (id_analisis_porque_sol),
+  CONSTRAINT fk_tanalisis_porque_sol__id_analisis_porque FOREIGN KEY (id_analisis_porque)
+      REFERENCES gem.tanalisis_porque (id_analisis_porque) MATCH SIMPLE
+      ON UPDATE NO ACTION ON DELETE NO ACTION,
+  CONSTRAINT fk_tanalisis_porque_sol__id_funcionario FOREIGN KEY (id_funcionario)
+      REFERENCES orga.tfuncionario (id_funcionario) MATCH SIMPLE
+      ON UPDATE NO ACTION ON DELETE NO ACTION
+)  inherits (pxp.tbase)
+with (
+  oids=true
+);
+alter table gem.tanalisis_porque_sol owner to postgres;
+
+CREATE TABLE gem.ttpm_tarjeta (
+  id_tpm_tarjeta serial NOT NULL,
+  id_localizacion integer,
+  codigo varchar(15),
+  revision integer,
+  fecha_emision date,
+  tipo varchar(100),
+  CONSTRAINT pk_ttpm_tarjeta__id_tpm_tarjeta PRIMARY KEY (id_tpm_tarjeta),
+  CONSTRAINT fk_ttpm_tarjeta__id_localizacion FOREIGN KEY (id_localizacion)
+      REFERENCES gem.tlocalizacion (id_localizacion) MATCH SIMPLE
+      ON UPDATE NO ACTION ON DELETE NO ACTION
+) INHERITS (pxp.tbase)
+WITH (
+  OIDS=TRUE
+);
+ALTER TABLE gem.ttpm_tarjeta OWNER TO postgres;
+
+CREATE TABLE gem.ttpm_tarjeta_det (
+  id_tpm_tarjeta_det serial NOT NULL,
+  id_tpm_tarjeta integer,
+  id_funcionario_detec integer,
+  id_funcionario_efec integer,
+  id_uni_cons integer,
+  descripcion varchar(2000),
+  acceso_dificil varchar(2),
+  cond_inseg varchar(2),
+  contaminacion varchar(2),
+  falla_me varchar(2),
+  falla_el varchar(2),
+  falla_ist varchar(2),
+  falla_ne varchar(2),
+  falla_hi varchar(2),
+  oportunidad_mejora varchar(500),
+  fecha_coloc date,
+  fecha_retiro date,
+  observaciones varchar(1000),
+  CONSTRAINT pk_ttpm_tarjeta_det__id_tpm_tarjeta_det PRIMARY KEY (id_tpm_tarjeta_det),
+  CONSTRAINT fk_ttpm_tarjeta_det__id_tpm_tarjeta FOREIGN KEY (id_tpm_tarjeta)
+      REFERENCES gem.ttpm_tarjeta (id_tpm_tarjeta) MATCH SIMPLE
+      ON UPDATE NO ACTION ON DELETE NO ACTION,
+  CONSTRAINT fk_ttpm_tarjeta_det__id_funcionario_detec FOREIGN KEY (id_funcionario_detec)
+      REFERENCES orga.tfuncionario (id_funcionario) MATCH SIMPLE
+      ON UPDATE NO ACTION ON DELETE NO ACTION,
+  CONSTRAINT fk_ttpm_tarjeta_det__id_funcionario_efec FOREIGN KEY (id_funcionario_efec)
+      REFERENCES orga.tfuncionario (id_funcionario) MATCH SIMPLE
+      ON UPDATE NO ACTION ON DELETE NO ACTION,
+  CONSTRAINT fk_ttpm_tarjeta_det__id_uni_cons FOREIGN KEY (id_uni_cons)
+      REFERENCES gem.tuni_cons (id_uni_cons) MATCH SIMPLE
+      ON UPDATE NO ACTION ON DELETE NO ACTION
+) 
+INHERITS (pxp.tbase)
+WITH (
+  OIDS=TRUE
+);
+ALTER TABLE gem.ttpm_tarjeta_det OWNER TO postgres;
+
+/***********************************F-SCP-GSS-GEM-17-28/11/2012*****************************************/
+

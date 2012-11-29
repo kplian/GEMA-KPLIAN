@@ -101,8 +101,8 @@ Phx.vista.Localizacion=Ext.extend(Phx.arbInterfaz,{
 						text:'TPM',
 						menu:{
 							items:[
-								{text:'Análisis'},
-								{text:'Planificación'}
+								{text:'Porque Porque',handler:this.onBtnTPMPorquePorque,scope:this},
+								{text:'Tarjetas TPM',handler:this.onBtnTarjetasTPM,scope:this}
 							]
 						}
 				},
@@ -554,6 +554,36 @@ Phx.vista.Localizacion=Ext.extend(Phx.arbInterfaz,{
 				    },
 				    data,this.idContenedor,'LocalizacionUsuario')
 			}
+   },
+   
+   onBtnTPMPorquePorque : function(){
+        var rec = this.sm.getSelectedNode();
+        var data = rec.attributes;
+        if(data){
+            Phx.CP.loadWindows('../../../sis_mantenimiento/vista/analisis_porque/AnalisisPorque.php',
+                    'Analisis Porque',
+                    {
+                        modal:true,
+                        width:900,
+                        height:600
+                    },
+                    data,this.idContenedor,'AnalisisPorque')
+        }
+   },
+   
+   onBtnTarjetasTPM : function(){
+       var rec = this.sm.getSelectedNode();
+       var data = rec.attributes;
+       if(data){
+           Phx.CP.loadWindows('../../../sis_mantenimiento/vista/tpm_tarjeta/TpmTarjeta.php',
+                    'Control de Tarjetas TPM',
+                    {
+                        modal:true,
+                        width:900,
+                        height:600
+                    },
+                    data, this.idContenedor,'TpmTarjeta')
+       }
    },
 	
 	winmodal:false,

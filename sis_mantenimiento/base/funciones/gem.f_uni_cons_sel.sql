@@ -1,5 +1,3 @@
---------------- SQL ---------------
-
 CREATE OR REPLACE FUNCTION gem.f_uni_cons_sel (
   p_administrador integer,
   p_id_usuario integer,
@@ -440,6 +438,29 @@ BEGIN
             --Devuelve la respuesta
             return v_consulta;
 
+        end;
+        
+        /*********************************
+        #TRANSACCION: 'GEM_TUCLOC_SEL'
+        #DESCRIPCION: Obtiene los registros de una unidades constructivas por localizacion
+        #AUTOR: Gonzalo Sarmiento Sejas
+        #FECHA: 29/11/2012
+        ***********************************/
+
+        elsif(p_transaccion='GEM_TUCLOC_SEL')then
+             
+             begin
+             --Sentencia de la consulta
+                  v_consulta:='select
+                  			tuc.id_uni_cons,
+							tuc.id_localizacion,
+                            tuc.codigo,                            
+                            tuc.nombre                            
+                  	        from gem.tuni_cons tuc
+                    	    where tuc.tipo_nodo!=''base'' and tuc.id_localizacion='||v_parametros.id_localizacion||' and ';
+			v_consulta:=v_consulta||v_parametros.filtro;
+            --Devuelve la respuesta
+            return v_consulta;
         end;
 	else
 					     
