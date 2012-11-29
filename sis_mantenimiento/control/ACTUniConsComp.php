@@ -14,28 +14,28 @@ class ACTUniConsComp extends ACTbase{
 
 		$this->objParam->defecto('dir_ordenacion','asc');
 		if($this->objParam->getParametro('tipoReporte')=='excel_grid' || $this->objParam->getParametro('tipoReporte')=='pdf_grid'){
-			$this->objReporte = new Reporte($this->objParam);
-			$this->res = $this->objReporte->generarReporteListado('FuncionesMantenimiento','listarUniConsComp');
+			$this->objReporte = new Reporte($this->objParam, $this);
+			$this->res = $this->objReporte->generarReporteListado('MODUniConsComp','listarUniConsComp');
 		} else{
-			$this->objFunc=new FuncionesMantenimiento();	
-			$this->res=$this->objFunc->listarUniConsComp($this->objParam);
+			$this->objFunc=$this->create('MODUniConsComp');	
+			$this->res=$this->objFunc->listarUniConsComp();
 		}
 		$this->res->imprimirRespuesta($this->res->generarJson());
 	}
 				
 	function insertarUniConsComp(){
-		$this->objFunc=new FuncionesMantenimiento();	
+		$this->objFunc=$this->create('MODUniConsComp');	
 		if($this->objParam->insertar('id_comp_equipo')){
-			$this->res=$this->objFunc->insertarUniConsComp($this->objParam);			
+			$this->res=$this->objFunc->insertarUniConsComp();			
 		} else{			
-			$this->res=$this->objFunc->modificarUniConsComp($this->objParam);
+			$this->res=$this->objFunc->modificarUniConsComp();
 		}
 		$this->res->imprimirRespuesta($this->res->generarJson());
 	}
 						
 	function eliminarUniConsComp(){
-		$this->objFunc=new FuncionesMantenimiento();	
-		$this->res=$this->objFunc->eliminarUniConsComp($this->objParam);
+		$this->objFunc=$this->create('MODUniConsComp');	
+		$this->res=$this->objFunc->eliminarUniConsComp();
 		$this->res->imprimirRespuesta($this->res->generarJson());
 	}
 			

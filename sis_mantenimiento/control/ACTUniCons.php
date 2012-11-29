@@ -16,7 +16,7 @@ class ACTUniCons extends ACTbase{
 		
 
 		//crea el objetoFunSeguridad que contiene todos los metodos del sistema de seguridad
-		$this->objFunSeguridad=new FuncionesMantenimiento();
+		//$this->objFunSeguridad=$this->create('MODUniCons');
 		
 		//obtiene el parametro nodo enviado por la vista
 		$node=$this->objParam->getParametro('node');
@@ -46,7 +46,7 @@ class ACTUniCons extends ACTbase{
 				else {
 					$this->objParam->addParametro('id_padre',$id_uni_cons);
 				}
-			
+			$this->objFunSeguridad=$this->create('MODUniCons');
 			$this->res=$this->objFunSeguridad->listarUniConsFiltro($this->objParam);
 				 
 			if($this->res)
@@ -179,7 +179,7 @@ class ACTUniCons extends ACTbase{
             else {
 			
 			
-			
+			$this->objFunSeguridad=$this->create('MODUniCons');
 			$this->res=$this->objFunSeguridad->listarUniCons($this->objParam);
 			
 			$this->res->setTipoRespuestaArbol();
@@ -257,11 +257,11 @@ class ACTUniCons extends ACTbase{
 
 		$this->objParam->defecto('dir_ordenacion','asc');
 		if($this->objParam->getParametro('tipoReporte')=='excel_grid' || $this->objParam->getParametro('tipoReporte')=='pdf_grid'){
-			$this->objReporte = new Reporte($this->objParam);
-			$this->res = $this->objReporte->generarReporteListado('FuncionesMantenimiento','listarUniConsPlano');
+			$this->objReporte = new Reporte($this->objParam, $this);
+			$this->res = $this->objReporte->generarReporteListado('MODUniCons','listarUniConsPlano');
 		} else{
-			$this->objFunc=new FuncionesMantenimiento();	
-			$this->res=$this->objFunc->listarUniConsPlano($this->objParam);
+			$this->objFunc=$this->create('MODUniCons');	
+			$this->res=$this->objFunc->listarUniConsPlano();
 		}
 		$this->res->imprimirRespuesta($this->res->generarJson());
 	}
@@ -272,18 +272,29 @@ class ACTUniCons extends ACTbase{
 
         $this->objParam->defecto('dir_ordenacion','asc');
 
-        $this->objFunc=new FuncionesMantenimiento();    
-        $this->res=$this->objFunc->listarUniConsHijo($this->objParam);
+        $this->objFunc=$this->create('MODUniCons');    
+        $this->res=$this->objFunc->listarUniConsHijo();
 
+        $this->res->imprimirRespuesta($this->res->generarJson());
+    }
+    
+    function listarUniConsLocalizacion(){
+        $this->objParam->defecto('ordenacion','id_uni_cons');
+        
+        $this->objParam->defecto('dir_ordenacion','asc');
+        
+        $this->objFunc= new FuncionesMantenimiento();
+        $this->res=$this->objFunc->listarUniConsLocalizacion($this->objParam);
+        
         $this->res->imprimirRespuesta($this->res->generarJson());
     }
 				
 	function insertarUniCons(){
-		$this->objFunc=new FuncionesMantenimiento();	
+		$this->objFunc=$this->create('MODUniCons');	
 		if($this->objParam->insertar('id_uni_cons')){
-			$this->res=$this->objFunc->insertarUniCons($this->objParam);			
+			$this->res=$this->objFunc->insertarUniCons();			
 		} else{			
-			$this->res=$this->objFunc->modificarUniCons($this->objParam);
+			$this->res=$this->objFunc->modificarUniCons();
 		}
 		$this->res->imprimirRespuesta($this->res->generarJson());
 	}
@@ -294,9 +305,9 @@ class ACTUniCons extends ACTbase{
 	 * Description: Generate "Unididad Contructiva" from template  */
 	 	
 	function addUniCons(){
-		$this->objFunc=new FuncionesMantenimiento();	
+		$this->objFunc=$this->create('MODUniCons');	
 		
-		$this->res=$this->objFunc->addUniCons($this->objParam);			
+		$this->res=$this->objFunc->addUniCons();			
 		$this->res->imprimirRespuesta($this->res->generarJson());
 	}
 	/*
@@ -304,38 +315,38 @@ class ACTUniCons extends ACTbase{
 	 * Date: 19/11/2012
 	 * Description: modifica inclusion en el calendario da la unidad constructiva  */
 	function modificarInclucionGeneracionCalendarioUniCons(){
-		$this->objFunc=new FuncionesMantenimiento();
-		$this->res=$this->objFunc->modificarInclucionGeneracionCalendarioUniCons($this->objParam);
+		$this->objFunc=$this->create('MODUniCons');
+		$this->res=$this->objFunc->modificarInclucionGeneracionCalendarioUniCons();
 		$this->res->imprimirRespuesta($this->res->generarJson());
 	}
 	
 	function GenerarCalendarioConfirmado(){
-		$this->objFunc=new FuncionesMantenimiento();	
-		$this->res=$this->objFunc->GenerarCalendarioConfirmado($this->objParam);			
+		$this->objFunc=$this->create('MODUniCons');	
+		$this->res=$this->objFunc->GenerarCalendarioConfirmado();			
 		$this->res->imprimirRespuesta($this->res->generarJson());
 	}
 		
 
     function GenerarCalendario(){
-		$this->objFunc=new FuncionesMantenimiento();	
-		$this->res=$this->objFunc->GenerarCalendario($this->objParam);			
+		$this->objFunc=$this->create('MODUniCons');	
+		$this->res=$this->objFunc->GenerarCalendario();			
 		$this->res->imprimirRespuesta($this->res->generarJson());
 	}
 		  
 	function eliminarUniCons(){
-		$this->objFunc=new FuncionesMantenimiento();
-		$this->res=$this->objFunc->eliminarUniCons($this->objParam);
+		$this->objFunc=$this->create('MODUniCons');
+		$this->res=$this->objFunc->eliminarUniCons();
 		$this->res->imprimirRespuesta($this->res->generarJson());
 	}
 	
 	function setBlockUnblockUniCons(){
-		$this->objFunc=new FuncionesMantenimiento();
-		$this->res=$this->objFunc->setBlockUnblockUniCons($this->objParam);
+		$this->objFunc=$this->create('MODUniCons');
+		$this->res=$this->objFunc->setBlockUnblockUniCons();
 		$this->res->imprimirRespuesta($this->res->generarJson());
 	}
 	
 	function reporteUniConsFichaTecnica() {
-		$this->objFunc = new FuncionesMantenimiento();
+		$this->objFunc = $this->create('MODUniCons');
 		$dataSource = new DataSource();
 		$idUniCons = $this->objParam->getParametro('id_uni_cons');
 		

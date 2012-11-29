@@ -18,28 +18,28 @@ class ACTFuncionarioHonorario extends ACTbase{
 		}
 		
 		if($this->objParam->getParametro('tipoReporte')=='excel_grid' || $this->objParam->getParametro('tipoReporte')=='pdf_grid'){
-			$this->objReporte = new Reporte($this->objParam);
-			$this->res = $this->objReporte->generarReporteListado('FuncionesMantenimiento','listarFuncionarioHonorario');
+			$this->objReporte = new Reporte($this->objParam, $this);
+			$this->res = $this->objReporte->generarReporteListado('MODFuncionarioHonorario','listarFuncionarioHonorario');
 		} else{
-			$this->objFunc=new FuncionesMantenimiento();	
-			$this->res=$this->objFunc->listarFuncionarioHonorario($this->objParam);
+			$this->objFunc=$this->create('MODFuncionarioHonorario');	
+			$this->res=$this->objFunc->listarFuncionarioHonorario();
 		}
 		$this->res->imprimirRespuesta($this->res->generarJson());
 	}
 				
 	function insertarFuncionarioHonorario(){
-		$this->objFunc=new FuncionesMantenimiento();	
+		$this->objFunc=$this->create('MODFuncionarioHonorario');	
 		if($this->objParam->insertar('id_funcionario_honorario')){
-			$this->res=$this->objFunc->insertarFuncionarioHonorario($this->objParam);			
+			$this->res=$this->objFunc->insertarFuncionarioHonorario();			
 		} else{			
-			$this->res=$this->objFunc->modificarFuncionarioHonorario($this->objParam);
+			$this->res=$this->objFunc->modificarFuncionarioHonorario();
 		}
 		$this->res->imprimirRespuesta($this->res->generarJson());
 	}
 						
 	function eliminarFuncionarioHonorario(){
-		$this->objFunc=new FuncionesMantenimiento();	
-		$this->res=$this->objFunc->eliminarFuncionarioHonorario($this->objParam);
+		$this->objFunc=$this->create('MODFuncionarioHonorario');	
+		$this->res=$this->objFunc->eliminarFuncionarioHonorario();
 		$this->res->imprimirRespuesta($this->res->generarJson());
 	}
 			

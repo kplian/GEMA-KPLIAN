@@ -94,6 +94,12 @@ class FuncionesMantenimiento{
         $res=$obj->listarUniConsHijo();
         return $res;
     }
+    
+    function listarUniConsLocalizacion(CTParametro $parametro){
+        $obj= new MODUniCons($parametro);
+        $res=$obj->listarUniConsLocalizacion();
+        return $res;
+    }
     	
 	function insertarUniCons(CTParametro $parametro){
 		$obj=new MODUniCons($parametro);
@@ -1088,5 +1094,202 @@ class FuncionesMantenimiento{
         return $res;
     }
     /*FinClase: MODRecurso*/
+    
+    // /*Clase: MODFallaEventoExterno
+    // * Fecha: 27-11-2012 17:29:08
+    // * Autor: Freddy Rojas Heredia*/
+    function listarFallaEventoExterno(CTParametro $parametro) {
+        $obj = new MODFallaEventoExterno($parametro);
+        $res = $obj->listarFallaEventoExterno();
+        return $res;
+    }
+            
+    function insertarFallaEventoExterno(CTParametro $parametro) {
+        $obj = new MODFallaEventoExterno($parametro);
+        $res = $obj->insertarFallaEventoExterno();
+        return $res;
+    }
+            
+    function modificarFallaEventoExterno(CTParametro $parametro) {
+        $obj = new MODFallaEventoExterno($parametro);
+        $res = $obj->modificarFallaEventoExterno();
+        return $res;
+    }
+            
+    function eliminarFallaEventoExterno(CTParametro $parametro) {
+        $obj = new MODFallaEventoExterno($parametro);
+        $res = $obj->eliminarFallaEventoExterno();
+        return $res;
+    }
+    /*FinClase: MODRecurso*/
+
+    /*Clase: MODLocalizacionUsuario
+	* Fecha: 08-08-2012 23:50:13
+	* Autor: rac*/
+	function listarLocalizacionUsuario(CTParametro $parametro){
+		$obj=new MODLocalizacionUsuario($parametro);
+		$res=$obj->listarLocalizacionUsuario();
+		return $res;
+	}
+			
+	function insertarLocalizacionUsuario(CTParametro $parametro){
+		$obj=new MODLocalizacionUsuario($parametro);
+		$res=$obj->insertarLocalizacionUsuario();
+		return $res;
+	}
+			
+	function modificarLocalizacionUsuario(CTParametro $parametro){
+		$obj=new MODLocalizacionUsuario($parametro);
+		$res=$obj->modificarLocalizacionUsuario();
+		return $res;
+	}
+			
+	function eliminarLocalizacionUsuario(CTParametro $parametro){
+		$obj=new MODLocalizacionUsuario($parametro);
+		$res=$obj->eliminarLocalizacionUsuario();
+		return $res;
+	}
+	/*FinClase: MODTipoEquipo*/
+
+    /*Clase: MODAnalisisPorque
+    * Fecha: 28-11-2012 20:22:29
+    * Autor: Gonzalo Sarmiento Sejas */
+    function listarAnalisisPorque(CTParametro $parametro){
+        $obj=new MODAnalisisPorque($parametro);
+        $res=$obj->listarAnalisisPorque();
+        return $res;
+    }
+            
+    function insertarAnalisisPorque(CTParametro $parametro){
+        $obj=new MODAnalisisPorque($parametro);
+        $res=$obj->insertarAnalisisPorque();
+        return $res;
+    }
+            
+    function modificarAnalisisPorque(CTParametro $parametro){
+        $obj=new MODAnalisisPorque($parametro);
+        $res=$obj->modificarAnalisisPorque();
+        return $res;
+    }
+            
+    function eliminarAnalisisPorque(CTParametro $parametro){
+        $obj=new MODAnalisisPorque($parametro);
+        $res=$obj->eliminarAnalisisPorque();
+        return $res;
+    }
+    /*FinClase: MODAnalisisPorque*/
+    
+    /*Clase: MODAnalisisPorqueDet
+    * Fecha: 28-11-2012 22:01:17
+    * Autor: Gonzalo Sarmiento Sejas */
+    function listarAnalisisPorqueDet(CTParametro $parametro){
+        $obj=new MODAnalisisPorqueDet($parametro);
+        $res=$obj->listarAnalisisPorqueDet();
+        return $res;
+    }
+            
+    function insertarAnalisisPorqueDet(CTParametro $parametro){
+        $obj=new MODAnalisisPorqueDet($parametro);
+        $res=$obj->insertarAnalisisPorqueDet();
+        return $res;
+    }
+            
+    function modificarAnalisisPorqueDet(CTParametro $parametro){
+        $obj=new MODAnalisisPorqueDet($parametro);
+        $res=$obj->modificarAnalisisPorqueDet();
+        return $res;
+    }
+            
+    function eliminarAnalisisPorqueDet(CTParametro $parametro){
+        $obj=new MODAnalisisPorqueDet($parametro);
+        $res=$obj->eliminarAnalisisPorqueDet();
+        return $res;
+    }
+    /*FinClase: MODAnalisisPorqueDet*/
+    
+    /*Clase: MODAnalisisPorqueSol
+    * Fecha: 28-11-2012 22:28:33
+    * Autor: Gonzalo Sarmiento Sejas */
+    function listarAnalisisPorqueSol(CTParametro $parametro){
+        $obj=new MODAnalisisPorqueSol($parametro);
+        $res=$obj->listarAnalisisPorqueSol();
+        return $res;
+    }
+            
+    function insertarAnalisisPorqueSol(CTParametro $parametro){
+        $obj=new MODAnalisisPorqueSol($parametro);
+        $res=$obj->insertarAnalisisPorqueSol();
+        return $res;
+    }
+            
+    function modificarAnalisisPorqueSol(CTParametro $parametro){
+        $obj=new MODAnalisisPorqueSol($parametro);
+        $res=$obj->modificarAnalisisPorqueSol();
+        return $res;
+    }
+            
+    function eliminarAnalisisPorqueSol(CTParametro $parametro){
+        $obj=new MODAnalisisPorqueSol($parametro);
+        $res=$obj->eliminarAnalisisPorqueSol();
+        return $res;
+    }
+    /*FinClase: MODAnalisisPorqueSol*/
+  
+    /*Clase: MODTpmTarjeta
+    * Fecha: 29-11-2012 02:21:39
+    * Autor: Gonzalo Sarmiento Sejas */
+    function listarTpmTarjeta(CTParametro $parametro){
+        $obj=new MODTpmTarjeta($parametro);
+        $res=$obj->listarTpmTarjeta();
+        return $res;
+    }
+            
+    function insertarTpmTarjeta(CTParametro $parametro){
+        $obj=new MODTpmTarjeta($parametro);
+        $res=$obj->insertarTpmTarjeta();
+        return $res;
+    }
+            
+    function modificarTpmTarjeta(CTParametro $parametro){
+        $obj=new MODTpmTarjeta($parametro);
+        $res=$obj->modificarTpmTarjeta();
+        return $res;
+    }
+            
+    function eliminarTpmTarjeta(CTParametro $parametro){
+        $obj=new MODTpmTarjeta($parametro);
+        $res=$obj->eliminarTpmTarjeta();
+        return $res;
+    }
+    /*FinClase: MODTpmTarjeta*/  
+  
+    /*Clase: MODTpmTarjetaDet
+    * Fecha: 29-11-2012 14:51:50
+    * Autor: Gonzalo Sarmiento Sejas */
+    function listarTpmTarjetaDet(CTParametro $parametro){
+        $obj=new MODTpmTarjetaDet($parametro);
+        $res=$obj->listarTpmTarjetaDet();
+        return $res;
+    }
+            
+    function insertarTpmTarjetaDet(CTParametro $parametro){
+        $obj=new MODTpmTarjetaDet($parametro);
+        $res=$obj->insertarTpmTarjetaDet();
+        return $res;
+    }
+            
+    function modificarTpmTarjetaDet(CTParametro $parametro){
+        $obj=new MODTpmTarjetaDet($parametro);
+        $res=$obj->modificarTpmTarjetaDet();
+        return $res;
+    }
+            
+    function eliminarTpmTarjetaDet(CTParametro $parametro){
+        $obj=new MODTpmTarjetaDet($parametro);
+        $res=$obj->eliminarTpmTarjetaDet();
+        return $res;
+    }
+    /*FinClase: MODTpmTarjetaDet*/  
+
 }//marca_generador
 ?>

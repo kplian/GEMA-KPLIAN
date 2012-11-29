@@ -375,5 +375,23 @@ class MODUniCons extends MODbase{
 		
 		return $this->respuesta;
 	}
+
+    function listarUniConsLocalizacion(){
+        $this->procedimiento = 'gem.f_uni_cons_sel';
+        $this->transaccion = 'GEM_TUCLOC_SEL';
+        $this->tipo_procedimiento = 'SEL';
+        
+        $this->setParametro('id_localizacion','id_localizacion','int4');
+        
+        $this->captura('id_uni_cons','int4');
+        $this->captura('id_localizacion','int4');
+        $this->captura('codigo','varchar');
+        $this->captura('nombre','varchar');
+        
+        $this->armarConsulta();
+        $this->ejecutarConsulta();
+        
+        return $this->respuesta;
+    }
 }
 ?>

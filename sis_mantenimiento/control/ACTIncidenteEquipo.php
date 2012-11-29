@@ -14,28 +14,28 @@ class ACTIncidenteEquipo extends ACTbase{
 
 		$this->objParam->defecto('dir_ordenacion','asc');
 		if($this->objParam->getParametro('tipoReporte')=='excel_grid' || $this->objParam->getParametro('tipoReporte')=='pdf_grid'){
-			$this->objReporte = new Reporte($this->objParam);
-			$this->res = $this->objReporte->generarReporteListado('FuncionesMantenimiento','listarIncidenteEquipo');
+			$this->objReporte = new Reporte($this->objParam, $this);
+			$this->res = $this->objReporte->generarReporteListado('MODIncidenteEquipo','listarIncidenteEquipo');
 		} else{
-			$this->objFunc=new FuncionesMantenimiento();	
-			$this->res=$this->objFunc->listarIncidenteEquipo($this->objParam);
+			$this->objFunc=$this->create('MODIncidenteEquipo');	
+			$this->res=$this->objFunc->listarIncidenteEquipo();
 		}
 		$this->res->imprimirRespuesta($this->res->generarJson());
 	}
 				
 	function insertarIncidenteEquipo(){
-		$this->objFunc=new FuncionesMantenimiento();	
+		$this->objFunc=$this->create('MODIncidenteEquipo');	
 		if($this->objParam->insertar('id_incidente_equipo')){
-			$this->res=$this->objFunc->insertarIncidenteEquipo($this->objParam);			
+			$this->res=$this->objFunc->insertarIncidenteEquipo();			
 		} else{			
-			$this->res=$this->objFunc->modificarIncidenteEquipo($this->objParam);
+			$this->res=$this->objFunc->modificarIncidenteEquipo();
 		}
 		$this->res->imprimirRespuesta($this->res->generarJson());
 	}
 						
 	function eliminarIncidenteEquipo(){
-		$this->objFunc=new FuncionesMantenimiento();	
-		$this->res=$this->objFunc->eliminarIncidenteEquipo($this->objParam);
+		$this->objFunc=$this->create('MODIncidenteEquipo');	
+		$this->res=$this->objFunc->eliminarIncidenteEquipo();
 		$this->res->imprimirRespuesta($this->res->generarJson());
 	}
 			

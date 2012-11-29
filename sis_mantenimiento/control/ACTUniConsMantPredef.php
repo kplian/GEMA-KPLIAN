@@ -21,28 +21,28 @@ class ACTUniConsMantPredef extends ACTbase{
 		}
 		
 		if($this->objParam->getParametro('tipoReporte')=='excel_grid' || $this->objParam->getParametro('tipoReporte')=='pdf_grid'){
-			$this->objReporte = new Reporte($this->objParam);
-			$this->res = $this->objReporte->generarReporteListado('FuncionesMantenimiento','listarUniConsMantPredef');
+			$this->objReporte = new Reporte($this->objParam, $this);
+			$this->res = $this->objReporte->generarReporteListado('MODUniConsMantPredef','listarUniConsMantPredef');
 		} else{
-			$this->objFunc=new FuncionesMantenimiento();	
-			$this->res=$this->objFunc->listarUniConsMantPredef($this->objParam);
+			$this->objFunc=$this->create('MODUniConsMantPredef');	
+			$this->res=$this->objFunc->listarUniConsMantPredef();
 		}
 		$this->res->imprimirRespuesta($this->res->generarJson());
 	}
 				
 	function insertarUniConsMantPredef(){
-		$this->objFunc=new FuncionesMantenimiento();	
+		$this->objFunc=$this->create('MODUniConsMantPredef');	
 		if($this->objParam->insertar('id_uni_cons_mant_predef')){
-			$this->res=$this->objFunc->insertarUniConsMantPredef($this->objParam);			
+			$this->res=$this->objFunc->insertarUniConsMantPredef();			
 		} else{			
-			$this->res=$this->objFunc->modificarUniConsMantPredef($this->objParam);
+			$this->res=$this->objFunc->modificarUniConsMantPredef();
 		}
 		$this->res->imprimirRespuesta($this->res->generarJson());
 	}
 						
 	function eliminarUniConsMantPredef(){
-		$this->objFunc=new FuncionesMantenimiento();	
-		$this->res=$this->objFunc->eliminarUniConsMantPredef($this->objParam);
+		$this->objFunc=$this->create('MODUniConsMantPredef');	
+		$this->res=$this->objFunc->eliminarUniConsMantPredef();
 		$this->res->imprimirRespuesta($this->res->generarJson());
 	}
 			

@@ -13,7 +13,6 @@ Phx.vista.UniConsMantPredef=Ext.extend(Phx.gridInterfaz,{
 
 	constructor:function(config){
 		this.maestro=config;
-		console.log('ss',config);
     	//llama al constructor de la clase padre
 		Phx.vista.UniConsMantPredef.superclass.constructor.call(this,config);
 		this.init();
@@ -289,9 +288,8 @@ Phx.vista.UniConsMantPredef=Ext.extend(Phx.gridInterfaz,{
 	onReloadPage:function(m){
 		this.maestro=m;						
 		this.store.baseParams={id_uni_cons:this.maestro.id_uni_cons};
-		alert(this.maestro.id_uni_cons);
 		this.load({params:{start:0, limit:50}});			
-	},
+	}
 }
 )
 </script>

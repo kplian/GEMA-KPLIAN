@@ -14,28 +14,28 @@ class ACTMetodologia extends ACTbase{
 
 		$this->objParam->defecto('dir_ordenacion','asc');
 		if($this->objParam->getParametro('tipoReporte')=='excel_grid' || $this->objParam->getParametro('tipoReporte')=='pdf_grid'){
-			$this->objReporte = new Reporte($this->objParam);
-			$this->res = $this->objReporte->generarReporteListado('FuncionesMantenimiento','listarMetodologia');
+			$this->objReporte = new Reporte($this->objParam, $this);
+			$this->res = $this->objReporte->generarReporteListado('MODMetodologia','listarMetodologia');
 		} else{
-			$this->objFunc=new FuncionesMantenimiento();	
-			$this->res=$this->objFunc->listarMetodologia($this->objParam);
+			$this->objFunc=$this->create('MODMetodologia');	
+			$this->res=$this->objFunc->listarMetodologia();
 		}
 		$this->res->imprimirRespuesta($this->res->generarJson());
 	}
 				
 	function insertarMetodologia(){
-		$this->objFunc=new FuncionesMantenimiento();	
+		$this->objFunc=$this->create('MODMetodologia');	
 		if($this->objParam->insertar('id_metodologia')){
-			$this->res=$this->objFunc->insertarMetodologia($this->objParam);			
+			$this->res=$this->objFunc->insertarMetodologia();			
 		} else{			
-			$this->res=$this->objFunc->modificarMetodologia($this->objParam);
+			$this->res=$this->objFunc->modificarMetodologia();
 		}
 		$this->res->imprimirRespuesta($this->res->generarJson());
 	}
 						
 	function eliminarMetodologia(){
-		$this->objFunc=new FuncionesMantenimiento();	
-		$this->res=$this->objFunc->eliminarMetodologia($this->objParam);
+		$this->objFunc=$this->create('MODMetodologia');	
+		$this->res=$this->objFunc->eliminarMetodologia();
 		$this->res->imprimirRespuesta($this->res->generarJson());
 	}
 			

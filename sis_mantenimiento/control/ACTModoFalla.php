@@ -14,28 +14,28 @@ class ACTModoFalla extends ACTbase{
 
 		$this->objParam->defecto('dir_ordenacion','asc');
 		if($this->objParam->getParametro('tipoReporte')=='excel_grid' || $this->objParam->getParametro('tipoReporte')=='pdf_grid'){
-			$this->objReporte = new Reporte($this->objParam);
-			$this->res = $this->objReporte->generarReporteListado('FuncionesMantenimiento','listarModoFalla');
+			$this->objReporte = new Reporte($this->objParam, $this);
+			$this->res = $this->objReporte->generarReporteListado('MODModoFalla','listarModoFalla');
 		} else{
-			$this->objFunc=new FuncionesMantenimiento();	
-			$this->res=$this->objFunc->listarModoFalla($this->objParam);
+			$this->objFunc=$this->create('MODModoFalla');	
+			$this->res=$this->objFunc->listarModoFalla();
 		}
 		$this->res->imprimirRespuesta($this->res->generarJson());
 	}
 				
 	function insertarModoFalla(){
-		$this->objFunc=new FuncionesMantenimiento();	
+		$this->objFunc=$this->create('MODModoFalla');	
 		if($this->objParam->insertar('id_modo_falla')){
-			$this->res=$this->objFunc->insertarModoFalla($this->objParam);			
+			$this->res=$this->objFunc->insertarModoFalla();			
 		} else{			
-			$this->res=$this->objFunc->modificarModoFalla($this->objParam);
+			$this->res=$this->objFunc->modificarModoFalla();
 		}
 		$this->res->imprimirRespuesta($this->res->generarJson());
 	}
 						
 	function eliminarModoFalla(){
-		$this->objFunc=new FuncionesMantenimiento();	
-		$this->res=$this->objFunc->eliminarModoFalla($this->objParam);
+		$this->objFunc=$this->create('MODModoFalla');	
+		$this->res=$this->objFunc->eliminarModoFalla();
 		$this->res->imprimirRespuesta($this->res->generarJson());
 	}
 			

@@ -18,28 +18,28 @@ class ACTMantPredefDet extends ACTbase{
 		}
 		
 		if($this->objParam->getParametro('tipoReporte')=='excel_grid' || $this->objParam->getParametro('tipoReporte')=='pdf_grid'){
-			$this->objReporte = new Reporte($this->objParam);
-			$this->res = $this->objReporte->generarReporteListado('FuncionesMantenimiento','listarMantPredefDet');
+			$this->objReporte = new Reporte($this->objParam, $this);
+			$this->res = $this->objReporte->generarReporteListado('MODMantPredefDet','listarMantPredefDet');
 		} else{
-			$this->objFunc=new FuncionesMantenimiento();	
-			$this->res=$this->objFunc->listarMantPredefDet($this->objParam);
+			$this->objFunc=$this->create('MODMantPredefDet');	
+			$this->res=$this->objFunc->listarMantPredefDet();
 		}
 		$this->res->imprimirRespuesta($this->res->generarJson());
 	}
 				
 	function insertarMantPredefDet(){
-		$this->objFunc=new FuncionesMantenimiento();	
+		$this->objFunc=$this->create('MODMantPredefDet');	
 		if($this->objParam->insertar('id_mant_predef_det')){
-			$this->res=$this->objFunc->insertarMantPredefDet($this->objParam);			
+			$this->res=$this->objFunc->insertarMantPredefDet();			
 		} else{			
-			$this->res=$this->objFunc->modificarMantPredefDet($this->objParam);
+			$this->res=$this->objFunc->modificarMantPredefDet();
 		}
 		$this->res->imprimirRespuesta($this->res->generarJson());
 	}
 						
 	function eliminarMantPredefDet(){
-		$this->objFunc=new FuncionesMantenimiento();	
-		$this->res=$this->objFunc->eliminarMantPredefDet($this->objParam);
+		$this->objFunc=$this->create('MODMantPredefDet');	
+		$this->res=$this->objFunc->eliminarMantPredefDet();
 		$this->res->imprimirRespuesta($this->res->generarJson());
 	}
 			

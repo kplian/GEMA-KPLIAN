@@ -14,28 +14,28 @@ class ACTTipoEquipo extends ACTbase{
 
 		$this->objParam->defecto('dir_ordenacion','asc');
 		if($this->objParam->getParametro('tipoReporte')=='excel_grid' || $this->objParam->getParametro('tipoReporte')=='pdf_grid'){
-			$this->objReporte = new Reporte($this->objParam);
-			$this->res = $this->objReporte->generarReporteListado('FuncionesMantenimiento','listarTipoEquipo');
+			$this->objReporte = new Reporte($this->objParam, $this);
+			$this->res = $this->objReporte->generarReporteListado('MODTipoEquipo','listarTipoEquipo');
 		} else{
-			$this->objFunc=new FuncionesMantenimiento();	
-			$this->res=$this->objFunc->listarTipoEquipo($this->objParam);
+			$this->objFunc=$this->create('MODTipoEquipo');	
+			$this->res=$this->objFunc->listarTipoEquipo();
 		}
 		$this->res->imprimirRespuesta($this->res->generarJson());
 	}
 				
 	function insertarTipoEquipo(){
-		$this->objFunc=new FuncionesMantenimiento();	
+		$this->objFunc=$this->create('MODTipoEquipo');	
 		if($this->objParam->insertar('id_tipo_equipo')){
-			$this->res=$this->objFunc->insertarTipoEquipo($this->objParam);			
+			$this->res=$this->objFunc->insertarTipoEquipo();			
 		} else{			
-			$this->res=$this->objFunc->modificarTipoEquipo($this->objParam);
+			$this->res=$this->objFunc->modificarTipoEquipo();
 		}
 		$this->res->imprimirRespuesta($this->res->generarJson());
 	}
 						
 	function eliminarTipoEquipo(){
-		$this->objFunc=new FuncionesMantenimiento();	
-		$this->res=$this->objFunc->eliminarTipoEquipo($this->objParam);
+		$this->objFunc=$this->create('MODTipoEquipo');	
+		$this->res=$this->objFunc->eliminarTipoEquipo();
 		$this->res->imprimirRespuesta($this->res->generarJson());
 	}
 			

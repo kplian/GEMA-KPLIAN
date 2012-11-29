@@ -14,28 +14,28 @@ class ACTTipoMant extends ACTbase{
 
 		$this->objParam->defecto('dir_ordenacion','asc');
 		if($this->objParam->getParametro('tipoReporte')=='excel_grid' || $this->objParam->getParametro('tipoReporte')=='pdf_grid'){
-			$this->objReporte = new Reporte($this->objParam);
-			$this->res = $this->objReporte->generarReporteListado('FuncionesMantenimiento','listarTipoMant');
+			$this->objReporte = new Reporte($this->objParam, $this);
+			$this->res = $this->objReporte->generarReporteListado('MODTipoMant','listarTipoMant');
 		} else{
-			$this->objFunc=new FuncionesMantenimiento();	
-			$this->res=$this->objFunc->listarTipoMant($this->objParam);
+			$this->objFunc=$this->create('MODTipoMant');	
+			$this->res=$this->objFunc->listarTipoMant();
 		}
 		$this->res->imprimirRespuesta($this->res->generarJson());
 	}
 				
 	function insertarTipoMant(){
-		$this->objFunc=new FuncionesMantenimiento();	
+		$this->objFunc=$this->create('MODTipoMant');	
 		if($this->objParam->insertar('id_tipo_mant')){
-			$this->res=$this->objFunc->insertarTipoMant($this->objParam);			
+			$this->res=$this->objFunc->insertarTipoMant();			
 		} else{			
-			$this->res=$this->objFunc->modificarTipoMant($this->objParam);
+			$this->res=$this->objFunc->modificarTipoMant();
 		}
 		$this->res->imprimirRespuesta($this->res->generarJson());
 	}
 						
 	function eliminarTipoMant(){
-		$this->objFunc=new FuncionesMantenimiento();	
-		$this->res=$this->objFunc->eliminarTipoMant($this->objParam);
+		$this->objFunc=$this->create('MODTipoMant');	
+		$this->res=$this->objFunc->eliminarTipoMant();
 		$this->res->imprimirRespuesta($this->res->generarJson());
 	}
 			

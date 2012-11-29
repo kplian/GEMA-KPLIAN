@@ -25,7 +25,7 @@ Phx.vista.Localizacion=Ext.extend(Phx.arbInterfaz,{
 				iconCls : 'bgear',
 				disabled : true,
 				handler : this.onBtnAddEquipo,
-				tooltip : '<b>Add Equipo</b><br/>Adiciona equipo dede un aplantilla en la ubicacion de referencia'
+				tooltip : '<b>Add Equipo</b><br/>Adiciona equipo desde una plantilla en la ubicacion de referencia'
 			});
 		
 		this.addButton('btnInCalGen', {
@@ -76,14 +76,6 @@ Phx.vista.Localizacion=Ext.extend(Phx.arbInterfaz,{
 				tooltip : '<b>Generar Orden de Trabajo</b><br/>Genera las Ordenes de Trabajo correspondientes al nodo y sus hijos'
 			});
 			
-		this.addButton('btnUsuario', {
-				text : 'Usuarios',
-				iconCls : 'block',
-				disabled : false,
-				handler : this.onBtnUsuario,
-				tooltip : '<b>Usuarios</b><br/>Usuarios permitidos para ver los equipos por localización'
-			});	
-			
 
 		this.ctxMenu.add('-');
 		this.ctxMenu.addMenuItem({text:'Agregar Equipo',handler:this.onBtnAddEquipo});
@@ -109,8 +101,8 @@ Phx.vista.Localizacion=Ext.extend(Phx.arbInterfaz,{
 						text:'TPM',
 						menu:{
 							items:[
-								{text:'Análisis'},
-								{text:'Planificación'}
+								{text:'Porque Porque',handler:this.onBtnTPMPorquePorque,scope:this},
+								{text:'Tarjetas TPM',handler:this.onBtnTarjetasTPM,scope:this}
 							]
 						}
 				},
@@ -165,6 +157,8 @@ Phx.vista.Localizacion=Ext.extend(Phx.arbInterfaz,{
 				]
 			}
 		});
+		this.ctxMenu.add('-');
+		this.ctxMenu.addMenuItem({text:'Usuarios por Localización',handler:this.onBtnUsuario,scope:this});
 		
 		//add for to select  tipouni_cons
 		
@@ -547,19 +541,49 @@ Phx.vista.Localizacion=Ext.extend(Phx.arbInterfaz,{
 	
 	
 	},
-	onBtnUsuario: function(){          
-            var rec=this.sm.getSelectedNode();
-            var data = rec.attributes;
-            if(data){
-            Phx.CP.loadWindows('../../../sis_mantenimiento/vista/localizacion_usuario/LocalizacionUsuario.php',
-                    'Usuarios por Localización',
+	onBtnUsuario: function(){
+		var node=this.sm.getSelectedNode();
+		var data =node.attributes;
+		console.log(data);
+		if(data){
+			Phx.CP.loadWindows('../../../sis_mantenimiento/vista/localizacion_usuario/LocalizacionUsuario.php',
+				'Usuarios por Localización',{
+						modal:true,
+						width:900,
+						height:400
+				    },
+				    data,this.idContenedor,'LocalizacionUsuario')
+			}
+   },
+   
+   onBtnTPMPorquePorque : function(){
+        var rec = this.sm.getSelectedNode();
+        var data = rec.attributes;
+        if(data){
+            Phx.CP.loadWindows('../../../sis_mantenimiento/vista/analisis_porque/AnalisisPorque.php',
+                    'Analisis Porque',
                     {
                         modal:true,
                         width:900,
                         height:600
                     },
-                    data,this.idContenedor,'LocalizacionUsuario')
-            }
+                    data,this.idContenedor,'AnalisisPorque')
+        }
+   },
+   
+   onBtnTarjetasTPM : function(){
+       var rec = this.sm.getSelectedNode();
+       var data = rec.attributes;
+       if(data){
+           Phx.CP.loadWindows('../../../sis_mantenimiento/vista/tpm_tarjeta/TpmTarjeta.php',
+                    'Control de Tarjetas TPM',
+                    {
+                        modal:true,
+                        width:900,
+                        height:600
+                    },
+                    data, this.idContenedor,'TpmTarjeta')
+       }
    },
 	
 	winmodal:false,

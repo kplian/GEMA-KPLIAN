@@ -15,17 +15,19 @@ class ACTLocalizacion extends ACTbase{
 		$this->objParam->defecto('dir_ordenacion','asc');
 		if($this->objParam->getParametro('tipoReporte')=='excel_grid' || $this->objParam->getParametro('tipoReporte')=='pdf_grid'){
 			$this->objReporte = new Reporte($this->objParam, $this);
+
 			$this->res = $this->objReporte->generarReporteListado('FuncionesMantenimiento','listarLocalizacion');
 		} else{
 			
 			$this->objFunc=$this->create('MODLocalizacion');
 			$this->res=$this->objFunc->listarLocalizacion($this->objParam);
+
 		}
 		$this->res->imprimirRespuesta($this->res->generarJson());
 	}
 	
 	function listarLocalizacionArb(){
-		
+
 		
 		//obtiene el parametro nodo enviado por la vista
 		$node=$this->objParam->getParametro('node');
@@ -42,9 +44,10 @@ class ACTLocalizacion extends ACTbase{
 					else {
 						$this->objParam->addParametro('id_padre',$id_localizacion);
 					}
-					
+
 		            $this->objFunc=$this->create('MODLocalizacion');
 					$this->res=$this->objFunc->listarLocalizacionArb($this->objParam);
+
 					
 					$this->res->setTipoRespuestaArbol();
 					
@@ -109,9 +112,10 @@ class ACTLocalizacion extends ACTbase{
 				$id_uni_cons=$this->objParam->getParametro('id_uni_cons');
 				$this->objParam->addParametro('id_padre',$id_uni_cons);
 				$this->objParam->addParametro('tipo','uc');
+
 				$this->objFunc=$this->create('MODUniCons');			
 				$this->res=$this->objFunc->listarUniCons($this->objParam);
-				
+
 				$this->res->setTipoRespuestaArbol();
 				
 				$arreglo=array();
@@ -149,19 +153,22 @@ class ACTLocalizacion extends ACTbase{
 	
 				
 	function insertarLocalizacion(){
+
 		 $this->objFunc=$this->create('MODLocalizacion');
+
 		if($this->objParam->insertar('id_localizacion')){
-			$this->res=$this->objFunc->insertarLocalizacion($this->objParam);			
+			$this->res=$this->objFunc->insertarLocalizacion();			
 		} else{			
-			$this->res=$this->objFunc->modificarLocalizacion($this->objParam);
+			$this->res=$this->objFunc->modificarLocalizacion();
 		}
 		$this->res->imprimirRespuesta($this->res->generarJson());
 	}
 						
 	function eliminarLocalizacion(){
-	 $this->objFunc=$this->create('MODLocalizacion');
+     $this->objFunc=$this->create('MODLocalizacion');
 	 $this->res=$this->objFunc->eliminarLocalizacion($this->objParam);
 	 $this->res->imprimirRespuesta($this->res->generarJson());
+
 	}
 			
 }

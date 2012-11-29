@@ -14,11 +14,13 @@ class ACTCalendarioPlanificado extends ACTbase{
 
 		$this->objParam->defecto('dir_ordenacion','asc');
 		if($this->objParam->getParametro('tipoReporte')=='excel_grid' || $this->objParam->getParametro('tipoReporte')=='pdf_grid'){
+
 			$this->objReporte = new Reporte($this->objParam,$this);
 			$this->res = $this->objReporte->generarReporteListado('FuncionesMantenimiento','listarCalendarioPlanificado');
 		} else{
 			$this->objFunc=$this->create('MODCalendarioPlanificado');
 			$this->res=$this->objFunc->listarCalendarioPlanificado($this->objParam);
+
 		}
 		$this->res->imprimirRespuesta($this->res->generarJson());
 	}
@@ -26,9 +28,9 @@ class ACTCalendarioPlanificado extends ACTbase{
 	function insertarCalendarioPlanificado(){
 		$this->objFunc=$this->create('MODCalendarioPlanificado');	
 		if($this->objParam->insertar('id_calendario_planificado')){
-			$this->res=$this->objFunc->insertarCalendarioPlanificado($this->objParam);			
+			$this->res=$this->objFunc->insertarCalendarioPlanificado();			
 		} else{			
-			$this->res=$this->objFunc->modificarCalendarioPlanificado($this->objParam);
+			$this->res=$this->objFunc->modificarCalendarioPlanificado();
 		}
 		$this->res->imprimirRespuesta($this->res->generarJson());
 	}
@@ -43,9 +45,9 @@ class ACTCalendarioPlanificado extends ACTbase{
 
 		$this->objParam->defecto('ordenacion','id_mes');
         $this->objParam->defecto('dir_ordenacion','asc');
-
 		$this->objFunc=$this->create('MODCalendarioPlanificado');	
-	    $this->res=$this->objFunc->listarMesesCalendario($this->objParam);
+		$this->res=$this->objFunc->listarMesesCalendario();
+
 
 		$this->res->imprimirRespuesta($this->res->generarJson());
 	}
@@ -67,6 +69,7 @@ class ACTCalendarioPlanificado extends ACTbase{
 		if($this->objParam->getParametro('tipoReporte')=='excel_grid' || $this->objParam->getParametro('tipoReporte')=='pdf_grid'){
 			$this->objReporte = new Reporte($this->objParam,$this);
 			$this->res = $this->objReporte->generarReporteListado('FuncionesMantenimiento','listarCalendarioPlanificadoDet');
+
 		} else{
 			$this->objFunc=$this->create('MODCalendarioPlanificado');	
 			$this->res=$this->objFunc->listarCalendarioPlanificadoDet();
@@ -86,8 +89,5 @@ class ACTCalendarioPlanificado extends ACTbase{
 		$this->res->imprimirRespuesta($this->res->generarJson());
 	}
 
-
-
 }
-
 ?>

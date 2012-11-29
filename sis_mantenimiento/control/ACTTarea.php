@@ -13,28 +13,28 @@ class ACTTarea extends ACTbase{
 		$this->objParam->defecto('ordenacion','id_tarea');
 		$this->objParam->defecto('dir_ordenacion','asc');
 		if($this->objParam->getParametro('tipoReporte')=='excel_grid' || $this->objParam->getParametro('tipoReporte')=='pdf_grid'){
-			$this->objReporte = new Reporte($this->objParam);
-			$this->res = $this->objReporte->generarReporteListado('FuncionesMantenimiento','listarTarea');
+			$this->objReporte = new Reporte($this->objParam, $this);
+			$this->res = $this->objReporte->generarReporteListado('MODTarea','listarTarea');
 		} else{
-			$this->objFunc=new FuncionesMantenimiento();	
-			$this->res=$this->objFunc->listarTarea($this->objParam);
+			$this->objFunc=$this->create('MODTarea');	
+			$this->res=$this->objFunc->listarTarea();
 		}
 		$this->res->imprimirRespuesta($this->res->generarJson());
 	}
 				
 	function insertarTarea(){
-		$this->objFunc=new FuncionesMantenimiento();	
+		$this->objFunc=$this->create('MODTarea');	
 		if($this->objParam->insertar('id_tarea')){
-			$this->res=$this->objFunc->insertarTarea($this->objParam);			
+			$this->res=$this->objFunc->insertarTarea();			
 		} else{			
-			$this->res=$this->objFunc->modificarTarea($this->objParam);
+			$this->res=$this->objFunc->modificarTarea();
 		}
 		$this->res->imprimirRespuesta($this->res->generarJson());
 	}
 						
 	function eliminarTarea(){
-		$this->objFunc=new FuncionesMantenimiento();	
-		$this->res=$this->objFunc->eliminarTarea($this->objParam);
+		$this->objFunc=$this->create('MODTarea');	
+		$this->res=$this->objFunc->eliminarTarea();
 		$this->res->imprimirRespuesta($this->res->generarJson());
 	}
 			
