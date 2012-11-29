@@ -14,28 +14,28 @@ class ACTFalla extends ACTbase{
 
 		$this->objParam->defecto('dir_ordenacion','asc');
 		if($this->objParam->getParametro('tipoReporte')=='excel_grid' || $this->objParam->getParametro('tipoReporte')=='pdf_grid'){
-			$this->objReporte = new Reporte($this->objParam);
-			$this->res = $this->objReporte->generarReporteListado('FuncionesMantenimiento','listarFalla');
+			$this->objReporte = new Reporte($this->objParam, $this);
+			$this->res = $this->objReporte->generarReporteListado('MODFalla','listarFalla');
 		} else{
-			$this->objFunc=new FuncionesMantenimiento();	
-			$this->res=$this->objFunc->listarFalla($this->objParam);
+			$this->objFunc=$this->create('MODFalla');	
+			$this->res=$this->objFunc->listarFalla();
 		}
 		$this->res->imprimirRespuesta($this->res->generarJson());
 	}
 				
 	function insertarFalla(){
-		$this->objFunc=new FuncionesMantenimiento();	
+		$this->objFunc=$this->create('MODFalla');	
 		if($this->objParam->insertar('id_falla')){
-			$this->res=$this->objFunc->insertarFalla($this->objParam);			
+			$this->res=$this->objFunc->insertarFalla();			
 		} else{			
-			$this->res=$this->objFunc->modificarFalla($this->objParam);
+			$this->res=$this->objFunc->modificarFalla();
 		}
 		$this->res->imprimirRespuesta($this->res->generarJson());
 	}
 						
 	function eliminarFalla(){
-		$this->objFunc=new FuncionesMantenimiento();	
-		$this->res=$this->objFunc->eliminarFalla($this->objParam);
+		$this->objFunc=$this->create('MODFalla');	
+		$this->res=$this->objFunc->eliminarFalla();
 		$this->res->imprimirRespuesta($this->res->generarJson());
 	}
 			

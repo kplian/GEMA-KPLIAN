@@ -14,28 +14,28 @@ class ACTInstrucSeg extends ACTbase{
 
 		$this->objParam->defecto('dir_ordenacion','asc');
 		if($this->objParam->getParametro('tipoReporte')=='excel_grid' || $this->objParam->getParametro('tipoReporte')=='pdf_grid'){
-			$this->objReporte = new Reporte($this->objParam);
-			$this->res = $this->objReporte->generarReporteListado('FuncionesMantenimiento','listarInstrucSeg');
+			$this->objReporte = new Reporte($this->objParam, $this);
+			$this->res = $this->objReporte->generarReporteListado('MODInstrucSeg','listarInstrucSeg');
 		} else{
-			$this->objFunc=new FuncionesMantenimiento();	
-			$this->res=$this->objFunc->listarInstrucSeg($this->objParam);
+			$this->objFunc=$this->create('MODInstrucSeg');	
+			$this->res=$this->objFunc->listarInstrucSeg();
 		}
 		$this->res->imprimirRespuesta($this->res->generarJson());
 	}
 				
 	function insertarInstrucSeg(){
-		$this->objFunc=new FuncionesMantenimiento();	
+		$this->objFunc=$this->create('MODInstrucSeg');	
 		if($this->objParam->insertar('id_instruc_seg')){
-			$this->res=$this->objFunc->insertarInstrucSeg($this->objParam);			
+			$this->res=$this->objFunc->insertarInstrucSeg();			
 		} else{			
-			$this->res=$this->objFunc->modificarInstrucSeg($this->objParam);
+			$this->res=$this->objFunc->modificarInstrucSeg();
 		}
 		$this->res->imprimirRespuesta($this->res->generarJson());
 	}
 						
 	function eliminarInstrucSeg(){
-		$this->objFunc=new FuncionesMantenimiento();	
-		$this->res=$this->objFunc->eliminarInstrucSeg($this->objParam);
+		$this->objFunc=$this->create('MODInstrucSeg');	
+		$this->res=$this->objFunc->eliminarInstrucSeg();
 		$this->res->imprimirRespuesta($this->res->generarJson());
 	}
 			

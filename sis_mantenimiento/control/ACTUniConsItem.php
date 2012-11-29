@@ -13,28 +13,28 @@ class ACTUniConsItem extends ACTbase{
 		$this->objParam->defecto('ordenacion','id_uni_cons_item');
 		$this->objParam->defecto('dir_ordenacion','asc');
 		if($this->objParam->getParametro('tipoReporte')=='excel_grid' || $this->objParam->getParametro('tipoReporte')=='pdf_grid'){
-			$this->objReporte = new Reporte($this->objParam);
-			$this->res = $this->objReporte->generarReporteListado('FuncionesMantenimiento','listarUniConsItem');
+			$this->objReporte = new Reporte($this->objParam, $this);
+			$this->res = $this->objReporte->generarReporteListado('MODUniConsItem','listarUniConsItem');
 		} else{
-			$this->objFunc=new FuncionesMantenimiento();	
-			$this->res=$this->objFunc->listarUniConsItem($this->objParam);
+			$this->objFunc=$this->create('MODUniConsItem');	
+			$this->res=$this->objFunc->listarUniConsItem();
 		}
 		$this->res->imprimirRespuesta($this->res->generarJson());
 	}
 				
 	function insertarUniConsItem(){
-		$this->objFunc=new FuncionesMantenimiento();	
+		$this->objFunc=$this->create('MODUniConsItem');	
 		if($this->objParam->insertar('id_uni_cons_item')){
-			$this->res=$this->objFunc->insertarUniConsItem($this->objParam);			
+			$this->res=$this->objFunc->insertarUniConsItem();			
 		} else{			
-			$this->res=$this->objFunc->modificarUniConsItem($this->objParam);
+			$this->res=$this->objFunc->modificarUniConsItem();
 		}
 		$this->res->imprimirRespuesta($this->res->generarJson());
 	}
 						
 	function eliminarUniConsItem(){
-		$this->objFunc=new FuncionesMantenimiento();	
-		$this->res=$this->objFunc->eliminarUniConsItem($this->objParam);
+		$this->objFunc=$this->create('MODUniConsItem');	
+		$this->res=$this->objFunc->eliminarUniConsItem();
 		$this->res->imprimirRespuesta($this->res->generarJson());
 	}
 			

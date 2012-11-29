@@ -14,28 +14,28 @@ class ACTFuncion extends ACTbase{
 
 		$this->objParam->defecto('dir_ordenacion','asc');
 		if($this->objParam->getParametro('tipoReporte')=='excel_grid' || $this->objParam->getParametro('tipoReporte')=='pdf_grid'){
-			$this->objReporte = new Reporte($this->objParam);
-			$this->res = $this->objReporte->generarReporteListado('FuncionesMantenimiento','listarFuncion');
+			$this->objReporte = new Reporte($this->objParam, $this);
+			$this->res = $this->objReporte->generarReporteListado('MODFuncion','listarFuncion');
 		} else{
-			$this->objFunc=new FuncionesMantenimiento();	
-			$this->res=$this->objFunc->listarFuncion($this->objParam);
+			$this->objFunc=$this->create('MODFuncion');	
+			$this->res=$this->objFunc->listarFuncion();
 		}
 		$this->res->imprimirRespuesta($this->res->generarJson());
 	}
 				
 	function insertarFuncion(){
-		$this->objFunc=new FuncionesMantenimiento();	
+		$this->objFunc=$this->create('MODFuncion');	
 		if($this->objParam->insertar('id_funcion')){
-			$this->res=$this->objFunc->insertarFuncion($this->objParam);			
+			$this->res=$this->objFunc->insertarFuncion();			
 		} else{			
-			$this->res=$this->objFunc->modificarFuncion($this->objParam);
+			$this->res=$this->objFunc->modificarFuncion();
 		}
 		$this->res->imprimirRespuesta($this->res->generarJson());
 	}
 						
 	function eliminarFuncion(){
-		$this->objFunc=new FuncionesMantenimiento();	
-		$this->res=$this->objFunc->eliminarFuncion($this->objParam);
+		$this->objFunc=$this->create('MODFuncion');	
+		$this->res=$this->objFunc->eliminarFuncion();
 		$this->res->imprimirRespuesta($this->res->generarJson());
 	}
 			

@@ -14,28 +14,28 @@ class ACTUniConsDet extends ACTbase{
 
 		$this->objParam->defecto('dir_ordenacion','asc');
 		if($this->objParam->getParametro('tipoReporte')=='excel_grid' || $this->objParam->getParametro('tipoReporte')=='pdf_grid'){
-			$this->objReporte = new Reporte($this->objParam);
-			$this->res = $this->objReporte->generarReporteListado('FuncionesMantenimiento','listarUniConsDet');
+			$this->objReporte = new Reporte($this->objParam, $this);
+			$this->res = $this->objReporte->generarReporteListado('MODUniConsDet','listarUniConsDet');
 		} else{
-			$this->objFunc=new FuncionesMantenimiento();	
-			$this->res=$this->objFunc->listarUniConsDet($this->objParam);
+			$this->objFunc=$this->create('MODUniConsDet');	
+			$this->res=$this->objFunc->listarUniConsDet();
 		}
 		$this->res->imprimirRespuesta($this->res->generarJson());
 	}
 				
 	function insertarUniConsDet(){
-		$this->objFunc=new FuncionesMantenimiento();	
+		$this->objFunc=$this->create('MODUniConsDet');	
 		if($this->objParam->insertar('id_uni_cons_det')){
-			$this->res=$this->objFunc->insertarUniConsDet($this->objParam);			
+			$this->res=$this->objFunc->insertarUniConsDet();			
 		} else{			
-			$this->res=$this->objFunc->modificarUniConsDet($this->objParam);
+			$this->res=$this->objFunc->modificarUniConsDet();
 		}
 		$this->res->imprimirRespuesta($this->res->generarJson());
 	}
 						
 	function eliminarUniConsDet(){
-		$this->objFunc=new FuncionesMantenimiento();	
-		$this->res=$this->objFunc->eliminarUniConsDet($this->objParam);
+		$this->objFunc=$this->create('MODUniConsDet');	
+		$this->res=$this->objFunc->eliminarUniConsDet();
 		$this->res->imprimirRespuesta($this->res->generarJson());
 	}
 			

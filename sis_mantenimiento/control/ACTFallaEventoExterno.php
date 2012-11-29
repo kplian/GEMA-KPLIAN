@@ -14,28 +14,28 @@ class ACTFallaEventoExterno extends ACTbase{
 
 		$this->objParam->defecto('dir_ordenacion','asc');
 		if($this->objParam->getParametro('tipoReporte')=='excel_grid' || $this->objParam->getParametro('tipoReporte')=='pdf_grid'){
-			$this->objReporte = new Reporte($this->objParam);
-			$this->res = $this->objReporte->generarReporteListado('FuncionesMantenimiento','listarFallaEventoExterno');
+			$this->objReporte = new Reporte($this->objParam, $this);
+			$this->res = $this->objReporte->generarReporteListado('MODFallaEventoExterno','listarFallaEventoExterno');
 		} else{
-			$this->objFunc=new FuncionesMantenimiento();	
-			$this->res=$this->objFunc->listarFallaEventoExterno($this->objParam);
+			$this->objFunc=$this->create('MODFallaEventoExterno');	
+			$this->res=$this->objFunc->listarFallaEventoExterno();
 		}
 		$this->res->imprimirRespuesta($this->res->generarJson());
 	}
 				
 	function insertarFallaEventoExterno(){
-		$this->objFunc=new FuncionesMantenimiento();	
+		$this->objFunc=$this->create('MODFallaEventoExterno');	
 		if($this->objParam->insertar('id_falla_evento')){
-			$this->res=$this->objFunc->insertarFallaEventoExterno($this->objParam);			
+			$this->res=$this->objFunc->insertarFallaEventoExterno();			
 		} else{			
-			$this->res=$this->objFunc->modificarFallaEventoExterno($this->objParam);
+			$this->res=$this->objFunc->modificarFallaEventoExterno();
 		}
 		$this->res->imprimirRespuesta($this->res->generarJson());
 	}
 						
 	function eliminarFallaEventoExterno(){
-		$this->objFunc=new FuncionesMantenimiento();	
-		$this->res=$this->objFunc->eliminarFallaEventoExterno($this->objParam);
+		$this->objFunc=$this->create('MODFallaEventoExterno');	
+		$this->res=$this->objFunc->eliminarFallaEventoExterno();
 		$this->res->imprimirRespuesta($this->res->generarJson());
 	}
 			

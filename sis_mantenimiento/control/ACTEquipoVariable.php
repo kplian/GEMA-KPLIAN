@@ -14,11 +14,11 @@ class ACTEquipoVariable extends ACTbase{
 
 		$this->objParam->defecto('dir_ordenacion','asc');
 		if($this->objParam->getParametro('tipoReporte')=='excel_grid' || $this->objParam->getParametro('tipoReporte')=='pdf_grid'){
-			$this->objReporte = new Reporte($this->objParam);
-			$this->res = $this->objReporte->generarReporteListado('FuncionesMantenimiento','listarEquipoVariable');
+			$this->objReporte = new Reporte($this->objParam, $this);
+			$this->res = $this->objReporte->generarReporteListado('MODEquipoVariable','listarEquipoVariable');
 		} else{
-			$this->objFunc=new FuncionesMantenimiento();	
-			$this->res=$this->objFunc->listarEquipoVariable($this->objParam);
+			$this->objFunc=$this->create('MODEquipoVariable');	
+			$this->res=$this->objFunc->listarEquipoVariable();
 		}
 		$this->res->imprimirRespuesta($this->res->generarJson());
 	}
@@ -33,26 +33,26 @@ class ACTEquipoVariable extends ACTbase{
 			$this->objParam->addFiltro("eqv.tipo = ''numeric''");	
 		
 		}
-		$this->objFunc=new FuncionesMantenimiento();	
-		$this->res=$this->objFunc->listarEquipoVariable($this->objParam);
+		$this->objFunc=$this->create('MODEquipoVariable');	
+		$this->res=$this->objFunc->listarEquipoVariable();
 		
 		$this->res->imprimirRespuesta($this->res->generarJson());
 	}
 	
 				
 	function insertarEquipoVariable(){
-		$this->objFunc=new FuncionesMantenimiento();	
+		$this->objFunc=$this->create('MODEquipoVariable');	
 		if($this->objParam->insertar('id_equipo_variable')){
-			$this->res=$this->objFunc->insertarEquipoVariable($this->objParam);			
+			$this->res=$this->objFunc->insertarEquipoVariable();			
 		} else{			
-			$this->res=$this->objFunc->modificarEquipoVariable($this->objParam);
+			$this->res=$this->objFunc->modificarEquipoVariable();
 		}
 		$this->res->imprimirRespuesta($this->res->generarJson());
 	}
 						
 	function eliminarEquipoVariable(){
-		$this->objFunc=new FuncionesMantenimiento();	
-		$this->res=$this->objFunc->eliminarEquipoVariable($this->objParam);
+		$this->objFunc=$this->create('MODEquipoVariable');	
+		$this->res=$this->objFunc->eliminarEquipoVariable();
 		$this->res->imprimirRespuesta($this->res->generarJson());
 	}
 	
@@ -61,11 +61,11 @@ class ACTEquipoVariable extends ACTbase{
 
 		$this->objParam->defecto('dir_ordenacion','asc');
 		if($this->objParam->getParametro('tipoReporte')=='excel_grid' || $this->objParam->getParametro('tipoReporte')=='pdf_grid'){
-			$this->objReporte = new Reporte($this->objParam);
-			$this->res = $this->objReporte->generarReporteListado('FuncionesMantenimiento','listarVariables');
+			$this->objReporte = new Reporte($this->objParam, $this);
+			$this->res = $this->objReporte->generarReporteListado('MODEquipoVariable','listarVariables');
 		} else{
-			$this->objFunc=new FuncionesMantenimiento();	
-			$this->res=$this->objFunc->listarVariables($this->objParam);
+			$this->objFunc=$this->create('MODEquipoVariable');	
+			$this->res=$this->objFunc->listarVariables();
 		}
 		$this->res->imprimirRespuesta($this->res->generarJson());
 	}

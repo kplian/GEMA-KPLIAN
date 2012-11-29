@@ -14,28 +14,28 @@ class ACTDiagramaDecision extends ACTbase{
 
 		$this->objParam->defecto('dir_ordenacion','asc');
 		if($this->objParam->getParametro('tipoReporte')=='excel_grid' || $this->objParam->getParametro('tipoReporte')=='pdf_grid'){
-			$this->objReporte = new Reporte($this->objParam);
-			$this->res = $this->objReporte->generarReporteListado('FuncionesMantenimiento','listarDiagramaDecision');
+			$this->objReporte = new Reporte($this->objParam, $this);
+			$this->res = $this->objReporte->generarReporteListado('MODDiagramaDecision','listarDiagramaDecision');
 		} else{
-			$this->objFunc=new FuncionesMantenimiento();	
-			$this->res=$this->objFunc->listarDiagramaDecision($this->objParam);
+			$this->objFunc=$this->create('MODDiagramaDecision');	
+			$this->res=$this->objFunc->listarDiagramaDecision();
 		}
 		$this->res->imprimirRespuesta($this->res->generarJson());
 	}
 				
 	function insertarDiagramaDecision(){
-		$this->objFunc=new FuncionesMantenimiento();	
+		$this->objFunc=$this->create('MODDiagramaDecision');	
 		if($this->objParam->insertar('id_diagrama_decision')){
-			$this->res=$this->objFunc->insertarDiagramaDecision($this->objParam);			
+			$this->res=$this->objFunc->insertarDiagramaDecision();			
 		} else{			
-			$this->res=$this->objFunc->modificarDiagramaDecision($this->objParam);
+			$this->res=$this->objFunc->modificarDiagramaDecision();
 		}
 		$this->res->imprimirRespuesta($this->res->generarJson());
 	}
 						
 	function eliminarDiagramaDecision(){
-		$this->objFunc=new FuncionesMantenimiento();	
-		$this->res=$this->objFunc->eliminarDiagramaDecision($this->objParam);
+		$this->objFunc=$this->create('MODDiagramaDecision');	
+		$this->res=$this->objFunc->eliminarDiagramaDecision();
 		$this->res->imprimirRespuesta($this->res->generarJson());
 	}
 			

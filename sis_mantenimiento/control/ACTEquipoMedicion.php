@@ -14,11 +14,11 @@ class ACTEquipoMedicion extends ACTbase{
 
 		$this->objParam->defecto('dir_ordenacion','asc');
 		if($this->objParam->getParametro('tipoReporte')=='excel_grid' || $this->objParam->getParametro('tipoReporte')=='pdf_grid'){
-			$this->objReporte = new Reporte($this->objParam);
-			$this->res = $this->objReporte->generarReporteListado('FuncionesMantenimiento','listarEquipoMedicion');
+			$this->objReporte = new Reporte($this->objParam, $this);
+			$this->res = $this->objReporte->generarReporteListado('MODEquipoMedicion','listarEquipoMedicion');
 		} else{
-			$this->objFunc=new FuncionesMantenimiento();	
-			$this->res=$this->objFunc->listarEquipoMedicion($this->objParam);
+			$this->objFunc=$this->create('MODEquipoMedicion');	
+			$this->res=$this->objFunc->listarEquipoMedicion();
 		}
 		$this->res->imprimirRespuesta($this->res->generarJson());
 	}
@@ -29,17 +29,17 @@ class ACTEquipoMedicion extends ACTbase{
 		//$this->objParam->defecto('dir_ordenacion','asc');
 		
 		if($this->objParam->getParametro('tipoReporte')=='excel_grid' || $this->objParam->getParametro('tipoReporte')=='pdf_grid'){
-			$this->objReporte = new Reporte($this->objParam);
-			$this->res = $this->objReporte->generarReporteListado('FuncionesMantenimiento','listarEquipoMedicionDinamico');
+			$this->objReporte = new Reporte($this->objParam, $this);
+			$this->res = $this->objReporte->generarReporteListado('MODEquipoMedicion','listarEquipoMedicionDinamico');
 		} else{
-			$this->objFunc=new FuncionesMantenimiento();	
-			$this->res=$this->objFunc->listarEquipoMedicionDinamico($this->objParam);
+			$this->objFunc=$this->create('MODEquipoMedicion');	
+			$this->res=$this->objFunc->listarEquipoMedicionDinamico();
 		}
 		$this->res->imprimirRespuesta($this->res->generarJson());
 	}
 	
 	function insertarEquipoMedicionDinamico(){
-		$this->objFunc=new FuncionesMantenimiento();
+		
 		
 		$id33 = $this->objParam->getParametro('id_mediciones_mes');
 		
@@ -57,8 +57,8 @@ class ACTEquipoMedicion extends ACTbase{
 		   $codigo= $this->objParam->getParametro('id_mediciones_mes');
 			
 		}
-		
-		$this->res=$this->objFunc->insertarEquipoMedicionDinamico($this->objParam);	
+		$this->objFunc=$this->create('MODEquipoMedicion');
+		$this->res=$this->objFunc->insertarEquipoMedicionDinamico();	
 				
 		//todas la funciones van a ser dfe insercionb 
 		//en base se controlare si es necesario modificar o no
@@ -66,11 +66,11 @@ class ACTEquipoMedicion extends ACTbase{
 	}
 				
 	function insertarEquipoMedicion(){
-		$this->objFunc=new FuncionesMantenimiento();	
+		$this->objFunc=$this->create('MODEquipoMedicion');	
 		if($this->objParam->insertar('id_equipo_medicion')){
-			$this->res=$this->objFunc->insertarEquipoMedicion($this->objParam);			
+			$this->res=$this->objFunc->insertarEquipoMedicion();			
 		} else{			
-			$this->res=$this->objFunc->modificarEquipoMedicion($this->objParam);
+			$this->res=$this->objFunc->modificarEquipoMedicion();
 		}
 		$this->res->imprimirRespuesta($this->res->generarJson());
 	}
@@ -78,15 +78,15 @@ class ACTEquipoMedicion extends ACTbase{
 	
 	
 	function eliminarEquipoMedicionDinamico(){
-		$this->objFunc=new FuncionesMantenimiento();	
-		$this->res=$this->objFunc->eliminarEquipoMedicionDinamico($this->objParam);
+		$this->objFunc=$this->create('MODEquipoMedicion');	
+		$this->res=$this->objFunc->eliminarEquipoMedicionDinamico();
 		$this->res->imprimirRespuesta($this->res->generarJson());
 	}
 	
 						
 	function eliminarEquipoMedicion(){
-		$this->objFunc=new FuncionesMantenimiento();	
-		$this->res=$this->objFunc->eliminarEquipoMedicion($this->objParam);
+		$this->objFunc=$this->create('MODEquipoMedicion');	
+		$this->res=$this->objFunc->eliminarEquipoMedicion();
 		$this->res->imprimirRespuesta($this->res->generarJson());
 	}
 	
@@ -95,11 +95,11 @@ class ACTEquipoMedicion extends ACTbase{
 		$this->objParam->defecto('dir_ordenacion','asc');
 		
 		if($this->objParam->getParametro('tipoReporte')=='excel_grid' || $this->objParam->getParametro('tipoReporte')=='pdf_grid'){
-			$this->objReporte = new Reporte($this->objParam);
-			$this->res = $this->objReporte->generarReporteListado('FuncionesMantenimiento','listarMedicionGraf');
+			$this->objReporte = new Reporte($this->objParam, $this);
+			$this->res = $this->objReporte->generarReporteListado('MODEquipoMedicion','listarMedicionGraf');
 		} else{
-			$this->objFunc=new FuncionesMantenimiento();	
-			$this->res=$this->objFunc->listarMedicionGraf($this->objParam);
+			$this->objFunc=$this->create('MODEquipoMedicion');	
+			$this->res=$this->objFunc->listarMedicionGraf();
 		}
 		$this->res->imprimirRespuesta($this->res->generarJson());
 	}

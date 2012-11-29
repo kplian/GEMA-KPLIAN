@@ -14,28 +14,28 @@ class ACTLocalizacionUsuario extends ACTbase{
 
 		$this->objParam->defecto('dir_ordenacion','asc');
 		if($this->objParam->getParametro('tipoReporte')=='excel_grid' || $this->objParam->getParametro('tipoReporte')=='pdf_grid'){
-			$this->objReporte = new Reporte($this->objParam);
-			$this->res = $this->objReporte->generarReporteListado('FuncionesMantenimiento','listarLocalizacionUsuario');
+			$this->objReporte = new Reporte($this->objParam, $this);
+			$this->res = $this->objReporte->generarReporteListado('MODLocalizacionUsuario','listarLocalizacionUsuario');
 		} else{
-			$this->objFunc=new FuncionesMantenimiento();	
-			$this->res=$this->objFunc->listarLocalizacionUsuario($this->objParam);
+			$this->objFunc=$this->create('MODLocalizacionUsuario');	
+			$this->res=$this->objFunc->listarLocalizacionUsuario();
 		}
 		$this->res->imprimirRespuesta($this->res->generarJson());
 	}
 				
 	function insertarLocalizacionUsuario(){
-		$this->objFunc=new FuncionesMantenimiento();	
+		$this->objFunc=$this->create('MODLocalizacionUsuario');	
 		if($this->objParam->insertar('id_localizacion_usuario')){
-			$this->res=$this->objFunc->insertarLocalizacionUsuario($this->objParam);			
+			$this->res=$this->objFunc->insertarLocalizacionUsuario();			
 		} else{			
-			$this->res=$this->objFunc->modificarLocalizacionUsuario($this->objParam);
+			$this->res=$this->objFunc->modificarLocalizacionUsuario();
 		}
 		$this->res->imprimirRespuesta($this->res->generarJson());
 	}
 						
 	function eliminarLocalizacionUsuario(){
-		$this->objFunc=new FuncionesMantenimiento();	
-		$this->res=$this->objFunc->eliminarLocalizacionUsuario($this->objParam);
+		$this->objFunc=$this->create('MODLocalizacionUsuario');	
+		$this->res=$this->objFunc->eliminarLocalizacionUsuario();
 		$this->res->imprimirRespuesta($this->res->generarJson());
 	}
 			

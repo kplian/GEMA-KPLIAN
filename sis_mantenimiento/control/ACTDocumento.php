@@ -14,40 +14,40 @@ class ACTDocumento extends ACTbase{
 
         $this->objParam->defecto('dir_ordenacion','asc');
         if($this->objParam->getParametro('tipoReporte')=='excel_grid' || $this->objParam->getParametro('tipoReporte')=='pdf_grid'){
-            $this->objReporte = new Reporte($this->objParam);
-            $this->res = $this->objReporte->generarReporteListado('FuncionesMantenimiento','listarDocumento');
+            $this->objReporte = new Reporte($this->objParam, $this);
+            $this->res = $this->objReporte->generarReporteListado('MODDocumento','listarDocumento');
         } else{
-            $this->objFunc=new FuncionesMantenimiento();    
-            $this->res=$this->objFunc->listarDocumento($this->objParam);
+            $this->objFunc=$this->create('MODDocumento');    
+            $this->res=$this->objFunc->listarDocumento();
         }
         $this->res->imprimirRespuesta($this->res->generarJson());
     }
                 
     function insertarDocumento(){
-        $this->objFunc=new FuncionesMantenimiento();    
+        $this->objFunc=$this->create('MODDocumento');    
         if($this->objParam->insertar('id_documento')){
-            $this->res=$this->objFunc->insertarDocumento($this->objParam);          
+            $this->res=$this->objFunc->insertarDocumento();          
         } else{         
-            $this->res=$this->objFunc->modificarDocumento($this->objParam);
+            $this->res=$this->objFunc->modificarDocumento();
         }
         $this->res->imprimirRespuesta($this->res->generarJson());
     }
                         
     function eliminarDocumento(){
-        $this->objFunc=new FuncionesMantenimiento();    
-        $this->res=$this->objFunc->eliminarDocumento($this->objParam);
+        $this->objFunc=$this->create('MODDocumento');    
+        $this->res=$this->objFunc->eliminarDocumento();
         $this->res->imprimirRespuesta($this->res->generarJson());
     }
     
     function subirDocumento(){
-        $this->objFunc= new FuncionesMantenimiento();
-        $this->res=$this->objFunc->subirDocumento($this->objParam);
+        $this->objFunc= $this->create('MODDocumento');
+        $this->res=$this->objFunc->subirDocumento();
         $this->res->imprimirRespuesta($this->res->generarJson());
     }   
     
     function subirVersionDocumento(){
-        $this->objFunc= new FuncionesMantenimiento();
-        $this->res=$this->objFunc->subirVersionDocumento($this->objParam);
+        $this->objFunc= $this->create('MODDocumento');
+        $this->res=$this->objFunc->subirVersionDocumento();
         $this->res->imprimirRespuesta($this->res->generarJson());
     }
     
@@ -55,8 +55,8 @@ class ACTDocumento extends ACTbase{
         $this->objParam->defecto('ordenacion','id_documento');
         $this->objParam->defecto('dir_ordenacion','asc');
         
-        $this->objFunc= new FuncionesMantenimiento();    
-        $this->res=$this->objFunc->listarVersionDocumento($this->objParam);
+        $this->objFunc= $this->create('MODDocumento');    
+        $this->res=$this->objFunc->listarVersionDocumento();
         
         $this->res->imprimirRespuesta($this->res->generarJson());
     }
