@@ -40,7 +40,9 @@ select pxp.f_insert_tgui ('Mediciones por Equipo', 'Registro de Mediciones por E
 select pxp.f_insert_tgui ('Eventos/Incidentes por Equipo', 'Registro de Eventos/Incidentes por equipo', 'GEM.2.6', 'si', 3, 'sis_mantenimiento/vista/equipo_evento/EquipoEvento.php', 6, '', 'EquipoEvento', 'GEM');
 
 select pxp.f_insert_tgui ('Procedimientos, Instructivos ...', 'Registro de Procedimientos, Instructivos, etc.', 'GEM.3.1', 'si', 3, 'sis_mantenimiento/vista/documento/Documento.php', 3, '', 'Documento', 'GEM');
-
+--FRH
+select pxp.f_insert_tgui ('Procedimientos, Instructivos ...', 'Registro de Procedimientos, Instructivos, etc.', 'GEM.3.10', 'si', 5, 'sis_mantenimiento/vista/falla_evento/FallaEventoExterno.php', 3, '', 'FallaEventoExterno', 'GEM');
+--FRH
 /*(2) Composition*/
 
 ---------
