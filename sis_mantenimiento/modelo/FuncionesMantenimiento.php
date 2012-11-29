@@ -1116,5 +1116,33 @@ class FuncionesMantenimiento{
         return $res;
     }
     /*FinClase: MODRecurso*/
+
+    /*Clase: MODLocalizacionUsuario
+	* Fecha: 08-08-2012 23:50:13
+	* Autor: rac*/
+	function listarLocalizacionUsuario(CTParametro $parametro){
+		$obj=new MODLocalizacionUsuario($parametro);
+		$res=$obj->listarLocalizacionUsuario();
+		return $res;
+	}
+			
+	function insertarLocalizacionUsuario(CTParametro $parametro){
+		$obj=new MODLocalizacionUsuario($parametro);
+		$res=$obj->insertarLocalizacionUsuario();
+		return $res;
+	}
+			
+	function modificarLocalizacionUsuario(CTParametro $parametro){
+		$obj=new MODLocalizacionUsuario($parametro);
+		$res=$obj->modificarLocalizacionUsuario();
+		return $res;
+	}
+			
+	function eliminarLocalizacionUsuario(CTParametro $parametro){
+		$obj=new MODLocalizacionUsuario($parametro);
+		$res=$obj->eliminarLocalizacionUsuario();
+		return $res;
+	}
+	/*FinClase: MODTipoEquipo*/
 }//marca_generador
 ?>
