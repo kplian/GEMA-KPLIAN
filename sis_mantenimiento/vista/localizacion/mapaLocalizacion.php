@@ -53,10 +53,7 @@ Phx.vista.mapaLocalizacion=Ext.extend(Phx.gmapInterfaz,{
 	},
 	
 	setMarkerDragableOn:function(){
-		var myMapa = this.gm.getMap()
-		
-		
-		
+		var myMapa = this.gm.getMap();
 		
 		this.marker.setDraggable(true);
 		
@@ -66,15 +63,11 @@ Phx.vista.mapaLocalizacion=Ext.extend(Phx.gmapInterfaz,{
 		    var clat = Phx.CP.getPagina(ICP).getComponente('latitud');
 		    var clog = Phx.CP.getPagina(ICP).getComponente('longitud');
 		    var ccor = Phx.CP.getPagina(ICP).getComponente('coordenadas');
-		    clat.setValue(event.latLng.Ya );
-		    clog.setValue(event.latLng.Za );
+		    var LatLong = event.latLng.toUrlValue().split(',')
+		    clat.setValue(LatLong[0]);
+		    clog.setValue(LatLong[1]);
 		    ccor.setValue(myMapa.getZoom());
-		    
-		  
 		  },this);
-				
-		
-		
 	},
 	
 		

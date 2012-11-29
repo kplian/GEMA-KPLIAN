@@ -95,7 +95,7 @@ select pxp.f_insert_tgui ('Presupuestos', 'Presupuestos varios', 'PRE.2', 'si', 
 --Level 3
 ---------
 select pxp.f_insert_tgui ('Partidas', 'Registro de partidas', 'PRE.1.1', 'si', 1, 'sis_presupuestos/vista/partida/Partida.php', 3, '', 'Partida', 'PRE');
-
+select pxp.f_insert_tgui ('Presupuestos', 'Registro de presupuestos', 'PRE.2.1', 'si', 1, 'sis_presupuestos/vista/presupuesto/Presupuesto.php', 3, '', 'Presupuesto', 'PRE');
 
 /* Composition */
 
@@ -115,5 +115,6 @@ select pxp.f_insert_testructura_gui ('PRE.2', 'PRE');
 ---------
 
 select pxp.f_insert_testructura_gui ('PRE.1.1', 'PRE.1');
+select pxp.f_insert_testructura_gui ('PRE.2.1', 'PRE.2');
 
 /***********************************F-SCP-GSS-PRE-31-23/11/2012*****************************************/

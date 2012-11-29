@@ -237,7 +237,7 @@ select pxp.f_insert_testructura_gui ('ALSAGR', 'ALMOVI');
 select pxp.f_insert_testructura_gui ('ALTRGR', 'ALMOVI');
 
 CREATE TABLE alm.talmacen_usuario (
-  id_almacen_usuario INTEGER NOT NULL, 
+  id_almacen_usuario SERIAL, 
   id_usuario INTEGER, 
   CONSTRAINT talmacen_usuario_pkey PRIMARY KEY(id_almacen_usuario), 
   CONSTRAINT fk_talmacen_usuario__id_usuario FOREIGN KEY (id_usuario)

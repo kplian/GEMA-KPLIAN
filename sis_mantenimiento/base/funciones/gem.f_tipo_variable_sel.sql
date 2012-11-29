@@ -66,7 +66,8 @@ BEGIN
 						tva.fecha_mod,
 						usu1.cuenta as usr_reg,
 						usu2.cuenta as usr_mod,
-                        um.codigo as codigo_unidad_medida	
+                        um.codigo as codigo_unidad_medida,
+                        tva.observaciones	
 						from gem.ttipo_variable tva
 						inner join segu.tusuario usu1 on usu1.id_usuario = tva.id_usuario_reg
                         left join param.tunidad_medida um on  um.id_unidad_medida = tva.id_unidad_medida

@@ -1,17 +1,14 @@
-CREATE OR REPLACE FUNCTION alm.f_almacen_usuario_ime (
-  p_administrador integer,
-  p_id_usuario integer,
-  p_tabla varchar,
-  p_transaccion varchar
-)
-RETURNS varchar AS
-$body$
+CREATE OR REPLACE FUNCTION "alm"."ft_almacen_usuario_ime" (	
+				p_administrador integer, p_id_usuario integer, p_tabla character varying, p_transaccion character varying)
+RETURNS character varying AS
+$BODY$
+
 /**************************************************************************
  SISTEMA:		Sistema de Almacenes
- FUNCION: 		alm.f_almacen_usuario_ime
+ FUNCION: 		alm.ft_almacen_usuario_ime
  DESCRIPCION:   Funcion que gestiona las operaciones basicas (inserciones, modificaciones, eliminaciones de la tabla 'alm.talmacen_usuario'
- AUTOR: 		 (admin)
- FECHA:	        13-11-2012 01:30:22
+ AUTOR: 		Gonzalo Sarmiento Sejas
+ FECHA:	        28-11-2012 14:52:50
  COMENTARIOS:	
 ***************************************************************************
  HISTORIAL DE MODIFICACIONES:
@@ -33,30 +30,30 @@ DECLARE
 			    
 BEGIN
 
-    v_nombre_funcion = 'alm.f_almacen_usuario_ime';
+    v_nombre_funcion = 'alm.ft_almacen_usuario_ime';
     v_parametros = pxp.f_get_record(p_tabla);
 
 	/*********************************    
- 	#TRANSACCION:  'SAL_ALMUSU_INS'
+ 	#TRANSACCION:  'SAL_ALMUSR_INS'
  	#DESCRIPCION:	Insercion de registros
- 	#AUTOR:		admin	
- 	#FECHA:		13-11-2012 01:30:22
+ 	#AUTOR:			Gonzalo Sarmiento Sejas
+ 	#FECHA:		28-11-2012 14:52:50
 	***********************************/
 
-	if(p_transaccion='SAL_ALMUSU_INS')then
+	if(p_transaccion='SAL_ALMUSR_INS')then
 					
         begin
         	--Sentencia de la insercion
         	insert into alm.talmacen_usuario(
-			estado_reg,
 			id_usuario,
+			estado_reg,
 			id_usuario_reg,
 			fecha_reg,
-			id_usuario_mod,
-			fecha_mod
+			fecha_mod,
+			id_usuario_mod
           	) values(
-			'activo',
 			v_parametros.id_usuario,
+			'activo',
 			p_id_usuario,
 			now(),
 			null,
@@ -64,7 +61,7 @@ BEGIN
 			)RETURNING id_almacen_usuario into v_id_almacen_usuario;
                
 			--Definicion de la respuesta
-			v_resp = pxp.f_agrega_clave(v_resp,'mensaje','Almaceneros almacenado(a) con exito (id_almacen_usuario'||v_id_almacen_usuario||')'); 
+			v_resp = pxp.f_agrega_clave(v_resp,'mensaje','Usuarios de almacenes almacenado(a) con exito (id_almacen_usuario'||v_id_almacen_usuario||')'); 
             v_resp = pxp.f_agrega_clave(v_resp,'id_almacen_usuario',v_id_almacen_usuario::varchar);
 
             --Devuelve la respuesta
@@ -73,24 +70,24 @@ BEGIN
 		end;
 
 	/*********************************    
- 	#TRANSACCION:  'SAL_ALMUSU_MOD'
+ 	#TRANSACCION:  'SAL_ALMUSR_MOD'
  	#DESCRIPCION:	Modificacion de registros
- 	#AUTOR:		admin	
- 	#FECHA:		13-11-2012 01:30:22
+ 	#AUTOR:			Gonzalo Sarmiento Sejas
+ 	#FECHA:		28-11-2012 14:52:50
 	***********************************/
 
-	elsif(p_transaccion='SAL_ALMUSU_MOD')then
+	elsif(p_transaccion='SAL_ALMUSR_MOD')then
 
 		begin
 			--Sentencia de la modificacion
 			update alm.talmacen_usuario set
 			id_usuario = v_parametros.id_usuario,
-			id_usuario_mod = p_id_usuario,
-			fecha_mod = now()
+			fecha_mod = now(),
+			id_usuario_mod = p_id_usuario
 			where id_almacen_usuario=v_parametros.id_almacen_usuario;
                
 			--Definicion de la respuesta
-            v_resp = pxp.f_agrega_clave(v_resp,'mensaje','Almaceneros modificado(a)'); 
+            v_resp = pxp.f_agrega_clave(v_resp,'mensaje','Usuarios de almacenes modificado(a)'); 
             v_resp = pxp.f_agrega_clave(v_resp,'id_almacen_usuario',v_parametros.id_almacen_usuario::varchar);
                
             --Devuelve la respuesta
@@ -99,13 +96,13 @@ BEGIN
 		end;
 
 	/*********************************    
- 	#TRANSACCION:  'SAL_ALMUSU_ELI'
+ 	#TRANSACCION:  'SAL_ALMUSR_ELI'
  	#DESCRIPCION:	Eliminacion de registros
- 	#AUTOR:		admin	
- 	#FECHA:		13-11-2012 01:30:22
+ 	#AUTOR:			Gonzalo Sarmiento Sejas
+ 	#FECHA:		28-11-2012 14:52:50
 	***********************************/
 
-	elsif(p_transaccion='SAL_ALMUSU_ELI')then
+	elsif(p_transaccion='SAL_ALMUSR_ELI')then
 
 		begin
 			--Sentencia de la eliminacion
@@ -113,7 +110,7 @@ BEGIN
             where id_almacen_usuario=v_parametros.id_almacen_usuario;
                
             --Definicion de la respuesta
-            v_resp = pxp.f_agrega_clave(v_resp,'mensaje','Almaceneros eliminado(a)'); 
+            v_resp = pxp.f_agrega_clave(v_resp,'mensaje','Usuarios de almacenes eliminado(a)'); 
             v_resp = pxp.f_agrega_clave(v_resp,'id_almacen_usuario',v_parametros.id_almacen_usuario::varchar);
               
             --Devuelve la respuesta
@@ -137,9 +134,7 @@ EXCEPTION
 		raise exception '%',v_resp;
 				        
 END;
-$body$
-LANGUAGE 'plpgsql'
-VOLATILE
-CALLED ON NULL INPUT
-SECURITY INVOKER
+$BODY$
+LANGUAGE 'plpgsql' VOLATILE
 COST 100;
+ALTER FUNCTION "alm"."ft_almacen_usuario_ime"(integer, integer, character varying, character varying) OWNER TO postgres;

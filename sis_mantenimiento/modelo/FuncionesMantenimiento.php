@@ -160,12 +160,20 @@ class FuncionesMantenimiento{
 		$res = $obj->listarUniConsDetalle();
 		return $res;
 	}
-
-	function modificarInclucionGeneracionCalendarioUniCons(CTParametro $parametro) {
-		$obj = new MODUniCons($parametro);
-		$res = $obj->modificarInclucionGeneracionCalendarioUniCons();
-		return $res;
-	}
+	
+	  	
+  function modificarInclucionGeneracionCalendarioUniCons(CTParametro $parametro) {
+	  	
+   $obj = new MODUniCons($parametro);
+	  	    $res = $obj->modificarInclucionGeneracionCalendarioUniCons();
+	  	
+   return $res;
+  	
+ }
+	
+	
+	
+	
 	
 	/*FinClase: MODUniCons*/
 
@@ -996,10 +1004,10 @@ class FuncionesMantenimiento{
         return $res;
     }
     /*FinClase: MODModoFalla*/
-
-    // /*Clase: MODActividad
-    // * Fecha: 19-11-2012 11:46:08
-    // * Autor: Ariel Ayaviri Omonte*/
+    
+    /*Clase: MODActividad
+     * Fecha: 19-11-2012 11:46:08
+     * Autor: Ariel Ayaviri Omonte*/
     function listarActividadOT(CTParametro $parametro) {
         $obj = new MODActividadOT($parametro);
         $res = $obj->listarActividadOT();
@@ -1051,7 +1059,34 @@ class FuncionesMantenimiento{
         $res=$obj->eliminarInstrucSeg();
         return $res;
     }
-    /*FinClase: MODInstrucSeg*/   
-     
+    /*FinClase: MODInstrucSeg*/
+
+    // /*Clase: MODRecurso
+    // * Fecha: 26-11-2012 17:29:08
+    // * Autor: Ariel Ayaviri Omonte*/
+    function listarRecursoActividad(CTParametro $parametro) {
+        $obj = new MODRecurso($parametro);
+        $res = $obj->listarRecursoActividad();
+        return $res;
+    }
+            
+    function insertarRecursoActividad(CTParametro $parametro) {
+        $obj = new MODRecurso($parametro);
+        $res = $obj->insertarRecursoActividad();
+        return $res;
+    }
+            
+    function modificarRecursoActividad(CTParametro $parametro) {
+        $obj = new MODRecurso($parametro);
+        $res = $obj->modificarRecursoActividad();
+        return $res;
+    }
+            
+    function eliminarRecurso(CTParametro $parametro) {
+        $obj = new MODRecurso($parametro);
+        $res = $obj->eliminarRecurso();
+        return $res;
+    }
+    /*FinClase: MODRecurso*/
 }//marca_generador
 ?>

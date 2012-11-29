@@ -1,14 +1,14 @@
-CREATE OR REPLACE FUNCTION "gem"."f_tipo_variable_ime" (	
+CREATE OR REPLACE FUNCTION "pre"."ft_presupuesto_ime" (	
 				p_administrador integer, p_id_usuario integer, p_tabla character varying, p_transaccion character varying)
 RETURNS character varying AS
 $BODY$
 
 /**************************************************************************
- SISTEMA:		SISTEMA DE GESTION DE MANTENIMIENTO
- FUNCION: 		gem.f_tipo_variable_ime
- DESCRIPCION:   Funcion que gestiona las operaciones basicas (inserciones, modificaciones, eliminaciones de la tabla 'gem.ttipo_variable'
- AUTOR: 		 (rac)
- FECHA:	        15-08-2012 15:28:09
+ SISTEMA:		Sistema de presupuesto
+ FUNCION: 		pre.ft_presupuesto_ime
+ DESCRIPCION:   Funcion que gestiona las operaciones basicas (inserciones, modificaciones, eliminaciones de la tabla 'pre.tpresupuesto'
+ AUTOR: 		Gonzalo Sarmiento Sejas
+ FECHA:	        26-11-2012 21:35:35
  COMENTARIOS:	
 ***************************************************************************
  HISTORIAL DE MODIFICACIONES:
@@ -26,51 +26,49 @@ DECLARE
 	v_resp		            varchar;
 	v_nombre_funcion        text;
 	v_mensaje_error         text;
-	v_id_tipo_variable	integer;
+	v_id_presupuesto	integer;
 			    
 BEGIN
 
-    v_nombre_funcion = 'gem.f_tipo_variable_ime';
+    v_nombre_funcion = 'pre.ft_presupuesto_ime';
     v_parametros = pxp.f_get_record(p_tabla);
 
 	/*********************************    
- 	#TRANSACCION:  'GEM_TVA_INS'
+ 	#TRANSACCION:  'PRE_PRE_INS'
  	#DESCRIPCION:	Insercion de registros
- 	#AUTOR:		rac	
- 	#FECHA:		15-08-2012 15:28:09
+ 	#AUTOR:		admin	
+ 	#FECHA:		26-11-2012 21:35:35
 	***********************************/
 
-	if(p_transaccion='GEM_TVA_INS')then
+	if(p_transaccion='PRE_PRE_INS')then
 					
         begin
         	--Sentencia de la insercion
-        	insert into gem.ttipo_variable(
+        	insert into pre.tpresupuesto(
 			estado_reg,
-			nombre,
-			id_tipo_equipo,
-			id_unidad_medida,
 			descripcion,
-			id_usuario_reg,
+			estado,
+			gestion,
+			codigo,
 			fecha_reg,
-			id_usuario_mod,
+			id_usuario_reg,
 			fecha_mod,
-			observaciones
+			id_usuario_mod
           	) values(
 			'activo',
-			v_parametros.nombre,
-			v_parametros.id_tipo_equipo,
-			v_parametros.id_unidad_medida,
 			v_parametros.descripcion,
-			p_id_usuario,
+			v_parametros.estado,
+			v_parametros.gestion,
+			v_parametros.codigo,
 			now(),
+			p_id_usuario,
 			null,
-			null,
-			v_parametros.observaciones
-			)RETURNING id_tipo_variable into v_id_tipo_variable;
+			null
+			)RETURNING id_presupuesto into v_id_presupuesto;
                
 			--Definicion de la respuesta
-			v_resp = pxp.f_agrega_clave(v_resp,'mensaje','Variables Tipo almacenado(a) con exito (id_tipo_variable'||v_id_tipo_variable||')'); 
-            v_resp = pxp.f_agrega_clave(v_resp,'id_tipo_variable',v_id_tipo_variable::varchar);
+			v_resp = pxp.f_agrega_clave(v_resp,'mensaje','Presupuestos almacenado(a) con exito (id_presupuesto'||v_id_presupuesto||')'); 
+            v_resp = pxp.f_agrega_clave(v_resp,'id_presupuesto',v_id_presupuesto::varchar);
 
             --Devuelve la respuesta
             return v_resp;
@@ -78,29 +76,28 @@ BEGIN
 		end;
 
 	/*********************************    
- 	#TRANSACCION:  'GEM_TVA_MOD'
+ 	#TRANSACCION:  'PRE_PRE_MOD'
  	#DESCRIPCION:	Modificacion de registros
- 	#AUTOR:		rac	
- 	#FECHA:		15-08-2012 15:28:09
+ 	#AUTOR:		Gonzalo Sarmiento Sejas	
+ 	#FECHA:		26-11-2012 21:35:35
 	***********************************/
 
-	elsif(p_transaccion='GEM_TVA_MOD')then
+	elsif(p_transaccion='PRE_PRE_MOD')then
 
 		begin
 			--Sentencia de la modificacion
-			update gem.ttipo_variable set
-			nombre = v_parametros.nombre,
-			id_tipo_equipo = v_parametros.id_tipo_equipo,
-			id_unidad_medida = v_parametros.id_unidad_medida,
+			update pre.tpresupuesto set
 			descripcion = v_parametros.descripcion,
-			id_usuario_mod = p_id_usuario,
+			estado = v_parametros.estado,
+			gestion = v_parametros.gestion,
+			codigo = v_parametros.codigo,
 			fecha_mod = now(),
-			observaciones = v_parametros.observaciones
-			where id_tipo_variable=v_parametros.id_tipo_variable;
+			id_usuario_mod = p_id_usuario
+			where id_presupuesto=v_parametros.id_presupuesto;
                
 			--Definicion de la respuesta
-            v_resp = pxp.f_agrega_clave(v_resp,'mensaje','Variables Tipo modificado(a)'); 
-            v_resp = pxp.f_agrega_clave(v_resp,'id_tipo_variable',v_parametros.id_tipo_variable::varchar);
+            v_resp = pxp.f_agrega_clave(v_resp,'mensaje','Presupuestos modificado(a)'); 
+            v_resp = pxp.f_agrega_clave(v_resp,'id_presupuesto',v_parametros.id_presupuesto::varchar);
                
             --Devuelve la respuesta
             return v_resp;
@@ -108,22 +105,22 @@ BEGIN
 		end;
 
 	/*********************************    
- 	#TRANSACCION:  'GEM_TVA_ELI'
+ 	#TRANSACCION:  'PRE_PRE_ELI'
  	#DESCRIPCION:	Eliminacion de registros
- 	#AUTOR:		rac	
- 	#FECHA:		15-08-2012 15:28:09
+ 	#AUTOR:		Gonzalo Sarmiento Sejas	
+ 	#FECHA:		26-11-2012 21:35:35
 	***********************************/
 
-	elsif(p_transaccion='GEM_TVA_ELI')then
+	elsif(p_transaccion='PRE_PRE_ELI')then
 
 		begin
 			--Sentencia de la eliminacion
-			delete from gem.ttipo_variable
-            where id_tipo_variable=v_parametros.id_tipo_variable;
+			delete from pre.tpresupuesto
+            where id_presupuesto=v_parametros.id_presupuesto;
                
             --Definicion de la respuesta
-            v_resp = pxp.f_agrega_clave(v_resp,'mensaje','Variables Tipo eliminado(a)'); 
-            v_resp = pxp.f_agrega_clave(v_resp,'id_tipo_variable',v_parametros.id_tipo_variable::varchar);
+            v_resp = pxp.f_agrega_clave(v_resp,'mensaje','Presupuestos eliminado(a)'); 
+            v_resp = pxp.f_agrega_clave(v_resp,'id_presupuesto',v_parametros.id_presupuesto::varchar);
               
             --Devuelve la respuesta
             return v_resp;
@@ -149,4 +146,4 @@ END;
 $BODY$
 LANGUAGE 'plpgsql' VOLATILE
 COST 100;
-ALTER FUNCTION "gem"."f_tipo_variable_ime"(integer, integer, character varying, character varying) OWNER TO postgres;
+ALTER FUNCTION "pre"."ft_presupuesto_ime"(integer, integer, character varying, character varying) OWNER TO postgres;
