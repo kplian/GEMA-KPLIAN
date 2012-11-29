@@ -17,15 +17,15 @@ Phx.vista.FallaEventoExterno=Ext.extend(Phx.gridInterfaz,{
     	//llama al constructor de la clase padre
 		Phx.vista.FallaEventoExterno.superclass.constructor.call(this,config);
 		this.init();
-		this.grid.getTopToolbar().disable();
-		this.grid.getBottomToolbar().disable();
-		//this.load({params:{start:0, limit:50}})
-		 if(Phx.CP.getPagina(this.idContenedorPadre)){
+		//this.grid.getTopToolbar().disable();
+		//this.grid.getBottomToolbar().disable();
+		this.load({params:{start:0, limit:50}})
+		 /*if(Phx.CP.getPagina(this.idContenedorPadre)){
       	 var dataMaestro=Phx.CP.getPagina(this.idContenedorPadre).getSelectedData();
 	 	 if(dataMaestro){
 	 	 	this.onEnablePanel(this,dataMaestro)
 	 	 }
-	 	}
+	 	}*/
 	},
 			
 	Atributos:[
@@ -220,7 +220,7 @@ Phx.vista.FallaEventoExterno=Ext.extend(Phx.gridInterfaz,{
 		direction: 'ASC'
 	},
 	bdel:true,
-	bsave:true,
+	bsave:true/*,
 	loadValoresIniciales:function()
 	{
 		Phx.vista.FallaEventoExterno.superclass.loadValoresIniciales.call(this);
@@ -240,7 +240,7 @@ Phx.vista.FallaEventoExterno=Ext.extend(Phx.gridInterfaz,{
    		 this.store.removeAll(); 
     	   
        }
-      }
+      }*/
 })
 </script>
 		

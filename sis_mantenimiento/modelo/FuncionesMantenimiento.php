@@ -1088,5 +1088,33 @@ class FuncionesMantenimiento{
         return $res;
     }
     /*FinClase: MODRecurso*/
+    
+    // /*Clase: MODFallaEventoExterno
+    // * Fecha: 27-11-2012 17:29:08
+    // * Autor: Freddy Rojas Heredia*/
+    function listarFallaEventoExterno(CTParametro $parametro) {
+        $obj = new MODFallaEventoExterno($parametro);
+        $res = $obj->listarFallaEventoExterno();
+        return $res;
+    }
+            
+    function insertarFallaEventoExterno(CTParametro $parametro) {
+        $obj = new MODFallaEventoExterno($parametro);
+        $res = $obj->insertarFallaEventoExterno();
+        return $res;
+    }
+            
+    function modificarFallaEventoExterno(CTParametro $parametro) {
+        $obj = new MODFallaEventoExterno($parametro);
+        $res = $obj->modificarFallaEventoExterno();
+        return $res;
+    }
+            
+    function eliminarFallaEventoExterno(CTParametro $parametro) {
+        $obj = new MODFallaEventoExterno($parametro);
+        $res = $obj->eliminarFallaEventoExterno();
+        return $res;
+    }
+    /*FinClase: MODRecurso*/
 }//marca_generador
 ?>

@@ -15,8 +15,8 @@ class MODFallaEventoExterno extends MODbase{
 			
 	function listarFallaEventoExterno(){
 		//Definicion de variables para ejecucion del procedimientp
-		$this->procedimiento='gem.ft_falla_evento_sel';
-		$this->transaccion='GEM_GEFAEV_SEL';
+		$this->procedimiento='gem.ft_falla_evento_externo_sel';
+		$this->transaccion='GEM_GEFAEVE_SEL';
 		$this->tipo_procedimiento='SEL';//tipo de transaccion
 				
 		//Definicion de la lista del resultado del query
@@ -44,8 +44,8 @@ class MODFallaEventoExterno extends MODbase{
 			
 	function insertarFallaEventoExterno(){
 		//Definicion de variables para ejecucion del procedimiento
-		$this->procedimiento='gem.ft_falla_evento_ime';
-		$this->transaccion='GEM_GEFAEV_INS';
+		$this->procedimiento='gem.ft_falla_evento_externo_ime';
+		$this->transaccion='GEM_GEFAEVE_INS';
 		$this->tipo_procedimiento='IME';
 				
 		//Define los parametros para la funcion
@@ -66,8 +66,8 @@ class MODFallaEventoExterno extends MODbase{
 			
 	function modificarFallaEventoExterno(){
 		//Definicion de variables para ejecucion del procedimiento
-		$this->procedimiento='gem.ft_falla_evento_ime';
-		$this->transaccion='GEM_GEFAEV_MOD';
+		$this->procedimiento='gem.ft_falla_evento_externo_ime';
+		$this->transaccion='GEM_GEFAEVE_MOD';
 		$this->tipo_procedimiento='IME';
 				
 		//Define los parametros para la funcion
@@ -89,8 +89,8 @@ class MODFallaEventoExterno extends MODbase{
 			
 	function eliminarFallaEventoExterno(){
 		//Definicion de variables para ejecucion del procedimiento
-		$this->procedimiento='gem.ft_falla_evento_ime';
-		$this->transaccion='GEM_GEFAEV_ELI';
+		$this->procedimiento='gem.ft_falla_evento_externo_ime';
+		$this->transaccion='GEM_GEFAEVE_ELI';
 		$this->tipo_procedimiento='IME';
 				
 		//Define los parametros para la funcion

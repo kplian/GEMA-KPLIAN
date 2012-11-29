@@ -1,4 +1,4 @@
-CREATE OR REPLACE FUNCTION gem.f_falla_evento_externo_sel (
+CREATE OR REPLACE FUNCTION gem.ft_falla_evento_externo_sel (
   p_administrador integer,
   p_id_usuario integer,
   p_tabla varchar,
@@ -51,7 +51,7 @@ BEGIN
 						gefaev.estado_reg,
 						gefaev.nombre,
 						gefaev.codigo,
-                        gefaev.descripcion
+                        gefaev.descripcion,
 						gefaev.fecha_reg,
 						gefaev.id_usuario_reg,
 						gefaev.id_usuario_mod,
