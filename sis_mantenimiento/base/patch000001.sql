@@ -1182,12 +1182,6 @@ alter table gem.ttipo_variable
 add column observaciones varchar(300);
 /***********************************F-SCP-RCM-GEM-41-23/11/2012*****************************************/
 
-/***********************************I-SCP-FRH-GEM-49-27/11/2012****************************************/
-ALTER TABLE gem.tfalla_evento
-  ADD COLUMN descripcion VARCHAR(500);
-
-/***********************************F-SCP-FRH-GEM-49-27/11/2012****************************************/
-
 /***********************************I-SCP-GSS-GEM-17-28/11/2012*****************************************/
 create table gem.tanalisis_porque (
   id_analisis_porque serial not null,
