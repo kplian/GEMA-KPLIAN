@@ -223,7 +223,7 @@ Phx.vista.UniCons=Ext.extend(Phx.arbInterfaz,{
 		},*/{
 			config:{
 				name: 'nombre',
-				fieldLabel: 'nombre',
+				fieldLabel: 'Nombre',
 				allowBlank: true,
 				anchor: '80%',
 				gwidth: 100,
@@ -238,7 +238,7 @@ Phx.vista.UniCons=Ext.extend(Phx.arbInterfaz,{
 		{
 			config:{
 				name: 'codigo',
-				fieldLabel: 'codigo',
+				fieldLabel: 'Código',
 				allowBlank: true,
 				anchor: '80%',
 				gwidth: 100,

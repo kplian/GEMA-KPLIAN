@@ -14,28 +14,28 @@ class ACTDetalleMateriales extends ACTbase{
 
         $this->objParam->defecto('dir_ordenacion','asc');
         if($this->objParam->getParametro('tipoReporte')=='excel_grid' || $this->objParam->getParametro('tipoReporte')=='pdf_grid'){
-            $this->objReporte = new Reporte($this->objParam);
-            $this->res = $this->objReporte->generarReporteListado('FuncionesAlmacenes','listarDetalleMateriales');
+            $this->objReporte = new Reporte($this->objParam, $this);
+            $this->res = $this->objReporte->generarReporteListado('MODDetalleMateriales','listarDetalleMateriales');
         } else{
-            $this->objFunc=new FuncionesAlmacenes();    
-            $this->res=$this->objFunc->listarDetalleMateriales($this->objParam);
+            $this->objFunc=$this->create('MODDetalleMateriales');    
+            $this->res=$this->objFunc->listarDetalleMateriales();
             $this->res->imprimirRespuesta($this->res->generarJson());
         }
     }
                 
     function insertarDetalleMateriales(){
-        $this->objFunc=new FuncionesAlmacenes();    
+        $this->objFunc=$this->create('MODDetalleMateriales');    
         if($this->objParam->insertar('id_movimiento_det')){
-            $this->res=$this->objFunc->insertarDetalleMateriales($this->objParam);          
+            $this->res=$this->objFunc->insertarDetalleMateriales();          
         } else{         
-            $this->res=$this->objFunc->modificarDetalleMateriales($this->objParam);
+            $this->res=$this->objFunc->modificarDetalleMateriales();
         }
         $this->res->imprimirRespuesta($this->res->generarJson());
     }
                         
     function eliminarDetalleMateriales(){
-        $this->objFunc=new FuncionesAlmacenes();    
-        $this->res=$this->objFunc->eliminarDetalleMateriales($this->objParam);
+        $this->objFunc=$this->create('MODDetalleMateriales');    
+        $this->res=$this->objFunc->eliminarDetalleMateriales();
         $this->res->imprimirRespuesta($this->res->generarJson());
     }
             

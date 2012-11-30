@@ -14,28 +14,28 @@ class ACTPresupPartida extends ACTbase{
 
 		$this->objParam->defecto('dir_ordenacion','asc');
 		if($this->objParam->getParametro('tipoReporte')=='excel_grid' || $this->objParam->getParametro('tipoReporte')=='pdf_grid'){
-			$this->objReporte = new Reporte($this->objParam);
-			$this->res = $this->objReporte->generarReporteListado('FuncionesPresupuestos','listarPresupPartida');
+			$this->objReporte = new Reporte($this->objParam, $this);
+			$this->res = $this->objReporte->generarReporteListado('MODPresupPartida','listarPresupPartida');
 		} else{
-			$this->objFunc=new FuncionesPresupuestos();	
-			$this->res=$this->objFunc->listarPresupPartida($this->objParam);
+			$this->objFunc=$this->create('MODPresupPartida');	
+			$this->res=$this->objFunc->listarPresupPartida();
 		}
 		$this->res->imprimirRespuesta($this->res->generarJson());
 	}
 				
 	function insertarPresupPartida(){
-		$this->objFunc=new FuncionesPresupuestos();	
+		$this->objFunc=$this->create('MODPresupPartida');	
 		if($this->objParam->insertar('id_presup_partida')){
-			$this->res=$this->objFunc->insertarPresupPartida($this->objParam);			
+			$this->res=$this->objFunc->insertarPresupPartida();			
 		} else{			
-			$this->res=$this->objFunc->modificarPresupPartida($this->objParam);
+			$this->res=$this->objFunc->modificarPresupPartida();
 		}
 		$this->res->imprimirRespuesta($this->res->generarJson());
 	}
 						
 	function eliminarPresupPartida(){
-		$this->objFunc=new FuncionesPresupuestos();	
-		$this->res=$this->objFunc->eliminarPresupPartida($this->objParam);
+		$this->objFunc=$this->create('MODPresupPartida');	
+		$this->res=$this->objFunc->eliminarPresupPartida();
 		$this->res->imprimirRespuesta($this->res->generarJson());
 	}
 			

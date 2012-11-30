@@ -14,13 +14,13 @@
         $this->objParam->defecto('ordenacion','codigo');
 
         $this->objParam->defecto('dir_ordenacion','asc');
-        $this->objFunc=new FuncionesAlmacenes();    
-        $this->res=$this->objFunc->listarClasificacion($this->objParam);
+        $this->objFunc=$this->create('MODClasificacion');    
+        $this->res=$this->objFunc->listarClasificacion();
         $this->res->imprimirRespuesta($this->res->generarJson());
     }
       function listarClasificacionArb(){
         //crea el objetoFunSeguridad que contiene todos los metodos del sistema de seguridad
-        $this->objFunc=new FuncionesAlmacenes();    
+        //$this->objFunc=$this->create('MODClasificacion');    
         
         //obtiene el parametro nodo enviado por la vista
         $node=$this->objParam->getParametro('node');
@@ -34,8 +34,9 @@
             $this->objParam->addParametro('id_padre',$id_clasificacion);
         }   
     
+		$this->objFunc=$this->create('MODClasificacion');
         //$this->objParam->addParametro('id_subsistema',$id_subsistema);
-        $this->res=$this->objFunc->listarClasificacionArb($this->objParam);
+        $this->res=$this->objFunc->listarClasificacionArb();
         
         $this->res->setTipoRespuestaArbol();
         
@@ -105,18 +106,18 @@
     
                 
     function insertarClasificacion(){
-        $this->objFunc=new FuncionesAlmacenes();    
+        $this->objFunc=$this->create('MODClasificacion');    
         if($this->objParam->insertar('id_clasificacion')){
-            $this->res=$this->objFunc->insertarClasificacion($this->objParam);          
+            $this->res=$this->objFunc->insertarClasificacion();          
         } else{         
-            $this->res=$this->objFunc->modificarClasificacion($this->objParam);
+            $this->res=$this->objFunc->modificarClasificacion();
         }
         $this->res->imprimirRespuesta($this->res->generarJson());
     }
                         
     function eliminarClasificacion(){
-        $this->objFunc=new FuncionesAlmacenes();    
-        $this->res=$this->objFunc->eliminarClasificacion($this->objParam);
+        $this->objFunc=$this->create('MODClasificacion');    
+        $this->res=$this->objFunc->eliminarClasificacion();
         $this->res->imprimirRespuesta($this->res->generarJson());
     }           
 } 

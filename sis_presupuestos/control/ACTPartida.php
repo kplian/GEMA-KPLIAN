@@ -14,17 +14,17 @@ class ACTPartida extends ACTbase{
 
 		$this->objParam->defecto('dir_ordenacion','asc');
 		if($this->objParam->getParametro('tipoReporte')=='excel_grid' || $this->objParam->getParametro('tipoReporte')=='pdf_grid'){
-			$this->objReporte = new Reporte($this->objParam);
-			$this->res = $this->objReporte->generarReporteListado('FuncionesPresupuestos','listarPartida');
+			$this->objReporte = new Reporte($this->objParam, $this);
+			$this->res = $this->objReporte->generarReporteListado('MODPartida','listarPartida');
 		} else{
-			$this->objFunc=new FuncionesPresupuestos();	
-			$this->res=$this->objFunc->listarPartida($this->objParam);
+			$this->objFunc=$this->create('MODPartida');	
+			$this->res=$this->objFunc->listarPartida();
 		}
 		$this->res->imprimirRespuesta($this->res->generarJson());
 	}
     
     function listarPartidaArb(){
-        $this->objFunc=new FuncionesPresupuestos();    
+        //$this->objFunc=$this->create('MODPartida');    
         
         //obtiene el parametro nodo enviado por la vista
         $node=$this->objParam->getParametro('node');
@@ -40,7 +40,8 @@ class ACTPartida extends ACTbase{
             $this->objParam->addParametro('id_padre',$id_partida);
         }
         
-        $this->res=$this->objFunc->listarPartidaArb($this->objParam);
+		$this->objFunc=$this->create('MODPartida');
+        $this->res=$this->objFunc->listarPartidaArb();
         
         $this->res->setTipoRespuestaArbol();
         
@@ -81,18 +82,18 @@ class ACTPartida extends ACTbase{
     }
 				
 	function insertarPartida(){
-		$this->objFunc=new FuncionesPresupuestos();	
+		$this->objFunc=$this->create('MODPartida');	
 		if($this->objParam->insertar('id_partida')){
-			$this->res=$this->objFunc->insertarPartida($this->objParam);			
+			$this->res=$this->objFunc->insertarPartida();			
 		} else{			
-			$this->res=$this->objFunc->modificarPartida($this->objParam);
+			$this->res=$this->objFunc->modificarPartida();
 		}
 		$this->res->imprimirRespuesta($this->res->generarJson());
 	}
 						
 	function eliminarPartida(){
-		$this->objFunc=new FuncionesPresupuestos();	
-		$this->res=$this->objFunc->eliminarPartida($this->objParam);
+		$this->objFunc=$this->create('MODPartida');	
+		$this->res=$this->objFunc->eliminarPartida();
 		$this->res->imprimirRespuesta($this->res->generarJson());
 	}
 			

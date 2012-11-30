@@ -14,34 +14,34 @@
 
         $this->objParam->defecto('dir_ordenacion','asc');
         if($this->objParam->getParametro('tipoReporte')=='excel_grid' || $this->objParam->getParametro('tipoReporte')=='pdf_grid'){
-            $this->objReporte = new Reporte($this->objParam);
-            $this->res = $this->objReporte->generarReporteListado('FuncionesAlmacenes','listarMovimiento');
+            $this->objReporte = new Reporte($this->objParam, $this);
+            $this->res = $this->objReporte->generarReporteListado('MODMovimiento','listarMovimiento');
         } else{
-            $this->objFunc=new FuncionesAlmacenes();    
-            $this->res=$this->objFunc->listarMovimiento($this->objParam);
+            $this->objFunc=$this->create('MODMovimiento');    
+            $this->res=$this->objFunc->listarMovimiento();
         }
         $this->res->imprimirRespuesta($this->res->generarJson());
     }
                 
     function insertarMovimiento(){
-        $this->objFunc=new FuncionesAlmacenes();    
+        $this->objFunc=$this->create('MODMovimiento');    
         if($this->objParam->insertar('id_movimiento')){
-            $this->res=$this->objFunc->insertarMovimiento($this->objParam);         
+            $this->res=$this->objFunc->insertarMovimiento();         
         } else{         
-            $this->res=$this->objFunc->modificarMovimiento($this->objParam);
+            $this->res=$this->objFunc->modificarMovimiento();
         }
         $this->res->imprimirRespuesta($this->res->generarJson());
     }
                         
     function eliminarMovimiento(){
-        $this->objFunc=new FuncionesAlmacenes();    
-        $this->res=$this->objFunc->eliminarMovimiento($this->objParam);
+        $this->objFunc=$this->create('MODMovimiento');    
+        $this->res=$this->objFunc->eliminarMovimiento();
         $this->res->imprimirRespuesta($this->res->generarJson());
     }
     
     function finalizarMovimiento(){
-        $this->objFunc= new FuncionesAlmacenes();
-        $this->res= $this->objFunc->finalizarMovimiento($this->objParam);
+        $this->objFunc= $this->create('MODMovimiento');
+        $this->res= $this->objFunc->finalizarMovimiento();
         $this->res->imprimirRespuesta($this->res->generarJson());
     }           
 } 

@@ -14,28 +14,28 @@
 
         $this->objParam->defecto('dir_ordenacion','asc');
         if($this->objParam->getParametro('tipoReporte')=='excel_grid' || $this->objParam->getParametro('tipoReporte')=='pdf_grid'){
-            $this->objReporte = new Reporte($this->objParam);
-            $this->res = $this->objReporte->generarReporteListado('FuncionesAlmacenes','listarAlmacen');
+            $this->objReporte = new Reporte($this->objParam, $this);
+            $this->res = $this->objReporte->generarReporteListado('MODAlmacen','listarAlmacen');
         } else{
-            $this->objFunc=new FuncionesAlmacenes();    
-            $this->res=$this->objFunc->listarAlmacen($this->objParam);
+            $this->objFunc=$this->create('MODAlmacen');    
+            $this->res=$this->objFunc->listarAlmacen();
         }
         $this->res->imprimirRespuesta($this->res->generarJson());
     }
                 
     function insertarAlmacen(){
-        $this->objFunc=new FuncionesAlmacenes();    
+        $this->objFunc=$this->create('MODAlmacen');    
         if($this->objParam->insertar('id_almacen')){
-            $this->res=$this->objFunc->insertarAlmacen($this->objParam);            
+            $this->res=$this->objFunc->insertarAlmacen();            
         } else{         
-            $this->res=$this->objFunc->modificarAlmacen($this->objParam);
+            $this->res=$this->objFunc->modificarAlmacen();
         }
         $this->res->imprimirRespuesta($this->res->generarJson());
     }
                         
     function eliminarAlmacen(){
-        $this->objFunc=new FuncionesAlmacenes();    
-        $this->res=$this->objFunc->eliminarAlmacen($this->objParam);
+        $this->objFunc=$this->create('MODAlmacen');    
+        $this->res=$this->objFunc->eliminarAlmacen();
         $this->res->imprimirRespuesta($this->res->generarJson());
     }           
 } 

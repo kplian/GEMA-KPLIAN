@@ -14,28 +14,28 @@ class ACTAlmacenUsuario extends ACTbase{
 
         $this->objParam->defecto('dir_ordenacion','asc');
         if($this->objParam->getParametro('tipoReporte')=='excel_grid' || $this->objParam->getParametro('tipoReporte')=='pdf_grid'){
-            $this->objReporte = new Reporte($this->objParam);
-            $this->res = $this->objReporte->generarReporteListado('FuncionesAlmacenes','listarAlmacenUsuario');
+            $this->objReporte = new Reporte($this->objParam, $this);
+            $this->res = $this->objReporte->generarReporteListado('MODAlmacenUsuario','listarAlmacenUsuario');
         } else{
-            $this->objFunc=new FuncionesAlmacenes();    
-            $this->res=$this->objFunc->listarAlmacenUsuario($this->objParam);
+            $this->objFunc=$this->create('MODAlmacenUsuario');    
+            $this->res=$this->objFunc->listarAlmacenUsuario();
         }
         $this->res->imprimirRespuesta($this->res->generarJson());
     }
                 
     function insertarAlmacenUsuario(){
-        $this->objFunc=new FuncionesAlmacenes();    
+        $this->objFunc=$this->create('MODAlmacenUsuario');    
         if($this->objParam->insertar('id_almacen_usuario')){
-            $this->res=$this->objFunc->insertarAlmacenUsuario($this->objParam);         
+            $this->res=$this->objFunc->insertarAlmacenUsuario();         
         } else{         
-            $this->res=$this->objFunc->modificarAlmacenUsuario($this->objParam);
+            $this->res=$this->objFunc->modificarAlmacenUsuario();
         }
         $this->res->imprimirRespuesta($this->res->generarJson());
     }
                         
     function eliminarAlmacenUsuario(){
-        $this->objFunc=new FuncionesAlmacenes();    
-        $this->res=$this->objFunc->eliminarAlmacenUsuario($this->objParam);
+        $this->objFunc=$this->create('MODAlmacenUsuario');    
+        $this->res=$this->objFunc->eliminarAlmacenUsuario();
         $this->res->imprimirRespuesta($this->res->generarJson());
     }
             

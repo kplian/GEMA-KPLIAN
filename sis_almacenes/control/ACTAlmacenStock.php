@@ -14,28 +14,28 @@ class ACTAlmacenStock extends ACTbase{
 
         $this->objParam->defecto('dir_ordenacion','asc');
         if($this->objParam->getParametro('tipoReporte')=='excel_grid' || $this->objParam->getParametro('tipoReporte')=='pdf_grid'){
-            $this->objReporte = new Reporte($this->objParam);
-            $this->res = $this->objReporte->generarReporteListado('FuncionesAlmacenes','listarAlmacenItem');
+            $this->objReporte = new Reporte($this->objParam, $this);
+            $this->res = $this->objReporte->generarReporteListado('MODAlmacenStock','listarAlmacenItem');
         } else{
-            $this->objFunc=new FuncionesAlmacenes();    
-            $this->res=$this->objFunc->listarAlmacenItem($this->objParam);
+            $this->objFunc=$this->create('MODAlmacenStock');    
+            $this->res=$this->objFunc->listarAlmacenItem();
             $this->res->imprimirRespuesta($this->res->generarJson());
         }
     }
                 
     function insertarAlmacenItem(){
-        $this->objFunc=new FuncionesAlmacenes();    
+        $this->objFunc=$this->create('MODAlmacenStock');    
         if($this->objParam->insertar('id_almacen_stock')){
-            $this->res=$this->objFunc->insertarAlmacenItem($this->objParam);            
+            $this->res=$this->objFunc->insertarAlmacenItem();            
         } else{         
-            $this->res=$this->objFunc->modificarAlmacenItem($this->objParam);
+            $this->res=$this->objFunc->modificarAlmacenItem();
         }
         $this->res->imprimirRespuesta($this->res->generarJson());
     }
                         
     function eliminarAlmacenItem(){
-        $this->objFunc=new FuncionesAlmacenes();    
-        $this->res=$this->objFunc->eliminarAlmacenItem($this->objParam);
+        $this->objFunc=$this->create('MODAlmacenStock');    
+        $this->res=$this->objFunc->eliminarAlmacenItem();
         $this->res->imprimirRespuesta($this->res->generarJson());
     }
             
