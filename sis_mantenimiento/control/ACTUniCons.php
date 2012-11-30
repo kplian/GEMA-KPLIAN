@@ -283,8 +283,8 @@ class ACTUniCons extends ACTbase{
         
         $this->objParam->defecto('dir_ordenacion','asc');
         
-        $this->objFunc= new FuncionesMantenimiento();
-        $this->res=$this->objFunc->listarUniConsLocalizacion($this->objParam);
+        $this->objFunc= $this->create('MODUniCons');
+        $this->res=$this->objFunc->listarUniConsLocalizacion();
         
         $this->res->imprimirRespuesta($this->res->generarJson());
     }

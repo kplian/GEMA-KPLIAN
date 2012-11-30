@@ -80,44 +80,39 @@ Phx.vista.TpmTarjeta=Ext.extend(Phx.gridInterfaz,{
         {
             config:{
                 name: 'fecha_emision',
-                fieldLabel: 'Fecha_emision',
+                fieldLabel: 'Fecha emision',
                 allowBlank: true,
                 anchor: '80%',
                 gwidth: 120,
-                format: 'Y m d',
-                renderer:function (value,p,record){return value?value.dateFormat('d/m/Y h:i:s'):''}
+                renderer:function (value,p,record){return value?value.dateFormat('d/m/Y'):''},
+                format:'d/m/Y'
             },
             type:'DateField',
             filters:{pfiltro:'tartpm.fecha_emision',type:'date'},
             id_grupo:1,
             grid:true,
             form:true
-        },	
+        },
         {
-            config:{                
-                name:'tipo',
-                fieldLabel:'Tipo',
-                allowBlank:false,
-                emptyText:'Tipo...',
-                store: ['Estacion','Planta'],
-                valueField: 'tipo',
-                displayField: 'tipo',
-                forceSelection:true,
-                triggerAction: 'all',
-                lazyRender:true,
-                mode:'local',
-                pageSize:10,
-                width:250,               
-                renderer:function(value, p, record){return String.format('{0}', record.data['tipo']);}
+            config: {
+                name: 'tipo',
+                fieldLabel: 'Tipo',
+                anchor: '90%',
+                tinit: true,
+                allowBlank: false,
+                origen: 'CATALOGO',
+                gdisplayField: 'descripcion',
+                gwidth: 80,
+                baseParams:{
+                        cod_subsistema:'GEM',
+                        catalogo_tipo:'tipo_instalacion'
+                    }
             },
-            type:'ComboBox',
-            id_grupo:0,
-            filters:{   
-                pfiltro:'tipo',
-                type:'string'
-            },
-            grid:true,
-            form:true
+            type: 'ComboRec',
+            id_grupo: 0,
+            filters:{pfiltro:'tartpm.tipo',type:'string'},
+            grid: true,
+            form: true
         },   
 		{
 			config:{
@@ -204,7 +199,7 @@ Phx.vista.TpmTarjeta=Ext.extend(Phx.gridInterfaz,{
 		{name:'id_tpm_tarjeta', type: 'numeric'},
 		{name:'id_localizacion', type: 'numeric'},
 		{name:'estado_reg', type: 'string'},
-		{name:'fecha_emision', type: 'date', dateFormat:'Y-m-d H:i:s'},
+		{name:'fecha_emision',type: 'date', dateFormat:'Y-m-d'},
 		{name:'tipo', type: 'string'},
 		{name:'revision', type: 'numeric'},
 		{name:'codigo', type: 'string'},

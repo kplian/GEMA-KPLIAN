@@ -147,3 +147,25 @@ VALUES (1, NULL, E'2012-11-23 16:41:18.149', NULL, E'activo', 1, E'MT-1', E'Mant
 --ORDEN DE TRABAJO - AAO
 INSERT INTO gem.torden_trabajo ("id_usuario_reg", "id_usuario_mod", "fecha_reg", "fecha_mod", "estado_reg", "id_orden_trabajo", "id_uni_cons_mant_predef", "id_uni_cons", "id_tipo_mant", "id_unidad_medida", "id_funcionario_sol", "id_funcionario_asig", "fecha_plan_ini", "fecha_plan_fin", "fecha_eje_ini", "fecha_eje_fin", "descripcion", "fecha_emision", "num_oit", "codigo_oit", "planta_estacion", "prioridad", "ubicacion_tecnica", "periodicidad", "acumulado", "observacion", "nota_tecnico_equipo", "nota_tecnico_loc", "id_cat_estado", "id_cat_prior", "id_cat_tipo", "id_instruc_seg")
 VALUES (1, NULL, E'2012-11-23 16:50:35.765', NULL, E'activo', 2, NULL, 6, 1, 2, 1, 1, E'2012-11-25', E'2012-11-26', NULL, NULL, E'Matenimiento de las balbulas principales de combustión', E'2012-11-23', E'1', E'OIT-1', E'planta', E'1', E'Subestación S3', '20', NULL, E'máximo de retraso de 3 dias', E'', E'SS1-S3', NULL, NULL, NULL, NULL);
+
+--CATALOGO TIPO - GSS
+INSERT INTO param.tcatalogo_tipo ("id_usuario_reg", "id_usuario_mod", "fecha_reg", "fecha_mod", "estado_reg", "id_catalogo_tipo", "id_subsistema", "nombre", "tabla")
+VALUES (1, NULL, E'2012-11-30 01:34:06.475', NULL, E'activo', 1, 6, E'tipo_instalacion', E'tanalisis_porque');
+
+INSERT INTO param.tcatalogo_tipo ("id_usuario_reg", "id_usuario_mod", "fecha_reg", "fecha_mod", "estado_reg", "id_catalogo_tipo", "id_subsistema", "nombre", "tabla")
+VALUES (1, NULL, E'2012-11-30 01:45:51.568', NULL, E'activo', 2, 6, E'estado_analisis_porque', E'tanalisis_porque');
+
+--CATALOGO - GSS
+
+INSERT INTO param.tcatalogo ("id_usuario_reg", "id_usuario_mod", "fecha_reg", "fecha_mod", "estado_reg", "id_catalogo", "codigo", "descripcion", "id_catalogo_tipo")
+VALUES (1, NULL, E'2012-11-30 01:35:20.892', NULL, E'activo', 1, E'ESTACION', E'Estacion', 1);
+
+INSERT INTO param.tcatalogo ("id_usuario_reg", "id_usuario_mod", "fecha_reg", "fecha_mod", "estado_reg", "id_catalogo", "codigo", "descripcion", "id_catalogo_tipo")
+VALUES (1, NULL, E'2012-11-30 01:35:38.134', NULL, E'activo', 2, E'PLANTA', E'Planta', 1);
+
+INSERT INTO param.tcatalogo ("id_usuario_reg", "id_usuario_mod", "fecha_reg", "fecha_mod", "estado_reg", "id_catalogo", "codigo", "descripcion", "id_catalogo_tipo")
+VALUES (1, NULL, E'2012-11-30 01:46:25.673', NULL, E'activo', 3, E'PROC', E'En proceso', 2);
+
+INSERT INTO param.tcatalogo ("id_usuario_reg", "id_usuario_mod", "fecha_reg", "fecha_mod", "estado_reg", "id_catalogo", "codigo", "descripcion", "id_catalogo_tipo")
+VALUES (1, NULL, E'2012-11-30 01:46:43.284', NULL, E'activo', 4, E'TER', E'Terminado', 2);
+

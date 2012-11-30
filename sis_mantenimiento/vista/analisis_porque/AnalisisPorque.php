@@ -84,7 +84,8 @@ Phx.vista.AnalisisPorque=Ext.extend(Phx.gridInterfaz,{
                 allowBlank: true,
                 anchor: '80%',
                 gwidth: 100,
-                format:'Y-m-d'
+                renderer:function (value,p,record){return value?value.dateFormat('Y-m-d H:i:s'):''},
+                format:'Y-m-d H:i:s'
             },
             type:'DateField',
             filters:{pfiltro:'anapor.fecha',type:'date'},
@@ -93,31 +94,26 @@ Phx.vista.AnalisisPorque=Ext.extend(Phx.gridInterfaz,{
             form:true
         },
         {
-            config:{                
-                name:'estado',
-                fieldLabel:'Estado',
-                allowBlank:false,
-                emptyText:'Estado...',
-                store: ['En proceso','Terminado'],
-                valueField: 'estado',
-                displayField: 'estado',
-                forceSelection:true,
-                triggerAction: 'all',
-                lazyRender:true,
-                mode:'local',
-                pageSize:10,
-                width:250,               
-                renderer:function(value, p, record){return String.format('{0}', record.data['estado']);}
+            config: {
+                name: 'estado',
+                fieldLabel: 'Estado',
+                anchor: '90%',
+                tinit: true,
+                allowBlank: false,
+                origen: 'CATALOGO',
+                gdisplayField: 'estado',
+                gwidth: 80,
+                baseParams:{
+                        cod_subsistema:'GEM',
+                        catalogo_tipo:'estado_analisis_porque'
+                    }
             },
-            type:'ComboBox',
-            id_grupo:0,
-            filters:{   
-                pfiltro:'estado',
-                type:'string'
-            },
-            grid:true,
-            form:true
-        },            
+            type: 'ComboRec',
+            id_grupo: 0,
+            filters:{pfiltro:'anapor.estado',type:'string'},
+            grid: true,
+            form: true
+        },           
         {
             config:{
                 name: 'operadores',
@@ -154,7 +150,7 @@ Phx.vista.AnalisisPorque=Ext.extend(Phx.gridInterfaz,{
                 fieldLabel: 'Coordinadores',
                 allowBlank: true,
                 anchor: '80%',
-                gwidth: 100,
+                gwidth: 140,
                 maxLength:1000
             },
             type:'TextField',

@@ -48,8 +48,11 @@ BEGIN
 						tardet.id_tpm_tarjeta_det,
 						tardet.id_tpm_tarjeta,
 						tardet.id_funcionario_detec,
+                        fundet.desc_funcionario1 as desc_fun_detec,
 						tardet.id_funcionario_efec,
+                        funefe.desc_funcionario1 as desc_fun_efec,
 						tardet.id_uni_cons,
+                        (uni.nombre||''-[''||uni.codigo||'']'')::varchar as desc_uni_cons,
 						tardet.observaciones,
 						tardet.falla_el,
 						tardet.fecha_retiro,
@@ -73,6 +76,9 @@ BEGIN
 						from gem.ttpm_tarjeta_det tardet
 						inner join segu.tusuario usu1 on usu1.id_usuario = tardet.id_usuario_reg
 						left join segu.tusuario usu2 on usu2.id_usuario = tardet.id_usuario_mod
+                        left join orga.vfuncionario fundet on fundet.id_funcionario=tardet.id_funcionario_detec
+                        left join orga.vfuncionario funefe on funefe.id_funcionario=tardet.id_funcionario_efec
+                        left join gem.tuni_cons uni on uni.id_uni_cons=tardet.id_uni_cons
 				        where tardet.id_tpm_tarjeta='||v_parametros.id_tpm_tarjeta||' and ';
 			
 			--Definicion de la respuesta

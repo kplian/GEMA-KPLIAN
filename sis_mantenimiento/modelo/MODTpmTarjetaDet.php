@@ -24,8 +24,11 @@ class MODTpmTarjetaDet extends MODbase{
 		$this->captura('id_tpm_tarjeta_det','int4');
 		$this->captura('id_tpm_tarjeta','int4');
 		$this->captura('id_funcionario_detec','int4');
+        $this->captura('desc_func_detec','text');
 		$this->captura('id_funcionario_efec','int4');
+		$this->captura('desc_func_efec','text');
 		$this->captura('id_uni_cons','int4');
+        $this->captura('desc_uni_cons','varchar');
 		$this->captura('observaciones','varchar');
 		$this->captura('falla_el','varchar');
 		$this->captura('fecha_retiro','date');

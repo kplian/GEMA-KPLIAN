@@ -14,28 +14,28 @@ class ACTAnalisisPorqueDet extends ACTbase{
 
 		$this->objParam->defecto('dir_ordenacion','asc');
 		if($this->objParam->getParametro('tipoReporte')=='excel_grid' || $this->objParam->getParametro('tipoReporte')=='pdf_grid'){
-			$this->objReporte = new Reporte($this->objParam);
-			$this->res = $this->objReporte->generarReporteListado('FuncionesMantenimiento','listarAnalisisPorqueDet');
+			$this->objReporte = new Reporte($this->objParam,$this);
+			$this->res = $this->objReporte->generarReporteListado('MODAnalisisPorqueDet','listarAnalisisPorqueDet');
 		} else{
-			$this->objFunc=new FuncionesMantenimiento();	
-			$this->res=$this->objFunc->listarAnalisisPorqueDet($this->objParam);
+			$this->objFunc=$this->create('MODAnalisisPorqueDet');	
+			$this->res=$this->objFunc->listarAnalisisPorqueDet();
 		}
 		$this->res->imprimirRespuesta($this->res->generarJson());
 	}
 				
 	function insertarAnalisisPorqueDet(){
-		$this->objFunc=new FuncionesMantenimiento();	
+		$this->objFunc=$this->create('MODAnalisisPorqueDet');	
 		if($this->objParam->insertar('id_analisis_porque_det')){
-			$this->res=$this->objFunc->insertarAnalisisPorqueDet($this->objParam);			
+			$this->res=$this->objFunc->insertarAnalisisPorqueDet();			
 		} else{			
-			$this->res=$this->objFunc->modificarAnalisisPorqueDet($this->objParam);
+			$this->res=$this->objFunc->modificarAnalisisPorqueDet();
 		}
 		$this->res->imprimirRespuesta($this->res->generarJson());
 	}
 						
 	function eliminarAnalisisPorqueDet(){
-		$this->objFunc=new FuncionesMantenimiento();	
-		$this->res=$this->objFunc->eliminarAnalisisPorqueDet($this->objParam);
+		$this->objFunc=$this->create('MODAnalisisPorqueDet');	
+		$this->res=$this->objFunc->eliminarAnalisisPorqueDet();
 		$this->res->imprimirRespuesta($this->res->generarJson());
 	}
 			

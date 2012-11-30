@@ -14,28 +14,28 @@ class ACTTpmTarjeta extends ACTbase{
 
 		$this->objParam->defecto('dir_ordenacion','asc');
 		if($this->objParam->getParametro('tipoReporte')=='excel_grid' || $this->objParam->getParametro('tipoReporte')=='pdf_grid'){
-			$this->objReporte = new Reporte($this->objParam);
-			$this->res = $this->objReporte->generarReporteListado('FuncionesMantenimiento','listarTpmTarjeta');
+			$this->objReporte = new Reporte($this->objParam,$this);
+			$this->res = $this->objReporte->generarReporteListado('MODTpmTarjeta','listarTpmTarjeta');
 		} else{
-			$this->objFunc=new FuncionesMantenimiento();	
-			$this->res=$this->objFunc->listarTpmTarjeta($this->objParam);
+			$this->objFunc=$this->create('MODTpmTarjeta');	
+			$this->res=$this->objFunc->listarTpmTarjeta();
 		}
 		$this->res->imprimirRespuesta($this->res->generarJson());
 	}
 				
 	function insertarTpmTarjeta(){
-		$this->objFunc=new FuncionesMantenimiento();	
+		$this->objFunc=$this->create('MODTpmTarjeta');	
 		if($this->objParam->insertar('id_tpm_tarjeta')){
-			$this->res=$this->objFunc->insertarTpmTarjeta($this->objParam);			
+			$this->res=$this->objFunc->insertarTpmTarjeta();			
 		} else{			
-			$this->res=$this->objFunc->modificarTpmTarjeta($this->objParam);
+			$this->res=$this->objFunc->modificarTpmTarjeta();
 		}
 		$this->res->imprimirRespuesta($this->res->generarJson());
 	}
 						
 	function eliminarTpmTarjeta(){
-		$this->objFunc=new FuncionesMantenimiento();	
-		$this->res=$this->objFunc->eliminarTpmTarjeta($this->objParam);
+		$this->objFunc=$this->create('MODTpmTarjeta');	
+		$this->res=$this->objFunc->eliminarTpmTarjeta();
 		$this->res->imprimirRespuesta($this->res->generarJson());
 	}
 			

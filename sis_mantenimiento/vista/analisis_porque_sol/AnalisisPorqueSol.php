@@ -38,22 +38,7 @@ Phx.vista.AnalisisPorqueSol=Ext.extend(Phx.gridInterfaz,{
 			},
 			type:'Field',
 			form:true
-		},/*
-		{
-			config:{
-				name: 'id_funcionario',
-				fieldLabel: 'id_funcionario',
-				allowBlank: true,
-				anchor: '80%',
-				gwidth: 100,
-				maxLength:4
-			},
-			type:'NumberField',
-			filters:{pfiltro:'porsol.id_funcionario',type:'numeric'},
-			id_grupo:1,
-			grid:true,
-			form:true
-		},*/
+		},
 		{
             config:{
                 name:'id_funcionario',

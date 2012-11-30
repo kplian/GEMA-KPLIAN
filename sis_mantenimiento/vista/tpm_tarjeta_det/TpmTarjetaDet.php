@@ -10,6 +10,7 @@
 header("content-type: text/javascript; charset=UTF-8");
 ?>
 <script>
+//var localizacion=0;
 Phx.vista.TpmTarjetaDet=Ext.extend(Phx.gridInterfaz,{
 
 	constructor:function(config){
@@ -38,22 +39,7 @@ Phx.vista.TpmTarjetaDet=Ext.extend(Phx.gridInterfaz,{
 			},
 			type:'Field',
 			form:true
-		},/*
-		{
-            config:{
-                name: 'id_funcionario_detec',
-                fieldLabel: 'Detec. Funcionario',
-                allowBlank: true,
-                anchor: '80%',
-                gwidth: 140,
-                maxLength:4
-            },
-            type:'NumberField',
-            filters:{pfiltro:'tardet.id_funcionario_detec',type:'numeric'},
-            id_grupo:1,
-            grid:true,
-            form:true
-        },*/
+		},
         {
             config:{
                 name:'id_funcionario_detec',
@@ -62,7 +48,7 @@ Phx.vista.TpmTarjetaDet=Ext.extend(Phx.gridInterfaz,{
                 emptyText:'Detec Funcionario...',
                 store: new Ext.data.JsonStore({
                     url: '../../sis_organigrama/control/Funcionario/listarFuncionario',
-                    id: 'id_funcionario_detec',
+                    id: 'id_funcionario',
                     root: 'datos',
                     sortInfo:{
                         field: 'desc_person',
@@ -74,10 +60,10 @@ Phx.vista.TpmTarjetaDet=Ext.extend(Phx.gridInterfaz,{
                     remoteSort: true,
                     baseParams:{par_filtro:'desc_person'}
                 }),
-                valueField: 'id_funcionario_detec',
+                valueField: 'id_funcionario',
                 displayField: 'desc_person',
                 gdisplayField: 'desc_person',
-                hiddenName: 'id_funcionario_detec',
+                hiddenName: 'id_funcionario',
                 forceSelection:true,
                 typeAhead: true,
                 triggerAction: 'all',
@@ -86,8 +72,9 @@ Phx.vista.TpmTarjetaDet=Ext.extend(Phx.gridInterfaz,{
                 pageSize:10,
                 queryDelay:1000,
                 width:250,
-                minChars:2,            
-                renderer:function(value, p, record){return String.format('{0}', record.data['desc_person']);}
+                minChars:2,
+                gwidth: 140,            
+                renderer:function(value, p, record){return String.format('{0}', record.data['desc_func_detec']);}
             },
             type:'ComboBox',
             id_grupo:0,
@@ -96,19 +83,7 @@ Phx.vista.TpmTarjetaDet=Ext.extend(Phx.gridInterfaz,{
                     },
             grid:true,
             form:true
-        },/*        
-        {
-            config:{
-                name: 'id_uni_cons',
-                fieldLabel:'Id Uni cons',
-                gwidth: 100
-            },
-            type:'NumberField',
-            id_grupo:1,
-            type:'Field',
-            grid:true,
-            form:true
-        },*/
+        },
         {
             config:{
                 name:'id_uni_cons',
@@ -127,7 +102,7 @@ Phx.vista.TpmTarjetaDet=Ext.extend(Phx.gridInterfaz,{
                     fields: ['id_uni_cons','nombre','codigo'],
                     // turn on remote sorting
                     remoteSort: true,
-                    baseParams:{par_filtro:'nombre#codigo',id_localizacion:this.id_localizacion}
+                    baseParams:{par_filtro:'nombre#codigo'}
                 }),
                 valueField: 'id_uni_cons',
                 displayField: 'nombre',
@@ -141,8 +116,9 @@ Phx.vista.TpmTarjetaDet=Ext.extend(Phx.gridInterfaz,{
                 pageSize:10,
                 queryDelay:1000,
                 width:250,
-                minChars:2,            
-                renderer:function(value, p, record){return String.format('{0}', record.data['nombre']);}
+                minChars:2,
+                gwidth: 130,            
+                renderer:function(value, p, record){return String.format('{0}', record.data['desc_uni_cons']);}
             },
             type:'ComboBox',
             id_grupo:0,
@@ -167,124 +143,198 @@ Phx.vista.TpmTarjetaDet=Ext.extend(Phx.gridInterfaz,{
             id_grupo:1,
             grid:true,
             form:true
-        },        
+        }, 
         {
-            config:{
-                name: 'acceso_dificil',
-                fieldLabel: 'Acceso Dificil',
-                allowBlank: true,
-                anchor: '80%',
-                gwidth: 100,
-                maxLength:2
+            config:{                
+                name:'acceso_dificil',
+                fieldLabel:'Acceso Dificil',
+                allowBlank:false,
+                emptyText:'...',
+                store: ['si','no'],
+                valueField: 'acceso_dificil',
+                displayField: 'acceso_dificil',
+                forceSelection:true,
+                triggerAction: 'all',
+                lazyRender:true,
+                mode:'local',              
+                renderer:function(value, p, record){return String.format('{0}', record.data['acceso_dificil']);}
             },
-            type:'TextField',
-            filters:{pfiltro:'tardet.acceso_dificil',type:'string'},
-            id_grupo:1,
+            type:'ComboBox',
+            id_grupo:0,
+            filters:{   
+                pfiltro:'acceso_dificil',
+                type:'string'
+            },
+            grid:true,
+            form:true
+        },       
+        {
+            config:{                
+                name:'cond_inseg',
+                fieldLabel:'Cond. Insegura',
+                allowBlank:false,
+                emptyText:'...',
+                store: ['si','no'],
+                valueField: 'cond_inseg',
+                displayField: 'cond_inseg',
+                forceSelection:true,
+                triggerAction: 'all',
+                lazyRender:true,
+                mode:'local',
+                gwidth: 120,              
+                renderer:function(value, p, record){return String.format('{0}', record.data['cond_inseg']);}
+            },
+            type:'ComboBox',
+            id_grupo:0,
+            filters:{   
+                pfiltro:'cond_inseg',
+                type:'string'
+            },
             grid:true,
             form:true
         },
         {
-            config:{
-                name: 'cond_inseg',
-                fieldLabel: 'Cond. Insegura',
-                allowBlank: true,
-                anchor: '80%',
-                gwidth: 120,
-                maxLength:2
+            config:{                
+                name:'contaminacion',
+                fieldLabel:'Contaminacion',
+                allowBlank:false,
+                emptyText:'...',
+                store: ['si','no'],
+                valueField: 'contaminacion',
+                displayField: 'contaminacion',
+                forceSelection:true,
+                triggerAction: 'all',
+                lazyRender:true,
+                mode:'local',
+                gwidth: 120,              
+                renderer:function(value, p, record){return String.format('{0}', record.data['contaminacion']);}
             },
-            type:'TextField',
-            filters:{pfiltro:'tardet.cond_inseg',type:'string'},
-            id_grupo:1,
+            type:'ComboBox',
+            id_grupo:0,
+            filters:{   
+                pfiltro:'contaminacion',
+                type:'string'
+            },
+            grid:true,
+            form:true
+        },   
+        {
+            config:{                
+                name:'falla_me',
+                fieldLabel:'Falla ME',
+                allowBlank:false,
+                emptyText:'...',
+                store: ['si','no'],
+                valueField: 'falla_me',
+                displayField: 'falla_me',
+                forceSelection:true,
+                triggerAction: 'all',
+                lazyRender:true,
+                mode:'local',              
+                renderer:function(value, p, record){return String.format('{0}', record.data['falla_me']);}
+            },
+            type:'ComboBox',
+            id_grupo:0,
+            filters:{   
+                pfiltro:'falla_me',
+                type:'string'
+            },
             grid:true,
             form:true
         },
         {
-            config:{
-                name: 'contaminacion',
-                fieldLabel: 'Contaminacion',
-                allowBlank: true,
-                anchor: '80%',
-                gwidth: 120,
-                maxLength:2
+            config:{                
+                name:'falla_el',
+                fieldLabel:'Falla EL',
+                allowBlank:false,
+                emptyText:'...',
+                store: ['si','no'],
+                valueField: 'falla_el',
+                displayField: 'falla_el',
+                forceSelection:true,
+                triggerAction: 'all',
+                lazyRender:true,
+                mode:'local',              
+                renderer:function(value, p, record){return String.format('{0}', record.data['falla_el']);}
             },
-            type:'TextField',
-            filters:{pfiltro:'tardet.contaminacion',type:'string'},
-            id_grupo:1,
-            grid:true,
-            form:true
-        },        
-        {
-            config:{
-                name: 'falla_me',
-                fieldLabel: 'Falla ME',
-                allowBlank: true,
-                anchor: '80%',
-                gwidth: 80,
-                maxLength:2
+            type:'ComboBox',
+            id_grupo:0,
+            filters:{   
+                pfiltro:'falla_el',
+                type:'string'
             },
-            type:'TextField',
-            filters:{pfiltro:'tardet.falla_me',type:'string'},
-            id_grupo:1,
             grid:true,
             form:true
         },
         {
-            config:{
-                name: 'falla_el',
-                fieldLabel: 'Falla EL',
-                allowBlank: true,
-                anchor: '80%',
-                gwidth: 80,
-                maxLength:2
+            config:{                
+                name:'falla_ist',
+                fieldLabel:'Falla IST',
+                allowBlank:false,
+                emptyText:'...',
+                store: ['si','no'],
+                valueField: 'falla_ist',
+                displayField: 'falla_ist',
+                forceSelection:true,
+                triggerAction: 'all',
+                lazyRender:true,
+                mode:'local',              
+                renderer:function(value, p, record){return String.format('{0}', record.data['falla_ist']);}
             },
-            type:'TextField',
-            filters:{pfiltro:'tardet.falla_el',type:'string'},
-            id_grupo:1,
+            type:'ComboBox',
+            id_grupo:0,
+            filters:{   
+                pfiltro:'falla_ist',
+                type:'string'
+            },
             grid:true,
             form:true
         },
         {
-            config:{
-                name: 'falla_ist',
-                fieldLabel: 'Falla IST',
-                allowBlank: true,
-                anchor: '80%',
-                gwidth: 80,
-                maxLength:2
+            config:{                
+                name:'falla_ne',
+                fieldLabel:'Falla NE',
+                allowBlank:false,
+                emptyText:'...',
+                store: ['si','no'],
+                valueField: 'falla_ne',
+                displayField: 'falla_ne',
+                forceSelection:true,
+                triggerAction: 'all',
+                lazyRender:true,
+                mode:'local',              
+                renderer:function(value, p, record){return String.format('{0}', record.data['falla_ne']);}
             },
-            type:'TextField',
-            filters:{pfiltro:'tardet.falla_ist',type:'string'},
-            id_grupo:1,
+            type:'ComboBox',
+            id_grupo:0,
+            filters:{   
+                pfiltro:'falla_ne',
+                type:'string'
+            },
             grid:true,
             form:true
         },
         {
-            config:{
-                name: 'falla_ne',
-                fieldLabel: 'Falla NE',
-                allowBlank: true,
-                anchor: '80%',
-                gwidth: 80,
-                maxLength:2
+            config:{                
+                name:'falla_hi',
+                fieldLabel:'Falla HI',
+                allowBlank:false,
+                emptyText:'...',
+                store: ['si','no'],
+                valueField: 'falla_hi',
+                displayField: 'falla_hi',
+                forceSelection:true,
+                triggerAction: 'all',
+                lazyRender:true,
+                mode:'local',              
+                renderer:function(value, p, record){return String.format('{0}', record.data['falla_hi']);}
             },
-            type:'TextField',
-            filters:{pfiltro:'tardet.falla_ne',type:'string'},
-            id_grupo:1,
-            grid:true,
-            form:true
-        },
-        {
-            config:{
-                name: 'falla_hi',
-                fieldLabel: 'Falla HI',
-                allowBlank: true,
-                anchor: '80%',
-                gwidth: 80,
-                maxLength:2
+            type:'ComboBox',
+            id_grupo:0,
+            filters:{   
+                pfiltro:'falla_hi',
+                type:'string'
             },
-            type:'TextField',
-            filters:{pfiltro:'tardet.falla_hi',type:'string'},
-            id_grupo:1,
             grid:true,
             form:true
         },
@@ -310,7 +360,8 @@ Phx.vista.TpmTarjetaDet=Ext.extend(Phx.gridInterfaz,{
                 allowBlank: true,
                 anchor: '80%',
                 gwidth: 140,
-                renderer:function (value,p,record){return value?value.dateFormat('d/m/Y h:i:s'):''}
+                renderer:function (value,p,record){return value?value.dateFormat('d/m/Y'):''},
+                format:'d/m/Y'
             },
             type:'DateField',
             filters:{pfiltro:'tardet.fecha_coloc',type:'date'},
@@ -325,7 +376,8 @@ Phx.vista.TpmTarjetaDet=Ext.extend(Phx.gridInterfaz,{
                 allowBlank: true,
                 anchor: '80%',
                 gwidth: 120,
-                renderer:function (value,p,record){return value?value.dateFormat('d/m/Y h:i:s'):''}
+                renderer:function (value,p,record){return value?value.dateFormat('d/m/Y'):''},
+                format:'d/m/Y'
             },
             type:'DateField',
             filters:{pfiltro:'tardet.fecha_retiro',type:'date'},
@@ -333,21 +385,50 @@ Phx.vista.TpmTarjetaDet=Ext.extend(Phx.gridInterfaz,{
             grid:true,
             form:true
         },
-		{
-			config:{
-				name: 'id_funcionario_efec',
-				fieldLabel: 'Efect. Funcionario',
-				allowBlank: true,
-				anchor: '80%',
-				gwidth: 140,
-				maxLength:4
-			},
-			type:'NumberField',
-			filters:{pfiltro:'tardet.id_funcionario_efec',type:'numeric'},
-			id_grupo:1,
-			grid:true,
-			form:true
-		},
+        {
+            config:{
+                name:'id_funcionario_efec',
+                fieldLabel:'Efect. Funcionario',
+                allowBlank:true,
+                emptyText:'Efect Funcionario...',
+                store: new Ext.data.JsonStore({
+                    url: '../../sis_organigrama/control/Funcionario/listarFuncionario',
+                    id: 'id_funcionario',
+                    root: 'datos',
+                    sortInfo:{
+                        field: 'desc_person',
+                        direction: 'ASC'
+                    },
+                    totalProperty: 'total',
+                    fields: ['id_funcionario','desc_person'],
+                    // turn on remote sorting
+                    remoteSort: true,
+                    baseParams:{par_filtro:'desc_person'}
+                }),
+                valueField: 'id_funcionario',
+                displayField: 'desc_person',
+                gdisplayField: 'desc_person',
+                hiddenName: 'id_funcionario',
+                forceSelection:true,
+                typeAhead: true,
+                triggerAction: 'all',
+                lazyRender:true,
+                mode:'remote',
+                pageSize:10,
+                queryDelay:1000,
+                width:250,
+                minChars:2,            
+                renderer:function(value, p, record){return String.format('{0}', record.data['desc_func_efec']);}
+            },
+            type:'ComboBox',
+            id_grupo:0,
+            filters:{   
+                pfiltro:'descripcion',
+                type:'string'
+            },
+            grid:true,
+            form:true
+        },
 		{
 			config:{
 				name: 'observaciones',
@@ -448,11 +529,14 @@ Phx.vista.TpmTarjetaDet=Ext.extend(Phx.gridInterfaz,{
 		{name:'id_tpm_tarjeta_det', type: 'numeric'},
 		{name:'id_tpm_tarjeta', type: 'numeric'},
 		{name:'id_funcionario_detec', type: 'numeric'},
+		{name:'desc_func_detec', type: 'string'},
 		{name:'id_funcionario_efec', type: 'numeric'},
+		{name:'desc_func_efec', type: 'string'},
 		{name:'id_uni_cons', type: 'numeric'},
+		{name:'desc_uni_cons', type: 'string'},
 		{name:'observaciones', type: 'string'},
 		{name:'falla_el', type: 'string'},
-		{name:'fecha_retiro', type: 'date', dateFormat:'Y-m-d H:i:s'},
+		{name:'fecha_retiro', type: 'date', dateFormat:'Y-m-d'},
 		{name:'contaminacion', type: 'string'},
 		{name:'oportunidad_mejora', type: 'string'},
 		{name:'falla_ist', type: 'string'},
@@ -460,7 +544,7 @@ Phx.vista.TpmTarjetaDet=Ext.extend(Phx.gridInterfaz,{
 		{name:'acceso_dificil', type: 'string'},
 		{name:'falla_ne', type: 'string'},
 		{name:'falla_me', type: 'string'},
-		{name:'fecha_coloc', type: 'date', dateFormat:'Y-m-d H:i:s'},
+		{name:'fecha_coloc', type: 'date', dateFormat:'Y-m-d'},
 		{name:'estado_reg', type: 'string'},
 		{name:'cond_inseg', type: 'string'},
 		{name:'falla_hi', type: 'string'},
@@ -482,8 +566,9 @@ Phx.vista.TpmTarjetaDet=Ext.extend(Phx.gridInterfaz,{
 	onReloadPage:function(m){       
         this.maestro=m;
         this.Atributos[1].valorInicial=this.maestro.id_tpm_tarjeta;
+        this.Atributos[3].config.store.baseParams.id_localizacion=this.maestro.id_localizacion;
         if(m.id != 'id'){
-        this.store.baseParams={id_tpm_tarjeta:this.maestro.id_tpm_tarjeta};
+        this.store.baseParams={id_tpm_tarjeta:this.maestro.id_tpm_tarjeta};        
         this.load({params:{start:0, limit:50}})       
        }
        else{

@@ -380,6 +380,7 @@ class MODUniCons extends MODbase{
         $this->procedimiento = 'gem.f_uni_cons_sel';
         $this->transaccion = 'GEM_TUCLOC_SEL';
         $this->tipo_procedimiento = 'SEL';
+        $this->setCount(false);
         
         $this->setParametro('id_localizacion','id_localizacion','int4');
         

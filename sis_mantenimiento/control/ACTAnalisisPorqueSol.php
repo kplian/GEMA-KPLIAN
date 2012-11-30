@@ -14,28 +14,28 @@ class ACTAnalisisPorqueSol extends ACTbase{
 
 		$this->objParam->defecto('dir_ordenacion','asc');
 		if($this->objParam->getParametro('tipoReporte')=='excel_grid' || $this->objParam->getParametro('tipoReporte')=='pdf_grid'){
-			$this->objReporte = new Reporte($this->objParam);
-			$this->res = $this->objReporte->generarReporteListado('FuncionesMantenimiento','listarAnalisisPorqueSol');
+			$this->objReporte = new Reporte($this->objParam,$this);
+			$this->res = $this->objReporte->generarReporteListado('MODAnalisisPorqueSol','listarAnalisisPorqueSol');
 		} else{
-			$this->objFunc=new FuncionesMantenimiento();	
-			$this->res=$this->objFunc->listarAnalisisPorqueSol($this->objParam);
+			$this->objFunc=$this->create('MODAnalisisPorqueSol');	
+			$this->res=$this->objFunc->listarAnalisisPorqueSol();
 		}
 		$this->res->imprimirRespuesta($this->res->generarJson());
 	}
 				
 	function insertarAnalisisPorqueSol(){
-		$this->objFunc=new FuncionesMantenimiento();	
+		$this->objFunc=$this->create('MODAnalisisPorqueSol');	
 		if($this->objParam->insertar('id_analisis_porque_sol')){
-			$this->res=$this->objFunc->insertarAnalisisPorqueSol($this->objParam);			
+			$this->res=$this->objFunc->insertarAnalisisPorqueSol();			
 		} else{			
-			$this->res=$this->objFunc->modificarAnalisisPorqueSol($this->objParam);
+			$this->res=$this->objFunc->modificarAnalisisPorqueSol();
 		}
 		$this->res->imprimirRespuesta($this->res->generarJson());
 	}
 						
 	function eliminarAnalisisPorqueSol(){
-		$this->objFunc=new FuncionesMantenimiento();	
-		$this->res=$this->objFunc->eliminarAnalisisPorqueSol($this->objParam);
+		$this->objFunc=$this->create('MODAnalisisPorqueSol');	
+		$this->res=$this->objFunc->eliminarAnalisisPorqueSol();
 		$this->res->imprimirRespuesta($this->res->generarJson());
 	}
 			
