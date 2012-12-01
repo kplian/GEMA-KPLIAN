@@ -201,7 +201,6 @@ Phx.vista.gridCalendario=Ext.extend(Phx.gridInterfaz,{
 	},
 	
 	CellSelectionModel:true,		
-	
 	onCalGen:function(){
 		
 		if (this.formUCCL.getForm().isValid()) {
@@ -410,6 +409,13 @@ Phx.vista.gridCalendario=Ext.extend(Phx.gridInterfaz,{
 			this.init();
 			
 			
+			this.addButton('GenOT', {
+					text : 'Generar OT',
+					iconCls : 'bgear',
+					disabled : true,
+					handler : this.onBtnGenOt,
+					tooltip : '<b>Generar OT</b><br/>Genera Ordenes de Trabajo para el matenimeinto selecionado en todas las fecha visualizadas'
+				});
 			
 			var id_l = (this.tipo_nodo=='uni_cons')?this.id_uni_cons:this.id_localizacion;
 			
@@ -469,9 +475,7 @@ Phx.vista.gridCalendario=Ext.extend(Phx.gridInterfaz,{
 	
 	EnableSelect:function(n,b,c){
 		
-		console.log(n,b,c)
-		console.log(n.getSelectedCell())
-		
+				
 		//recuperar datos
 		
 		var record = this.store.getAt(b);
@@ -495,7 +499,14 @@ Phx.vista.gridCalendario=Ext.extend(Phx.gridInterfaz,{
 			                    scope: this
 			               });
 		}
+		
+		//habilita el boton genOT
+		
+		
+		
        },
+       
+      
        successObtCalPlan:function(r){
        	Phx.CP.loadingHide();
 		this.wCP2.show(); 
@@ -574,6 +585,12 @@ Phx.vista.gridCalendario=Ext.extend(Phx.gridInterfaz,{
         Phx.vista.gridCalendario.superclass.onDestroy.call(this,c);
 
     },
+    onBtnGenOt:function(){
+    	
+    	console.log('genera ordenes de trabajo')
+    	
+    	
+    }
         	
 		
    }
