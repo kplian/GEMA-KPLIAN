@@ -26,9 +26,7 @@ Phx.vista.TipoEquipo=Ext.extend(Phx.gridInterfaz,{
 				Ext.Ajax.request({
 					url:'../../sis_mantenimiento/control/UniCons/reporteUniConsFichaTecnica',
 					params:{'id_uni_cons':2},
-					success: function() {
-						console.log("success");
-					},
+					success: this.successExport,
 					failure: function() {
 						console.log("fail");
 					},
