@@ -450,14 +450,7 @@ Phx.vista.gridCalendario=Ext.extend(Phx.gridInterfaz,{
 	bsave:false,
 	bnew:false,
 	bedit:false,
-	preparaMenu:function(tb){
-			Phx.vista.gridCalendario.superclass.preparaMenu.call(this,tb)
-			return tb
-		},
-	liberaMenu:function(tb){
-			Phx.vista.gridCalendario.superclass.liberaMenu.call(this,tb)
-			return tb
-		},
+	
 	loadValoresIniciales:function()
 	{
 		Phx.vista.gridCalendario.superclass.loadValoresIniciales.call(this);
@@ -500,10 +493,22 @@ Phx.vista.gridCalendario=Ext.extend(Phx.gridInterfaz,{
 			               });
 		}
 		
-		//habilita el boton genOT
-		
-		
-		
+			//habilita el boton genOT
+			console.log(c,record)
+			if(c==3){
+				this.getBoton('GenOT').enable();
+				
+				this.sel_id_mant_predef =  record.data['id_mant_predef'];
+				this.sel_id_mant_predef =  record.data['id_uni_cons'];
+			}
+			else{
+				this.getBoton('GenOT').disable();
+			}
+			
+       },
+       disableSelect:function(n,b,c){
+       			this.getBoton('GenOT').disable();
+       	
        },
        
       
@@ -585,9 +590,36 @@ Phx.vista.gridCalendario=Ext.extend(Phx.gridInterfaz,{
         Phx.vista.gridCalendario.superclass.onDestroy.call(this,c);
 
     },
-    onBtnGenOt:function(){
+    onBtnGenOt:function(a){
     	
     	console.log('genera ordenes de trabajo')
+    	
+    	var dateFechaIni =this.formUCCL.getForm().findField('fecha_ini');
+		var dateFechaFin =this.formUCCL.getForm().findField('fecha_fin');
+	
+		 Ext.Ajax.request({
+		                    form: this.form.getForm().getEl(),
+		                    url: '../../sis_mantenimiento/control/OrdenTrabajo/generarOT',
+		                    params: {
+		                         	fecha_ini:dateFechaIni.getValue().dateFormat('d-m-Y'),
+		    						fecha_fin:dateFechaFin.getValue().dateFormat('d-m-Y'),
+			                        id_mant_predef:this.sel_id_mant_predef,
+			                        id_uni_cons:this.sel_id_uni_cons
+		                         	},		                    	
+		                    success: this.successGenOT,
+		                    failure:this.conexionFailure,
+		                    timeout: this.timeout,
+		                    scope: this
+		               });
+    	
+    	
+    	
+    	
+    	
+    },
+    successGenOT:function(){
+    	
+    	console.log('succes al genear ordenes de trabajo')
     	
     	
     }

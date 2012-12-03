@@ -159,6 +159,26 @@ class MODOrdenTrabajo extends MODbase{
 		//Devuelve la respuesta
 		return $this->respuesta;
 	}
+	
+	function generarOT(){
+		//Definicion de variables para ejecucion del procedimiento
+		$this->procedimiento='gem.f_generar_orden_trabajo';
+		$this->transaccion='GEM_GENEOT_GEN';
+		$this->tipo_procedimiento='IME';
+				
+		//Define los parametros para la funcion
+		$this->setParametro('id_mant_predef','id_mant_predef','int4');
+		$this->setParametro('fecha_ini','fecha_ini','date');
+		$this->setParametro('fecha_fin','fecha_fin','date');
+
+		//Ejecuta la instruccion
+		$this->armarConsulta();
+		$this->ejecutarConsulta();
+
+		//Devuelve la respuesta
+		return $this->respuesta;
+	}
+	
 			
 }
 ?>
