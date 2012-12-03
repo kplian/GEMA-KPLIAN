@@ -16,6 +16,7 @@ Phx.vista.Localizacion=Ext.extend(Phx.arbInterfaz,{
     	//llama al constructor de la clase padre
 		Phx.vista.Localizacion.superclass.constructor.call(this,config);
 		this.init();
+		this.crearCtxMenu();
 		
 		this.tbar.items.get('b-new-'+this.idContenedor).disable()
 		
@@ -77,88 +78,7 @@ Phx.vista.Localizacion=Ext.extend(Phx.arbInterfaz,{
 			});
 			
 
-		this.ctxMenu.add('-');
-		this.ctxMenu.addMenuItem({text:'Agregar Equipo',handler:this.onBtnAddEquipo});
-		this.ctxMenu.addMenuItem({text:'Datos Equipos',handler:this.onClickDatosEq});
-		this.ctxMenu.addMenuItem({text:'Mantenimientos predefinidos',handler: this.onEqMantClick,scope:this});
-		this.ctxMenu.addMenuItem({text:'Mediciones'});
-		this.ctxMenu.addMenuItem({text:'Upload archivos'});
-		this.ctxMenu.add('-');
-			
-		this.ctxMenu.addMenuItem({
-			text:'Metodologías',
-			menu:{
-				items:[{
-						text:'RCM',
-						menu:{
-							items:[
-								{text:'Análisis',handler:this.onBtnRCMAnalisis,scope:this},
-								{text:'Planificación'}
-							]
-						}
-				},
-				{
-						text:'TPM',
-						menu:{
-							items:[
-								{text:'Porque Porque',handler:this.onBtnTPMPorquePorque,scope:this},
-								{text:'Tarjetas TPM',handler:this.onBtnTarjetasTPM,scope:this}
-							]
-						}
-				},
-				{
-						text:'RBI',
-						menu:{
-							items:[
-								{text:'Análisis'},
-								{text:'Planificación'}
-							]
-						}
-					}
-				]
-			}
-		});
-		this.ctxMenu.add('-');
-		this.ctxMenu.addMenuItem({text:'Generar Calendario'});
-		this.ctxMenu.addMenuItem({text:'Ver Calendario'});
-		this.ctxMenu.addMenuItem({text:'Indicadores'});
-		this.ctxMenu.add('-');
-		this.ctxMenu.addMenuItem({text:'Ficha técnica'});
-		this.ctxMenu.addMenuItem({
-			text:'Reportes Metodologías',
-			menu:{
-				items:[{
-						text:'RCM',
-						menu:{
-							items:[
-								{text:'Análisis'},
-								{text:'Planificación'}
-							]
-						}
-				},
-				{
-						text:'TPM',
-						menu:{
-							items:[
-								{text:'Análisis'},
-								{text:'Planificación'}
-							]
-						}
-				},
-				{
-						text:'RBI',
-						menu:{
-							items:[
-								{text:'Análisis'},
-								{text:'Planificación'}
-							]
-						}
-					}
-				]
-			}
-		});
-		this.ctxMenu.add('-');
-		this.ctxMenu.addMenuItem({text:'Usuarios por Localización',handler:this.onBtnUsuario,scope:this});
+		
 		
 		//add for to select  tipouni_cons
 		
@@ -1009,8 +929,68 @@ Phx.vista.Localizacion=Ext.extend(Phx.arbInterfaz,{
 				    data,this.idContenedor,'UniConsMantPredef')
 				    
 			}
+	},
+	crearCtxMenu: function(){
+		//Grupo de opciones a nivel de localizaciones
+		this.ctxMenu.add('-');
+		this.ctxMenu.addMenuItem({text:'Usuarios por Localización',handler:this.onBtnUsuario,scope:this});
+		this.ctxMenu.addMenuItem({text:'Tarjetas TPM',handler:this.onBtnTarjetaTPM,scope:this});
+		//Grupo de opciones para Equipos
+		this.ctxMenu.add('-');
+		this.ctxMenu.addMenuItem({text:'Agregar Equipo',handler:this.onBtnAddEquipo,scope:this});
+		this.ctxMenu.addMenuItem({
+			text:'Equipos',
+			menu:{
+				items:[
+					{text:'Datos Equipos',handler:this.onClickDatosEq,scope:this},
+					{text:'Mantenimientos predefinidos',handler: this.onEqMantClick,scope:this},
+					{text:'Mediciones',handler: this.onClickMed,scope:this},
+					{text:'Upload archivos',handler: this.onClickUp,scope:this},
+					{
+						text:'TPM',
+						menu:{
+						items:[
+							{text:'Análisis Porqué-Porqué',handler:this.onBtnTPMPorquePorque,scope:this}
+						]}
+					},
+					{
+						text:'RCM',
+						menu:{
+						items:[
+							{text:'Análisis',handler:this.onBtnRCMAnalisis,scope:this},
+							{text:'Planificación',handler:this.onClickRCMAnalisis,scope:this}
+						]}
+					}
+				]}
+			}
+		);
+		
+		//Grupo de opciones para el Calendario
+		this.ctxMenu.add('-');	
+		this.ctxMenu.addMenuItem({
+			text:'Planificación del Mantenimiento',
+			menu:{
+				items:[
+					{text:'Ver Calendario',handler:this.onBtnVerCalGen,scope:this},
+					{text:'Generar Calendario',handler: this.onBtnCalGen,scope:this}
+				]}
+			}
+		)
+			
+		this.ctxMenu.addMenuItem({text:'Indicadores'});
+	},
+	onBtnTarjetaTPM: function(){
+		
+	},
+	onClickMed: function(){
+		
+	},
+	onClickUp: function(){
+		
+	},
+	onClickRCMAnalisis: function(){
+		
 	}
-	
 	
 	
 	
