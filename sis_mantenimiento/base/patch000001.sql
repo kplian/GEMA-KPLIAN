@@ -1297,9 +1297,9 @@ ALTER TABLE gem.ttpm_tarjeta_det OWNER TO postgres;
 
 /***********************************F-SCP-GSS-GEM-17-28/11/2012*****************************************/
 
-/***********************************I-SCP-GSS-GEM-49-27/11/2012*****************************************/
+/***********************************I-SCP-FRH-GEM-49-27/11/2012*****************************************/
 ALTER TABLE gem.tfalla_evento
   ADD COLUMN descripcion VARCHAR(2000);
   
-select pxp.f_insert_tgui ('Fallas/Eventos Equipos...', 'Registro de Fallas/Eventos Equipos', 'GEM.3.10', 'si', 5, 'sis_mantenimiento/vista/falla_evento/FallaEventoExterno.php', 3, '', 'FallaEventoExterno', 'GEM');
-/***********************************F-SCP-GSS-GEM-49-27/11/2012*****************************************/
+select pxp.f_insert_tgui ('Fallas/Eventos Equipos...', 'Registro de Fallas/Eventos Equipos', 'GEM.3.11', 'si', 5, 'sis_mantenimiento/vista/falla_evento/FallaEventoExterno.php', 3, '', 'FallaEventoExterno', 'GEM');
+/***********************************F-SCP-FRH-GEM-49-27/11/2012*****************************************/
