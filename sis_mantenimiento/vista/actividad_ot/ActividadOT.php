@@ -61,7 +61,7 @@ Phx.vista.actividad=Ext.extend(Phx.gridInterfaz,{
 				mode: 'remote',
 				pageSize: 20,
 				queryDelay: 500,
-				width: '80%',
+				width: '100%',
 				gwidth: 220,
 				minChars: 2,
 				renderer: function (value, p, record) {
@@ -119,7 +119,6 @@ Phx.vista.actividad=Ext.extend(Phx.gridInterfaz,{
 		    	pfiltro: 'acti.estado', 
 		    	type:'string'
 		   	},
-		    id_grupo: 1,
 		    form: false,
 		    grid: true
 		},
@@ -128,7 +127,7 @@ Phx.vista.actividad=Ext.extend(Phx.gridInterfaz,{
 				name: 'descripcion',
 				fieldLabel: 'Descripcion',
 				allowBlank: false,
-				anchor: '80%',
+				width: '100%',
 				gwidth: 200,
 				maxLength: 5000
 			},
@@ -136,7 +135,7 @@ Phx.vista.actividad=Ext.extend(Phx.gridInterfaz,{
 			filters: {
 				pfiltro: 'acti.descripcion',
 				type: 'string'},
-			id_grupo: 1,
+			id_grupo: 0,
 			grid: true,
 			form: true
 		},
@@ -145,7 +144,7 @@ Phx.vista.actividad=Ext.extend(Phx.gridInterfaz,{
 				name: 'observaciones',
 				fieldLabel: 'Observaciones',
 				allowBlank: true,
-				anchor: '80%',
+				width: '100%',
 				gwidth: 150,
 				maxLength: 2000
 			},
@@ -154,14 +153,14 @@ Phx.vista.actividad=Ext.extend(Phx.gridInterfaz,{
 				pfiltro: 'acti.observaciones',
 				type: 'string'
 			},
-			id_grupo: 1,
+			id_grupo: 0,
 			grid: true,
 			form: true
 		},
 		{
 			config:{
 				name: 'fecha_plan_ini',
-				fieldLabel: 'Fecha Inicio Plan',
+				fieldLabel: 'Fecha Inicio Planificación',
 				allowBlank: false,
 				gwidth: 150,
 				renderer:function (value, p, record) {
@@ -174,14 +173,14 @@ Phx.vista.actividad=Ext.extend(Phx.gridInterfaz,{
 				pfiltro:'acti.fecha_plan_ini',
 				type:'date'
 			},
-			id_grupo: 1,
+			id_grupo: 0,
 			grid: true,
 			form: true
 		},
 		{
 			config:{
 				name: 'fecha_plan_fin',
-				fieldLabel: 'Fecha Fin Plan',
+				fieldLabel: 'Fecha Fin Planificación',
 				allowBlank: false,
 				gwidth: 150,
 				renderer:function (value, p, record) {
@@ -194,14 +193,14 @@ Phx.vista.actividad=Ext.extend(Phx.gridInterfaz,{
 				pfiltro: 'acti.fecha_plan_fin',
 				type: 'date'
 			},
-			id_grupo: 1,
+			id_grupo: 0,
 			grid: true,
 			form: true
 		},
 		{
 			config: {
 				name: 'fecha_eje_ini',
-				fieldLabel: 'Fecha Inicio Ejec.',
+				fieldLabel: 'Fecha Inicio Ejecución',
 				allowBlank: true,
 				gwidth: 150,
 				renderer:function (value, p, record) {
@@ -221,7 +220,7 @@ Phx.vista.actividad=Ext.extend(Phx.gridInterfaz,{
 		{
 			config: {
 				name: 'fecha_eje_fin',
-				fieldLabel: 'Fecha Fin Ejec.',
+				fieldLabel: 'Fecha Fin Ejecución',
 				allowBlank: true,
 				gwidth: 150,
 				renderer:function (value, p, record) {
@@ -239,7 +238,6 @@ Phx.vista.actividad=Ext.extend(Phx.gridInterfaz,{
 			form: true
 		}
 	],
-
 	title: 'Actividad',
 	ActSave: '../../sis_mantenimiento/control/ActividadOT/guardarActividadOT',
 	ActDel: '../../sis_mantenimiento/control/ActividadOT/eliminarActividadOT',
@@ -270,10 +268,6 @@ Phx.vista.actividad=Ext.extend(Phx.gridInterfaz,{
 		field: 'id_actividad',
 		direction: 'ASC'
 	},
-	onButtonNew:function() {
-		Phx.vista.actividad.superclass.onButtonNew.call(this);
-		this.getComponente('id_orden_trabajo').setValue(this.id_orden_trabajo);
-	},
 	constructor: function(config) {
 		Phx.vista.actividad.superclass.constructor.call(this,config);
 		this.init();
@@ -283,9 +277,37 @@ Phx.vista.actividad=Ext.extend(Phx.gridInterfaz,{
 				limit: 50,
 				id_orden_trabajo: this.id_orden_trabajo
 			}
-		});		
+		});
+		this.Atributos[1].valorInicial=this.id_orden_trabajo;
 	},
-	
+	Grupos: [{ 
+		layout: 'column',
+		items:[
+			{
+				xtype:'fieldset',
+				layout: 'form',
+                border: true,
+                title: 'Planificación',
+                bodyStyle: 'padding:0 10px 0;',
+                columnWidth: 1,
+                items:[],
+		        id_grupo:0,
+		        collapsible:true
+			},
+			{
+				xtype:'fieldset',
+				layout: 'form',
+                border: true,
+                title: 'Ejecución',
+                bodyStyle: 'padding:0 10px 0;',
+                columnWidth: 1,
+                items:[],
+		        id_grupo:1,
+		        collapsible:true,
+		        collapsed:false
+			},
+		]
+	}],
 	south:{
 		  url:'../../../sis_mantenimiento/vista/recurso/Recurso.php',
 		  title:'Recurso',
@@ -294,7 +316,8 @@ Phx.vista.actividad=Ext.extend(Phx.gridInterfaz,{
 		},
 	bdel: true,
 	bsave: true,
-
+	fheight: 500,
+	fwidth:500,
 	preparaMenu:function(tb) {
 		//llamada procedimiento clace padre
 		Phx.vista.actividad.superclass.preparaMenu.call(this,tb)

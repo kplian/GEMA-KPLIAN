@@ -34,6 +34,40 @@ Phx.vista.recurso=Ext.extend(Phx.gridInterfaz,{
 		},
 		{
 			config: {
+				fieldLabel: 'Recurso',
+				allowBlank: false,
+			    triggerAction: 'all',
+			    lazyRender: true,
+			    mode: 'local',
+			    store: new Ext.data.ArrayStore({
+			    	fields: ['codigo','nombre'],
+					data: [
+						['item','Item'], 
+						['funcionario','Funcionario'],
+						['especialidad','Especialidad'],
+						['servicio','Servicio']
+					]
+				}),
+				listeners:{
+			         scope: this,
+			         'select': function(a,b,c) {
+			         	console.log(a);
+			         	console.log(b);
+			         	console.log(c);
+			         }
+			    },
+			    width: '100%',
+			    maxWidth: '100%',
+				valueField: 'codigo',
+				displayField: 'nombre'
+		    },
+		    type: 'ComboBox',
+		    id_grupo: 1,
+		    form: true,
+		    grid: false
+		},
+		{
+			config: {
 				name: 'id_item',
 				fieldLabel: 'Item',
 				allowBlank: true,
@@ -49,7 +83,7 @@ Phx.vista.recurso=Ext.extend(Phx.gridInterfaz,{
 					totalProperty: 'total',
 					fields: ['id_item','nombre'],
 					remoteSort: true,
-					baseParams: {par_filtro:'nombre'}
+					baseParams: {par_filtro:'item.nombre'}
 				}),
 				valueField: 'id_item',
 				displayField: 'nombre',
@@ -61,7 +95,7 @@ Phx.vista.recurso=Ext.extend(Phx.gridInterfaz,{
 				mode: 'remote',
 				pageSize: 20,
 				queryDelay: 500,
-				width: '80%',
+				width: '100%',
 				gwidth: 150,
 				minChars: 2,
 				renderer: function (value, p, record) {
@@ -196,6 +230,7 @@ Phx.vista.recurso=Ext.extend(Phx.gridInterfaz,{
 				mode: 'remote',
 				pageSize: 20,
 				queryDelay: 500,
+				visible: false,
 				width: '80%',
 				gwidth: 150,
 				minChars: 2,
@@ -262,7 +297,7 @@ Phx.vista.recurso=Ext.extend(Phx.gridInterfaz,{
 				name: 'cantidad',
 				fieldLabel: 'Cantidad',
 				allowBlank: false,
-				anchor: '80%',
+				anchor: '30%',
 				gwidth: 70,
 				maxLength: 100
 			},
@@ -279,7 +314,7 @@ Phx.vista.recurso=Ext.extend(Phx.gridInterfaz,{
 				name: 'costo',
 				fieldLabel: 'Costo',
 				allowBlank: false,
-				anchor: '80%',
+				anchor: '30%',
 				gwidth: 70,
 				maxLength: 100
 			},
@@ -296,7 +331,7 @@ Phx.vista.recurso=Ext.extend(Phx.gridInterfaz,{
 				name: 'observaciones',
 				fieldLabel: 'Observaciones',
 				allowBlank: true,
-				anchor: '80%',
+				width: '100%',
 				gwidth: 150,
 				maxLength: 2000
 			},
@@ -355,6 +390,8 @@ Phx.vista.recurso=Ext.extend(Phx.gridInterfaz,{
 	},
 	bdel: true,
 	bsave: false,
+	fheight: 350,
+	fwidth: 500,
 	onReloadPage:function(m) {
 		this.maestro=m;
 		this.Atributos[1].valorInicial=this.maestro.id_actividad;
@@ -362,7 +399,7 @@ Phx.vista.recurso=Ext.extend(Phx.gridInterfaz,{
 			this.store.baseParams={id_actividad:this.maestro.id_actividad};
 			this.load({params:{start:0, limit:50}})
 	    }
-	    else{
+	    else {
 			this.grid.getTopToolbar().disable();
 			this.grid.getBottomToolbar().disable(); 
 			this.store.removeAll(); 

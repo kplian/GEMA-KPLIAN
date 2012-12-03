@@ -16,6 +16,31 @@ Phx.vista.TipoEquipo=Ext.extend(Phx.gridInterfaz,{
 		this.maestro=config.maestro;
     	//llama al constructor de la clase padre
 		Phx.vista.TipoEquipo.superclass.constructor.call(this,config);
+		
+		//test button to remove
+		this.addButton('gen_cod',{
+			text:'Test Button',
+			iconCls: 'blist',
+			disabled: false,
+			handler:function(){
+				Ext.Ajax.request({
+					url:'../../sis_mantenimiento/control/UniCons/reporteUniConsFichaTecnica',
+					params:{'id_uni_cons':2},
+					success: function() {
+						console.log("success");
+					},
+					failure: function() {
+						console.log("fail");
+					},
+					timeout: function() {
+						console.log("timeout");
+					},
+					scope:this
+				});
+			},
+			tooltip: '<b>My Test button</b><br/>Solo por motivos de prueba'
+		});
+		
 		this.init();
 		this.load({params:{start:0, limit:50}})
 	},
@@ -195,6 +220,7 @@ Phx.vista.TipoEquipo=Ext.extend(Phx.gridInterfaz,{
 		 }]	 
 	
 	}
+	
 )
 </script>
 		
