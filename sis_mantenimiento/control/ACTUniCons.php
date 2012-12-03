@@ -346,10 +346,10 @@ class ACTUniCons extends ACTbase{
 	}
 	
 	function reporteUniConsFichaTecnica() {
-		$this->objFunc = $this->create('MODUniCons');
+		
 		$dataSource = new DataSource();
 		$idUniCons = $this->objParam->getParametro('id_uni_cons');
-		
+		$this->objFunc = $this->create('MODUniCons');
 		$resultUniCons = $this->objFunc->obtenerUniCons($this->objParam);
 		$datosUniCons = $resultUniCons->getDatos();
 		//armamos el array parametros y metemos ahi los data sets de las otras tablas
@@ -382,7 +382,8 @@ class ACTUniCons extends ACTbase{
 		$this->objParam->defecto('puntero', 0);
 		$this->objParam->addParametro('id_uni_cons', $idUniCons);
 		
-		$resultRepuestos = $this->objFunc->listarUniConsItem($this->objParam);
+		$modUniConsItem = $this->create('MODUniConsItem');
+		$resultRepuestos = $modUniConsItem->listarUniConsItem($this->objParam);
 		
 		$repuestoDataSource = new DataSource();
 		$repuestoDataSource->setDataSet($resultRepuestos->getDatos());
@@ -390,7 +391,8 @@ class ACTUniCons extends ACTbase{
 		
 		//get Provedores
 		$this->objParam->addParametroConsulta('ordenacion', 'id_uni_cons_proveedor');
-		$resultProveedor = $this->objFunc->listarUniConsProveedor($this->objParam);
+		$modUniConsProveedor = $this->create('MODUniConsProveedor');
+		$resultProveedor = $modUniConsProveedor->listarUniConsProveedor($this->objParam);
 		$proveedorDataSource = new DataSource();
 		$proveedorDataSource->setDataSet($resultProveedor->getDatos());
 		$dataSource->putParameter('proveedorDataSource', $proveedorDataSource);
@@ -415,8 +417,16 @@ class ACTUniCons extends ACTbase{
 		//build the report
 		$reporte = new RUniCons_FichaTecnica();
 		$reporte->setDataSource($dataSource);
-		$reportWriter = new ReportWriter($reporte, dirname(__FILE__).'/../../reportes_generados/UniCons_FichaTecnica.pdf');
+		$nombreArchivo = 'UniCons_FichaTecnica.pdf';
+		$reportWriter = new ReportWriter($reporte, dirname(__FILE__).'/../../reportes_generados/'.$nombreArchivo);
 		$reportWriter->writeReport(ReportWriter::PDF);
+		
+		$mensajeExito = new Mensaje();
+		$mensajeExito->setMensaje('EXITO','Reporte.php','Reporte generado',
+										'Se generó con éxito el reporte: '.$nombreArchivo,'control');
+		$mensajeExito->setArchivoGenerado($nombreArchivo);
+		$this->res = $mensajeExito;
+		$this->res->imprimirRespuesta($this->res->generarJson());
 	}
 }
 ?>
