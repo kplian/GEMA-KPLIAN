@@ -12,7 +12,43 @@ header("content-type: text/javascript; charset=UTF-8");
 <script>
 
 Phx.vista.recurso=Ext.extend(Phx.gridInterfaz,{
-
+	constructor: function(config) {
+		Phx.vista.recurso.superclass.constructor.call(this,config);
+		this.init();
+		this.grid.getTopToolbar().disable();
+   		this.grid.getBottomToolbar().disable(); 
+   		this.store.removeAll();
+   		
+   		//listener to combo box 
+   		this.getComponente('recurso').on('select', function(e, data, index) {
+   			console.log(this.getComponente('id_item'));
+         	if(e.value == 'item') {
+         		this.getComponente('id_item').setVisible(true);
+         		this.getComponente('id_funcionario').setVisible(false);
+         		this.getComponente('id_especialidad').setVisible(false);
+         		this.getComponente('id_servicio').setVisible(false);
+         	}
+         	else if(e.value == 'funcionario') {
+         		this.getComponente('id_item').setVisible(false);
+         		this.getComponente('id_funcionario').setVisible(true);
+         		this.getComponente('id_especialidad').setVisible(false);
+         		this.getComponente('id_servicio').setVisible(false);
+         	}
+         	else if(e.value == 'especialidad') {
+         		this.getComponente('id_item').setVisible(false);
+         		this.getComponente('id_funcionario').setVisible(false);
+         		this.getComponente('id_especialidad').setVisible(true);
+         		this.getComponente('id_servicio').setVisible(false);
+         	}
+         	else if(e.value == 'servicio') {
+         		this.getComponente('id_item').setVisible(false);
+         		this.getComponente('id_funcionario').setVisible(false);
+         		this.getComponente('id_especialidad').setVisible(false);
+         		this.getComponente('id_servicio').setVisible(true);
+         	}
+        },
+        this);
+	},
 	Atributos: [
 		{
 			config:{
@@ -34,6 +70,7 @@ Phx.vista.recurso=Ext.extend(Phx.gridInterfaz,{
 		},
 		{
 			config: {
+				name: 'recurso',
 				fieldLabel: 'Recurso',
 				allowBlank: false,
 			    triggerAction: 'all',
@@ -48,16 +85,7 @@ Phx.vista.recurso=Ext.extend(Phx.gridInterfaz,{
 						['servicio','Servicio']
 					]
 				}),
-				listeners:{
-			         scope: this,
-			         'select': function(a,b,c) {
-			         	console.log(a);
-			         	console.log(b);
-			         	console.log(c);
-			         }
-			    },
-			    width: '100%',
-			    maxWidth: '100%',
+			    anchor: '100%',
 				valueField: 'codigo',
 				displayField: 'nombre'
 		    },
@@ -85,6 +113,7 @@ Phx.vista.recurso=Ext.extend(Phx.gridInterfaz,{
 					remoteSort: true,
 					baseParams: {par_filtro:'item.nombre'}
 				}),
+				hidden: true,
 				valueField: 'id_item',
 				displayField: 'nombre',
 				gdisplayField: 'nombre_item',
@@ -95,7 +124,7 @@ Phx.vista.recurso=Ext.extend(Phx.gridInterfaz,{
 				mode: 'remote',
 				pageSize: 20,
 				queryDelay: 500,
-				width: '100%',
+				anchor: '99%',
 				gwidth: 150,
 				minChars: 2,
 				renderer: function (value, p, record) {
@@ -130,6 +159,7 @@ Phx.vista.recurso=Ext.extend(Phx.gridInterfaz,{
 					remoteSort: true,
 					baseParams: {par_filtro:'desc_person'}
 				}),
+				hidden: true,
 				valueField: 'id_funcionario',
 				displayField: 'desc_person',
 				gdisplayField: 'nombre_funcionario',
@@ -140,7 +170,7 @@ Phx.vista.recurso=Ext.extend(Phx.gridInterfaz,{
 				mode: 'remote',
 				pageSize: 20,
 				queryDelay: 500,
-				width: '80%',
+				anchor: '99%',
 				gwidth: 150,
 				minChars: 2,
 				renderer: function (value, p, record) {
@@ -175,6 +205,7 @@ Phx.vista.recurso=Ext.extend(Phx.gridInterfaz,{
 					remoteSort: true,
 					baseParams: {par_filtro:'nombre'}
 				}),
+				hidden: true,
 				valueField: 'id_especialidad',
 				displayField: 'nombre',
 				gdisplayField: 'nombre_especialidad',
@@ -185,7 +216,7 @@ Phx.vista.recurso=Ext.extend(Phx.gridInterfaz,{
 				mode: 'remote',
 				pageSize: 20,
 				queryDelay: 500,
-				width: '80%',
+				anchor: '99%',
 				gwidth: 150,
 				minChars: 2,
 				renderer: function (value, p, record) {
@@ -220,6 +251,7 @@ Phx.vista.recurso=Ext.extend(Phx.gridInterfaz,{
 					remoteSort: true,
 					baseParams: {par_filtro:'nombre'}
 				}),
+				hidden: true,
 				valueField: 'id_servicio',
 				displayField: 'nombre',
 				gdisplayField: 'nombre_servicio',
@@ -231,7 +263,7 @@ Phx.vista.recurso=Ext.extend(Phx.gridInterfaz,{
 				pageSize: 20,
 				queryDelay: 500,
 				visible: false,
-				width: '80%',
+				anchor: '99%',
 				gwidth: 150,
 				minChars: 2,
 				renderer: function (value, p, record) {
@@ -276,7 +308,7 @@ Phx.vista.recurso=Ext.extend(Phx.gridInterfaz,{
 				mode: 'remote',
 				pageSize: 20,
 				queryDelay: 500,
-				width: '80%',
+				anchor: '100%',
 				gwidth: 70,
 				minChars: 2,
 				renderer: function (value, p, record) {
@@ -297,7 +329,7 @@ Phx.vista.recurso=Ext.extend(Phx.gridInterfaz,{
 				name: 'cantidad',
 				fieldLabel: 'Cantidad',
 				allowBlank: false,
-				anchor: '30%',
+				width: 50,
 				gwidth: 70,
 				maxLength: 100
 			},
@@ -314,7 +346,7 @@ Phx.vista.recurso=Ext.extend(Phx.gridInterfaz,{
 				name: 'costo',
 				fieldLabel: 'Costo',
 				allowBlank: false,
-				anchor: '30%',
+				width: 50,
 				gwidth: 70,
 				maxLength: 100
 			},
@@ -381,17 +413,10 @@ Phx.vista.recurso=Ext.extend(Phx.gridInterfaz,{
 		field: 'id_recurso',
 		direction: 'ASC'
 	},
-	constructor: function(config) {
-		Phx.vista.recurso.superclass.constructor.call(this,config);
-		this.init();
-		this.grid.getTopToolbar().disable();
-   		this.grid.getBottomToolbar().disable(); 
-   		this.store.removeAll();
-	},
 	bdel: true,
 	bsave: false,
-	fheight: 350,
-	fwidth: 500,
+	fheight: 400,
+	fwidth: 410,
 	onReloadPage:function(m) {
 		this.maestro=m;
 		this.Atributos[1].valorInicial=this.maestro.id_actividad;
