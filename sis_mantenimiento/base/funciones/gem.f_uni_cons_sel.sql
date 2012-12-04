@@ -1,3 +1,5 @@
+--------------- SQL ---------------
+
 CREATE OR REPLACE FUNCTION gem.f_uni_cons_sel (
   p_administrador integer,
   p_id_usuario integer,
@@ -243,8 +245,13 @@ BEGIN
 						tuc.codigo,
 						tuc.id_localizacion as id_localizacion_fk,
                         (tuc.id_localizacion::varchar||''_''||tuc.id_uni_cons::varchar)::varchar as id_localizacion,
-                         (''uni_cons'')::varchar    as tipo_nodo
-						
+                        tuc.incluir_calgen,
+                         case
+                          when (tuc.incluir_calgen)then
+                               ''uni_cons''::varchar
+                          ELSE
+                              ''uni_cons_f''::varchar
+                          END as tipo_nodo
 						from gem.tuni_cons tuc
 						inner join segu.tusuario usu1 on usu1.id_usuario = tuc.id_usuario_reg
 						left join segu.tusuario usu2 on usu2.id_usuario = tuc.id_usuario_mod

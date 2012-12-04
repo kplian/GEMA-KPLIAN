@@ -36,7 +36,7 @@ class ACTLocalizacion extends ACTbase{
 		$tipo_nodo=$this->objParam->getParametro('tipo_nodo');
 		
 		
-		if($tipo_nodo != 'uni_cons'){
+		if($tipo_nodo != 'uni_cons' && $tipo_nodo != 'uni_cons_f'){
 			
 					if($node=='id'){
 						$this->objParam->addParametro('id_padre','%');
@@ -56,7 +56,7 @@ class ACTLocalizacion extends ACTbase{
 					array_push($arreglo,array('nombre'=>'id','valor'=>'id_localizacion'));
 					array_push($arreglo,array('nombre'=>'id_p','valor'=>'id_localizacion_fk'));
 					
-					array_push($arreglo,array('nombre'=>'text','valor'=>'nombre'));
+					array_push($arreglo,array('nombre'=>'text','valor'=>'texto'));
 					array_push($arreglo,array('nombre'=>'cls','valor'=>'nombre'));
 					array_push($arreglo,array('nombre'=>'qtip','valores'=>'<b> #codigo#</b><br> #nombre#'));
 					
@@ -98,10 +98,21 @@ class ACTLocalizacion extends ACTbase{
 																	'allowDelete'=>false,
 																	'allowEdit'=>false,
 					 												'cls'=>'folder',
-					 												'tipo_nodo'=>'uni_cons',
+					 												
 					 												'icon'=>'../../../lib/imagenes/otros/tuc.png'
 					 												),
 					 												$arreglo);
+				
+				   $this->res->addNivelArbol('tipo_nodo','uni_cons_f',array('leaf'=>false,
+																	'allowDelete'=>false,
+																	'allowEdit'=>false,
+					 												'cls'=>'folder',
+					 												
+					 												'icon'=>'../../../lib/imagenes/otros/tucred.png'
+					 												),
+					 												$arreglo);
+				
+				
 				//Se imprime el arbol en formato JSON
 		       $this->res->imprimirRespuesta($this->res->generarJson());	 
 																

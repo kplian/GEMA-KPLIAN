@@ -74,6 +74,8 @@ function listarLocalizacionArb(){
 		$this->captura('latitud','text');
 		$this->captura('longitud','text');
 		$this->captura('usr_reg','varchar');
+		$this->captura('texto','text');
+		
 		$this->captura('tipo_nodo','varchar');
 		
 		//Ejecuta la instruccion
@@ -107,6 +109,7 @@ function listarLocalizacionArb(){
 			$this->captura('codigo','varchar');
 			$this->captura('id_localizacion_fk','integer');
 			$this->captura('id_localizacion','varchar');
+			$this->captura('incluir_calgen','boolean');
 			$this->captura('tipo_nodo','varchar');
 			
 			

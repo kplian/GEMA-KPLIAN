@@ -118,7 +118,7 @@ BEGIN
                         loc.latitud,
                         loc.longitud,
 						usu1.cuenta as usr_reg,
-						
+						''[''||loc.codigo||''] ''||loc.nombre as texto,
                         case
                           when (loc.id_localizacion_fk is null )then
                                ''raiz''::varchar

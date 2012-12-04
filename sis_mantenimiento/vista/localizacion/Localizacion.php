@@ -242,9 +242,9 @@ Phx.vista.Localizacion=Ext.extend(Phx.arbInterfaz,{
 	},
 	
 	onBeforeLoad:function(treeLoader, node) {
-		
-		treeLoader.baseParams.tipo_nodo = node.attributes.tipo_nodo;
-		if(node.attributes.tipo_nodo=='uni_cons'){
+		var tiponodo = node.attributes.tipo_nodo;
+		treeLoader.baseParams.tipo_nodo = tiponodo;
+		if(tiponodo=='uni_cons'|| tiponodo=='uni_cons_f'){
 			treeLoader.baseParams.id_uni_cons = node.attributes.id_uni_cons;
 		}
 		Phx.vista.Localizacion.superclass.onBeforeLoad.call(this,treeLoader, node)
@@ -256,7 +256,7 @@ Phx.vista.Localizacion=Ext.extend(Phx.arbInterfaz,{
 		var data =node.attributes;
 		//el boton de bloqueo solo se habilita para
 		//noso raiz del tipo TUC
-		if(data && (data.tipo_nodo == 'rama' )){
+		if(data && (data.tipo_nodo == 'rama' || data.tipo_nodo == 'uni_cons_f' || data.tipo_nodo == 'uni_cons')){
 		    Phx.CP.loadingShow();
 			
 			var aux;
@@ -307,11 +307,11 @@ Phx.vista.Localizacion=Ext.extend(Phx.arbInterfaz,{
 		
 			Phx.CP.loadingShow();
 				
-		
+		    var tiponodo = nodo.attributes.tipo_nodo;
 		    var dateFechaIni =this.formUCCL.getForm().findField('fecha_ini');
 		    var dateFechaFin =this.formUCCL.getForm().findField('fecha_fin');
 		         
-		    if(nodo.attributes.tipo_nodo == 'uni_cons' || nodo.attributes.tipo_nodo == 'rama'){
+		    if(tiponodo == 'uni_cons_f' ||tiponodo == 'uni_cons' || tiponodo == 'rama'){
 		    	var  id_nodo= nodo.attributes.id_uni_cons;
 		    }
 		    else{
@@ -793,15 +793,17 @@ Phx.vista.Localizacion=Ext.extend(Phx.arbInterfaz,{
 	
 	preparaMenu:function(n){
 			//si es una nodo tipo carpeta habilitamos la opcion de nuevo
+				
+			var tiponodo = n.attributes.tipo_nodo;	
 							
-			if(n.attributes.tipo_nodo == 'hijo' || n.attributes.tipo_nodo == 'raiz' || n.attributes.id == 'id'){
+			if(tiponodo == 'hijo' || tiponodo == 'raiz' || n.attributes.id == 'id'){
 					this.tbar.items.get('b-new-'+this.idContenedor).enable()
 				}
 				else {
 					this.tbar.items.get('b-new-'+this.idContenedor).disable()
 				}
 			
-			 if(n.attributes.tipo_nodo != 'id'){
+			 if(tiponodo != 'id'){
 			 	this.menuOp.enable();
 			    this.menuOp.menu.items.get('b-btnVerCalGen-' + this.idContenedor).enable();
 			    this.menuOp.menu.items.get('b-btnCalGen-' + this.idContenedor).enable();
@@ -815,7 +817,7 @@ Phx.vista.Localizacion=Ext.extend(Phx.arbInterfaz,{
 				
 				
 			
-			 if(n.attributes.tipo_nodo == 'hijo'){
+			 if(tiponodo == 'hijo'){
 			    this.getBoton('AddBlock').enable();
 			 }
 			 else{
@@ -827,7 +829,7 @@ Phx.vista.Localizacion=Ext.extend(Phx.arbInterfaz,{
 		
 			// llamada funcion clace padre
 			Phx.vista.Localizacion.superclass.preparaMenu.call(this,n)
-			  if(n.attributes.tipo_nodo == 'uni_cons' || n.attributes.tipo_nodo=='rama'){
+			  if(tiponodo == 'uni_cons_f' || tiponodo == 'uni_cons' || tiponodo=='rama'){
 			  	
 			  	this.getBoton('AddBlock').disable();
 			  	
@@ -837,8 +839,8 @@ Phx.vista.Localizacion=Ext.extend(Phx.arbInterfaz,{
 			 	
 			  }
 			  
-			  
-			  if(n.attributes.tipo_nodo=='rama'){
+			  console.log(tiponodo)
+			  if(tiponodo == 'uni_cons' || tiponodo == 'uni_cons_f' || tiponodo=='rama'){
 			  	this.getBoton('btnInCalGen').enable();
 			  }
 			  else
@@ -849,7 +851,9 @@ Phx.vista.Localizacion=Ext.extend(Phx.arbInterfaz,{
 		},
 		
 		EnableSelect:function(n){
-			if(n.attributes.tipo_nodo != 'uni_cons' &&n.attributes.tipo_nodo !='rama'){	
+			
+			var tiponodo = n.attributes.tipo_nodo;
+			if(tiponodo != 'uni_cons_f' && tiponodo != 'uni_cons' && tiponodo !='rama'){	
 				var nivel = n.getDepth();
 		        var direc = this.getNombrePadre(n)
 		        if(direc){
@@ -867,7 +871,7 @@ Phx.vista.Localizacion=Ext.extend(Phx.arbInterfaz,{
 				
 				var nodo_aux;	
 				console.log('nodo',n)
-				if(n.attributes.tipo_nodo == 'rama'){
+				if(tiponodo != 'uni_cons' && tiponodo != 'uni_cons_f' &&tiponodo == 'rama'){
 					nodo_aux=n.parentNode.parentNode
 				}
 				else{
