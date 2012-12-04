@@ -176,10 +176,16 @@ class ACTLocalizacion extends ACTbase{
 	}
 						
 	function eliminarLocalizacion(){
-     $this->objFunc=$this->create('MODLocalizacion');
-	 $this->res=$this->objFunc->eliminarLocalizacion($this->objParam);
-	 $this->res->imprimirRespuesta($this->res->generarJson());
-
+		//var_dump($this->objParam);exit;
+		if($this->objParam->getParametro('tipo_meta')=='uni_cons'||$this->objParam->getParametro('tipo_meta')=='uni_cons_f'){
+			$this->objParam->addParametro('id_uni_cons',$this->objParam->getParametro('id_localizacion'));
+			$this->objFunc=$this->create('MODUniCons');
+			$this->res=$this->objFunc->inactivarUniCons($this->objParam);
+		} else {
+			$this->objFunc=$this->create('MODLocalizacion');
+			$this->res=$this->objFunc->eliminarLocalizacion($this->objParam);
+		}
+		$this->res->imprimirRespuesta($this->res->generarJson());
 	}
 			
 }

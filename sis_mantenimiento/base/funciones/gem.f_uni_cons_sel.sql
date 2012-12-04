@@ -255,7 +255,7 @@ BEGIN
 						from gem.tuni_cons tuc
 						inner join segu.tusuario usu1 on usu1.id_usuario = tuc.id_usuario_reg
 						left join segu.tusuario usu2 on usu2.id_usuario = tuc.id_usuario_mod
-                        where tuc.tipo = ''uc''
+                        where tuc.tipo = ''uc'' and tuc.estado_reg = ''activo''
 				        and tuc.tipo_nodo = ''raiz'' and (tuc.estado=''aprobado'' or tuc.estado=''registrado'') 
                         and  tuc.id_localizacion= '|| v_parametros.id_localizacion;
 			 

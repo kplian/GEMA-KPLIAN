@@ -751,6 +751,20 @@ Phx.vista.Localizacion=Ext.extend(Phx.arbInterfaz,{
 			
 		//this.getComponente('nivel').setValue((nodo.attributes.nivel*1)+1);
 	 },
+	 onButtonDel:function(){
+			var nodo = this.sm.getSelectedNode();	
+			console.log(nodo)
+			if(nodo.attributes.tipo_nodo=='uni_cons'||nodo.attributes.tipo_nodo=='uni_cons_f'){
+				nodo.attributes.tipo_meta = nodo.attributes.tipo_nodo;
+				nodo.attributes.id_localizacion = nodo.attributes.id_uni_cons;
+				//Phx.CP.log('fas',nodo)
+				console.log(nodo)	
+			}
+			Phx.vista.Localizacion.superclass.onButtonDel.call(this);
+			Phx.CP.getPagina(this.idContenedor+'-east').setMarkerDragableOn();
+			
+		//this.getComponente('nivel').setValue((nodo.attributes.nivel*1)+1);
+	 },
 	 
 	
 	
@@ -845,7 +859,7 @@ Phx.vista.Localizacion=Ext.extend(Phx.arbInterfaz,{
 			  	
 			  	this.tbar.items.get('b-new-'+this.idContenedor).disable()
 			  	this.tbar.items.get('b-edit-'+this.idContenedor).disable()
-			  	this.tbar.items.get('b-del-'+this.idContenedor).disable()
+			  	//this.tbar.items.get('b-del-'+this.idContenedor).disable()
 			 	
 			  }
 			  
