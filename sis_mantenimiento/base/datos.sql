@@ -8,3 +8,7 @@ select pxp.f_add_catalog('GEM','torden_trabajo_cat_prior','Media');
 select pxp.f_add_catalog('GEM','torden_trabajo_cat_prior','Baja');
 select pxp.f_add_catalog('GEM','torden_trabajo_cat_tipo','Preventivo');
 select pxp.f_add_catalog('GEM','torden_trabajo_cat_tipo','Correctivo');
+select pxp.f_add_catalog('GEM','ttpm_tarjeta_cat_tipo_instalacion','Estacion');
+select pxp.f_add_catalog('GEM','ttpm_tarjeta_cat_tipo_instalacion','Planta');
+select pxp.f_add_catalog('GEM','tanalisis_porque_cat_estado_analisis_porque','En proceso');
+select pxp.f_add_catalog('GEM','tanalisis_porque_cat_estado_analisis_porque','Terminado');

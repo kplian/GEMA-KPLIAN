@@ -962,7 +962,7 @@ Phx.vista.Localizacion=Ext.extend(Phx.arbInterfaz,{
 		//Grupo de opciones a nivel de localizaciones
 		this.ctxMenu.add('-');
 		this.ctxMenu.addMenuItem({text:'Usuarios por Localización',handler:this.onBtnUsuario,scope:this});
-		this.ctxMenu.addMenuItem({text:'Tarjetas TPM',handler:this.onBtnTarjetaTPM,scope:this});
+		this.ctxMenu.addMenuItem({text:'Tarjetas TPM',handler:this.onBtnTarjetasTPM,scope:this});
 		//Grupo de opciones para Equipos
 		this.ctxMenu.add('-');
 		this.ctxMenu.addMenuItem({text:'Agregar Equipo',handler:this.onBtnAddEquipo,scope:this});

@@ -71,6 +71,47 @@ BEGIN
 			return v_consulta;
 						
 		end;
+        
+    /*********************************    
+ 	#TRANSACCION:  'GM_TARTPM_REP'
+ 	#DESCRIPCION:	Consulta de datos para el reporte
+ 	#AUTOR:		Gonzalo Sarmiento Sejas	
+ 	#FECHA:		04-12-2012 02:21:39
+	***********************************/
+
+	elsif(p_transaccion='GM_TARTPM_REP')then
+     				
+    	begin
+    		--Sentencia de la consulta
+			v_consulta:='select
+						tartpm.id_tpm_tarjeta,
+						tartpm.id_localizacion,
+                        loc.nombre as localizacion,
+						tartpm.estado_reg,
+						tartpm.fecha_emision,
+						tartpm.tipo,
+						tartpm.revision,
+						tartpm.codigo,
+						to_char(tartpm.fecha_reg, ''dd/MM/YYYY'') as fecha_reg,
+						tartpm.id_usuario_reg,
+                        tartpm.id_usuario_mod,
+						to_char(tartpm.fecha_mod,''dd/MM/YYYY'') as fecha_mod,
+						usu1.cuenta as usr_reg,
+						usu2.cuenta as usr_mod	
+						from gem.ttpm_tarjeta tartpm
+						inner join segu.tusuario usu1 on usu1.id_usuario = tartpm.id_usuario_reg
+						left join segu.tusuario usu2 on usu2.id_usuario = tartpm.id_usuario_mod
+                        left join gem.tlocalizacion loc on loc.id_localizacion = tartpm.id_localizacion
+				        where tartpm.id_localizacion='||v_parametros.id_localizacion||' and ';
+			
+			--Definicion de la respuesta
+			v_consulta:=v_consulta||v_parametros.filtro;
+			v_consulta:=v_consulta||' order by ' ||v_parametros.ordenacion|| ' ' || v_parametros.dir_ordenacion || ' limit ' || v_parametros.cantidad || ' offset ' || v_parametros.puntero;
+
+			--Devuelve la respuesta
+			return v_consulta;
+						
+		end;
 
 	/*********************************    
  	#TRANSACCION:  'GM_TARTPM_CONT'

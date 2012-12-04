@@ -16,6 +16,30 @@ Phx.vista.TpmTarjeta=Ext.extend(Phx.gridInterfaz,{
 		this.maestro=config.maestro;
     	//llama al constructor de la clase padre
 		Phx.vista.TpmTarjeta.superclass.constructor.call(this,config);
+		
+		this.addButton('btnReporte',{
+            text:'Reporte',
+            iconCls: 'blist',
+            disabled: false,
+            handler:function(){
+                var rec=this.sm.getSelected();
+                console.debug(rec);
+                Ext.Ajax.request({
+                    url:'../../sis_mantenimiento/control/TpmTarjeta/planillaTpmTarjeta',
+                    params:{'id_localizacion':rec.data.id_localizacion},
+                    success: this.successExport,
+                    failure: function() {
+                        console.log("fail");
+                    },
+                    timeout: function() {
+                        console.log("timeout");
+                    },
+                    scope:this
+                });
+            },
+            tooltip: '<b>Reporte</b><br/>Planilla de control tarjeta TPM'
+        });
+        
 		this.init();
         this.load({params:{start:0, limit:50, id_localizacion:this.id_localizacion}})
         this.loadValoresIniciales();
@@ -105,7 +129,7 @@ Phx.vista.TpmTarjeta=Ext.extend(Phx.gridInterfaz,{
                 gwidth: 80,
                 baseParams:{
                         cod_subsistema:'GEM',
-                        catalogo_tipo:'tipo_instalacion'
+                        catalogo_tipo:'ttpm_tarjeta_cat_tipo_instalacion'
                     }
             },
             type: 'ComboRec',
