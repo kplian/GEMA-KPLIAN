@@ -1,8 +1,13 @@
-CREATE OR REPLACE FUNCTION "gem"."ft_orden_trabajo_ime" (	
-				p_administrador integer, p_id_usuario integer, p_tabla character varying, p_transaccion character varying)
-RETURNS character varying AS
-$BODY$
+--------------- SQL ---------------
 
+CREATE OR REPLACE FUNCTION gem.ft_orden_trabajo_ime (
+  p_administrador integer,
+  p_id_usuario integer,
+  p_tabla varchar,
+  p_transaccion varchar
+)
+RETURNS varchar AS
+$body$
 /**************************************************************************
  SISTEMA:		SISTEMA DE GESTION DE MANTENIMIENTO
  FUNCION: 		gem.ft_orden_trabajo_ime
@@ -60,7 +65,6 @@ BEGIN
 			id_unidad_medida,
 			descripcion,
 			id_funcionario_sol,
-			prioridad,
 			ubicacion_tecnica,
 			fecha_eje_fin,
 			id_uni_cons_mant_predef,
@@ -68,6 +72,9 @@ BEGIN
 			fecha_plan_fin,
 			nota_tecnico_loc,
 			id_uni_cons,
+            cat_estado,
+            cat_prior,
+            cat_tipo,
 			id_usuario_reg,
 			fecha_reg,
 			id_usuario_mod,
@@ -88,7 +95,6 @@ BEGIN
 			v_parametros.id_unidad_medida,
 			v_parametros.descripcion,
 			v_parametros.id_funcionario_sol,
-			v_parametros.prioridad,
 			v_parametros.ubicacion_tecnica,
 			v_parametros.fecha_eje_fin,
 			v_parametros.id_uni_cons_mant_predef,
@@ -96,6 +102,9 @@ BEGIN
 			v_parametros.fecha_plan_fin,
 			v_parametros.nota_tecnico_loc,
 			v_parametros.id_uni_cons,
+            v_parametros.cat_estado,
+            v_parametros.cat_prior,
+            v_parametros.cat_tipo,
 			p_id_usuario,
 			now(),
 			null,
@@ -137,7 +146,6 @@ BEGIN
 			id_unidad_medida = v_parametros.id_unidad_medida,
 			descripcion = v_parametros.descripcion,
 			id_funcionario_sol = v_parametros.id_funcionario_sol,
-			prioridad = v_parametros.prioridad,
 			ubicacion_tecnica = v_parametros.ubicacion_tecnica,
 			fecha_eje_fin = v_parametros.fecha_eje_fin,
 			id_uni_cons_mant_predef = v_parametros.id_uni_cons_mant_predef,
@@ -145,6 +153,9 @@ BEGIN
 			fecha_plan_fin = v_parametros.fecha_plan_fin,
 			nota_tecnico_loc = v_parametros.nota_tecnico_loc,
 			id_uni_cons = v_parametros.id_uni_cons,
+			cat_estado = v_parametros.cat_estado,
+            cat_prior = v_parametros.cat_prior,
+            cat_tipo = v_parametros.cat_tipo,
 			id_usuario_mod = p_id_usuario,
 			fecha_mod = now()
 			where id_orden_trabajo=v_parametros.id_orden_trabajo;
@@ -197,7 +208,9 @@ EXCEPTION
 		raise exception '%',v_resp;
 				        
 END;
-$BODY$
-LANGUAGE 'plpgsql' VOLATILE
+$body$
+LANGUAGE 'plpgsql'
+VOLATILE
+CALLED ON NULL INPUT
+SECURITY INVOKER
 COST 100;
-ALTER FUNCTION "gem"."ft_orden_trabajo_ime"(integer, integer, character varying, character varying) OWNER TO postgres;

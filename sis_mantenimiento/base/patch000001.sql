@@ -1319,7 +1319,6 @@ select pxp.f_insert_tfuncion ('gem.ft_falla_evento_externo_sel', 'Funcion para t
 
 /***********************************F-SCP-FRH-GEM-49-27/11/2012*****************************************/
 
-
 /***********************************I-SCP-RAC-GEM-60-04/12/2012*****************************************/
 
 --------------- SQL ---------------
@@ -1331,3 +1330,41 @@ ALTER TABLE gem.tuni_cons
 
 /***********************************F-SCP-RAC-GEM-60-04/12/2012*****************************************/
   
+/***********************************I-SCP-AAO-GEM-4-04/12/2012*****************************************/
+
+--------------- SQL ---------------
+ALTER TABLE gem.torden_trabajo
+  DROP CONSTRAINT fk_torden_trabajo__id_cat_estado RESTRICT;
+
+ALTER TABLE gem.torden_trabajo
+  DROP CONSTRAINT fk_torden_trabajo__id_cat_prior RESTRICT;
+
+ALTER TABLE gem.torden_trabajo
+  DROP CONSTRAINT fk_torden_trabajo__id_cat_tipo RESTRICT;
+
+--------------- SQL ---------------
+  
+ALTER TABLE gem.torden_trabajo
+  RENAME COLUMN id_cat_estado TO cat_estado;
+
+ALTER TABLE gem.torden_trabajo
+  ALTER COLUMN cat_estado TYPE VARCHAR(50);
+
+ALTER TABLE gem.torden_trabajo
+  RENAME COLUMN id_cat_prior TO cat_prior;
+
+ALTER TABLE gem.torden_trabajo
+  ALTER COLUMN cat_prior TYPE VARCHAR(50);
+    
+ALTER TABLE gem.torden_trabajo
+  RENAME COLUMN id_cat_tipo TO cat_tipo;
+
+ALTER TABLE gem.torden_trabajo
+  ALTER COLUMN cat_tipo TYPE VARCHAR(50);
+
+--------------- SQL ---------------
+
+ALTER TABLE gem.torden_trabajo
+  DROP COLUMN prioridad;
+   
+/***********************************F-SCP-AAO-GEM-4-04/12/2012*****************************************/
