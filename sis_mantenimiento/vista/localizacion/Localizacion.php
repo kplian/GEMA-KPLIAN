@@ -134,7 +134,12 @@ Phx.vista.Localizacion=Ext.extend(Phx.arbInterfaz,{
      cmbUC.store.on('exception',this.conexionFailure,this)
      var codigo =this.formUC.getForm().findField('codigo_uni_cons');
     
-      cmbUC.on('select',function(c,a,d){ console.log(c,a,d);codigo.setValue(a.data.codigo)})
+      cmbUC.on('select',function(c,a,d){
+      	
+      	var nodo = this.sm.getSelectedNode();	
+      	codigo.setValue(nodo.parentNode.attributes.codigo+'-'+nodo.attributes.codigo+'-'+a.data.codigo)  
+      	
+      },this);
     
     
      this.wUC = new Ext.Window({
@@ -361,13 +366,15 @@ Phx.vista.Localizacion=Ext.extend(Phx.arbInterfaz,{
 	         
 	         console.log(nodo.attributes.id_localizacion);
 			
+			 var codigo_loc=nodo.parentNode.attributes.codigo+'-'+nodo.attributes.codigo
+			
 			 Ext.Ajax.request({
 	                    url: '../../sis_mantenimiento/control/UniCons/addUniCons',
 	                    params: {
 	                    	id_uni_cons:cmbUC.getValue(),
 	                    	codigo_uni_cons:codigo.getValue(),
 	                    	id_localizacion:nodo.attributes.id_localizacion,
-	                    	codigo_localizacion:nodo.attributes.codigo,
+	                    	codigo_localizacion:codigo_loc,
 	                    	nombre:nodo.attributes.nombre},
 	                    success: this.successAddUniCons,
 	                    failure:this.conexionFailure,
@@ -424,6 +431,9 @@ Phx.vista.Localizacion=Ext.extend(Phx.arbInterfaz,{
 	},
 	onBtnAddEquipo:function(){
 		var nodo = this.sm.getSelectedNode();
+		
+		
+		this.formUC.form.reset()
 		if(nodo){
 			this.wUC.show()
 		}

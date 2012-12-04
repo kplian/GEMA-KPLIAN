@@ -516,7 +516,7 @@ BEGIN
       END LOOP;
             -- 3) busca recursivamente hijos pxp.f_addunicon_recursivo
       
-             v_resp_bool = gem.f_addunicon_recursivo(v_parametros.id_uni_cons,v_id_uni_cons,p_id_usuario,'raiz');
+             v_resp_bool = gem.f_addunicon_recursivo(v_parametros.id_uni_cons,v_id_uni_cons,p_id_usuario,'raiz',v_parametros.codigo_uni_cons);
              
             -- 3.1) llamada a la clonacion de datos
             

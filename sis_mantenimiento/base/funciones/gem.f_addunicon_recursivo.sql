@@ -1,10 +1,14 @@
 --------------- SQL ---------------
 
-CREATE OR REPLACE FUNCTION gem.f_addunicon_recursivo (
+ -- object recreation
+DROP FUNCTION gem.f_addunicon_recursivo(v_id_orig integer, v_id_cop integer, v_id_usuario integer, v_tipo_nodo varchar);
+
+CREATE FUNCTION gem.f_addunicon_recursivo (
   v_id_orig integer,
   v_id_cop integer,
   v_id_usuario integer,
-  v_tipo_nodo varchar
+  v_tipo_nodo varchar,
+  v_codigo varchar
 )
 RETURNS boolean AS
 $body$
@@ -126,7 +130,7 @@ BEGIN
                'registrado',
                 upper(g_registros.nombre),
                 'uc',
-                upper(g_registros.codigo),
+                v_codigo||'-'||upper(g_registros.codigo),
                 g_registros.id_tipo_equipo,
                 v_id_usuario,
                 now(),
@@ -164,7 +168,7 @@ BEGIN
  	 --   2.3) llamamos recursivamente a la funcion pxp.f_addunicon_recursivo con el nuevo 
   	 --         id_cop la insercions y el nuevo id_orgig
            
-        v_resp_bool = gem.f_addunicon_recursivo(g_registros.id_uni_cons ,v_id_uni_cons,v_id_usuario,'rama');
+        v_resp_bool = gem.f_addunicon_recursivo(g_registros.id_uni_cons ,v_id_uni_cons,v_id_usuario,'rama', v_codigo||'-'||upper(g_registros.codigo));
       
       
       -- 2.4) llamada a la clonacion de datos
@@ -189,3 +193,6 @@ VOLATILE
 CALLED ON NULL INPUT
 SECURITY INVOKER
 COST 100;
+
+ALTER FUNCTION "gem"."f_addunicon_recursivo"(v_id_orig integer, v_id_cop integer, v_id_usuario integer, v_tipo_nodo varchar, v_codigo varchar)
+  OWNER TO postgres;

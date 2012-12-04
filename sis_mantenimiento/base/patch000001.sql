@@ -1318,3 +1318,16 @@ select pxp.f_insert_tfuncion ('gem.ft_falla_evento_externo_sel', 'Funcion para t
 
 
 /***********************************F-SCP-FRH-GEM-49-27/11/2012*****************************************/
+
+
+/***********************************I-SCP-RAC-GEM-60-04/12/2012*****************************************/
+
+--------------- SQL ---------------
+
+ALTER TABLE gem.tuni_cons
+  ALTER COLUMN codigo TYPE VARCHAR(150) COLLATE pg_catalog."default";
+  
+  
+
+/***********************************F-SCP-RAC-GEM-60-04/12/2012*****************************************/
+  

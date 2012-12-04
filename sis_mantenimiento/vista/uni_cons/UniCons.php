@@ -242,7 +242,7 @@ Phx.vista.UniCons=Ext.extend(Phx.arbInterfaz,{
 				allowBlank: true,
 				anchor: '80%',
 				gwidth: 100,
-				maxLength:20
+				maxLength:140
 			},
 			type:'TextField',
 			filters:{pfiltro:'tuc.codigo',type:'string'},
