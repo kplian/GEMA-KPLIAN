@@ -1368,3 +1368,21 @@ ALTER TABLE gem.torden_trabajo
   DROP COLUMN prioridad;
    
 /***********************************F-SCP-AAO-GEM-4-04/12/2012*****************************************/
+
+/***********************************I-SCP-RCM-GEM-4-04/12/2012*****************************************/
+create table gem.torden_trabajo_log(
+  id_orden_trabajo_log serial not null,
+  id_orden_trabajo integer,
+  estado_ini varchar(30),
+  estado_fin varchar(30),
+  fecha timestamp default now(),
+  CONSTRAINT pk_torden_trabajo_log__id_orden_trabajo_log PRIMARY KEY (id_orden_trabajo_log),
+  CONSTRAINT fk_torden_trabajo_log__id_orden_trabajo FOREIGN KEY (id_orden_trabajo)
+      REFERENCES gem.torden_trabajo (id_orden_trabajo) MATCH SIMPLE
+      ON UPDATE NO ACTION ON DELETE NO ACTION
+) INHERITS (pxp.tbase)
+WITH (
+  OIDS=TRUE
+);
+ALTER TABLE gem.torden_trabajo_log OWNER TO postgres;
+/***********************************F-SCP-RCM-GEM-4-04/12/2012*****************************************/
