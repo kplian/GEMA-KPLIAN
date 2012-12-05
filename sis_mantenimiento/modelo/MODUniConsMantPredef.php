@@ -36,6 +36,9 @@ class MODUniConsMantPredef extends MODbase{
 		$this->captura('usr_mod','varchar');
 		$this->captura('desc_mant_predef','text');
 		$this->captura('desc_unidad_medida','text');
+		$this->captura('id_unidad_medida_estimado','int4');
+		$this->captura('tiempo_estimado','numeric');
+		$this->captura('desc_unidad_medida_estimado','varchar');
 		
 		//Ejecuta la instruccion
 		$this->armarConsulta();
@@ -59,6 +62,8 @@ class MODUniConsMantPredef extends MODbase{
 		$this->setParametro('ult_fecha_mant','ult_fecha_mant','timestamp');
 		$this->setParametro('fecha_ini','fecha_ini','timestamp');
 		$this->setParametro('estado_reg','estado_reg','varchar');
+		$this->setParametro('id_unidad_medida_estimado','id_unidad_medida_estimado','int4');
+		$this->setParametro('tiempo_estimado','tiempo_estimado','numeric');
 
 		//Ejecuta la instruccion
 		$this->armarConsulta();
@@ -83,6 +88,8 @@ class MODUniConsMantPredef extends MODbase{
 		$this->setParametro('ult_fecha_mant','ult_fecha_mant','timestamp');
 		$this->setParametro('fecha_ini','fecha_ini','timestamp');
 		$this->setParametro('estado_reg','estado_reg','varchar');
+		$this->setParametro('id_unidad_medida_estimado','id_unidad_medida_estimado','int4');
+		$this->setParametro('tiempo_estimado','tiempo_estimado','numeric');
 
 		//Ejecuta la instruccion
 		$this->armarConsulta();

@@ -56,12 +56,16 @@ BEGIN
 						usu1.cuenta as usr_reg,
 						usu2.cuenta as usr_mod,
 						gemapr.codigo || '' - '' || gemapr.nombre as desc_mant_predef,
-						paunme.codigo || '' - '' || paunme.descripcion as desc_unidad_medida
+						paunme.codigo || '' - '' || paunme.descripcion as desc_unidad_medida,
+						geeqma.id_unidad_medida_estimado,
+						geeqma.tiempo_estimado,
+						unimed.descripcion as desc_unidad_medida_estimado
 						from gem.tuni_cons_mant_predef geeqma
 						inner join segu.tusuario usu1 on usu1.id_usuario = geeqma.id_usuario_reg
 						left join segu.tusuario usu2 on usu2.id_usuario = geeqma.id_usuario_mod
 						inner join gem.tmant_predef gemapr on gemapr.id_mant_predef = geeqma.id_mant_predef
 						inner join param.tunidad_medida paunme on paunme.id_unidad_medida = geeqma.id_unidad_medida
+						left join param.tunidad_medida unimed on unimed.id_unidad_medida = geeqma.id_unidad_medida_estimado
 				        where  ';
 			
 			--Definicion de la respuesta
@@ -90,6 +94,7 @@ BEGIN
 						left join segu.tusuario usu2 on usu2.id_usuario = geeqma.id_usuario_mod
 						inner join gem.tmant_predef gemapr on gemapr.id_mant_predef = geeqma.id_mant_predef
 						inner join param.tunidad_medida paunme on paunme.id_unidad_medida = geeqma.id_unidad_medida
+						left join param.tunidad_medida unimed on unimed.id_unidad_medida = geeqma.id_unidad_medida_estimado
 					    where ';
 			
 			--Definicion de la respuesta		    

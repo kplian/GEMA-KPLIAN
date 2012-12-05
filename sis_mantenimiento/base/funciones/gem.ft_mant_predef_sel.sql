@@ -53,11 +53,15 @@ BEGIN
 						usu1.cuenta as usr_reg,
 						usu2.cuenta as usr_mod,
 						gemapr.id_tipo_equipo,
-						getieq.nombre as desc_tipo_equipo	
+						getieq.nombre as desc_tipo_equipo,
+						gemapr.id_unidad_medida_estimado,
+						gemapr.tiempo_estimado,
+						unimed.descripcion as desc_unidad_medida_estimado	
 						from gem.tmant_predef gemapr
 						inner join segu.tusuario usu1 on usu1.id_usuario = gemapr.id_usuario_reg
 						left join segu.tusuario usu2 on usu2.id_usuario = gemapr.id_usuario_mod
 						inner join gem.ttipo_equipo getieq on getieq.id_tipo_equipo = gemapr.id_tipo_equipo
+						left join param.tunidad_medida unimed on unimed.id_unidad_medida = gemapr.id_unidad_medida_estimado
 				        where  ';
 			
 			--Definicion de la respuesta
@@ -85,6 +89,7 @@ BEGIN
 					    inner join segu.tusuario usu1 on usu1.id_usuario = gemapr.id_usuario_reg
 						left join segu.tusuario usu2 on usu2.id_usuario = gemapr.id_usuario_mod
 						inner join gem.ttipo_equipo getieq on getieq.id_tipo_equipo = gemapr.id_tipo_equipo
+						left join param.tunidad_medida unimed on unimed.id_unidad_medida = gemapr.id_unidad_medida_estimado
 					    where ';
 			
 			--Definicion de la respuesta		    

@@ -33,6 +33,9 @@ class MODMantPredef extends MODbase{
 		$this->captura('usr_mod','varchar');
 		$this->captura('id_tipo_equipo','int4');
 		$this->captura('desc_tipo_equipo','varchar');
+		$this->captura('id_unidad_medida_estimado','int4');
+		$this->captura('tiempo_estimado','numeric');
+		$this->captura('desc_unidad_medida_estimado','varchar');
 		
 		//Ejecuta la instruccion
 		$this->armarConsulta();
@@ -54,6 +57,8 @@ class MODMantPredef extends MODbase{
 		$this->setParametro('nombre','nombre','varchar');
 		$this->setParametro('estado_reg','estado_reg','varchar');
 		$this->setParametro('id_tipo_equipo','id_tipo_equipo','int4');
+		$this->setParametro('id_unidad_medida_estimado','id_unidad_medida_estimado','int4');
+		$this->setParametro('tiempo_estimado','tiempo_estimado','numeric');
 
 		//Ejecuta la instruccion
 		$this->armarConsulta();
@@ -76,6 +81,8 @@ class MODMantPredef extends MODbase{
 		$this->setParametro('nombre','nombre','varchar');
 		$this->setParametro('estado_reg','estado_reg','varchar');
 		$this->setParametro('id_tipo_equipo','id_tipo_equipo','int4');
+		$this->setParametro('id_unidad_medida_estimado','id_unidad_medida_estimado','int4');
+		$this->setParametro('tiempo_estimado','tiempo_estimado','numeric');
 
 		//Ejecuta la instruccion
 		$this->armarConsulta();

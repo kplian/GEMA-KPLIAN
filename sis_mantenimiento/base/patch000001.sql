@@ -1369,7 +1369,7 @@ ALTER TABLE gem.torden_trabajo
    
 /***********************************F-SCP-AAO-GEM-4-04/12/2012*****************************************/
 
-/***********************************I-SCP-RCM-GEM-4-04/12/2012*****************************************/
+/***********************************I-SCP-RCM-GEM-64-04/12/2012*****************************************/
 create table gem.torden_trabajo_log(
   id_orden_trabajo_log serial not null,
   id_orden_trabajo integer,
@@ -1385,4 +1385,11 @@ WITH (
   OIDS=TRUE
 );
 ALTER TABLE gem.torden_trabajo_log OWNER TO postgres;
-/***********************************F-SCP-RCM-GEM-4-04/12/2012*****************************************/
+/***********************************F-SCP-RCM-GEM-64-04/12/2012*****************************************/
+
+/***********************************I-SCP-RCM-GEM-0-05/12/2012*****************************************/
+alter table gem.tuni_cons_mant_predef add column id_unidad_medida_estimado integer;
+alter table gem.tuni_cons_mant_predef add column tiempo_estimado numeric(18,2) ;
+alter table gem.tmant_predef add column id_unidad_medida_estimado integer;
+alter table gem.tmant_predef add column tiempo_estimado numeric(18,2);
+/***********************************F-SCP-RCM-GEM-0-05/12/2012*****************************************/
