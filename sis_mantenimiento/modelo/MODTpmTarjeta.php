@@ -104,6 +104,37 @@ class MODTpmTarjeta extends MODbase{
 		//Devuelve la respuesta
 		return $this->respuesta;
 	}
+    
+    function listarTpmTarjetaReporte(){
+        //Definicion de variables para ejecucion del procedimientp
+        $this->procedimiento='gem.ft_tpm_tarjeta_sel';
+        $this->transaccion='GM_TARTPM_REP';
+        $this->tipo_procedimiento='SEL';//tipo de transaccion
+    
+        $this->setParametro('id_localizacion','id_localizacion','int4');
+        //Definicion de la lista del resultado del query
+        $this->captura('id_tpm_tarjeta','int4');
+        $this->captura('id_localizacion','int4');
+        $this->captura('localizacion','varchar');
+        $this->captura('estado_reg','varchar');
+        $this->captura('fecha_emision','date');
+        $this->captura('tipo','varchar');
+        $this->captura('revision','int4');
+        $this->captura('codigo','varchar');
+        $this->captura('fecha_reg','text');
+        $this->captura('id_usuario_reg','int4');
+        $this->captura('id_usuario_mod','int4');
+        $this->captura('fecha_mod','text');
+        $this->captura('usr_reg','varchar');
+        $this->captura('usr_mod','varchar');
+        
+        //Ejecuta la instruccion
+        $this->armarConsulta();
+        $this->ejecutarConsulta();
+        
+        //Devuelve la respuesta
+        return $this->respuesta;
+    }
 			
 }
 ?>

@@ -7,6 +7,10 @@
 *@description Clase que recibe los parametros enviados por la vista para mandar a la capa de Modelo
 */
 
+require_once(dirname(__FILE__).'/../reportes/pxpReport/ReportWriter.php');
+require_once(dirname(__FILE__).'/../reportes/RTpm_Tarjeta.php');
+require_once(dirname(__FILE__).'/../reportes/pxpReport/DataSource.php');
+
 class ACTTpmTarjeta extends ACTbase{    
 			
 	function listarTpmTarjeta(){
@@ -38,7 +42,58 @@ class ACTTpmTarjeta extends ACTbase{
 		$this->res=$this->objFunc->eliminarTpmTarjeta();
 		$this->res->imprimirRespuesta($this->res->generarJson());
 	}
-			
+	
+    function planillaTpmTarjeta(){
+        $dataSource = new DataSource();
+        $idLocalizacion = $this->objParam->getParametro('id_localizacion');
+        $this->objParam->addParametroConsulta('id_localizacion',$idLocalizacion);
+        $this->objParam->addParametroConsulta('ordenacion','id_localizacion');
+        $this->objParam->addParametroConsulta('dir_ordenacion','ASC');
+        $this->objParam->addParametroConsulta('cantidad',1000);
+        $this->objParam->addParametroConsulta('puntero',0);
+        $this->objFunc = $this->create('MODTpmTarjeta');
+        $resultTpmTarjeta = $this->objFunc->listarTpmTarjetaReporte();
+        $datosTpmTarjeta = $resultTpmTarjeta->getDatos();
+        //armamos el array parametros y metemos ahi los data sets de las otras tablas
+        
+        $idTpmTarjeta = $datosTpmTarjeta[0]['id_tpm_tarjeta'];
+        $dataSource->putParameter('codigo', $datosTpmTarjeta[0]['codigo']);
+        $dataSource->putParameter('tipo', $datosTpmTarjeta[0]['tipo']);
+        $dataSource->putParameter('revision', $datosTpmTarjeta[0]['revision']);
+        $dataSource->putParameter('localizacion', $datosTpmTarjeta[0]['localizacion']);
+        if($datosTpmTarjeta[0]['fecha_mod'] != null) {
+            $dataSource->putParameter('fechaEmision', $datosTpmTarjeta[0]['fecha_mod']);
+        } else {
+            $dataSource->putParameter('fechaEmision', $datosTpmTarjeta[0]['fecha_reg']);
+        }
+        
+        //get detalle
+        //Reset all extra params:
+        $this->objParam->defecto('ordenacion', 'id_tpm_tarjeta_det');
+        $this->objParam->defecto('cantidad', 1000);
+        $this->objParam->defecto('puntero', 0);
+        $this->objParam->addParametro('id_tpm_tarjeta', $idTpmTarjeta);
+        
+        $modTpmTarjetaDet = $this->create('MODTpmTarjetaDet');
+        $resultDetalle = $modTpmTarjetaDet->listarTpmTarjetaDet();
+        $detalleDataSource = new DataSource();
+        $detalleDataSource->setDataSet($resultDetalle->getDatos());
+        $dataSource->putParameter('detalleDataSource', $detalleDataSource);
+                
+        //build the report
+        $reporte = new RTpm_Tarjeta();
+        $reporte->setDataSource($dataSource);
+        $nombreArchivo = 'PlanillaControl_TpmTarjeta.pdf';
+        $reportWriter = new ReportWriter($reporte, dirname(__FILE__).'/../../reportes_generados/'.$nombreArchivo);
+        $reportWriter->writeReport(ReportWriter::PDF);
+        
+        $mensajeExito = new Mensaje();
+        $mensajeExito->setMensaje('EXITO','Reporte.php','Reporte generado',
+                                        'Se generó con éxito el reporte: '.$nombreArchivo,'control');
+        $mensajeExito->setArchivoGenerado($nombreArchivo);
+        $this->res = $mensajeExito;
+        $this->res->imprimirRespuesta($this->res->generarJson());
+    }		
 }
 
 ?>

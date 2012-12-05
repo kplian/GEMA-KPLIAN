@@ -394,5 +394,20 @@ class MODUniCons extends MODbase{
         
         return $this->respuesta;
     }
+	
+	function inactivarUniCons(){
+		$this->procedimiento = 'gem.f_uni_cons_ime';
+        $this->transaccion = 'GEM_INACUC_UPD';
+        $this->tipo_procedimiento = 'IME';
+		
+		$this->setParametro('id_uni_cons','id_uni_cons','int4');
+
+		//Ejecuta la instruccion
+		$this->armarConsulta();
+		$this->ejecutarConsulta();
+
+		//Devuelve la respuesta
+		return $this->respuesta;
+	}
 }
 ?>

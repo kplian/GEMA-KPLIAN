@@ -36,7 +36,6 @@ class MODOrdenTrabajo extends MODbase{
 		$this->captura('id_unidad_medida','int4');
 		$this->captura('descripcion','varchar');
 		$this->captura('id_funcionario_sol','int4');
-		$this->captura('prioridad','varchar');
 		$this->captura('ubicacion_tecnica','varchar');
 		$this->captura('fecha_eje_fin','date');
 		$this->captura('id_uni_cons_mant_predef','int4');
@@ -44,6 +43,9 @@ class MODOrdenTrabajo extends MODbase{
 		$this->captura('fecha_plan_fin','date');
 		$this->captura('nota_tecnico_loc','varchar');
 		$this->captura('id_uni_cons','int4');
+		$this->captura('cat_estado','varchar');
+		$this->captura('cat_prior','varchar');
+		$this->captura('cat_tipo','varchar');
 		$this->captura('id_usuario_reg','int4');
 		$this->captura('fecha_reg','timestamp');
 		$this->captura('id_usuario_mod','int4');
@@ -86,7 +88,6 @@ class MODOrdenTrabajo extends MODbase{
 		$this->setParametro('id_unidad_medida','id_unidad_medida','int4');
 		$this->setParametro('descripcion','descripcion','varchar');
 		$this->setParametro('id_funcionario_sol','id_funcionario_sol','int4');
-		$this->setParametro('prioridad','prioridad','varchar');
 		$this->setParametro('ubicacion_tecnica','ubicacion_tecnica','varchar');
 		$this->setParametro('fecha_eje_fin','fecha_eje_fin','date');
 		$this->setParametro('id_uni_cons_mant_predef','id_uni_cons_mant_predef','int4');
@@ -94,6 +95,9 @@ class MODOrdenTrabajo extends MODbase{
 		$this->setParametro('fecha_plan_fin','fecha_plan_fin','date');
 		$this->setParametro('nota_tecnico_loc','nota_tecnico_loc','varchar');
 		$this->setParametro('id_uni_cons','id_uni_cons','int4');
+		$this->setParametro('cat_estado','cat_estado','varchar');
+		$this->setParametro('cat_prior','cat_prior','varchar');
+		$this->setParametro('cat_tipo','cat_tipo','varchar');
 
 		//Ejecuta la instruccion
 		$this->armarConsulta();
@@ -126,7 +130,6 @@ class MODOrdenTrabajo extends MODbase{
 		$this->setParametro('id_unidad_medida','id_unidad_medida','int4');
 		$this->setParametro('descripcion','descripcion','varchar');
 		$this->setParametro('id_funcionario_sol','id_funcionario_sol','int4');
-		$this->setParametro('prioridad','prioridad','varchar');
 		$this->setParametro('ubicacion_tecnica','ubicacion_tecnica','varchar');
 		$this->setParametro('fecha_eje_fin','fecha_eje_fin','date');
 		$this->setParametro('id_uni_cons_mant_predef','id_uni_cons_mant_predef','int4');
@@ -134,6 +137,9 @@ class MODOrdenTrabajo extends MODbase{
 		$this->setParametro('fecha_plan_fin','fecha_plan_fin','date');
 		$this->setParametro('nota_tecnico_loc','nota_tecnico_loc','varchar');
 		$this->setParametro('id_uni_cons','id_uni_cons','int4');
+		$this->setParametro('cat_estado','cat_estado','varchar');
+		$this->setParametro('cat_prior','cat_prior','varchar');
+		$this->setParametro('cat_tipo','cat_tipo','varchar');
 
 		//Ejecuta la instruccion
 		$this->armarConsulta();

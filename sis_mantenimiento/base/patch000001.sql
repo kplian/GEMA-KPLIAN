@@ -1319,7 +1319,6 @@ select pxp.f_insert_tfuncion ('gem.ft_falla_evento_externo_sel', 'Funcion para t
 
 /***********************************F-SCP-FRH-GEM-49-27/11/2012*****************************************/
 
-
 /***********************************I-SCP-RAC-GEM-60-04/12/2012*****************************************/
 
 --------------- SQL ---------------
@@ -1344,3 +1343,66 @@ ALTER TABLE gem.tuni_cons
 
 /***********************************F-SCP-RAC-GEM-60-04/12/2012*****************************************/
   
+/***********************************I-SCP-AAO-GEM-4-04/12/2012*****************************************/
+
+--------------- SQL ---------------
+ALTER TABLE gem.torden_trabajo
+  DROP CONSTRAINT fk_torden_trabajo__id_cat_estado RESTRICT;
+
+ALTER TABLE gem.torden_trabajo
+  DROP CONSTRAINT fk_torden_trabajo__id_cat_prior RESTRICT;
+
+ALTER TABLE gem.torden_trabajo
+  DROP CONSTRAINT fk_torden_trabajo__id_cat_tipo RESTRICT;
+
+--------------- SQL ---------------
+  
+ALTER TABLE gem.torden_trabajo
+  RENAME COLUMN id_cat_estado TO cat_estado;
+
+ALTER TABLE gem.torden_trabajo
+  ALTER COLUMN cat_estado TYPE VARCHAR(50);
+
+ALTER TABLE gem.torden_trabajo
+  RENAME COLUMN id_cat_prior TO cat_prior;
+
+ALTER TABLE gem.torden_trabajo
+  ALTER COLUMN cat_prior TYPE VARCHAR(50);
+    
+ALTER TABLE gem.torden_trabajo
+  RENAME COLUMN id_cat_tipo TO cat_tipo;
+
+ALTER TABLE gem.torden_trabajo
+  ALTER COLUMN cat_tipo TYPE VARCHAR(50);
+
+--------------- SQL ---------------
+
+ALTER TABLE gem.torden_trabajo
+  DROP COLUMN prioridad;
+   
+/***********************************F-SCP-AAO-GEM-4-04/12/2012*****************************************/
+
+/***********************************I-SCP-RCM-GEM-64-04/12/2012*****************************************/
+create table gem.torden_trabajo_log(
+  id_orden_trabajo_log serial not null,
+  id_orden_trabajo integer,
+  estado_ini varchar(30),
+  estado_fin varchar(30),
+  fecha timestamp default now(),
+  CONSTRAINT pk_torden_trabajo_log__id_orden_trabajo_log PRIMARY KEY (id_orden_trabajo_log),
+  CONSTRAINT fk_torden_trabajo_log__id_orden_trabajo FOREIGN KEY (id_orden_trabajo)
+      REFERENCES gem.torden_trabajo (id_orden_trabajo) MATCH SIMPLE
+      ON UPDATE NO ACTION ON DELETE NO ACTION
+) INHERITS (pxp.tbase)
+WITH (
+  OIDS=TRUE
+);
+ALTER TABLE gem.torden_trabajo_log OWNER TO postgres;
+/***********************************F-SCP-RCM-GEM-64-04/12/2012*****************************************/
+
+/***********************************I-SCP-RCM-GEM-0-05/12/2012*****************************************/
+alter table gem.tuni_cons_mant_predef add column id_unidad_medida_estimado integer;
+alter table gem.tuni_cons_mant_predef add column tiempo_estimado numeric(18,2) ;
+alter table gem.tmant_predef add column id_unidad_medida_estimado integer;
+alter table gem.tmant_predef add column tiempo_estimado numeric(18,2);
+/***********************************F-SCP-RCM-GEM-0-05/12/2012*****************************************/

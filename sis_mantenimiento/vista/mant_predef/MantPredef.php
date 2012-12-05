@@ -120,6 +120,37 @@ Phx.vista.MantPredef=Ext.extend(Phx.gridInterfaz,{
 			form:true
 		},
 		{
+			config: {
+				name: 'id_unidad_medida_estimado',
+				fieldLabel: 'Unidad Medida',
+				allowBlank: false,
+				origen: 'UNIDADMEDIDA',
+				gdisplayField: 'desc_unidad_medida_estimado',
+				gwidth: 200,
+				renderer:function(value, p, record){return String.format('{0}', record.data['desc_unidad_medida_estimado']);}
+			},
+			type: 'ComboRec',
+			id_grupo: 0,
+			filters:{pfiltro:'gemapr.tipo',type:'string'},
+			grid: true,
+			form: true
+		},
+		{
+			config:{
+				name: 'tiempo_estimado',
+				fieldLabel: 'Tiempo estimado',
+				allowBlank: true,
+				anchor: '80%',
+				gwidth: 100,
+				maxLength:1179650
+			},
+			type:'NumberField',
+			filters:{pfiltro:'gemapr.tiempo_estimado',type:'numeric'},
+			id_grupo:1,
+			grid:true,
+			form:true
+		},
+		{
 			config:{
 				name: 'estado_reg',
 				fieldLabel: 'Estado Reg.',
@@ -213,7 +244,10 @@ Phx.vista.MantPredef=Ext.extend(Phx.gridInterfaz,{
 		{name:'usr_reg', type: 'string'},
 		{name:'usr_mod', type: 'string'},
 		{name:'id_tipo_equipo', type: 'numeric'},
-		{name:'desc_tipo_equipo', type: 'string'}
+		{name:'desc_tipo_equipo', type: 'string'},
+		{name:'id_unidad_medida_estimado', type: 'numeric'},
+		{name:'tiempo_estimado', type: 'numeric'},
+		{name:'desc_unidad_medida_estimado', type: 'string'}
 	],
 	south:{
 		  url:'../../../sis_mantenimiento/vista/mant_predef_det/MantPredefDet.php',

@@ -1,7 +1,13 @@
-CREATE OR REPLACE FUNCTION "gem"."ft_orden_trabajo_sel"(	
-				p_administrador integer, p_id_usuario integer, p_tabla character varying, p_transaccion character varying)
-RETURNS character varying AS
-$BODY$
+--------------- SQL ---------------
+
+CREATE OR REPLACE FUNCTION gem.ft_orden_trabajo_sel (
+  p_administrador integer,
+  p_id_usuario integer,
+  p_tabla varchar,
+  p_transaccion varchar
+)
+RETURNS varchar AS
+$body$
 /**************************************************************************
  SISTEMA:		SISTEMA DE GESTION DE MANTENIMIENTO
  FUNCION: 		gem.ft_orden_trabajo_sel
@@ -57,7 +63,6 @@ BEGIN
 						geoott.id_unidad_medida,
 						geoott.descripcion,
 						geoott.id_funcionario_sol,
-						geoott.prioridad,
 						geoott.ubicacion_tecnica,
 						geoott.fecha_eje_fin,
 						geoott.id_uni_cons_mant_predef,
@@ -65,6 +70,9 @@ BEGIN
 						geoott.fecha_plan_fin,
 						geoott.nota_tecnico_loc,
 						geoott.id_uni_cons,
+                        geoott.cat_estado,
+                        geoott.cat_prior,
+                        geoott.cat_tipo,
 						geoott.id_usuario_reg,
 						geoott.fecha_reg,
 						geoott.id_usuario_mod,
@@ -140,7 +148,9 @@ EXCEPTION
 			v_resp = pxp.f_agrega_clave(v_resp,'procedimientos',v_nombre_funcion);
 			raise exception '%',v_resp;
 END;
-$BODY$
-LANGUAGE 'plpgsql' VOLATILE
+$body$
+LANGUAGE 'plpgsql'
+VOLATILE
+CALLED ON NULL INPUT
+SECURITY INVOKER
 COST 100;
-ALTER FUNCTION "gem"."ft_orden_trabajo_sel"(integer, integer, character varying, character varying) OWNER TO postgres;

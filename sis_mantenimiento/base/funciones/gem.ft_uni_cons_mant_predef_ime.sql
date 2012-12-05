@@ -54,7 +54,9 @@ BEGIN
 			fecha_reg,
 			id_usuario_reg,
 			id_usuario_mod,
-			fecha_mod
+			fecha_mod,
+			id_unidad_medida_estimado,
+			tiempo_estimado
           	) values(
 			v_parametros.id_mant_predef,
 			v_parametros.id_uni_cons,
@@ -65,7 +67,9 @@ BEGIN
 			now(),
 			p_id_usuario,
 			null,
-			null
+			null,
+			v_parametros.id_unidad_medida_estimado,
+			v_parametros.tiempo_estimado
 			)RETURNING id_uni_cons_mant_predef into v_id_uni_cons_mant_predef;
                
 			--Definicion de la respuesta
@@ -95,7 +99,9 @@ BEGIN
 			frecuencia = v_parametros.frecuencia,
 			fecha_ini = v_parametros.fecha_ini,
 			id_usuario_mod = p_id_usuario,
-			fecha_mod = now()
+			fecha_mod = now(),
+			id_unidad_medida_estimado = v_parametros.id_unidad_medida_estimado,
+			tiempo_estimado = v_parametros.tiempo_estimado
 			where id_uni_cons_mant_predef=v_parametros.id_uni_cons_mant_predef;
                
 			--Definicion de la respuesta

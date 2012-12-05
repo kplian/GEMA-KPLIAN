@@ -105,7 +105,7 @@ Phx.vista.AnalisisPorque=Ext.extend(Phx.gridInterfaz,{
                 gwidth: 80,
                 baseParams:{
                         cod_subsistema:'GEM',
-                        catalogo_tipo:'estado_analisis_porque'
+                        catalogo_tipo:'tanalisis_porque_cat_estado_analisis_porque'
                     }
             },
             type: 'ComboRec',

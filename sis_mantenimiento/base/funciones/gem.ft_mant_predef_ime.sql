@@ -53,7 +53,9 @@ BEGIN
 			fecha_reg,
 			fecha_mod,
 			id_usuario_mod,
-			id_tipo_equipo
+			id_tipo_equipo,
+			id_unidad_medida_estimado,
+			tiempo_estimado
           	) values(
 			v_parametros.codigo,
 			v_parametros.descripcion,
@@ -63,7 +65,9 @@ BEGIN
 			now(),
 			null,
 			null,
-			v_parametros.id_tipo_equipo
+			v_parametros.id_tipo_equipo,
+			v_parametros.id_unidad_medida_estimado,
+			v_parametros.tiempo_estimado
 			)RETURNING id_mant_predef into v_id_mant_predef;
                
 			--Definicion de la respuesta
@@ -92,7 +96,9 @@ BEGIN
 			nombre = v_parametros.nombre,
 			fecha_mod = now(),
 			id_usuario_mod = p_id_usuario,
-			id_tipo_equipo = v_parametros.id_tipo_equipo
+			id_tipo_equipo = v_parametros.id_tipo_equipo,
+			id_unidad_medida_estimado = v_parametros.id_unidad_medida_estimado,
+			tiempo_estimado = v_parametros.tiempo_estimado
 			where id_mant_predef=v_parametros.id_mant_predef;
                
 			--Definicion de la respuesta

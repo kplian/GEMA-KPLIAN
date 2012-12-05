@@ -118,9 +118,11 @@ function listarLocalizacionArb(){
 			
 			$this->armarConsulta();
 			$consulta=$this->getConsulta();
-			
+			//echo $consulta;exit;
 	  
-			$this->ejecutarConsulta($this->respuesta);
+	  		$this->ejecutarConsulta($this->respuesta);
+			
+	
 		}
 		
 		

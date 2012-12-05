@@ -50,7 +50,8 @@ DECLARE
     v_uni_cons_aux integer;
     v_tamano integer;
     v_i integer;
-  
+    v_codigo varchar;
+    v_cod boolean;
    
 BEGIN
 
@@ -927,7 +928,65 @@ BEGIN
             return v_resp;
 
 		end;
-         
+		
+	/*********************************    
+ 	#TRANSACCION:  'GEM_INACUC_UPD'
+ 	#DESCRIPCION:	Inactiva unidad constructiva
+ 	#AUTOR:		rcm	
+ 	#FECHA:		04-12-2012
+	***********************************/
+
+	elsif(p_transaccion='GEM_INACUC_UPD')then
+
+		begin
+            --Verificación de existencia del registro
+            if not exists(select 1 from gem.tuni_cons
+            		where id_uni_cons = v_parametros.id_uni_cons) then
+				raise exception 'Equipo no encontrado';            		
+            end if;
+            
+            --Inactivar la Unidad Constructiva
+            update gem.tuni_cons set
+            estado_reg = 'inactivo',
+            id_usuario_mod = p_id_usuario,
+            fecha_mod = now()
+            where id_uni_cons = v_parametros.id_uni_cons RETURNING codigo into v_codigo;
+            
+            --PRocesa el código para aumentarle un prefijo y mantener el rastro de su código, para liberar el código original
+            v_cod=false;
+            if not exists (select 1 from gem.tuni_cons where codigo = 'del1_'||v_codigo) then
+            	v_codigo = 'del1_'||v_codigo;
+            	v_cod = true;
+            elsif not exists (select 1 from gem.tuni_cons where codigo = 'del2_'||v_codigo) then
+            	v_codigo = 'del2_'||v_codigo;
+            	v_cod = true;
+            elsif not exists (select 1 from gem.tuni_cons where codigo = 'del3_'||v_codigo) then
+            	v_codigo = 'del3_'||v_codigo;
+            	v_cod = true;
+            elsif not exists (select 1 from gem.tuni_cons where codigo = 'del4_'||v_codigo) then
+            	v_codigo = 'del4_'||v_codigo;
+            	v_cod = true;
+            elsif not exists (select 1 from gem.tuni_cons where codigo = 'del5_'||v_codigo) then
+            	v_codigo = 'del5_'||v_codigo;
+            	v_cod = true;
+            end if;
+            
+            if not v_cod then
+            	raise exception 'No se pudo eliminar el equipo: se superó el límite máximo para almacenar el histórico del código';
+            end if;
+            
+            update gem.tuni_cons set
+            codigo = v_codigo
+            where id_uni_cons = v_parametros.id_uni_cons;
+             
+			--Definicion de la respuesta
+            v_resp = pxp.f_agrega_clave(v_resp,'mensaje','Equipos eliminado(a)'); 
+            v_resp = pxp.f_agrega_clave(v_resp,'id_uni_cons',v_parametros.id_uni_cons::varchar);
+               
+            --Devuelve la respuesta
+            return v_resp;
+		end;
+		
 	else
      
     	raise exception 'Transaccion inexistente: %',p_transaccion;

@@ -278,7 +278,7 @@ Phx.vista.actividad=Ext.extend(Phx.gridInterfaz,{
 				id_orden_trabajo: this.id_orden_trabajo
 			}
 		});
-		this.Atributos[1].valorInicial=this.id_orden_trabajo;
+		this.Atributos[1].valorInicial = this.id_orden_trabajo;
 	},
 	Grupos: [{ 
 		layout: 'column',
