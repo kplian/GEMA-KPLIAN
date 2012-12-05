@@ -211,8 +211,14 @@ BEGIN
                 --         arma cadena de insercion de valroes   (valor col_semana)
                 --         arma cadena de insercion de valroes   (valor id col_semana)
                 
-                v_consulta2=v_consulta2||(',''1'',')::varchar||g_registros2.id_calendario_planificado;
-                
+                --segun el estado cambia de color la bola que se muestra en la grilla
+                    IF(g_registros2.estado = 'orden_trabajo') THEN
+                   		 v_consulta2=v_consulta2||(',''2'',')::varchar||g_registros2.id_calendario_planificado;
+                    ELSEIF(g_registros2.estado = 'ejecutado') THEN
+                    	v_consulta2=v_consulta2||(',''3'',')::varchar||g_registros2.id_calendario_planificado;
+                    ELSE
+                    	v_consulta2=v_consulta2||(',''1'',')::varchar||g_registros2.id_calendario_planificado;
+                    END IF;
                 end IF;
                
              
@@ -227,18 +233,19 @@ BEGIN
    
     v_consulta1 = v_consulta1||v_consulta2|| ') ';
    
-   --1.3   ejecuta la cadena de insercion
+   -- 1.3   ejecuta la cadena de insercion
    
    raise notice 'INSERCION %',v_consulta1;
    
     execute(v_consulta1);
           
     raise notice '===> DA LA VUELTA';
-   END LOOP;--FIN DEL PRIMER FOOR
+   END LOOP;
+   --FIN DEL PRIMER FOOR
    
    
    
-   --2. retorna TRUE
+   -- 2. retorna TRUE
 
 
      RETURN TRUE;

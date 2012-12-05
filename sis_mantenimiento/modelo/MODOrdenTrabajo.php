@@ -168,6 +168,7 @@ class MODOrdenTrabajo extends MODbase{
 				
 		//Define los parametros para la funcion
 		$this->setParametro('id_mant_predef','id_mant_predef','int4');
+		$this->setParametro('id_uni_cons','id_uni_cons','int4');
 		$this->setParametro('fecha_ini','fecha_ini','date');
 		$this->setParametro('fecha_fin','fecha_fin','date');
 

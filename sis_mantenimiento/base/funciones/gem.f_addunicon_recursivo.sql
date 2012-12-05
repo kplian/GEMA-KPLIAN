@@ -1,9 +1,7 @@
 --------------- SQL ---------------
 
  -- object recreation
-DROP FUNCTION gem.f_addunicon_recursivo(v_id_orig integer, v_id_cop integer, v_id_usuario integer, v_tipo_nodo varchar);
-
-CREATE FUNCTION gem.f_addunicon_recursivo (
+CREATE OR REPLACE FUNCTION gem.f_addunicon_recursivo (
   v_id_orig integer,
   v_id_cop integer,
   v_id_usuario integer,

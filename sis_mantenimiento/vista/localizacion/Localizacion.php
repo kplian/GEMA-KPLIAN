@@ -363,10 +363,7 @@ Phx.vista.Localizacion=Ext.extend(Phx.arbInterfaz,{
 			
 			 var cmbUC =this.formUC.getForm().findField('id_uni_cons');
 	         var codigo =this.formUC.getForm().findField('codigo_uni_cons');
-	         
-	         console.log(nodo.attributes.id_localizacion);
-			
-			 var codigo_loc=nodo.parentNode.attributes.codigo+'-'+nodo.attributes.codigo
+	         var codigo_loc=nodo.parentNode.attributes.codigo+'-'+nodo.attributes.codigo
 			
 			 Ext.Ajax.request({
 	                    url: '../../sis_mantenimiento/control/UniCons/addUniCons',
@@ -474,7 +471,6 @@ Phx.vista.Localizacion=Ext.extend(Phx.arbInterfaz,{
 	onBtnUsuario: function(){
 		var node=this.sm.getSelectedNode();
 		var data =node.attributes;
-		console.log(data);
 		if(data){
 			Phx.CP.loadWindows('../../../sis_mantenimiento/vista/localizacion_usuario/LocalizacionUsuario.php',
 				'Usuarios por Localización',{
@@ -849,7 +845,7 @@ Phx.vista.Localizacion=Ext.extend(Phx.arbInterfaz,{
 			 	
 			  }
 			  
-			  console.log(tiponodo)
+			
 			  if(tiponodo == 'uni_cons' || tiponodo == 'uni_cons_f' || tiponodo=='rama'){
 			  	this.getBoton('btnInCalGen').enable();
 			  }
@@ -880,7 +876,6 @@ Phx.vista.Localizacion=Ext.extend(Phx.arbInterfaz,{
 			else {
 				
 				var nodo_aux;	
-				console.log('nodo',n)
 				if(tiponodo != 'uni_cons' && tiponodo != 'uni_cons_f' &&tiponodo == 'rama'){
 					nodo_aux=n.parentNode.parentNode
 				}
@@ -933,7 +928,6 @@ Phx.vista.Localizacion=Ext.extend(Phx.arbInterfaz,{
 		var node=this.sm.getSelectedNode();
 		var data =node.attributes;
 		if(data){
-			console.log(data);
 			Phx.CP.loadWindows('../../../sis_mantenimiento/vista/uni_cons_mant_predef/UniConsMantPredef.php',
 				'Equipos - Mantenimientos predefinidos',{
 						modal:true,

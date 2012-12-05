@@ -1326,7 +1326,20 @@ select pxp.f_insert_tfuncion ('gem.ft_falla_evento_externo_sel', 'Funcion para t
 
 ALTER TABLE gem.tuni_cons
   ALTER COLUMN codigo TYPE VARCHAR(150) COLLATE pg_catalog."default";
+ 
+ ALTER TABLE gem.torden_trabajo
+  ALTER COLUMN id_tipo_mant DROP NOT NULL;
   
+  ALTER TABLE gem.torden_trabajo
+  ALTER COLUMN id_funcionario_sol DROP NOT NULL;
+  
+  ALTER TABLE gem.torden_trabajo
+  ALTER COLUMN id_funcionario_asig DROP NOT NULL;
+  ALTER TABLE gem.torden_trabajo
+  ALTER COLUMN fecha_plan_fin DROP NOT NULL;
+  
+  ALTER TABLE gem.torden_trabajo
+  ALTER COLUMN fecha_plan_ini DROP NOT NULL; 
   
 
 /***********************************F-SCP-RAC-GEM-60-04/12/2012*****************************************/

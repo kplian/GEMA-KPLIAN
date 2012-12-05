@@ -364,8 +364,14 @@ Phx.vista.gridCalendario=Ext.extend(Phx.gridInterfaz,{
 									  renderer:function (value, p, record){
 										if(value=='1'){
 										
-												return "<div style='text-align:center'><img src = '../../../lib/imagenes/ball_green.png' align='center' width='18' height='18'/></div>"
+												return "<div style='text-align:center'><img src = '../../../lib/imagenes/ball_red.png' align='center' width='18' height='18'/></div>"
+									   		
 									   		}
+									   	if(value=='2'){
+										
+												return "<div style='text-align:center'><img src = '../../../lib/imagenes/ball_blue.png' align='center' width='18' height='18'/></div>"
+									   		
+									   		}	
 										}
 									 
 									},
@@ -499,7 +505,7 @@ Phx.vista.gridCalendario=Ext.extend(Phx.gridInterfaz,{
 				this.getBoton('GenOT').enable();
 				
 				this.sel_id_mant_predef =  record.data['id_mant_predef'];
-				this.sel_id_mant_predef =  record.data['id_uni_cons'];
+				this.sel_id_uni_cons =  record.data['id_uni_cons'];
 			}
 			else{
 				this.getBoton('GenOT').disable();
@@ -585,15 +591,13 @@ Phx.vista.gridCalendario=Ext.extend(Phx.gridInterfaz,{
             this.formCP2.destroy();
         }
 
-        
+         
         
         Phx.vista.gridCalendario.superclass.onDestroy.call(this,c);
 
     },
     onBtnGenOt:function(a){
-    	
-    	console.log('genera ordenes de trabajo')
-    	
+    	Phx.CP.loadingShow();
     	var dateFechaIni =this.formUCCL.getForm().findField('fecha_ini');
 		var dateFechaFin =this.formUCCL.getForm().findField('fecha_fin');
 	
@@ -619,7 +623,9 @@ Phx.vista.gridCalendario=Ext.extend(Phx.gridInterfaz,{
     },
     successGenOT:function(){
     	
-    	console.log('succes al genear ordenes de trabajo')
+    	Phx.CP.loadingHide();
+	    this.reload();
+    	
     	
     	
     }

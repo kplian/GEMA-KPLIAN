@@ -47,9 +47,13 @@ DECLARE
     v_id_unidad_medida_estimado integer;
     va_codigos_actividades 		VARCHAR[];
     va_nombres_actividades 		VARCHAR[];
-    v_cont_antividades 			integer;
+    v_cont_actividades 			integer;
     v_horas_dia 				integer;
     v_id_orden_trabajo 			integer;
+    v_desc_unidad_medida varchar;
+    v_dias_dic  integer;
+    v_fecha_fin date;
+    v_i integer;
     
 			    
 BEGIN
@@ -84,7 +88,8 @@ BEGIN
                          man.id_unidad_medida,
                          man.tiempo_estimado,
                          man.id_unidad_medida_estimado,
-                         man.horas_dia
+                         man.horas_dia,
+                         un.descripcion
                          
                       into 
                          v_id_uni_cons_mant_predef,
@@ -92,10 +97,12 @@ BEGIN
                          v_id_unidad_medida_periodicidad,
                          v_tiempo_estimado,
                          v_id_unidad_medida_estimado,
-                         v_horas_dia                       
+                         v_horas_dia ,
+                         v_desc_unidad_medida                      
                          from gem.tuni_cons_mant_predef man 
                          inner join gem.tuni_cons uni on uni.id_uni_cons = man.id_uni_cons
                          inner join gem.tmant_predef mp on mp.id_mant_predef = man.id_mant_predef
+                         inner join  param.tunidad_medida un  on un.id_unidad_medida = man.id_unidad_medida 
                          where   
                                man.id_uni_cons = v_parametros.id_uni_cons 
                            and mp.id_mant_predef = v_parametros.id_mant_predef 
@@ -118,9 +125,29 @@ BEGIN
                
                
           
-          IF v_fecha_inicial is NULL THEN
+          IF v_fecha_inicial is not NULL THEN
                 raise exception 'Exiten Mantenimeinto planificados en fecha anterior si Orden de Trabajo desde el %',v_fecha_inicial;
            END IF ;   
+           
+           
+           
+           --validar que no existan ordenes de trabajo en el periodo selecionado
+                v_fecha_inicial = NULL;
+              SELECT  cp.fecha_ini 
+              into    v_fecha_inicial 
+              from gem.tcalendario_planificado cp 
+              WHERE    cp.id_uni_cons_mant_predef = v_id_uni_cons_mant_predef
+                   and cp.fecha_ini >=  v_parametros.fecha_ini
+                   and cp.fecha_ini <= v_parametros.fecha_fin
+                   and cp.estado = 'orden_trabajo'
+              ORDER BY cp.fecha_ini     
+              LIMIT 1 OFFSET 0 ;
+           
+            IF v_fecha_inicial is not NULL THEN
+                raise exception 'Exiten  alguna Orden de Trabajo desde el %',v_fecha_inicial;
+            END IF ;   
+           
+           
          
          --2) obteine datos del mantenimiento apra realizar la insercion de las OT's
          
@@ -141,7 +168,7 @@ BEGIN
          
          
             
-            -- obteine localizacion recursivamente
+            -- obtiene localizacion recursivamente
             
             
          
@@ -149,15 +176,15 @@ BEGIN
          
              -- recuperar un registro  con los nomres y descripcion de  tmant_predef_det correspondientes al id_mant_predef
              --dentro de un array 
-             v_cont_antividades = 0;
-           FOR g_registros in (select  mp.codigo,mp.nombre    from gem.tmant_predef_det  mp 
+             v_cont_actividades = 0;
+           FOR g_registros in (select  mp.nombre ,mp.descripcion    from gem.tmant_predef_det  mp 
                                where mp.id_mant_predef = v_parametros.id_mant_predef
                                      and mp.estado_reg='activo') LOOP
            
            
-                  va_codigos_actividades = array_append( va_codigos_actividades,g_registros.codigo);
-                  va_nombres_actividades = array_append( va_codigos_actividades,g_registros.nombre);
-                  v_cont_antividades=v_cont_antividades +1;
+                  va_codigos_actividades = array_append( va_codigos_actividades,g_registros.nombre);
+                  va_nombres_actividades = array_append( va_codigos_actividades,g_registros.descripcion);
+                  v_cont_actividades=v_cont_actividades +1;
            
            END LOOP;
              
@@ -182,41 +209,38 @@ BEGIN
                                v_horas_dia 
                              
                              */ 
-                             
-                             /*
-                             
-                              FOR g_registros in  (select  man.frecuencia, man.horas_dia, un.descripcion,man.id_uni_cons_mant_predef
-                        from gem.tuni_cons_mant_predef man 
-                        inner join  param.tunidad_medida un  on un.id_unidad_medida = man.id_unidad_medida 
-                        where   man.id_uni_cons = v_id_uni_cons 
-                        and man.estado_reg='activo') LOOP
+                            
+                   
                              
                              
-                             if (g_registros.descripcion= 'Hora' or g_registros.descripcion= 'mes') THEN
+                             if (v_desc_unidad_medida= 'Hora' or v_desc_unidad_medida= 'mes') THEN
                              
-                                   v_dias_dic =  round ( (g_registros.frecuencia / g_registros.horas_dia) , 0 );  
+                                   v_dias_dic =  round ( (v_tiempo_estimado / v_horas_dia) , 0 );  
                              
-                             elseif(g_registros.descripcion= 'Dia' or g_registros.descripcion= 'dia') THEN
+                             elseif (v_desc_unidad_medida= 'Dia' or v_desc_unidad_medida= 'dia') THEN
                              
-                                   v_dias_dic =  round ((g_registros.frecuencia) * 1, 0 ); 
+                                   v_dias_dic =  round ((v_tiempo_estimado) * 1, 0 ); 
                          
-                             elseif(g_registros.descripcion= 'Semana' or g_registros.descripcion= 'semana') then 
+                             elseif(v_desc_unidad_medida= 'Semana' or v_desc_unidad_medida= 'semana') then 
                              
-                                   v_dias_dic =  round ((g_registros.frecuencia ) * 7, 0 ); 
+                                   v_dias_dic =  round ((v_tiempo_estimado ) * 7, 0 ); 
                                    
-                             elseif(g_registros.descripcion= 'Mes' or g_registros.descripcion= 'mes')then 
+                             elseif(v_desc_unidad_medida= 'Mes' or v_desc_unidad_medida= 'mes')then 
                              
-                                   v_dias_dic =  round ((g_registros.frecuencia) * 30, 0 );     
+                                   v_dias_dic =  round ((v_tiempo_estimado) * 30, 0 );     
                              
-                              elseif(g_registros.descripcion in ('Año','ano','año','ano')) then 
+                              elseif(v_desc_unidad_medida in ('Año','ano','año','ano')) then 
                               --anho
                              
-                                   v_dias_dic =  round ((g_registros.frecuencia) * 365, 0 );
+                                   v_dias_dic =  round ((v_tiempo_estimado) * 365, 0 );
                                    
                               else
-                              raise exception 'Unidad no reconocida %', g_registros.descripcion;     
+                              raise exception 'Unidad no reconocida %', v_desc_unidad_medida;     
                              
-                             end if;*/
+                             end if;
+                             
+                             
+                             v_fecha_fin = (g_registros.fecha_ini + CAST('+'||v_dias_dic||' days' as INTERVAL));
                               
                  -- 3.1)  crear una orden de trabajo para cada fecha del calendario_planificado
            
@@ -239,13 +263,10 @@ BEGIN
                                 now(),
                                 'activo',
                                 v_id_uni_cons_mant_predef,
-                                v_id_uni_cons,
-                                
-                               
-                                 v_id_unidad_medida_periodicidad,
-                              
+                                v_parametros.id_uni_cons,
+                                v_id_unidad_medida_periodicidad,
                                 g_registros.fecha_ini,
-                                v_fecha_plan_fin,
+                                v_fecha_fin,
                                 v_periodicidad,
                                 'generado'
                                
@@ -253,6 +274,35 @@ BEGIN
                             
                  -- 3.2) FOR recorrer array de actividaedes
                  --3.2.1 inserta las actividades del mantenimeinto
+                 
+                   v_i = 1;
+                 
+                   WHILE v_i <= v_cont_actividades LOOP
+                   
+               
+      
+                       INSERT INTO 
+                            gem.tactividad
+                          (
+                            id_usuario_reg,
+                            fecha_reg,
+                            estado_reg,
+                            id_orden_trabajo,
+                            estado,             --pendiente
+                            descripcion
+                           
+                          ) 
+                          VALUES (
+                             p_id_usuario,
+                             now(),
+                             'activo',
+                             v_id_orden_trabajo,
+                             'pendiente',
+                             va_codigos_actividades[v_i]||' '||va_nombres_actividades[v_i]
+                          );
+                      v_i=v_i+1;
+                   END LOOP; 
+                 
                  
                  
          
@@ -264,14 +314,28 @@ BEGIN
           UPDATE  gem.tcalendario_planificado SET
           		estado = 'orden_trabajo', 
                 observaciones = (observaciones || ', orden de trabajo automatica el  '||now())::varchar
-          WHERE    	cp.id_uni_cons_mant_predef = v_id_uni_cons_mant_predef
-                and cp.fecha_ini >=  v_parametros.fecha_ini         
-                and cp.fecha_ini <= v_parametros.fecha_fin
-                and cp.estado = 'generado';
+          WHERE    	id_uni_cons_mant_predef = v_id_uni_cons_mant_predef
+                and fecha_ini >=  v_parametros.fecha_ini         
+                and fecha_ini <= v_parametros.fecha_fin
+                and estado = 'generado';
 		
+        
+        
+        --Definicion de la respuesta
+            v_resp = pxp.f_agrega_clave(v_resp,'mensaje','Genera ordenes de trabajo para la uni_cons'); 
+            v_resp = pxp.f_agrega_clave(v_resp,'id_uni_cons',v_parametros.id_uni_cons::varchar);
+            v_resp = pxp.f_agrega_clave(v_resp,'id_mant_predef',v_parametros.id_mant_predef::varchar);
+               
+            --Devuelve la respuesta
+            return v_resp;
+        
+        
         
         end;
 
+
+
+            
          
 	else
      
