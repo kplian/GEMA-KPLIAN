@@ -139,7 +139,7 @@ BEGIN
      
                
             v_consulta1= 'INSERT into tt_calendario_meses_'||v_id_usuario||'( id_uni_cons ,
-                                                       id_mant_predef ,
+                                                       id_uni_cons_mant_predef ,
                                                        nombre_uni_cons ,
                                                        nombre_mant ,
                                                        codigo_man,
@@ -233,19 +233,18 @@ BEGIN
    
     v_consulta1 = v_consulta1||v_consulta2|| ') ';
    
-   -- 1.3   ejecuta la cadena de insercion
+   --1.3   ejecuta la cadena de insercion
    
    raise notice 'INSERCION %',v_consulta1;
    
     execute(v_consulta1);
           
     raise notice '===> DA LA VUELTA';
-   END LOOP;
-   --FIN DEL PRIMER FOOR
+   END LOOP;--FIN DEL PRIMER FOOR
    
    
    
-   -- 2. retorna TRUE
+   --2. retorna TRUE
 
 
      RETURN TRUE;

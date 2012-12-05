@@ -1406,3 +1406,12 @@ alter table gem.tuni_cons_mant_predef add column tiempo_estimado numeric(18,2) ;
 alter table gem.tmant_predef add column id_unidad_medida_estimado integer;
 alter table gem.tmant_predef add column tiempo_estimado numeric(18,2);
 /***********************************F-SCP-RCM-GEM-0-05/12/2012*****************************************/
+
+
+/***********************************I-SCP-RAC-GEM-60-05/12/2012*****************************************/
+--------------- SQL ---------------
+
+ALTER TABLE gem.torden_trabajo
+  ADD COLUMN id_calendario_planificacion INTEGER;
+  
+/***********************************F-SCP-RAC-GEM-60-05/12/2012*****************************************/

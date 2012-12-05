@@ -184,13 +184,15 @@ BEGIN
            WHERE
             c.id_uni_cons_mant_predef = g_registros.id_uni_cons_mant_predef
             and c.fecha_ini >= v_fecha_ini  
-            and c.estado = 'orden_trabjao' 
+            and c.estado = 'orden_trabajo' 
             and c.tipo = 'planificado' 
-           order by  fecha_ini desc
+           order by  c.fecha_ini desc
            limit 1 offset 0;
       
           IF v_fecha_ot is not null THEN
           	v_fecha_dic=  (v_fecha_ot::date +  CAST(  v_dias_dic::varchar||' days' as INTERVAL));
+          
+        
           END IF;
      
      

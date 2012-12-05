@@ -239,7 +239,7 @@ Phx.vista.gridCalendario=Ext.extend(Phx.gridInterfaz,{
 		};
 		this.fields.push(this.id_store);
 		this.fields.push('id_uni_cons');
-		this.fields.push('id_mant_predef');
+		this.fields.push('id_uni_cons_mant_predef');
 		this.fields.push('nombre_uni_cons')	;	
 		this.fields.push('nombre_mant');
 		this.fields.push('codigo_man');
@@ -275,7 +275,7 @@ Phx.vista.gridCalendario=Ext.extend(Phx.gridInterfaz,{
 								config:{
 										labelSeparator:'',
 										inputType:'hidden',
-										name: 'id_mant_predef'
+										name: 'id_uni_cons_mant_predef'
 								},
 								type:'Field',
 								form:true 
@@ -331,7 +331,7 @@ Phx.vista.gridCalendario=Ext.extend(Phx.gridInterfaz,{
                     align: 'center'
                 });					 		
 						
-			var recText = this.id_store + '#integer@id_uni_cons#integer@id_mant_predef#integer@nombre_uni_cons#text@nombre_mant#varchar@codigo_man#varchar@codigo_equipo#text';			
+			var recText = this.id_store + '#integer@id_uni_cons#integer@id_uni_cons_mant_predef#integer@nombre_uni_cons#text@nombre_mant#varchar@codigo_man#varchar@codigo_equipo#text';			
 				//console.log('this.id_store: ', this.id_store);		
 			
 			for (var i=0;i<rec.length;i++){
@@ -500,12 +500,10 @@ Phx.vista.gridCalendario=Ext.extend(Phx.gridInterfaz,{
 		}
 		
 			//habilita el boton genOT
-			console.log(c,record)
 			if(c==3){
 				this.getBoton('GenOT').enable();
 				
-				this.sel_id_mant_predef =  record.data['id_mant_predef'];
-				this.sel_id_uni_cons =  record.data['id_uni_cons'];
+				this.sel_id_uni_cons_mant_predef =  record.data['id_uni_cons_mant_predef'];
 			}
 			else{
 				this.getBoton('GenOT').disable();
@@ -607,8 +605,7 @@ Phx.vista.gridCalendario=Ext.extend(Phx.gridInterfaz,{
 		                    params: {
 		                         	fecha_ini:dateFechaIni.getValue().dateFormat('d-m-Y'),
 		    						fecha_fin:dateFechaFin.getValue().dateFormat('d-m-Y'),
-			                        id_mant_predef:this.sel_id_mant_predef,
-			                        id_uni_cons:this.sel_id_uni_cons
+			                        id_uni_cons_mant_predef:this.sel_id_uni_cons_mant_predef
 		                         	},		                    	
 		                    success: this.successGenOT,
 		                    failure:this.conexionFailure,

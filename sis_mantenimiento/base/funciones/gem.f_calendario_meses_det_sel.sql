@@ -206,7 +206,7 @@ BEGIN
           v_consulta = 'create temp table tt_calendario_meses_'||p_id_usuario||'(
                         id_sem_mes serial,
                         id_uni_cons integer,
-                        id_mant_predef integer,
+                        id_uni_cons_mant_predef integer,
                         nombre_uni_cons text,
                         nombre_mant varchar,
                         codigo_man  varchar,

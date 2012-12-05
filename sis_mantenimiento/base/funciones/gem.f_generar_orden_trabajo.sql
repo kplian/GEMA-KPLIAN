@@ -54,6 +54,8 @@ DECLARE
     v_dias_dic  integer;
     v_fecha_fin date;
     v_i integer;
+    v_id_uni_cons integer;
+    v_id_mant_predef integer;
     
 			    
 BEGIN
@@ -89,7 +91,9 @@ BEGIN
                          man.tiempo_estimado,
                          man.id_unidad_medida_estimado,
                          man.horas_dia,
-                         un.descripcion
+                         un.descripcion,
+                         man.id_uni_cons,
+                         man.id_mant_predef
                          
                       into 
                          v_id_uni_cons_mant_predef,
@@ -98,17 +102,19 @@ BEGIN
                          v_tiempo_estimado,
                          v_id_unidad_medida_estimado,
                          v_horas_dia ,
-                         v_desc_unidad_medida                      
+                         v_desc_unidad_medida  ,
+                         v_id_uni_cons,
+                         v_id_mant_predef                
                          from gem.tuni_cons_mant_predef man 
                          inner join gem.tuni_cons uni on uni.id_uni_cons = man.id_uni_cons
                          inner join gem.tmant_predef mp on mp.id_mant_predef = man.id_mant_predef
                          inner join  param.tunidad_medida un  on un.id_unidad_medida = man.id_unidad_medida 
                          where   
-                               man.id_uni_cons = v_parametros.id_uni_cons 
-                           and mp.id_mant_predef = v_parametros.id_mant_predef 
+                               man.id_uni_cons_mant_predef = v_parametros.id_uni_cons_mant_predef 
                            and man.estado_reg='activo';
          
        
+    
           --1) validar que no existan  ordenes de trabajo con fecha anteriores para este mantenimento 
           --(calendario_planificado con estado generado)
           
@@ -164,9 +170,9 @@ BEGIN
            select      un.id_uni_cons,un.codigo,        un.nombre,         un.tipo_unicons
                   into v_uni_cons,    v_codigo_uni_cons,v_nombre_uni_cons, v_tipo_planta_estacio   
            from gem.tuni_cons un 
-           where un.id_uni_cons = v_parametros.id_uni_cons;
+           where un.id_uni_cons = v_id_uni_cons;
          
-         
+       
             
             -- obtiene localizacion recursivamente
             
@@ -178,7 +184,7 @@ BEGIN
              --dentro de un array 
              v_cont_actividades = 0;
            FOR g_registros in (select  mp.nombre ,mp.descripcion    from gem.tmant_predef_det  mp 
-                               where mp.id_mant_predef = v_parametros.id_mant_predef
+                               where mp.id_mant_predef = v_id_mant_predef
                                      and mp.estado_reg='activo') LOOP
            
            
@@ -199,7 +205,9 @@ BEGIN
                                       and cp.fecha_ini <= v_parametros.fecha_fin
                                       and cp.estado = 'generado'
                               ORDER BY cp.fecha_ini) LOOP
-                              
+                    
+          
+          
                               
                               --calcular fecha de finalizacion de antenimietno
                               
@@ -263,7 +271,7 @@ BEGIN
                                 now(),
                                 'activo',
                                 v_id_uni_cons_mant_predef,
-                                v_parametros.id_uni_cons,
+                                v_id_uni_cons,
                                 v_id_unidad_medida_periodicidad,
                                 g_registros.fecha_ini,
                                 v_fecha_fin,
@@ -323,8 +331,8 @@ BEGIN
         
         --Definicion de la respuesta
             v_resp = pxp.f_agrega_clave(v_resp,'mensaje','Genera ordenes de trabajo para la uni_cons'); 
-            v_resp = pxp.f_agrega_clave(v_resp,'id_uni_cons',v_parametros.id_uni_cons::varchar);
-            v_resp = pxp.f_agrega_clave(v_resp,'id_mant_predef',v_parametros.id_mant_predef::varchar);
+            v_resp = pxp.f_agrega_clave(v_resp,'id_uni_cons',v_id_uni_cons::varchar);
+            v_resp = pxp.f_agrega_clave(v_resp,'id_mant_predef',v_id_mant_predef::varchar);
                
             --Devuelve la respuesta
             return v_resp;
