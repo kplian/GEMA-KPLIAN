@@ -11,22 +11,22 @@ header("content-type: text/javascript; charset=UTF-8");
 ?>
 <script>
 Phx.vista.OrdenTrabajo=Ext.extend(Phx.gridInterfaz,{
-
 	constructor:function(config) {
 		this.maestro=config.maestro;
     	//llama al constructor de la clase padre
 		Phx.vista.OrdenTrabajo.superclass.constructor.call(this,config);
 		this.init();
 		
-		this.addButton('Actividad', 
+		this.addButton('btnActividad', 
 			{
-				text:'Actividades',
+				text: 'Actividades',
 				iconCls: 'blist',
-				disabled: false,
+				disabled: true,
 				handler: loadActividadesOT,
 				tooltip: '<b>Ver las actividades de la Orden de Trabajo Actual</b>'
 			}
 		);
+		
 		function loadActividadesOT() {
 			var rec=this.sm.getSelected();
 			Phx.CP.loadWindows('../../../sis_mantenimiento/vista/actividad_ot/ActividadOT.php',
@@ -40,7 +40,6 @@ Phx.vista.OrdenTrabajo=Ext.extend(Phx.gridInterfaz,{
 				    'actividad'
 			);
 		}
-		this.load({params:{start:0, limit:50}});
 	},
 	fheight:'80%',
 	fwidth:'80%',
@@ -624,7 +623,7 @@ Phx.vista.OrdenTrabajo=Ext.extend(Phx.gridInterfaz,{
 		direction: 'ASC'
 	},
 	bdel:true,
-	bsave:true,
+	bsave:false,
 	agregarArgsExtraSubmit: function(){
 		//Inicializa el objeto de los argumentos extra
 		this.argumentExtraSubmit={};

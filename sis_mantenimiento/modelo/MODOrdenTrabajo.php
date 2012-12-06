@@ -185,6 +185,18 @@ class MODOrdenTrabajo extends MODbase{
 		return $this->respuesta;
 	}
 	
-			
+	function procesarOT() {
+		$this->procedimiento='gem.ft_orden_trabajo_ime';
+		$this->transaccion='GEM_PROCESSOT_MOD';
+		$this->tipo_procedimiento='IME';
+		
+		$this->setParametro('id_orden_trabajo','id_orden_trabajo','int4');
+		$this->setParametro('cat_estado','cat_estado','varchar');
+		
+		$this->armarConsulta();
+		$this->ejecutarConsulta();
+
+		return $this->respuesta;
+	}
 }
 ?>

@@ -16,8 +16,15 @@ class ACTOrdenTrabajo extends ACTbase{
 		if($this->objParam->getParametro('tipoReporte')=='excel_grid' || $this->objParam->getParametro('tipoReporte')=='pdf_grid'){
 			$this->objReporte = new Reporte($this->objParam, $this);
 			$this->res = $this->objReporte->generarReporteListado('MODOrdenTrabajo','listarOrdenTrabajo');
-		} else{
-			$this->objFunc=$this->create('MODOrdenTrabajo');	
+		} else {
+			if($this->objParam->getParametro('nombreVista') == 'registrarOT') {
+				$this->objParam->addFiltro(" (geoott.cat_estado = ''Borrador'' or geoott.cat_estado = ''Pendiente'')");
+			} elseif($this->objParam->getParametro('nombreVista') == 'ejecutarOT') {
+				$this->objParam->addFiltro(" (geoott.cat_estado = ''Pendiente'' or geoott.cat_estado = ''Abierto'')");
+			} elseif($this->objParam->getParametro('nombreVista') == 'revisarOT') {
+				$this->objParam->addFiltro(" (geoott.cat_estado = ''Cerrado'' or geoott.cat_estado = ''Revisado'')");
+			}
+			$this->objFunc=$this->create('MODOrdenTrabajo');
 			$this->res=$this->objFunc->listarOrdenTrabajo();
 		}
 		$this->res->imprimirRespuesta($this->res->generarJson());
@@ -44,7 +51,12 @@ class ACTOrdenTrabajo extends ACTbase{
 		$this->res=$this->objFunc->generarOT();
 		$this->res->imprimirRespuesta($this->res->generarJson());
 	}
-			
+	
+	function procesarOT() {
+		$this->objFunc=$this->create('MODOrdenTrabajo');
+		$this->res=$this->objFunc->procesarOT();
+		$this->res->imprimirRespuesta($this->res->generarJson());
+	}
 }
 
 ?>

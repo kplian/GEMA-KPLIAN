@@ -191,9 +191,32 @@ BEGIN
             return v_resp;
 
 		end;
-         
+
+    /*********************************    
+ 	#TRANSACCION:  'GEM_PROCESSOT_MOD'
+ 	#DESCRIPCION:	Cambio de estado OIT
+ 	#AUTOR:		aao
+ 	#FECHA:		05-12-2012 03:58:00
+	***********************************/
+
+	elsif(p_transaccion='GEM_PROCESSOT_MOD')then
+
+		begin
+			--Sentencia de la eliminacion
+			update gem.torden_trabajo set
+			cat_estado = v_parametros.cat_estado
+            where id_orden_trabajo = v_parametros.id_orden_trabajo;
+               
+            --Definicion de la respuesta
+            v_resp = pxp.f_agrega_clave(v_resp,'mensaje','Orden Interna de Trabajo Procesada'); 
+            v_resp = pxp.f_agrega_clave(v_resp,'id_orden_trabajo',v_parametros.id_orden_trabajo::varchar);
+              
+            --Devuelve la respuesta
+            return v_resp;
+		end;
+        
 	else
-     
+    
     	raise exception 'Transaccion inexistente: %',p_transaccion;
 
 	end if;

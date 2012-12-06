@@ -33,50 +33,25 @@ Phx.vista.actividad=Ext.extend(Phx.gridInterfaz,{
 			form: true 
 		},
 		{
-			config: {
-				name: 'id_usuario_resp',
-				fieldLabel: 'Usuario Responsable',
-				allowBlank: false,
-				emptyText: 'Designe a un responsable...',
-				store: new Ext.data.JsonStore({
-					url: '../../sis_seguridad/control/Usuario/listarUsuario',
-					id: 'id_usuario',
-					root: 'datos',
-					sortInfo: {
-						field: 'nombre',
-						direction: 'ASC'
-					},
-					totalProperty: 'total',
-					fields: ['id_usuario','desc_person'],
-					remoteSort: true,
-					baseParams: {par_filtro:'desc_person'}
-				}),
-				valueField: 'id_usuario',
-				displayField: 'desc_person',
-				gdisplayField: 'usuario_resp',
-				forceSelection: true,
-				typeAhead: false,
-    			triggerAction: 'all',
-    			lazyRender: true,
-				mode: 'remote',
-				pageSize: 20,
-				queryDelay: 500,
-				width: '100%',
-				gwidth: 220,
-				minChars: 2,
-				renderer: function (value, p, record) {
-					return String.format('{0}', record.data['usuario_resp']);
-					}
-			},
-			type: 'ComboBox',
-			filters: {
-				pfiltro: 'acti.id_usuario_resp',
-				type: 'string'
-			},
-			id_grupo: 0,
-			grid: true,
-			form: true
-		},
+	   		config:{
+	       		    name: 'id_usuario_resp',
+	   				origen: 'USUARIO',
+	   				tinit: true,
+	   				fieldLabel: 'Usuario Responsable',
+	   				gdisplayField: 'desc_person',//mapea al store del grid
+	   			    gwidth: 220,
+	   			    anchor: '100%',
+		   			renderer: function (value, p, record){return String.format('{0}', record.data['usuario_resp']);}
+	       	     },
+	   			type: 'ComboRec',
+	   			id_grupo: 0,
+	   			filters:{	
+			        pfiltro: 'PERSON.nombre_completo1',
+					type: 'string'
+				},
+	   			grid: true,
+	   			form: true
+	   	},
 		{
 			config:{
 					labelSeparator: '',
@@ -269,6 +244,18 @@ Phx.vista.actividad=Ext.extend(Phx.gridInterfaz,{
 		direction: 'ASC'
 	},
 	constructor: function(config) {
+		showSouth = true;
+		if(config.cat_estado = "Borrador") {
+			showSouth = false;
+		}
+		if(showSouth) {
+			this.south = {
+				url:'../../../sis_mantenimiento/vista/recurso/Recurso.php',
+				title:'Recurso',
+				height: 300,
+				cls:'recurso'
+			};
+		}
 		Phx.vista.actividad.superclass.constructor.call(this,config);
 		this.init();
 		this.load({
@@ -308,12 +295,6 @@ Phx.vista.actividad=Ext.extend(Phx.gridInterfaz,{
 			},
 		]
 	}],
-	south:{
-		  url:'../../../sis_mantenimiento/vista/recurso/Recurso.php',
-		  title:'Recurso',
-		  height: 300,
-		  cls:'recurso'
-		},
 	bdel: true,
 	bsave: true,
 	fheight: 500,
