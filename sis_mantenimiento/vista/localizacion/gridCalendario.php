@@ -473,18 +473,13 @@ Phx.vista.gridCalendario=Ext.extend(Phx.gridInterfaz,{
 	,
 	
 	EnableSelect:function(n,b,c){
-		
-				
 		//recuperar datos
-		
 		var record = this.store.getAt(b);
 		var valcol = this.cm.getDataIndex(c);
 		var cp_val= 'cp_'+valcol;
 		
-		console.log(valcol,cp_val, record.data[valcol], record.data[cp_val] ,record.data['cp_november_2012_s1'])
-		
 		//llamada para cargar dattos del mantenimiento
-		if(record.data[valcol]=='1'){
+		if(record.data[valcol]=='1' || record.data[valcol]=='2' || record.data[valcol]=='3'){
 			Phx.CP.loadingShow();
 			Ext.Ajax.request({
 			                    form: this.form.getForm().getEl(),
@@ -516,12 +511,10 @@ Phx.vista.gridCalendario=Ext.extend(Phx.gridInterfaz,{
        },
        
       
-       successObtCalPlan:function(r){
+        successObtCalPlan:function(r){
        	Phx.CP.loadingHide();
 		this.wCP2.show(); 
-		console.log(r)
-		
-		 var regreso = Ext.util.JSON.decode(Ext.util.Format.trim(r.responseText));
+		var regreso = Ext.util.JSON.decode(Ext.util.Format.trim(r.responseText));
 		 
 		if(!regreso.ROOT.error){
 			console.log(regreso.ROOT.datos)

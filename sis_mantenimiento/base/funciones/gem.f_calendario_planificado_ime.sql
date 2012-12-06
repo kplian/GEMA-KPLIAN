@@ -36,6 +36,8 @@ DECLARE
     v_fecha_ini  date;
     v_dif integer;
     v_id_uni_cons_mant_predef integer;
+    v_estado varchar;
+    v_tipo varchar;
 
 BEGIN
 
@@ -181,17 +183,27 @@ BEGIN
 
 		begin
         
-                       
+          --preguntas el por tl tipo y el estado del calendario planificado       
+        
+           --recupero la fecha anterio 
+                 select c.fecha_ini,c.id_uni_cons_mant_predef , c.estado, c.tipo
+                     into 
+                       v_fecha_ini,v_id_uni_cons_mant_predef, v_estado, v_tipo
+                from gem.tcalendario_planificado c
+                where id_calendario_planificado=v_parametros.id_calendario_planificado;      
+          
+           IF ( v_estado !=  'generado'  and v_tipo = 'planificado') THEN
+           
+             raise exception 'Solo puede cambiar las fechas que no tienen asignada una Orden de Trabajo';
+           
+           END IF;
+          
+                 
             --verifica si desea modificar en cadena las fecha siguientes
             
             IF v_parametros.recursivo = 'true' THEN
             
-                --recupero la fecha anterio 
-                 select c.fecha_ini,c.id_uni_cons_mant_predef 
-                     into 
-                       v_fecha_ini,v_id_uni_cons_mant_predef
-                from gem.tcalendario_planificado c
-                where id_calendario_planificado=v_parametros.id_calendario_planificado;
+               
                 
                 --definimos si sumamos o restamos
                 --calculo la diferencia en dias
