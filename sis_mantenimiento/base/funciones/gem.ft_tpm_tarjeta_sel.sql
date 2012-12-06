@@ -102,7 +102,7 @@ BEGIN
 						inner join segu.tusuario usu1 on usu1.id_usuario = tartpm.id_usuario_reg
 						left join segu.tusuario usu2 on usu2.id_usuario = tartpm.id_usuario_mod
                         left join gem.tlocalizacion loc on loc.id_localizacion = tartpm.id_localizacion
-				        where tartpm.id_localizacion='||v_parametros.id_localizacion||' and ';
+				        where tartpm.id_tpm_tarjeta='||v_parametros.id_tpm_tarjeta||' and ';
 			
 			--Definicion de la respuesta
 			v_consulta:=v_consulta||v_parametros.filtro;

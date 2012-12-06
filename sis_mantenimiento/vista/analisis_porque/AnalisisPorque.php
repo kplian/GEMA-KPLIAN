@@ -16,6 +16,30 @@ Phx.vista.AnalisisPorque=Ext.extend(Phx.gridInterfaz,{
 		this.maestro=config.maestro;
     	//llama al constructor de la clase padre
 		Phx.vista.AnalisisPorque.superclass.constructor.call(this,config);
+		
+		this.addButton('btnReporte',{
+            text:'Reporte',
+            iconCls: 'blist',
+            disabled: false,
+            handler:function(){
+                var rec=this.sm.getSelected();
+                console.debug(rec);
+                Ext.Ajax.request({
+                    url:'../../sis_mantenimiento/control/AnalisisPorque/planillaAnalisisPorque',
+                    params:{'id_analisis_porque':rec.data.id_analisis_porque},
+                    success: this.successExport,
+                    failure: function() {
+                        console.log("fail");
+                    },
+                    timeout: function() {
+                        console.log("timeout");
+                    },
+                    scope:this
+                });
+            },
+            tooltip: '<b>Reporte</b><br/>Registro de Analisis Porque Porque'
+        });
+        
 		this.init();
 		this.load({params:{start:0, limit:50, id_uni_cons:this.id_uni_cons}})
 		this.loadValoresIniciales();
@@ -123,7 +147,7 @@ Phx.vista.AnalisisPorque=Ext.extend(Phx.gridInterfaz,{
                 gwidth: 100,
                 maxLength:1000
             },
-            type:'TextField',
+            type:'TextArea',
             filters:{pfiltro:'anapor.operadores',type:'string'},
             id_grupo:1,
             grid:true,
@@ -138,7 +162,7 @@ Phx.vista.AnalisisPorque=Ext.extend(Phx.gridInterfaz,{
 				gwidth: 100,
 				maxLength:1000
 			},
-			type:'TextField',
+			type:'TextArea',
 			filters:{pfiltro:'anapor.tecnicos',type:'string'},
 			id_grupo:1,
 			grid:true,
@@ -153,7 +177,7 @@ Phx.vista.AnalisisPorque=Ext.extend(Phx.gridInterfaz,{
                 gwidth: 140,
                 maxLength:1000
             },
-            type:'TextField',
+            type:'TextArea',
             filters:{pfiltro:'anapor.coordinadores',type:'string'},
             id_grupo:1,
             grid:true,

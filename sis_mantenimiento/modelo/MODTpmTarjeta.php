@@ -111,7 +111,7 @@ class MODTpmTarjeta extends MODbase{
         $this->transaccion='GM_TARTPM_REP';
         $this->tipo_procedimiento='SEL';//tipo de transaccion
     
-        $this->setParametro('id_localizacion','id_localizacion','int4');
+        $this->setParametro('id_tpm_tarjeta','id_tpm_tarjeta','int4');
         //Definicion de la lista del resultado del query
         $this->captura('id_tpm_tarjeta','int4');
         $this->captura('id_localizacion','int4');

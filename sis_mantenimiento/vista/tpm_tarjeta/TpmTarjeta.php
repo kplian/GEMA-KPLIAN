@@ -26,7 +26,7 @@ Phx.vista.TpmTarjeta=Ext.extend(Phx.gridInterfaz,{
                 console.debug(rec);
                 Ext.Ajax.request({
                     url:'../../sis_mantenimiento/control/TpmTarjeta/planillaTpmTarjeta',
-                    params:{'id_localizacion':rec.data.id_localizacion},
+                    params:{'id_tpm_tarjeta':rec.data.id_tpm_tarjeta},
                     success: this.successExport,
                     failure: function() {
                         console.log("fail");

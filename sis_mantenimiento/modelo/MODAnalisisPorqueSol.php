@@ -105,6 +105,35 @@ class MODAnalisisPorqueSol extends MODbase{
 		//Devuelve la respuesta
 		return $this->respuesta;
 	}
+    
+    function reporteAnalisisPorqueSol(){
+        //Definicion de variables para ejecucion del procedimientp
+        $this->procedimiento='gem.ft_analisis_porque_sol_sel';
+        $this->transaccion='GM_PORSOL_REP';
+        $this->tipo_procedimiento='SEL';//tipo de transaccion
+        
+        $this->setCount(false);
+        $this->setParametro('id_analisis_porque','id_analisis_porque','int4');
+        //Definicion de la lista del resultado del query
+        $this->captura('id_analisis_porque_sol','int4');
+        $this->captura('id_analisis_porque','int4');
+        $this->captura('id_funcionario','int4');
+        $this->captura('desc_funcionario1','text');
+        $this->captura('estado','varchar');
+        $this->captura('fecha','text');
+        $this->captura('descripcion','varchar');
+        $this->captura('fecha_reg','timestamp');
+        $this->captura('fecha_mod','timestamp');
+        $this->captura('usr_reg','varchar');
+        $this->captura('usr_mod','varchar');
+        
+        //Ejecuta la instruccion
+        $this->armarConsulta();
+        $this->ejecutarConsulta();
+        
+        //Devuelve la respuesta
+        return $this->respuesta;
+    }
 			
 }
 ?>

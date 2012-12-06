@@ -45,9 +45,9 @@ class ACTTpmTarjeta extends ACTbase{
 	
     function planillaTpmTarjeta(){
         $dataSource = new DataSource();
-        $idLocalizacion = $this->objParam->getParametro('id_localizacion');
-        $this->objParam->addParametroConsulta('id_localizacion',$idLocalizacion);
-        $this->objParam->addParametroConsulta('ordenacion','id_localizacion');
+        $idTpmTarjeta = $this->objParam->getParametro('id_tpm_tarjeta');
+        $this->objParam->addParametroConsulta('id_tpm_tarjeta',$idTpmTarjeta);
+        $this->objParam->addParametroConsulta('ordenacion','id_tpm_tarjeta');
         $this->objParam->addParametroConsulta('dir_ordenacion','ASC');
         $this->objParam->addParametroConsulta('cantidad',1000);
         $this->objParam->addParametroConsulta('puntero',0);
@@ -56,7 +56,6 @@ class ACTTpmTarjeta extends ACTbase{
         $datosTpmTarjeta = $resultTpmTarjeta->getDatos();
         //armamos el array parametros y metemos ahi los data sets de las otras tablas
         
-        $idTpmTarjeta = $datosTpmTarjeta[0]['id_tpm_tarjeta'];
         $dataSource->putParameter('codigo', $datosTpmTarjeta[0]['codigo']);
         $dataSource->putParameter('tipo', $datosTpmTarjeta[0]['tipo']);
         $dataSource->putParameter('revision', $datosTpmTarjeta[0]['revision']);

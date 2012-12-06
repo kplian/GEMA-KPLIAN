@@ -73,6 +73,44 @@ BEGIN
 			return v_consulta;
 						
 		end;
+        
+    /*********************************    
+ 	#TRANSACCION:  'GM_PORSOL_REP'
+ 	#DESCRIPCION:	Consulta para reporte de datos
+ 	#AUTOR:		Gonzalo Sarmiento Sejas	
+ 	#FECHA:		06-12-2012 22:28:33
+	***********************************/
+
+	elsif(p_transaccion='GM_PORSOL_REP')then
+     				
+    	begin
+    		--Sentencia de la consulta
+			v_consulta:='select
+						porsol.id_analisis_porque_sol,
+						porsol.id_analisis_porque,
+						porsol.id_funcionario,
+                        fun.desc_funcionario1,
+						porsol.estado,
+						to_char(porsol.fecha,''dd/MM/YYYY'')as fecha,
+						porsol.descripcion,
+						porsol.fecha_reg,
+						porsol.fecha_mod,
+						usu1.cuenta as usr_reg,
+						usu2.cuenta as usr_mod	
+						from gem.tanalisis_porque_sol porsol
+						inner join segu.tusuario usu1 on usu1.id_usuario = porsol.id_usuario_reg
+						left join segu.tusuario usu2 on usu2.id_usuario = porsol.id_usuario_mod
+                        inner join orga.vfuncionario fun on fun.id_funcionario = porsol.id_funcionario
+				        where porsol.id_analisis_porque='||v_parametros.id_analisis_porque||' and ';
+			
+			--Definicion de la respuesta
+			v_consulta:=v_consulta||v_parametros.filtro;
+
+			--Devuelve la respuesta
+			return v_consulta;
+						
+		end;
+
 
 	/*********************************    
  	#TRANSACCION:  'GM_PORSOL_CONT'

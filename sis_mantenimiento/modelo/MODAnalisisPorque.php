@@ -113,6 +113,43 @@ class MODAnalisisPorque extends MODbase{
 		//Devuelve la respuesta
 		return $this->respuesta;
 	}
+    
+    function listarAnalisisPorqueReporte(){
+        //Definicion de variables para ejecucion del procedimientp
+        $this->procedimiento='gem.ft_analisis_porque_sel';
+        $this->transaccion='GM_ANAPOR_REP';
+        $this->tipo_procedimiento='SEL';//tipo de transaccion
+        $this->setCount(false);
+        
+        $this->setParametro('id_analisis_porque','id_analisis_porque','int4');
+        //Definicion de la lista del resultado del query
+        $this->captura('id_analisis_porque','int4');
+        $this->captura('revision','int4');
+        $this->captura('fecha_reg','text');        
+        $this->captura('fecha_mod','text');
+        $this->captura('nombre_loc','varchar');
+        $this->captura('nro_analisis','int4');
+        $this->captura('maquina','varchar');
+        $this->captura('tag','varchar');
+        $this->captura('problema','varchar');        
+        $this->captura('fecha','text');                
+        $this->captura('estado','varchar');        
+        $this->captura('operadores','varchar');        
+        $this->captura('coordinadores','varchar');
+        $this->captura('tecnicos','varchar');
+        $this->captura('estado_reg','varchar');
+        $this->captura('id_usuario_reg','int4');
+        $this->captura('id_usuario_mod','int4');
+        $this->captura('usr_reg','varchar');
+        $this->captura('usr_mod','varchar');
+        
+        //Ejecuta la instruccion
+        $this->armarConsulta();
+        $this->ejecutarConsulta();
+        
+        //Devuelve la respuesta
+        return $this->respuesta;
+    }
 			
 }
 ?>
