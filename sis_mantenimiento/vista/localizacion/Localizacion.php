@@ -943,7 +943,7 @@ Phx.vista.Localizacion=Ext.extend(Phx.arbInterfaz,{
 		var data =node.attributes;
 		if(data){
 			Phx.CP.loadWindows('../../../sis_mantenimiento/vista/uni_cons_mant_predef/UniConsMantPredef.php',
-				'Equipos - Mantenimientos predefinidos',{
+				'Mantenimientos predefinidos [Equipo: '+data.codigo+'-'+data.nombre+']',{
 						modal:true,
 						width:900,
 						height:400

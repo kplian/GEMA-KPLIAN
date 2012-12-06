@@ -35,9 +35,9 @@ Phx.vista.UniConsMantPredef=Ext.extend(Phx.gridInterfaz,{
 				name: 'id_mant_predef',
 				fieldLabel: 'Mantenimiento',
 				allowBlank: false,
-				emptyText:'Elija una mantenimiento...',
+				emptyText:'Elija un mantenimiento...',
 				store:new Ext.data.JsonStore({
-					url: '../../sis_mantenimiento/control/MantPredef/listarMantPredef',
+					url: '../../sis_mantenimiento/control/MantPredef/listarMantPredefUC',
 					id: 'id_mant_predef',
 					root:'datos',
 					sortInfo:{
@@ -45,7 +45,7 @@ Phx.vista.UniConsMantPredef=Ext.extend(Phx.gridInterfaz,{
 						direction:'ASC'
 					},
 					totalProperty:'total',
-					fields: ['id_mant_predef','nombre','codigo','descripcion'],
+					fields: ['id_mant_predef','nombre','codigo','descripcion','desc_tipo_equipo'],
 					// turn on remote sorting
 					remoteSort: true,
 					baseParams:{par_filtro:'nombre'}
@@ -64,7 +64,8 @@ Phx.vista.UniConsMantPredef=Ext.extend(Phx.gridInterfaz,{
 				width:300,
 				gwidth:220,
 				minChars:2,
-				renderer:function (value, p, record){return String.format('{0}', record.data['desc_mant_predef']);}
+				renderer:function (value, p, record){return String.format('{0}', record.data['desc_mant_predef']);}, 
+				tpl:'<tpl for="."><div class="x-combo-list-item"><p>Código: <span style="color:#1406DD">{codigo}</span></p><p>Mantenimiento: <span style="color:#1406DD">{nombre}</span></p><p>Tipo Equipo: <span style="color:#1406DD">{desc_tipo_equipo}</span></p></div></tpl>',
 			},
 			type:'ComboBox',
 			filters:{pfiltro:'gemapr.nombre',type:'string'},
@@ -317,6 +318,7 @@ Phx.vista.UniConsMantPredef=Ext.extend(Phx.gridInterfaz,{
 	loadValoresIniciales:function(){
 		Phx.vista.UniConsMantPredef.superclass.loadValoresIniciales.call(this);
 		this.getComponente('id_uni_cons').setValue(this.maestro.id_uni_cons);
+		this.getComponente('id_mant_predef').store.baseParams={par_filtro:'nombre',id_uni_cons:this.maestro.id_uni_cons};
 	},	
 	onReloadPage:function(m){
 		this.maestro=m;						

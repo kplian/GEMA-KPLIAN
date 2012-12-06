@@ -38,6 +38,26 @@ class ACTMantPredef extends ACTbase{
 		$this->res=$this->objFunc->eliminarMantPredef();
 		$this->res->imprimirRespuesta($this->res->generarJson());
 	}
+
+	function listarMantPredefUC(){
+		$this->objParam->defecto('ordenacion','id_mant_predef');
+		$this->objParam->defecto('dir_ordenacion','asc');
+		//var_dump($this->objParam->getParametro('id_uni_cons'));
+		//var_dump($this->objParam);
+		//if($node=='id'){
+		//	echo 'id_uni_cons:' .$id_uni_cons;exit;
+			//$this->objParam->addParametro('id_uni_cons',$id_uni_cons);
+		//}
+		
+		if($this->objParam->getParametro('tipoReporte')=='excel_grid' || $this->objParam->getParametro('tipoReporte')=='pdf_grid'){
+			$this->objReporte = new Reporte($this->objParam, $this);
+			$this->res = $this->objReporte->generarReporteListado('MODMantPredef','listarMantPredefUC');
+		} else{
+			$this->objFunc=$this->create('MODMantPredef');	
+			$this->res=$this->objFunc->listarMantPredefUC();
+		}
+		$this->res->imprimirRespuesta($this->res->generarJson());
+	}
 			
 }
 
