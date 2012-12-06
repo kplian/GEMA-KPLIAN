@@ -12,3 +12,7 @@ select pxp.f_add_catalog('GEM','ttpm_tarjeta_cat_tipo_instalacion','Estacion');
 select pxp.f_add_catalog('GEM','ttpm_tarjeta_cat_tipo_instalacion','Planta');
 select pxp.f_add_catalog('GEM','tanalisis_porque_cat_estado_analisis_porque','En proceso');
 select pxp.f_add_catalog('GEM','tanalisis_porque_cat_estado_analisis_porque','Terminado');
+select pxp.f_add_catalog('GEM','tlocalizacion_usuario','Gerente');
+select pxp.f_add_catalog('GEM','tlocalizacion_usuario','Ingeniero');
+select pxp.f_add_catalog('GEM','tlocalizacion_usuario','Jefe');
+select pxp.f_add_catalog('GEM','tlocalizacion_usuario','Operador');

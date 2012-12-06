@@ -59,7 +59,7 @@ Phx.vista.LocalizacionUsuario=Ext.extend(Phx.gridInterfaz,{
 				name: 'tipo',
 				fieldLabel: 'Responsabilidad',
 				anchor: '90%',
-				tinit: true,
+				tinit: false,
 				allowBlank: false,
 				origen: 'CATALOGO',
 				gdisplayField: 'descripcion',

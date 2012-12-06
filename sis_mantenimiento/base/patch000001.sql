@@ -1415,3 +1415,13 @@ ALTER TABLE gem.torden_trabajo
   ADD COLUMN id_calendario_planificacion INTEGER;
   
 /***********************************F-SCP-RAC-GEM-60-05/12/2012*****************************************/
+
+/***********************************I-SCP-RCM-GEM-28-05/12/2012*****************************************/
+alter table gem.tlocalizacion_usuario
+drop constraint chk_tlocalizacion_usuario__tipo;
+alter table gem.tlocalizacion_usuario
+add constraint chk_tlocalizacion_usuario__tipo check (tipo in ('Gerente','Ingeniero','Jefe','Operador'));
+--Validación para que no se repita usuario, localizacion, tipo
+alter table gem.tlocalizacion_usuario
+add constraint uq_tlocalizacion_usuario__id_localizacion__id_usuario__tipo unique (id_localizacion,id_usuario,tipo);
+/***********************************F-SCP-RCM-GEM-28-05/12/2012*****************************************/

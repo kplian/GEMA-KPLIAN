@@ -43,6 +43,15 @@ BEGIN
 	if(p_transaccion='GM_LOCUSU_INS')then
 					
         begin
+        	--Validación para que solamente se defina un Gerente, Ingeniero y Jefe por localización
+        	if v_parametros.tipo in ('Gerente','Ingeniero','Jefe') then
+        		if exists(select 1 from gem.tlocalizacion_usuario
+        				where id_localizacion = v_parametros.id_localizacion
+        				and tipo = v_parametros.tipo) then
+        			RAISE EXCEPTION 'Registro no almacenado: en este nivel ya se ha registrado al %. Sólo se puede registrarlo una vez.', v_parametros.tipo;
+        		end if;
+        	end if;
+        
         	--Sentencia de la insercion
         	insert into gem.tlocalizacion_usuario(
 			estado_reg,
@@ -83,6 +92,15 @@ BEGIN
 	elsif(p_transaccion='GM_LOCUSU_MOD')then
 
 		begin
+			--Validación para que solamente se defina un Gerente, Ingeniero y Jefe por localización
+        	if v_parametros.tipo in ('Gerente','Ingeniero','Jefe') then
+        		if exists(select 1 from gem.tlocalizacion_usuario
+        				where id_localizacion = v_parametros.id_localizacion
+        				and tipo = v_parametros.tipo
+        				and id_localizacion_usuario <> v_parametros.id_localizacion_usuario) then
+        			RAISE EXCEPTION 'Registro no actualizado: en este nivel ya se ha registrado al %. Sólo se puede registrarlo una vez.', v_parametros.tipo;
+        		end if;
+        	end if;
 			--Sentencia de la modificacion
 			update gem.tlocalizacion_usuario set
 			tipo = v_parametros.tipo,
