@@ -84,6 +84,22 @@ Phx.vista.UniConsMantPredef=Ext.extend(Phx.gridInterfaz,{
 			form:true 
 		},
 		{
+			config: {
+				name: 'id_unidad_medida',
+				fieldLabel: 'Unidad de Medida',
+				allowBlank: false,
+				origen: 'UNIDADMEDIDA',
+				gdisplayField: 'desc_unidad_medida_estimado',
+				gwidth: 200,
+				renderer:function(value, p, record){return String.format('{0}', record.data['desc_unidad_medida']);}
+			},
+			type: 'ComboRec',
+			id_grupo: 0,
+			filters:{pfiltro:'um.codigo',type:'string'},
+			grid: true,
+			form: true
+		},
+		/*{
        			config:{
        				name:'id_unidad_medida',
        				fieldLabel:'Unidad de Medida',
@@ -129,7 +145,7 @@ Phx.vista.UniConsMantPredef=Ext.extend(Phx.gridInterfaz,{
        					},
        			grid:true,
        			form:true
-       	},
+       	},*/
 		{
 			config:{
 				name: 'frecuencia',

@@ -91,20 +91,6 @@ VALUES (1,'activo',8, 10, 9, 'no',1);
 INSERT INTO gem.tuni_cons_comp(id_usuario_reg, estado_reg,id_uni_cons_comp,id_uni_cons_hijo,id_uni_cons_padre,opcional,cantidad)
 VALUES (1,'activo',9, 11, 9, 'no',1);
 
---UNIDADES DE MEDIDA
-INSERT INTO param.tunidad_medida ("id_usuario_reg", "id_usuario_mod", "fecha_reg", "fecha_mod", "estado_reg", "id_unidad_medida", "codigo", "descripcion")
-VALUES (1, NULL, E'2012-11-02 13:31:27', E'2012-11-02 13:31:27', E'activo', 9, E'kilometros', E'Kilometros');
-INSERT INTO param.tunidad_medida ("id_usuario_reg", "id_usuario_mod", "fecha_reg", "fecha_mod", "estado_reg", "id_unidad_medida", "codigo", "descripcion")
-VALUES (1, 1, E'2012-11-02 13:29:13', E'2012-11-03 09:42:35.594', E'activo', 2, E'dia', E'Dia');
-INSERT INTO param.tunidad_medida ("id_usuario_reg", "id_usuario_mod", "fecha_reg", "fecha_mod", "estado_reg", "id_unidad_medida", "codigo", "descripcion")
-VALUES (1, 1, E'2012-11-02 13:26:52', E'2012-11-03 09:42:43.275', E'activo', 1, E'hora', E'Hora');
-INSERT INTO param.tunidad_medida ("id_usuario_reg", "id_usuario_mod", "fecha_reg", "fecha_mod", "estado_reg", "id_unidad_medida", "codigo", "descripcion")
-VALUES (1, 1, E'2012-11-02 13:30:42', E'2012-11-03 09:42:54.058', E'activo', 5, E'año', E'Año');
-INSERT INTO param.tunidad_medida ("id_usuario_reg", "id_usuario_mod", "fecha_reg", "fecha_mod", "estado_reg", "id_unidad_medida", "codigo", "descripcion")
-VALUES (1, 1, E'2012-11-02 13:29:13', E'2012-11-03 09:43:44.843', E'activo', 4, E'mes', E'Mes');
-INSERT INTO param.tunidad_medida ("id_usuario_reg", "id_usuario_mod", "fecha_reg", "fecha_mod", "estado_reg", "id_unidad_medida", "codigo", "descripcion")
-VALUES (1, 1, E'2012-11-02 13:34:20', E'2012-11-03 09:46:29.882', E'activo', 3, E'semana', E'Semana');
-
 --MANTENIMIENTOS PREDEFINIDOS
 INSERT INTO gem.tmant_predef ("id_usuario_reg", "id_usuario_mod", "fecha_reg", "fecha_mod", "estado_reg", "id_mant_predef", "codigo", "nombre", "descripcion", "id_tipo_equipo")
 VALUES (1, NULL, E'2012-11-06 12:26:37.546', NULL, E'activo', 1, E'MPP01', E'Mantenimiento Preventivo Planificado 01', NULL, 1);
