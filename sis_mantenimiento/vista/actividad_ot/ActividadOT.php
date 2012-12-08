@@ -245,9 +245,14 @@ Phx.vista.actividad=Ext.extend(Phx.gridInterfaz,{
 	},
 	constructor: function(config) {
 		showSouth = true;
-		if(config.cat_estado = "Borrador") {
+		if(config.nombreVista = "registrarOT") {
 			showSouth = false;
+		} else if(config.nombreVista = "ejecutarOT") {
+			//TODO: when main OT view is ejecutarOT
+		} else if(config.nombreVista = "revisarOT") {
+			//TODO: when main OT view is revisarOT
 		}
+		
 		if(showSouth) {
 			this.south = {
 				url:'../../../sis_mantenimiento/vista/recurso/Recurso.php',

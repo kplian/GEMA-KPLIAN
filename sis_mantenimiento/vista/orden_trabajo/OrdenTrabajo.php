@@ -29,6 +29,7 @@ Phx.vista.OrdenTrabajo=Ext.extend(Phx.gridInterfaz,{
 		
 		function loadActividadesOT() {
 			var rec=this.sm.getSelected();
+			rec.data.nombreVista = this.nombreVista;
 			Phx.CP.loadWindows('../../../sis_mantenimiento/vista/actividad_ot/ActividadOT.php',
 					'Actividades',
 					{
@@ -46,7 +47,6 @@ Phx.vista.OrdenTrabajo=Ext.extend(Phx.gridInterfaz,{
 			
 	Atributos:[
 		{
-			//configuracion del componente
 			config:{
 					labelSeparator:'',
 					inputType:'hidden',
@@ -622,8 +622,10 @@ Phx.vista.OrdenTrabajo=Ext.extend(Phx.gridInterfaz,{
 		field: 'id_orden_trabajo',
 		direction: 'ASC'
 	},
-	bdel:true,
-	bsave:false,
+	bdel: false,
+	bedit: false,
+	bsave: false,
+	bnew: false,
 	agregarArgsExtraSubmit: function(){
 		//Inicializa el objeto de los argumentos extra
 		this.argumentExtraSubmit={};

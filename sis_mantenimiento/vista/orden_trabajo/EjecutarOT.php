@@ -12,26 +12,26 @@ header("content-type: text/javascript; charset=UTF-8");
 Phx.vista.EjecutarOT = {
 	require:'../../../sis_mantenimiento/vista/orden_trabajo/OrdenTrabajo.php',
 	requireclase:'Phx.vista.OrdenTrabajo',
-	nombreVista:'EjecutarOT',
+	nombreVista:'ejecutarOT',
 	title:'Registrar Orden Trabajo',
 	constructor: function(config) {
 		Phx.vista.EjecutarOT.superclass.constructor.call(this,config);
 		this.init();
 		this.load({params:{start:0, limit:50, 'nombreVista': 'ejecutarOT'}});
-		this.addButton('Abrir', 
+		this.addButton('btnAbrir', 
 			{
 				text: 'Abrir',
 				iconCls: 'blist',
-				disabled: false,
+				disabled: true,
 				handler: openOT,
 				tooltip: '<b>Abre la Orden de Trabajo para su ejecución</b>'
 			}
 		);
-		this.addButton('Cerrar',
+		this.addButton('btnCerrar',
 			{
 				text: 'Cerrar',
 				iconCls: 'blist',
-				disabled: false,
+				disabled: true,
 				handler: closeOT,
 				tooltip: '<b>Cierra la Orde de Trabajo para su revisión</b>'
 			}
@@ -44,6 +44,7 @@ Phx.vista.EjecutarOT = {
 				url:'../../sis_mantenimiento/control/OrdenTrabajo/procesarOT',
 				params: {
 					'id_orden_trabajo': data.id_orden_trabajo,
+					'cat_estado_anterior': data.cat_estado,
 					'cat_estado': 'Abierto'
 				},
 				success:this.successSave,
@@ -60,6 +61,7 @@ Phx.vista.EjecutarOT = {
 				url:'../../sis_mantenimiento/control/OrdenTrabajo/procesarOT',
 				params: {
 					'id_orden_trabajo': data.id_orden_trabajo,
+					'cat_estado_anterior': data.cat_estado,
 					'cat_estado': 'Cerrado'
 				},
 				success:this.successSave,
@@ -70,12 +72,23 @@ Phx.vista.EjecutarOT = {
 		}
 	},
 	preparaMenu:function(n) {
+	  	var tb = Phx.vista.EjecutarOT.superclass.preparaMenu.call(this);
 	  	var data = this.getSelectedData();
-		var tb =this.tbar;
+	  	this.getBoton('btnActividad').setDisabled(false);
+	  	if(data.cat_estado == 'Pendiente') {
+	  		this.getBoton('btnAbrir').setDisabled(false);
+	  		this.getBoton('btnCerrar').setDisabled(true);
+	  	} else if(data.cat_estado == 'Abierto') {
+	  		this.getBoton('btnAbrir').setDisabled(true);
+	  		this.getBoton('btnCerrar').setDisabled(false);
+	  	}
   		return tb;
 	},
 	liberaMenu:function() {
 		var tb = Phx.vista.EjecutarOT.superclass.liberaMenu.call(this);
+		this.getBoton('btnAbrir').setDisabled(true);
+	  	this.getBoton('btnCerrar').setDisabled(true);
+	  	this.getBoton('btnActividad').setDisabled(true);
 		return tb;
 	}
 };

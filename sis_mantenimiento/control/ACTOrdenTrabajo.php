@@ -33,8 +33,8 @@ class ACTOrdenTrabajo extends ACTbase{
 	function insertarOrdenTrabajo(){
 		$this->objFunc=$this->create('MODOrdenTrabajo');	
 		if($this->objParam->insertar('id_orden_trabajo')){
-			$this->res=$this->objFunc->insertarOrdenTrabajo();			
-		} else{			
+			$this->res=$this->objFunc->insertarOrdenTrabajo();
+		} else{
 			$this->res=$this->objFunc->modificarOrdenTrabajo();
 		}
 		$this->res->imprimirRespuesta($this->res->generarJson());
@@ -53,10 +53,9 @@ class ACTOrdenTrabajo extends ACTbase{
 	}
 	
 	function procesarOT() {
-		$this->objFunc=$this->create('MODOrdenTrabajo');
+		$this->objFunc = $this->create('MODOrdenTrabajo');
 		$this->res=$this->objFunc->procesarOT();
 		$this->res->imprimirRespuesta($this->res->generarJson());
 	}
 }
-
 ?>

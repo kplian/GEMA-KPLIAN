@@ -663,7 +663,6 @@ select pxp.f_insert_tgui ('Mediciones por Equipo', 'Registro de Mediciones por E
 select pxp.f_insert_tgui ('Eventos/Incidentes por Equipo', 'Registro de Eventos/Incidentes por equipo', 'GEM.2.6', 'si', 6, 'sis_mantenimiento/vista/equipo_evento/EquipoEvento.php', 3, '', 'EquipoEvento', 'GEM');
 
 select pxp.f_insert_tgui ('Procedimientos, Instructivos ...', 'Registro de Procedimientos, Instructivos, etc.', 'GEM.3.1', 'si', 1, 'sis_mantenimiento/vista/documento/Documento.php', 3, '', 'Documento', 'GEM');
-
 /*(2) Composition*/
 
 ---------
@@ -700,7 +699,6 @@ select pxp.f_insert_testructura_gui ('GEM.2.5', 'GEM.2');
 select pxp.f_insert_testructura_gui ('GEM.2.6', 'GEM.2');
 
 select pxp.f_insert_testructura_gui ('GEM.3.1', 'GEM.3');
-
 
 /*
 *	Author: RCM
@@ -1425,3 +1423,21 @@ add constraint chk_tlocalizacion_usuario__tipo check (tipo in ('Gerente','Ingeni
 alter table gem.tlocalizacion_usuario
 add constraint uq_tlocalizacion_usuario__id_localizacion__id_usuario__tipo unique (id_localizacion,id_usuario,tipo);
 /***********************************F-SCP-RCM-GEM-28-05/12/2012*****************************************/
+
+/***********************************I-SCP-AAO-GEM-5-05/12/2012*****************************************/
+select pxp.f_insert_tgui ('Ordenes de Trabajo', 'Ordenes de Trabajo', 'GEM.2.7', 'si', 1, '', 3, '', '', 'GEM');
+
+select pxp.f_insert_tgui ('Registro - Orden Trabajo', 'Registro de Ordenes de Trabajo', 'GEM.2.7.1', 'si', 1, 'sis_mantenimiento/vista/orden_trabajo/RegistrarOT.php', 4, '', 'RegistrarOT', 'GEM');
+select pxp.f_insert_tgui ('Ejecución - Orden Trabajo', 'Registro de Ordenes de Trabajo', 'GEM.2.7.2', 'si', 1, 'sis_mantenimiento/vista/orden_trabajo/EjecutarOT.php', 4, '', 'EjecutarOT', 'GEM');
+select pxp.f_insert_tgui ('Revisión - Orden Trabajo', 'Registro de Ordenes de Trabajo', 'GEM.2.7.3', 'si', 1, 'sis_mantenimiento/vista/orden_trabajo/RevisarOT.php', 4, '', 'RevisarOT', 'GEM');
+
+select pxp.f_insert_testructura_gui ('GEM.2.7', 'GEM.2');
+
+select pxp.f_insert_testructura_gui ('GEM.2.7.1', 'GEM.2.7');
+select pxp.f_insert_testructura_gui ('GEM.2.7.2', 'GEM.2.7');
+select pxp.f_insert_testructura_gui ('GEM.2.7.3', 'GEM.2.7');
+
+CREATE TRIGGER trigger_torden_trabajo AFTER INSERT OR UPDATE 
+ON gem.torden_trabajo FOR EACH ROW 
+EXECUTE PROCEDURE gem.f_trg_torden_trabajo();
+/***********************************F-SCP-AAO-GEM-5-05/12/2012*****************************************/
