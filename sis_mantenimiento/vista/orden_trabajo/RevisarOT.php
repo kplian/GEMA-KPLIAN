@@ -17,7 +17,7 @@ Phx.vista.RevisarOT = {
 	constructor: function(config) {
 		Phx.vista.RevisarOT.superclass.constructor.call(this,config);
 		this.init();
-		this.load({params:{start:0, limit:50, 'nombreVista': 'revisarOT'}});
+		this.load({params:{start:0, limit:50, 'nombreVista': this.nombreVista}});
 		this.addButton('btnReabrir', 
 			{
 				text: 'Re Abrir',

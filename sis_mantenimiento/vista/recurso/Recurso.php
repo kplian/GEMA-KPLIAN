@@ -13,10 +13,20 @@ header("content-type: text/javascript; charset=UTF-8");
 
 Phx.vista.recurso=Ext.extend(Phx.gridInterfaz,{
 	constructor: function(config) {
+		modificarRecursos = false;
+		if(config.nombreVista == "ejecutarOT") {
+			modificarRecursos = true;
+		}
+		
+		this.bnew = modificarRecursos;
+		this.bdel = modificarRecursos;
+		this.bedit = modificarRecursos;
+		this.bsave = modificarRecursos;
+		
 		Phx.vista.recurso.superclass.constructor.call(this,config);
 		this.init();
 		this.grid.getTopToolbar().disable();
-   		this.grid.getBottomToolbar().disable(); 
+   		this.grid.getBottomToolbar().disable();
    		this.store.removeAll();
    		
    		//listener to combo box 
@@ -413,8 +423,6 @@ Phx.vista.recurso=Ext.extend(Phx.gridInterfaz,{
 		field: 'id_recurso',
 		direction: 'ASC'
 	},
-	bdel: true,
-	bsave: false,
 	fheight: 400,
 	fwidth: 410,
 	onReloadPage:function(m) {

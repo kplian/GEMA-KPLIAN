@@ -245,12 +245,16 @@ Phx.vista.actividad=Ext.extend(Phx.gridInterfaz,{
 	},
 	constructor: function(config) {
 		showSouth = true;
-		if(config.nombreVista = "registrarOT") {
+		modificarActividades = false;
+		if(config.nombreVista == "registrarOT") {
 			showSouth = false;
-		} else if(config.nombreVista = "ejecutarOT") {
-			//TODO: when main OT view is ejecutarOT
-		} else if(config.nombreVista = "revisarOT") {
-			//TODO: when main OT view is revisarOT
+			if(config.cat_estado == "Borrador") {
+				modificarActividades = true;
+			}
+		} else if(config.nombreVista == "ejecutarOT") {
+			if(config.cat_estado == "Pendiente") {
+				showSouth = false;
+			}
 		}
 		
 		if(showSouth) {
@@ -258,9 +262,16 @@ Phx.vista.actividad=Ext.extend(Phx.gridInterfaz,{
 				url:'../../../sis_mantenimiento/vista/recurso/Recurso.php',
 				title:'Recurso',
 				height: 300,
-				cls:'recurso'
+				cls:'recurso',
+				params: {
+					nombreVista: config.nombreVista
+				}
 			};
 		}
+		this.bnew = modificarActividades;
+		this.bdel = modificarActividades;
+		this.bedit = modificarActividades;
+		this.bsave = modificarActividades;
 		Phx.vista.actividad.superclass.constructor.call(this,config);
 		this.init();
 		this.load({
@@ -300,8 +311,6 @@ Phx.vista.actividad=Ext.extend(Phx.gridInterfaz,{
 			},
 		]
 	}],
-	bdel: true,
-	bsave: true,
 	fheight: 500,
 	fwidth:500,
 	preparaMenu:function(tb) {

@@ -17,7 +17,7 @@ Phx.vista.EjecutarOT = {
 	constructor: function(config) {
 		Phx.vista.EjecutarOT.superclass.constructor.call(this,config);
 		this.init();
-		this.load({params:{start:0, limit:50, 'nombreVista': 'ejecutarOT'}});
+		this.load({params:{start:0, limit:50, 'nombreVista': this.nombreVista}});
 		this.addButton('btnAbrir', 
 			{
 				text: 'Abrir',
