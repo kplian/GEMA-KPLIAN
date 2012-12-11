@@ -73,10 +73,7 @@ BEGIN
        FROM param.tconfig_alarma 
        WHERE codigo='tcalendario_planificado' AND id_subsistema=v_id_subsistema;
        
-       SELECT descripcion,dias INTO v_descrip_ot,v_dias_ot
-       FROM param.tconfig_alarma 
-       WHERE codigo='torden_trabajo' AND id_subsistema=v_id_subsistema; 
-       
+     
        
        
        --1A)  Creamos una tabla temporal para almacenar los usarios reposnables por uni_cons temporalemte para evitar al redudancia de la recursividad
@@ -314,6 +311,78 @@ BEGIN
              END IF;
           
          END LOOP; 
+         
+         
+     
+         -----------------------------------------------------------------------------------  
+        --  revisar alertas de ordenes de trabajo pendientes y alertasr al responsables 
+        --------------------------------------------------------------------------------
+        
+       --obtenemos configuracion de las alertas de OT
+        
+       SELECT descripcion,dias INTO v_descrip_ot, v_dias_ot
+       FROM param.tconfig_alarma 
+       WHERE codigo='torden_trabajo' AND id_subsistema=v_id_subsistema; 
+       
+        
+        FOR g_registros IN ( SELECT 
+                               ot.id_orden_trabajo,
+                               ot.fecha_plan_ini,
+                               ot.id_funcionario_asig,
+                               ot.num_oit,
+                               ot.descripcion,
+                               ot.id_uni_cons_mant_predef,
+                               uc.id_uni_cons,
+                               uc.codigo,
+                               uc.nombre,
+                               mp.codigo as codigo_mantenimiento,
+                               mp.nombre as nombre_mantenimiento,
+             				   ot.ubicacion_tecnica
+                             FROM gem.torden_trabajo ot 
+                             INNER JOIN gem.tuni_cons_mant_predef ucm on  ucm.id_uni_cons_mant_predef = ot.id_uni_cons_mant_predef
+                             INNER JOIN gem.tuni_cons uc on uc.id_uni_cons       = ucm.id_uni_cons
+                             INNER JOIN gem.tmant_predef mp on mp.id_mant_predef = ucm.id_mant_predef   
+                           
+                            WHERE ot.id_alarma IS NULL and uc.estado_reg='activo' and ot.estado_reg='activo'  
+                             and ((ot.fecha_plan_ini-now()::date)<=v_dias_ot)
+                             and ot.cat_estado = 'Pendiente' )LOOP               
+                             
+       
+               -- raise exception 'ALLARRRRRRRMA'; 
+         
+           IF(g_registros.id_funcionario is not null) THEN
+           
+               v_desc_alarma= 'Tiene que ejecutar la OT '||coalesce(g_registros.num_oit::varchar,'NR')||' que le fue asignada para el mantenimiento '||coalesce(g_registros.codigo_mantenimiento::varchar,'NR')||'('||coalesce(g_registros.nombre_mantenimineto::varchar,'NR')||') del equipo '||coalesce(g_registros.nombre::varchar,'NR')||' codigo ('||coalesce(g_registros.codigo::varchar,'NR')||') en la ubicación técnica '||coalesce(g_registros.fecha_ini::varchar,'NR');
+           
+               v_id_alarma:=param.f_inserta_alarma(
+                                     g_registros.id_funcionario,
+                                     v_desc_alarma,
+                                     '../../../sis_mantenimiento/orden_trabajo/orden_trabajo/EjecutarOT.php',
+                                      g_registros.fecha_ini,
+                                     'alarma',--notificacion
+                                     'GEM-OT',
+                                      p_id_usuario,
+                                     'EjecutarOT',
+                                     'OT pendiente',
+                                     '{}',
+                                      NULL,
+                                     'Ordenes de Trabajo Pendientes'
+                                     ); 
+        
+              END IF;
+              
+              
+              
+             --Actualizamos la tabla boleta con el array de alarmas
+               Update gem.torden_trabajo SET
+                  id_alarma[1]=v_id_alarma
+               WHERE id_orden_trabajo=g_registros.id_calendario_planificado;  
+
+         END LOOP;
+       --------------------------------------- 
+       -- para otras alertas continuar abajo  
+       -----------------------------------------  
+         
      
            
        return 'exito';
