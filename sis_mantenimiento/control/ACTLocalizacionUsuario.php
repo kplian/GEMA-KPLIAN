@@ -14,8 +14,10 @@ class ACTLocalizacionUsuario extends ACTbase{
 		$this->objParam->defecto('dir_ordenacion','asc');
 		
 		if($this->objParam->getParametro('id_localizacion')!='') {
+
 			$this->objParam->addFiltro("locusu.id_localizacion = ".$this->objParam->getParametro('id_localizacion'));	
 		}
+
 		
 		if($this->objParam->getParametro('tipoReporte')=='excel_grid' || $this->objParam->getParametro('tipoReporte')=='pdf_grid'){
 			$this->objReporte = new Reporte($this->objParam, $this);

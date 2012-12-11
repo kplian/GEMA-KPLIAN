@@ -198,7 +198,7 @@ BEGIN
          
           --3)FOR listar todos lo calendarios ee estado generado entre las fechas senhaladas 
           
-          FOR g_registros in ( SELECT  cp.fecha_ini 
+          FOR g_registros in ( SELECT  cp.fecha_ini, cp.id_alarma 
                                       from gem.tcalendario_planificado cp 
                               WHERE    	cp.id_uni_cons_mant_predef = v_id_uni_cons_mant_predef
                                       and cp.fecha_ini >=  v_parametros.fecha_ini 
@@ -311,7 +311,11 @@ BEGIN
                       v_i=v_i+1;
                    END LOOP; 
                  
-                 
+                
+            --eliminamos las alarmas si existen
+            
+            delete  from param.talarma a where  a.id_alarma = ANY (g_registros.id_alarma);
+           
                  
          
           END LOOP;

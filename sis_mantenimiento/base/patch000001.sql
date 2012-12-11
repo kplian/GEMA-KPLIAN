@@ -1414,6 +1414,8 @@ ALTER TABLE gem.torden_trabajo
   
 /***********************************F-SCP-RAC-GEM-60-05/12/2012*****************************************/
 
+
+
 /***********************************I-SCP-RCM-GEM-28-05/12/2012*****************************************/
 alter table gem.tlocalizacion_usuario
 drop constraint chk_tlocalizacion_usuario__tipo;
@@ -1423,6 +1425,8 @@ add constraint chk_tlocalizacion_usuario__tipo check (tipo in ('Gerente','Ingeni
 alter table gem.tlocalizacion_usuario
 add constraint uq_tlocalizacion_usuario__id_localizacion__id_usuario__tipo unique (id_localizacion,id_usuario,tipo);
 /***********************************F-SCP-RCM-GEM-28-05/12/2012*****************************************/
+
+
 
 /***********************************I-SCP-AAO-GEM-5-05/12/2012*****************************************/
 select pxp.f_insert_tgui ('Ordenes de Trabajo', 'Ordenes de Trabajo', 'GEM.2.7', 'si', 1, '', 3, '', '', 'GEM');
@@ -1441,3 +1445,35 @@ CREATE TRIGGER trigger_torden_trabajo AFTER INSERT OR UPDATE
 ON gem.torden_trabajo FOR EACH ROW 
 EXECUTE PROCEDURE gem.f_trg_torden_trabajo();
 /***********************************F-SCP-AAO-GEM-5-05/12/2012*****************************************/
+
+
+/***********************************I-SCP-RAC-GEM-21.1-06/12/2012*****************************************/
+--------------- SQL ---------------
+ALTER TABLE gem.tcalendario_planificado
+  ADD COLUMN id_alarma INTEGER;
+  
+  --------------- SQL ---------------
+
+ALTER TABLE gem.torden_trabajo
+  ADD COLUMN id_alarma INTEGER;
+  
+    
+/***********************************F-SCP-RAC-GEM-21.1-06/12/2012*****************************************/
+
+/***********************************I-SCP-RAC-GEM-21.1-10/12/2012*****************************************/
+  
+ALTER TABLE gem.tcalendario_planificado
+  DROP COLUMN id_alarma;
+  
+  ALTER TABLE gem.tcalendario_planificado
+  ADD COLUMN id_alarma INTEGER[];  
+  
+  
+ALTER TABLE gem.torden_trabajo
+  DROP COLUMN id_alarma;
+  
+  
+ALTER TABLE gem.torden_trabajo
+  ADD COLUMN id_alarma INTEGER[];
+  
+/***********************************F-SCP-RAC-GEM-21.1-10/12/2012*****************************************/
