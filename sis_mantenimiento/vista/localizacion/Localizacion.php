@@ -481,6 +481,20 @@ Phx.vista.Localizacion=Ext.extend(Phx.arbInterfaz,{
 				    data,this.idContenedor,'LocalizacionUsuario')
 			}
    },
+   onBtnMed: function(){
+		var node=this.sm.getSelectedNode();
+		var data =node.attributes;
+		Phx.CP.log(node);
+		if(data){
+			Phx.CP.loadWindows('../../../sis_mantenimiento/vista/localizacion_med/LocalizacionMed.php',
+				'Mediciones: '+node.text,{
+						modal:true,
+						width:900,
+						height:400
+				    },
+				    data,this.idContenedor,'LocalizacionMed')
+			}
+   },
    
    onBtnTPMPorquePorque : function(){
         var rec = this.sm.getSelectedNode();
@@ -956,6 +970,7 @@ Phx.vista.Localizacion=Ext.extend(Phx.arbInterfaz,{
 		//Grupo de opciones a nivel de localizaciones
 		this.ctxMenu.add('-');
 		this.ctxMenu.addMenuItem({text:'Usuarios por Localización',handler:this.onBtnUsuario,scope:this});
+		this.ctxMenu.addMenuItem({text:'Registro de Mediciones',handler:this.onBtnMed,scope:this});
 		this.ctxMenu.addMenuItem({text:'Tarjetas TPM',handler:this.onBtnTarjetasTPM,scope:this});
 		//Grupo de opciones para Equipos
 		this.ctxMenu.add('-');
@@ -964,7 +979,7 @@ Phx.vista.Localizacion=Ext.extend(Phx.arbInterfaz,{
 			text:'Equipos',
 			menu:{
 				items:[
-					{text:'Datos Equipos',handler:this.onClickDatosEq,scope:this},
+					{text:'Ficha Técnica',handler:this.onClickDatosEq,scope:this},
 					{text:'Mantenimientos predefinidos',handler: this.onEqMantClick,scope:this},
 					{text:'Mediciones',handler: this.onClickMed,scope:this},
 					{text:'Upload archivos',handler: this.onClickUp,scope:this},
