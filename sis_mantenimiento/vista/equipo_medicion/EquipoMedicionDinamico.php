@@ -168,10 +168,19 @@ Phx.vista.EquipoMedicionDinamico=Ext.extend(Phx.gridInterfaz,{
 		
 			this.init();
 			
-			this.store.baseParams={'id_uni_cons':this.config.id_uni_cons,'datos':recText};			               
-				                   
-			//this.load({params:{start:0, limit:500}})
+					                   
+			var milisegundos=parseInt(7*24*60*60*1000);
+			var fechaActual = new Date();
+			var fechaini  = new Date();
+			fechaini.setTime(parseInt(fechaActual.getTime()-milisegundos));
+ 
+           
+			this.dateFechaIni.setValue(fechaini);
+			this.dateFechaFin.setValue(fechaActual);
 			
+			this.store.baseParams={'id_uni_cons':this.config.id_uni_cons,'datos':recText,fecha_ini:this.dateFechaIni.getValue().dateFormat('d/m/Y'),fecha_fin:this.dateFechaFin.getValue().dateFormat('d/m/Y') };			               
+		
+            this.load();
 		}
 		
 	},
