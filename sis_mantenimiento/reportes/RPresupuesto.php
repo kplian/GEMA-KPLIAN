@@ -25,8 +25,11 @@ require_once dirname(__FILE__).'/pxpReport/Report.php';
         $y = $this->GetY();
         $this->SetFontSize(12);
         $this->SetFont('','');        
-        $this->Cell(245, $height/2, 'PRESUPUESTO DE MANTENIMIENTO OPERATIVO', 1, 2, 'C', false, '', 1, false, 'T', 'C');        
-        $this->Cell(245,$height/2, 'PLANTAS DE ALMACENAJE BOLIVIA',1,0,'C',false,'',1,false,'T','C');
+        $this->Cell(245, $height/3, 'PRESUPUESTO DE MANTENIMIENTO OPERATIVO', 1, 2, 'C', false, '', 1, false, 'T', 'C');        
+        $this->setXY($x,$y+$height/3);
+        $this->Cell(245, $height/3, 'PLANTAS DE ALMACENAJE BOLIVIA',1,0,'C',false,'',1,false,'T','C');
+        $this->setXY($x,$y+$height*2/3);
+        $this->Cell(245, $height/3, '['.$this->dataSource->getParameter('moneda').']',1,0,'C',false,'',1,false,'T','C');
         
         $this->setXY($x+245,$y);
         $this->SetFont('','');

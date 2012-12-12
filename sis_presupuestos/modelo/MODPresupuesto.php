@@ -119,7 +119,8 @@ class MODPresupuesto extends MODbase{
         $this->captura('codigo_par','varchar');
         $this->captura('id_presupuesto','int4');
         $this->captura('codigo_pres','varchar');
-        $this->captura('centro_costo','varchar');      
+        $this->captura('centro_costo','varchar');
+        $this->captura('moneda','varchar');      
         $this->captura('presup_ene','numeric');
         $this->captura('ejec_ene','numeric');
         $this->captura('presup_feb','numeric');

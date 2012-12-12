@@ -109,12 +109,14 @@ BEGIN
                         monto_presup numeric(18,2),
                         monto_ejec numeric(18,2),
                         mes numeric,
-                        centro_costo varchar(20)
+                        centro_costo varchar(20),
+                        moneda varchar(30)
             		)
             	';
             execute (v_sql);
             --b. Crear tabla para presupuesto anual
-            v_sql='create temp table tt_presup_anual(id_partida integer,id_presupuesto integer, centro_costo varchar(20),
+            v_sql='create temp table tt_presup_anual(id_partida integer,id_presupuesto integer,
+            centro_costo varchar(20), moneda varchar(30),
             presup_ene numeric, ejec_ene numeric, presup_feb numeric, ejec_feb numeric,
             presup_mar numeric, ejec_mar numeric, presup_abr numeric, ejec_abr numeric,
             presup_may numeric, ejec_may numeric, presup_jun numeric, ejec_jun numeric,
@@ -124,18 +126,20 @@ BEGIN
 			execute(v_sql);           
             
             --2. Obtener los montos presupuestados
-            v_sql = 'insert into tt_pres_saldo(id_presupuesto, id_partida, monto_presup, mes, centro_costo)
+            v_sql = 'insert into tt_pres_saldo(id_presupuesto, id_partida, monto_presup, mes, centro_costo,moneda)
             		select
                     pre.id_presupuesto, presupart.id_partida, sum(presupart.importe),                    
                     date_part(''month'',presupart.fecha_hora) as mes,
-                    cen.codigo as centro_costo
+                    cen.codigo as centro_costo,
+                    par.moneda
                     from pre.tpresupuesto pre
                     inner join pre.tpresup_partida presupart on presupart.id_presupuesto=pre.id_presupuesto
                     left join gem.tcentro_costo cen on cen.id_centro_costo=presupart.id_centro_costo
+                    inner join param.tmoneda par on par.id_moneda=presupart.id_moneda
                     where presupart.tipo = ''presupuestado'' and pre.id_presupuesto IN ('||v_parametros.id_presupuesto||') 
                         and presupart.fecha_hora BETWEEN '''||v_parametros.fecha_ini||''' AND '''||v_parametros.fecha_fin||'''
                         and presupart.id_partida IN ('||v_parametros.id_partida||')
-                    group by pre.id_presupuesto, presupart.id_partida, mes, centro_costo';
+                    group by pre.id_presupuesto, presupart.id_partida, mes, centro_costo, par.moneda';
             execute(v_sql);
             
             --3. Obtener los montos ejecutados
@@ -162,8 +166,8 @@ BEGIN
             LOOP            	
                 select * into v_insertado from tt_presup_anual where id_partida=v_saldos.id_partida and id_presupuesto=v_saldos.id_presupuesto;
                 IF NOT FOUND THEN
-                	insert into tt_presup_anual(id_partida,id_presupuesto,centro_costo)values(
-                	v_saldos.id_partida,v_saldos.id_presupuesto,v_saldos.centro_costo);
+                	insert into tt_presup_anual(id_partida,id_presupuesto,centro_costo,moneda)values(
+                	v_saldos.id_partida,v_saldos.id_presupuesto,v_saldos.centro_costo,v_saldos.moneda);
                 END IF;
                 if(trunc(v_saldos.mes)=1)then
                   update tt_presup_anual set presup_ene=v_saldos.monto_presup, ejec_ene=v_saldos.monto_ejec
@@ -205,7 +209,7 @@ BEGIN
             END LOOP;            
             v_consulta:='select presanu.id_partida, par.codigo as codigo_part,
              presanu.id_presupuesto, pre.codigo as codigo_pres,presanu.centro_costo, 
-             presup_ene, ejec_ene,
+             presanu.moneda, presup_ene, ejec_ene,
              presup_feb, ejec_feb, presup_mar, ejec_mar, presup_abr, ejec_abr,
              presup_may, ejec_may, presup_jun, ejec_jun, presup_jul, ejec_jul,
              presup_ago, ejec_ago, presup_sep, ejec_sep, presup_oct, ejec_oct,

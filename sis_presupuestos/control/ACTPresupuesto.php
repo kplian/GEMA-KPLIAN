@@ -54,6 +54,8 @@ class ACTPresupuesto extends ACTbase{
         $resultPresupuesto = $this->objFunc->reportePresupuesto();
         $datosPresupuesto = $resultPresupuesto->getDatos();
         
+        $dataSource->putParameter('moneda', $datosPresupuesto[0]['moneda']);
+        
         $presupuestoDataSource = new DataSource();
         $presupuestoDataSource->setDataSet($resultPresupuesto->getDatos());
         $dataSource->putParameter('presupuestoDataSource', $presupuestoDataSource);
