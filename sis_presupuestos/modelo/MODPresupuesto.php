@@ -100,6 +100,56 @@ class MODPresupuesto extends MODbase{
 		//Devuelve la respuesta
 		return $this->respuesta;
 	}
-			
+    
+    function reportePresupuesto(){
+        $this->procedimiento='pre.ft_presupuesto_sel';
+        $this->transaccion='PRE_SALPRE_SEL';
+        $this->tipo_procedimiento='SEL';
+        
+        $this->setCount(false);
+        
+        //definicion de los parametros para la funcion
+        $this->setParametro('id_presupuesto','id_presupuesto','varchar');
+        $this->setParametro('id_partida','id_partida','varchar');
+        $this->setParametro('fecha_ini','fecha_ini','timestamp');
+        $this->setParametro('fecha_fin','fecha_fin','timestamp');
+        
+        //Definicion de la lista del resultado del query
+        $this->captura('id_partida','int4');
+        $this->captura('codigo_par','varchar');
+        $this->captura('id_presupuesto','int4');
+        $this->captura('codigo_pres','varchar');
+        $this->captura('centro_costo','varchar');      
+        $this->captura('presup_ene','numeric');
+        $this->captura('ejec_ene','numeric');
+        $this->captura('presup_feb','numeric');
+        $this->captura('ejec_feb','numeric');
+        $this->captura('presup_mar','numeric');
+        $this->captura('ejec_mar','numeric');
+        $this->captura('presup_abr','numeric');
+        $this->captura('ejec_abr','numeric');
+        $this->captura('presup_may','numeric');
+        $this->captura('ejec_may','numeric');
+        $this->captura('presup_jun','numeric');
+        $this->captura('ejec_jun','numeric');
+        $this->captura('presup_jul','numeric');
+        $this->captura('ejec_jul','numeric');
+        $this->captura('presup_ago','numeric');
+        $this->captura('ejec_ago','numeric');
+        $this->captura('presup_sep','numeric');
+        $this->captura('ejec_sep','numeric');
+        $this->captura('presup_oct','numeric');
+        $this->captura('ejec_oct','numeric');
+        $this->captura('presup_nov','numeric');
+        $this->captura('ejec_nov','numeric');
+        $this->captura('presup_dic','numeric');
+        $this->captura('ejec_dic','numeric');        
+        
+        //devuelve la respuesta
+        $this->armarConsulta();
+        $this->ejecutarConsulta();
+        
+        return $this->respuesta;
+    }			
 }
 ?>

@@ -68,26 +68,11 @@ Phx.vista.PresupPartida=Ext.extend(Phx.gridInterfaz,{
 			grid:true,
 			form:true
 		},
-		/*{
-			config:{
-				name: 'id_centro_costo',
-				fieldLabel: 'id_centro_costo',
-				allowBlank: true,
-				anchor: '80%',
-				gwidth: 100,
-				maxLength:4
-			},
-			type:'NumberField',
-			filters:{pfiltro:'prepar.id_centro_costo',type:'numeric'},
-			id_grupo:1,
-			grid:true,
-			form:true
-		},*/
 		{
             config:{
                 name:'id_centro_costo',
                 fieldLabel:'Centro Costo',
-                allowBlank:true,
+                allowBlank:false,
                 emptyText:'Centro Costo...',
                 store: new Ext.data.JsonStore({
                     url: '../../sis_mantenimiento/control/CentroCosto/listarCentroCosto',

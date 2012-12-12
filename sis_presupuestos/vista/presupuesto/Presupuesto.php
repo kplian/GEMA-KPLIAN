@@ -16,9 +16,28 @@ Phx.vista.Presupuesto=Ext.extend(Phx.gridInterfaz,{
 		this.maestro=config.maestro;
     	//llama al constructor de la clase padre
 		Phx.vista.Presupuesto.superclass.constructor.call(this,config);
+		
+		this.addButton('btnReportePresupuesto',{
+            text:'Reporte Presupuesto',
+            iconCls: 'blist',
+            disabled: false,
+            handler:this.onBtnReporte,
+            tooltip: '<b>Reporte</b><br/>Reporte Presupuesto'
+        });
+        
 		this.init();
 		this.load({params:{start:0, limit:50}})
 	},
+	
+	onBtnReporte:function(){
+        Phx.CP.loadWindows('../../../sis_presupuestos/vista/presupuesto/GeneraReportePresupuesto.php',
+            'Genera Reporte Presupuesto',
+            {
+                modal:true,
+                width:600,
+                height:300
+            },'',this.idContenedor,'GeneraReportePresupuesto')      
+    },
 			
 	Atributos:[
 		{

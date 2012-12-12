@@ -6,6 +6,9 @@
 *@date 26-11-2012 21:35:35
 *@description Clase que recibe los parametros enviados por la vista para mandar a la capa de Modelo
 */
+require_once(dirname(__FILE__).'/../../sis_mantenimiento/reportes/pxpReport/ReportWriter.php');
+require_once(dirname(__FILE__).'/../../sis_mantenimiento/reportes/RPresupuesto.php');
+require_once(dirname(__FILE__).'/../../sis_mantenimiento/reportes/pxpReport/DataSource.php');
 
 class ACTPresupuesto extends ACTbase{    
 			
@@ -38,6 +41,37 @@ class ACTPresupuesto extends ACTbase{
 		$this->res=$this->objFunc->eliminarPresupuesto();
 		$this->res->imprimirRespuesta($this->res->generarJson());
 	}
+    
+    function reportePresupuesto(){
+        $dataSource = new DataSource();
+        $idPresupuesto = $this->objParam->getParametro('id_presupuesto');
+        $this->objParam->addParametroConsulta('id_presupuesto',$idPresupuesto);
+        $this->objParam->addParametroConsulta('ordenacion','id_presupuesto');
+        $this->objParam->addParametroConsulta('dir_ordenacion','ASC');
+        $this->objParam->addParametroConsulta('cantidad',1000);
+        $this->objParam->addParametroConsulta('puntero',0);
+        $this->objFunc = $this->create('MODPresupuesto');
+        $resultPresupuesto = $this->objFunc->reportePresupuesto();
+        $datosPresupuesto = $resultPresupuesto->getDatos();
+        
+        $presupuestoDataSource = new DataSource();
+        $presupuestoDataSource->setDataSet($resultPresupuesto->getDatos());
+        $dataSource->putParameter('presupuestoDataSource', $presupuestoDataSource);
+        
+        //build the report
+        $reporte = new RPresupuesto();
+        $reporte->setDataSource($dataSource);
+        $nombreArchivo = 'ReportePresupuesto.pdf';
+        $reportWriter = new ReportWriter($reporte, dirname(__FILE__).'/../../reportes_generados/'.$nombreArchivo);
+        $reportWriter->writeReport(ReportWriter::PDF);
+        
+        $mensajeExito = new Mensaje();
+        $mensajeExito->setMensaje('EXITO','Reporte.php','Reporte generado',
+                                        'Se generó con éxito el reporte: '.$nombreArchivo,'control');
+        $mensajeExito->setArchivoGenerado($nombreArchivo);
+        $this->res = $mensajeExito;
+        $this->res->imprimirRespuesta($this->res->generarJson());
+    }
 			
 }
 
