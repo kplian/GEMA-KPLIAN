@@ -535,7 +535,6 @@ CREATE TABLE gem.tuni_cons_mant_predef (
 ) INHERITS (pxp.tbase)
 WITH OIDS;
     
-    --------------- SQL ---------------
 --------------- SQL ---------------
 
 ALTER TABLE gem.tuni_cons_mant_predef
@@ -555,10 +554,6 @@ CREATE TABLE gem.tcalendario_planificado(
     observaciones varchar(1000),
     PRIMARY KEY (id_calendario_planificado))INHERITS (pxp.tbase)
     WITH OIDS;
-    
-   
-    
-
 
 /*
 
@@ -1426,8 +1421,6 @@ alter table gem.tlocalizacion_usuario
 add constraint uq_tlocalizacion_usuario__id_localizacion__id_usuario__tipo unique (id_localizacion,id_usuario,tipo);
 /***********************************F-SCP-RCM-GEM-28-05/12/2012*****************************************/
 
-
-
 /***********************************I-SCP-AAO-GEM-5-05/12/2012*****************************************/
 select pxp.f_insert_tgui ('Ordenes de Trabajo', 'Ordenes de Trabajo', 'GEM.2.7', 'si', 1, '', 3, '', '', 'GEM');
 
@@ -1445,7 +1438,6 @@ CREATE TRIGGER trigger_torden_trabajo AFTER INSERT OR UPDATE
 ON gem.torden_trabajo FOR EACH ROW 
 EXECUTE PROCEDURE gem.f_trg_torden_trabajo();
 /***********************************F-SCP-AAO-GEM-5-05/12/2012*****************************************/
-
 
 /***********************************I-SCP-RAC-GEM-21.1-06/12/2012*****************************************/
 --------------- SQL ---------------
@@ -1506,3 +1498,28 @@ ALTER TABLE gem.torden_trabajo
   DROP COLUMN periodicidad;
 
 /***********************************F-SCP-AAO-GEM-69-11/12/2012*****************************************/
+
+/***********************************I-SCP-RCM-GEM-73-07/12/2012*****************************************/
+CREATE TABLE gem.tlocalizacion_med(
+	id_localizacion_med  SERIAL NOT NULL, 
+	id_localizacion int4, 
+	id_uni_cons integer,
+	fecha_med date,
+	num_paros integer,
+	tiempo_op_hrs numeric(18,2),
+	tiempo_standby_hrs numeric(18,2),
+	tiempo_mnp_hrs numeric(18,2),
+	tiempo_mpp_hrs numeric(18,2), 
+	CONSTRAINT pk_tlocalizacion_med__id_localizacion_med PRIMARY KEY (id_localizacion_med),
+	CONSTRAINT fk_tlocalizacion_med__id_localizacion FOREIGN KEY (id_localizacion)
+      REFERENCES gem.tlocalizacion (id_localizacion) MATCH SIMPLE
+      ON UPDATE NO ACTION ON DELETE NO ACTION,
+    CONSTRAINT fk_tlocalizacion_med__id_uni_cons FOREIGN KEY (id_uni_cons)
+      REFERENCES gem.tuni_cons (id_uni_cons) MATCH SIMPLE
+      ON UPDATE NO ACTION ON DELETE NO ACTION
+)INHERITS (pxp.tbase)
+WITH (
+  OIDS=TRUE
+);
+ALTER TABLE gem.tlocalizacion_med OWNER TO postgres;
+/***********************************F-SCP-RCM-GEM-73-07/12/2012*****************************************/
