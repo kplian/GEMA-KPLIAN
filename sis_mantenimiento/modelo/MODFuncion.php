@@ -7,7 +7,7 @@
 *@description Clase que envia los parametros requeridos a la Base de datos para la ejecucion de las funciones, y que recibe la respuesta del resultado de la ejecucion de las mismas
 */
 
-class MODFFuncion extends MODbase{
+class MODFuncion extends MODbase{
 	
 	function __construct(CTParametro $pParam){
 		parent::__construct($pParam);

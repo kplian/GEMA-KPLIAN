@@ -61,7 +61,7 @@ BEGIN
 						inner join segu.tusuario usu1 on usu1.id_usuario = geanma.id_usuario_reg
 						left join segu.tusuario usu2 on usu2.id_usuario = geanma.id_usuario_mod
 						inner join gem.ttipo_mant getima on getima.id_tipo_mant = geanma.id_tipo_mant
-						inner join rhum.vfuncionario fun on fun.id_funcionario = geanma.id_funcionario_rev
+						inner join orga.vfuncionario fun on fun.id_funcionario = geanma.id_funcionario_rev
 				        where  ';
 			
 			--Definicion de la respuesta
