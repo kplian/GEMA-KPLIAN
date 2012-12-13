@@ -50,7 +50,8 @@ Phx.vista.UniConsDet=Ext.extend(Phx.gridInterfaz,{
 				allowBlank: true,
 				anchor: '80%',
 				gwidth: 100,
-				maxLength:8
+				maxLength:8,
+				inputType:'hidden'
 			},
 			type:'TextField',
 			filters:{pfiltro:'ucdet.codigo',type:'string'},
@@ -93,7 +94,7 @@ Phx.vista.UniConsDet=Ext.extend(Phx.gridInterfaz,{
        			config:{
        				name:'id_unidad_medida',
        				fieldLabel:'Unidad de Medida',
-       				allowBlank:false,
+       				allowBlank:true,
        				emptyText:'Unidades...',
        				store: new Ext.data.JsonStore({
     					url: '../../sis_parametros/control/UnidadMedida/listarUnidadMedida',
