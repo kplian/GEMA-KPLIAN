@@ -1523,3 +1523,11 @@ WITH (
 );
 ALTER TABLE gem.tlocalizacion_med OWNER TO postgres;
 /***********************************F-SCP-RCM-GEM-73-07/12/2012*****************************************/
+
+/***********************************I-SCP-AAO-GEM-69-13/12/2012*****************************************/
+ALTER TABLE gem.torden_trabajo
+  DROP COLUMN fecha_plan_fin;
+  
+ALTER TABLE gem.torden_trabajo
+  DROP COLUMN planta_estacion;
+/***********************************F-SCP-AAO-GEM-69-13/12/2012*****************************************/

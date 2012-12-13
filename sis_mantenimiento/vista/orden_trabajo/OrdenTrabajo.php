@@ -64,10 +64,41 @@ Phx.vista.OrdenTrabajo=Ext.extend(Phx.gridInterfaz,{
 		},
 		{
 			config:{
+				name: 'cat_estado',
+				fieldLabel: 'Estado',
+				gwidth: 60,
+				hidden: true,
+				renderer: function (value,p,record) {
+					//TODO: hacer q muestre imagenes de distintos colores dependiendo del estado de la OT.
+					if(value == "Borrador") {
+						
+					} else if(value == 'Generado') {
+						
+					} else if(value == 'Pendiente') {
+						
+					} else if(value == 'Abierto') {
+						
+					} else if(value == 'Cerrado') {
+						
+					} else if(value == 'Revisado') {
+						
+					}
+					return value;
+				}
+			},
+			valorInicial: 'Borrador',
+			type: 'TextField',
+			filters:{pfiltro:'geoott.cat_estado',type:'string'},
+			id_grupo: 0,
+			grid: true,
+			form: true
+		},
+		{
+			config:{
 				name: 'fecha_emision',
-				fieldLabel: 'Fecha Emisión',
+				fieldLabel: 'Emisión',
 				allowBlank: true,
-				gwidth: 100,
+				gwidth: 85,
 				renderer:function (value,p,record){return value?value.dateFormat('d/m/Y'):''}
 			},
 			type:'DateField',
@@ -145,7 +176,7 @@ Phx.vista.OrdenTrabajo=Ext.extend(Phx.gridInterfaz,{
 				fieldLabel: 'Sector',
 				allowBlank: true,
 				width: '100%',
-				gwidth: 300,
+				gwidth: 250,
 				maxLength: 1000
 			},
 			type: 'TextArea',
@@ -186,7 +217,7 @@ Phx.vista.OrdenTrabajo=Ext.extend(Phx.gridInterfaz,{
 				pageSize:20,
 				queryDelay:500,
 				anchor: '100%',
-				gwidth:220,
+				gwidth: 100,
 				minChars:2,
 				renderer:function (value, p, record){return String.format('{0}', record.data['codigo_centro_costo']);}
 			},
@@ -218,7 +249,6 @@ Phx.vista.OrdenTrabajo=Ext.extend(Phx.gridInterfaz,{
 				}),
 				valueField: 'id_uni_cons',
 				displayField: 'nombre',
-				gdisplayField:'equipo',
 				forceSelection:true,
 				typeAhead: false,
     			triggerAction: 'all',
@@ -227,7 +257,7 @@ Phx.vista.OrdenTrabajo=Ext.extend(Phx.gridInterfaz,{
 				pageSize:20,
 				queryDelay:500,
 				anchor: '100%',
-				gwidth: 220,
+				gwidth: 250,
 				minChars:2,
 				renderer:function (value, p, record){return String.format('{0}', record.data['equipo']);}
 			},
@@ -240,11 +270,11 @@ Phx.vista.OrdenTrabajo=Ext.extend(Phx.gridInterfaz,{
 		{
 			config:{
 				name: 'num_oit',
-				fieldLabel: 'Número OIT',
+				fieldLabel: 'Nº OIT',
 				allowBlank: true,
 				anchor: '100%',
-				gwidth: 100,
-				maxLength:20
+				gwidth: 70,
+				maxLength: 20
 			},
 			type:'TextField',
 			filters:{pfiltro:'geoott.num_oit',type:'string'},
@@ -359,8 +389,8 @@ Phx.vista.OrdenTrabajo=Ext.extend(Phx.gridInterfaz,{
 				mode: 'remote',
 				pageSize: 20,
 				queryDelay: 100,
-				anchor: '99%',
-				gwidth: 150,
+				anchor: '100%',
+				gwidth: 120,
 				minChars: 2,
 				renderer: function (value, p, record) {
 					return String.format('{0}', value?record.data['nombre_especialidad']:'');
@@ -427,7 +457,7 @@ Phx.vista.OrdenTrabajo=Ext.extend(Phx.gridInterfaz,{
 	   				tinit:true,
 	   				fieldLabel:'Solicitante',
 	   				gdisplayField:'desc_person',
-	   			    gwidth:200,
+	   			    gwidth: 120,
 	   			    anchor: '100%',
 		   			renderer: function (value, p, record){return String.format('{0}', record.data['desc_person']);}
 	       	     },
@@ -449,8 +479,8 @@ Phx.vista.OrdenTrabajo=Ext.extend(Phx.gridInterfaz,{
 	   				fieldLabel:'Asignado a',
 	   				gdisplayField:'desc_person1',
 	   				anchor: '100%',
-	   			    gwidth:200,
-		   			 renderer:function (value, p, record){return String.format('{0}', record.data['desc_person1']);}
+	   			    gwidth: 120,
+		   			renderer:function (value, p, record){return String.format('{0}', record.data['desc_person1']);}
 	       	     },
 	   			type:'ComboRec',
 	   			id_grupo:0,
@@ -469,7 +499,7 @@ Phx.vista.OrdenTrabajo=Ext.extend(Phx.gridInterfaz,{
 				allowBlank: false,
 				gwidth: 100,
 				format: 'd/m/Y',
-				renderer:function (value,p,record){return value?value.dateFormat('d/m/Y h:i:s'):''}
+				renderer:function (value,p,record){return value?value.dateFormat('d/m/Y'):''}
 			},
 			type:'DateField',
 			filters:{pfiltro:'geoott.fecha_plan_ini',type:'date'},
@@ -483,7 +513,7 @@ Phx.vista.OrdenTrabajo=Ext.extend(Phx.gridInterfaz,{
 				fieldLabel: 'Tiempo Estimado',
 				allowBlank: true,
 				anchor: '100%',
-				gwidth: 100,
+				gwidth: 70,
 				maxLength:15
 			},
 			type:'NumberField',
@@ -497,10 +527,10 @@ Phx.vista.OrdenTrabajo=Ext.extend(Phx.gridInterfaz,{
 	       		    name:'id_unidad_medida',
 	   				origen:'UNIDADMEDIDA',
 	   				tinit:true,
-	   				fieldLabel:'Medidad Tiempo Estimado',
+	   				fieldLabel:'Unidad Medida',
 	   				gdisplayField:'desc_unidad_medida',
 	   				anchor: '100%',
-	   			    gwidth:200,
+	   			    gwidth: 70,
 		   			renderer:function (value, p, record){return String.format('{0}', record.data['desc_unidad_medida']);}
 	       	     },
 	   			type:'ComboRec',
@@ -509,7 +539,6 @@ Phx.vista.OrdenTrabajo=Ext.extend(Phx.gridInterfaz,{
 			        pfiltro:'UNIMED.descripcion',
 					type:'string'
 				},
-	   		   
 	   			grid:true,
 	   			form:true
 	   	},
@@ -519,10 +548,11 @@ Phx.vista.OrdenTrabajo=Ext.extend(Phx.gridInterfaz,{
 	   				origen:'FUNCIONARIO',
 	   				tinit:true,
 	   				allowBlank: true,
-	   				fieldLabel:'Aprobado por:',
+	   				fieldLabel:'Aprobado por',
 	   				gdisplayField:'desc_funcionario_aprob',
-	   			    gwidth:200,
-	   			    anchor: '100%'
+	   			    gwidth: 120,
+	   			    anchor: '100%',
+	   			    renderer:function (value, p, record){return String.format('{0}', record.data['desc_person1']);}
 	       	     },
 	   			type:'ComboRec',
 	   			id_grupo:1,
@@ -539,10 +569,11 @@ Phx.vista.OrdenTrabajo=Ext.extend(Phx.gridInterfaz,{
 	   				origen:'FUNCIONARIO',
 	   				tinit:true,
 	   				allowBlank: true,
-	   				fieldLabel:'Recibido por:',
+	   				fieldLabel:'Recibido por',
 	   				gdisplayField:'desc_funcionario_recib',
 	   				anchor: '100%',
-	   			    gwidth:200
+	   			    gwidth: 120,
+	   			    renderer:function (value, p, record){return String.format('{0}', record.data['desc_person1']);}
 	       	     },
 	   			type:'ComboRec',
 	   			id_grupo:1,
@@ -574,7 +605,8 @@ Phx.vista.OrdenTrabajo=Ext.extend(Phx.gridInterfaz,{
 				fieldLabel: 'Ejec.Fin',
 				allowBlank: true,
 				gwidth: 100,
-   				format:'d/m/Y'
+   				format:'d/m/Y',
+   				renderer:function (value,p,record){return value?value.dateFormat('d/m/Y'):''}
 			},
 			type:'DateField',
 			filters:{pfiltro:'geoott.fecha_eje_fin',type:'date'},
@@ -645,20 +677,6 @@ Phx.vista.OrdenTrabajo=Ext.extend(Phx.gridInterfaz,{
 		},
 		{
 			config:{
-				name: 'cat_estado',
-				fieldLabel: 'Estado',
-				gwidth: 100,
-				hidden: true
-			},
-			valorInicial: 'Borrador',
-			type: 'TextField',
-			filters:{pfiltro:'geoott.cat_estado',type:'string'},
-			id_grupo: 0,
-			grid: true,
-			form: true
-		},
-		{
-			config:{
 				name: 'ubicacion_tecnica',
 				fieldLabel: 'Ubicación Técnica',
 				allowBlank: true,
@@ -687,18 +705,6 @@ Phx.vista.OrdenTrabajo=Ext.extend(Phx.gridInterfaz,{
 			id_grupo:1,
 			grid:true,
 			form:true
-		},
-	   	{
-			config:{
-				name: 'estado_reg',
-				fieldLabel: 'Estado Reg.',
-				gwidth: 100,
-				maxLength:10
-			},
-			type:'TextField',
-			filters:{pfiltro:'geoott.estado_reg',type:'string'},
-			grid:true,
-			form:false
 		},
 		{
 			config:{
@@ -741,6 +747,18 @@ Phx.vista.OrdenTrabajo=Ext.extend(Phx.gridInterfaz,{
 		},
 		{
 			config:{
+				name: 'estado_reg',
+				fieldLabel: 'Estado Reg.',
+				gwidth: 100,
+				maxLength:10
+			},
+			type:'TextField',
+			filters:{pfiltro:'geoott.estado_reg',type:'string'},
+			grid:true,
+			form:false
+		},
+		{
+			config:{
 				name: 'usr_reg',
 				fieldLabel: 'Creado por',
 				allowBlank: true,
@@ -757,9 +775,7 @@ Phx.vista.OrdenTrabajo=Ext.extend(Phx.gridInterfaz,{
 				name: 'fecha_reg',
 				fieldLabel: 'Fecha creación',
 				allowBlank: true,
-				gwidth: 100,
-				format:'d/m/Y',
-   				renderer:function (value,p,record){return value?value.dateFormat('d/m/Y'):''}
+				gwidth: 100
 			},
 			type:'DateField',
 			filters:{pfiltro:'geoott.fecha_reg',type:'date'},
@@ -783,9 +799,7 @@ Phx.vista.OrdenTrabajo=Ext.extend(Phx.gridInterfaz,{
 			config:{
 				name: 'fecha_mod',
 				fieldLabel: 'Fecha Modif.',
-				gwidth: 100,
-				format:'d/m/Y',
-				renderer:function (value,p,record){return value?value.dateFormat('d/m/Y'):''}
+				gwidth: 100
 			},
 			type:'DateField',
 			filters:{pfiltro:'geoott.fecha_mod',type:'date'},
@@ -826,9 +840,9 @@ Phx.vista.OrdenTrabajo=Ext.extend(Phx.gridInterfaz,{
 		{name:'cat_prior', type: 'string'},
 		{name:'cat_tipo', type: 'string'},
 		{name:'id_usuario_reg', type: 'numeric'},
-		{name:'fecha_reg', type: 'date', dateFormat:'Y-m-d'},
+		{name:'fecha_reg', type: 'timestamp'},
 		{name:'id_usuario_mod', type: 'numeric'},
-		{name:'fecha_mod', type: 'date', dateFormat:'Y-m-d'},
+		{name:'fecha_mod', type: 'timestamp'},
 		{name:'usr_reg', type: 'string'},
 		{name:'usr_mod', type: 'string'},
 		{name:'desc_person', type: 'string'},
