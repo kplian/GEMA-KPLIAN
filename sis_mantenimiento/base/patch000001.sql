@@ -1477,3 +1477,32 @@ ALTER TABLE gem.torden_trabajo
   ADD COLUMN id_alarma INTEGER[];
   
 /***********************************F-SCP-RAC-GEM-21.1-10/12/2012*****************************************/
+
+/***********************************I-SCP-AAO-GEM-69-11/12/2012*****************************************/
+alter table gem.torden_trabajo
+add column id_localizacion integer;
+alter table gem.torden_trabajo
+add column descripcion_lugar varchar(100);
+alter table gem.torden_trabajo
+add column id_centro_costo integer;
+alter table gem.torden_trabajo
+add column especialidades varchar(300);
+alter table gem.torden_trabajo
+add column tiempo_estimado numeric(18,2);
+alter table gem.torden_trabajo
+add column id_funcionario_aprob integer;
+alter table gem.torden_trabajo
+add column id_funcionario_recib integer;
+alter table gem.torden_trabajo
+add column comentarios varchar(5000);
+alter table gem.torden_trabajo
+add column accidentes varchar(1000);
+alter table gem.torden_trabajo
+add column reclamos varchar(1000);
+alter table gem.torden_trabajo
+add column otros varchar(1000);
+
+ALTER TABLE gem.torden_trabajo
+  DROP COLUMN periodicidad;
+
+/***********************************F-SCP-AAO-GEM-69-11/12/2012*****************************************/

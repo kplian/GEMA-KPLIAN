@@ -49,10 +49,9 @@ BEGIN
 			v_consulta:='select
 						geoott.id_orden_trabajo,
 						geoott.estado_reg,
-						geoott.planta_estacion,
 						geoott.fecha_plan_ini,
 						geoott.fecha_eje_ini,
-						geoott.periodicidad,
+						geoott.tiempo_estimado,
 						geoott.num_oit,
 						geoott.nota_tecnico_equipo,
 						geoott.observacion,
@@ -67,7 +66,6 @@ BEGIN
 						geoott.fecha_eje_fin,
 						geoott.id_uni_cons_mant_predef,
 						geoott.id_tipo_mant,
-						geoott.fecha_plan_fin,
 						geoott.nota_tecnico_loc,
 						geoott.id_uni_cons,
                         geoott.cat_estado,
@@ -83,15 +81,33 @@ BEGIN
 						fun1.desc_funcionario1 as desc_person1,
 						unicons.nombre as equipo,
 						tipman.nombre as tipo_mant,
-						unimed.descripcion as desc_unidad_medida
+						unimed.descripcion as desc_unidad_medida,
+                        geoott.id_localizacion,
+                        local.nombre as nombre_localizacion,
+                        geoott.descripcion_lugar,
+                        geoott.id_centro_costo,
+                        cencost.codigo as codigo_centro_costo,
+                        geoott.especialidades,
+                        geoott.id_funcionario_aprob,
+                        fun2.desc_funcionario1 as desc_funcionario_aprob,
+                        geoott.id_funcionario_recib,
+                        fun3.desc_funcionario1 as desc_funcionario_recib,
+                        geoott.comentarios,
+                        geoott.accidentes,
+                        geoott.reclamos,
+                        geoott.otros
 						from gem.torden_trabajo geoott
 						inner join segu.tusuario usu1 on usu1.id_usuario = geoott.id_usuario_reg
 						left join segu.tusuario usu2 on usu2.id_usuario = geoott.id_usuario_mod
 						inner join orga.vfuncionario fun on fun.id_funcionario = geoott.id_funcionario_sol
 						inner join orga.vfuncionario fun1 on fun1.id_funcionario = geoott.id_funcionario_asig
+                        left join orga.vfuncionario fun2 on fun2.id_funcionario = geoott.id_funcionario_aprob
+                        left join orga.vfuncionario fun3 on fun3.id_funcionario = geoott.id_funcionario_recib
 						inner join gem.tuni_cons unicons on unicons.id_uni_cons = geoott.id_uni_cons
 						inner join gem.ttipo_mant tipman on tipman.id_tipo_mant = geoott.id_tipo_mant
+                        inner join gem.tlocalizacion local on local.id_localizacion = geoott.id_localizacion
 						inner join param.tunidad_medida unimed on unimed.id_unidad_medida = geoott.id_unidad_medida
+                        inner join gem.tcentro_costo cencost on cencost.id_centro_costo = geoott.id_centro_costo
 				        where  ';
 			
 			--Definicion de la respuesta
@@ -120,9 +136,13 @@ BEGIN
 						left join segu.tusuario usu2 on usu2.id_usuario = geoott.id_usuario_mod
 						inner join orga.vfuncionario fun on fun.id_funcionario = geoott.id_funcionario_sol
 						inner join orga.vfuncionario fun1 on fun1.id_funcionario = geoott.id_funcionario_asig
+                        left join orga.vfuncionario fun2 on fun2.id_funcionario = geoott.id_funcionario_aprob
+                        left join orga.vfuncionario fun3 on fun3.id_funcionario = geoott.id_funcionario_recib
 						inner join gem.tuni_cons unicons on unicons.id_uni_cons = geoott.id_uni_cons
 						inner join gem.ttipo_mant tipman on tipman.id_tipo_mant = geoott.id_tipo_mant
+                        inner join gem.tlocalizacion local on local.id_localizacion = geoott.id_localizacion
 						inner join param.tunidad_medida unimed on unimed.id_unidad_medida = geoott.id_unidad_medida
+                        inner join gem.tcentro_costo cencost on cencost.id_centro_costo = geoott.id_centro_costo
 					    where ';
 			
 			--Definicion de la respuesta		    

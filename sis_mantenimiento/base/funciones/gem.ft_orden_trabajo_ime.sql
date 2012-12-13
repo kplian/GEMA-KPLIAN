@@ -51,10 +51,9 @@ BEGIN
         	--Sentencia de la insercion
         	insert into gem.torden_trabajo(
 			estado_reg,
-			planta_estacion,
 			fecha_plan_ini,
 			fecha_eje_ini,
-			periodicidad,
+			tiempo_estimado,
 			num_oit,
 			nota_tecnico_equipo,
 			observacion,
@@ -69,7 +68,6 @@ BEGIN
 			fecha_eje_fin,
 			id_uni_cons_mant_predef,
 			id_tipo_mant,
-			fecha_plan_fin,
 			nota_tecnico_loc,
 			id_uni_cons,
             cat_estado,
@@ -78,19 +76,28 @@ BEGIN
 			id_usuario_reg,
 			fecha_reg,
 			id_usuario_mod,
-			fecha_mod
+			fecha_mod,
+            id_localizacion,
+            descripcion_lugar,
+            id_centro_costo,
+            especialidades,
+            id_funcionario_aprob,
+            id_funcionario_recib,
+            comentarios,
+            accidentes,
+            reclamos,
+            otros
           	) values(
 			'activo',
-			v_parametros.planta_estacion,
 			v_parametros.fecha_plan_ini,
 			v_parametros.fecha_eje_ini,
-			v_parametros.periodicidad,
+			v_parametros.tiempo_estimado,
 			v_parametros.num_oit,
 			v_parametros.nota_tecnico_equipo,
 			v_parametros.observacion,
 			v_parametros.acumulado,
 			v_parametros.codigo_oit,
-			v_parametros.fecha_emision,
+			now(),
 			v_parametros.id_funcionario_asig,
 			v_parametros.id_unidad_medida,
 			v_parametros.descripcion,
@@ -99,7 +106,6 @@ BEGIN
 			v_parametros.fecha_eje_fin,
 			v_parametros.id_uni_cons_mant_predef,
 			v_parametros.id_tipo_mant,
-			v_parametros.fecha_plan_fin,
 			v_parametros.nota_tecnico_loc,
 			v_parametros.id_uni_cons,
             v_parametros.cat_estado,
@@ -108,7 +114,17 @@ BEGIN
 			p_id_usuario,
 			now(),
 			null,
-			null
+			null,
+            v_parametros.id_localizacion,
+            v_parametros.descripcion_lugar,
+            v_parametros.id_centro_costo,
+            v_parametros.especialidades,
+            v_parametros.id_funcionario_aprob,
+            v_parametros.id_funcionario_recib,
+            v_parametros.comentarios,
+            v_parametros.accidentes,
+            v_parametros.reclamos,
+            v_parametros.otros
 			)RETURNING id_orden_trabajo into v_id_orden_trabajo;
                
 			--Definicion de la respuesta
@@ -132,16 +148,14 @@ BEGIN
 		begin
 			--Sentencia de la modificacion
 			update gem.torden_trabajo set
-			planta_estacion = v_parametros.planta_estacion,
 			fecha_plan_ini = v_parametros.fecha_plan_ini,
 			fecha_eje_ini = v_parametros.fecha_eje_ini,
-			periodicidad = v_parametros.periodicidad,
+			tiempo_estimado = v_parametros.tiempo_estimado,
 			num_oit = v_parametros.num_oit,
 			nota_tecnico_equipo = v_parametros.nota_tecnico_equipo,
 			observacion = v_parametros.observacion,
 			acumulado = v_parametros.acumulado,
 			codigo_oit = v_parametros.codigo_oit,
-			fecha_emision = v_parametros.fecha_emision,
 			id_funcionario_asig = v_parametros.id_funcionario_asig,
 			id_unidad_medida = v_parametros.id_unidad_medida,
 			descripcion = v_parametros.descripcion,
@@ -150,16 +164,25 @@ BEGIN
 			fecha_eje_fin = v_parametros.fecha_eje_fin,
 			id_uni_cons_mant_predef = v_parametros.id_uni_cons_mant_predef,
 			id_tipo_mant = v_parametros.id_tipo_mant,
-			fecha_plan_fin = v_parametros.fecha_plan_fin,
 			nota_tecnico_loc = v_parametros.nota_tecnico_loc,
 			id_uni_cons = v_parametros.id_uni_cons,
 			cat_estado = v_parametros.cat_estado,
             cat_prior = v_parametros.cat_prior,
             cat_tipo = v_parametros.cat_tipo,
 			id_usuario_mod = p_id_usuario,
-			fecha_mod = now()
+			fecha_mod = now(),
+            id_localizacion = v_parametros.id_localizacion,
+            descripcion_lugar = v_parametros.descripcion_lugar,
+            id_centro_costo = v_parametros.id_centro_costo,
+            especialidades = v_parametros.especialidades,
+            id_funcionario_aprob = v_parametros.id_funcionario_aprob,
+            id_funcionario_recib = v_parametros.id_funcionario_recib,
+            comentarios = v_parametros.comentarios,
+            accidentes = v_parametros.accidentes,
+            reclamos = v_parametros.reclamos,
+            otros = v_parametros.otros
 			where id_orden_trabajo=v_parametros.id_orden_trabajo;
-               
+            
 			--Definicion de la respuesta
             v_resp = pxp.f_agrega_clave(v_resp,'mensaje','Orden Interna de Trabajo modificado(a)'); 
             v_resp = pxp.f_agrega_clave(v_resp,'id_orden_trabajo',v_parametros.id_orden_trabajo::varchar);

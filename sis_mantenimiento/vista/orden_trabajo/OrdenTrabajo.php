@@ -13,9 +13,16 @@ header("content-type: text/javascript; charset=UTF-8");
 Phx.vista.OrdenTrabajo=Ext.extend(Phx.gridInterfaz,{
 	constructor:function(config) {
 		this.maestro=config.maestro;
-    	//llama al constructor de la clase padre
 		Phx.vista.OrdenTrabajo.superclass.constructor.call(this,config);
 		this.init();
+		
+		this.getComponente('id_especialidad').on('select', function(e, data, index) {
+   			if(this.getComponente('especialidades').getValue() != '') {
+   				this.getComponente('especialidades').setValue(this.getComponente('especialidades').getValue() + ' - ');
+   			}
+         	this.getComponente('especialidades').setValue(this.getComponente('especialidades').getValue() + e.getValue());
+        },
+        this);
 		
 		this.addButton('btnActividad', 
 			{
@@ -68,54 +75,32 @@ Phx.vista.OrdenTrabajo=Ext.extend(Phx.gridInterfaz,{
 			filters:{pfiltro:'geoott.fecha_emision',type:'date'},
 			id_grupo:0,
 			grid:true,
-			form:true
+			form:false
 		},
-		{
-	   		config:{
-	       		    name:'id_funcionario_sol',
-	   				origen:'FUNCIONARIO',
-	   				tinit:true,
-	   				fieldLabel:'Solicitante',
-	   				gdisplayField:'desc_person',//mapea al store del grid
-	   			    gwidth:200,
-	   			    anchor: '100%',
-		   			renderer: function (value, p, record){return String.format('{0}', record.data['desc_person']);}
-	       	     },
-	   			type:'ComboRec',
-	   			id_grupo:0,
-	   			filters:{	
-			        pfiltro:'PERSON.nombre_completo1',
-					type:'string'
-				},
-	   		   
-	   			grid:true,
-	   			form:true
-	   	},
-	   	{
+		{			
 			config:{
-				name: 'id_uni_cons',
-				fieldLabel: 'Equipo',
+				name: 'id_localizacion',
+				fieldLabel: 'Solicitante Sector',
 				allowBlank: false,
-				emptyText:'Elija un equipo...',
+				emptyText:'Solicitante Sector...',
 				store:new Ext.data.JsonStore(
 				{
-					url: '../../sis_mantenimiento/control/UniCons/listarUniConsPlano',
-					id: 'id_uni_cons',
+					url: '../../sis_mantenimiento/control/Localizacion/listarLocalizacion',
+					id: 'id_localizacion',
 					root:'datos',
 					sortInfo:{
 						field:'nombre',
 						direction:'ASC'
 					},
 					totalProperty:'total',
-					fields: ['id_uni_cons','codigo','nombre'],
+					fields: ['id_localizacion','codigo','nombre'],
 					// turn on remote sorting
 					remoteSort: true,
 					baseParams:{par_filtro:'nombre'}
 				}),
-				valueField: 'id_uni_cons',
+				valueField: 'id_localizacion',
 				displayField: 'nombre',
-				gdisplayField:'equipo',
-				//hiddenName: 'id_administrador',
+				gdisplayField: 'nombre_localizacion',
 				forceSelection:true,
 				typeAhead: false,
     			triggerAction: 'all',
@@ -124,119 +109,15 @@ Phx.vista.OrdenTrabajo=Ext.extend(Phx.gridInterfaz,{
 				pageSize:20,
 				queryDelay:500,
 				anchor: '100%',
-				gwidth: 220,
+				gwidth:220,
 				minChars:2,
-				renderer:function (value, p, record){return String.format('{0}', record.data['equipo']);}
+				renderer:function (value, p, record){return String.format('{0}', record.data['nombre_localizacion']);}
 			},
 			type:'ComboBox',
-			filters:{pfiltro:'ite.nombre',type:'string'},
+			filters:{pfiltro:'local.nombre',type:'string'},
 			id_grupo:0,
 			grid:true,
 			form:true
-		},
-		{
-			config:{
-				name: 'planta_estacion',
-				fieldLabel: 'Planta/ Estación',
-				allowBlank: false,
-				anchor: '100%',
-				gwidth: 100,
-				items:[
-				{boxLabel:'Planta',name: 'rg-tipo', inputValue: 'planta',checked: true},
-				{boxLabel:'Estación',name: 'rg-tipo', inputValue: 'estacion'}
-				]
-			},
-			type:'RadioGroup',
-			filters:{pfiltro:'geoott.planta_estacion',type:'string'},
-			id_grupo:0,
-			grid:true,
-			form:true
-		},
-		{
-	   		config:{
-	       		    name:'id_funcionario_asig',
-	   				origen:'FUNCIONARIO',
-	   				tinit:true,
-	   				fieldLabel:'Asignado a',
-	   				gdisplayField:'desc_person1',//mapea al store del grid
-	   				anchor: '100%',
-	   			    gwidth:200,
-		   			 renderer:function (value, p, record){return String.format('{0}', record.data['desc_person1']);}
-	       	     },
-	   			type:'ComboRec',
-	   			id_grupo:0,
-	   			filters:{	
-			        pfiltro:'PERSON.nombre_completo1',
-					type:'string'
-				},
-	   		   
-	   			grid:true,
-	   			form:true
-	   	},
-	   	{
-			config:{
-				name: 'periodicidad',
-				fieldLabel: 'Periodicidad',
-				allowBlank: true,
-				anchor: '100%',
-				gwidth: 100,
-				maxLength:15
-			},
-			type:'NumberField',
-			filters:{pfiltro:'geoott.periodicidad',type:'numeric'},
-			id_grupo:0,
-			grid:true,
-			form:true
-		},
-		{
-	   		config:{
-	       		    name:'id_unidad_medida',
-	   				origen:'UNIDADMEDIDA',
-	   				tinit:true,
-	   				fieldLabel:'Unidad Medida Periodicidad',
-	   				gdisplayField:'desc_unidad_medida',//mapea al store del grid
-	   				anchor: '100%',
-	   			    gwidth:200,
-		   			renderer:function (value, p, record){return String.format('{0}', record.data['desc_unidad_medida']);}
-	       	     },
-	   			type:'ComboRec',
-	   			id_grupo:0,
-	   			filters:{	
-			        pfiltro:'UNIMED.descripcion',
-					type:'string'
-				},
-	   		   
-	   			grid:true,
-	   			form:true
-	   	},
-		{
-			config:{
-				name: 'observacion',
-				fieldLabel: 'Observaciones',
-				allowBlank: true,
-				width: '100%',
-				gwidth: 300,
-				maxLength:5000
-			},
-			type:'TextArea',
-			filters:{pfiltro:'geoott.observacion',type:'string'},
-			id_grupo:0,
-			grid:true,
-			form:true
-		},
-		{
-			config:{
-				name: 'cat_estado',
-				fieldLabel: 'Estado',
-				gwidth: 100,
-				hidden: true
-			},
-			valorInicial: 'Borrador',
-			type: 'TextField',
-			filters:{pfiltro:'geoott.cat_estado',type:'string'},
-			id_grupo: 0,
-			grid: true,
-			form: true
 		},
 		{
 			config: {
@@ -260,25 +141,102 @@ Phx.vista.OrdenTrabajo=Ext.extend(Phx.gridInterfaz,{
 			form: true
 		},
 		{
-			config: {
-				name: 'cat_tipo',
-				fieldLabel: 'Tipo',
-				anchor: '100%',
-				tinit: true,
-				allowBlank: false,
-				origen: 'CATALOGO',
-				gdisplayField: 'Tipo',
-				gwidth: 100,
-				baseParams: {
-						cod_subsistema:'GEM',
-						catalogo_tipo:'torden_trabajo_cat_tipo'
-				}
+			config:{
+				name: 'descripcion_lugar',
+				fieldLabel: 'Sector',
+				allowBlank: true,
+				width: '100%',
+				gwidth: 300,
+				maxLength: 1000
 			},
-			type: 'ComboRec',
-			id_grupo: 0,
-			filters:{pfiltro:'geoott.cat_tipo',type:'string'},
-			grid: true,
-			form: true
+			type: 'TextArea',
+			filters:{pfiltro: 'geoott.descripcion_lugar',type:'string'},
+			id_grupo:0,
+			grid:true,
+			form:true
+		},
+		{
+			config:{
+				name: 'id_centro_costo',
+				fieldLabel: 'Cuenta',
+				allowBlank: false,
+				emptyText:'Seleccione Cuenta...',
+				store:new Ext.data.JsonStore(
+				{
+					url: '../../sis_mantenimiento/control/CentroCosto/listarCentroCosto',
+					id: 'id_centro_costo',
+					root:'datos',
+					sortInfo:{
+						field:'codigo',
+						direction:'ASC'
+					},
+					totalProperty:'total',
+					fields: ['id_centro_costo','codigo'],
+					// turn on remote sorting
+					remoteSort: true,
+					baseParams:{par_filtro:'codigo'}
+				}),
+				valueField: 'id_centro_costo',
+				displayField: 'codigo',
+				gdisplayField:'codigo_centro_costo',
+				forceSelection:true,
+				typeAhead: false,
+    			triggerAction: 'all',
+    			lazyRender:true,
+				mode:'remote',
+				pageSize:20,
+				queryDelay:500,
+				anchor: '100%',
+				gwidth:220,
+				minChars:2,
+				renderer:function (value, p, record){return String.format('{0}', record.data['codigo_centro_costo']);}
+			},
+			type:'ComboBox',
+			filters:{pfiltro:'cencost.codigo',type:'string'},
+			id_grupo:0,
+			grid:true,
+			form:true
+		},
+		{
+			config:{
+				name: 'id_uni_cons',
+				fieldLabel: 'Equipo',
+				allowBlank: false,
+				emptyText:'Elija un equipo...',
+				store:new Ext.data.JsonStore(
+				{
+					url: '../../sis_mantenimiento/control/UniCons/listarUniConsPlano',
+					id: 'id_uni_cons',
+					root:'datos',
+					sortInfo:{
+						field:'nombre',
+						direction:'ASC'
+					},
+					totalProperty:'total',
+					fields: ['id_uni_cons','codigo','nombre'],
+					remoteSort: true,
+					baseParams:{par_filtro:'nombre'}
+				}),
+				valueField: 'id_uni_cons',
+				displayField: 'nombre',
+				gdisplayField:'equipo',
+				forceSelection:true,
+				typeAhead: false,
+    			triggerAction: 'all',
+    			lazyRender:true,
+				mode:'remote',
+				pageSize:20,
+				queryDelay:500,
+				anchor: '100%',
+				gwidth: 220,
+				minChars:2,
+				renderer:function (value, p, record){return String.format('{0}', record.data['equipo']);}
+			},
+			type:'ComboBox',
+			filters:{pfiltro:'ite.nombre',type:'string'},
+			id_grupo:0,
+			grid:true,
+			form:true
 		},
 		{
 			config:{
@@ -291,7 +249,22 @@ Phx.vista.OrdenTrabajo=Ext.extend(Phx.gridInterfaz,{
 			},
 			type:'TextField',
 			filters:{pfiltro:'geoott.num_oit',type:'string'},
-			id_grupo:1,
+			id_grupo:0,
+			grid:true,
+			form:true
+		},
+		{
+			config:{
+				name: 'codigo_oit',
+				fieldLabel: 'Código OIT',
+				allowBlank: true,
+				anchor: '100%',
+				gwidth: 100,
+				maxLength:20
+			},
+			type:'TextField',
+			filters:{pfiltro:'geoott.codigo_oit',type:'string'},
+			id_grupo:0,
 			grid:true,
 			form:true
 		},
@@ -333,24 +306,358 @@ Phx.vista.OrdenTrabajo=Ext.extend(Phx.gridInterfaz,{
 			},
 			type:'ComboBox',
 			filters:{pfiltro:'ite.nombre',type:'string'},
+			id_grupo:0,
+			grid:true,
+			form:true
+		},
+		{
+			config: {
+				name: 'cat_tipo',
+				fieldLabel: 'Tipo',
+				anchor: '100%',
+				tinit: true,
+				allowBlank: false,
+				origen: 'CATALOGO',
+				gdisplayField: 'Tipo',
+				gwidth: 100,
+				baseParams: {
+						cod_subsistema:'GEM',
+						catalogo_tipo:'torden_trabajo_cat_tipo'
+				}
+			},
+			type: 'ComboRec',
+			id_grupo: 0,
+			filters:{pfiltro:'geoott.cat_tipo',type:'string'},
+			grid: true,
+			form: true
+		},
+		{
+			config: {
+				name: 'id_especialidad',
+				fieldLabel: 'Especialidad',
+				allowBlank: true,
+				emptyText: 'Elija una especialidad...',
+				store: new Ext.data.JsonStore({
+					url: '../../sis_organigrama/control/Especialidad/listarEspecialidad',
+					id: 'id_especialidad',
+					root: 'datos',
+					sortInfo: {
+						field: 'nombre',
+						direction: 'ASC'
+					},
+					totalProperty: 'total',
+					fields: ['id_especialidad','nombre'],
+					remoteSort: true,
+					baseParams: {par_filtro:'espcia.nombre'}
+				}),
+				valueField: 'nombre',
+				displayField: 'nombre',
+				gdisplayField: 'nombre_especialidad',
+				forceSelection: true,
+				typeAhead: false,
+    			triggerAction: 'all',
+    			lazyRender: true,
+				mode: 'remote',
+				pageSize: 20,
+				queryDelay: 100,
+				anchor: '99%',
+				gwidth: 150,
+				minChars: 2,
+				renderer: function (value, p, record) {
+					return String.format('{0}', value?record.data['nombre_especialidad']:'');
+				}
+			},
+			type: 'ComboBox',
+			filters: {
+				pfiltro: 'esp.nombre',
+				type: 'string'
+			},
+			id_grupo: 0,
+			grid: false,
+			form: true
+		},
+		{
+			config:{
+				name: 'especialidades',
+				fieldLabel: 'Especialidades',
+				allowBlank: true,
+				width: '100%',
+				gwidth: 300,
+				maxLength: 300
+			},
+			type:'TextArea',
+			filters:{pfiltro:'geoott.observacion',type:'string'},
+			id_grupo:0,
+			grid:true,
+			form:true
+		},
+		{
+			config:{
+				name: 'observacion',
+				fieldLabel: 'Observación y/o Falla',
+				allowBlank: true,
+				width: '100%',
+				gwidth: 300,
+				maxLength:5000
+			},
+			type:'TextArea',
+			filters:{pfiltro:'geoott.observacion',type:'string'},
+			id_grupo:0,
+			grid:true,
+			form:true
+		},
+		{
+			config:{
+				name: 'descripcion',
+				fieldLabel: 'Descripción',
+				allowBlank: true,
+				anchor: '100%',
+				gwidth: 300,
+				maxLength:5000
+			},
+			type:'TextArea',
+			filters:{pfiltro:'geoott.descripcion',type:'string'},
+			id_grupo:0,
+			grid:true,
+			form:true
+		},
+	   	{
+	   		config:{
+	       		    name:'id_funcionario_sol',
+	   				origen:'FUNCIONARIO',
+	   				tinit:true,
+	   				fieldLabel:'Solicitante',
+	   				gdisplayField:'desc_person',
+	   			    gwidth:200,
+	   			    anchor: '100%',
+		   			renderer: function (value, p, record){return String.format('{0}', record.data['desc_person']);}
+	       	     },
+	   			type:'ComboRec',
+	   			id_grupo:0,
+	   			filters:{	
+			        pfiltro:'PERSON.nombre_completo1',
+					type:'string'
+				},
+	   		   
+	   			grid:true,
+	   			form:true
+	   	},
+	   	{
+	   		config:{
+	       		    name:'id_funcionario_asig',
+	   				origen:'FUNCIONARIO',
+	   				tinit:true,
+	   				fieldLabel:'Asignado a',
+	   				gdisplayField:'desc_person1',
+	   				anchor: '100%',
+	   			    gwidth:200,
+		   			 renderer:function (value, p, record){return String.format('{0}', record.data['desc_person1']);}
+	       	     },
+	   			type:'ComboRec',
+	   			id_grupo:0,
+	   			filters:{	
+			        pfiltro:'PERSON.nombre_completo1',
+					type:'string'
+				},
+	   		   
+	   			grid:true,
+	   			form:true
+	   	},
+	   	{
+			config:{
+				name: 'fecha_plan_ini',
+				fieldLabel: 'Plan.Inicio',
+				allowBlank: false,
+				gwidth: 100,
+				//renderer:function (value,p,record){return value?value.dateFormat('d/m/Y h:i:s'):''},
+   				format:'d/m/Y'
+			},
+			type:'DateField',
+			filters:{pfiltro:'geoott.fecha_plan_ini',type:'date'},
+			id_grupo:0,
+			grid:true,
+			form:true,
+	       	dateFormat:'d-m-Y'
+		},
+		{
+			config:{
+				name: 'tiempo_estimado',
+				fieldLabel: 'Tiempo Estimado',
+				allowBlank: true,
+				anchor: '100%',
+				gwidth: 100,
+				maxLength:15
+			},
+			type:'NumberField',
+			filters:{pfiltro:'geoott.tiempo_estimado',type:'numeric'},
+			id_grupo:0,
+			grid:true,
+			form:true
+		},
+		{
+	   		config:{
+	       		    name:'id_unidad_medida',
+	   				origen:'UNIDADMEDIDA',
+	   				tinit:true,
+	   				fieldLabel:'Medidad Tiempo Estimado',
+	   				gdisplayField:'desc_unidad_medida',
+	   				anchor: '100%',
+	   			    gwidth:200,
+		   			renderer:function (value, p, record){return String.format('{0}', record.data['desc_unidad_medida']);}
+	       	     },
+	   			type:'ComboRec',
+	   			id_grupo:0,
+	   			filters:{	
+			        pfiltro:'UNIMED.descripcion',
+					type:'string'
+				},
+	   		   
+	   			grid:true,
+	   			form:true
+	   	},
+	   	{
+	   		config:{
+	       		    name:'id_funcionario_aprob',
+	   				origen:'FUNCIONARIO',
+	   				tinit:true,
+	   				allowBlank: true,
+	   				fieldLabel:'Aprobado por:',
+	   				gdisplayField:'desc_funcionario_aprob',
+	   			    gwidth:200,
+	   			    anchor: '100%'
+	       	     },
+	   			type:'ComboRec',
+	   			id_grupo:1,
+	   			filters:{
+			        pfiltro:'PERSON.nombre_completo1',
+					type:'string'
+				},
+	   			grid:true,
+	   			form:true
+	   	},
+	   	{
+	   		config:{
+	       		    name:'id_funcionario_recib',
+	   				origen:'FUNCIONARIO',
+	   				tinit:true,
+	   				allowBlank: true,
+	   				fieldLabel:'Recibido por:',
+	   				gdisplayField:'desc_funcionario_recib',
+	   				anchor: '100%',
+	   			    gwidth:200
+	       	     },
+	   			type:'ComboRec',
+	   			id_grupo:1,
+	   			filters:{
+			        pfiltro:'PERSON.nombre_completo1',
+					type:'string'
+				},
+	   			grid:true,
+	   			form:true
+	   	},
+	   	{
+			config:{
+				name: 'fecha_eje_ini',
+				fieldLabel: 'Ejec.Inicio',
+				allowBlank: true,
+				gwidth: 100,
+   				format:'d/m/Y'
+			},
+			type:'DateField',
+			filters:{pfiltro:'geoott.fecha_eje_ini',type:'date'},
+			id_grupo:1,
+			grid:true,
+			form:true,
+	       	dateFormat:'d-m-Y'
+		},
+		{
+			config:{
+				name: 'fecha_eje_fin',
+				fieldLabel: 'Ejec.Fin',
+				allowBlank: true,
+				gwidth: 100,
+   				format:'d/m/Y'
+			},
+			type:'DateField',
+			filters:{pfiltro:'geoott.fecha_eje_fin',type:'date'},
+			id_grupo:1,
+			grid:true,
+			form:true,
+	       	dateFormat:'d-m-Y'
+		},
+	   	{
+			config:{
+				name: 'comentarios',
+				fieldLabel: 'Comentarios',
+				allowBlank: true,
+				anchor: '100%',
+				gwidth: 200,
+				maxLength: 5000
+			},
+			type:'TextArea',
+			filters:{pfiltro:'geoott.comentarios',type:'string'},
 			id_grupo:1,
 			grid:true,
 			form:true
 		},
 		{
 			config:{
-				name: 'codigo_oit',
-				fieldLabel: 'Código OIT',
+				name: 'accidentes',
+				fieldLabel: 'Accidentes',
 				allowBlank: true,
 				anchor: '100%',
-				gwidth: 100,
-				maxLength:20
+				gwidth: 200,
+				maxLength: 1000
 			},
-			type:'TextField',
-			filters:{pfiltro:'geoott.codigo_oit',type:'string'},
+			type:'TextArea',
+			filters:{pfiltro:'geoott.accidentes',type:'string'},
 			id_grupo:1,
 			grid:true,
 			form:true
+		},
+		{
+			config:{
+				name: 'reclamos',
+				fieldLabel: 'Reclamos',
+				allowBlank: true,
+				anchor: '100%',
+				gwidth: 200,
+				maxLength: 1000
+			},
+			type:'TextArea',
+			filters:{pfiltro:'geoott.comentarios',type:'string'},
+			id_grupo:1,
+			grid:true,
+			form:true
+		},
+		{
+			config:{
+				name: 'otros',
+				fieldLabel: 'Otros',
+				allowBlank: true,
+				anchor: '100%',
+				gwidth: 200,
+				maxLength: 1000
+			},
+			type:'TextArea',
+			filters:{pfiltro:'geoott.otros',type:'string'},
+			id_grupo:1,
+			grid:true,
+			form:true
+		},
+		{
+			config:{
+				name: 'cat_estado',
+				fieldLabel: 'Estado',
+				gwidth: 100,
+				hidden: true
+			},
+			valorInicial: 'Borrador',
+			type: 'TextField',
+			filters:{pfiltro:'geoott.cat_estado',type:'string'},
+			id_grupo: 0,
+			grid: true,
+			form: true
 		},
 		{
 			config:{
@@ -392,75 +699,8 @@ Phx.vista.OrdenTrabajo=Ext.extend(Phx.gridInterfaz,{
 			},
 			type:'TextField',
 			filters:{pfiltro:'geoott.estado_reg',type:'string'},
-			id_grupo:1,
 			grid:true,
 			form:false
-		},
-		
-		{
-			config:{
-				name: 'fecha_plan_ini',
-				fieldLabel: 'Plan.Inicio',
-				allowBlank: false,
-				gwidth: 100,
-				//renderer:function (value,p,record){return value?value.dateFormat('d/m/Y h:i:s'):''},
-   				format:'d/m/Y'
-			},
-			type:'DateField',
-			filters:{pfiltro:'geoott.fecha_plan_ini',type:'date'},
-			id_grupo:2,
-			grid:true,
-			form:true,
-	       	dateFormat:'d-m-Y'
-		},
-		{
-			config:{
-				name: 'fecha_eje_ini',
-				fieldLabel: 'Ejec.Inicio',
-				allowBlank: true,
-				gwidth: 100,
-				//renderer:function (value,p,record){return value?value.dateFormat('d/m/Y h:i:s'):''},
-   				format:'d/m/Y'
-			},
-			type:'DateField',
-			filters:{pfiltro:'geoott.fecha_eje_ini',type:'date'},
-			id_grupo:3,
-			grid:true,
-			form:true,
-	       	dateFormat:'d-m-Y'
-		},
-		
-		{
-			config:{
-				name: 'descripcion',
-				fieldLabel: 'Descripción',
-				allowBlank: true,
-				anchor: '100%',
-				gwidth: 300,
-				maxLength:5000
-			},
-			type:'TextArea',
-			filters:{pfiltro:'geoott.descripcion',type:'string'},
-			id_grupo:1,
-			grid:true,
-			form:true
-		},
-	
-		{
-			config:{
-				name: 'fecha_eje_fin',
-				fieldLabel: 'Ejec.Fin',
-				allowBlank: true,
-				gwidth: 100,
-				//renderer:function (value,p,record){return value?value.dateFormat('d/m/Y h:i:s'):''},
-   				format:'d/m/Y'
-			},
-			type:'DateField',
-			filters:{pfiltro:'geoott.fecha_eje_fin',type:'date'},
-			id_grupo:3,
-			grid:true,
-			form:true,
-	       	dateFormat:'d-m-Y'
 		},
 		{
 			config:{
@@ -470,22 +710,6 @@ Phx.vista.OrdenTrabajo=Ext.extend(Phx.gridInterfaz,{
 			},
 			type:'Field',
 			form:true 
-		},
-		{
-			config:{
-				name: 'fecha_plan_fin',
-				fieldLabel: 'Plan.Fin',
-				allowBlank: false,
-				gwidth: 100,
-				//renderer:function (value,p,record){return value?value.dateFormat('d/m/Y h:i:s'):''},
-   				format:'d/m/Y'
-			},
-			type:'DateField',
-			filters:{pfiltro:'geoott.fecha_plan_fin',type:'date'},
-			id_grupo:2,
-			grid:true,
-			form:true,
-	       	dateFormat:'d-m-Y'
 		},
 		{
 			config:{
@@ -527,7 +751,6 @@ Phx.vista.OrdenTrabajo=Ext.extend(Phx.gridInterfaz,{
 			},
 			type:'NumberField',
 			filters:{pfiltro:'usu1.cuenta',type:'string'},
-			id_grupo:1,
 			grid:true,
 			form:false
 		},
@@ -537,12 +760,10 @@ Phx.vista.OrdenTrabajo=Ext.extend(Phx.gridInterfaz,{
 				fieldLabel: 'Fecha creación',
 				allowBlank: true,
 				gwidth: 100,
-				//renderer:function (value,p,record){return value?value.dateFormat('d/m/Y h:i:s'):''},
    				format:'d/m/Y'
 			},
 			type:'DateField',
 			filters:{pfiltro:'geoott.fecha_reg',type:'date'},
-			id_grupo:1,
 			grid:true,
 			form:false
 		},
@@ -556,7 +777,6 @@ Phx.vista.OrdenTrabajo=Ext.extend(Phx.gridInterfaz,{
 			},
 			type:'NumberField',
 			filters:{pfiltro:'usu2.cuenta',type:'string'},
-			id_grupo:1,
 			grid:true,
 			form:false
 		},
@@ -564,12 +784,10 @@ Phx.vista.OrdenTrabajo=Ext.extend(Phx.gridInterfaz,{
 			config:{
 				name: 'fecha_mod',
 				fieldLabel: 'Fecha Modif.',
-				gwidth: 100//,
-				//renderer:function (value,p,record){return value?value.dateFormat('d/m/Y h:i:s'):''}
+				gwidth: 100
 			},
 			type:'DateField',
 			filters:{pfiltro:'geoott.fecha_mod',type:'date'},
-			id_grupo:1,
 			grid:true,
 			form:false
 		}
@@ -585,7 +803,7 @@ Phx.vista.OrdenTrabajo=Ext.extend(Phx.gridInterfaz,{
 		{name:'planta_estacion', type: 'string'},
 		{name:'fecha_plan_ini'}, //, type: 'date', dateFormat:'Y-m-d H:i:s'},
 		{name:'fecha_eje_ini'},//, type: 'date', dateFormat:'Y-m-d H:i:s'},
-		{name:'periodicidad', type: 'numeric'},
+		{name:'tiempo_estimado', type: 'numeric'},
 		{name:'num_oit', type: 'string'},
 		{name:'nota_tecnico_equipo', type: 'string'},
 		{name:'observacion', type: 'string'},
@@ -616,7 +834,21 @@ Phx.vista.OrdenTrabajo=Ext.extend(Phx.gridInterfaz,{
 		{name:'desc_person1', type: 'string'},
 		{name:'equipo', type: 'string'},
 		{name:'tipo_mant', type: 'string'},
-		{name:'desc_unidad_medida', type: 'string'}
+		{name:'desc_unidad_medida', type: 'string'},
+		{name:'id_localizacion', type: 'numeric'},
+		{name:'nombre_localizacion', type: 'string'},
+		{name:'descripcion_lugar', type: 'string'},
+		{name:'id_centro_costo', type: 'numeric'},
+		{name:'codigo_centro_costo', type: 'string'},
+		{name:'especialidades', type: 'string'},
+		{name:'id_funcionario_aprob', type: 'numeric'},
+		{name:'desc_funcionaro_aprob', type: 'string'},
+		{name:'id_funcionario_recib', type: 'numeric'},
+		{name:'desc_funcionario_recib', type: 'string'},
+		{name:'comentarios', type: 'string'},
+		{name:'accidentes', type: 'string'},
+		{name:'reclamos', type: 'string'},
+		{name:'otros', type: 'string'}
 	],
 	sortInfo:{
 		field: 'id_orden_trabajo',
@@ -626,26 +858,6 @@ Phx.vista.OrdenTrabajo=Ext.extend(Phx.gridInterfaz,{
 	bedit: false,
 	bsave: false,
 	bnew: false,
-	agregarArgsExtraSubmit: function(){
-		//Inicializa el objeto de los argumentos extra
-		this.argumentExtraSubmit={};
-
-		//Obtiene los valores dinámicos
-		var rbtPlaEst = this.getComponente('planta_estacion');
-		var array = [];
-		var tmp;
-		array = rbtPlaEst.items;
-		
-		//Evaluate the radio checked and asign a valur for the variable
-		if(array.items[0].checked){
-			tmp='planta';
-		} else{
-			tmp='estacion';
-		}
-
-		//Añade los parámetros extra para mandar por submit
-		this.argumentExtraSubmit.planta_estacion=tmp;
-	},
 	Grupos:[{ 
 		layout: 'column',
 		items:[
@@ -653,7 +865,7 @@ Phx.vista.OrdenTrabajo=Ext.extend(Phx.gridInterfaz,{
 				xtype:'fieldset',
 				layout: 'form',
                 border: true,
-                title: 'Datos OIT (1)',
+                title: 'Datos Planificacion (1)',
                 bodyStyle: 'padding:0 10px 0;',
                 columnWidth: 0.5,
                 items:[],
@@ -664,35 +876,11 @@ Phx.vista.OrdenTrabajo=Ext.extend(Phx.gridInterfaz,{
 				xtype:'fieldset',
 				layout: 'form',
                 border: true,
-                title: 'Datos OIT (2)',
+                title: 'Datos Ejecución (2)',
                 bodyStyle: 'padding:0 10px 0;',
                 columnWidth: 0.5,
                 items:[],
 		        id_grupo:1,
-		        collapsible:true,
-		        collapsed:false
-			},
-			{
-				xtype:'fieldset',
-				layout: 'form',
-                border: true,
-                title: 'Fechas Planificadas',
-                bodyStyle: 'padding:0 10px 0;',
-                columnWidth: 0.5,
-                items:[],
-		        id_grupo:2,
-		        collapsible:true,
-		        collapsed:false
-			},
-			{
-				xtype:'fieldset',
-				layout: 'form',
-                border: true,
-                title: 'Fechas Ejecutadas',
-                bodyStyle: 'padding:0 10px 0;',
-                columnWidth: 0.5,
-                items:[],
-		        id_grupo:3,
 		        collapsible:true,
 		        collapsed:false
 			}
