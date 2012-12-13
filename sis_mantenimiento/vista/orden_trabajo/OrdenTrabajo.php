@@ -68,8 +68,7 @@ Phx.vista.OrdenTrabajo=Ext.extend(Phx.gridInterfaz,{
 				fieldLabel: 'Fecha Emisión',
 				allowBlank: true,
 				gwidth: 100,
-				renderer:function (value,p,record){return value?value.dateFormat('d/m/Y'):''},
-   				format:'d/m/Y'
+				renderer:function (value,p,record){return value?value.dateFormat('d/m/Y'):''}
 			},
 			type:'DateField',
 			filters:{pfiltro:'geoott.fecha_emision',type:'date'},
@@ -466,18 +465,17 @@ Phx.vista.OrdenTrabajo=Ext.extend(Phx.gridInterfaz,{
 	   	{
 			config:{
 				name: 'fecha_plan_ini',
-				fieldLabel: 'Plan.Inicio',
+				fieldLabel: 'Plan. Inicio',
 				allowBlank: false,
 				gwidth: 100,
-				//renderer:function (value,p,record){return value?value.dateFormat('d/m/Y h:i:s'):''},
-   				format:'d/m/Y'
+				format: 'd/m/Y',
+				renderer:function (value,p,record){return value?value.dateFormat('d/m/Y h:i:s'):''}
 			},
 			type:'DateField',
 			filters:{pfiltro:'geoott.fecha_plan_ini',type:'date'},
 			id_grupo:0,
 			grid:true,
-			form:true,
-	       	dateFormat:'d-m-Y'
+			form:true
 		},
 		{
 			config:{
@@ -561,14 +559,14 @@ Phx.vista.OrdenTrabajo=Ext.extend(Phx.gridInterfaz,{
 				fieldLabel: 'Ejec.Inicio',
 				allowBlank: true,
 				gwidth: 100,
-   				format:'d/m/Y'
+				format: 'd/m/Y',
+   				renderer:function (value,p,record){return value?value.dateFormat('d/m/Y'):''}
 			},
 			type:'DateField',
 			filters:{pfiltro:'geoott.fecha_eje_ini',type:'date'},
 			id_grupo:1,
 			grid:true,
-			form:true,
-	       	dateFormat:'d-m-Y'
+			form:true
 		},
 		{
 			config:{
@@ -760,7 +758,8 @@ Phx.vista.OrdenTrabajo=Ext.extend(Phx.gridInterfaz,{
 				fieldLabel: 'Fecha creación',
 				allowBlank: true,
 				gwidth: 100,
-   				format:'d/m/Y'
+				format:'d/m/Y',
+   				renderer:function (value,p,record){return value?value.dateFormat('d/m/Y'):''}
 			},
 			type:'DateField',
 			filters:{pfiltro:'geoott.fecha_reg',type:'date'},
@@ -784,7 +783,9 @@ Phx.vista.OrdenTrabajo=Ext.extend(Phx.gridInterfaz,{
 			config:{
 				name: 'fecha_mod',
 				fieldLabel: 'Fecha Modif.',
-				gwidth: 100
+				gwidth: 100,
+				format:'d/m/Y',
+				renderer:function (value,p,record){return value?value.dateFormat('d/m/Y'):''}
 			},
 			type:'DateField',
 			filters:{pfiltro:'geoott.fecha_mod',type:'date'},
@@ -801,8 +802,8 @@ Phx.vista.OrdenTrabajo=Ext.extend(Phx.gridInterfaz,{
 		{name:'id_orden_trabajo', type: 'numeric'},
 		{name:'estado_reg', type: 'string'},
 		{name:'planta_estacion', type: 'string'},
-		{name:'fecha_plan_ini'}, //, type: 'date', dateFormat:'Y-m-d H:i:s'},
-		{name:'fecha_eje_ini'},//, type: 'date', dateFormat:'Y-m-d H:i:s'},
+		{name:'fecha_plan_ini', type: 'date', dateFormat:'Y-m-d'},
+		{name:'fecha_eje_ini', type: 'date', dateFormat:'Y-m-d'},
 		{name:'tiempo_estimado', type: 'numeric'},
 		{name:'num_oit', type: 'string'},
 		{name:'nota_tecnico_equipo', type: 'string'},
@@ -815,19 +816,19 @@ Phx.vista.OrdenTrabajo=Ext.extend(Phx.gridInterfaz,{
 		{name:'descripcion', type: 'string'},
 		{name:'id_funcionario_sol', type: 'numeric'},
 		{name:'ubicacion_tecnica', type: 'string'},
-		{name:'fecha_eje_fin'}, //, type: 'date', dateFormat:'Y-m-d H:i:s'},
+		{name:'fecha_eje_fin', type: 'date', dateFormat:'Y-m-d'},
 		{name:'id_uni_cons_mant_predef', type: 'numeric'},
 		{name:'id_tipo_mant', type: 'numeric'},
-		{name:'fecha_plan_fin'},//, type: 'date', dateFormat:'Y-m-d H:i:s'},
+		{name:'fecha_plan_fin', type: 'date', dateFormat:'Y-m-d'},
 		{name:'nota_tecnico_loc', type: 'string'},
 		{name:'id_uni_cons', type: 'numeric'},
 		{name:'cat_estado', type: 'string'},
 		{name:'cat_prior', type: 'string'},
 		{name:'cat_tipo', type: 'string'},
 		{name:'id_usuario_reg', type: 'numeric'},
-		{name:'fecha_reg', type: 'date', dateFormat:'Y-m-d H:i:s.ffffff'},
+		{name:'fecha_reg', type: 'date', dateFormat:'Y-m-d'},
 		{name:'id_usuario_mod', type: 'numeric'},
-		{name:'fecha_mod'},//, type: 'date', dateFormat:'Y-m-d H:i:s'},
+		{name:'fecha_mod', type: 'date', dateFormat:'Y-m-d'},
 		{name:'usr_reg', type: 'string'},
 		{name:'usr_mod', type: 'string'},
 		{name:'desc_person', type: 'string'},
