@@ -12,7 +12,7 @@ class MODActividadOT extends MODbase {
 	}
 			
 	function listarActividadOT() {
-		$this->procedimiento='gem.ft_actividad_sel';
+		$this->procedimiento='gem.ft_actividad_ot_sel';
 		$this->transaccion='GEM_ACTI_SEL';
 		$this->tipo_procedimiento='SEL';
 		
@@ -44,7 +44,7 @@ class MODActividadOT extends MODbase {
 	}
 			
 	function insertarActividadOT() {
-		$this->procedimiento='gem.ft_actividad_ime';
+		$this->procedimiento='gem.ft_actividad_ot_ime';
 		$this->transaccion='GEM_ACTI_INS';
 		$this->tipo_procedimiento='IME';
 		
@@ -64,7 +64,7 @@ class MODActividadOT extends MODbase {
 	}
 	
 	function modificarActividadOT() {
-		$this->procedimiento='gem.ft_actividad_ime';
+		$this->procedimiento='gem.ft_actividad_ot_ime';
 		$this->transaccion='GEM_ACTI_MOD';
 		$this->tipo_procedimiento='IME';
 				
@@ -85,7 +85,7 @@ class MODActividadOT extends MODbase {
 	}
 	
 	function eliminarActividadOT() {
-		$this->procedimiento = 'gem.ft_actividad_ime';
+		$this->procedimiento = 'gem.ft_actividad_ot_ime';
 		$this->transaccion = 'GEM_ACTI_ELI';
 		$this->tipo_procedimiento = 'IME';
 				

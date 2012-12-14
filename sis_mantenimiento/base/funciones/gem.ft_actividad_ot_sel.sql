@@ -1,6 +1,6 @@
 --------------- SQL ---------------
 
-CREATE OR REPLACE FUNCTION gem.ft_actividad_sel (
+CREATE OR REPLACE FUNCTION gem.ft_actividad_ot_sel (
   p_administrador integer,
   p_id_usuario integer,
   p_tabla varchar,
@@ -10,7 +10,7 @@ RETURNS varchar AS
 $body$
 /**************************************************************************
  SISTEMA:		SISTEMA DE GESTION DE MANTENIMIENTO
- FUNCION: 		gem.ft_actividad_sel
+ FUNCION: 		gem.ft_actividad_ot_sel
  DESCRIPCION:   Transacciones de retorno de datos para la tabla Actividad
  AUTOR: 		aao
  FECHA:	        19-11-2012 11:52:00
@@ -26,7 +26,7 @@ DECLARE
 			    
 BEGIN
 
-	v_nombre_funcion = 'gem.ft_actividad_sel';
+	v_nombre_funcion = 'gem.ft_actividad_ot_sel';
     v_parametros = pxp.f_get_record(p_tabla);
 
 	/*********************************    
