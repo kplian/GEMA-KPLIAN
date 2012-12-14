@@ -188,6 +188,8 @@ Class ROrdenTrabajo extends Report {
 		$pdf->Ln();
 		$pdf->Ln();
 		
+		$pdf->Cell(185, $hGlobal, 'Detalle de Repuestos y/o Materiales', 1, 0, 'C', false, '', 0, false, 'T', 'C');
+		$pdf->Ln();
 		$wPedidoCodigo =  25;
 		$wExistencias = 20;
 		$wMateriales = 30;
@@ -205,6 +207,73 @@ Class ROrdenTrabajo extends Report {
 		$pdf->MultiCell($wCantUtiliz, $hMedium, 'CANT. UTILIZ.', 1, 'C', false, 0, '', '', true, 0, false, true, 0, 'M', false);
 		$pdf->MultiCell($wObservaciones, $hMedium, 'OBSERVACIONES', 1, 'C', false, 1, '', '', true, 0, false, true, 0, 'M', false);
 		
+		$pdf->MultiCell($wPedidoCodigo, $hMedium, 'data', 1, 'C', false, 0, '', '', true, 0, false, true, 0, 'M', false);
+		$pdf->MultiCell($wExistencias, $hMedium, 'data', 1, 'C', false, 0, '', '', true, 0, false, true, 0, 'M', false);
+		$pdf->MultiCell($wMateriales, $hMedium, 'data', 1, 'C', false, 0, '', '', true, 0, false, true, 0, 'M', false);
+		$pdf->MultiCell($wUnidad, $hMedium, 'data', 1, 'C', false, 0, '', '', true, 0, false, true, 0, 'M', false);
+		$pdf->MultiCell($wPrecio, $hMedium, 'data', 1, 'C', false, 0, '', '', true, 0, false, true, 0, 'M', false);
+		$pdf->MultiCell($wCantPlanif, $hMedium, 'data', 1, 'C', false, 0, '', '', true, 0, false, true, 0, 'M', false);
+		$pdf->MultiCell($wCantUtiliz, $hMedium, 'data', 1, 'C', false, 0, '', '', true, 0, false, true, 0, 'M', false);
+		$pdf->MultiCell($wObservaciones, $hMedium, 'data', 1, 'C', false, 1, '', '', true, 0, false, true, 0, 'M', false);
+		
+		
+		//manage Funcionarios
+		$pdf->Ln();
+		$pdf->Cell(185, $hGlobal, 'Detalle de Mano de Obra', 1, 0, 'C', false, '', 0, false, 'T', 'C');
+		$pdf->Ln();
+		
+		$wHHNormal = 20;
+		$wHHExtras = 20;
+		$wExtMov = 20;
+		$wNombre = 25;
+		$wCargo = 20;
+		$wObservaciones = 35;
+		$wHerramientas = 45;
+		
+		$pdf->MultiCell($wHHNormal, $hMedium, 'HH NORMAL', 1, 'C', false, 0, '', '', true, 0, false, true, 0, 'M', false);
+		$pdf->MultiCell($wHHExtras, $hMedium, 'HH EXTRAS', 1, 'C', false, 0, '', '', true, 0, false, true, 0, 'M', false);
+		$pdf->MultiCell($wExtMov, $hMedium, 'HRS EXT. MOV', 1, 'C', false, 0, '', '', true, 0, false, true, 0, 'M', false);
+		$pdf->MultiCell($wNombre, $hMedium, 'NOMBRE', 1, 'C', false, 0, '', '', true, 0, false, true, 0, 'M', false);
+		$pdf->MultiCell($wCargo, $hMedium, 'CARGO', 1, 'C', false, 0, '', '', true, 0, false, true, 0, 'M', false);
+		$pdf->MultiCell($wObservaciones, $hMedium, 'OBSERVACIONES', 1, 'C', false, 0, '', '', true, 0, false, true, 0, 'M', false);
+		$pdf->MultiCell($wHerramientas, $hMedium, 'HERRAMIENTAS EQUIPOS', 1, 'C', false, 1, '', '', true, 0, false, true, 0, 'M', false);
+		
+		$pdf->MultiCell($wHHNormal, $hMedium, 'data', 1, 'C', false, 0, '', '', true, 0, false, true, 0, 'M', false);
+		$pdf->MultiCell($wHHExtras, $hMedium, 'data', 1, 'C', false, 0, '', '', true, 0, false, true, 0, 'M', false);
+		$pdf->MultiCell($wExtMov, $hMedium, 'data', 1, 'C', false, 0, '', '', true, 0, false, true, 0, 'M', false);
+		$pdf->MultiCell($wNombre, $hMedium, 'data', 1, 'C', false, 0, '', '', true, 0, false, true, 0, 'M', false);
+		$pdf->MultiCell($wCargo, $hMedium, 'data', 1, 'C', false, 0, '', '', true, 0, false, true, 0, 'M', false);
+		$pdf->MultiCell($wObservaciones, $hMedium, 'data', 1, 'C', false, 0, '', '', true, 0, false, true, 0, 'M', false);
+		$pdf->MultiCell($wHerramientas, $hMedium, 'data', 1, 'C', false, 1, '', '', true, 0, false, true, 0, 'M', false);
+		
+		//manage Certificacion de trabajo
+		$pdf->Ln();
+		$pdf->Cell(185, $hGlobal, 'Certificacion de Trabajo Realizado', 1, 0, 'C', false, '', 0, false, 'T', 'C');
+		$pdf->Ln();
+		
+		$wHoraServicio = 40;
+		$wFecha = 20;
+		$wFechaDato = 25;
+		$wHora = 20;
+		$wHoraDato = 20;
+		$wResp = 30;
+		$wRespDato = 30;
+		$pdf->Cell($wHoraServicio, $hGlobal, 'INICIO DEL SERVICIO ', 1, 0, 'R', false, '', 0, false, 'T', 'C');
+		$pdf->Cell($wFecha, $hGlobal, 'FECJA: ', 1, 0, 'C', false, '', 0, false, 'T', 'C');
+		$pdf->Cell($wFechaDato, $hGlobal, '12/12/2012', 1, 0, 'C', false, '', 0, false, 'T', 'C');
+		$pdf->Cell($wHora, $hGlobal, 'HORA', 1, 0, 'C', false, '', 0, false, 'T', 'C');
+		$pdf->Cell($wHoraDato, $hGlobal, '23:15', 1, 0, 'C', false, '', 0, false, 'T', 'C');
+		$pdf->Cell($wResp, $hGlobal, 'RESP (OP. pt)', 1, 0, 'C', false, '', 0, false, 'T', 'C');
+		$pdf->Cell($wRespDato, $hGlobal, 'Ariel Ayaviri Omonte', 1, 0, 'C', false, '', 0, false, 'T', 'C');
+		
+		$pdf->Ln();
+		$pdf->Cell($wHoraServicio, $hGlobal, 'FIN DEL SERVICIO ', 1, 0, 'R', false, '', 0, false, 'T', 'C');
+		$pdf->Cell($wFecha, $hGlobal, 'FECJA: ', 1, 0, 'C', false, '', 0, false, 'T', 'C');
+		$pdf->Cell($wFechaDato, $hGlobal, '12/12/2012', 1, 0, 'C', false, '', 0, false, 'T', 'C');
+		$pdf->Cell($wHora, $hGlobal, 'HORA', 1, 0, 'C', false, '', 0, false, 'T', 'C');
+		$pdf->Cell($wHoraDato, $hGlobal, '23:15', 1, 0, 'C', false, '', 0, false, 'T', 'C');
+		$pdf->Cell($wResp, $hGlobal, 'RESP (OP. pt)', 1, 0, 'C', false, '', 0, false, 'T', 'C');
+		$pdf->Cell($wRespDato, $hGlobal, 'RESP (OP. pt)', 1, 0, 'C', false, '', 0, false, 'T', 'C');
 		// $pdf->SetFontSize(7.5);
 		// $pdf->SetFont('', '');
 		// $pdf->setTextColor(0,0,0);
