@@ -1,10 +1,14 @@
-CREATE OR REPLACE FUNCTION "gem"."ft_funcion_sel"(	
-				p_administrador integer, p_id_usuario integer, p_tabla character varying, p_transaccion character varying)
-RETURNS character varying AS
-$BODY$
+CREATE OR REPLACE FUNCTION gem.ft_funcion_analisis_sel (
+  p_administrador integer,
+  p_id_usuario integer,
+  p_tabla varchar,
+  p_transaccion varchar
+)
+RETURNS varchar AS
+$body$
 /**************************************************************************
  SISTEMA:		SISTEMA DE GESTION DE MANTENIMIENTO
- FUNCION: 		gem.ft_funcion_sel
+ FUNCION: 		gem.ft_funcion_analisis_sel
  DESCRIPCION:   Funcion que devuelve conjuntos de registros de las consultas relacionadas con la tabla 'gem.tfuncion'
  AUTOR: 		 (admin)
  FECHA:	        30-09-2012 21:41:09
@@ -26,7 +30,7 @@ DECLARE
 			    
 BEGIN
 
-	v_nombre_funcion = 'gem.ft_funcion_sel';
+	v_nombre_funcion = 'gem.ft_funcion_analisis_sel';
     v_parametros = pxp.f_get_record(p_tabla);
 
 	/*********************************    
@@ -106,7 +110,9 @@ EXCEPTION
 			v_resp = pxp.f_agrega_clave(v_resp,'procedimientos',v_nombre_funcion);
 			raise exception '%',v_resp;
 END;
-$BODY$
-LANGUAGE 'plpgsql' VOLATILE
+$body$
+LANGUAGE 'plpgsql'
+VOLATILE
+CALLED ON NULL INPUT
+SECURITY INVOKER
 COST 100;
-ALTER FUNCTION "gem"."ft_funcion_sel"(integer, integer, character varying, character varying) OWNER TO postgres;

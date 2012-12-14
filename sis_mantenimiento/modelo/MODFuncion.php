@@ -7,7 +7,7 @@
 *@description Clase que envia los parametros requeridos a la Base de datos para la ejecucion de las funciones, y que recibe la respuesta del resultado de la ejecucion de las mismas
 */
 
-class MODFFuncion extends MODbase{
+class MODFuncion extends MODbase{
 	
 	function __construct(CTParametro $pParam){
 		parent::__construct($pParam);
@@ -15,7 +15,7 @@ class MODFFuncion extends MODbase{
 			
 	function listarFuncion(){
 		//Definicion de variables para ejecucion del procedimientp
-		$this->procedimiento='gem.ft_funcion_sel';
+		$this->procedimiento='gem.ft_funcion_analisis_sel';
 		$this->transaccion='GEM_GEFUNC_SEL';
 		$this->tipo_procedimiento='SEL';//tipo de transaccion
 				
@@ -42,7 +42,7 @@ class MODFFuncion extends MODbase{
 			
 	function insertarFuncion(){
 		//Definicion de variables para ejecucion del procedimiento
-		$this->procedimiento='gem.ft_funcion_ime';
+		$this->procedimiento='gem.ft_funcion_analisis_ime';
 		$this->transaccion='GEM_GEFUNC_INS';
 		$this->tipo_procedimiento='IME';
 				
@@ -62,7 +62,7 @@ class MODFFuncion extends MODbase{
 			
 	function modificarFuncion(){
 		//Definicion de variables para ejecucion del procedimiento
-		$this->procedimiento='gem.ft_funcion_ime';
+		$this->procedimiento='gem.ft_funcion_analisis_ime';
 		$this->transaccion='GEM_GEFUNC_MOD';
 		$this->tipo_procedimiento='IME';
 				
@@ -83,7 +83,7 @@ class MODFFuncion extends MODbase{
 			
 	function eliminarFuncion(){
 		//Definicion de variables para ejecucion del procedimiento
-		$this->procedimiento='gem.ft_funcion_ime';
+		$this->procedimiento='gem.ft_funcion_analisis_ime';
 		$this->transaccion='GEM_GEFUNC_ELI';
 		$this->tipo_procedimiento='IME';
 				

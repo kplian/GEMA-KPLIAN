@@ -1,11 +1,14 @@
-CREATE OR REPLACE FUNCTION "gem"."ft_funcion_ime" (	
-				p_administrador integer, p_id_usuario integer, p_tabla character varying, p_transaccion character varying)
-RETURNS character varying AS
-$BODY$
-
+CREATE OR REPLACE FUNCTION gem.ft_funcion_analisis_ime (
+  p_administrador integer,
+  p_id_usuario integer,
+  p_tabla varchar,
+  p_transaccion varchar
+)
+RETURNS varchar AS
+$body$
 /**************************************************************************
  SISTEMA:		SISTEMA DE GESTION DE MANTENIMIENTO
- FUNCION: 		gem.ft_funcion_ime
+ FUNCION: 		gem.ft_funcion_analisis_ime
  DESCRIPCION:   Funcion que gestiona las operaciones basicas (inserciones, modificaciones, eliminaciones de la tabla 'gem.tfuncion'
  AUTOR: 		 (admin)
  FECHA:	        30-09-2012 21:41:09
@@ -30,7 +33,7 @@ DECLARE
 			    
 BEGIN
 
-    v_nombre_funcion = 'gem.ft_funcion_ime';
+    v_nombre_funcion = 'gem.ft_funcion_analisis_ime';
     v_parametros = pxp.f_get_record(p_tabla);
 
 	/*********************************    
@@ -140,7 +143,9 @@ EXCEPTION
 		raise exception '%',v_resp;
 				        
 END;
-$BODY$
-LANGUAGE 'plpgsql' VOLATILE
+$body$
+LANGUAGE 'plpgsql'
+VOLATILE
+CALLED ON NULL INPUT
+SECURITY INVOKER
 COST 100;
-ALTER FUNCTION "gem"."ft_funcion_ime"(integer, integer, character varying, character varying) OWNER TO postgres;
