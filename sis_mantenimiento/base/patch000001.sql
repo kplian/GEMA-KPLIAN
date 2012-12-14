@@ -1531,3 +1531,14 @@ ALTER TABLE gem.torden_trabajo
 ALTER TABLE gem.torden_trabajo
   DROP COLUMN planta_estacion;
 /***********************************F-SCP-AAO-GEM-69-13/12/2012*****************************************/
+
+
+/***********************************I-SCP-RAC-GEM-x-14/12/2012*****************************************/
+
+--para aumentar filtro de usuarios autorizados
+ALTER TABLE gem.tuni_cons
+  ADD COLUMN id_usuarios INTEGER[];
+  
+  
+/***********************************F-SCP-RAC-GEM-x-14/12/2012*****************************************/
+

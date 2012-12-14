@@ -187,6 +187,12 @@ class ACTLocalizacion extends ACTbase{
 		}
 		$this->res->imprimirRespuesta($this->res->generarJson());
 	}
+	
+	function SincronizarUsuarios (){
+		$this->objFunc=$this->create('MODLocalizacion');
+		$this->res=$this->objFunc->SincronizarUsuarios();
+		$this->res->imprimirRespuesta($this->res->generarJson());
+	}
 			
 }
 

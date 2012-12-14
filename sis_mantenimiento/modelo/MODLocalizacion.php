@@ -204,6 +204,25 @@ function listarLocalizacionArb(){
 		//Devuelve la respuesta
 		return $this->respuesta;
 	}
+
+
+
+	function SincronizarUsuarios(){
+		//Definicion de variables para ejecucion del procedimiento
+		$this->procedimiento='gem.f_localizacion_ime';
+		$this->transaccion='GEM_SINCUSUUNI_IME';
+		$this->tipo_procedimiento='IME';
+				
+		//Define los parametros para la funcion
+		$this->setParametro('tarea','tarea','varchar');
+
+		//Ejecuta la instruccion
+		$this->armarConsulta();
+		$this->ejecutarConsulta();
+
+		//Devuelve la respuesta
+		return $this->respuesta;
+	}
 			
 }
 ?>

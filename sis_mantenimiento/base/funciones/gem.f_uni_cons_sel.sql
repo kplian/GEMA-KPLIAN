@@ -33,6 +33,8 @@ DECLARE
     v_join varchar;
     v_join_te varchar;
     v_tipo varchar;
+    v_filtro varchar;
+    
 			    
 BEGIN
 
@@ -45,7 +47,7 @@ BEGIN
  	#AUTOR:		rac	
  	#FECHA:		09-08-2012 00:42:57
 	***********************************/
-
+   
 	if(p_transaccion='GEM_TUC_SEL')then
      				
     	begin
@@ -59,6 +61,20 @@ BEGIN
           end if;
                v_condicion:=v_condicion ||' and tuc.estado_reg=''activo''  and tuc.tipo='''||v_parametros.tipo||'''';
                
+        
+        if v_parametros.tipo_nodo = 'base'  and  v_parametros.tipo = 'uc' and  p_administrador != 1  THEN
+             v_filtro = p_id_usuario||' = ANY (tuc.id_usuarios) ';
+       else 
+            v_filtro = '  0=0 ';
+    
+       end if;
+        
+        
+        
+        
+        
+        
+        
         
     		--Sentencia de la consulta
 			v_consulta:='select
@@ -92,7 +108,7 @@ BEGIN
 						inner join segu.tusuario usu1 on usu1.id_usuario = tuc.id_usuario_reg
 						left join segu.tusuario usu2 on usu2.id_usuario = tuc.id_usuario_mod
                         left join gem.ttipo_equipo eq on eq.id_tipo_equipo= tuc.id_tipo_equipo
-				        where  '||v_condicion;
+				        where  '||v_condicion|| '  and '||v_filtro;
 			
 			--Definicion de la respuesta
 		
@@ -226,8 +242,8 @@ BEGIN
         
     /*********************************    
  	#TRANSACCION:  'GEM_TUCPLAARB_SEL'
- 	#DESCRIPCION:	para el litado de uni constructivas des el arbol ed localizaciones
-                    no tiene contador solo filtro por ud_localizacion
+ 	#DESCRIPCION:	para el litado de unidades constructivas desde el arbol de localizaciones
+                    no tiene contador solo filtro por id_localizacion
  	#AUTOR:		rcm	
  	#FECHA:		1/09/2012
   	***********************************/
@@ -236,7 +252,17 @@ BEGIN
      				
     	begin
     
-
+           --tenemos que uamentar un filtro , si es administros todos si no solo las unidades donde el tenga acceso
+           
+           if p_administrador = 1 then
+           
+            v_filtro = ' 0=0 ';
+            
+            else
+            v_filtro =  p_id_usuario::varchar||' = ANY (tuc.id_usuarios) ';
+            
+            end if;
+            
         
     		--Sentencia de la consulta
 			v_consulta:='select
@@ -257,10 +283,14 @@ BEGIN
 						left join segu.tusuario usu2 on usu2.id_usuario = tuc.id_usuario_mod
                         where tuc.tipo = ''uc'' and tuc.estado_reg = ''activo''
 				        and tuc.tipo_nodo = ''raiz'' and (tuc.estado=''aprobado'' or tuc.estado=''registrado'') 
-                        and  tuc.id_localizacion= '|| v_parametros.id_localizacion;
+                        and  '|| v_filtro ||' and  tuc.id_localizacion= '|| v_parametros.id_localizacion;
 			 
 			--Definicion de la respuesta
 			v_consulta:=v_consulta||' order by tuc.codigo';
+            
+            
+                 
+              
 
 			--Devuelve la respuesta
 			return v_consulta;

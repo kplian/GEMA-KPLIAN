@@ -52,6 +52,8 @@ DECLARE
     v_i integer;
     v_codigo varchar;
     v_cod boolean;
+    
+    v_id_usuarios_tmp integer[];
    
 BEGIN
 
@@ -448,7 +450,25 @@ BEGIN
                                   from gem.tuni_cons tuc 
                                     where   tuc.id_uni_cons =  v_parametros.id_uni_cons  
                                     and tuc.estado_reg='activo') LOOP
-                
+               
+             --  busca los usarios con acceso a esta nueva_unidad constructiva
+             
+              WITH RECURSIVE arbol (id_localizacion,id_localizacion_fk) AS (  
+                        select lo.id_localizacion,lo.id_localizacion_fk
+                        from gem.tlocalizacion lo
+                        where lo.id_localizacion = 11
+                      UNION ALL
+                         SELECT lo2.id_localizacion, lo2.id_localizacion_fk
+                         FROM arbol a
+                         INNER JOIN gem.tlocalizacion lo2 on lo2.id_localizacion =  a.id_localizacion_fk)  
+                                       
+                                       
+               SELECT pxp.aggarray( lu.id_usuario) into v_id_usuarios_tmp
+              FROM arbol a 
+              inner join gem.tlocalizacion_usuario lu on lu.id_localizacion = a.id_localizacion; 
+             
+             
+              
                 
                 
                 -- 2)  los inserta como UC
@@ -466,7 +486,8 @@ BEGIN
                         fecha_reg,
                         id_localizacion,
                          tipo_nodo,
-                         id_plantilla
+                         id_plantilla,
+                         id_usuarios
                         ) values(
                         'activo',
                        'registrado',
@@ -478,7 +499,8 @@ BEGIN
                         now(),
                         v_parametros.id_localizacion,
                         'raiz',
-                         v_parametros.id_uni_cons
+                         v_parametros.id_uni_cons,
+                         v_id_usuarios_tmp
                         
                         )RETURNING id_uni_cons into v_id_uni_cons;
                         

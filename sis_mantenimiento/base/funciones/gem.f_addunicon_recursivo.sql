@@ -1,6 +1,5 @@
 --------------- SQL ---------------
 
- -- object recreation
 CREATE OR REPLACE FUNCTION gem.f_addunicon_recursivo (
   v_id_orig integer,
   v_id_cop integer,
@@ -191,6 +190,3 @@ VOLATILE
 CALLED ON NULL INPUT
 SECURITY INVOKER
 COST 100;
-
-ALTER FUNCTION "gem"."f_addunicon_recursivo"(v_id_orig integer, v_id_cop integer, v_id_usuario integer, v_tipo_nodo varchar, v_codigo varchar)
-  OWNER TO postgres;

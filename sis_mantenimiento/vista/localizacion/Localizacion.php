@@ -37,7 +37,13 @@ Phx.vista.Localizacion=Ext.extend(Phx.arbInterfaz,{
 				tooltip : '<b>Considerar o no</b><br/>si la unidad es roja no se la considera en la generacion del calendario'
 			});
 		
-			
+		this.addButton('btnSincUsuUni', {
+				text : 'Sincronizar',
+				iconCls : 'blist',
+				disabled : false,
+				handler : this.onBtnSincUsuUni,
+				tooltip : '<b>Sincronizar</b><br/>Sincorniza los usarios configurados  para que tengan acceso a los equipos'
+			});
 	
 			
 		this.menuOp = new Ext.Toolbar.SplitButton({
@@ -256,6 +262,20 @@ Phx.vista.Localizacion=Ext.extend(Phx.arbInterfaz,{
 		
 	},
 	
+	onBtnSincUsuUni:function(){
+		Phx.CP.loadingShow();
+		Ext.Ajax.request({
+				url:'../../sis_mantenimiento/control/Localizacion/SincronizarUsuarios',
+				params:{'tarea':'sincronizar'},
+				success:this.successSincUsuUni,
+				failure: this.conexionFailure,
+				timeout:this.timeout,
+				scope:this
+			});
+		
+		
+	},
+	
 	onBtnIncluCalGen:function(){
 		var node = this.sm.getSelectedNode();
 		var data =node.attributes;
@@ -290,6 +310,19 @@ Phx.vista.Localizacion=Ext.extend(Phx.arbInterfaz,{
 			});
 		}
 	},
+	
+	successSincUsuUni:function(resp){
+			Phx.CP.loadingHide();
+			var reg = Ext.util.JSON.decode(Ext.util.Format.trim(resp.responseText));
+			if(!reg.ROOT.error){
+				//alert(reg.ROOT.detalle.mensaje)
+				
+			}else{
+				
+				alert('ocurrio un error durante el proceso')
+			}
+			
+		},
 	
 	successIncluCalGen:function(resp){
 			Phx.CP.loadingHide();

@@ -629,7 +629,11 @@ Phx.vista.UniCons=Ext.extend(Phx.arbInterfaz,{
 		  title:'Variables del Equipo', 
 		  width:400,
 		  cls:'UniConsDet'
-		 }
+		 },
+		 onBeforeLoad:function(treeLoader, node) {
+				treeLoader.baseParams.tipo_nodo = node.attributes.tipo_nodo;
+				Phx.vista.UniCons.superclass.onBeforeLoad.call(this,treeLoader, node)
+		}
 	
 	
 })

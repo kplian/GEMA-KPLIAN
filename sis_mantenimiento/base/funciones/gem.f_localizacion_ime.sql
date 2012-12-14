@@ -1,3 +1,5 @@
+--------------- SQL ---------------
+
 CREATE OR REPLACE FUNCTION gem.f_localizacion_ime (
   p_administrador integer,
   p_id_usuario integer,
@@ -32,6 +34,9 @@ DECLARE
 	v_id_localizacion	integer;
     
     v_codigo_largo  varchar;
+    v_usuarios_tmp integer[];
+    g_registros record;
+    g_reg_usu_loc record;
 			    
 BEGIN
 
@@ -148,6 +153,68 @@ BEGIN
             return v_resp;
             
 		end;
+        
+        
+     
+    /*********************************    
+ 	#TRANSACCION:  'GEM_SINCUSUUNI_IME'
+ 	#DESCRIPCION:	Sincronizacion de usarios por localizacion y unidades contructivas
+ 	#AUTOR:		rac	
+ 	#FECHA:		14-12-2012 03:48:41
+	***********************************/
+
+	elsif(p_transaccion='GEM_SINCUSUUNI_IME')then
+
+		begin
+			
+             
+             for g_registros in ( select l.id_localizacion 
+                                  from gem.tlocalizacion l 
+                                  where l.id_localizacion_fk is null 
+                                  and l.estado_reg = 'activo') loop
+             
+                 v_usuarios_tmp = NULL;
+                 -- listo lso usarios
+                 FOR g_reg_usu_loc in ( select DISTINCT ul.id_usuario  
+                                from gem.tlocalizacion_usuario ul 
+                                where ul.id_localizacion = g_registros.id_localizacion 
+                                and ul.estado_reg = 'activo') LOOP
+         
+         
+                   v_usuarios_tmp= array_append(v_usuarios_tmp, g_reg_usu_loc.id_usuario);
+                   END LOOP;
+               
+             
+                   update gem.tuni_cons set
+                   id_usuarios = v_usuarios_tmp
+                     where id_localizacion =g_registros.id_localizacion 
+                                       and tipo = 'uc' and tipo_nodo = 'raiz' and estado_reg='activo';
+                         --llamada a la funcion recursiva
+                         
+                 
+                 
+                 IF (select  gem.f_sinc_usuarios_uni_cons(g_registros.id_localizacion,v_usuarios_tmp)) THEN
+                 
+                 ELSE
+                 
+                 raise exception 'Error al sincronizar usarios (0)';
+                 
+                 END IF;            
+            
+            
+             end loop;  
+           
+        
+        
+            --Definicion de la respuesta
+            v_resp = pxp.f_agrega_clave(v_resp,'mensaje','Sincronizacion de usarios realizada para todas las localizaciones)'); 
+          
+              
+            --Devuelve la respuesta
+            return v_resp;
+
+		end;
+        
 
 	/*********************************    
  	#TRANSACCION:  'GEM_loc_ELI'

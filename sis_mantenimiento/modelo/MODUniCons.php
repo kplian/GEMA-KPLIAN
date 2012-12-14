@@ -23,6 +23,10 @@ class MODUniCons extends MODbase{
 		$this->setParametro('id_padre','id_padre','varchar');
 		$this->setParametro('tipo','tipo','varchar');
 		
+		$this->setParametro('tipo_nodo','tipo_nodo','varchar');
+		
+		
+		
 		
 		//Definicion de la lista del resultado del query
 		$this->captura('id_uni_cons','int4');
