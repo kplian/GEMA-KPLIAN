@@ -36,6 +36,14 @@ Phx.vista.Localizacion=Ext.extend(Phx.arbInterfaz,{
 				handler : this.onBtnIncluCalGen,
 				tooltip : '<b>Considerar o no</b><br/>si la unidad es roja no se la considera en la generacion del calendario'
 			});
+			
+			this.addButton('btnAtrib', {
+				text : 'Atributos',
+				iconCls : 'blist',
+				disabled : false,
+				handler : this.onBtnAtribPlan,
+				tooltip : '<b>Atributos de la plantilla</b><br/>Definir atributos de la plantilla'
+			});
 		
 		this.addButton('btnSincUsuUni', {
 				text : 'Sincronizar',
@@ -1003,7 +1011,7 @@ Phx.vista.Localizacion=Ext.extend(Phx.arbInterfaz,{
 		//Grupo de opciones a nivel de localizaciones
 		this.ctxMenu.add('-');
 		this.ctxMenu.addMenuItem({text:'Usuarios por Localización',handler:this.onBtnUsuario,scope:this});
-		this.ctxMenu.addMenuItem({text:'Registro de Mediciones',handler:this.onBtnMed,scope:this});
+		this.ctxMenu.addMenuItem({text:'Indicadores',handler:this.onBtnMed,scope:this});
 		this.ctxMenu.addMenuItem({text:'Tarjetas TPM',handler:this.onBtnTarjetasTPM,scope:this});
 		//Grupo de opciones para Equipos
 		this.ctxMenu.add('-');
@@ -1047,7 +1055,7 @@ Phx.vista.Localizacion=Ext.extend(Phx.arbInterfaz,{
 			}
 		)
 			
-		this.ctxMenu.addMenuItem({text:'Indicadores'});
+		this.ctxMenu.addMenuItem({text:'Registro de Mediciones'});
 	},
 	onBtnTarjetaTPM: function(){
 		
@@ -1059,6 +1067,18 @@ Phx.vista.Localizacion=Ext.extend(Phx.arbInterfaz,{
 		
 	},
 	onClickRCMAnalisis: function(){
+		
+	},
+	onBtnAtribPlan:function(){
+		var nodo = this.sm.getSelectedNode();
+           Phx.CP.loadWindows('../../../sis_mantenimiento/vista/localizacion_med/LocalizacionMed.php',
+				'Mediciones: ',{
+						modal:true,
+						width:900,
+						height:400
+				    },
+				    data,this.idContenedor,'LocalizacionMed')
+		
 		
 	}
 	

@@ -18,6 +18,9 @@ class MODLocalizacionMed extends MODbase{
 		$this->procedimiento='gem.ft_localizacion_med_sel';
 		$this->transaccion='GM_LOCMED_SEL';
 		$this->tipo_procedimiento='SEL';//tipo de transaccion
+		
+		//Parametros
+		$this->setParametro('id_localizacion','id_localizacion','int4');
 				
 		//Definicion de la lista del resultado del query
 		$this->captura('id_localizacion_med','int4');
@@ -111,6 +114,32 @@ class MODLocalizacionMed extends MODbase{
 		$this->armarConsulta();
 		$this->ejecutarConsulta();
 
+		//Devuelve la respuesta
+		return $this->respuesta;
+	}
+	
+	function listarIndicadores(){
+		//Definicion de variables para ejecucion del procedimientp
+		$this->procedimiento='gem.ft_localizacion_med_sel';
+		$this->transaccion='GM_INDICA_SEL';
+		$this->tipo_procedimiento='SEL';//tipo de transaccion
+		
+		//Parametros
+		$this->setParametro('id_localizacion','id_localizacion','int4');
+		$this->setParametro('num_dias','num_dias','int4');
+		$this->setParametro('fecha_ini','fecha_ini','date');
+		$this->setParametro('fecha_fin','fecha_fin','date');
+				
+		//Definicion de la lista del resultado del query
+		$this->captura('nombre','varchar');
+		$this->captura('indicador','numeric');
+		$this->captura('observaciones','varchar');
+		
+		//Ejecuta la instruccion
+		$this->armarConsulta();
+		//echo $this->consulta;exit;
+		$this->ejecutarConsulta();
+		
 		//Devuelve la respuesta
 		return $this->respuesta;
 	}

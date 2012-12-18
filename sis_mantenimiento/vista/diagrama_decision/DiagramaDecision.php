@@ -220,9 +220,15 @@ Phx.vista.DiagramaDecision=Ext.extend(Phx.gridInterfaz,{
 		direction: 'ASC'
 	},
 	bdel:true,
-	bsave:true
+	bsave:true,
+	south:{
+		  url:'../../../sis_mantenimiento/vista/diagrama_decision_accion/DiagramaDecisionAccion.php',
+		  title:'Detalle', 
+		  height:'50%',	//altura de la ventana hijo
+		  //width:'50%',		//ancho de la ventana hjo
+		  cls:'DiagramaDecisionAccion'
 	}
-)
+})
 </script>
 		
 		

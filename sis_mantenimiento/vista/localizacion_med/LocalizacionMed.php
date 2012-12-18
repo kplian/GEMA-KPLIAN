@@ -17,7 +17,17 @@ Phx.vista.LocalizacionMed=Ext.extend(Phx.gridInterfaz,{
     	//llama al constructor de la clase padre
 		Phx.vista.LocalizacionMed.superclass.constructor.call(this,config);
 		this.init();
-		this.load({params:{start:0, limit:50, id_localizacion:this.maestro.id_localizacion}})
+		this.getComponente('id_localizacion_orig').setValue(this.maestro.id_localizacion);
+		//alert(this.getComponente('id_localizacion_orig').getValue())
+		this.v_id_localizacion_orig=this.maestro.id_localizacion;
+		this.load({params:{start:0, limit:50, id_localizacion:this.maestro.id_localizacion}});
+		this.addButton('btnInd', {
+				text : 'Indicadores',
+				iconCls : 'block',
+				disabled : true,
+				handler : this.onBtnInd,
+				tooltip : '<b>Indicadores</b><br/>Visualiza los valores de los indicadores'
+			});
 		this.tbar.add('Desde: ',this.dteFechaIni);
 	    this.tbar.add('Hasta: ',this.dteFechaFin);
 	    this.tbar.add('Días: ',this.intDiasMes);
@@ -28,7 +38,9 @@ Phx.vista.LocalizacionMed=Ext.extend(Phx.gridInterfaz,{
             handler : this.onButtonGrafica,
             tooltip : '<b>Gráfica</b><br/><b>Genera gráfica (La ordenación de los resultados afecta la gráfica)</b>'
              });
+         this.getBoton('btnInd').enable();
 	},
+	v_id_localizacion_orig:'',
 			
 	Atributos:[
 		{
@@ -44,6 +56,15 @@ Phx.vista.LocalizacionMed=Ext.extend(Phx.gridInterfaz,{
 		{
 			config:{
 				name: 'id_localizacion',
+				inputType: 'hidden',
+				labelSeparator: ''
+			},
+			type:'Field',
+			form:true
+		},
+		{
+			config:{
+				name: 'id_localizacion_orig',
 				inputType: 'hidden',
 				labelSeparator: ''
 			},
@@ -268,6 +289,7 @@ Phx.vista.LocalizacionMed=Ext.extend(Phx.gridInterfaz,{
 	fields: [
 		{name:'id_localizacion_med', type: 'numeric'},
 		{name:'id_localizacion', type: 'numeric'},
+		{name:'id_localizacion_orig', type: 'numeric'},
 		{name:'id_uni_cons', type: 'numeric'},
 		{name:'tiempo_mnp_hrs', type: 'numeric'},
 		{name:'estado_reg', type: 'string'},
@@ -294,11 +316,13 @@ Phx.vista.LocalizacionMed=Ext.extend(Phx.gridInterfaz,{
 	loadValoresIniciales:function(){
 		Phx.vista.LocalizacionMed.superclass.loadValoresIniciales.call(this);
 		this.getComponente('id_localizacion').setValue(this.maestro.id_localizacion);
+		this.getComponente('id_localizacion_orig').setValue(this.maestro.id_localizacion);
 	},	
 	onReloadPage:function(m){
 		this.maestro=m;						
 		this.store.baseParams={id_localizacion:this.maestro.id_localizacion};
-		this.load({params:{start:0, limit:50}});			
+		this.load({params:{start:0, limit:50}});
+	
 	},
 	Grupos:[{ 
 		layout: 'column',
@@ -332,13 +356,14 @@ Phx.vista.LocalizacionMed=Ext.extend(Phx.gridInterfaz,{
 		  width:'50%',		//ancho de la ventana hjo
 		  cls:'IndicadoresMediciones'
 	},
-	south:{
-		  url:'../../../sis_mantenimiento/vista/equipo_medicion/IndicadoresMediciones.php',
+	/*south:{
+		  url:'../../../sis_mantenimiento/vista/localizacion_med/Indicadores.php',
 		  title:'Indicadores', 
 		  height:'30%',	//altura de la ventana hijo
+		  //params:{id_localizacion_orig:this.id_localizacion_orig},
 		  //width:'50%',		//ancho de la ventana hjo
-		  cls:'IndicadoresMediciones'
-	},
+		  cls:'IndicadoresGraf'
+	},*/
 	dteFechaIni:new Ext.form.DateField({
 		vtype: 'daterange',
 	    name:  'startdt',
@@ -392,8 +417,37 @@ Phx.vista.LocalizacionMed=Ext.extend(Phx.gridInterfaz,{
 			     pagIndicadores.setDatachart(data);
 		      }
 	     }
+	},
+	onBtnInd:function(){
+		//Verifica que se hayan introducido los valores a las variables para generación de los indicadores
+		if(this.dteFechaIni.getValue()!=''&&this.dteFechaFin.getValue()!=''&&this.intDiasMes.getValue()!=''){
+			var data={id_localizacion: this.v_id_localizacion_orig,
+				num_dias: this.intDiasMes.getValue(),
+				fecha_ini:this.dteFechaIni.getValue(),
+				fecha_fin: this.dteFechaFin.getValue()
+			};
+           Phx.CP.loadWindows('../../../sis_mantenimiento/vista/localizacion_med/Indicadores.php',
+					'Indicadores',
+					{
+						width:800,
+						height:400
+				    },data,this.idContenedor,'IndicadoresGraf')	
+		} else{
+			//if(this.dteFechaIni.getValue()==''){
+				this.dteFechaIni.isValid();
+			//}
+			//if(this.dteFechaFin.getValue()==''){
+				this.dteFechaFin.isValid();
+			//}
+			//if(this.intDiasMes.getValue()==''){
+				this.intDiasMes.isValid();
+			//}
+			this.dteFechaFin
+			Ext.MessageBox.alert('Alerta','Para generar los indicadores debe definir el Rango de Fechas y el Número de Días');
+		}
+		
+		
+		
 	}
 })
 </script>
-		
-		

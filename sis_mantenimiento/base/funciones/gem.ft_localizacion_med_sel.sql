@@ -23,6 +23,7 @@ DECLARE
 	v_parametros  		record;
 	v_nombre_funcion   	text;
 	v_resp				varchar;
+	v_ids_loc			varchar;
 			    
 BEGIN
 
@@ -39,6 +40,21 @@ BEGIN
 	if(p_transaccion='GM_LOCMED_SEL')then
      				
     	begin
+    	
+    		--Obtiene todos los id_localizacion
+			WITH RECURSIVE t(id,id_fk,nombre,n) AS (
+					SELECT l.id_localizacion,l.id_localizacion_fk, l.nombre,1
+					FROM gem.tlocalizacion l 
+					WHERE l.id_localizacion = v_parametros.id_localizacion
+					UNION ALL
+					SELECT l.id_localizacion,l.id_localizacion_fk, l.nombre , n+1
+					FROM gem.tlocalizacion l, t
+					WHERE l.id_localizacion_fk = t.id
+				)
+			SELECT pxp.list(id::text)
+			into v_ids_loc
+			FROM t;
+    		
     		--Sentencia de la consulta
 			v_consulta:='select
 						locmed.id_localizacion_med,
@@ -62,7 +78,7 @@ BEGIN
 						inner join segu.tusuario usu1 on usu1.id_usuario = locmed.id_usuario_reg
 						left join segu.tusuario usu2 on usu2.id_usuario = locmed.id_usuario_mod
 						left join gem.tuni_cons unicon on unicon.id_uni_cons = locmed.id_uni_cons
-				        where  ';
+				        where locmed.id_localizacion in ('||v_ids_loc||') and ';
 			
 			--Definicion de la respuesta
 			v_consulta:=v_consulta||v_parametros.filtro;
@@ -83,13 +99,27 @@ BEGIN
 	elsif(p_transaccion='GM_LOCMED_CONT')then
 
 		begin
+			--Obtiene todos los id_localizacion
+			WITH RECURSIVE t(id,id_fk,nombre,n) AS (
+					SELECT l.id_localizacion,l.id_localizacion_fk, l.nombre,1
+					FROM gem.tlocalizacion l 
+					WHERE l.id_localizacion = v_parametros.id_localizacion
+					UNION ALL
+					SELECT l.id_localizacion,l.id_localizacion_fk, l.nombre , n+1
+					FROM gem.tlocalizacion l, t
+					WHERE l.id_localizacion_fk = t.id
+				)
+			SELECT pxp.list(id::text)
+			into v_ids_loc
+			FROM t;
+			
 			--Sentencia de la consulta de conteo de registros
 			v_consulta:='select count(id_localizacion_med)
 					    from gem.tlocalizacion_med locmed
 					    inner join segu.tusuario usu1 on usu1.id_usuario = locmed.id_usuario_reg
 						left join segu.tusuario usu2 on usu2.id_usuario = locmed.id_usuario_mod
 						left join gem.tuni_cons unicon on unicon.id_uni_cons = locmed.id_uni_cons
-					    where ';
+					    where locmed.id_localizacion in ('||v_ids_loc||') and ';
 			
 			--Definicion de la respuesta		    
 			v_consulta:=v_consulta||v_parametros.filtro;
@@ -98,6 +128,57 @@ BEGIN
 			return v_consulta;
 
 		end;
+	
+	/*********************************    
+ 	#TRANSACCION:  'GM_INDICA_SEL'
+ 	#DESCRIPCION:	Devuelve los indicadores
+ 	#AUTOR:		rcm	
+ 	#FECHA:		16-12-2012
+	***********************************/
+
+	elsif(p_transaccion='GM_INDICA_SEL')then
+     				
+    	begin
+    		--Sentencia de la consulta
+			v_consulta:='select
+						nombre, indicador, observaciones
+						from gem.f_formulas_indicadores('||
+						v_parametros.id_localizacion||','||
+						v_parametros.num_dias||','''||
+						v_parametros.fecha_ini||''','||
+						v_parametros.fecha_fin||''')
+						as (nombre varchar,indicador numeric,observaciones varchar)';
+			
+			--Devuelve la respuesta
+			return v_consulta;
+						
+		end;
+		
+	/*********************************    
+ 	#TRANSACCION:  'GM_INDICA_CONT'
+ 	#DESCRIPCION:	Conteo de registros
+ 	#AUTOR:		rcm	
+ 	#FECHA:		16-12-2012
+	***********************************/
+
+	elsif(p_transaccion='GM_INDICA_CONT')then
+
+		begin
+			--Sentencia de la consulta de conteo de registros
+			v_consulta:='select
+						count(nombre)
+						from gem.f_formulas_indicadores('||
+						v_parametros.id_localizacion||','||
+						v_parametros.num_dias||','''||
+						v_parametros.fecha_ini||''','||
+						v_parametros.fecha_fin||''')
+						as (nombre varchar,indicador numeric,observaciones varchar)';
+						
+			--Devuelve la respuesta
+			return v_consulta;
+
+		end;
+	
 					
 	else
 					     

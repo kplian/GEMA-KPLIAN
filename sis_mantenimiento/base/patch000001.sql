@@ -1542,3 +1542,21 @@ ALTER TABLE gem.tuni_cons
   
 /***********************************F-SCP-RAC-GEM-x-14/12/2012*****************************************/
 
+/***********************************I-SCP-RCM-GEM-76-14/12/2012*****************************************/
+CREATE TABLE gem.tdiagrama_decision_accion(
+  id_diagrama_decision_accion  SERIAL NOT NULL,
+  id_diagrama_decision int4,
+  id_diagrama_decision_accion_fk int4,
+  tipo varchar(15),
+  codigo varchar(20),
+  nombre varchar(200),
+  CONSTRAINT pk_tdiagrama_decision_accion__id_diagrama_decision_accion PRIMARY KEY (id_diagrama_decision_accion),
+  CONSTRAINT fk_tdiagrama_decision_accion__id_diagrama_decision_accion_fk FOREIGN KEY (id_diagrama_decision_accion_fk)
+    REFERENCES gem.tdiagrama_decision_accion (id_diagrama_decision_accion) MATCH SIMPLE
+    ON UPDATE NO ACTION ON DELETE NO ACTION
+)INHERITS (pxp.tbase)
+WITH (
+  OIDS=TRUE
+);
+ALTER TABLE gem.tdiagrama_decision_accion OWNER TO postgres;
+/***********************************F-SCP-RCM-GEM-76-14/12/2012*****************************************/

@@ -53,7 +53,7 @@ Phx.vista.TipoVariable=Ext.extend(Phx.gridInterfaz,{
 		{
 			config:{
 				name: 'nombre',
-				fieldLabel: 'nombre',
+				fieldLabel: 'Nombre',
 				allowBlank: true,
 				anchor: '80%',
 				gwidth: 100,
@@ -114,7 +114,7 @@ Phx.vista.TipoVariable=Ext.extend(Phx.gridInterfaz,{
 		{
 			config:{
 				name: 'descripcion',
-				fieldLabel: 'descripcion',
+				fieldLabel: 'Descripcion',
 				allowBlank: true,
 				anchor: '80%',
 				gwidth: 100,
