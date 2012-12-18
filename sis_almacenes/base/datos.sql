@@ -1,8 +1,43 @@
+
+
+ 
+--------------------INSERT DATA--------------------------------------------
+
+INSERT INTO segu.tsubsistema ("codigo", "nombre", "fecha_reg", "prefijo", "estado_reg", "nombre_carpeta", "id_subsis_orig")
+VALUES (E'ALM', E'Sistema de Almacenes', E'2012-09-20', E'SAL', E'activo', E'ALMACENES', NULL);
+    
+select pxp.f_insert_tgui ('SISTEMA DE ALMACENES', '', 'ALM', 'si',NULL , '', 1, '../../../lib/imagenes/alma32x32.png', '', 'ALM');
+select pxp.f_insert_tgui ('Datos Generales', 'Datos Generales', 'ALDAGE', 'si', 1, '', 2, '', '', 'ALM');
+select pxp.f_insert_tgui ('Catálogos', 'Catálogos', 'ALMAIN', 'si', 2, '', 2, '', '', 'ALM');
+select pxp.f_insert_tgui ('Movimientos', 'Movimientos', 'ALMOVI', 'si', 3, '', 2, '', '', 'ALM');
+select pxp.f_insert_tgui ('Creación de almacenes', 'Creación de almacenes', 'ALCRAL', 'si', 1, 'sis_almacenes/vista/almacen/Almacen.php', 3, '', 'Almacen', 'ALM');
+select pxp.f_insert_tgui ('Materiales', 'Registro de Materiales', 'ALREMA', 'si', 1, 'sis_almacenes/vista/item/Item.php', 3, '', 'Item', 'ALM');
+select pxp.f_insert_tgui ('Clasificación de materiales', 'Clasificación de materiales', 'ALCLMA', 'si', 1, 'sis_almacenes/vista/clasificacion/Clasificacion.php', 3, '', 'Clasificacion', 'ALM');
+select pxp.f_insert_tgui ('Ingresos', 'Ingresos', 'ALINGR', 'si', 2, 'sis_almacenes/vista/movimiento/Ingreso.php
+', 3, '', 'Ingreso', 'ALM');
+select pxp.f_insert_tgui ('Salidas', 'Salidas', 'ALSAGR', 'si', 2, 'sis_almacenes/vista/movimiento/Salida.php
+', 3, '', 'Salida', 'ALM');
+select pxp.f_insert_tgui ('Transferencias', 'Transferencias', 'ALTRGR', 'si', 3, 'sis_almacenes/vista/movimiento/Transferencia.php', 3, '', 'Transferencia', 'ALM');
+select pxp.f_insert_testructura_gui('ALM','SISTEMA');
+select pxp.f_insert_testructura_gui ('ALDAGE', 'ALM');
+select pxp.f_insert_testructura_gui ('ALMAIN', 'ALM');
+select pxp.f_insert_testructura_gui ('ALMOVI', 'ALM');
+select pxp.f_insert_testructura_gui ('ALCRAL', 'ALDAGE');
+select pxp.f_insert_testructura_gui ('ALREMA', 'ALMAIN');
+select pxp.f_insert_testructura_gui ('ALCLMA', 'ALMAIN');
+select pxp.f_insert_testructura_gui ('ALINGR', 'ALMOVI');
+select pxp.f_insert_testructura_gui ('ALSAGR', 'ALMOVI');
+select pxp.f_insert_testructura_gui ('ALTRGR', 'ALMOVI');
+
+
+--
+
 /*
 *	Author: FRH
 *	Date: 13-11-2012
 *	Description: Test data
 */
+
 
 -- Clasificacion
 INSERT INTO alm.tclasificacion (id_usuario_reg, id_usuario_mod, fecha_reg, fecha_mod, estado_reg, id_clasificacion, id_clasificacion_fk, codigo, nombre, descripcion, codigo_largo)
