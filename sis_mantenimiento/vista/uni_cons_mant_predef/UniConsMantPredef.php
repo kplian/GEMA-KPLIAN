@@ -41,14 +41,14 @@ Phx.vista.UniConsMantPredef=Ext.extend(Phx.gridInterfaz,{
 					id: 'id_mant_predef',
 					root:'datos',
 					sortInfo:{
-						field:'nombre',
+						field:'gemapr.nombre',
 						direction:'ASC'
 					},
 					totalProperty:'total',
 					fields: ['id_mant_predef','nombre','codigo','descripcion','desc_tipo_equipo'],
 					// turn on remote sorting
 					remoteSort: true,
-					baseParams:{par_filtro:'nombre'}
+					baseParams:{par_filtro:'gemapr.nombre#gemapr.codigo'}
 				}),
 				valueField: 'id_mant_predef',
 				displayField: 'nombre',
@@ -306,7 +306,8 @@ Phx.vista.UniConsMantPredef=Ext.extend(Phx.gridInterfaz,{
 	id_store:'id_uni_cons_mant_predef',
 	fields: [
 		{name:'id_uni_cons_mant_predef', type: 'numeric'},
-		{name:'id_mant_predef', type: 'numeric'},
+		//{name:'id_mant_predef', type: 'numeric'},
+		{name:'id_mant_predef'},
 		{name:'id_uni_cons', type: 'numeric'},
 		{name:'id_unidad_medida', type: 'numeric'},
 		{name:'frecuencia', type: 'numeric'},
@@ -334,7 +335,7 @@ Phx.vista.UniConsMantPredef=Ext.extend(Phx.gridInterfaz,{
 	loadValoresIniciales:function(){
 		Phx.vista.UniConsMantPredef.superclass.loadValoresIniciales.call(this);
 		this.getComponente('id_uni_cons').setValue(this.maestro.id_uni_cons);
-		this.getComponente('id_mant_predef').store.baseParams={par_filtro:'nombre',id_uni_cons:this.maestro.id_uni_cons};
+		this.getComponente('id_mant_predef').store.baseParams={par_filtro:'gemapr.nombre#gemapr.codigo',id_uni_cons:this.maestro.id_uni_cons};
 	},	
 	onReloadPage:function(m){
 		this.maestro=m;						
