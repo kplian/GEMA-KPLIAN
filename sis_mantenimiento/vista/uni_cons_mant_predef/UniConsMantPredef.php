@@ -351,6 +351,7 @@ Phx.vista.UniConsMantPredef=Ext.extend(Phx.gridInterfaz,{
 			console.log('HOLA',combo);
 			
 			cmbUniMed.setValue(record.data.id_unidad_medida_estimado);
+			cmbUniMed.setRawValue(record.data.nombre);
 			txtFrec.setValue(record.data.tiempo_estimado);
 			
 			/*cmbCatTipo.store.baseParams.id_subsistema=record.data.id_subsistema;
