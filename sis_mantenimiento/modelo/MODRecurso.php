@@ -45,6 +45,8 @@ class MODRecurso extends MODbase {
 		$this->captura('hh_normal','int4');
 		$this->captura('hh_extras','int4');
 		$this->captura('hh_ext_mov','int4');
+		$this->captura('codigo','varchar');
+		$this->captura('existencias','varchar');
 		
 		$this->armarConsulta();
 		$this->ejecutarConsulta();
@@ -71,6 +73,7 @@ class MODRecurso extends MODbase {
 		$this->captura('nombre_item','varchar');
 		$this->captura('id_funcionario','int4');
 		$this->captura('nombre_funcionario','varchar');
+		$this->captura('cargo_funcionario','varchar');
 		$this->captura('id_especialidad','int4');
 		$this->captura('nombre_especialidad','varchar');
 		$this->captura('id_servicio','int4');
@@ -85,6 +88,8 @@ class MODRecurso extends MODbase {
 		$this->captura('hh_normal','int4');
 		$this->captura('hh_extras','int4');
 		$this->captura('hh_ext_mov','int4');
+		$this->captura('codigo','varchar');
+		$this->captura('existencias','varchar');
 		
 		$this->armarConsulta();
 		$this->ejecutarConsulta();
@@ -109,6 +114,8 @@ class MODRecurso extends MODbase {
 		$this->setParametro('hh_normal','hh_normal','int4');
 		$this->setParametro('hh_extras','hh_extras','int4');
 		$this->setParametro('hh_ext_mov','hh_ext_mov','int4');
+		$this->setParametro('codigo','codigo','varchar');
+		$this->setParametro('existencias','existencias','varchar');
 		
 		$this->armarConsulta();
 		$this->ejecutarConsulta();
@@ -134,6 +141,8 @@ class MODRecurso extends MODbase {
 		$this->setParametro('hh_normal','hh_normal','int4');
 		$this->setParametro('hh_extras','hh_extras','int4');
 		$this->setParametro('hh_ext_mov','hh_ext_mov','int4');
+		$this->setParametro('codigo','codigo','varchar');
+		$this->setParametro('existencias','existencias','varchar');
 		
 		$this->armarConsulta();
 		$this->ejecutarConsulta();

@@ -50,14 +50,7 @@ Phx.vista.UniCons=Ext.extend(Phx.arbInterfaz,{
 			handler:this.btn_MedicionGraf,
 			tooltip: '<b>Mediciones/Indicadores</b><br/>Detalle de las mediciones / Indicadores'
 			}
-		);*/
-		this.addButton('btnList',{
-            text :'PLAN RCM',
-            iconCls : 'blist',
-            disabled: true,
-            handler : this.onButtonList,
-            tooltip : '<b>PLAN RCM</b><br/><b>PLAN RCM para un Uni Cons</b>'
-        });
+		);*/		
         this.addButton('btnUpload',{
            text :'Archivos',
            iconCls : 'bupload',
@@ -220,7 +213,8 @@ Phx.vista.UniCons=Ext.extend(Phx.arbInterfaz,{
 			id_grupo:1,
 			grid:true,
 			form:true
-		},*/{
+		},*/
+		{
 			config:{
 				name: 'nombre',
 				fieldLabel: 'Nombre',
@@ -449,7 +443,6 @@ Phx.vista.UniCons=Ext.extend(Phx.arbInterfaz,{
 			}
 			else {
 				this.getBoton('btnBlock').disable();
-				this.getBoton('btnList').enable();
                 this.getBoton('btnUpload').enable();
                 this.getBoton('btnItems').enable();
                 this.getBoton('btnProveedores').enable();
@@ -513,23 +506,6 @@ Phx.vista.UniCons=Ext.extend(Phx.arbInterfaz,{
 		
 		
 	},
-	
-
-	onButtonList: function(){          
-        
-            var rec=this.sm.getSelectedNode();
-            var data = rec.attributes;
-            if(data){
-            Phx.CP.loadWindows('../../../sis_mantenimiento/vista/plan_mant/PlanMant.php',
-                    'Plan de Mantenimiento',
-                    {
-                        modal:true,
-                        width:900,
-                        height:600
-                    },
-                    data,this.idContenedor,'PlanMant')
-            }
-    },  
     
     onButtonUpload: function(){
        var rec = this.sm.getSelectedNode();
@@ -607,9 +583,24 @@ Phx.vista.UniCons=Ext.extend(Phx.arbInterfaz,{
 			}
 		
 	},
+	
 	onPlanClick: function(){
-		
-	},
+        
+        var rec=this.sm.getSelectedNode();
+            var data = rec.attributes;
+            if(data){
+            Phx.CP.loadWindows('../../../sis_mantenimiento/vista/plan_mant/PlanMant.php',
+                    'Plan de Mantenimiento',
+                    {
+                        modal:true,
+                        width:900,
+                        height:600
+                    },
+                    data,this.idContenedor,'PlanMant')
+            }
+        
+    },
+    
 	successBU:function(resp){
 			Phx.CP.loadingHide();
 			var reg = Ext.util.JSON.decode(Ext.util.Format.trim(resp.responseText));

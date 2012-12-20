@@ -171,60 +171,6 @@ Phx.vista.recurso=Ext.extend(Phx.gridInterfaz,{
 		},
 		{
 			config: {
-				name: 'hh_normal',
-				fieldLabel: 'HH Normal',
-				allowBlank: true,
-				width: '100%',
-				gwidth: 100,
-				maxLength: 100,
-				hidden: true
-			},
-			type: 'TextField',
-			filters: {
-				pfiltro: 'rec.hh_normal',
-				type: 'numeric'},
-			id_grupo: 0,
-			grid: true,
-			form: true
-		},
-		{
-			config: {
-				name: 'hh_extras',
-				fieldLabel: 'HH Extras',
-				allowBlank: true,
-				width: '100%',
-				gwidth: 100,
-				maxLength: 100,
-				hidden: true
-			},
-			type: 'TextField',
-			filters: {
-				pfiltro: 'rec.hh_extras',
-				type: 'numeric'},
-			id_grupo: 0,
-			grid: true,
-			form: true
-		},
-		{
-			config: {
-				name: 'hh_ext_mov',
-				fieldLabel: 'HH Ext. Mov.',
-				allowBlank: true,
-				width: '100%',
-				gwidth: 100,
-				maxLength: 100,
-				hidden: true
-			},
-			type: 'TextField',
-			filters: {
-				pfiltro: 'rec.hh_ext_mov',
-				type: 'numeric'},
-			id_grupo: 0,
-			grid: true,
-			form: true
-		},
-		{
-			config: {
 				name: 'id_especialidad',
 				fieldLabel: 'Especialidad',
 				allowBlank: true,
@@ -313,6 +259,96 @@ Phx.vista.recurso=Ext.extend(Phx.gridInterfaz,{
 				type: 'string'
 			},
 			id_grupo: 0,
+			grid: true,
+			form: true
+		},
+		{
+			config: {
+				name: 'hh_normal',
+				fieldLabel: 'HH Normal',
+				allowBlank: true,
+				width: '100%',
+				gwidth: 100,
+				maxLength: 100,
+				hidden: true
+			},
+			type: 'TextField',
+			filters: {
+				pfiltro: 'rec.hh_normal',
+				type: 'numeric'},
+			id_grupo: 0,
+			grid: true,
+			form: true
+		},
+		{
+			config: {
+				name: 'hh_extras',
+				fieldLabel: 'HH Extras',
+				allowBlank: true,
+				width: '100%',
+				gwidth: 100,
+				maxLength: 100,
+				hidden: true
+			},
+			type: 'TextField',
+			filters: {
+				pfiltro: 'rec.hh_extras',
+				type: 'numeric'},
+			id_grupo: 0,
+			grid: true,
+			form: true
+		},
+		{
+			config: {
+				name: 'hh_ext_mov',
+				fieldLabel: 'HH Ext. Mov.',
+				allowBlank: true,
+				width: '100%',
+				gwidth: 100,
+				maxLength: 100,
+				hidden: true
+			},
+			type: 'TextField',
+			filters: {
+				pfiltro: 'rec.hh_ext_mov',
+				type: 'numeric'},
+			id_grupo: 0,
+			grid: true,
+			form: true
+		},
+		{
+			config: {
+				name: 'codigo',
+				fieldLabel: 'Codigo',
+				allowBlank: true,
+				width: '100%',
+				gwidth: 100,
+				maxLength: 100,
+				hidden: true
+			},
+			type: 'TextField',
+			filters: {
+				pfiltro: 'rec.codigo',
+				type: 'string'},
+			id_grupo: 0,
+			grid: true,
+			form: true
+		},
+		{
+			config: {
+				name: 'existencias',
+				fieldLabel: 'Existencias',
+				allowBlank: true,
+				width: '100%',
+				gwidth: 150,
+				maxLength: 2000
+			},
+			type: 'TextArea',
+			filters: {
+				pfiltro: 'rec.existencias',
+				type: 'string'
+			},
+			id_grupo: 1,
 			grid: true,
 			form: true
 		},
@@ -456,7 +492,7 @@ Phx.vista.recurso=Ext.extend(Phx.gridInterfaz,{
 			type: 'TextArea',
 			filters: {
 				pfiltro: 'rec.observaciones',
-				type: 'numeric'
+				type: 'string'
 			},
 			id_grupo: 1,
 			grid: true,
@@ -498,13 +534,15 @@ Phx.vista.recurso=Ext.extend(Phx.gridInterfaz,{
 		{name: 'codigo_unidad_medida', type: 'varchar'},
 		{name: 'hh_normal', type: 'int4'},
 		{name: 'hh_extras', type: 'int4'},
-		{name: 'hh_ext_mov', type: 'int4'}
+		{name: 'hh_ext_mov', type: 'int4'},
+		{name: 'codigo', type: 'varchar'},
+		{name: 'existencias', type: 'varchar'}
 	],
 	sortInfo:{
 		field: 'id_recurso',
 		direction: 'ASC'
 	},
-	fheight: 400,
+	fheight: 450,
 	fwidth: 410,
 	onReloadPage:function(m) {
 		this.maestro=m;
@@ -553,6 +591,8 @@ Phx.vista.recurso=Ext.extend(Phx.gridInterfaz,{
          		this.getComponente('cantidad').setVisible(true);
          		this.getComponente('id_moneda').setVisible(true);
          		this.getComponente('costo').setVisible(true);
+         		this.getComponente('codigo').setVisible(true);
+         		this.getComponente('existencias').setVisible(true);
          	}
          	else if(e.value == 'funcionario') {
          		this.getComponente('id_item').setVisible(false);
@@ -566,6 +606,8 @@ Phx.vista.recurso=Ext.extend(Phx.gridInterfaz,{
          		this.getComponente('cantidad').setVisible(false);
          		this.getComponente('id_moneda').setVisible(false);
          		this.getComponente('costo').setVisible(false);
+         		this.getComponente('codigo').setVisible(false);
+         		this.getComponente('existencias').setVisible(false);
          	}
          	else if(e.value == 'especialidad') {
          		this.getComponente('id_item').setVisible(false);
@@ -579,6 +621,8 @@ Phx.vista.recurso=Ext.extend(Phx.gridInterfaz,{
          		this.getComponente('cantidad').setVisible(false);
          		this.getComponente('id_moneda').setVisible(false);
          		this.getComponente('costo').setVisible(false);
+         		this.getComponente('codigo').setVisible(false);
+         		this.getComponente('existencias').setVisible(false);
          	}
          	else if(e.value == 'servicio') {
          		this.getComponente('id_item').setVisible(false);
@@ -592,6 +636,8 @@ Phx.vista.recurso=Ext.extend(Phx.gridInterfaz,{
          		this.getComponente('cantidad').setVisible(false);
          		this.getComponente('id_moneda').setVisible(false);
          		this.getComponente('costo').setVisible(false);
+         		this.getComponente('codigo').setVisible(false);
+         		this.getComponente('existencias').setVisible(false);
          	} else {
          		this.getComponente('id_item').setVisible(false);
          		this.getComponente('id_funcionario').setVisible(false);
@@ -604,6 +650,8 @@ Phx.vista.recurso=Ext.extend(Phx.gridInterfaz,{
          		this.getComponente('cantidad').setVisible(false);
          		this.getComponente('id_moneda').setVisible(false);
          		this.getComponente('costo').setVisible(false);
+         		this.getComponente('codigo').setVisible(false);
+         		this.getComponente('existencias').setVisible(false);
          	}
         }
   }

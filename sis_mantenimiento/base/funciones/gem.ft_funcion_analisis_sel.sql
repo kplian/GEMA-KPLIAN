@@ -59,7 +59,7 @@ BEGIN
 						from gem.tfuncion gefunc
 						inner join segu.tusuario usu1 on usu1.id_usuario = gefunc.id_usuario_reg
 						left join segu.tusuario usu2 on usu2.id_usuario = gefunc.id_usuario_mod
-				        where  ';
+				        where gefunc.id_analisis_mant='||v_parametros.id_analisis_mant||' and ';
 			
 			--Definicion de la respuesta
 			v_consulta:=v_consulta||v_parametros.filtro;

@@ -18,7 +18,8 @@ class MODFuncionFalla extends MODbase{
 		$this->procedimiento='gem.ft_funcion_falla_sel';
 		$this->transaccion='GEM_GEFALL_SEL';
 		$this->tipo_procedimiento='SEL';//tipo de transaccion
-				
+		
+		$this->setParametro('id_funcion','id_funcion','int4');		
 		//Definicion de la lista del resultado del query
 		$this->captura('id_funcion_falla','int4');
 		$this->captura('id_funcion','int4');

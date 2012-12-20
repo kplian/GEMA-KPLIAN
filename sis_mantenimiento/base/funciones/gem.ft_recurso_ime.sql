@@ -61,7 +61,9 @@ BEGIN
             id_unidad_medida,
             hh_normal,
             hh_extras,
-            hh_ext_mov
+            hh_ext_mov,
+            codigo,
+            existencias
           	) values(
             p_id_usuario,
             null,
@@ -81,7 +83,9 @@ BEGIN
             v_parametros.id_unidad_medida,
             v_parametros.hh_normal,
             v_parametros.hh_extras,
-            v_parametros.hh_ext_mov
+            v_parametros.hh_ext_mov,
+            v_parametros.codigo,
+            v_parametros.existencias
             )RETURNING id_recurso into v_id_recurso;
             
 			--Definicion de la respuesta
@@ -118,7 +122,9 @@ BEGIN
               id_unidad_medida = v_parametros.id_unidad_medida,
               hh_normal = v_parametros.hh_normal,
               hh_extras = v_parametros.hh_extras,
-              hh_ext_mov = v_parametros.hh_ext_mov
+              hh_ext_mov = v_parametros.hh_ext_mov,
+              codigo = v_parametros.codigo,
+              existencias = v_parametros.existencias
             where id_recurso = v_parametros.id_recurso;
             
 			--Definicion de la respuesta

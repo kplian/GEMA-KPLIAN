@@ -16,8 +16,15 @@ Phx.vista.FFuncion=Ext.extend(Phx.gridInterfaz,{
 		this.maestro=config.maestro;
     	//llama al constructor de la clase padre
 		Phx.vista.FFuncion.superclass.constructor.call(this,config);
+		this.addButton('btnList',{
+            text :'FallaFuncion',
+            iconCls : 'blist',
+            disabled: false,
+            handler : this.onButtonFuncionFalla,
+            tooltip : '<b>Falla Funcion</b><br/><b>Fallas de funcion</b>'
+        });
 		this.grid.getTopToolbar().disable();
-		this.grid.getBottomToolbar().disable();
+		this.grid.getBottomToolbar().disable();		
 		this.init();
 	},
 			
@@ -180,14 +187,19 @@ Phx.vista.FFuncion=Ext.extend(Phx.gridInterfaz,{
 		this.maestro=m;						
 		this.store.baseParams={id_analisis_mant:this.maestro.id_analisis_mant};
 		this.load({params:{start:0, limit:50}});			
-	},
-	east:{
-		  url:'../../../sis_mantenimiento/vista/funcion_falla/FuncionFalla.php',
-		  title:'Funciones/Fallas', 
-		  //height:'50%',	//altura de la ventana hijo
-		  width:'50%',		//ancho de la ventana hjo
-		  cls:'FuncionFalla'
-	}
+	},	
+    
+    onButtonFuncionFalla : function (){                   
+            var rec=this.sm.getSelected();
+                        
+            Phx.CP.loadWindows('../../../sis_mantenimiento/vista/funcion_falla/FuncionFalla.php',
+            'FuncionFalla',
+            {
+                modal:true,
+                width:800,
+                height:400
+            },rec.data,this.idContenedor,'FuncionFalla')
+    }
 })
 </script>
 		

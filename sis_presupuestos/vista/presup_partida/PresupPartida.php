@@ -184,7 +184,7 @@ Phx.vista.PresupPartida=Ext.extend(Phx.gridInterfaz,{
             config:{
                 name:'id_moneda',
                 fieldLabel:'Moneda',
-                allowBlank:true,
+                allowBlank:false,
                 emptyText:'Moneda...',
                 store: new Ext.data.JsonStore({
                     url: '../../sis_parametros/control/Moneda/listarMoneda',
@@ -228,7 +228,7 @@ Phx.vista.PresupPartida=Ext.extend(Phx.gridInterfaz,{
 			config:{
 				name: 'importe',
 				fieldLabel: 'Importe',
-				allowBlank: true,
+				allowBlank: false,
 				anchor: '80%',
 				gwidth: 100,
 				maxLength:1179650

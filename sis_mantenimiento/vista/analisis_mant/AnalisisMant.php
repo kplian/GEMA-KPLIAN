@@ -15,10 +15,25 @@ Phx.vista.AnalisisMant=Ext.extend(Phx.gridInterfaz,{
 	constructor:function(config){
 		this.maestro=config.maestro;
     	//llama al constructor de la clase padre
-		Phx.vista.AnalisisMant.superclass.constructor.call(this,config);
+		Phx.vista.AnalisisMant.superclass.constructor.call(this,config);		
+        this.addButton('btnList',{
+            text :'Reporte Analisis RCM',
+            iconCls : 'blist',
+            disabled: false,
+            handler : this.onButtonAnalisisRCM,
+            tooltip : '<b>Reporte RCM</b><br/><b>Reporte Analisis RCM</b>'
+        });
 		this.init();
-		this.load({params:{start:0, limit:50}})
+		this.load({params:{start:0, limit:50,id_uni_cons:this.id_uni_cons}})
+        this.loadValoresIniciales();
 	},
+	
+	loadValoresIniciales:function()
+    {        
+        Phx.vista.AnalisisMant.superclass.loadValoresIniciales.call(this);
+        this.getComponente('id_uni_cons').setValue(this.id_uni_cons);     
+    },
+    
 			
 	Atributos:[
 		{
@@ -255,18 +270,31 @@ Phx.vista.AnalisisMant=Ext.extend(Phx.gridInterfaz,{
 	},
 	bdel:true,
 	bsave:true,
-	loadValoresIniciales:function()
-	{
-		Phx.vista.AnalisisMant.superclass.loadValoresIniciales.call(this);
-	//	this.getComponente('id_cobro').setValue(this.maestro.id_cobro);		
-	},
-				
+			
 	onReloadPage:function(m)
 	{
 		this.maestro=m;						
 		this.store.baseParams={id_uni_cons:this.maestro.id_uni_cons};
 		this.load({params:{start:0, limit:50,}});			
 	},
+	
+	onButtonAnalisisRCM:function(){
+	    var rec=this.sm.getSelected();
+                console.debug(rec);
+                Ext.Ajax.request({
+                    url:'../../sis_mantenimiento/control/AnalisisMant/reporteAnalisisMant',
+                    params:{'id_analisis_mant':rec.data.id_analisis_mant},
+                    success: this.successExport,
+                    failure: function() {
+                        console.log("fail");
+                    },
+                    timeout: function() {
+                        console.log("timeout");
+                    },
+                    scope:this
+                });  
+	},
+    
 	south:{
 		  url:'../../../sis_mantenimiento/vista/funcion/Funcion.php',
 		  title:'Funciones', 
