@@ -149,3 +149,17 @@ VALUES (1, NULL, E'2012-12-07 11:10:09.970', NULL, E'activo', 4, NULL, 6, 1, 1, 
 
 INSERT INTO gem.torden_trabajo ("id_usuario_reg", "id_usuario_mod", "fecha_reg", "fecha_mod", "estado_reg", "id_orden_trabajo", "id_uni_cons_mant_predef", "id_uni_cons", "id_tipo_mant", "id_unidad_medida", "id_funcionario_sol", "id_funcionario_asig", "fecha_plan_ini", "fecha_eje_ini", "fecha_eje_fin", "descripcion", "fecha_emision", "num_oit", "codigo_oit", "ubicacion_tecnica", "acumulado", "observacion", "nota_tecnico_equipo", "nota_tecnico_loc", "cat_estado", "cat_prior", "cat_tipo", "id_instruc_seg", "id_calendario_planificacion", "id_alarma", "id_localizacion", "descripcion_lugar", "id_centro_costo", "especialidades", "tiempo_estimado", "id_funcionario_aprob", "id_funcionario_recib", "comentarios", "accidentes", "reclamos", "otros")
 VALUES (1, NULL, E'2012-12-07 11:10:54.297', NULL, E'activo', 5, NULL, 6, 1, 2, 1, 1, E'2012-12-10', E'2012-12-14', NULL, E'', E'2012-12-10', E'', E'', E'', NULL, E'', E'', E'', E'Borrador', E'Baja', E'Correctivo', NULL, NULL, NULL, 2, E'Sector 4', 2, NULL, '4', 1, 1, NULL, NULL, NULL, NULL);
+
+
+----------------------------
+-- autor:RAC  
+-- FECHA: 20 12 2012
+-- para probar y crear roles
+-------------------------
+INSERT INTO segu.tusuario ("id_usuario", "id_clasificador", "cuenta", "contrasena", "fecha_caducidad", "fecha_reg", "estilo", "contrasena_anterior", "id_persona", "estado_reg", "autentificacion")
+VALUES (2, 1, E'spanza', E'533cd2ec574f9a6ded5801efbfee21ba', E'2016-05-07', E'2012-12-20', E'xtheme-blue.css', NULL, 3, E'activo', E'local');
+
+INSERT INTO segu.tusuario_rol ("id_usuario_rol", "id_rol", "id_usuario", "fecha_reg", "estado_reg")
+VALUES (2, 2, 2, NULL, 'activo');
+
+
