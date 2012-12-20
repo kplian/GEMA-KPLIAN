@@ -611,194 +611,6 @@ ALTER TABLE gem.tuni_cons_det
     NOT DEFERRABLE;
 
   
-  
-
-/*
-*	Author: RCM
-*	Date: 03/11/2012
-*	Description: Build the menu definition and the composition
-*/
-
-insert into segu.tsubsistema(codigo,nombre,prefijo,nombre_carpeta) values
-('GEM','Mantenimiento Industrial - Plantas y Estaciones','GM','mantenimiento');
-
-/* (1) Menu definition*/
-
----------
---Level 1
----------
-select pxp.f_insert_tgui ('GESTIÓN DE MANTENIMIENTO - PLANTAS Y ESTACIONES', '', 'GEM', 'si', 1, '', 1, '../../../lib/imagenes/gema32x32.png', '', 'GEM');
-
----------
---Level 2
----------
-select pxp.f_insert_tgui ('Catálogos', 'Catálogos varios', 'GEM.1', 'si', 1, '', 2, '', '', 'GEM');
-select pxp.f_insert_tgui ('Equipos, Planificación y Seguimiento', 'Datos detallados de los equipos y Planificación del Mantenimiento', 'GEM.2', 'si', 2, '', 2, '', '', 'GEM');
-select pxp.f_insert_tgui ('Documentación', 'Archivos, Procedimientos , Instructivos, etc.', 'GEM.3', 'si', 3, '', 2, '', '', 'GEM');
-
----------
---Level 3
----------
-select pxp.f_insert_tgui ('Proveedores', 'Registro de Proveedores', 'GEM.1.1', 'si', 1, 'sis_parametros/vista/proveedor/Proveedor.php', 3, '', 'proveedor', 'GEM');
-select pxp.f_insert_tgui ('Metodologías', 'Registro de Metodologías', 'GEM.1.2', 'si', 3, 'sis_mantenimiento/vista/metodologia/Metodologia.php', 2, '', 'Metodologia', 'GEM');
-select pxp.f_insert_tgui ('Tipos de Equipos', 'Registro de Tipos de Equipos', 'GEM.1.3', 'si', 3, 'sis_mantenimiento/vista/tipo_equipo/TipoEquipo.php', 3, '', 'TipoEquipo', 'GEM');
-select pxp.f_insert_tgui ('Tipos de Mantenimiento', 'Registro de Tipos de Mantenimiento', 'GEM.1.4', 'si', 4, 'sis_mantenimiento/vista/tipo_mant/TipoMant.php', 3, '', 'TipoMant', 'GEM');
-select pxp.f_insert_tgui ('Horarios', 'Registro de Horarios', 'GEM.1.5', 'si', 5, 'sis_organigrama/vista/tipo_horario/TipoHorario.php', 3, '', 'TipoHorario', 'GEM');
-select pxp.f_insert_tgui ('Niveles Especialidades Técnicas', 'Registro de los niveles de especialidades técnicas', 'GEM.1.6', 'no', 6, 'sis_organigrama/vista/especialidad_nivel/EspecialidadNivel.php', 3, '', 'EspecialidadNivel', 'GEM');
-select pxp.f_insert_tgui ('Especialidades Técnicas', 'Registro de especialidades técnicas', 'GEM.1.7', 'si', 7, 'sis_organigrama/vista/especialidad/Especialidad.php', 3, '', 'Especialidad', 'GEM');
-select pxp.f_insert_tgui ('Funcionarios', 'Registro de Funcionarios', 'GEM.1.8', 'si', 8, 'sis_organigrama/vista/funcionario/Funcionario.php', 3, '', 'funcionario', 'GEM');
-select pxp.f_insert_tgui ('Diagrama de Decisión', 'Registro Diagrama de Decisión', 'GEM.1.9', 'si', 9, 'sis_mantenimiento/vista/diagrama_decision/DiagramaDecision.php', 3, '', 'DiagramaDecision', 'GEM');
-select pxp.f_insert_tgui ('Instrucciones de Seguridad', 'Registro de instrucciones de seguridad', 'GEM.1.10', 'si', 10, 'sis_mantenimiento/vista/instrucciones_seguridad/InstrucSeg.php', 3, '', 'InstrucSeg', 'GEM');
-
-select pxp.f_insert_tgui ('Localizaciones', 'Registro de Localizaciones', 'GEM.2.1', 'si', 1, 'sis_mantenimiento/vista/localizacion/Localizacion.php', 3, '', 'Localizacion', 'GEM');
-select pxp.f_insert_tgui ('Plantilla de Equipos', 'Registro Plantilla de Equipos', 'GEM.2.2', 'si', 2, 'sis_mantenimiento/vista/uni_cons/UniCons.php', 3, '', 'UniCons', 'GEM');
-select pxp.f_insert_tgui ('Mantenimientos Predefinidos', 'Registro de Mantenimientos predefinidos', 'GEM.2.3', 'si', 3, 'sis_mantenimiento/vista/mant_predef/MantPredef.php', 3, '', 'MantPredef', 'GEM');
-select pxp.f_insert_tgui ('Órdenes de Trabajo', 'Registro Órdenes de Trabajo', 'GEM.2.4', 'si', 4, 'sis_mantenimiento/vista/orden_trabajo/OrdenTrabajo.php', 3, '', 'OrdenTrabajo', 'GEM');
-select pxp.f_insert_tgui ('Mediciones por Equipo', 'Registro de Mediciones por Equipo', 'GEM.2.5', 'si', 5, 'sis_mantenimiento/vista/equipo_medicion/EquipoMedicion.php', 3, '', 'EquipoMedicion', 'GEM');
-select pxp.f_insert_tgui ('Eventos/Incidentes por Equipo', 'Registro de Eventos/Incidentes por equipo', 'GEM.2.6', 'si', 6, 'sis_mantenimiento/vista/equipo_evento/EquipoEvento.php', 3, '', 'EquipoEvento', 'GEM');
-
-select pxp.f_insert_tgui ('Procedimientos, Instructivos ...', 'Registro de Procedimientos, Instructivos, etc.', 'GEM.3.1', 'si', 1, 'sis_mantenimiento/vista/documento/Documento.php', 3, '', 'Documento', 'GEM');
-/*(2) Composition*/
-
----------
---Lvel 1
----------
-select pxp.f_insert_testructura_gui ('GEM', 'SISTEMA');
-
----------
---Level 2
----------
-select pxp.f_insert_testructura_gui ('GEM.1', 'GEM');
-select pxp.f_insert_testructura_gui ('GEM.2', 'GEM');
-select pxp.f_insert_testructura_gui ('GEM.3', 'GEM');
-
----------
---Level 3
----------
-select pxp.f_insert_testructura_gui ('GEM.1.1', 'GEM.1');
-select pxp.f_insert_testructura_gui ('GEM.1.2', 'GEM.1');
-select pxp.f_insert_testructura_gui ('GEM.1.3', 'GEM.1');
-select pxp.f_insert_testructura_gui ('GEM.1.4', 'GEM.1');
-select pxp.f_insert_testructura_gui ('GEM.1.5', 'GEM.1');
-select pxp.f_insert_testructura_gui ('GEM.1.6', 'GEM.1');
-select pxp.f_insert_testructura_gui ('GEM.1.7', 'GEM.1');
-select pxp.f_insert_testructura_gui ('GEM.1.8', 'GEM.1');
-select pxp.f_insert_testructura_gui ('GEM.1.9', 'GEM.1');
-select pxp.f_insert_testructura_gui ('GEM.1.10', 'GEM.1');
-
-select pxp.f_insert_testructura_gui ('GEM.2.1', 'GEM.2');
-select pxp.f_insert_testructura_gui ('GEM.2.2', 'GEM.2');
-select pxp.f_insert_testructura_gui ('GEM.2.3', 'GEM.2');
-select pxp.f_insert_testructura_gui ('GEM.2.4', 'GEM.2');
-select pxp.f_insert_testructura_gui ('GEM.2.5', 'GEM.2');
-select pxp.f_insert_testructura_gui ('GEM.2.6', 'GEM.2');
-
-select pxp.f_insert_testructura_gui ('GEM.3.1', 'GEM.3');
-
-/*
-*	Author: RCM
-*	Date: 03/11/2012
-*	Description: Register the functions and procedures
-*/
-
-
-/* (1) Functions*/
-select pxp.f_insert_tfuncion ('gem.f_addunicon_recursivo.sql', 'Funcion para tabla     ', 'GEM');
-select pxp.f_insert_tfuncion ('f_equipo_variable_sel', 'Funcion para tabla     ', 'GEM');
-select pxp.f_insert_tfuncion ('f_equipo_variable_ime', 'Funcion para tabla     ', 'GEM');
-select pxp.f_insert_tfuncion ('f_falla_ime', 'Funcion para tabla     ', 'GEM');
-select pxp.f_insert_tfuncion ('f_falla_sel', 'Funcion para tabla     ', 'GEM');
-
-select pxp.f_insert_tfuncion ('f_localizacion_ime', 'Funcion para tabla     ', 'GEM');
-select pxp.f_insert_tfuncion ('f_localizacion_sel', 'Funcion para tabla     ', 'GEM');
-select pxp.f_insert_tfuncion ('f_tipo_equipo_ime', 'Funcion para tabla     ', 'GEM');
-select pxp.f_insert_tfuncion ('f_tipo_equipo_sel', 'Funcion para tabla     ', 'GEM');
-select pxp.f_insert_tfuncion ('f_tipo_variable_ime', 'Funcion para tabla     ', 'GEM');
-select pxp.f_insert_tfuncion ('f_tipo_variable_sel', 'Funcion para tabla     ', 'GEM');
-select pxp.f_insert_tfuncion ('f_uni_cons_ime', 'Funcion para tabla     ', 'GEM');
-select pxp.f_insert_tfuncion ('f_uni_cons_sel', 'Funcion para tabla     ', 'GEM');
-select pxp.f_insert_tfuncion ('ft_analisis_mant_ime', 'Funcion para tabla     ', 'GEM');
-select pxp.f_insert_tfuncion ('ft_analisis_mant_sel', 'Funcion para tabla     ', 'GEM');
-select pxp.f_insert_tfuncion ('ft_diagrama_decision_ime', 'Funcion para tabla     ', 'GEM');
-select pxp.f_insert_tfuncion ('ft_diagrama_decision_sel', 'Funcion para tabla     ', 'GEM');
---select pxp.f_insert_tfuncion ('ft_documento_ime', 'Funcion para tabla     ', 'GEM');
---select pxp.f_insert_tfuncion ('ft_documento_sel', 'Funcion para tabla     ', 'GEM');
-select pxp.f_insert_tfuncion ('ft_equipo_medicion_ime', 'Funcion para tabla     ', 'GEM');
-select pxp.f_insert_tfuncion ('ft_equipo_medicion_sel', 'Funcion para tabla     ', 'GEM');
-select pxp.f_insert_tfuncion ('ft_falla_evento_ime', 'Funcion para tabla     ', 'GEM');
-select pxp.f_insert_tfuncion ('ft_falla_evento_sel', 'Funcion para tabla     ', 'GEM');
-select pxp.f_insert_tfuncion ('ft_funcion_falla_ime', 'Funcion para tabla     ', 'GEM');
-select pxp.f_insert_tfuncion ('ft_funcion_falla_sel', 'Funcion para tabla     ', 'GEM');
---select pxp.f_insert_tfuncion ('ft_funcion_sel', 'Funcion para tabla     ', 'GEM');
---select pxp.f_insert_tfuncion ('ft_funcion_ime', 'Funcion para tabla     ', 'GEM');
-select pxp.f_insert_tfuncion ('ft_funcionario_honorario_ime', 'Funcion para tabla     ', 'GEM');
-select pxp.f_insert_tfuncion ('ft_funcionario_honorario_sel', 'Funcion para tabla     ', 'GEM');
-select pxp.f_insert_tfuncion ('ft_mant_predef_det_ime', 'Funcion para tabla     ', 'GEM');
-select pxp.f_insert_tfuncion ('ft_mant_predef_det_sel', 'Funcion para tabla     ', 'GEM');
-select pxp.f_insert_tfuncion ('ft_mant_predef_ime', 'Funcion para tabla     ', 'GEM');
-select pxp.f_insert_tfuncion ('ft_mant_predef_sel', 'Funcion para tabla     ', 'GEM');
-select pxp.f_insert_tfuncion ('ft_orden_trabajo_ime', 'Funcion para tabla     ', 'GEM');
-select pxp.f_insert_tfuncion ('ft_orden_trabajo_sel', 'Funcion para tabla     ', 'GEM');
-
-/* (2) Procedures*/
-
-
-select pxp.f_insert_tprocedimiento ('GEM_loc_INS', '	Insercion de registros
- 	', 'si', '', '', 'f_localizacion_ime');
-select pxp.f_insert_tprocedimiento ('GEM_loc_MOD', '	Modificacion de registros
- 	', 'si', '', '', 'f_localizacion_ime');
-select pxp.f_insert_tprocedimiento ('GEM_loc_ELI', '	Eliminacion de registros
- 	', 'si', '', '', 'f_localizacion_ime');
-select pxp.f_insert_tprocedimiento ('GEM_loc_SEL', '	Consulta de datos
- 	', 'si', '', '', 'f_localizacion_sel');
-select pxp.f_insert_tprocedimiento ('GEM_loc_CONT', '	Conteo de registros
- 	', 'si', '', '', 'f_localizacion_sel');
-select pxp.f_insert_tprocedimiento ('GEM_LOC_ARB_SEL', '	Consulta de datos en arbol para localizaciones
- 	', 'si', '', '', 'f_localizacion_sel');
-select pxp.f_insert_tprocedimiento ('GEM_TEQ_INS', '	Insercion de registros
- 	', 'si', '', '', 'f_tipo_equipo_ime');
-select pxp.f_insert_tprocedimiento ('GEM_TEQ_MOD', '	Modificacion de registros
- 	', 'si', '', '', 'f_tipo_equipo_ime');
-select pxp.f_insert_tprocedimiento ('GEM_TEQ_ELI', '	Eliminacion de registros
- 	', 'si', '', '', 'f_tipo_equipo_ime');
-select pxp.f_insert_tprocedimiento ('GEM_TEQ_SEL', '	Consulta de datos
- 	', 'si', '', '', 'f_tipo_equipo_sel');
-select pxp.f_insert_tprocedimiento ('GEM_TEQ_CONT', '	Conteo de registros
- 	', 'si', '', '', 'f_tipo_equipo_sel');
-select pxp.f_insert_tprocedimiento ('GEM_TUC_INS', '	La interfaz funciona para TUC y UC
-                    Insercion de Tipos de Unidades contructivas en estado borrador 
-                    Inerta Unidad Contructivas
- 	', 'si', '', '', 'f_uni_cons_ime');
-select pxp.f_insert_tprocedimiento ('GEM_TUC_MOD', '	Modificacion de registros
- 	', 'si', '', '', 'f_uni_cons_ime');
-select pxp.f_insert_tprocedimiento ('GEM_TUCESTBL_MOD', '	Bloquea y Desbloquea, solo se utiliza para el tuc tipo raiz
- 	', 'si', '', '', 'f_uni_cons_ime');
-select pxp.f_insert_tprocedimiento ('GEM_TUC_ELI', '	Eliminacion de registros
- 	', 'si', '', '', 'f_uni_cons_ime');
-select pxp.f_insert_tprocedimiento ('GEM_TUC_SEL', '	Consulta de datos
- 	', 'si', '', '', 'f_uni_cons_sel');
-select pxp.f_insert_tprocedimiento ('GEM_TUC_CONT', '	Conteo de registros
- 	', 'si', '', '', 'f_uni_cons_sel');
-select pxp.f_insert_tprocedimiento ('GEM_TVA_INS', '	Insercion de registros
- 	', 'si', '', '', 'f_tipo_variable_ime');
-select pxp.f_insert_tprocedimiento ('GEM_TVA_MOD', '	Modificacion de registros
- 	', 'si', '', '', 'f_tipo_variable_ime');
-select pxp.f_insert_tprocedimiento ('GEM_TVA_ELI', '	Eliminacion de registros
- 	', 'si', '', '', 'f_tipo_variable_ime');
-select pxp.f_insert_tprocedimiento ('GEM_EQV_SEL', '	Consulta de datos
- 	', 'si', '', '', 'f_equipo_variable_sel');
-select pxp.f_insert_tprocedimiento ('GEM_EQV_CONT', '	Conteo de registros
- 	', 'si', '', '', 'f_equipo_variable_sel');
-select pxp.f_insert_tprocedimiento ('GEM_TVA_SEL', '	Consulta de datos
- 	', 'si', '', '', 'f_tipo_variable_sel');
-select pxp.f_insert_tprocedimiento ('GEM_TVA_CONT', '	Conteo de registros
- 	', 'si', '', '', 'f_tipo_variable_sel');
-select pxp.f_insert_tprocedimiento ('GEM_EQV_INS', '	Insercion de registros
- 	', 'si', '', '', 'f_equipo_variable_ime');
-select pxp.f_insert_tprocedimiento ('GEM_EQV_MOD', '	Modificacion de registros
- 	', 'si', '', '', 'f_equipo_variable_ime');
-select pxp.f_insert_tprocedimiento ('GEM_EQV_ELI', '	Eliminacion de registros
- 	', 'si', '', '', 'f_equipo_variable_ime');
 
  
  CREATE TABLE gem.tmodo_falla (
@@ -1294,19 +1106,8 @@ ALTER TABLE gem.ttpm_tarjeta_det OWNER TO postgres;
 ALTER TABLE gem.tfalla_evento
   ADD COLUMN descripcion VARCHAR(2000);
 
----------
---Level 3
----------
- 
-select pxp.f_insert_tgui ('Fallas/Eventos Equipos...', 'Registro de Fallas/Eventos Equipos', 'GEM.3.11', 'si', 5, 'sis_mantenimiento/vista/falla_evento/FallaEventoExterno.php', 3, '', 'FallaEventoExterno', 'GEM');
 
-select pxp.f_insert_testructura_gui ('GEM.3.11', 'GEM.1');
 
-/* (1) Functions */ 
-select pxp.f_insert_tfuncion ('gem.ft_falla_evento_externo_ime', 'Funcion para tabla     ', 'GEM');
-select pxp.f_insert_tfuncion ('gem.ft_falla_evento_externo_sel', 'Funcion para tabla     ', 'GEM');
-
-/* (2) Procedures*/
 
 
 
@@ -1422,17 +1223,7 @@ add constraint uq_tlocalizacion_usuario__id_localizacion__id_usuario__tipo uniqu
 /***********************************F-SCP-RCM-GEM-28-05/12/2012*****************************************/
 
 /***********************************I-SCP-AAO-GEM-5-05/12/2012*****************************************/
-select pxp.f_insert_tgui ('Ordenes de Trabajo', 'Ordenes de Trabajo', 'GEM.2.7', 'si', 1, '', 3, '', '', 'GEM');
 
-select pxp.f_insert_tgui ('Registro - Orden Trabajo', 'Registro de Ordenes de Trabajo', 'GEM.2.7.1', 'si', 1, 'sis_mantenimiento/vista/orden_trabajo/RegistrarOT.php', 4, '', 'RegistrarOT', 'GEM');
-select pxp.f_insert_tgui ('Ejecución - Orden Trabajo', 'Registro de Ordenes de Trabajo', 'GEM.2.7.2', 'si', 1, 'sis_mantenimiento/vista/orden_trabajo/EjecutarOT.php', 4, '', 'EjecutarOT', 'GEM');
-select pxp.f_insert_tgui ('Revisión - Orden Trabajo', 'Registro de Ordenes de Trabajo', 'GEM.2.7.3', 'si', 1, 'sis_mantenimiento/vista/orden_trabajo/RevisarOT.php', 4, '', 'RevisarOT', 'GEM');
-
-select pxp.f_insert_testructura_gui ('GEM.2.7', 'GEM.2');
-
-select pxp.f_insert_testructura_gui ('GEM.2.7.1', 'GEM.2.7');
-select pxp.f_insert_testructura_gui ('GEM.2.7.2', 'GEM.2.7');
-select pxp.f_insert_testructura_gui ('GEM.2.7.3', 'GEM.2.7');
 
 CREATE TRIGGER trigger_torden_trabajo AFTER INSERT OR UPDATE 
 ON gem.torden_trabajo FOR EACH ROW 
