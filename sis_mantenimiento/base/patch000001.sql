@@ -1588,3 +1588,11 @@ ALTER TABLE gem.torden_trabajo
   ADD COLUMN hora_eje_fin TIME(0) WITHOUT TIME ZONE;
 
 /***********************************F-SCP-AAO-GEM-82-18/12/2012*****************************************/
+
+/***********************************I-SCP-AAO-GEM-82-20/12/2012*****************************************/
+ALTER TABLE gem.trecurso
+  ADD COLUMN codigo VARCHAR(30);
+
+ALTER TABLE gem.trecurso
+  ADD COLUMN existencias VARCHAR(100);
+/***********************************F-SCP-AAO-GEM-82-20/12/2012*****************************************/

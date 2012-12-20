@@ -67,7 +67,9 @@ BEGIN
                     unimed.codigo as codigo_unidad_medida,
                     rec.hh_normal,
                     rec.hh_extras,
-                    rec.hh_ext_mov
+                    rec.hh_ext_mov,
+                    rec.codigo,
+                    rec.existencias
                     from gem.trecurso rec
                     inner join segu.tusuario usu1 on usu1.id_usuario = rec.id_usuario_reg
                     left join segu.tusuario usu2 on usu2.id_usuario = rec.id_usuario_mod
@@ -159,7 +161,9 @@ BEGIN
                     unimed.codigo as codigo_unidad_medida,
                     rec.hh_normal,
                     rec.hh_extras,
-                    rec.hh_ext_mov
+                    rec.hh_ext_mov,
+                    rec.codigo,
+                    rec.existencias
                     from gem.trecurso rec
                     inner join gem.tactividad acti on rec.id_actividad = acti.id_actividad
                     inner join segu.tusuario usu1 on usu1.id_usuario = rec.id_usuario_reg
