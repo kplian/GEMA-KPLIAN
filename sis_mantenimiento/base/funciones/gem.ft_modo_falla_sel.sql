@@ -1,4 +1,4 @@
-﻿CREATE OR REPLACE FUNCTION gem.ft_modo_falla_sel (
+CREATE OR REPLACE FUNCTION gem.ft_modo_falla_sel (
   p_administrador integer,
   p_id_usuario integer,
   p_tabla varchar,
@@ -61,6 +61,44 @@ BEGIN
 						inner join segu.tusuario usu1 on usu1.id_usuario = modfalla.id_usuario_reg
 						left join segu.tusuario usu2 on usu2.id_usuario = modfalla.id_usuario_mod
 				        where  ';
+			
+			--Definicion de la respuesta
+			v_consulta:=v_consulta||v_parametros.filtro;
+			v_consulta:=v_consulta||' order by ' ||v_parametros.ordenacion|| ' ' || v_parametros.dir_ordenacion || ' limit ' || v_parametros.cantidad || ' offset ' || v_parametros.puntero;
+
+			--Devuelve la respuesta
+			return v_consulta;
+						
+		end;
+        
+    /*********************************    
+ 	#TRANSACCION:  'GEM_MODFALLA_SEL_FUN'
+ 	#DESCRIPCION:	Consulta de datos
+ 	#AUTOR:		Gonzalo Sarmiento Sejas
+ 	#FECHA:		17-12-2012 
+	***********************************/
+
+	elsif(p_transaccion='GEM_MODFALLA_SEL_FUN')then
+     				
+    	begin
+    		--Sentencia de la consulta
+			v_consulta:='select
+						modfalla.id_modo_falla,
+						modfalla.id_funcion_falla,
+						modfalla.modo_falla,
+						modfalla.efecto_falla,
+						modfalla.orden,
+						modfalla.estado_reg,
+						modfalla.fecha_reg,
+						modfalla.id_usuario_reg,
+						modfalla.fecha_mod,
+						modfalla.id_usuario_mod,
+						usu1.cuenta as usr_reg,
+						usu2.cuenta as usr_mod	
+						from gem.tmodo_falla modfalla
+						inner join segu.tusuario usu1 on usu1.id_usuario = modfalla.id_usuario_reg
+						left join segu.tusuario usu2 on usu2.id_usuario = modfalla.id_usuario_mod
+				        where modfalla.id_funcion_falla='||v_parametros.id_funcion_falla||' and ';
 			
 			--Definicion de la respuesta
 			v_consulta:=v_consulta||v_parametros.filtro;

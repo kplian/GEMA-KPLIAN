@@ -18,6 +18,8 @@ class MODAnalisisMant extends MODbase{
 		$this->procedimiento='gem.ft_analisis_mant_sel';
 		$this->transaccion='GEM_GEANMA_SEL';
 		$this->tipo_procedimiento='SEL';//tipo de transaccion
+		
+		$this->setParametro('id_uni_cons','id_uni_cons','int4');
 				
 		//Definicion de la lista del resultado del query
 		$this->captura('id_analisis_mant','int4');
@@ -108,6 +110,31 @@ class MODAnalisisMant extends MODbase{
 		//Devuelve la respuesta
 		return $this->respuesta;
 	}
+
+    function reporteAnalisisMant(){
+        $this->procedimiento='gem.ft_analisis_mant_sel';
+        $this->transaccion='GEM_GEANMA_REP';
+        $this->tipo_procedimiento='SEL';
+        $this->setCount(false);
+        
+        $this->setParametro('id_analisis_mant','id_analisis_mant','int4');
+        
+        $this->captura('revision','int4');
+        $this->captura('id_uni_cons','int4');
+        $this->captura('nombre_sis','varchar');
+        $this->captura('nombre_sub','varchar');
+        $this->captura('id_tipo_mant','int4');        
+        $this->captura('id_funcionario_rev','int4');
+        $this->captura('desc_funcionario1','text');
+        $this->captura('fecha_emision','date');
+        $this->captura('fecha_rev','date');
+        $this->captura('descripcion','varchar');
+        
+        $this->armarConsulta();
+        $this->ejecutarConsulta();
+        
+        return $this->respuesta;   
+    }
 			
 }
 ?>

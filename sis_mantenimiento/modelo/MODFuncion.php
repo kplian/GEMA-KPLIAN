@@ -18,7 +18,8 @@ class MODFuncion extends MODbase{
 		$this->procedimiento='gem.ft_funcion_analisis_sel';
 		$this->transaccion='GEM_GEFUNC_SEL';
 		$this->tipo_procedimiento='SEL';//tipo de transaccion
-				
+		
+		$this->setParametro('id_analisis_mant','id_analisis_mant','int4');		
 		//Definicion de la lista del resultado del query
 		$this->captura('id_funcion','int4');
 		$this->captura('id_analisis_mant','int4');

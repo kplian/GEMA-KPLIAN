@@ -38,6 +38,15 @@ class ACTModoFalla extends ACTbase{
 		$this->res=$this->objFunc->eliminarModoFalla();
 		$this->res->imprimirRespuesta($this->res->generarJson());
 	}
+    
+    function listarModoFallaFuncion(){
+        $this->objParam->defecto('ordenacion','id_modo_falla');
+
+        $this->objParam->defecto('dir_ordenacion','asc');
+        $this->objFunc=$this->create('MODModoFalla');   
+        $this->res=$this->objFunc->listarModoFallaFuncion();
+        $this->res->imprimirRespuesta($this->res->generarJson());
+    }
 			
 }
 

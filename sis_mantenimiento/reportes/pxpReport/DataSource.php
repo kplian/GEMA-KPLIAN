@@ -7,11 +7,11 @@
 		function __construct() {}
 		
 		public function setParameters($parametros) {
-			$this->parametros = $parametros;
+			$this->parameters = $parametros;
 		}
 		
 		public function getParameters() {
-			return $this->parametros;
+			return $this->parameters;
 		}
 		
 		public function setDataset($dataset) {

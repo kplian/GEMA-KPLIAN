@@ -1,7 +1,11 @@
-CREATE OR REPLACE FUNCTION "gem"."ft_funcion_falla_sel"(	
-				p_administrador integer, p_id_usuario integer, p_tabla character varying, p_transaccion character varying)
-RETURNS character varying AS
-$BODY$
+CREATE OR REPLACE FUNCTION gem.ft_funcion_falla_sel (
+  p_administrador integer,
+  p_id_usuario integer,
+  p_tabla varchar,
+  p_transaccion varchar
+)
+RETURNS varchar AS
+$body$
 /**************************************************************************
  SISTEMA:		SISTEMA DE GESTION DE MANTENIMIENTO
  FUNCION: 		gem.ft_funcion_falla_sel
@@ -59,7 +63,7 @@ BEGIN
 						inner join segu.tusuario usu1 on usu1.id_usuario = gefall.id_usuario_reg
 						left join segu.tusuario usu2 on usu2.id_usuario = gefall.id_usuario_mod
 						inner join gem.tfalla_evento gefaev on gefaev.id_falla_evento = gefall.id_falla_evento
-				        where  ';
+				        where gefall.id_funcion='||v_parametros.id_funcion||' and ';
 			
 			--Definicion de la respuesta
 			v_consulta:=v_consulta||v_parametros.filtro;
@@ -110,7 +114,9 @@ EXCEPTION
 			v_resp = pxp.f_agrega_clave(v_resp,'procedimientos',v_nombre_funcion);
 			raise exception '%',v_resp;
 END;
-$BODY$
-LANGUAGE 'plpgsql' VOLATILE
+$body$
+LANGUAGE 'plpgsql'
+VOLATILE
+CALLED ON NULL INPUT
+SECURITY INVOKER
 COST 100;
-ALTER FUNCTION "gem"."ft_funcion_falla_sel"(integer, integer, character varying, character varying) OWNER TO postgres;

@@ -17,7 +17,7 @@ Phx.vista.ModoFalla=Ext.extend(Phx.gridInterfaz,{
     	//llama al constructor de la clase padre
 		Phx.vista.ModoFalla.superclass.constructor.call(this,config);
 		this.init();
-		this.load({params:{start:0, limit:50}})
+		//this.load({params:{start:0, limit:50, id_funcion_falla:this.id_funcion_falla}})
 	},
 			
 	Atributos:[
@@ -33,23 +33,17 @@ Phx.vista.ModoFalla=Ext.extend(Phx.gridInterfaz,{
 		},
 		{
 			config:{
-				name: 'id_funcion_falla',
-				fieldLabel: 'id_funcion_falla',
-				allowBlank: true,
-				anchor: '80%',
-				gwidth: 100,
-				maxLength:4
+				labelSeparator:'',
+				inputType:'hidden',
+				name: 'id_funcion_falla'
 			},
-			type:'NumberField',
-			filters:{pfiltro:'modfalla.id_funcion_falla',type:'numeric'},
-			id_grupo:1,
-			grid:true,
+			type:'Field',
 			form:true
 		},
 		{
 			config:{
 				name: 'modo_falla',
-				fieldLabel: 'modo_falla',
+				fieldLabel: 'Modo Falla',
 				allowBlank: true,
 				anchor: '80%',
 				gwidth: 100,
@@ -64,7 +58,7 @@ Phx.vista.ModoFalla=Ext.extend(Phx.gridInterfaz,{
 		{
 			config:{
 				name: 'efecto_falla',
-				fieldLabel: 'efecto_falla',
+				fieldLabel: 'Efecto Falla',
 				allowBlank: true,
 				anchor: '80%',
 				gwidth: 100,
@@ -79,7 +73,7 @@ Phx.vista.ModoFalla=Ext.extend(Phx.gridInterfaz,{
 		{
 			config:{
 				name: 'orden',
-				fieldLabel: 'orden',
+				fieldLabel: 'Orden',
 				allowBlank: true,
 				anchor: '80%',
 				gwidth: 100,
@@ -170,7 +164,7 @@ Phx.vista.ModoFalla=Ext.extend(Phx.gridInterfaz,{
 	title:'Modos de Falla',
 	ActSave:'../../sis_mantenimiento/control/ModoFalla/insertarModoFalla',
 	ActDel:'../../sis_mantenimiento/control/ModoFalla/eliminarModoFalla',
-	ActList:'../../sis_mantenimiento/control/ModoFalla/listarModoFalla',
+	ActList:'../../sis_mantenimiento/control/ModoFalla/listarModoFallaFuncion',
 	id_store:'id_modo_falla',
 	fields: [
 		{name:'id_modo_falla', type: 'numeric'},
@@ -192,8 +186,19 @@ Phx.vista.ModoFalla=Ext.extend(Phx.gridInterfaz,{
 		direction: 'ASC'
 	},
 	bdel:true,
-	bsave:true
-	}
+	bsave:true,
+	
+	loadValoresIniciales:function(){
+        Phx.vista.FFuncion.superclass.loadValoresIniciales.call(this);
+        this.getComponente('id_funcion_falla').setValue(this.maestro.id_funcion_falla);     
+    },
+	
+	onReloadPage:function(m){
+        this.maestro=m;                     
+        this.store.baseParams={id_funcion_falla:this.maestro.id_funcion_falla};
+        this.load({params:{start:0, limit:50}});            
+    }
+}
 )
 </script>
 		

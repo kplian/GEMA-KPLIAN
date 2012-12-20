@@ -100,6 +100,36 @@ class MODModoFalla extends MODbase{
 		//Devuelve la respuesta
 		return $this->respuesta;
 	}
+    
+    function listarModoFallaFuncion(){
+        //Definicion de variables para ejecucion del procedimientp
+        $this->procedimiento='gem.ft_modo_falla_sel';
+        $this->transaccion='GEM_MODFALLA_SEL_FUN';
+        $this->tipo_procedimiento='SEL';//tipo de transaccion
+        
+        $this->setCount(false);
+        $this->setParametro('id_funcion_falla','id_funcion_falla','int4');        
+        //Definicion de la lista del resultado del query
+        $this->captura('id_modo_falla','int4');
+        $this->captura('id_funcion_falla','int4');
+        $this->captura('modo_falla','varchar');
+        $this->captura('efecto_falla','varchar');
+        $this->captura('orden','int4');
+        $this->captura('estado_reg','varchar');
+        $this->captura('fecha_reg','timestamp');
+        $this->captura('id_usuario_reg','int4');
+        $this->captura('fecha_mod','timestamp');
+        $this->captura('id_usuario_mod','int4');
+        $this->captura('usr_reg','varchar');
+        $this->captura('usr_mod','varchar');
+        
+        //Ejecuta la instruccion
+        $this->armarConsulta();
+        $this->ejecutarConsulta();
+        
+        //Devuelve la respuesta
+        return $this->respuesta;
+    }
 			
 }
 ?>

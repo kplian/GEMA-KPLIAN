@@ -16,11 +16,19 @@ Phx.vista.FuncionFalla=Ext.extend(Phx.gridInterfaz,{
 		this.maestro=config.maestro;
     	//llama al constructor de la clase padre
 		Phx.vista.FuncionFalla.superclass.constructor.call(this,config);
-		this.grid.getTopToolbar().disable();
-		this.grid.getBottomToolbar().disable();
+		//this.grid.getTopToolbar().disable();
+		//this.grid.getBottomToolbar().disable();
 		this.init();
+		this.load({params:{start:0, limit:50,id_funcion:this.id_funcion}})
+        this.loadValoresIniciales();
 	},
-			
+	
+	loadValoresIniciales:function()
+    {        
+        Phx.vista.FuncionFalla.superclass.loadValoresIniciales.call(this);
+        this.getComponente('id_funcion').setValue(this.id_funcion);     
+    },
+    	
 	Atributos:[
 		{
 			//configuracion del componente
@@ -231,15 +239,20 @@ Phx.vista.FuncionFalla=Ext.extend(Phx.gridInterfaz,{
 	},
 	bdel:true,
 	bsave:true,
-	loadValoresIniciales:function(){
-		Phx.vista.FuncionFalla.superclass.loadValoresIniciales.call(this);
-		this.getComponente('id_funcion').setValue(this.maestro.id_funcion);		
-	},
+	/*
 	onReloadPage:function(m){
 		this.maestro=m;						
 		this.store.baseParams={id_funcion:this.maestro.id_funcion};
 		this.load({params:{start:0, limit:50}});			
-	}
+	},*/
+	
+    south:{
+          url:'../../../sis_mantenimiento/vista/modo_falla/ModoFalla.php',
+          title:'Modo Falla', 
+          height:'50%',   //altura de la ventana hijo
+          width:'50%',      //ancho de la ventana hjo
+          cls:'ModoFalla'
+    }
 })
 </script>
 		
