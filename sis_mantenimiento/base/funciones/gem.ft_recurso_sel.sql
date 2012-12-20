@@ -135,47 +135,51 @@ BEGIN
     	begin
     		--Sentencia de la consulta
 			v_consulta:='select
-                    rec.id_recurso,
-                    rec.id_usuario_reg,
-                    usu1.cuenta as usr_reg,
-                    rec.id_usuario_mod,
-                    usu2.cuenta as usr_mod,
-                    rec.fecha_reg,
-                    rec.fecha_mod,
-                    rec.estado_reg,
-                    rec.id_actividad,
-                    rec.id_item,
-                    itm.nombre as nombre_item,
-                    rec.id_funcionario,
-                    (pers.nombre || '' '' || pers.apellido_paterno)::varchar as nombre_funcionario,
-                    rec.id_especialidad,
-                    esp.nombre as nombre_especialidad,
-                    rec.id_servicio,
-                    serv.nombre as nombre_servicio,
-                    rec.id_moneda,
-                    mon.codigo as codigo_moneda,
-                    rec.cantidad,
-                    rec.costo,
-                    rec.observaciones,
-                    rec.id_unidad_medida,
-                    unimed.codigo as codigo_unidad_medida,
-                    rec.hh_normal,
-                    rec.hh_extras,
-                    rec.hh_ext_mov,
-                    rec.codigo,
-                    rec.existencias
-                    from gem.trecurso rec
-                    inner join gem.tactividad acti on rec.id_actividad = acti.id_actividad
-                    inner join segu.tusuario usu1 on usu1.id_usuario = rec.id_usuario_reg
-                    left join segu.tusuario usu2 on usu2.id_usuario = rec.id_usuario_mod
-                    left join alm.titem itm on rec.id_item = itm.id_item
-                    left join orga.tespecialidad esp on rec.id_especialidad = esp.id_especialidad
-                    left join param.tservicio serv on rec.id_servicio = serv.id_servicio
-                    left join orga.tfuncionario func on rec.id_funcionario = func.id_funcionario
-                    left join segu.tpersona pers on func.id_persona = pers.id_persona
-                    left join param.tmoneda mon on rec.id_moneda = mon.id_moneda
-                    left join param.tunidad_medida unimed on rec.id_unidad_medida = unimed.id_unidad_medida
-                    where acti.id_orden_trabajo = ' || v_parametros.id_orden_trabajo || ' and ';
+                rec.id_recurso,
+                rec.id_usuario_reg,
+                usu1.cuenta as usr_reg,
+                rec.id_usuario_mod,
+                usu2.cuenta as usr_mod,
+                rec.fecha_reg,
+                rec.fecha_mod,
+                rec.estado_reg,
+                rec.id_actividad,
+                rec.id_item,
+                itm.nombre as nombre_item,
+                rec.id_funcionario,
+                (pers.nombre || '' '' || pers.apellido_paterno)::varchar as nombre_funcionario,
+                uo.nombre_cargo as cargo_funcionario,
+                rec.id_especialidad,
+                esp.nombre as nombre_especialidad,
+                rec.id_servicio,
+                serv.nombre as nombre_servicio,
+                rec.id_moneda,
+                mon.codigo as codigo_moneda,
+                rec.cantidad,
+                rec.costo,
+                rec.observaciones,
+                rec.id_unidad_medida,
+                unimed.codigo as codigo_unidad_medida,
+                rec.hh_normal,
+                rec.hh_extras,
+                rec.hh_ext_mov,
+                rec.codigo,
+                rec.existencias
+                from gem.trecurso rec
+                inner join gem.tactividad acti on rec.id_actividad = acti.id_actividad
+                inner join segu.tusuario usu1 on usu1.id_usuario = rec.id_usuario_reg
+                left join segu.tusuario usu2 on usu2.id_usuario = rec.id_usuario_mod
+                left join alm.titem itm on rec.id_item = itm.id_item
+                left join orga.tespecialidad esp on rec.id_especialidad = esp.id_especialidad
+                left join param.tservicio serv on rec.id_servicio = serv.id_servicio
+                left join orga.tfuncionario func on rec.id_funcionario = func.id_funcionario
+                left join orga.tuo_funcionario uofun on rec.id_funcionario = uofun.id_funcionario
+                left join orga.tuo uo on uofun.id_uo = uo.id_uo
+                left join segu.tpersona pers on func.id_persona = pers.id_persona
+                left join param.tmoneda mon on rec.id_moneda = mon.id_moneda
+                left join param.tunidad_medida unimed on rec.id_unidad_medida = unimed.id_unidad_medida
+                where (uofun.estado_reg = ''activo'' or uofun.estado_reg is null) 
+                and acti.id_orden_trabajo = ' || v_parametros.id_orden_trabajo || ' and ';
 			
 			--Definicion de la respuesta
 			v_consulta:=v_consulta||v_parametros.filtro;
@@ -206,6 +210,8 @@ BEGIN
                     left join orga.tespecialidad esp on rec.id_especialidad = esp.id_especialidad
                     left join param.tservicio serv on rec.id_servicio = serv.id_servicio
                     left join orga.tfuncionario func on rec.id_funcionario = func.id_funcionario
+                    left join orga.tuo_funcionario uofun on rec.id_funcionario = uofun.id_funcionario
+                    left join orga.tuo uo on uofun.id_uo = uo.id_uo
                     left join segu.tpersona pers on func.id_persona = pers.id_persona
                     left join param.tmoneda mon on rec.id_moneda = mon.id_moneda
                     left join param.tunidad_medida unimed on rec.id_unidad_medida = unimed.id_unidad_medida

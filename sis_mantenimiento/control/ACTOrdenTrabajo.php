@@ -91,6 +91,7 @@ class ACTOrdenTrabajo extends ACTbase{
 		$dataSource->putParameter('descripcion', $datosOT[0]['descripcion']);
 		$dataSource->putParameter('fechaPlanIni', $datosOT[0]['fecha_plan_ini']);
 		$dataSource->putParameter('tiempoEstimado', $datosOT[0]['tiempo_estimado']);
+		$dataSource->putParameter('unidadMedidaTiempoEstimado', $datosOT[0]['desc_unidad_medida']);		
 		$dataSource->putParameter('diasReales', $diasReales);
 		$dataSource->putParameter('fechaEjecIni', $datosOT[0]['fecha_eje_ini']);
 		$dataSource->putParameter('fechaEjecFin', $datosOT[0]['fecha_eje_fin']);
@@ -102,6 +103,9 @@ class ACTOrdenTrabajo extends ACTbase{
 		$dataSource->putParameter('accidentes', $datosOT[0]['accidentes']);
 		$dataSource->putParameter('reclamos', $datosOT[0]['reclamos']);
 		$dataSource->putParameter('otros', $datosOT[0]['otros']);
+		$dataSource->putParameter('horaEjeInicio', $datosOT[0]['hora_eje_inicio']);
+		$dataSource->putParameter('horaEjeFin', $datosOT[0]['hora_eje_fin']);
+		
 		
 		$this->objParam->addParametroConsulta('filtro', ' 0 = 0');
 		$this->objParam->addParametroConsulta('ordenacion', 'acti.id_actividad');

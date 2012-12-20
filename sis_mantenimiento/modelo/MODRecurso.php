@@ -73,6 +73,7 @@ class MODRecurso extends MODbase {
 		$this->captura('nombre_item','varchar');
 		$this->captura('id_funcionario','int4');
 		$this->captura('nombre_funcionario','varchar');
+		$this->captura('cargo_funcionario','varchar');
 		$this->captura('id_especialidad','int4');
 		$this->captura('nombre_especialidad','varchar');
 		$this->captura('id_servicio','int4');
