@@ -141,15 +141,18 @@ class ACTOrdenTrabajo extends ACTbase{
 	} 
 
 	private function getDaysBetweenDates($startDate, $endDate) {
-		list($startYear, $startMonth, $startDay) = explode('-', $startDate);
-		list($endYear, $endMonth, $endDay) = explode('-', $endDate);
-		$startMillis = mktime(0, 0, 0, $startMonth, $startDay, $startYear);
-		$endMillis = mktime(0, 0, 0, $endMonth, $endDay, $endYear);
-		$diffMillis = $endMillis - $startMillis;
-		
-		$diffDays = $diffMillis / (60 * 60 * 24);
-		$diffDays = abs($diffDays);
-		$diffDays = floor($diffDays); 
+		$diffDays = 0;
+		if($startDate != null && $endDate){
+			list($startYear, $startMonth, $startDay) = explode('-', $startDate);
+			list($endYear, $endMonth, $endDay) = explode('-', $endDate);
+			$startMillis = mktime(0, 0, 0, $startMonth, $startDay, $startYear);
+			$endMillis = mktime(0, 0, 0, $endMonth, $endDay, $endYear);
+			$diffMillis = $endMillis - $startMillis;
+			
+			$diffDays = $diffMillis / (60 * 60 * 24);
+			$diffDays = abs($diffDays);
+			$diffDays = floor($diffDays);
+		}
 		return $diffDays;
 	}
 }
