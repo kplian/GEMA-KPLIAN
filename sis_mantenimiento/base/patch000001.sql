@@ -1561,7 +1561,7 @@ WITH (
 ALTER TABLE gem.tdiagrama_decision_accion OWNER TO postgres;
 /***********************************F-SCP-RCM-GEM-76-14/12/2012*****************************************/
 
-/***********************************F-SCP-AAO-GEM-82-18/12/2012*****************************************/
+/***********************************I-SCP-AAO-GEM-82-18/12/2012*****************************************/
 ALTER TABLE gem.trecurso
   ADD COLUMN id_unidad_medida INTEGER;
 
