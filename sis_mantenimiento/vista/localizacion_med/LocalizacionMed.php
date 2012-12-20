@@ -113,7 +113,7 @@ Phx.vista.LocalizacionMed=Ext.extend(Phx.gridInterfaz,{
 			},
 			type:'NumberField',
 			filters:{pfiltro:'locmed.tiempo_op_hrs',type:'numeric'},
-			id_grupo:1,
+			id_grupo:0,
 			grid:true,
 			form:true
 		},
@@ -128,7 +128,7 @@ Phx.vista.LocalizacionMed=Ext.extend(Phx.gridInterfaz,{
 			},
 			type:'NumberField',
 			filters:{pfiltro:'locmed.tiempo_standby_hrs',type:'numeric'},
-			id_grupo:1,
+			id_grupo:0,
 			grid:true,
 			form:true
 		},
@@ -171,7 +171,7 @@ Phx.vista.LocalizacionMed=Ext.extend(Phx.gridInterfaz,{
 			},
 			type:'ComboBox',
 			filters:{pfiltro:'locmed.desc_uni_cons',type:'string'},
-			id_grupo:1,
+			id_grupo:0,
 			grid:true,
 			form:true
 		},
@@ -186,7 +186,7 @@ Phx.vista.LocalizacionMed=Ext.extend(Phx.gridInterfaz,{
 			},
 			type:'NumberField',
 			filters:{pfiltro:'locmed.tiempo_mnp_hrs',type:'numeric'},
-			id_grupo:1,
+			id_grupo:0,
 			grid:true,
 			form:true
 		},
@@ -201,7 +201,7 @@ Phx.vista.LocalizacionMed=Ext.extend(Phx.gridInterfaz,{
 			},
 			type:'NumberField',
 			filters:{pfiltro:'locmed.tiempo_mpp_hrs',type:'numeric'},
-			id_grupo:1,
+			id_grupo:0,
 			grid:true,
 			form:true
 		},
@@ -216,7 +216,7 @@ Phx.vista.LocalizacionMed=Ext.extend(Phx.gridInterfaz,{
 			},
 			type:'TextField',
 			filters:{pfiltro:'locmed.estado_reg',type:'string'},
-			id_grupo:1,
+			id_grupo:0,
 			grid:true,
 			form:false
 		},
@@ -231,7 +231,7 @@ Phx.vista.LocalizacionMed=Ext.extend(Phx.gridInterfaz,{
 			},
 			type:'DateField',
 			filters:{pfiltro:'locmed.fecha_reg',type:'date'},
-			id_grupo:1,
+			id_grupo:0,
 			grid:true,
 			form:false
 		},
@@ -246,7 +246,7 @@ Phx.vista.LocalizacionMed=Ext.extend(Phx.gridInterfaz,{
 			},
 			type:'NumberField',
 			filters:{pfiltro:'usu1.cuenta',type:'string'},
-			id_grupo:1,
+			id_grupo:0,
 			grid:true,
 			form:false
 		},
@@ -261,7 +261,7 @@ Phx.vista.LocalizacionMed=Ext.extend(Phx.gridInterfaz,{
 			},
 			type:'NumberField',
 			filters:{pfiltro:'usu2.cuenta',type:'string'},
-			id_grupo:1,
+			id_grupo:0,
 			grid:true,
 			form:false
 		},
@@ -276,7 +276,7 @@ Phx.vista.LocalizacionMed=Ext.extend(Phx.gridInterfaz,{
 			},
 			type:'DateField',
 			filters:{pfiltro:'locmed.fecha_mod',type:'date'},
-			id_grupo:1,
+			id_grupo:0,
 			grid:true,
 			form:false
 		}
@@ -331,21 +331,11 @@ Phx.vista.LocalizacionMed=Ext.extend(Phx.gridInterfaz,{
 				xtype:'fieldset',
 				layout: 'form',
                 border: true,
-                title: '',
-                bodyStyle: 'padding:0 10px 0;',
-                columnWidth: '.5',
-                items:[],
-		        id_grupo:0,
-			},
-			{
-				xtype:'fieldset',
-				layout: 'form',
-                border: true,
                 title: 'Tiempo en Horas',
                 bodyStyle: 'padding:0 10px 0;',
                 columnWidth: '.5',
                 items:[],
-		        id_grupo:1,
+		        id_grupo:0,
 			}
 			]
 		}],
@@ -385,7 +375,8 @@ Phx.vista.LocalizacionMed=Ext.extend(Phx.gridInterfaz,{
 	 intDiasMes: new Ext.form.NumberField({
 	 	name: 'numDias',
 	 	allowBlank:false,
-	 	width:25	
+	 	width:27,
+	 	value:30
 	 }),
 	onButtonGrafica:function(){
 		var rec = this.store.data.items;

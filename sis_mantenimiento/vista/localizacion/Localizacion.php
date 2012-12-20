@@ -528,7 +528,7 @@ Phx.vista.Localizacion=Ext.extend(Phx.arbInterfaz,{
 		Phx.CP.log(node);
 		if(data){
 			Phx.CP.loadWindows('../../../sis_mantenimiento/vista/localizacion_med/LocalizacionMed.php',
-				'Mediciones: '+node.text,{
+				'Indicadores: '+node.text,{
 						modal:true,
 						width:900,
 						height:400
@@ -1037,7 +1037,7 @@ Phx.vista.Localizacion=Ext.extend(Phx.arbInterfaz,{
 				items:[
 					{text:'Ficha Técnica',handler:this.onFichaTecnicaClick,scope:this},
 					{text:'Mantenimientos predefinidos',handler: this.onEqMantClick,scope:this},
-					{text:'Mediciones',handler: this.onClickMed,scope:this},
+					{text:'Medición de Variables',handler: this.onClickMed,scope:this},
 					{text:'Upload archivos',handler: this.onClickUp,scope:this},
 					{
 						text:'TPM',
@@ -1068,22 +1068,32 @@ Phx.vista.Localizacion=Ext.extend(Phx.arbInterfaz,{
 					{text:'Generar Calendario',handler: this.onBtnCalGen,scope:this}
 				]}
 			}
-		)
+		);
 			
-		this.ctxMenu.addMenuItem({text:'Registro de Mediciones'});
 	},
 	onBtnTarjetaTPM: function(){
 		
 	},
 	onClickMed: function(){
-		
+		var node=this.sm.getSelectedNode();
+		var data =node.attributes;
+		if(data){
+			Phx.CP.loadWindows('../../../sis_mantenimiento/vista/equipo_medicion/EquipoMedicionDinamico.php',
+				'Mediciones:'+node.text,{
+						modal:true,
+						width:900,
+						height:400
+				    },
+				    data,this.idContenedor,'EquipoMedicionDinamico')
+				    
+			}
 	},
 	onClickUp: function(){
 		
 	},
 	onClickRCMAnalisis: function(){
 		
-	},
+	} /*,
 	onBtnAtribPlan:function(){
 		var nodo = this.sm.getSelectedNode();
 		var data = nodo.attributes;
@@ -1096,7 +1106,7 @@ Phx.vista.Localizacion=Ext.extend(Phx.arbInterfaz,{
 				    data,this.idContenedor,'LocalizacionMed')
 		
 		
-	}
+	}*/
 	
 	
 	

@@ -53,7 +53,8 @@ BEGIN
         	end if;
         
         	--Verifica que se esté registrando al menos un valor
-        	v_tot = coalesce(v_parametros.tiempo_op_hrs,0) + coalesce(v_parametros.tiempo_standby_hrs,0) + coalesce(v_parametros.tiempo_mnp_hrs,0) + coalesce(v_parametros.tiempo_mpp_hrs,0);
+        	--v_tot = coalesce(v_parametros.tiempo_op_hrs,0) + coalesce(v_parametros.tiempo_standby_hrs,0) + coalesce(v_parametros.tiempo_mnp_hrs,0) + coalesce(v_parametros.tiempo_mpp_hrs,0);
+        	v_tot = coalesce(v_parametros.tiempo_op_hrs,0) + coalesce(v_parametros.tiempo_mnp_hrs,0) + coalesce(v_parametros.tiempo_mpp_hrs,0);
         	if (v_tot) = 0 then
         		raise exception 'Debe registrarse al menos una de las columnas de medición.';
         	end if; 

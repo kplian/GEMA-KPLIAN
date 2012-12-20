@@ -16,6 +16,7 @@ Phx.vista.UniConsMantPredef=Ext.extend(Phx.gridInterfaz,{
     	//llama al constructor de la clase padre
 		Phx.vista.UniConsMantPredef.superclass.constructor.call(this,config);
 		this.init();
+		this.iniciarEventos();
 		this.load({params:{start:0, limit:50, id_uni_cons:this.maestro.id_uni_cons}})
 	},
 			
@@ -45,7 +46,7 @@ Phx.vista.UniConsMantPredef=Ext.extend(Phx.gridInterfaz,{
 						direction:'ASC'
 					},
 					totalProperty:'total',
-					fields: ['id_mant_predef','nombre','codigo','descripcion','desc_tipo_equipo'],
+					fields: ['id_mant_predef','nombre','codigo','descripcion','desc_tipo_equipo','id_unidad_medida_estimado','tiempo_estimado'],
 					// turn on remote sorting
 					remoteSort: true,
 					baseParams:{par_filtro:'gemapr.nombre#gemapr.codigo'}
@@ -184,29 +185,13 @@ Phx.vista.UniConsMantPredef=Ext.extend(Phx.gridInterfaz,{
 				anchor: '80%',
 				gwidth: 100,
 				renderer:function (value,p,record){return value?value.dateFormat('d/m/Y h:i:s'):''},
-				format:'m/d/Y'
+				format:'d/m/Y'
 			},
 			type:'DateField',
 			filters:{pfiltro:'geeqma.fecha_ini',type:'date'},
 			id_grupo:1,
 			grid:true,
 			form:true
-		},
-		{
-			config: {
-				name: 'id_unidad_medida_estimado',
-				fieldLabel: 'Unidad Medida',
-				allowBlank: false,
-				origen: 'UNIDADMEDIDA',
-				gdisplayField: 'desc_unidad_medida_estimado',
-				gwidth: 200,
-				renderer:function(value, p, record){return String.format('{0}', record.data['desc_unidad_medida_estimado']);}
-			},
-			type: 'ComboRec',
-			id_grupo: 0,
-			filters:{pfiltro:'geeqma.tipo',type:'string'},
-			grid: true,
-			form: true
 		},
 		{
 			config:{
@@ -222,6 +207,22 @@ Phx.vista.UniConsMantPredef=Ext.extend(Phx.gridInterfaz,{
 			id_grupo:1,
 			grid:true,
 			form:true
+		},
+		{
+			config: {
+				name: 'id_unidad_medida_estimado',
+				fieldLabel: 'Unidad Medida',
+				allowBlank: true,
+				origen: 'UNIDADMEDIDA',
+				gdisplayField: 'desc_unidad_medida_estimado',
+				gwidth: 200,
+				renderer:function(value, p, record){return String.format('{0}', record.data['desc_unidad_medida_estimado']);}
+			},
+			type: 'ComboRec',
+			id_grupo: 0,
+			filters:{pfiltro:'geeqma.tipo',type:'string'},
+			grid: true,
+			form: true
 		},
 		{
 			config:{
@@ -341,6 +342,21 @@ Phx.vista.UniConsMantPredef=Ext.extend(Phx.gridInterfaz,{
 		this.maestro=m;						
 		this.store.baseParams={id_uni_cons:this.maestro.id_uni_cons};
 		this.load({params:{start:0, limit:50}});			
+	},
+	iniciarEventos:function(){
+		var cmbUniMed=this.getComponente('id_unidad_medida');
+		var txtFrec=this.getComponente('frecuencia');
+		
+		this.getComponente('id_mant_predef').on('select',function(combo,record,index){
+			console.log('HOLA',combo);
+			
+			cmbUniMed.setValue(record.data.id_unidad_medida_estimado);
+			txtFrec.setValue(record.data.tiempo_estimado);
+			
+			/*cmbCatTipo.store.baseParams.id_subsistema=record.data.id_subsistema;
+	        cmbCatTipo.reset();
+	        cmbCatTipo.modificado = true;*/
+		},this);
 	}
 }
 )

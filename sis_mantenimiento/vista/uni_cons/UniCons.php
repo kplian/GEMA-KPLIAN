@@ -36,7 +36,7 @@ Phx.vista.UniCons=Ext.extend(Phx.arbInterfaz,{
 			
 		//para definir atributos del equipo	
 		this.addButton('btnAtrib', {
-				text : 'Atributos',
+				text : 'Variables',
 				iconCls : 'blist',
 				disabled : false,
 				handler : this.onBtnAtribPlan,
@@ -626,7 +626,7 @@ Phx.vista.UniCons=Ext.extend(Phx.arbInterfaz,{
 	
     	east:{
 		  url:'../../../sis_mantenimiento/vista/uni_cons_det/UniConsDet.php',
-		  title:'Variables del Equipo', 
+		  title:'Atributos del Equipo', 
 		  width:400,
 		  cls:'UniConsDet'
 		 },

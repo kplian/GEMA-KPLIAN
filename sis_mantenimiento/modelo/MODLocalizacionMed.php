@@ -106,7 +106,7 @@ class MODLocalizacionMed extends MODbase{
 		$this->procedimiento='gem.ft_localizacion_med_ime';
 		$this->transaccion='GM_LOCMED_ELI';
 		$this->tipo_procedimiento='IME';
-				
+			
 		//Define los parametros para la funcion
 		$this->setParametro('id_localizacion_med','id_localizacion_med','int4');
 
@@ -120,16 +120,18 @@ class MODLocalizacionMed extends MODbase{
 	
 	function listarIndicadores(){
 		//Definicion de variables para ejecucion del procedimientp
-		$this->procedimiento='gem.ft_localizacion_med_sel';
-		$this->transaccion='GM_INDICA_SEL';
+		$this->procedimiento='gem.f_formula_indicadores_sel';
+		$this->transaccion='GEM_FORIND_SEL';
 		$this->tipo_procedimiento='SEL';//tipo de transaccion
+		$this->setCount(false);
+		$this->setTipoRetorno('record');
 		
 		//Parametros
 		$this->setParametro('id_localizacion','id_localizacion','int4');
 		$this->setParametro('num_dias','num_dias','int4');
 		$this->setParametro('fecha_ini','fecha_ini','date');
 		$this->setParametro('fecha_fin','fecha_fin','date');
-				
+		
 		//Definicion de la lista del resultado del query
 		$this->captura('nombre','varchar');
 		$this->captura('indicador','numeric');

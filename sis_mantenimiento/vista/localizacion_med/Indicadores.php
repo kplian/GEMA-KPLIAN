@@ -53,7 +53,7 @@ Phx.vista.IndicadoresGraf=Ext.extend(Phx.gridInterfaz,{
 				fieldLabel: 'Indicador',
 				allowBlank: false,
 				anchor: '80%',
-				gwidth: 100,
+				gwidth: 170,
 				maxLength:20
 			},
 			type:'TextField',
@@ -105,8 +105,11 @@ Phx.vista.IndicadoresGraf=Ext.extend(Phx.gridInterfaz,{
 		field: 'nombre',
 		direction: 'ASC'
 	},
-	bdel:true,
-	bsave:true,
+	bdel:false,
+	bsave:false,
+	bedit:false,
+	bnew: false,
+	bexcel:false,
 	loadValoresIniciales:function()
 	{
 		Phx.vista.FallaEvento.superclass.loadValoresIniciales.call(this);
@@ -114,7 +117,6 @@ Phx.vista.IndicadoresGraf=Ext.extend(Phx.gridInterfaz,{
 	},
 	onReloadPage:function(m){
 		this.maestro=m;
-		console.log('GIO',this.maestro)
 		this.Atributos[0].valorInicial=this.maestro.id_localizacion_orig;
         if(m.id != 'id'){
     	this.store.baseParams={id_localizacion:this.maestro.id_localizacion_orig};
