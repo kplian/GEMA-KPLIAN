@@ -217,8 +217,8 @@ Class RPlan_Mant extends Report {
         $pdf->setTextColor(0,0,0);
         $pdf->SetFontSize(6.5);
         foreach($dataSource->getDataset() as $row) {
-            $pdf->Cell($width, $height, $row[''], 1, 0, 'C', false, '', 0, false, 'T', 'C');
-            $pdf->Cell($width, $height, $row[''], 1, 0, 'L', false, '', 1, false, 'T', 'C');
+            $pdf->Cell($width, $height, $row['id_funcion'], 1, 0, 'C', false, '', 0, false, 'T', 'C');
+            $pdf->Cell($width, $height, $row['id_funcion_falla'], 1, 0, 'L', false, '', 1, false, 'T', 'C');
             $pdf->Cell($width, $height, $row['id_modo_falla'], 1, 0, 'L', false, '', 1, false, 'T', 'C');
             $pdf->Cell($width, $height, $row['col_h'], 1, 0, 'L', false, '', 1, false, 'T', 'C');
             $pdf->Cell($width, $height, $row['col_s'], 1, 0, 'C', false, '', 0, false, 'T', 'C');

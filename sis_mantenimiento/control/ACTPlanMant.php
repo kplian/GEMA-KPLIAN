@@ -79,8 +79,7 @@ class ACTPlanMant extends ACTbase{
         $this->objParam->addParametro('id_plan_mant', $idPlanMant );
         
         $modTarea = $this->create('MODTarea');
-        $resultTarea = $modTarea->listarTarea();
-        //var_dump($resultTarea);
+        $resultTarea = $modTarea->reporteTarea();
         $tareaDataSource = new DataSource();
         $tareaDataSource->setDataSet($resultTarea->getDatos());
         $dataSource->putParameter('tareaDataSource', $tareaDataSource);

@@ -1,4 +1,4 @@
-﻿CREATE OR REPLACE FUNCTION gem.ft_tarea_sel (
+CREATE OR REPLACE FUNCTION gem.ft_tarea_sel (
   p_administrador integer,
   p_id_usuario integer,
   p_tabla varchar,
@@ -119,6 +119,51 @@ BEGIN
 			--Devuelve la respuesta
 			return v_consulta;
 
+		end;
+    
+    /*********************************    
+ 	#TRANSACCION:  'GEM_TARE_REP'
+ 	#DESCRIPCION:	Consulta de datos
+ 	#AUTOR:			Gonzalo Sarmiento Sejas	
+ 	#FECHA:		21-12-2012 18:28:03
+	***********************************/
+
+	elsif(p_transaccion='GEM_TARE_REP')then
+     				
+    	begin
+    		--Sentencia de la consulta
+			v_consulta:='select
+            			tare.id_tarea,
+                        fun.id_funcion,
+                        funfall.id_funcion_falla,
+						tare.id_modo_falla,
+						tare.tareas,
+						tare.col_hson3,
+						tare.col_h4,
+						tare.col_h,
+						tare.col_h5,
+						tare.col_n,
+						tare.col_hson2,
+						tare.frecuencia,
+						tare.id_especialidad,
+                        esp.nombre as nombre_especialidad,
+						tare.col_o,
+						tare.col_s,
+						tare.col_s4,
+						tare.col_hson1
+						from gem.ttarea tare
+						left join orga.tespecialidad esp on esp.id_especialidad=tare.id_especialidad
+                        inner join gem.tfuncion fun on fun.id_analisis_mant=tare.id_plan_mant
+                        inner join gem.tfuncion_falla funfall on funfall.id_funcion=fun.id_funcion
+				        where tare.id_plan_mant='||v_parametros.id_plan_mant||' and ';
+			
+			--Definicion de la respuesta
+			v_consulta:=v_consulta||v_parametros.filtro;
+			v_consulta:=v_consulta||' order by ' ||v_parametros.ordenacion|| ' ' || v_parametros.dir_ordenacion || ' limit ' || v_parametros.cantidad || ' offset ' || v_parametros.puntero;
+
+			--Devuelve la respuesta
+			return v_consulta;
+						
 		end;
 					
 	else

@@ -151,6 +151,44 @@ class MODTarea extends MODbase{
 		//Devuelve la respuesta
 		return $this->respuesta;
 	}
+
+    function reporteTarea(){
+        $this->procedimiento='gem.ft_tarea_sel';
+        $this->transaccion='GEM_TARE_REP';
+        $this->tipo_procedimiento='SEL';
+        
+        $this->setCount(false);
+        
+        //Define los parametros de consulta
+        $this->setParametro('id_plan_mant','id_plan_mant','int4');
+        
+        //Define lista de resultado de la query
+        $this->captura('id_tarea','int4');
+        $this->captura('id_funcion','int4');
+        $this->captura('id_funcion_falla','int4');
+        $this->captura('id_modo_falla','int4');
+        $this->captura('tareas','varchar');
+        $this->captura('col_hson3','varchar');
+        $this->captura('col_h4','varchar');
+        $this->captura('col_h','varchar');
+        $this->captura('col_h5','varchar');
+        $this->captura('col_n','varchar');
+        $this->captura('col_hson2','varchar');
+        $this->captura('frecuencia','numeric');
+        $this->captura('id_especialidad','int4');
+        $this->captura('nombre_especialidad','varchar');
+        $this->captura('col_o','varchar');
+        $this->captura('col_s','varchar');
+        $this->captura('col_s4','varchar');
+        $this->captura('col_hson1','varchar');
+        
+        //Ejecuta la instruccion
+        $this->armarConsulta();
+        $this->ejecutarConsulta();
+
+        //Devuelve la respuesta
+        return $this->respuesta;      
+    }
 			
 }
 ?>
