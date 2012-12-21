@@ -113,7 +113,7 @@ Phx.vista.Localizacion=Ext.extend(Phx.arbInterfaz,{
 			Phx.CP.loadingShow();
 				
 		    var tiponodo = nodo.attributes.tipo_nodo;
-		    var dateFechaIni =this.formUCCL.getForm().findField('fecha_ini');
+		    //var dateFechaIni =this.formUCCL.getForm().findField('fecha_ini');
 		    var dateFechaFin =this.formUCCL.getForm().findField('fecha_fin');
 		         
 		    if(tiponodo == 'uni_cons_f' ||tiponodo == 'uni_cons' || tiponodo == 'rama'){
@@ -127,7 +127,7 @@ Phx.vista.Localizacion=Ext.extend(Phx.arbInterfaz,{
 	            tipo_nodo:nodo.attributes.tipo_nodo,
 	            id_localizacion:id_nodo,
 	            id_uni_cons:nodo.attributes.id_uni_cons,
-	            fecha_ini:dateFechaIni.getValue().dateFormat('d-m-Y'),
+	            //fecha_ini:dateFechaIni.getValue().dateFormat('d-m-Y'),
 	            fecha_fin:dateFechaFin.getValue().dateFormat('d-m-Y')
 	        };
 		      
@@ -937,14 +937,14 @@ Phx.vista.Localizacion=Ext.extend(Phx.arbInterfaz,{
             xtype: 'textfield'
         },
 
-        items: [{
+        items: [/*{
 				xtype: 'datefield',
 				name: 'fecha_ini',
 				fieldLabel: 'Inicia',
 				format:'d-m-Y',
 				allowBlank: false,
 				allowBlank: false				
-			},{
+			},*/{
 				xtype: 'datefield',
 				name: 'fecha_fin',
 				fieldLabel: 'Termina',
@@ -954,7 +954,7 @@ Phx.vista.Localizacion=Ext.extend(Phx.arbInterfaz,{
 			}]
     	});
     
-	     var dateFechaIni =this.formUCCL.getForm().findField('fecha_ini');
+	     //var dateFechaIni =this.formUCCL.getForm().findField('fecha_ini');
 	     var dateFechaFin =this.formUCCL.getForm().findField('fecha_fin');
 	    
 	     this.wUCCL = new Ext.Window({

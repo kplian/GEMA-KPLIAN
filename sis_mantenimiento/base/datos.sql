@@ -11,14 +11,14 @@
 
 Para  definir la la metadata, menus, roles, etc
 
-1) sincronize ls funciones y procedimientos del sistema
+1) sincronice  las funciones y procedimientos del sistema
 2)  verifique que la primera linea de los datos sea la insercion del sistema correspondiente
-3)  exporte los datos a archivo SQL (desde la interface de sistema en sis_seguridad), 
-    verifique que la codificacion  se mantenga en UTF8 para no distorcionar los caracteres especiales
-4)  remplaze los sectores correspondientes en este archivo en su totalidad:  (el orden es importante)  
+3)  exporte los datos   del sistema a archivo SQL (desde la interfaz del sistema en sis_seguridad), 
+     verifique que la codificación  se mantenga en UTF8 para no distorsionar los caracteres especiales
+4)  remplace los sectores correspondientes en el archivo datos.sql   (el orden es importante)  
                              menu, 
                              funciones, 
-                             procedimietnos
+                             procedimietnos, etc
 
 */
 

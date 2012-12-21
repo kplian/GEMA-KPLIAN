@@ -248,7 +248,7 @@ class MODUniCons extends MODbase{
 		$this->setParametro('id_localizacion','id_localizacion','int4');
 		$this->setParametro('id_uni_cons','id_uni_cons','int4');
 		
-		$this->setParametro('fecha_ini','fecha_ini','date');
+		//$this->setParametro('fecha_ini','fecha_ini','date');
 		$this->setParametro('fecha_fin','fecha_fin','date');
 		$this->setParametro('tipo_nodo','tipo_nodo','varchar');
 		
