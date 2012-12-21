@@ -15,6 +15,13 @@ Phx.vista.PlanMant=Ext.extend(Phx.gridInterfaz,{
 	constructor:function(config){
 		this.maestro=config.maestro;
 		Phx.vista.PlanMant.superclass.constructor.call(this,config);
+		this.addButton('btnList',{
+            text :'Reporte Plan RCM',
+            iconCls : 'blist',
+            disabled: false,
+            handler : this.onButtonReportePlanRCM,
+            tooltip : '<b>Plan RCM</b><br/><b>Reporte Plan RCM</b>'
+        });
 		this.init();
 		this.load({params:{start:0, limit:50, id_uni_cons:this.id_uni_cons}});
 	},
@@ -341,6 +348,24 @@ Phx.vista.PlanMant=Ext.extend(Phx.gridInterfaz,{
 	},
 	bdel:true,
 	bsave:true,
+	
+	onButtonReportePlanRCM:function(){
+        var rec=this.sm.getSelected();
+                console.debug(rec);
+                Ext.Ajax.request({
+                    url:'../../sis_mantenimiento/control/PlanMant/reportePlanMant',
+                    params:{'id_plan_mant':rec.data.id_plan_mant},
+                    success: this.successExport,
+                    failure: function() {
+                        console.log("fail");
+                    },
+                    timeout: function() {
+                        console.log("timeout");
+                    },
+                    scope:this
+                });  
+    },
+    
 	south:{
 		  url:'../../../sis_mantenimiento/vista/tarea/Tarea.php',
 		  title:'Tareas de mantenimiento',

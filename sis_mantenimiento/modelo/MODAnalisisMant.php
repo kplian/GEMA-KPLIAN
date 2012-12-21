@@ -121,11 +121,14 @@ class MODAnalisisMant extends MODbase{
         
         $this->captura('revision','int4');
         $this->captura('id_uni_cons','int4');
+        $this->captura('localizacion','varchar');
+        $this->captura('tag','varchar');
         $this->captura('nombre_sis','varchar');
         $this->captura('nombre_sub','varchar');
-        $this->captura('id_tipo_mant','int4');        
+        $this->captura('id_tipo_mant','int4');  
+        $this->captura('func_preparo','text');      
         $this->captura('id_funcionario_rev','int4');
-        $this->captura('desc_funcionario1','text');
+        $this->captura('func_reviso','text');
         $this->captura('fecha_emision','date');
         $this->captura('fecha_rev','date');
         $this->captura('descripcion','varchar');

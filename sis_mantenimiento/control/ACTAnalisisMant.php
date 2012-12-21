@@ -58,11 +58,14 @@ class ACTAnalisisMant extends ACTbase{
         
         $dataSource->putParameter('revision', $datosAnalisisMant[0]['revision']);
         $dataSource->putParameter('id_uni_cons', $datosAnalisisMant[0]['id_uni_cons']);
+        $dataSource->putParameter('localizacion',$datosAnalisisMant[0]['localizacion']);
+        $dataSource->putParameter('tag',$datosAnalisisMant[0]['tag']);
         $dataSource->putParameter('nombre_sis', $datosAnalisisMant[0]['nombre_sis']);
         $dataSource->putParameter('nombre_sub', $datosAnalisisMant[0]['nombre_sub']);
         $dataSource->putParameter('id_tipo_mant', $datosAnalisisMant[0]['id_tipo_mant']);
+        $dataSource->putParameter('func_preparo', $datosAnalisisMant[0]['func_preparo']);
         $dataSource->putParameter('id_funcionario_rev', $datosAnalisisMant[0]['id_funcionario_rev']);
-        $dataSource->putParameter('desc_funcionario1', $datosAnalisisMant[0]['desc_funcionario1']);
+        $dataSource->putParameter('func_reviso', $datosAnalisisMant[0]['func_reviso']);
         $dataSource->putParameter('fecha_emision', $datosAnalisisMant[0]['fecha_emision']);
         $dataSource->putParameter('fecha_rev', $datosAnalisisMant[0]['fecha_rev']);
         $dataSource->putParameter('descripcion', $datosAnalisisMant[0]['descripcion']);

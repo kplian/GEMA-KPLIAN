@@ -119,7 +119,7 @@ Phx.vista.AnalisisMant=Ext.extend(Phx.gridInterfaz,{
 				allowBlank: true,
 				gwidth: 100,
 				renderer:function (value,p,record){return value?value.dateFormat('d/m/Y h:i:s'):''},
-				format:'m/d/Y'
+				format:'d/m/Y'
 			},
 			type:'DateField',
 			filters:{pfiltro:'geanma.fecha_emision',type:'date'},
@@ -171,7 +171,7 @@ Phx.vista.AnalisisMant=Ext.extend(Phx.gridInterfaz,{
 				allowBlank: true,
 				gwidth: 100,
 				renderer:function (value,p,record){return value?value.dateFormat('d/m/Y h:i:s'):''},
-				format:'m/d/Y'
+				format:'d/m/Y'
 			},
 			type:'DateField',
 			filters:{pfiltro:'geanma.fecha_rev',type:'date'},

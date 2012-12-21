@@ -109,6 +109,36 @@ class MODPlanMant extends MODbase{
 		//Devuelve la respuesta
 		return $this->respuesta;
 	}
+
+    function reportePlanMant(){
+        //Definicion de variables para ejecucion del procedimiento
+        $this->procedimiento='gem.ft_plan_mant_sel';
+        $this->transaccion='GEM_PLAMA_REP';
+        $this->tipo_procedimiento='SEL';
+        
+        $this->setCount(false);
+        
+        //Define los parametros para la funcion
+        $this->setParametro('id_plan_mant','id_plan_mant','int4');
+        
+        $this->captura('id_plan_mant','int4');
+        $this->captura('fecha_reg','text');
+        $this->captura('fecha_mod','text');
+        $this->captura('localizacion','varchar');
+        $this->captura('nombre_sistema','varchar');
+        $this->captura('nombre_subsistema','varchar');
+        $this->captura('tag','varchar');
+        $this->captura('nombre_preparador','text');
+        $this->captura('nombre_revisor','text');
+        $this->captura('fecha_preparado','text');
+        
+        //Ejecuta la instruccion 
+        $this->armarConsulta();
+        $this->ejecutarConsulta();
+        
+        //Devuelve la respuesta
+        return $this->respuesta;        
+    }
 			
 }
 ?>

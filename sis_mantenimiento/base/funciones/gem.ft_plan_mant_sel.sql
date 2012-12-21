@@ -1,4 +1,4 @@
-﻿CREATE OR REPLACE FUNCTION gem.ft_plan_mant_sel (
+CREATE OR REPLACE FUNCTION gem.ft_plan_mant_sel (
   p_administrador integer,
   p_id_usuario integer,
   p_tabla varchar,
@@ -102,6 +102,48 @@ BEGIN
 			--Devuelve la respuesta
 			return v_consulta;
 
+		end;
+    
+    /*********************************    
+ 	#TRANSACCION:  'GEM_PLAMA_REP'
+ 	#DESCRIPCION:	Consulta de datos
+ 	#AUTOR:			Gonzalo Sarmiento Sejas	
+ 	#FECHA:			20-12-2012
+	***********************************/
+
+	elsif(p_transaccion='GEM_PLAMA_REP')then
+     				
+    	begin
+    		--Sentencia de la consulta
+			v_consulta:='select
+						plama.id_plan_mant,
+						to_char(plama.fecha_reg,''dd/MM/YYYY'') as fecha_reg,
+						to_char(plama.fecha_mod,''dd/MM/YYYY'') as fecha_mod,
+                        loc.codigo as localizacion,  
+                        sis.nombre as nombre_sistema,                        						
+						sub.nombre as nombre_subsistema,
+                        sub.codigo as tag,
+                        vper.nombre_completo1 as nombre_preparador,
+                        vperev.nombre_completo1 as nombre_revisor,
+						to_char(plama.fecha,''dd/MM/YYYY'') as fecha_preparado
+						from gem.tplan_mant plama
+                        inner join gem.tuni_cons sub on sub.id_uni_cons=plama.id_uni_cons
+                        inner join gem.tuni_cons_comp comp on comp.id_uni_cons_hijo=plama.id_uni_cons
+                        inner join gem.tuni_cons sis on sis.id_uni_cons=comp.id_uni_cons_padre
+						inner join orga.tfuncionario fun on fun.id_funcionario=plama.id_funcionario
+                        inner join segu.vpersona vper on vper.id_persona=fun.id_persona
+                        inner join orga.tfuncionario funrev on funrev.id_funcionario=plama.id_funcionario_rev                          
+                        inner join segu.vpersona vperev on vperev.id_persona=funrev.id_persona
+                        inner join gem.tlocalizacion loc on loc.id_localizacion=sis.id_localizacion
+						where  plama.id_plan_mant='||v_parametros.id_plan_mant||' and ';
+			
+			--Definicion de la respuesta
+			v_consulta:=v_consulta||v_parametros.filtro;
+			v_consulta:=v_consulta||' order by ' ||v_parametros.ordenacion|| ' ' || v_parametros.dir_ordenacion || ' limit ' || v_parametros.cantidad || ' offset ' || v_parametros.puntero;
+
+			--Devuelve la respuesta
+			return v_consulta;
+						
 		end;
 					
 	else

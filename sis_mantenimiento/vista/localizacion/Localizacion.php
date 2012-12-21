@@ -1051,7 +1051,7 @@ Phx.vista.Localizacion=Ext.extend(Phx.arbInterfaz,{
 						menu:{
 						items:[
 							{text:'Análisis',handler:this.onBtnRCMAnalisis,scope:this},
-							{text:'Planificación',handler:this.onClickRCMAnalisis,scope:this}
+							{text:'Planificación',handler:this.onBtnRCMPlan,scope:this}
 						]}
 					}
 				]}
@@ -1074,6 +1074,40 @@ Phx.vista.Localizacion=Ext.extend(Phx.arbInterfaz,{
 	onBtnTarjetaTPM: function(){
 		
 	},
+	
+    onBtnRCMAnalisis: function(){
+        var node=this.sm.getSelectedNode();
+        var data =node.attributes;
+        if(data){
+            Phx.CP.loadWindows('../../../sis_mantenimiento/vista/analisis_mant/AnalisisMant.php',
+                'AnalisisMant',{
+                        modal:true,
+                        width:900,
+                        height:400
+                    },
+                    data,this.idContenedor,'AnalisisMant')
+                    
+            }
+        
+    },
+    
+    onBtnRCMPlan: function(){
+        
+        var rec=this.sm.getSelectedNode();
+            var data = rec.attributes;
+            if(data){
+            Phx.CP.loadWindows('../../../sis_mantenimiento/vista/plan_mant/PlanMant.php',
+                    'Plan de Mantenimiento',
+                    {
+                        modal:true,
+                        width:900,
+                        height:600
+                    },
+                    data,this.idContenedor,'PlanMant')
+            }
+        
+    },
+    
 	onClickMed: function(){
 		var node=this.sm.getSelectedNode();
 		var data =node.attributes;

@@ -133,7 +133,7 @@ Class RAnalisisMant extends Report {
         $pdf->setTextColor(0,0,0);
         $pdf->Cell($width2/2, $height*2, 'TAG:', 1, 0, 'L', false, '', 0, false, 'T', 'C');
         $pdf->setTextColor(51,51,153);
-        $pdf->Cell($width3, $height*2, 'nombre tag', 1, 0, 'C', false, '', 0, false, 'T', 'C');
+        $pdf->Cell($width3, $height*2, $this->getDataSource()->getParameter('tag'), 1, 0, 'C', false, '', 0, false, 'T', 'C');
         $x=$pdf->getX();
         $y=$pdf->getY();        
         $pdf->Cell($width3+$width1-5, $height*2, '', 1, 0, 'L', false, '', 0, false, 'T', 'C');
@@ -141,12 +141,12 @@ Class RAnalisisMant extends Report {
         $pdf->setTextColor(0,0,0);
         $pdf->Cell($width1, $height, 'Preparado por:', 'B', 0, 'L', false, '', 0, false, 'T', 'C');
         $pdf->setTextColor(51,51,153);
-        $pdf->Cell($width3-5, $height, 'nombre preparador', 'B', 0, 'C', false, '', 0, false, 'T', 'C');        
+        $pdf->Cell($width3-5, $height, $this->getDataSource()->getParameter('func_preparo'), 'B', 0, 'C', false, '', 0, false, 'T', 'C');        
         $pdf->setXY($x,$y+$height);
         $pdf->setTextColor(0,0,0);   
         $pdf->Cell($width1, $height, 'Revisado por:', 'T', 0, 'L', false, '', 0, false, 'T', 'C');
         $pdf->setTextColor(51,51,153);
-        $pdf->Cell($width3-5, $height, $this->getDataSource()->getParameter('desc_funcionario1'), 'T', 0, 'C', false, '', 0, false, 'T', 'C');
+        $pdf->Cell($width3-5, $height, $this->getDataSource()->getParameter('func_reviso'), 'T', 0, 'C', false, '', 0, false, 'T', 'C');
         $pdf->setXY($x+$width1+$width3-5,$y);
         $pdf->setTextColor(0,0,0);
         $pdf->Cell($width1+5, $height, 'Fecha:', 1, 0, 'L', false, '', 0, false, 'T', 'C');
@@ -159,8 +159,6 @@ Class RAnalisisMant extends Report {
         $pdf->Cell($width2+5, $height, $this->getDataSource()->getParameter('fecha_rev'), 1, 0, 'C', false, '', 0, false, 'T', 'C');
         
         $dataset = $this->getDataSource()->getDataset();
-        $pdf->Ln();
-        $pdf->Ln();
                 
         // end title
         
