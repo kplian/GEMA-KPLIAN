@@ -24,7 +24,7 @@ Phx.vista.RegistrarOT = {
 		this.addButton('btnCheck',
 			{
 				text: 'Check',
-				iconCls: 'blist',
+				iconCls: 'bok',
 				disabled: true,
 				handler: checkOT,
 				tooltip: '<b>Establece una OT en modo Pendiente para su ejecución.</b>'
@@ -33,7 +33,7 @@ Phx.vista.RegistrarOT = {
 		this.addButton('btnUncheck',
 			{
 				text: 'Uncheck',
-				iconCls: 'blist',
+				iconCls: 'bundo',
 				disabled: true,
 				handler: uncheckOT,
 				tooltip: '<b>Establece una OT en modo Borrador para poder ser modificada nuevamente.</b>'

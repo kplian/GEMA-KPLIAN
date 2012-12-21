@@ -21,7 +21,7 @@ Phx.vista.EjecutarOT = {
 		this.addButton('btnAbrir', 
 			{
 				text: 'Abrir',
-				iconCls: 'blist',
+				iconCls: 'bunlock',
 				disabled: true,
 				handler: openOT,
 				tooltip: '<b>Abre la Orden de Trabajo para su ejecución</b>'
@@ -30,7 +30,7 @@ Phx.vista.EjecutarOT = {
 		this.addButton('btnCerrar',
 			{
 				text: 'Cerrar',
-				iconCls: 'blist',
+				iconCls: 'block',
 				disabled: true,
 				handler: closeOT,
 				tooltip: '<b>Cierra la Orde de Trabajo para su revisión</b>'

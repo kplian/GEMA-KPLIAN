@@ -21,7 +21,7 @@ Phx.vista.RevisarOT = {
 		this.addButton('btnReabrir', 
 			{
 				text: 'Re Abrir',
-				iconCls: 'blist',
+				iconCls: 'bselect',
 				disabled: true,
 				handler: openOT,
 				tooltip: '<b>Abre la Orden de Trabajo nuevamente para su corrección</b>'
@@ -30,7 +30,7 @@ Phx.vista.RevisarOT = {
 		this.addButton('btnFinalizar', 
 			{
 				text: 'Finalizar',
-				iconCls: 'blist',
+				iconCls: 'bend',
 				disabled: true,
 				handler: reviewOT,
 				tooltip: '<b>Marca una Orden de Trabajo como revisada.</b>'

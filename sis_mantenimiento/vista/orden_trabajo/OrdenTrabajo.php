@@ -24,19 +24,19 @@ Phx.vista.OrdenTrabajo=Ext.extend(Phx.gridInterfaz,{
         },
         this);
 		
-		this.addButton('btnActividad', 
+		this.addButton('btnActividad',
 			{
 				text: 'Actividades',
-				iconCls: 'blist',
+				iconCls: 'bchecklist',
 				disabled: true,
 				handler: loadActividadesOT,
 				tooltip: '<b>Ver las actividades de la Orden de Trabajo Actual</b>'
 			}
 		);
 		
-		this.addButton('gen_cod',{
+		this.addButton('reportOT',{
 			text:'Report OT',
-			iconCls: 'blist',
+			iconCls: 'bpdf32',
 			disabled: false,
 			handler:function() {
 				var rec=this.sm.getSelected();
@@ -87,22 +87,22 @@ Phx.vista.OrdenTrabajo=Ext.extend(Phx.gridInterfaz,{
 				fieldLabel: 'Estado',
 				gwidth: 60,
 				hidden: true,
-				renderer: function (value,p,record) {
-					//TODO: hacer q muestre imagenes de distintos colores dependiendo del estado de la OT.
+				renderer: function (value,p,record,otro, otro2) {
+					var result;
 					if(value == "Borrador") {
-						
+						result = "<div style='text-align:center'><img src = '../../../lib/imagenes/ball_red.png' align='center' width='18' height='18' title='Borrador'/></div>";
 					} else if(value == 'Generado') {
-						
+						result = "<div style='text-align:center'><img src = '../../../lib/imagenes/ball_blue.png' align='center' width='18' height='18' title='Generado'/></div>";
 					} else if(value == 'Pendiente') {
-						
+						result = "<div style='text-align:center'><img src = '../../../lib/imagenes/ball_green.png' align='center' width='18' height='18' title='Pendiente'/></div>";
 					} else if(value == 'Abierto') {
-						
+						result = "<div style='text-align:center'><img src = '../../../lib/imagenes/ball_yellow.png' align='center' width='18' height='18' title='Abierto'/></div>";
 					} else if(value == 'Cerrado') {
-						
+						result = "<div style='text-align:center'><img src = '../../../lib/imagenes/ball_red.png' align='center' width='18' height='18' title='Cerrado'/></div>";
 					} else if(value == 'Revisado') {
-						
+						result = "<div style='text-align:center'><img src = '../../../lib/imagenes/ball_green.png' align='center' width='18' height='18' title='Revisado'/></div>";
 					}
-					return value;
+					return result;
 				}
 			},
 			valorInicial: 'Borrador',
