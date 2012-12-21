@@ -627,7 +627,7 @@ BEGIN
                                      
                                      v_vector_uni_cons=  array_append(v_vector_uni_cons,g_registros2.id_uni_cons);
                    
-                                     v_resul_par = gem.f_verifica_calendario_equipo (g_registros2.id_uni_cons,v_parametros.fecha_ini,v_parametros.fecha_fin,p_id_usuario);
+                                     v_resul_par = gem.f_verifica_calendario_equipo (g_registros2.id_uni_cons,v_parametros.fecha_fin,p_id_usuario);
                        
                                      IF(v_resul_par!=''  )THEN
                                          IF(v_resul=''  ) THEN
@@ -674,7 +674,7 @@ BEGIN
                      
                      v_vector_uni_cons= array_append( v_vector_uni_cons,g_registros.id_uni_cons);
               
-                         v_resul_par =  gem.f_verifica_calendario_equipo (g_registros.id_uni_cons,v_parametros.fecha_ini,v_parametros.fecha_fin,p_id_usuario);
+                         v_resul_par =  gem.f_verifica_calendario_equipo (g_registros.id_uni_cons,v_parametros.fecha_fin,p_id_usuario);
                         
                         
                          IF(v_resul_par!=''  )THEN
@@ -695,7 +695,7 @@ BEGIN
               --si no es localizacion es la unidad constructiva, generamos directamente
                      
                      v_vector_uni_cons= array_append(v_vector_uni_cons,v_parametros.id_uni_cons);
-                     v_resul_par =  gem.f_verifica_calendario_equipo (v_parametros.id_uni_cons,v_parametros.fecha_ini,v_parametros.fecha_fin,p_id_usuario);
+                     v_resul_par =  gem.f_verifica_calendario_equipo (v_parametros.id_uni_cons,v_parametros.fecha_fin,p_id_usuario);
                
                      IF(v_resul_par!=''  )THEN
                           IF(v_resul=''  )THEN
@@ -733,7 +733,7 @@ BEGIN
             
              FOR v_i IN 1..v_tamano LOOP
               
-                   v_bool =  gem.f_genera_calendario_equipo (v_vector_uni_cons[v_i],v_parametros.fecha_ini,v_parametros.fecha_fin,p_id_usuario);
+                   v_bool =  gem.f_genera_calendario_equipo (v_vector_uni_cons[v_i],v_parametros.fecha_fin,p_id_usuario);
                        
                                              
                     IF NOT v_bool THEN
@@ -819,7 +819,7 @@ BEGIN
                                  --    llama a una funcion para generar el calendaio para el equipo indicado
                                 IF g_registros2.incluir_calgen THEN
                    
-                                     v_bool =  gem.f_genera_calendario_equipo (g_registros2.id_uni_cons,v_parametros.fecha_ini,v_parametros.fecha_fin,p_id_usuario);
+                                     v_bool =  gem.f_genera_calendario_equipo (g_registros2.id_uni_cons,v_parametros.fecha_fin,p_id_usuario);
                        
                                      v_contador = v_contador + 1;
                           
@@ -858,7 +858,7 @@ BEGIN
                  
                      IF g_registros.incluir_calgen THEN
               
-                         v_bool =  gem.f_genera_calendario_equipo (g_registros.id_uni_cons,v_parametros.fecha_ini,v_parametros.fecha_fin,p_id_usuario);
+                         v_bool =  gem.f_genera_calendario_equipo (g_registros.id_uni_cons,v_parametros.fecha_fin,p_id_usuario);
                         
                         IF NOT v_bool THEN
                          raise exception 'error al generar calendario para %',g_registros.id_uni_cons;
@@ -871,7 +871,7 @@ BEGIN
                 END LOOP;
              ELSE
               --si no es localizacion es la unidad constructiva, generamos directamente
-               v_bool =  gem.f_genera_calendario_equipo (v_parametros.id_uni_cons,v_parametros.fecha_ini,v_parametros.fecha_fin,p_id_usuario);
+               v_bool =  gem.f_genera_calendario_equipo (v_parametros.id_uni_cons,v_parametros.fecha_fin,p_id_usuario);
                v_contador = v_contador + 1;  
              
              END IF;

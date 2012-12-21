@@ -2,7 +2,6 @@
 
 CREATE OR REPLACE FUNCTION gem.f_verifica_calendario_equipo (
   v_id_uni_cons integer,
-  v_fecha_ini date,
   v_fecha_fin date,
   v_id_usuario integer
 )
@@ -87,13 +86,7 @@ v_res varchar;
 
 BEGIN
 
- --  0)   Verficar que la fecha inicio sea menor que la fecha fin
- 
-    if  v_fecha_fin  < v_fecha_ini then
-    
-    raise exception 'La fecha de inicio no puede ser menor a la fecha fin';
-    
-    end if;
+
     
     -- validamos si la misma unidad ya tiene registro con fecha superior a la fecha de inicia indicada
     -- si existen 
@@ -105,8 +98,9 @@ BEGIN
     IF  exists (select 1  from gem.tcalendario_planificado c
                        where  c.id_uni_cons_mant_predef in ( Select id_uni_cons_mant_predef 
                                                from  gem.tuni_cons_mant_predef mt 
-                                               where mt.id_uni_cons = v_id_uni_cons)
-                        and c.fecha_ini >= v_fecha_ini 
+                                               where mt.id_uni_cons = v_id_uni_cons
+                                                and  c.fecha_ini >= mt.fecha_ini)
+                      
                         and c.tipo = 'planificado') THEN
          
          

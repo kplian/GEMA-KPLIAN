@@ -262,8 +262,8 @@ BEGIN
                               
                                 id_unidad_medida, -- periodicidad
                                 fecha_plan_ini,
-                                fecha_plan_fin,
-                                periodicidad,
+                              --  fecha_plan_fin,
+                              --  periodicidad,
                                 cat_estado
                               ) 
                               VALUES (
@@ -273,9 +273,9 @@ BEGIN
                                 v_id_uni_cons_mant_predef,
                                 v_id_uni_cons,
                                 v_id_unidad_medida_periodicidad,
-                                g_registros.fecha_ini,
+                             --   g_registros.fecha_ini,
                                 v_fecha_fin,
-                                v_periodicidad,
+                               -- v_periodicidad,
                                 'generado'
                                
                               )RETURNING id_orden_trabajo   into v_id_orden_trabajo;
