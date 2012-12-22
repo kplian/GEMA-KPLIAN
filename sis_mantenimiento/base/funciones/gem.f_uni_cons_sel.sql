@@ -102,7 +102,9 @@ BEGIN
                         eq.nombre as nombre_tipo_equipo,
                         (tuc.nombre||''-[''||tuc.codigo||'']'')::varchar as text,
                         tuc.incluir_calgen,
-                        (COALESCE(tuc.id_localizacion,0)||''_''||tuc.id_uni_cons)::varchar as id_uni_loc
+                        (COALESCE(tuc.id_localizacion,0)||''_''||tuc.id_uni_cons)::varchar as id_uni_loc,
+                        tuc.herramientas_especiales,
+                        tuc.otros_datos_tec
 						from gem.tuni_cons tuc
                         '||v_join||' join gem.tuni_cons_comp ucc on ucc.id_uni_cons_hijo = tuc.id_uni_cons  and ucc.estado_reg=''activo'' 
 						inner join segu.tusuario usu1 on usu1.id_usuario = tuc.id_usuario_reg

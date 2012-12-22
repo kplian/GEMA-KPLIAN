@@ -1387,3 +1387,35 @@ ALTER TABLE gem.trecurso
 ALTER TABLE gem.trecurso
   ADD COLUMN existencias VARCHAR(100);
 /***********************************F-SCP-AAO-GEM-82-20/12/2012*****************************************/
+
+/***********************************I-SCP-AAO-GEM-89-21/12/2012*****************************************/
+
+ALTER TABLE gem.tuni_cons
+  ADD COLUMN herramientas_especiales VARCHAR(1000);
+  
+ALTER TABLE gem.tuni_cons
+  ADD COLUMN otros_datos_tec VARCHAR(1000);
+  
+--------------- SQL ---------------
+
+CREATE TABLE gem.tuni_cons_doc_tec (
+  id_documento_tec SERIAL, 
+  nombre_documento VARCHAR(50), 
+  adjunto BOOLEAN, 
+  codigo VARCHAR(25), 
+  observaciones VARCHAR(1000), 
+  id_uni_cons INTEGER, 
+  PRIMARY KEY(id_documentacion_tec)
+) INHERITS (pxp.tbase)
+WITHOUT OIDS;
+
+ALTER TABLE gem.tuni_cons_doc_tec
+  OWNER TO postgres;
+
+ALTER TABLE gem.tuni_cons_doc_tec
+  ADD CONSTRAINT fk_tuni_cos_doc_tec__id_uni_cons FOREIGN KEY (id_uni_cons)
+    REFERENCES gem.tuni_cons(id_uni_cons)
+    ON DELETE NO ACTION
+    ON UPDATE NO ACTION
+    NOT DEFERRABLE;
+/***********************************F-SCP-AAO-GEM-89-21/12/2012*****************************************/

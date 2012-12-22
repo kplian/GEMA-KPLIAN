@@ -26,7 +26,7 @@ Phx.vista.UniCons=Ext.extend(Phx.arbInterfaz,{
     	
     	//
 		this.addButton('btnBlock', {
-				text : 'Bloquear',
+				text : '',
 				iconCls : 'block',
 				disabled : true,
 				handler : this.onBtnBlock,
@@ -36,12 +36,12 @@ Phx.vista.UniCons=Ext.extend(Phx.arbInterfaz,{
 			
 		//para definir atributos del equipo	
 		this.addButton('btnAtrib', {
-				text : 'Variables',
+				text : '',
 				iconCls : 'blist',
 				disabled : false,
 				handler : this.onBtnAtribPlan,
 				tooltip : '<b>Atributos de la plantilla</b><br/>Definir atributos de la plantilla'
-			});
+		});
 		
 		/*this.addButton('btn_MedicionGraf',{
 			text:'Mediciones/Indicadores',
@@ -52,7 +52,7 @@ Phx.vista.UniCons=Ext.extend(Phx.arbInterfaz,{
 			}
 		);*/		
         this.addButton('btnUpload',{
-           text :'Archivos',
+           text :'',
            iconCls : 'bupload',
            disabled : true,
            handler : this.onButtonUpload,
@@ -60,7 +60,7 @@ Phx.vista.UniCons=Ext.extend(Phx.arbInterfaz,{
         });
         
         this.addButton('btnItems',{
-            text : 'Items',
+            text : '',
             iconCls : 'bven1',
             disabled : true,
             handler : this.onButtonItems,
@@ -68,7 +68,7 @@ Phx.vista.UniCons=Ext.extend(Phx.arbInterfaz,{
         });
         
         this.addButton('btnProveedores',{
-            text : 'Proveedores',
+            text : '',
             iconCls : 'bven1',
             disabled : true,
             handler : this.onButtonProv,
@@ -77,7 +77,7 @@ Phx.vista.UniCons=Ext.extend(Phx.arbInterfaz,{
 		
 		//Incluye un menú
    		this.menuOp = new Ext.Toolbar.SplitButton({
-   			text: 'Mediciones/Indicadores',
+   			text: '',
    			handler: this.onMedicionesClick,
    			iconCls: 'blist',
    			scope: this,
@@ -96,7 +96,13 @@ Phx.vista.UniCons=Ext.extend(Phx.arbInterfaz,{
    		
    		this.tbar.add(this.menuOp);
     
-		
+		this.addButton('btnDocTecnica', {
+				text : '',
+				iconCls : 'blist',
+				disabled : false,
+				handler : this.onBtnDocTecnica,
+				tooltip : '<b>Documentación Técnica</b><br/>Define la documentación técnica.'
+		});
     	
     	// initButtons:[this.cmbTipo],
 		/*this.tbar.add('->');
@@ -246,6 +252,36 @@ Phx.vista.UniCons=Ext.extend(Phx.arbInterfaz,{
 		},
 		{
 			config:{
+				name: 'herramientas_especiales',
+				fieldLabel: 'Herramientas Especiales',
+				allowBlank: true,
+				width: '100%',
+				gwidth: 250,
+				maxLength: 1000
+			},
+			type: 'TextArea',
+			filters:{pfiltro: 'geoott.descripcion_lugar',type:'string'},
+			id_grupo:0,
+			grid:true,
+			form:true
+		},
+		{
+			config:{
+				name: 'otros_datos_tec',
+				fieldLabel: 'Otros Datos Técnicos',
+				allowBlank: true,
+				width: '100%',
+				gwidth: 250,
+				maxLength: 1000
+			},
+			type: 'TextArea',
+			filters:{pfiltro: 'geoott.descripcion_lugar',type:'string'},
+			id_grupo:0,
+			grid:true,
+			form:true
+		},
+		{
+			config:{
 				name: 'estado_reg',
 				fieldLabel: 'Estado Reg.',
 				allowBlank: true,
@@ -353,7 +389,7 @@ Phx.vista.UniCons=Ext.extend(Phx.arbInterfaz,{
 	        triggerAction: 'all',
 	        emptyText:'Tipo..',
 	        selectOnFocus:true,
-	        width:135
+	        width:100
 	    }),
 	enableDD:false,
 		expanded:false,
@@ -430,12 +466,10 @@ Phx.vista.UniCons=Ext.extend(Phx.arbInterfaz,{
                 this.getBoton('btnProveedores').disable();
 				if(tiponodo == 'raiz_aprobado'){
 					this.getBoton('btnBlock').setIconClass('bunlock'); 
-		            this.getBoton('btnBlock').setText( 'Desbloquear' ); 
 		            this.getBoton('btnBlock').setTooltip('<p>Desbloquear permite editar</p>'); 
 		        }
 				else{
 					this.getBoton('btnBlock').setIconClass('block'); 
-		            this.getBoton('btnBlock').setText( 'Bloquear' ); 
 		            this.getBoton('btnBlock').setTooltip('<p>Bloquea la edición del equipo</p>'); 
 				}
 				
@@ -569,6 +603,48 @@ Phx.vista.UniCons=Ext.extend(Phx.arbInterfaz,{
 		
 	},	
 	
+    onAnalisisClick: function(){
+				var node=this.sm.getSelectedNode();
+		        var data =node.attributes;
+			        if(data){
+						Phx.CP.loadWindows('../../../sis_mantenimiento/vista/analisis_mant/AnalisisMant.php',
+						'AnalisisMant',{
+							modal:true,
+							width:900,
+							height:400
+					},
+				data,this.idContenedor,'AnalisisMant')
+	},
+
+	onPlanClick: function(){
+        
+        var rec=this.sm.getSelectedNode();
+            var data = rec.attributes;
+            if(data){
+            Phx.CP.loadWindows('../../../sis_mantenimiento/vista/plan_mant/PlanMant.php',
+                    'Plan de Mantenimiento',
+                    {
+                        modal:true,
+                        width:900,
+                        height:600
+                    },
+                    data,this.idContenedor,'PlanMant')
+            }
+    },
+    onBtnDocTecnica: function() {
+    	var rec=this.sm.getSelectedNode();
+            var data = rec.attributes;
+            if(data) {
+            	Phx.CP.loadWindows('../../../sis_mantenimiento/vista/uni_cons_doc_tec/UniConsDocumentoTec.php',
+                    'Documentacion Técnica',
+                    {
+                        modal:true,
+                        width:900,
+                        height:500
+                    },
+                    data,this.idContenedor,'UniConsDocumentoTec')
+            }
+    },
 	successBU:function(resp){
 			Phx.CP.loadingHide();
 			var reg = Ext.util.JSON.decode(Ext.util.Format.trim(resp.responseText));
