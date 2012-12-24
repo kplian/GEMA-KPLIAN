@@ -482,7 +482,7 @@ Phx.vista.UniCons=Ext.extend(Phx.arbInterfaz,{
                 this.getBoton('btnProveedores').enable();
 			}
 			// llamada funcion clace padre
-			Phx.vista.UniCons.superclass.preparaMenu.call(this,n)
+			Phx.vista.UniCons.superclass.preparaMenu.call(this,n);
 			
 		},
 	
@@ -504,7 +504,7 @@ Phx.vista.UniCons=Ext.extend(Phx.arbInterfaz,{
 			}else{
 				this.ocultarComponente(this.getComponente('id_tipo_equipo'))
 			}
-		Phx.vista.UniCons.superclass.onButtonEdit.call(this)
+		Phx.vista.UniCons.superclass.onButtonEdit.call(this);
 	},
 	
 	onBtnBlock:function(){
@@ -606,14 +606,15 @@ Phx.vista.UniCons=Ext.extend(Phx.arbInterfaz,{
     onAnalisisClick: function(){
 				var node=this.sm.getSelectedNode();
 		        var data =node.attributes;
-			        if(data){
-						Phx.CP.loadWindows('../../../sis_mantenimiento/vista/analisis_mant/AnalisisMant.php',
-						'AnalisisMant',{
-							modal:true,
-							width:900,
-							height:400
+		        if(data){
+					Phx.CP.loadWindows('../../../sis_mantenimiento/vista/analisis_mant/AnalisisMant.php',
+					'AnalisisMant',{
+						modal:true,
+						width:900,
+						height:400
 					},
-				data,this.idContenedor,'AnalisisMant')
+					data,this.idContenedor,'AnalisisMant')
+				}
 	},
 
 	onPlanClick: function(){
