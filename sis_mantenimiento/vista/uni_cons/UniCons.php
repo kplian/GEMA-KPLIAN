@@ -252,6 +252,36 @@ Phx.vista.UniCons=Ext.extend(Phx.arbInterfaz,{
 		},
 		{
 			config:{
+				name: 'funcion',
+				fieldLabel: 'Funcion',
+				allowBlank: true,
+				width: '100%',
+				gwidth: 250,
+				maxLength: 200
+			},
+			type: 'TextArea',
+			filters:{pfiltro: 'geoott.funcion',type:'string'},
+			id_grupo:0,
+			grid:true,
+			form:true
+		},
+		{
+			config:{
+				name: 'punto_recepcion_despacho',
+				fieldLabel: 'Pto. Recepcion/ Despacho',
+				allowBlank: true,
+				width: '100%',
+				gwidth: 250,
+				maxLength: 100
+			},
+			type: 'TextArea',
+			filters:{pfiltro: 'geoott.punto_recepcion_despacho',type:'string'},
+			id_grupo:0,
+			grid:true,
+			form:true
+		},
+		{
+			config:{
 				name: 'herramientas_especiales',
 				fieldLabel: 'Herramientas Especiales',
 				allowBlank: true,
@@ -415,7 +445,11 @@ Phx.vista.UniCons=Ext.extend(Phx.arbInterfaz,{
 		{name:'fecha_mod', type: 'date', dateFormat:'Y-m-d H:i:s'},
 		{name:'id_usuario_mod', type: 'numeric'},
 		{name:'usr_reg', type: 'string'},
-		{name:'usr_mod', type: 'string'}		
+		{name:'usr_mod', type: 'string'},
+		{name:'herramientas_especiales', type: 'string'},
+		{name:'otros_datos_tec', type: 'string'},
+		{name:'funcion', type: 'string'},
+		{name:'punto_recepcion_despacho', type: 'string'}
 	],
 	sortInfo:{
 		field: 'id_uni_cons',

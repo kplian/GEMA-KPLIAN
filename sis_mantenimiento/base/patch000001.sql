@@ -1419,3 +1419,12 @@ ALTER TABLE gem.tuni_cons_doc_tec
     ON UPDATE NO ACTION
     NOT DEFERRABLE;
 /***********************************F-SCP-AAO-GEM-89-21/12/2012*****************************************/
+
+/***********************************I-SCP-AAO-GEM-65-21/12/2012*****************************************/
+ALTER TABLE gem.tuni_cons
+  ADD COLUMN funcion VARCHAR(200);
+  
+ALTER TABLE gem.tuni_cons
+  ADD COLUMN punto_recepcion_despacho VARCHAR(100);
+
+/***********************************F-SCP-AAO-GEM-65-21/12/2012*****************************************/

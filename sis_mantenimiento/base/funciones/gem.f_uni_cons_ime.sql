@@ -161,7 +161,9 @@ BEGIN
                 id_usuario_mod,
                 tipo_nodo,
                 herramientas_especiales,
-                otros_datos_tec
+                otros_datos_tec,
+                funcion,
+                punto_recepcion_despacho
                 ) values(
                 'activo',
                 v_estado,
@@ -176,7 +178,9 @@ BEGIN
                 null,
                 v_tipo_nodo,
                 v_parametros.herramientas_especiales,
-                v_parametros.otros_datos_tec
+                v_parametros.otros_datos_tec,
+                v_parametros.funcion,
+                v_parametros.punto_recepcion_despacho
                 )RETURNING id_uni_cons into v_id_uni_cons;
                 
                 
@@ -289,7 +293,9 @@ BEGIN
 			fecha_mod = now(),
 			id_usuario_mod = p_id_usuario,
             herramientas_especiales = v_parametros.herramientas_especiales,
-            otros_datos_tec = v_parametros.otros_datos_tec
+            otros_datos_tec = v_parametros.otros_datos_tec,
+            funcion = v_parametros.funcion,
+            punto_recepcion_despacho = v_parametros.punto_recepcion_despacho
 			where id_uni_cons=v_parametros.id_uni_cons;
                
 			--Definicion de la respuesta

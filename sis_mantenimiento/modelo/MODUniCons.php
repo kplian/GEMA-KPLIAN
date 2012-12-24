@@ -56,6 +56,8 @@ class MODUniCons extends MODbase{
 		$this->captura('id_uni_loc','varchar');
 		$this->captura('herramientas_especiales','varchar');
 		$this->captura('otros_datos_tec','varchar');
+		$this->captura('funcion','varchar');
+		$this->captura('punto_recepcion_despacho','varchar');
 		
 		
 		//Ejecuta la instruccion
@@ -145,6 +147,8 @@ class MODUniCons extends MODbase{
 		$this->setParametro('id_localizacion','id_localizacion','int4');
 		$this->setParametro('herramientas_especiales','herramientas_especiales','varchar');
 		$this->setParametro('otros_datos_tec','otros_datos_tec','varchar');
+		$this->setParametro('funcion','funcion','varchar');
+		$this->setParametro('punto_recepcion_despacho','punto_recepcion_despacho','varchar');
 
 		//Ejecuta la instruccion
 		$this->armarConsulta();
@@ -172,6 +176,8 @@ class MODUniCons extends MODbase{
         $this->setParametro('nombre_tipo_equipo','nombre_tipo_equipo','varchar');
 		$this->setParametro('herramientas_especiales','herramientas_especiales','varchar');
 		$this->setParametro('otros_datos_tec','otros_datos_tec','varchar');
+		$this->setParametro('funcion','funcion','varchar');
+		$this->setParametro('punto_recepcion_despacho','punto_recepcion_despacho','varchar');
 		
 		//Ejecuta la instruccion
 		$this->armarConsulta();

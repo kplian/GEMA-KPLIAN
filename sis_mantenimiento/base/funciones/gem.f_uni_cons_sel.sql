@@ -104,7 +104,9 @@ BEGIN
                         tuc.incluir_calgen,
                         (COALESCE(tuc.id_localizacion,0)||''_''||tuc.id_uni_cons)::varchar as id_uni_loc,
                         tuc.herramientas_especiales,
-                        tuc.otros_datos_tec
+                        tuc.otros_datos_tec,
+                        tuc.funcion,
+                        tuc.punto_recepcion_despacho
 						from gem.tuni_cons tuc
                         '||v_join||' join gem.tuni_cons_comp ucc on ucc.id_uni_cons_hijo = tuc.id_uni_cons  and ucc.estado_reg=''activo'' 
 						inner join segu.tusuario usu1 on usu1.id_usuario = tuc.id_usuario_reg
