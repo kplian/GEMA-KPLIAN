@@ -1405,7 +1405,7 @@ CREATE TABLE gem.tuni_cons_doc_tec (
   codigo VARCHAR(25), 
   observaciones VARCHAR(1000), 
   id_uni_cons INTEGER, 
-  PRIMARY KEY(id_documentacion_tec)
+  PRIMARY KEY(id_documento_tec)
 ) INHERITS (pxp.tbase)
 WITHOUT OIDS;
 
