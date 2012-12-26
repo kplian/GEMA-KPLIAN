@@ -29,7 +29,8 @@ DECLARE
 	v_resp				varchar;    
     v_sql				varchar;
     v_saldos			record;
-    v_insertado			record;			
+    v_insertado			record;
+    v_partidas			record;			
 			    
 BEGIN
 
@@ -102,6 +103,13 @@ BEGIN
     elsif(p_transaccion='PRE_SALPRE_SEL')then
      				
     	begin
+        	if(v_parametros.id_partida='')then
+            	v_consulta ='SELECT DISTINCT id_partida from pre.tpresup_partida presupar where presupar.id_presupuesto IN ('||v_parametros.id_presupuesto||')';	
+                FOR v_partidas IN EXECUTE (v_consulta)
+                LOOP
+                	v_parametros.id_partida=v_partidas.id_partida;
+                END LOOP;
+			end if;
         	--1. Crear tabla temporal
             v_sql = 'create temp table tt_pres_saldo(
             			id_presupuesto integer,

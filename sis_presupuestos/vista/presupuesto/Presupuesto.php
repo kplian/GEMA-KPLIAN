@@ -25,6 +25,15 @@ Phx.vista.Presupuesto=Ext.extend(Phx.gridInterfaz,{
             tooltip: '<b>Reporte</b><br/>Reporte Presupuesto'
         });
         
+        this.addButton('btnGrafica',{
+            text:'Grafica',
+            iconCls: 'bstatistics',
+            disabled: false,
+            handler:this.onBtnGrafica,
+            tooltip: '<b>Grafica</b><br/>Grafica Presupuesto vs Ejecutado'
+        });
+        
+        
 		this.init();
 		this.load({params:{start:0, limit:50}})
 	},
@@ -38,7 +47,20 @@ Phx.vista.Presupuesto=Ext.extend(Phx.gridInterfaz,{
                 height:300
             },'',this.idContenedor,'GeneraReportePresupuesto')      
     },
-			
+    
+    onBtnGrafica:function(){
+        var rec = this.sm.getSelected();
+        if(rec){
+            Phx.CP.loadWindows('../../../sis_presupuestos/vista/presupuesto/gridPresupuesto.php',
+                    'Presupuestado y ejecutado',
+                    {
+                        width:800,
+                        height:400
+                    },rec.data,this.idContenedor,'gridPresupuesto')
+    
+       }
+    },
+    	
 	Atributos:[
 		{
 			//configuracion del componente

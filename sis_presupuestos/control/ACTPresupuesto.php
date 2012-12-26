@@ -74,6 +74,21 @@ class ACTPresupuesto extends ACTbase{
         $this->res = $mensajeExito;
         $this->res->imprimirRespuesta($this->res->generarJson());
     }
+
+    function graficaPresupuesto(){
+        $idPresupuesto = $this->objParam->getParametro('id_presupuesto');
+        
+        $this->objParam->defecto('ordenacion','id_presupuesto');
+        $this->objParam->defecto('id_presupuesto',$idPresupuesto);
+        $this->objParam->defecto('dir_ordenacion','asc');
+        $this->objParam->defecto('cantidad',1000);
+        $this->objParam->defecto('puntero',0);
+        
+        $this->objFunc=$this->create('MODPresupuesto');
+        $this->objFunc->setCount(false); 
+        $this->res=$this->objFunc->reportePresupuesto();        
+        $this->res->imprimirRespuesta($this->res->generarJson());        
+    }
 			
 }
 
