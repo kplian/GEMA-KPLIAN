@@ -356,6 +356,10 @@ class ACTUniCons extends ACTbase{
 		$dataSource->putParameter('nombre', $datosUniCons[0]['nombre']);
 		$dataSource->putParameter('codigo', $datosUniCons[0]['codigo']);
 		$dataSource->putParameter('localizacion', $datosUniCons[0]['nombre_localizacion']);
+		$dataSource->putParameter('funcion', $datosUniCons[0]['funcion']);
+		$dataSource->putParameter('puntoRecepcionDespacho', $datosUniCons[0]['punto_recepcion_despacho']);
+		$dataSource->putParameter('herramientasEspeciales', $datosUniCons[0]['herramientas_especiales']);
+		$dataSource->putParameter('otrosDatosTecnicos', $datosUniCons[0]['otros_datos_tec']);
 		if($datosUniCons[0]['fecha_mod'] != null) {
 			$dataSource->putParameter('fechaEmision', $datosUniCons[0]['fecha_mod']);
 		} else {
@@ -421,6 +425,15 @@ class ACTUniCons extends ACTbase{
 			$arrayHijos[] = $dataSourceHijo;
 		}
 		$dataSource->putParameter('arrayHijos', $arrayHijos);
+		
+		//Documentacion técnica
+		$this->objParam->addParametroConsulta('ordenacion', 'id_documento_tec');
+		$this->objParam->addParametro('id_uni_cons', $idUniCons);
+		$this->objFunc = $this->create('MODUniConsDocTec');
+		$resultDocTec = $this->objFunc->listarUniConsDocumentoTec($this->objParam);
+		$docTecDataSource = new DataSource();
+		$docTecDataSource->setDataSet($resultDocTec->getDatos());
+		$dataSource->putParameter('documentacionTecnicaDataSource', $docTecDataSource);
 		
 		//build the report
 		$reporte = new RUniCons_FichaTecnica();

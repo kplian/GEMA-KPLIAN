@@ -336,6 +336,10 @@ class MODUniCons extends MODbase{
 		$this->captura('id_uni_cons_padre','int4');
 		$this->captura('fecha_reg', 'text');
 		$this->captura('fecha_mod', 'text');
+		$this->captura('herramientas_especiales','varchar');
+		$this->captura('otros_datos_tec','varchar');
+		$this->captura('funcion','varchar');
+		$this->captura('punto_recepcion_despacho','varchar');
 		
 		$this->armarConsulta();
 		$this->ejecutarConsulta();

@@ -159,10 +159,19 @@ Class RUniCons_FichaTecnica extends Report {
 		$pdf->Ln();
 		$pdf->SetFont('', '');
 		$pdf->setTextColor(0,0,0);
-		$pdf->Cell($width1, $height, 'Funcion:', 0, 0, 'L', false, '', 0, false, 'T', 'C');
+		$pdf->Cell($w = $width1, $h = $height, $txt = 'Funcion:', $border = 0, $ln = 0, $align = 'L', $fill = false, $link = '', $stretch = 0, $ignore_min_height = false, $calign = 'T', $valign = 'M');
 		$pdf->SetFont('', 'B');
 		$pdf->setTextColor(51,51,153);
-		$pdf->Cell($width2, $height, '**', 'B', 0, 'L', false, '', 0, false, 'T', 'C');
+		$pdf->Cell($w = $width2, $h = $height, $txt = $this->getDataSource()->getParameter('funcion'), $border = 'B', $ln = 0, $align = 'L', $fill = false, $link = '', $stretch = 0, $ignore_min_height = false, $calign = 'T', $valign = 'M');
+		
+		$pdf->Ln();
+		$pdf->SetFont('', '');
+		$pdf->setTextColor(0,0,0);
+		$pdf->Cell($w = $width1, $h = $height, $txt = 'No. Pto. Despacho:', $border = 0, $ln = 0, $align = 'L', $fill = false, $link = '', $stretch = 0, $ignore_min_height = false, $calign = 'T', $valign = 'M');
+		$pdf->SetFont('', 'B');
+		$pdf->setTextColor(51,51,153);
+		$pdf->Cell($w = $width2, $h = $height, $txt = $this->getDataSource()->getParameter('puntoRecepcionDespacho'), $border = 'B', $ln = 0, $align = 'L', $fill = false, $link = '', $stretch = 0, $ignore_min_height = false, $calign = 'T', $valign = 'M');
+		
 		
 		//paint el detalle del padre
 		$dataset = $this->getDataSource()->getDataset();
@@ -191,7 +200,7 @@ Class RUniCons_FichaTecnica extends Report {
 			} else {
 				$this->writePair($pdf, $row['nombre'], $widthColVariable, $row['valor'], $widthColValor, 0, $height);
 				$pdf->Ln();	
-				$colCount = 0;			
+				$colCount = 0;
 			}
 		}
 		
@@ -203,10 +212,36 @@ Class RUniCons_FichaTecnica extends Report {
 		
 		$this->writeProveedores($this->getDataSource()->getParameter('proveedorDataSource'), $pdf);
 		
+		$pdf->Ln();
+		$this->writeDocumentacionTecnica($this->getDataSource()->getParameter('documentacionTecnicaDataSource'), $pdf);
+		// $this->writeDocumentacionTecnica(new DataSource(), $pdf);
+		
+		$pdf->Ln();
+		$hMedium = 10;
+		$wHalf = 90;
+		
+		$pdf->SetFontSize(7.5);
+		$pdf->SetFont('', 'B');
+		$pdf->setTextColor(234,0,0);
+		$pdf->Cell($w = $wHalf, $h = $height, $txt = 'HERRAMIENTAS ESPECIALES', $border = 0, $ln = 0, $align = 'L', $fill = false, $link = '', $stretch = 0, $ignore_min_height = false, $calign = 'T', $valign = 'M');
+		$pdf->Cell($w = 5, $h = $height, $txt = '', $border = 0, $ln = 0, $align = 'C', $fill = false, $link = '', $stretch = 0, $ignore_min_height = false, $calign = 'T', $valign = 'M');
+		$pdf->Cell($w = $wHalf, $h = $height, $txt = 'OTROS DATOS TÉCNICOS', $border = 0, $ln = 1, $align = 'L', $fill = false, $link = '', $stretch = 0, $ignore_min_height = false, $calign = 'T', $valign = 'M');
+		
+		$pdf->SetFontSize(6.5);
+		$pdf->SetFont('', '');
+		$pdf->setTextColor(0,0,0);
+		$pdf->MultiCell($w = $wHalf, $h = $hMedium, $txt = $this->getDataSource()->getParameter('herramientasEspeciales'), $border = 0, $align = 'L', $fill = false, $ln = 0, $x = '',$y = '', $reseth = true, $stretch = 0, $ishtml = false, $autopadding = true, $maxh = $hMedium, $valign = 'T', $fitcell = false);
+		$pdf->MultiCell($w = 5, $h = $hMedium, $txt = '', $border = 0, $align = 'L', $fill = false, $ln = 0, $x = '',$y = '', $reseth = true, $stretch = 0, $ishtml = false, $autopadding = true, $maxh = $hMedium, $valign = 'T', $fitcell = false);
+		$pdf->MultiCell($w = $wHalf, $h = $hMedium, $txt = $this->getDataSource()->getParameter('otrosDatosTecnicos'), $border = 0, $align = 'L', $fill = false, $ln = 1, $x = '',$y = '', $reseth = true, $stretch = 0, $ishtml = false, $autopadding = true, $maxh = $hMedium, $valign = 'T', $fitcell = false);
+		
+		$pdf->Ln();
+		$pdf->Cell($w = 30, $h = $height, $txt = 'Observaciones', $border = 0, $ln = 0, $align = 'L', $fill = false, $link = '', $stretch = 0, $ignore_min_height = false, $calign = 'T', $valign = 'M');
+		$pdf->MultiCell($w = 155, $h = $hMedium, $txt = $this->getDataSource()->getParameter('observaciones'), $border = 0, $align = 'L', $fill = false, $ln = 0, $x = '',$y = '', $reseth = true, $stretch = 0, $ishtml = false, $autopadding = true, $maxh = $hMedium, $valign = 'T', $fitcell = false);
+		
 		//write immage
 		//TODO: write image
 		$pdf->SetXY($xPictureBox, $yPictureBox);
-		$pdf->Cell(0, 30, '', 1, 0, 'L', false, '', 0, false, 'T', 'C');
+		$pdf->Cell(0, 35, '', 1, 0, 'L', false, '', 0, false, 'T', 'C');
 		
 		$pdf->Output($fileName, 'F');
 	}
@@ -337,6 +372,43 @@ Class RUniCons_FichaTecnica extends Report {
 			$pdf->Cell($widthDireccion, $height, $row['direccion'], 1, 0, 'L', false, '', 0, false, 'T', 'C');
 			$pdf->Cell($widthTelefono, $height, $row['telefono'], 1, 0, 'C', false, '', 0, false, 'T', 'C');
 			$pdf->Cell($widthEmail, $height, $row['email'], 1, 0, 'C', false, '', 0, false, 'T', 'C');
+			$pdf->Ln();
+		}
+	}
+
+	function writeDocumentacionTecnica(DataSource $dataSource, TCPDF $pdf) {
+		
+		$wDocumento = 55;
+		$wAdjunto = 15;
+		$wCodigo = 15;
+		$wObs = 100;
+		$hNormal = 5;
+		
+		$pdf->SetFontSize(7.5);
+		$pdf->SetFont('', 'B');
+		$pdf->setTextColor(234,0,0);
+		$pdf->Cell($w = 185, $h = $hNormal, $txt = 'DOCUMENTACION TECNICA', $border = 1, $ln = 0, $align = 'C', $fill = false, $link = '', $stretch = 0, $ignore_min_height = false, $calign = 'T', $valign = 'M');
+		$pdf->Ln();
+		$pdf->setTextColor(0,0,0);
+		$pdf->Cell($w = $wDocumento, $h = $hNormal, $txt = 'DOCUMENTO', $border = 1, $ln = 0, $align = 'C', $fill = false, $link = '', $stretch = 0, $ignore_min_height = false, $calign = 'T', $valign = 'M');
+		$pdf->Cell($w = $wAdjunto, $h = $hNormal, $txt = 'ADJUNTO', $border = 1, $ln = 0, $align = 'C', $fill = false, $link = '', $stretch = 0, $ignore_min_height = false, $calign = 'T', $valign = 'M');
+		$pdf->Cell($w = $wCodigo, $h = $hNormal, $txt = 'CODIGO', $border = 1, $ln = 0, $align = 'C', $fill = false, $link = '', $stretch = 0, $ignore_min_height = false, $calign = 'T', $valign = 'M');
+		$pdf->Cell($w = $wObs, $h = $hNormal, $txt = 'OBSERVACIONES', $border = 1, $ln = 0, $align = 'C', $fill = false, $link = '', $stretch = 0, $ignore_min_height = false, $calign = 'T', $valign = 'M');
+		$pdf->Ln();
+		
+		$pdf->SetFontSize(6.5);
+		$pdf->SetFont('', '');
+		foreach($dataSource->getDataset() as $row) {
+			$adjunto = null;
+			$pdf->Cell($w = $wDocumento, $h = $hNormal, $txt = $row['nombre_documento'], $border = 1, $ln = 0, $align = 'C', $fill = false, $link = '', $stretch = 0, $ignore_min_height = false, $calign = 'T', $valign = 'M');
+			if ($row['adjunto'] == "true") {
+				$adjunto = 'Si';
+			} else {
+				$adjunto = 'No';
+			}
+			$pdf->Cell($w = $wAdjunto, $h = $hNormal, $txt = $adjunto, $border = 1, $ln = 0, $align = 'C', $fill = false, $link = '', $stretch = 0, $ignore_min_height = false, $calign = 'T', $valign = 'M');
+			$pdf->Cell($w = $wCodigo, $h = $hNormal, $txt = $row['codigo'], $border = 1, $ln = 0, $align = 'C', $fill = false, $link = '', $stretch = 0, $ignore_min_height = false, $calign = 'T', $valign = 'M');
+			$pdf->Cell($w = $wObs, $h = $hNormal, $txt = $row['observaciones'], $border = 1, $ln = 0, $align = 'C', $fill = false, $link = '', $stretch = 0, $ignore_min_height = false, $calign = 'T', $valign = 'M');
 			$pdf->Ln();
 		}
 	}

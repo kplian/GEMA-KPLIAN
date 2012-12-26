@@ -348,7 +348,11 @@ BEGIN
                         teq.nombre as nombre_tipo_equipo,
                         tcc.id_uni_cons_padre,
                         to_char(tuc.fecha_reg, ''dd/MM/YYYY'') as fecha_reg,
-                        to_char(tuc.fecha_mod, ''dd/MM/YYYY'') as fecha_mod
+                        to_char(tuc.fecha_mod, ''dd/MM/YYYY'') as fecha_mod,
+                        tuc.herramientas_especiales,
+                        tuc.otros_datos_tec,
+                        tuc.funcion,
+                        tuc.punto_recepcion_despacho
                       from gem.tuni_cons tuc
                       left join gem.ttipo_equipo teq on tuc.id_tipo_equipo = teq.id_tipo_equipo
                       left join gem.tlocalizacion loc on tuc.id_localizacion = loc.id_localizacion
