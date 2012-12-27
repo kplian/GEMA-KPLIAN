@@ -83,13 +83,10 @@ Phx.vista.Localizacion=Ext.extend(Phx.arbInterfaz,{
 			Phx.CP.loadingHide();
 			var reg = Ext.util.JSON.decode(Ext.util.Format.trim(resp.responseText));
 			if(!reg.ROOT.error){
-				//alert(reg.ROOT.detalle.mensaje)
-				
-			}else{
-				
-				alert('ocurrio un error durante el proceso')
+				alert(reg.ROOT.detalle.mensaje)
+			} else{
+				alert('Se ha producido un error durante el proceso')
 			}
-			
 		},
 	
 	successIncluCalGen:function(resp){
@@ -594,7 +591,6 @@ Phx.vista.Localizacion=Ext.extend(Phx.arbInterfaz,{
 	
 	preparaMenu:function(n){
 		//si es una nodo tipo carpeta habilitamos la opcion de nuevo
-			
 		var tiponodo = n.attributes.tipo_nodo;	
 						
 		if(tiponodo == 'hijo' || tiponodo == 'raiz' || n.attributes.id == 'id'){
@@ -718,11 +714,15 @@ Phx.vista.Localizacion=Ext.extend(Phx.arbInterfaz,{
 	crearCtxMenu: function(){
 		//Grupo de opciones a nivel de localizaciones
 		this.ctxMenu.add('-');
-		this.ctxMenu.addMenuItem({text:'Usuarios por Localización',handler:this.onBtnUsuario,scope:this});
+		this.ctxMenu.addMenuItem({id:'mnuUsuLoc'+idContenedor,text:'Usuarios por Localización',handler:this.onBtnUsuario,scope:this});
 		this.ctxMenu.addMenuItem({text:'Indicadores',handler:this.onBtnMed,scope:this});
 		this.ctxMenu.addMenuItem({text:'Tarjetas TPM',handler:this.onBtnTarjetasTPM,scope:this});
+		//Sincronización de usuarios
+		this.ctxMenu.add('-');
+		this.ctxMenu.addMenuItem({text:'Sincronizar usuarios',handler:this.onBtnSincUsuUni,scope:this});
 		//Grupo de opciones para Equipos
 		this.ctxMenu.add('-');
+		this.ctxMenu.addMenuItem({text:'Incluir/Excluir para Mantenimiento',handler:this.onBtnIncluCalGen,scope:this});
 		this.ctxMenu.addMenuItem({text:'Agregar Equipo',handler:this.onBtnAddEquipo,scope:this});
 		this.ctxMenu.addMenuItem({
 			text:'Equipos',
@@ -791,11 +791,11 @@ Phx.vista.Localizacion=Ext.extend(Phx.arbInterfaz,{
 			});
 		
 		this.addButton('btnSincUsuUni', {
-				text : 'Sincronizar',
-				iconCls : 'blist',
-				disabled : false,
-				handler : this.onBtnSincUsuUni,
-				tooltip : '<b>Sincronizar</b><br/>Sincorniza los usarios configurados  para que tengan acceso a los equipos'
+				text: 'Sincronizar',
+				iconCls: 'blist',
+				disabled: false,
+				handler: this.onBtnSincUsuUni,
+				tooltip: '<b>Sincronizar Usuarios</b><br/>Sincroniza los usarios configurados  para que tengan acceso a los equipos'
 			});
 	
 			
@@ -895,7 +895,7 @@ Phx.vista.Localizacion=Ext.extend(Phx.arbInterfaz,{
 		},this);
     
     	this.wUC = new Ext.Window({
-	        title: 'Compose message',
+	        title: 'Agregar Equipo',
 	        collapsible: true,
 	        maximizable: true,
 	        autoDestroy: true,
@@ -958,10 +958,10 @@ Phx.vista.Localizacion=Ext.extend(Phx.arbInterfaz,{
 	     var dateFechaFin =this.formUCCL.getForm().findField('fecha_fin');
 	    
 	     this.wUCCL = new Ext.Window({
-	        title: 'Compose message',
+	        title: 'Calendario',
 	        collapsible: true,
 	        maximizable: true,
-	         autoDestroy: true,
+	        autoDestroy: true,
 	        width: 400,
 	        height: 350,
 	        layout: 'fit',
@@ -982,9 +982,6 @@ Phx.vista.Localizacion=Ext.extend(Phx.arbInterfaz,{
 	            scope:this
 	        }]
 	    });
-		
-	},
-	onBtnTarjetaTPM: function(){
 		
 	},
 	
@@ -1035,12 +1032,24 @@ Phx.vista.Localizacion=Ext.extend(Phx.arbInterfaz,{
 				    
 			}
 	},
+	
 	onClickUp: function(){
+		var node=this.sm.getSelectedNode();
+		var data =node.attributes;
+       	if(data){
+        	Phx.CP.loadWindows(
+           		'../../../sis_mantenimiento/vista/uni_cons_archivo/UniConsArchivo.php',
+                'Upload de archivos',{
+    				modal:true,
+                    width:900,
+                    height:500
+                },
+                data,
+                this.idContenedor,'UniConsArchivo');
+       }
 		
-	},
-	onClickRCMAnalisis: function(){
-		
-	} /*,
+	}
+ /*,
 	onBtnAtribPlan:function(){
 		var nodo = this.sm.getSelectedNode();
 		var data = nodo.attributes;
