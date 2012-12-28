@@ -46,7 +46,7 @@ Phx.vista.UniConsMantPredef=Ext.extend(Phx.gridInterfaz,{
 						direction:'ASC'
 					},
 					totalProperty:'total',
-					fields: ['id_mant_predef','nombre','codigo','descripcion','desc_tipo_equipo','id_unidad_medida_estimado','tiempo_estimado'],
+					fields: ['id_mant_predef','nombre','codigo','descripcion','desc_tipo_equipo','id_unidad_medida_estimado','tiempo_estimado','desc_unidad_medida_estimado'],
 					// turn on remote sorting
 					remoteSort: true,
 					baseParams:{par_filtro:'gemapr.nombre#gemapr.codigo'}
@@ -348,15 +348,9 @@ Phx.vista.UniConsMantPredef=Ext.extend(Phx.gridInterfaz,{
 		var txtFrec=this.getComponente('frecuencia');
 		
 		this.getComponente('id_mant_predef').on('select',function(combo,record,index){
-			console.log('HOLA',combo);
-			
 			cmbUniMed.setValue(record.data.id_unidad_medida_estimado);
-			cmbUniMed.setRawValue(record.data.nombre);
+			cmbUniMed.setRawValue(record.data.desc_unidad_medida_estimado);
 			txtFrec.setValue(record.data.tiempo_estimado);
-			
-			/*cmbCatTipo.store.baseParams.id_subsistema=record.data.id_subsistema;
-	        cmbCatTipo.reset();
-	        cmbCatTipo.modificado = true;*/
 		},this);
 	}
 }
