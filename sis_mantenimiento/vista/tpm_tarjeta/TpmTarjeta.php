@@ -19,7 +19,7 @@ Phx.vista.TpmTarjeta=Ext.extend(Phx.gridInterfaz,{
 		
 		this.addButton('btnReporte',{
             text:'Reporte',
-            iconCls: 'blist',
+            iconCls: 'bpdf32',
             disabled: false,
             handler:function(){
                 var rec=this.sm.getSelected();
