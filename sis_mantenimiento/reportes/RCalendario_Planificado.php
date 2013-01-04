@@ -196,13 +196,13 @@ Class RCalendarioPlanificado extends Report {
         for ($j=0; $j < 6; $j++) { 
             $pdf->SetFillColor(140,190,230, true);
             $pdf->setTextColor(0,0,0);
-            for ($i=(8*$j)+1; $i <(8*$j)+5 ; $i++) { 
+            for ($i=1; $i <5 ; $i++) { 
                 $pdf->Cell($width2/2, $height/2, $i, 1, 0, 'C', true, '', 0, false, 'T', 'C');        
             }
             
             $pdf->SetFillColor(255,190,130, true);
             $pdf->setTextColor(0,0,0);
-            for ($i=(8*$j)+5; $i <(8*$j)+9 ; $i++) { 
+            for ($i=1; $i <5 ; $i++) { 
                 $pdf->Cell($width2/2, $height/2, $i, 1, 0, 'C', true, '', 0, false, 'T', 'C');        
             }            
         }
