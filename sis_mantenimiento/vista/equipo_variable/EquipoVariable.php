@@ -99,7 +99,7 @@ Phx.vista.EquipoVariable=Ext.extend(Phx.gridInterfaz,{
        			config:{
        				name:'id_unidad_medida',
        				fieldLabel:'Unidad de Medida',
-       				allowBlank:false,
+       				allowBlank:true,
        				emptyText:'Unidades...',
        				store: new Ext.data.JsonStore({
     					url: '../../sis_parametros/control/UnidadMedida/listarUnidadMedida',
