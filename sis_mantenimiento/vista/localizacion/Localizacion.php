@@ -11,7 +11,7 @@ header("content-type: text/javascript; charset=UTF-8");
 <script>
 	Phx.vista.Localizacion = Ext.extend(Phx.arbInterfaz, {
 
-		constructor : function(config) {
+		constructor: function(config) {
 			this.maestro = config.maestro;
 			Phx.vista.Localizacion.superclass.constructor.call(this, config);
 			this.init();
@@ -56,7 +56,7 @@ header("content-type: text/javascript; charset=UTF-8");
 			});*/
 		},
 
-		onBeforeLoad : function(treeLoader, node) {
+		onBeforeLoad: function(treeLoader, node) {
 			var tiponodo = node.attributes.tipo_nodo;
 			treeLoader.baseParams.tipo_nodo = tiponodo;
 			if (tiponodo == 'uni_cons' || tiponodo == 'uni_cons_f') {
@@ -65,21 +65,21 @@ header("content-type: text/javascript; charset=UTF-8");
 			Phx.vista.Localizacion.superclass.onBeforeLoad.call(this, treeLoader, node)
 		},
 
-		onBtnSincUsuUni : function() {
+		onBtnSincUsuUni: function() {
 			Phx.CP.loadingShow();
 			Ext.Ajax.request({
-				url : '../../sis_mantenimiento/control/Localizacion/SincronizarUsuarios',
-				params : {
-					'tarea' : 'sincronizar'
+				url: '../../sis_mantenimiento/control/Localizacion/SincronizarUsuarios',
+				params: {
+					'tarea': 'sincronizar'
 				},
-				success : this.successSincUsuUni,
-				failure : this.conexionFailure,
-				timeout : this.timeout,
-				scope : this
+				success: this.successSincUsuUni,
+				failure: this.conexionFailure,
+				timeout: this.timeout,
+				scope: this
 			});
 		},
 
-		onBtnIncluCalGen : function() {
+		onBtnIncluCalGen: function() {
 			var node = this.sm.getSelectedNode();
 			var data = node.attributes;
 			//el boton de bloqueo solo se habilita para
@@ -95,23 +95,23 @@ header("content-type: text/javascript; charset=UTF-8");
 
 				Ext.Ajax.request({
 					// form:this.form.getForm().getEl(),
-					url : '../../sis_mantenimiento/control/UniCons/modificarInclucionGeneracionCalendarioUniCons',
-					params : {
-						'id_uni_cons' : data.id_uni_cons,
-						incluir_calgen : aux
+					url: '../../sis_mantenimiento/control/UniCons/modificarInclucionGeneracionCalendarioUniCons',
+					params: {
+						'id_uni_cons': data.id_uni_cons,
+						incluir_calgen: aux
 					},
-					success : this.successIncluCalGen,
-					argument : {
-						node : node.parentNode
+					success: this.successIncluCalGen,
+					argument: {
+						node: node.parentNode
 					},
-					failure : this.conexionFailure,
-					timeout : this.timeout,
-					scope : this
+					failure: this.conexionFailure,
+					timeout: this.timeout,
+					scope: this
 				});
 			}
 		},
 
-		successSincUsuUni : function(resp) {
+		successSincUsuUni: function(resp) {
 			Phx.CP.loadingHide();
 			var reg = Ext.util.JSON.decode(Ext.util.Format.trim(resp.responseText));
 			if (!reg.ROOT.error) {
@@ -121,7 +121,7 @@ header("content-type: text/javascript; charset=UTF-8");
 			}
 		},
 
-		successIncluCalGen : function(resp) {
+		successIncluCalGen: function(resp) {
 			Phx.CP.loadingHide();
 			var reg = Ext.util.JSON.decode(Ext.util.Format.trim(resp.responseText));
 			if (!reg.ROOT.error) {
@@ -135,7 +135,7 @@ header("content-type: text/javascript; charset=UTF-8");
 
 		},
 
-		onCalGen : function() {
+		onCalGen: function() {
 			var nodo = this.sm.getSelectedNode();
 			if (this.formUCCL.getForm().isValid()) {
 				Phx.CP.loadingShow();
@@ -159,31 +159,31 @@ header("content-type: text/javascript; charset=UTF-8");
 				};
 
 				Ext.Ajax.request({
-					url : '../../sis_mantenimiento/control/UniCons/GenerarCalendario',
-					params : parametros,
-					success : this.successCalGen,
-					argument : parametros,
-					failure : this.conexionFailure,
-					timeout : this.timeout,
-					scope : this
+					url: '../../sis_mantenimiento/control/UniCons/GenerarCalendario',
+					params: parametros,
+					success: this.successCalGen,
+					argument: parametros,
+					failure: this.conexionFailure,
+					timeout: this.timeout,
+					scope: this
 				});
 			}
 
 		},
 
-		onCalGenConfirmado : function(parametros) {
+		onCalGenConfirmado: function(parametros) {
 			Phx.CP.loadingShow();
 			Ext.Ajax.request({
-				url : '../../sis_mantenimiento/control/UniCons/GenerarCalendarioConfirmado',
-				params : parametros,
-				success : this.successCalGen,
-				failure : this.conexionFailure,
-				timeout : this.timeout,
-				scope : this
+				url: '../../sis_mantenimiento/control/UniCons/GenerarCalendarioConfirmado',
+				params: parametros,
+				success: this.successCalGen,
+				failure: this.conexionFailure,
+				timeout: this.timeout,
+				scope: this
 			});
 		},
 
-		onAddUniCons : function() {
+		onAddUniCons: function() {
 			if (this.formUC.getForm().isValid()) {
 				Phx.CP.loadingShow();
 				var nodo = this.sm.getSelectedNode();
@@ -192,23 +192,23 @@ header("content-type: text/javascript; charset=UTF-8");
 				var codigo_loc = nodo.parentNode.attributes.codigo + '-' + nodo.attributes.codigo
 
 				Ext.Ajax.request({
-					url : '../../sis_mantenimiento/control/UniCons/addUniCons',
-					params : {
+					url: '../../sis_mantenimiento/control/UniCons/addUniCons',
+					params: {
 						id_uni_cons : cmbUC.getValue(),
 						codigo_uni_cons : codigo.getValue(),
 						id_localizacion : nodo.attributes.id_localizacion,
 						codigo_localizacion : codigo_loc,
 						nombre : nodo.attributes.nombre
 					},
-					success : this.successAddUniCons,
-					failure : this.conexionFailure,
-					timeout : this.timeout,
-					scope : this
+					success: this.successAddUniCons,
+					failure: this.conexionFailure,
+					timeout: this.timeout,
+					scope: this
 				});
 			}
 		},
 
-		successCalGen : function(resp) {
+		successCalGen: function(resp) {
 			Phx.CP.loadingHide();
 			var reg = Ext.util.JSON.decode(Ext.util.Format.trim(resp.responseText));
 			if (reg.ROOT.error) {
@@ -225,7 +225,7 @@ header("content-type: text/javascript; charset=UTF-8");
 			}
 		},
 
-		successAddUniCons : function(resp) {
+		successAddUniCons: function(resp) {
 			Phx.CP.loadingHide();
 			var reg = Ext.util.JSON.decode(Ext.util.Format.trim(resp.responseText));
 			if (reg.ROOT.error) {
@@ -237,7 +237,7 @@ header("content-type: text/javascript; charset=UTF-8");
 			}
 		},
 
-		onBtnAddEquipo : function() {
+		onBtnAddEquipo: function() {
 			var nodo = this.sm.getSelectedNode();
 			this.formUC.form.reset()
 			if (nodo) {
@@ -245,14 +245,14 @@ header("content-type: text/javascript; charset=UTF-8");
 			}
 		},
 
-		onBtnCalGen : function() {
+		onBtnCalGen: function() {
 			var nodo = this.sm.getSelectedNode();
 			if (nodo) {
 				this.wUCCL.show()
 			}
 		},
 
-		onBtnVerCalGen : function() {
+		onBtnVerCalGen: function() {
 			var nodo = this.sm.getSelectedNode();
 			if (nodo) {
 				Phx.CP.loadWindows('../../../sis_mantenimiento/vista/localizacion/gridCalendario.php', 'Calendario de Planificacion', {
@@ -263,36 +263,36 @@ header("content-type: text/javascript; charset=UTF-8");
 			}
 		},
 
-		onBtnGenerarOT : function() {
+		onBtnGenerarOT: function() {
 			var nodo = this.sm.getSelectedNode();
 			Phx.CP.loadWindows('../../../sis_mantenimiento/vista/orden_trabajo/GenerarOrdenTrabajo.php', 'Generar Ordenes de Trabajo', {
-				width : 800,
-				height : 400
+				width: 800,
+				height: 400
 			}, nodo.attributes, this.idContenedor, 'GenerarOdenTrabajo')
 
 		},
 
-		onBtnUsuario : function() {
+		onBtnUsuario: function() {
 			var node = this.sm.getSelectedNode();
 			var data = node.attributes;
 			if (data) {
 				Phx.CP.loadWindows('../../../sis_mantenimiento/vista/localizacion_usuario/LocalizacionUsuario.php', 'Usuarios por Localización', {
-					modal : true,
-					width : 900,
-					height : 400
+					modal: true,
+					width: 900,
+					height: 400
 				}, data, this.idContenedor, 'LocalizacionUsuario')
 			}
 		},
 
-		onBtnMed : function() {
+		onBtnMed: function() {
 			var node = this.sm.getSelectedNode();
 			var data = node.attributes;
 			Phx.CP.log(node);
 			if (data) {
 				Phx.CP.loadWindows('../../../sis_mantenimiento/vista/localizacion_med/LocalizacionMed.php', 'Indicadores: ' + node.text, {
-					modal : true,
-					width : 900,
-					height : 400
+					modal: true,
+					width: 900,
+					height: 400
 				}, data, this.idContenedor, 'LocalizacionMed')
 			}
 		},
@@ -302,45 +302,45 @@ header("content-type: text/javascript; charset=UTF-8");
 			var data = rec.attributes;
 			if (data) {
 				Phx.CP.loadWindows('../../../sis_mantenimiento/vista/analisis_porque/AnalisisPorque.php', 'Analisis Porque', {
-					modal : true,
-					width : 900,
-					height : 600
+					modal: true,
+					width: 900,
+					height: 600
 				}, data, this.idContenedor, 'AnalisisPorque')
 			}
 		},
 
-		onBtnTarjetasTPM : function() {
+		onBtnTarjetasTPM: function() {
 			var rec = this.sm.getSelectedNode();
 			var data = rec.attributes;
 			if (data) {
 				Phx.CP.loadWindows('../../../sis_mantenimiento/vista/tpm_tarjeta/TpmTarjeta.php', 'Control de Tarjetas TPM', {
-					modal : true,
-					width : 900,
-					height : 600
+					modal: true,
+					width: 900,
+					height: 600
 				}, data, this.idContenedor, 'TpmTarjeta')
 			}
 		},
 
-		winmodal : false,
+		winmodal: false,
 
-		Atributos : [{
+		Atributos: [{
 			//configuracion del componente
-			config : {
-				labelSeparator : '',
-				inputType : 'hidden',
-				name : 'id_localizacion'
+			config: {
+				labelSeparator: '',
+				inputType: 'hidden',
+				name: 'id_localizacion'
 			},
-			type : 'Field',
-			form : true
+			type: 'Field',
+			form: true
 		}, {
-			config : {
-				name : 'id_localizacion_fk',
-				inputType : 'hidden',
-				labelSeparator : ''
+			config: {
+				name: 'id_localizacion_fk',
+				inputType: 'hidden',
+				labelSeparator: ''
 
 			},
-			type : 'Field',
-			form : true
+			type: 'Field',
+			form: true
 		}, {
 			config: {
 				name: 'codigo',
@@ -350,31 +350,31 @@ header("content-type: text/javascript; charset=UTF-8");
 				gwidth: 100,
 				maxLength: 30
 			},
-			type : 'TextField',
-			filters : {
-				pfiltro : 'loc.codigo',
-				type : 'string'
+			type: 'TextField',
+			filters: {
+				pfiltro: 'loc.codigo',
+				type: 'string'
 			},
-			id_grupo : 1,
-			grid : true,
-			form : true
+			id_grupo: 1,
+			grid: true,
+			form: true
 		}, {
-			config : {
-				name : 'estado_reg',
-				fieldLabel : 'Estado Reg.',
-				allowBlank : true,
-				anchor : '80%',
-				gwidth : 100,
-				maxLength : 10
+			config: {
+				name: 'estado_reg',
+				fieldLabel: 'Estado Reg.',
+				allowBlank: true,
+				anchor: '80%',
+				gwidth: 100,
+				maxLength: 10
 			},
-			type : 'TextField',
-			filters : {
-				pfiltro : 'loc.estado_reg',
-				type : 'string'
+			type: 'TextField',
+			filters: {
+				pfiltro: 'loc.estado_reg',
+				type: 'string'
 			},
-			id_grupo : 1,
-			grid : true,
-			form : false
+			id_grupo: 1,
+			grid: true,
+			form: false
 		}, {
 			config: {
 				name: 'nombre',
@@ -384,14 +384,14 @@ header("content-type: text/javascript; charset=UTF-8");
 				gwidth: 100,
 				maxLength: 150
 			},
-			type : 'TextField',
-			filters : {
-				pfiltro : 'loc.nombre',
-				type : 'string'
+			type: 'TextField',
+			filters: {
+				pfiltro: 'loc.nombre',
+				type: 'string'
 			},
-			id_grupo : 1,
-			grid : true,
-			form : true
+			id_grupo: 1,
+			grid: true,
+			form: true
 		}, {
 			config: {
 				name: 'ubicacion',
@@ -401,14 +401,14 @@ header("content-type: text/javascript; charset=UTF-8");
 				gwidth: 100,
 				maxLength: 500
 			},
-			type : 'TextField',
-			filters : {
-				pfiltro : 'loc.ubicacion',
-				type : 'string'
+			type: 'TextField',
+			filters: {
+				pfiltro: 'loc.ubicacion',
+				type: 'string'
 			},
-			id_grupo : 1,
-			grid : true,
-			form : true
+			id_grupo: 1,
+			grid: true,
+			form: true
 		}, {
 			config: {
 				name: 'latitud',
@@ -418,14 +418,14 @@ header("content-type: text/javascript; charset=UTF-8");
 				gwidth: 100,
 				maxLength: 200
 			},
-			type : 'TextField',
-			filters : {
-				pfiltro : 'loc.latitud',
-				type : 'string'
+			type: 'TextField',
+			filters: {
+				pfiltro: 'loc.latitud',
+				type: 'string'
 			},
-			id_grupo : 1,
-			grid : true,
-			form : true
+			id_grupo: 1,
+			grid: true,
+			form: true
 		}, {
 			config: {
 				name: 'longitud',
@@ -435,14 +435,14 @@ header("content-type: text/javascript; charset=UTF-8");
 				gwidth: 100,
 				maxLength: 200
 			},
-			type : 'TextField',
-			filters : {
-				pfiltro : 'loc.longitud',
-				type : 'string'
+			type: 'TextField',
+			filters: {
+				pfiltro: 'loc.longitud',
+				type: 'string'
 			},
-			id_grupo : 1,
-			grid : true,
-			form : true
+			id_grupo: 1,
+			grid: true,
+			form: true
 		}, {
 			config: {
 				name: 'coordenadas',
@@ -452,14 +452,14 @@ header("content-type: text/javascript; charset=UTF-8");
 				gwidth: 100,
 				maxLength: 200
 			},
-			type : 'NumberField',
-			filters : {
-				pfiltro : 'loc.coordenadas',
-				type : 'string'
+			type: 'NumberField',
+			filters: {
+				pfiltro: 'loc.coordenadas',
+				type: 'string'
 			},
-			id_grupo : 1,
-			grid : true,
-			form : true
+			id_grupo: 1,
+			grid: true,
+			form: true
 		}, {
 			config: {
 				name: 'desc_ubicacion',
@@ -469,111 +469,111 @@ header("content-type: text/javascript; charset=UTF-8");
 				gwidth: 100,
 				maxLength: 2000
 			},
-			type : 'TextArea',
-			filters : {
-				pfiltro : 'loc.desc_ubicacion',
-				type : 'string'
+			type: 'TextArea',
+			filters: {
+				pfiltro: 'loc.desc_ubicacion',
+				type: 'string'
 			},
-			id_grupo : 1,
-			grid : true,
-			form : true
+			id_grupo: 1,
+			grid: true,
+			form: true
 		}, {
-			config : {
-				name : 'usr_reg',
-				fieldLabel : 'Creado por',
-				allowBlank : true,
-				anchor : '80%',
-				gwidth : 100,
-				maxLength : 4
+			config: {
+				name: 'usr_reg',
+				fieldLabel: 'Creado por',
+				allowBlank: true,
+				anchor: '80%',
+				gwidth: 100,
+				maxLength: 4
 			},
-			type : 'NumberField',
-			filters : {
-				pfiltro : 'usu1.cuenta',
-				type : 'string'
+			type: 'NumberField',
+			filters: {
+				pfiltro: 'usu1.cuenta',
+				type: 'string'
 			},
-			id_grupo : 1,
-			grid : true,
-			form : false
+			id_grupo: 1,
+			grid: true,
+			form: false
 		}, {
-			config : {
-				name : 'fecha_reg',
-				fieldLabel : 'Fecha creación',
-				allowBlank : true,
-				anchor : '80%',
-				gwidth : 100,
-				renderer : function(value, p, record) {
+			config: {
+				name: 'fecha_reg',
+				fieldLabel: 'Fecha creación',
+				allowBlank: true,
+				anchor: '80%',
+				gwidth: 100,
+				renderer: function(value, p, record) {
 					return value ? value.dateFormat('d/m/Y h:i:s') : ''
 				}
 			},
-			type : 'DateField',
-			filters : {
-				pfiltro : 'loc.fecha_reg',
-				type : 'date'
+			type: 'DateField',
+			filters: {
+				pfiltro: 'loc.fecha_reg',
+				type: 'date'
 			},
-			id_grupo : 1,
-			grid : true,
-			form : false
+			id_grupo: 1,
+			grid: true,
+			form: false
 		}, {
-			config : {
-				name : 'usr_mod',
-				fieldLabel : 'Modificado por',
-				allowBlank : true,
-				anchor : '80%',
-				gwidth : 100,
-				maxLength : 4
+			config: {
+				name: 'usr_mod',
+				fieldLabel: 'Modificado por',
+				allowBlank: true,
+				anchor: '80%',
+				gwidth: 100,
+				maxLength: 4
 			},
-			type : 'NumberField',
-			filters : {
-				pfiltro : 'usu2.cuenta',
-				type : 'string'
+			type: 'NumberField',
+			filters: {
+				pfiltro: 'usu2.cuenta',
+				type: 'string'
 			},
-			id_grupo : 1,
-			grid : true,
-			form : false
+			id_grupo: 1,
+			grid: true,
+			form: false
 		}, {
-			config : {
-				name : 'fecha_mod',
-				fieldLabel : 'Fecha Modif.',
-				allowBlank : true,
-				anchor : '80%',
-				gwidth : 100,
-				renderer : function(value, p, record) {
+			config: {
+				name: 'fecha_mod',
+				fieldLabel: 'Fecha Modif.',
+				allowBlank: true,
+				anchor: '80%',
+				gwidth: 100,
+				renderer: function(value, p, record) {
 					return value ? value.dateFormat('d/m/Y h:i:s') : ''
 				}
 			},
-			type : 'DateField',
-			filters : {
-				pfiltro : 'loc.fecha_mod',
-				type : 'date'
+			type: 'DateField',
+			filters: {
+				pfiltro: 'loc.fecha_mod',
+				type: 'date'
 			},
-			id_grupo : 1,
-			grid : true,
-			form : false
+			id_grupo: 1,
+			grid: true,
+			form: false
 		}],
-		title : 'Localizacion',
-		ActSave : '../../sis_mantenimiento/control/Localizacion/insertarLocalizacion',
-		ActDel : '../../sis_mantenimiento/control/Localizacion/eliminarLocalizacion',
-		ActList : '../../sis_mantenimiento/control/Localizacion/listarLocalizacionArb',
-		id_store : 'id_localizacion',
-		textRoot : 'YPFB Logística',
-		id_nodo : 'id_localizacion',
-		id_nodo_p : 'id_localizacion_fk',
+		title: 'Localizacion',
+		ActSave: '../../sis_mantenimiento/control/Localizacion/insertarLocalizacion',
+		ActDel: '../../sis_mantenimiento/control/Localizacion/eliminarLocalizacion',
+		ActList: '../../sis_mantenimiento/control/Localizacion/listarLocalizacionArb',
+		id_store: 'id_localizacion',
+		textRoot: 'YPFB Logística',
+		id_nodo: 'id_localizacion',
+		id_nodo_p: 'id_localizacion_fk',
 
-		onButtonNew : function() {
+		onButtonNew: function() {
 			var nodo = this.sm.getSelectedNode();
 			Phx.vista.Localizacion.superclass.onButtonNew.call(this);
 			Phx.CP.getPagina(this.idContenedor + '-east').setMarkerDragableOn();
 			//this.getComponente('nivel').setValue((nodo.attributes.nivel*1)+1);
 		},
 
-		onButtonEdit : function() {
+		onButtonEdit: function() {
 			var nodo = this.sm.getSelectedNode();
 			Phx.vista.Localizacion.superclass.onButtonEdit.call(this);
 			Phx.CP.getPagina(this.idContenedor + '-east').setMarkerDragableOn();
 			//this.getComponente('nivel').setValue((nodo.attributes.nivel*1)+1);
 		},
 
-		onButtonDel : function() {
+		onButtonDel: function() {
 			var nodo = this.sm.getSelectedNode();
 			if (nodo.attributes.tipo_nodo == 'uni_cons' || nodo.attributes.tipo_nodo == 'uni_cons_f') {
 				nodo.attributes.tipo_meta = nodo.attributes.tipo_nodo;
@@ -585,76 +585,76 @@ header("content-type: text/javascript; charset=UTF-8");
 			//this.getComponente('nivel').setValue((nodo.attributes.nivel*1)+1);
 		},
 
-		fields : ['id', 'tipo_meta', {
-			name : 'id_localizacion',
-			type : 'numeric'
+		fields: ['id', 'tipo_meta', {
+			name: 'id_localizacion',
+			type: 'numeric'
 		}, {
-			name : 'codigo',
-			type : 'string'
+			name: 'codigo',
+			type: 'string'
 		}, {
-			name : 'estado_reg',
-			type : 'string'
+			name: 'estado_reg',
+			type: 'string'
 		}, {
-			name : 'nombre',
-			type : 'string'
+			name: 'nombre',
+			type: 'string'
 		}, {
-			name : 'id_localizacion_fk',
-			type : 'numeric'
+			name: 'id_localizacion_fk',
+			type: 'numeric'
 		}, {
-			name : 'ubicacion',
-			type : 'string'
+			name: 'ubicacion',
+			type: 'string'
 		}, {
-			name : 'coordenadas',
-			type : 'string'
+			name: 'coordenadas',
+			type: 'string'
 		}, {
-			name : 'desc_ubicacion',
-			type : 'string'
+			name: 'desc_ubicacion',
+			type: 'string'
 		}, {
-			name : 'id_usuario_reg',
-			type : 'numeric'
+			name: 'id_usuario_reg',
+			type: 'numeric'
 		}, {
-			name : 'fecha_reg',
-			type : 'date',
+			name: 'fecha_reg',
+			type: 'date',
 			dateFormat : 'Y-m-d H:i:s'
 		}, {
-			name : 'id_usuario_mod',
-			type : 'numeric'
+			name: 'id_usuario_mod',
+			type: 'numeric'
 		}, {
-			name : 'fecha_mod',
-			type : 'date',
+			name: 'fecha_mod',
+			type: 'date',
 			dateFormat : 'Y-m-d H:i:s'
 		}, {
-			name : 'usr_reg',
-			type : 'string'
+			name: 'usr_reg',
+			type: 'string'
 		}, {
-			name : 'usr_mod',
-			type : 'string'
+			name: 'usr_mod',
+			type: 'string'
 		}],
-		east : {
-			url : '../../../sis_mantenimiento/vista/localizacion/mapaLocalizacion.php',
-			title : 'Ubicación',
-			width : '50%',
-			cls : 'mapaLocalizacion'
+		east: {
+			url: '../../../sis_mantenimiento/vista/localizacion/mapaLocalizacion.php',
+			title: 'Ubicación',
+			width: '50%',
+			cls: 'mapaLocalizacion'
 		},
 
-		sortInfo : {
-			field : 'id_localizacion',
-			direction : 'ASC'
+		sortInfo: {
+			field: 'id_localizacion',
+			direction: 'ASC'
 		},
 
-		bdel : true,
-		bsave : false,
-		rootVisible : true,
+		bdel: true,
+		bsave: false,
+		rootVisible: true,
 
 		//Función que se dispara cuando se deselecciona el nodo
-		liberaMenu : function(n) {
+		liberaMenu: function(n) {
 			Phx.vista.Localizacion.superclass.liberaMenu.call(this, n);
 			this.menuOp.menu.items.get('btn-verCalGen-' + this.idContenedor).disable();
 			this.menuOp.menu.items.get('btn-calGen-' + this.idContenedor).enable();
-			this.getBoton('btn-incCalen-' + this.idContenedor).disable();
-			this.getBoton('btn-addEqu-' + this.idContenedor).disable();
-			this.getBoton('btn-sincUsuUni-' + this.idContenedor).disable();
-			this.getBoton('btn-genOT-' + this.idContenedor).disable();
+			this.getBoton('btn-incCalen').disable();
+			this.getBoton('btn-addEqu').disable();
+			this.menuLoc.menu.items.get('btn-usuSinc-' + this.idContenedor).enable();
+			this.getBoton('btn-genOT').disable();
 			this.menuOp.disable();
 		},
 
@@ -681,7 +681,7 @@ header("content-type: text/javascript; charset=UTF-8");
 			if (tiponodo == undefined) {
 				//****************************************NODO SELECCIONADO: RAIZ
 				//AGREGAR EQUIPO
-				this.getBoton('btn-addEqu-' + this.idContenedor).disable();
+				this.getBoton('btn-addEqu').disable();
 				this.ctxMenu.items.get('mni-addEqu-'+this.idContenedor).disable();
 				//PLANIFICACION CALENDARIO
 				this.menuOp.disable();
@@ -706,7 +706,7 @@ header("content-type: text/javascript; charset=UTF-8");
 				this.ctxMenu.items.get('mni-usuSinc-' + this.idContenedor).disable();
 				this.menuLoc.menu.items.get('btn-usuSinc-' + this.idContenedor).disable();
 				//INCLUIR/EXCLUIR EQUIPOS
-				this.getBoton('btn-incCalen-' + this.idContenedor).disable();
+				this.getBoton('btn-incCalen').disable();
 				this.ctxMenu.items.get('mni-incCalen-' + this.idContenedor).disable();
 				//EQUIPOS
 				this.menuEq.disable();
@@ -746,13 +746,13 @@ header("content-type: text/javascript; charset=UTF-8");
 				this.ctxMenu.items.get('mni-equipos-' + this.idContenedor).menu.items.get('mni-rcm-' + this.idContenedor).disable();
 				this.ctxMenu.items.get('mni-equipos-' + this.idContenedor).menu.items.get('mni-rcm-' + this.idContenedor).menu.items.get('mni-rcmPlan-' + this.idContenedor).disable();
 				//GENERAR OTs
-				this.getBoton('btn-genOT-' + this.idContenedor).disable();
+				this.getBoton('btn-genOT').disable();
 				this.ctxMenu.items.get('mni-genOT-' + this.idContenedor).disable();
 				
 			} else if(tiponodo=='uni_cons'||tiponodo=='uni_cons_f'||tiponodo=='rama') {
 				//*****************************************NODO SELECCIONADO: EQUIPOS
 				//AGREGAR EQUIPO
-				this.getBoton('btn-addEqu-' + this.idContenedor).disable();
+				this.getBoton('btn-addEqu').disable();
 				this.ctxMenu.items.get('mni-addEqu-'+this.idContenedor).disable();
 				//PLANIFICACION CALENDARIO
 				this.menuOp.enable();
@@ -777,7 +777,7 @@ header("content-type: text/javascript; charset=UTF-8");
 				this.ctxMenu.items.get('mni-usuSinc-' + this.idContenedor).disable();
 				this.menuLoc.menu.items.get('btn-usuSinc-' + this.idContenedor).disable();
 				//INCLUIR/EXCLUIR EQUIPOS
-				this.getBoton('btn-incCalen-' + this.idContenedor).enable();
+				this.getBoton('btn-incCalen').enable();
 				this.ctxMenu.items.get('mni-incCalen-' + this.idContenedor).enable();
 				//EQUIPOS
 				//EQUIPOS
@@ -818,17 +818,17 @@ header("content-type: text/javascript; charset=UTF-8");
 				this.ctxMenu.items.get('mni-equipos-' + this.idContenedor).menu.items.get('mni-rcm-' + this.idContenedor).enable();
 				this.ctxMenu.items.get('mni-equipos-' + this.idContenedor).menu.items.get('mni-rcm-' + this.idContenedor).menu.items.get('mni-rcmPlan-' + this.idContenedor).enable();
 				//GENERAR OTs
-				this.getBoton('btn-genOT-' + this.idContenedor).enable();
+				this.getBoton('btn-genOT').enable();
 				this.ctxMenu.items.get('mni-genOT-' + this.idContenedor).enable();
 				
 			} else{
 				//*****************************************NODO SELECCIONADO: LOCALIZACIONES
 				//AGREGAR EQUIPO
 				if (tiponodo == 'hijo') {
-					this.getBoton('btn-addEqu-' + this.idContenedor).enable();
+					this.getBoton('btn-addEqu').enable();
 					this.ctxMenu.items.get('mni-addEqu-'+this.idContenedor).enable();
 				} else {
-					this.getBoton('btn-addEqu-' + this.idContenedor).disable();
+					this.getBoton('btn-addEqu').disable();
 					this.ctxMenu.items.get('mni-addEqu-'+this.idContenedor).disable();
 				}
 				//PLANIFICACION CALENDARIO
@@ -854,7 +854,7 @@ header("content-type: text/javascript; charset=UTF-8");
 				this.ctxMenu.items.get('mni-usuSinc-' + this.idContenedor).enable();
 				this.menuLoc.menu.items.get('btn-usuSinc-' + this.idContenedor).enable();
 				//INCLUIR/EXCLUIR EQUIPOS
-				this.getBoton('btn-incCalen-' + this.idContenedor).disable();
+				this.getBoton('btn-incCalen').disable();
 				this.ctxMenu.items.get('mni-incCalen-' + this.idContenedor).disable();
 				//EQUIPOS
 				this.menuEq.disable();
@@ -894,7 +894,7 @@ header("content-type: text/javascript; charset=UTF-8");
 				this.ctxMenu.items.get('mni-equipos-' + this.idContenedor).menu.items.get('mni-rcm-' + this.idContenedor).disable();
 				this.ctxMenu.items.get('mni-equipos-' + this.idContenedor).menu.items.get('mni-rcm-' + this.idContenedor).menu.items.get('mni-rcmPlan-' + this.idContenedor).disable();
 				//GENERAR OTs
-				this.getBoton('btn-genOT-' + this.idContenedor).enable();
+				this.getBoton('btn-genOT').enable();
 				this.ctxMenu.items.get('mni-genOT-' + this.idContenedor).enable();
 			}
 			
@@ -902,7 +902,7 @@ header("content-type: text/javascript; charset=UTF-8");
 			Phx.vista.Localizacion.superclass.preparaMenu.call(this, n);
 		},
 
-		EnableSelect : function(n) {
+		EnableSelect: function(n) {
 			var tiponodo = n.attributes.tipo_nodo;
 			if (tiponodo != 'uni_cons_f' && tiponodo != 'uni_cons' && tiponodo != 'rama') {
 				var nivel = n.getDepth();
@@ -935,7 +935,7 @@ header("content-type: text/javascript; charset=UTF-8");
 			Phx.vista.Localizacion.superclass.EnableSelect.call(this, n)
 		},
 
-		getNombrePadre : function(n) {
+		getNombrePadre: function(n) {
 			var direc
 			var padre = n.parentNode;
 
@@ -951,7 +951,7 @@ header("content-type: text/javascript; charset=UTF-8");
 			}
 		},
 
-		onFichaTecnicaClick : function() {
+		onFichaTecnicaClick: function() {
 			var node = this.sm.getSelectedNode();
 			var data = node.attributes;
 			if (data) {
@@ -968,7 +968,7 @@ header("content-type: text/javascript; charset=UTF-8");
 			}
 		},
 
-		onEqMantClick : function() {
+		onEqMantClick: function() {
 			var node = this.sm.getSelectedNode();
 			var data = node.attributes;
 			if (data) {
@@ -981,99 +981,99 @@ header("content-type: text/javascript; charset=UTF-8");
 			}
 		},
 
-		crearCtxMenu : function() {
+		crearCtxMenu: function() {
 			//Grupo de opciones a nivel de localizaciones
 			this.ctxMenu.add('-');
 			//id:'mnuUsuLoc'+idContenedor,
 			this.ctxMenu.addMenuItem({
 				id: 'mni-usuLoc-'+this.idContenedor,
-				text : 'Usuarios por Localización',
-				handler : this.onBtnUsuario,
-				scope : this
+				text: 'Usuarios por Localización',
+				handler: this.onBtnUsuario,
+				scope: this
 			});
 			this.ctxMenu.addMenuItem({
 				id: 'mni-indicad-'+this.idContenedor,
-				text : 'Indicadores',
-				handler : this.onBtnMed,
-				scope : this
+				text: 'Indicadores',
+				handler: this.onBtnMed,
+				scope: this
 			});
 			this.ctxMenu.addMenuItem({
 				id: 'mni-tarTPM-'+this.idContenedor,
-				text : 'Tarjetas TPM',
-				handler : this.onBtnTarjetasTPM,
-				scope : this
+				text: 'Tarjetas TPM',
+				handler: this.onBtnTarjetasTPM,
+				scope: this
 			});
 			//Sincronización de usuarios
 			this.ctxMenu.add('-');
 			this.ctxMenu.addMenuItem({
-				id : 'mni-usuSinc-' + this.idContenedor,
-				text : 'Sincronizar usuarios',
-				handler : this.onBtnSincUsuUni,
-				scope : this
+				id: 'mni-usuSinc-' + this.idContenedor,
+				text: 'Sincronizar usuarios',
+				handler: this.onBtnSincUsuUni,
+				scope: this
 			});
 			//Grupo de opciones para Equipos
 			this.ctxMenu.add('-');
 			this.ctxMenu.addMenuItem({
-				id : 'mni-incCalen-' + this.idContenedor,
-				text : 'Incluir/Excluir para Mantenimiento',
-				handler : this.onBtnIncluCalGen,
-				scope : this
+				id: 'mni-incCalen-' + this.idContenedor,
+				text: 'Incluir/Excluir para Mantenimiento',
+				handler: this.onBtnIncluCalGen,
+				scope: this
 			});
 			this.ctxMenu.addMenuItem({
-				id : 'mni-addEqu-' + this.idContenedor,
-				text : 'Agregar Equipo',
-				handler : this.onBtnAddEquipo,
-				scope : this
+				id: 'mni-addEqu-' + this.idContenedor,
+				text: 'Agregar Equipo',
+				handler: this.onBtnAddEquipo,
+				scope: this
 			});
 			this.ctxMenu.addMenuItem({
 				id:'mni-equipos-'+this.idContenedor,
-				text : 'Equipos',
-				menu : {
-					items : [{
+				text: 'Equipos',
+				menu: {
+					items: [{
 						id:'mni-ficTec-'+this.idContenedor,
-						text : 'Ficha Técnica',
-						handler : this.onFichaTecnicaClick,
-						scope : this
+						text: 'Ficha Técnica',
+						handler: this.onFichaTecnicaClick,
+						scope: this
 					}, {
 						id:'mni-mantPredef-'+this.idContenedor,
-						text : 'Mantenimientos predefinidos',
-						handler : this.onEqMantClick,
-						scope : this
+						text: 'Mantenimientos predefinidos',
+						handler: this.onEqMantClick,
+						scope: this
 					}, {
 						id:'mni-medVar-'+this.idContenedor,
-						text : 'Medición de Variables',
-						handler : this.onClickMed,
-						scope : this
+						text: 'Medición de Variables',
+						handler: this.onClickMed,
+						scope: this
 					}, {
 						id:'mni-upArch-'+this.idContenedor,
-						text : 'Upload archivos',
-						handler : this.onClickUp,
-						scope : this
+						text: 'Upload archivos',
+						handler: this.onClickUp,
+						scope: this
 					}, {
 						id:'mni-tpm-'+this.idContenedor,
-						text : 'TPM',
-						menu : {
-							items : [{
+						text: 'TPM',
+						menu: {
+							items: [{
 								id:'mni-anPorque-'+this.idContenedor,
-								text : 'Análisis Porqué-Porqué',
-								handler : this.onBtnTPMPorquePorque,
-								scope : this
+								text: 'Análisis Porqué-Porqué',
+								handler: this.onBtnTPMPorquePorque,
+								scope: this
 							}]
 						}
 					}, {
 						id:'mni-rcm-'+this.idContenedor,
-						text : 'RCM',
-						menu : {
-							items : [{
+						text: 'RCM',
+						menu: {
+							items: [{
 								id:'mni-rcmAnalisis-'+this.idContenedor,
-								text : 'Análisis',
-								handler : this.onBtnRCMAnalisis,
-								scope : this
+								text: 'Análisis',
+								handler: this.onBtnRCMAnalisis,
+								scope: this
 							}, {
 								id:'mni-rcmPlan-'+this.idContenedor,
-								text : 'Planificación',
-								handler : this.onBtnRCMPlan,
-								scope : this
+								text: 'Planificación',
+								handler: this.onBtnRCMPlan,
+								scope: this
 							}]
 						}
 					}]
@@ -1083,19 +1083,19 @@ header("content-type: text/javascript; charset=UTF-8");
 			//Grupo de opciones para el Calendario
 			this.ctxMenu.add('-');
 			this.ctxMenu.addMenuItem({
-				id : 'ctx-PlaMan-' + this.idContenedor,
-				text : 'Planificación del Mantenimiento',
-				menu : {
-					items : [{
-						id : 'mni-verCalGen-' + this.idContenedor,
-						text : 'Ver Calendario',
-						handler : this.onBtnVerCalGen,
-						scope : this
+				id: 'ctx-PlaMan-' + this.idContenedor,
+				text: 'Planificación del Mantenimiento',
+				menu: {
+					items: [{
+						id: 'mni-verCalGen-' + this.idContenedor,
+						text: 'Ver Calendario',
+						handler: this.onBtnVerCalGen,
+						scope: this
 					}, {
-						id : 'mni-calGen-' + this.idContenedor,
-						text : 'Generar Calendario',
-						handler : this.onBtnCalGen,
-						scope : this
+						id: 'mni-calGen-' + this.idContenedor,
+						text: 'Generar Calendario',
+						handler: this.onBtnCalGen,
+						scope: this
 					}]
 				}
 			});
@@ -1122,23 +1122,23 @@ header("content-type: text/javascript; charset=UTF-8");
 				items: [{
 					id:'btn-usuLoc-' + this.idContenedor,
 					text: 'Usuarios/Localizacion',
-					disabled : true,
-					tooltip : '<b>Usuarios por Localización</b>',
+					disabled: true,
+					tooltip: '<b>Usuarios por Localización</b>',
 					handler:this.onBtnUsuario,
 					scope: this
 				}, {
 					id:'btn-usuSinc-' + this.idContenedor,
 					text: 'Sincronizar Usuarios',
-					disabled : true,
-					tooltip : '<b>Sincronizar Usuarios</b>',
+					disabled: true,
+					tooltip: '<b>Sincronizar Usuarios</b>',
 					handler:this.onBtnSincUsuUni,
 					scope: this
 				}, {
 					id:'btn-tarTPM-' + this.idContenedor,
-					text : 'Tarjetas TPM',
-					disabled : true,
+					text: 'Tarjetas TPM',
+					disabled: true,
 					handler: this.onBtnTarjetasTPM,
-					tooltip : '<b>Tarjetas TPM</b>',
+					tooltip: '<b>Tarjetas TPM</b>',
 					scope: this
 					}
 				 ]
@@ -1146,20 +1146,20 @@ header("content-type: text/javascript; charset=UTF-8");
 			});
 			this.tbar.add(this.menuLoc);
 			
-			this.addButton('btn-incCalen-' + this.idContenedor, {
-				text : 'Inc./Ret.',
-				iconCls : 'blist',
-				disabled : true,
-				handler : this.onBtnIncluCalGen,
-				tooltip : '<b>Considerar o no</b><br/>si la unidad es roja no se la considera en la generacion del calendario'
+			this.addButton('btn-incCalen', {
+				text: 'Inc./Ret.',
+				iconCls: 'blist',
+				disabled: true,
+				handler: this.onBtnIncluCalGen,
+				tooltip: '<b>Considerar o no</b><br/>si la unidad es roja no se la considera en la generacion del calendario'
 			});
 			
-			this.addButton('btn-addEqu-' + this.idContenedor, {
-				text : 'Agregar Equipo',
-				iconCls : 'bgear',
-				disabled : true,
-				handler : this.onBtnAddEquipo,
-				tooltip : '<b>Agregar Equipo</b><br/>Agrega un equipo desde una plantilla en la Localización seleccionada'
+			this.addButton('btn-addEqu', {
+				text: 'Agregar Equipo',
+				iconCls: 'bgear',
+				disabled: true,
+				handler: this.onBtnAddEquipo,
+				tooltip: '<b>Agregar Equipo</b><br/>Agrega un equipo desde una plantilla en la Localización seleccionada'
 			});
 			
 			this.menuEq = new Ext.Toolbar.SplitButton({
@@ -1172,34 +1172,34 @@ header("content-type: text/javascript; charset=UTF-8");
 				items: [{
 					id:'btn-mantPredef-' + this.idContenedor,
 					text: 'Mantenimientos Predefinidos',
-					disabled : true,
-					tooltip : '<b>Mantenimientos Predefinidos</b>',
+					disabled: true,
+					tooltip: '<b>Mantenimientos Predefinidos</b>',
 					handler:this.onEqMantClick,
 					scope: this
 				}, {
 					id:'btn-medVar-' + this.idContenedor,
 					text: 'Medición de Variables',
-					disabled : true,
-					tooltip : '<b>Medición de Variables</b>',
+					disabled: true,
+					tooltip: '<b>Medición de Variables</b>',
 					handler:this.onClickMed,
 					scope: this
 				}, {
 					id:'btn-upArch-' + this.idContenedor,
-					text : 'Upload Archivos',
-					disabled : true,
+					text: 'Upload Archivos',
+					disabled: true,
 					handler: this.onClickUp,
-					tooltip : '<b>Upload archivos</b>',
+					tooltip: '<b>Upload archivos</b>',
 					scope: this
 				} ,{
 					id:'btn-anPorque-' + this.idContenedor,
-					text : 'TPM - Análisis Porqué - Porqué',
-					disabled : true,
+					text: 'TPM - Análisis Porqué - Porqué',
+					disabled: true,
 					handler: this.onBtnTPMPorquePorque,
 					scope: this
 				}, {
 					id:'btn-rcmAnalisis-' + this.idContenedor,
-					text : 'Análisis RCM',
-					disabled : true,
+					text: 'Análisis RCM',
+					disabled: true,
 					handler: this.onBtnRCMAnalisis,
 					scope: this
 				}, {
@@ -1216,25 +1216,25 @@ header("content-type: text/javascript; charset=UTF-8");
 			this.tbar.add(this.menuEq);
 
 			this.menuOp = new Ext.Toolbar.SplitButton({
-				id : 'btn-Calendar-' + this.idContenedor,
-				text : 'Planif. Mantenimiento',
+				id: 'btn-Calendar-' + this.idContenedor,
+				text: 'Planif. Mantenimiento',
 				//handler: this.onMedicionesClick,
-				iconCls : 'bcalendar',
-				disabled : true,
-				scope : this,
+				iconCls: 'bcalendar',
+				disabled: true,
+				scope: this,
 				 menu:{
 				 items: [{
 					 id:'btn-verCalGen-' + this.idContenedor,
 					 text: 'Ver el  Calendario',
-					 disabled : true,
-					 tooltip : '<b>Ver el calendario</b><br/>Genera el Caledario para todos los equipos de manera recursiva',
+					 disabled: true,
+					 tooltip: '<b>Ver el calendario</b><br/>Genera el Caledario para todos los equipos de manera recursiva',
 					 handler:this.onBtnVerCalGen, scope: this
 					 },{
 					 id:'btn-calGen-' + this.idContenedor,
-					 text : 'Generar Calendario',
-					 disabled : true,
+					 text: 'Generar Calendario',
+					 disabled: true,
 					 handler: this.onBtnCalGen,
-					 tooltip : '<b>Generar Calendario</b><br/>Genera el Caledario para todos los equipos de manera recursiva',
+					 tooltip: '<b>Generar Calendario</b><br/>Genera el Caledario para todos los equipos de manera recursiva',
 					 scope: this
 					 }
 				 ]
@@ -1243,62 +1243,62 @@ header("content-type: text/javascript; charset=UTF-8");
 
 			this.tbar.add(this.menuOp);
 			
-			this.addButton('btn-genOT-'+ this.idContenedor, {
-				text : 'Generar OTs',
-				iconCls : 'block',
-				disabled : true,
-				handler : this.onBtnGenerarOT,
-				tooltip : '<b>Generar Orden de Trabajo</b><br/>Genera las Ordenes de Trabajo correspondientes al nodo y sus hijos'
+			this.addButton('btn-genOT', {
+				text: 'Generar OTs',
+				iconCls: 'block',
+				disabled: true,
+				handler: this.onBtnGenerarOT,
+				tooltip: '<b>Generar Orden de Trabajo</b><br/>Genera las Ordenes de Trabajo correspondientes al nodo y sus hijos'
 			});
 
 		},
 		crearWindowAddEquipo : function() {
 			this.formUC = new Ext.form.FormPanel({
-				baseCls : 'x-plain-' + this.idContenedor,
-				bodyStyle : 'padding:10 20px 10;',
-				autoDestroy : true,
-				border : false,
-				layout : 'form',
-				items : [{
-					xtype : 'combo',
-					name : 'id_uni_cons',
-					fieldLabel : 'Equipo',
-					allowBlank : false,
-					emptyText : 'Elija un equipo...',
-					store : new Ext.data.JsonStore({
-						url : '../../sis_mantenimiento/control/UniCons/listarUniConsPlano',
-						id : 'id_uni_cons',
-						root : 'datos',
-						sortInfo : {
-							field : 'nombre',
-							direction : 'ASC'
+				baseCls: 'x-plain-' + this.idContenedor,
+				bodyStyle: 'padding:10 20px 10;',
+				autoDestroy: true,
+				border: false,
+				layout: 'form',
+				items: [{
+					xtype: 'combo',
+					name: 'id_uni_cons',
+					fieldLabel: 'Equipo',
+					allowBlank: false,
+					emptyText: 'Elija un equipo...',
+					store: new Ext.data.JsonStore({
+						url: '../../sis_mantenimiento/control/UniCons/listarUniConsPlano',
+						id: 'id_uni_cons',
+						root: 'datos',
+						sortInfo: {
+							field: 'nombre',
+							direction: 'ASC'
 						},
-						totalProperty : 'total',
-						fields : ['id_uni_cons', 'codigo', 'nombre'],
+						totalProperty: 'total',
+						fields: ['id_uni_cons', 'codigo', 'nombre'],
 						// turn on remote sorting
-						remoteSort : true,
-						baseParams : {
-							par_filtro : 'tuc.nombre#tuc.codigo',
-							tipo : 'tuc'
+						remoteSort: true,
+						baseParams: {
+							par_filtro: 'tuc.nombre#tuc.codigo',
+							tipo: 'tuc'
 						}
 					}),
-					valueField : 'id_uni_cons',
-					displayField : 'nombre',
-					forceSelection : true,
-					typeAhead : false,
-					triggerAction : 'all',
-					lazyRender : true,
-					mode : 'remote',
-					pageSize : 20,
-					queryDelay : 500,
-					width : 250,
-					listWidth : '280',
-					minChars : 2
+					valueField: 'id_uni_cons',
+					displayField: 'nombre',
+					forceSelection: true,
+					typeAhead: false,
+					triggerAction: 'all',
+					lazyRender: true,
+					mode: 'remote',
+					pageSize: 20,
+					queryDelay: 500,
+					width: 250,
+					listWidth: '280',
+					minChars: 2
 				}, {
-					xtype : 'textfield',
-					name : 'codigo_uni_cons',
-					fieldLabel : 'Código',
-					allowBlank : false,
+					xtype: 'textfield',
+					name: 'codigo_uni_cons',
+					fieldLabel: 'Código',
+					allowBlank: false,
 				}]
 			});
 
@@ -1312,51 +1312,51 @@ header("content-type: text/javascript; charset=UTF-8");
 			}, this);
 
 			this.wUC = new Ext.Window({
-				title : 'Agregar Equipo',
-				collapsible : true,
-				maximizable : true,
-				autoDestroy : true,
-				width : 450,
-				height : 250,
-				layout : 'fit',
-				plain : true,
-				bodyStyle : 'padding:5px;',
-				buttonAlign : 'center',
-				items : this.formUC,
-				modal : true,
-				closeAction : 'hide',
-				buttons : [{
-					text : 'Guardar',
-					handler : this.onAddUniCons,
-					scope : this
+				title: 'Agregar Equipo',
+				collapsible: true,
+				maximizable: true,
+				autoDestroy: true,
+				width: 450,
+				height: 250,
+				layout: 'fit',
+				plain: true,
+				bodyStyle: 'padding:5px;',
+				buttonAlign: 'center',
+				items: this.formUC,
+				modal: true,
+				closeAction: 'hide',
+				buttons: [{
+					text: 'Guardar',
+					handler: this.onAddUniCons,
+					scope: this
 
 				}, {
-					text : 'Cancelar',
-					handler : function() {
+					text: 'Cancelar',
+					handler: function() {
 						this.wUC.hide()
 					},
-					scope : this
+					scope: this
 				}]
 			});
 
 		},
-		crearWindowCalendario : function() {
+		crearWindowCalendario: function() {
 			this.formUCCL = new Ext.form.FormPanel({
 				//baseCls: 'x-plain',
-				bodyStyle : 'padding:10 20px 10;',
-				autoDestroy : true,
-				border : false,
-				layout : 'form',
-				autoScroll : true,
+				bodyStyle: 'padding:10 20px 10;',
+				autoDestroy: true,
+				border: false,
+				layout: 'form',
+				autoScroll: true,
 				/*layout: {
 				 type: 'vbox',
 				 align: 'stretch'  // Child items are stretched to full width
 				 },*/
-				defaults : {
-					xtype : 'textfield'
+				defaults: {
+					xtype: 'textfield'
 				},
 
-				items : [/*{
+				items: [/*{
 				 xtype: 'datefield',
 				 name: 'fecha_ini',
 				 fieldLabel: 'Inicia',
@@ -1365,12 +1365,12 @@ header("content-type: text/javascript; charset=UTF-8");
 				 allowBlank: false
 				 },*/
 				{
-					xtype : 'datefield',
-					name : 'fecha_fin',
-					fieldLabel : 'Termina',
-					format : 'd-m-Y',
-					allowBlank : false,
-					allowBlank : false
+					xtype: 'datefield',
+					name: 'fecha_fin',
+					fieldLabel: 'Termina',
+					format: 'd-m-Y',
+					allowBlank: false,
+					allowBlank: false
 				}]
 			});
 
@@ -1378,84 +1378,83 @@ header("content-type: text/javascript; charset=UTF-8");
 			var dateFechaFin = this.formUCCL.getForm().findField('fecha_fin');
 
 			this.wUCCL = new Ext.Window({
-				title : 'Calendario',
-				collapsible : true,
-				maximizable : true,
-				autoDestroy : true,
-				width : 400,
-				height : 350,
-				layout : 'fit',
+				title: 'Calendario',
+				collapsible: true,
+				maximizable: true,
+				autoDestroy: true,
+				width: 400,
+				height: 350,
+				layout: 'fit',
 				//plain: true,
 				//bodyStyle: 'padding:5px;',
-				buttonAlign : 'center',
-				items : this.formUCCL,
-				modal : true,
-				closeAction : 'hide',
-				buttons : [{
-					text : 'Guardar',
-					handler : this.onCalGen,
-					scope : this
+				buttonAlign: 'center',
+				items: this.formUCCL,
+				modal: true,
+				closeAction: 'hide',
+				buttons: [{
+					text: 'Guardar',
+					handler: this.onCalGen,
+					scope: this
 
 				}, {
-					text : 'Cancelar',
-					handler : function() {
+					text: 'Cancelar',
+					handler: function() {
 						this.wUCCL.hide()
 					},
-					scope : this
+					scope: this
 				}]
 			});
 
 		},
 
-		onBtnRCMAnalisis : function() {
+		onBtnRCMAnalisis: function() {
 			var node = this.sm.getSelectedNode();
 			var data = node.attributes;
 			if (data) {
 				Phx.CP.loadWindows('../../../sis_mantenimiento/vista/analisis_mant/AnalisisMant.php', 'AnalisisMant', {
-					modal : true,
-					width : 900,
-					height : 400
+					modal: true,
+					width: 900,
+					height: 400
 				}, data, this.idContenedor, 'AnalisisMant')
 
 			}
 
 		},
 
-		onBtnRCMPlan : function() {
-
+		onBtnRCMPlan: function() {
 			var rec = this.sm.getSelectedNode();
 			var data = rec.attributes;
 			if (data) {
 				Phx.CP.loadWindows('../../../sis_mantenimiento/vista/plan_mant/PlanMant.php', 'Plan de Mantenimiento', {
-					modal : true,
-					width : 900,
-					height : 600
+					modal: true,
+					width: 900,
+					height: 600
 				}, data, this.idContenedor, 'PlanMant')
 			}
 
 		},
 
-		onClickMed : function() {
+		onClickMed: function() {
 			var node = this.sm.getSelectedNode();
 			var data = node.attributes;
 			if (data) {
 				Phx.CP.loadWindows('../../../sis_mantenimiento/vista/equipo_medicion/EquipoMedicionDinamico.php', 'Mediciones:' + node.text, {
-					modal : true,
-					width : 900,
-					height : 400
+					modal: true,
+					width: 900,
+					height: 400
 				}, data, this.idContenedor, 'EquipoMedicionDinamico')
 
 			}
 		},
 
-		onClickUp : function() {
+		onClickUp: function() {
 			var node = this.sm.getSelectedNode();
 			var data = node.attributes;
 			if (data) {
 				Phx.CP.loadWindows('../../../sis_mantenimiento/vista/uni_cons_archivo/UniConsArchivo.php', 'Upload de archivos', {
-					modal : true,
-					width : 900,
-					height : 500
+					modal: true,
+					width: 900,
+					height: 500
 				}, data, this.idContenedor, 'UniConsArchivo');
 			}
 
