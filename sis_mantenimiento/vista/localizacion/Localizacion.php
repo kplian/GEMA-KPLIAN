@@ -1112,16 +1112,15 @@ header("content-type: text/javascript; charset=UTF-8");
 						handler: this.onBtnVerCalGen,
 						scope: this
 					}, {
-						id : 'mni-calGen-' + this.idContenedor,
-						text : 'Generar Calendario',
-						handler : this.onBtnCalGen,
-						scope : this
-					},
-					 {
-                        id : 'mni-RepCal-' + this.idContenedor,
-                        text : 'Reporte Calendario',
-                        handler : this.onBtnRepCal,
-                        scope : this
+						id: 'mni-calGen-' + this.idContenedor,
+						text: 'Generar Calendario',
+						handler: this.onBtnCalGen,
+						scope: this
+					}, {
+                        id: 'mni-repCal-' + this.idContenedor,
+                        text: 'Reporte Calendario',
+                        handler: this.onBtnRepCal,
+                        scope: this
                     }]                    
 				}
 			});
