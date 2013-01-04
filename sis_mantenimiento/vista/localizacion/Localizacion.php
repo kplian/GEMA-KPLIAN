@@ -262,6 +262,19 @@ header("content-type: text/javascript; charset=UTF-8");
 
 			}
 		},
+		
+		onBtnRepCal: function(){
+            var nodo = this.sm.getSelectedNode();
+            if(nodo){
+                Phx.CP.loadWindows('../../../sis_mantenimiento/vista/calendario_planificado/GenerarReporteCalendario.php',
+                        'Calendario de Planificacion',
+                        {
+                            width:800,
+                            height:400
+                        },
+                        nodo.attributes,this.idContenedor,'GenerarReporteCalendario')
+           }
+        },
 
 		onBtnGenerarOT: function() {
 			var nodo = this.sm.getSelectedNode();
@@ -651,6 +664,7 @@ header("content-type: text/javascript; charset=UTF-8");
 			Phx.vista.Localizacion.superclass.liberaMenu.call(this, n);
 			this.menuOp.menu.items.get('btn-verCalGen-' + this.idContenedor).disable();
 			this.menuOp.menu.items.get('btn-calGen-' + this.idContenedor).enable();
+			this.menuOp.menu.items.get('btn-repCal-' + this.idContenedor).disable();
 			this.getBoton('btn-incCalen').disable();
 			this.getBoton('btn-addEqu').disable();
 			this.menuLoc.menu.items.get('btn-usuSinc-' + this.idContenedor).enable();
@@ -687,9 +701,11 @@ header("content-type: text/javascript; charset=UTF-8");
 				this.menuOp.disable();
 				this.menuOp.menu.items.get('btn-verCalGen-' + this.idContenedor).disable();
 				this.menuOp.menu.items.get('btn-calGen-' + this.idContenedor).disable();
+				this.menuOp.menu.items.get('btn-repCal-' + this.idContenedor).disable();
 				this.ctxMenu.items.get('ctx-PlaMan-' + this.idContenedor).disable();
 				this.ctxMenu.items.get('ctx-PlaMan-' + this.idContenedor).menu.items.get('mni-verCalGen-' + this.idContenedor).disable();
 				this.ctxMenu.items.get('ctx-PlaMan-' + this.idContenedor).menu.items.get('mni-calGen-' + this.idContenedor).disable();
+				this.ctxMenu.items.get('ctx-PlaMan-' + this.idContenedor).menu.items.get('mni-repCal-' + this.idContenedor).disable();
 				//USUARIOS LOCALIZACION
 				this.menuLoc.disable();
 				this.ctxMenu.items.get('mni-usuLoc-' + this.idContenedor).disable();
@@ -758,9 +774,11 @@ header("content-type: text/javascript; charset=UTF-8");
 				this.menuOp.enable();
 				this.menuOp.menu.items.get('btn-verCalGen-' + this.idContenedor).enable();
 				this.menuOp.menu.items.get('btn-calGen-' + this.idContenedor).enable();
+				this.menuOp.menu.items.get('btn-repCal-' + this.idContenedor).enable();
 				this.ctxMenu.items.get('ctx-PlaMan-' + this.idContenedor).enable();
 				this.ctxMenu.items.get('ctx-PlaMan-' + this.idContenedor).menu.items.get('mni-verCalGen-' + this.idContenedor).enable();
 				this.ctxMenu.items.get('ctx-PlaMan-' + this.idContenedor).menu.items.get('mni-calGen-' + this.idContenedor).enable();
+				this.ctxMenu.items.get('ctx-PlaMan-' + this.idContenedor).menu.items.get('mni-repCal-' + this.idContenedor).enable();
 				//USUARIOS LOCALIZACION
 				this.menuLoc.disable();
 				this.ctxMenu.items.get('mni-usuLoc-' + this.idContenedor).disable();
@@ -835,9 +853,11 @@ header("content-type: text/javascript; charset=UTF-8");
 				this.menuOp.enable();
 				this.menuOp.menu.items.get('btn-verCalGen-' + this.idContenedor).enable();
 				this.menuOp.menu.items.get('btn-calGen-' + this.idContenedor).enable();
+				this.menuOp.menu.items.get('btn-repCal-' + this.idContenedor).enable();
 				this.ctxMenu.items.get('ctx-PlaMan-' + this.idContenedor).enable();
 				this.ctxMenu.items.get('ctx-PlaMan-' + this.idContenedor).menu.items.get('mni-verCalGen-' + this.idContenedor).enable();
 				this.ctxMenu.items.get('ctx-PlaMan-' + this.idContenedor).menu.items.get('mni-calGen-' + this.idContenedor).enable();
+				this.ctxMenu.items.get('ctx-PlaMan-' + this.idContenedor).menu.items.get('mni-repCal-' + this.idContenedor).enable();
 				//USUARIOS LOCALIZACION
 				this.menuLoc.enable();
 				this.ctxMenu.items.get('mni-usuLoc-' + this.idContenedor).enable();
@@ -1092,11 +1112,17 @@ header("content-type: text/javascript; charset=UTF-8");
 						handler: this.onBtnVerCalGen,
 						scope: this
 					}, {
-						id: 'mni-calGen-' + this.idContenedor,
-						text: 'Generar Calendario',
-						handler: this.onBtnCalGen,
-						scope: this
-					}]
+						id : 'mni-calGen-' + this.idContenedor,
+						text : 'Generar Calendario',
+						handler : this.onBtnCalGen,
+						scope : this
+					},
+					 {
+                        id : 'mni-RepCal-' + this.idContenedor,
+                        text : 'Reporte Calendario',
+                        handler : this.onBtnRepCal,
+                        scope : this
+                    }]                    
 				}
 			});
 			
@@ -1236,7 +1262,15 @@ header("content-type: text/javascript; charset=UTF-8");
 					 handler: this.onBtnCalGen,
 					 tooltip: '<b>Generar Calendario</b><br/>Genera el Caledario para todos los equipos de manera recursiva',
 					 scope: this
-					 }
+					 },
+					 {
+                     id:'btn-repCal-' + this.idContenedor,
+                     text : 'Reporte Calendario',
+                     disabled : true,
+                     handler: this.onBtnRepCal,
+                     tooltip : '<b>Reporte Calendario</b><br/>Genera el reporte Calendario para todos los equipos de manera recursiva',
+                     scope: this
+                     }
 				 ]
 				 }
 			});

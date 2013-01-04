@@ -21,6 +21,15 @@ VALUES (1, NULL, E'2012-12-20 14:15:55.044', NULL, E'activo', 14, E'Litros', NUL
 INSERT INTO gem.tmetodologia ("id_usuario_reg", "id_usuario_mod", "fecha_reg", "fecha_mod", "estado_reg", "id_metodologia", "codigo", "nombre")
 VALUES (1, NULL, E'2012-12-11 10:23:16.211', NULL, E'activo', 1, E'RCM', E'RCM');
 
+INSERT INTO gem.tmetodologia ("id_usuario_reg", "id_usuario_mod", "fecha_reg", "fecha_mod", "estado_reg", "id_metodologia", "codigo", "nombre")
+VALUES (1, NULL, E'2012-12-29 07:34:34.625', NULL, E'activo', 2, E'MET-2', E'METODOLOGIA RUP');
+
+INSERT INTO gem.tmetodologia ("id_usuario_reg", "id_usuario_mod", "fecha_reg", "fecha_mod", "estado_reg", "id_metodologia", "codigo", "nombre")
+VALUES (1, NULL, E'2012-12-29 07:34:57.719', NULL, E'activo', 3, E'MET-15', E'XP Y OTRA DE DESARROLLO AGIL');
+
+INSERT INTO gem.tmetodologia ("id_usuario_reg", "id_usuario_mod", "fecha_reg", "fecha_mod", "estado_reg", "id_metodologia", "codigo", "nombre")
+VALUES (1, NULL, E'2012-12-29 07:35:20.972', NULL, E'activo', 4, E'TMPD-123', E'SCRUM');
+
 
 /* Data for the 'gem.ttipo_mant' table  (Records 1 - 4) */
 INSERT INTO gem.ttipo_mant ("id_usuario_reg", "id_usuario_mod", "fecha_reg", "fecha_mod", "estado_reg", "id_tipo_mant", "codigo", "nombre", "tipo")
@@ -1251,32 +1260,11 @@ VALUES (1, 1, E'2012-12-20 10:34:50.222', E'2012-12-20 11:54:22.998', E'activo',
 INSERT INTO gem.tcalendario_planificado ("id_usuario_reg", "id_usuario_mod", "fecha_reg", "fecha_mod", "estado_reg", "id_calendario_planificado", "id_uni_cons_mant_predef", "fecha_ini", "fecha_fin", "estado", "tipo", "observaciones", "id_alarma")
 VALUES (1, 1, E'2012-12-20 10:34:50.222', E'2012-12-20 11:54:22.998', E'activo', 193, 6, E'2013-07-18', NULL, E'generado', E'planificado', NULL, NULL);
 
---NIVELES DE ESPECIALIDADES
-INSERT INTO orga.tespecialidad_nivel(id_usuario_reg,fecha_reg,estado_reg, id_especialidad_nivel, codigo, nombre) VALUES (1, now(), 'activo', 1, 'PHD', 'Doctorado');
-INSERT INTO orga.tespecialidad_nivel(id_usuario_reg,fecha_reg,estado_reg, id_especialidad_nivel, codigo, nombre) VALUES (1, now(), 'activo', 2, 'MGR', 'Maestría');
-INSERT INTO orga.tespecialidad_nivel(id_usuario_reg,fecha_reg,estado_reg, id_especialidad_nivel, codigo, nombre) VALUES (1, now(), 'activo', 3, 'ING', 'Ingeniería');
-INSERT INTO orga.tespecialidad_nivel(id_usuario_reg,fecha_reg,estado_reg, id_especialidad_nivel, codigo, nombre) VALUES (1, now(), 'activo', 4, 'LIC', 'Licenciatura');
-INSERT INTO orga.tespecialidad_nivel(id_usuario_reg,fecha_reg,estado_reg, id_especialidad_nivel, codigo, nombre) VALUES (1, now(), 'activo', 5, 'UNI', 'Universitario');
-INSERT INTO orga.tespecialidad_nivel(id_usuario_reg,fecha_reg,estado_reg, id_especialidad_nivel, codigo, nombre) VALUES (1, now(), 'activo', 6, 'BAC', 'Bachiller');
-INSERT INTO orga.tespecialidad_nivel(id_usuario_reg,fecha_reg,estado_reg, id_especialidad_nivel, codigo, nombre) VALUES (1, now(), 'activo', 7, 'TSU', 'Técnico Superior');
-INSERT INTO orga.tespecialidad_nivel(id_usuario_reg,fecha_reg,estado_reg, id_especialidad_nivel, codigo, nombre) VALUES (1, now(), 'activo', 8, 'TMD', 'Técnico Medio');
-
 --CENTRO COSTO - AAO
 INSERT INTO gem.tcentro_costo ("id_usuario_reg", "id_usuario_mod", "fecha_reg", "fecha_mod", "estado_reg", "id_centro_costo", "codigo", "descripcion", "tipo", "codigo_anh", "descripcion_anh")
 VALUES (1, 1, E'2012-12-15 16:54:17', E'2012-12-15 16:54:17', E'activo', 1, E'cc1', E'ninguna', E'costo', E'asd', E'asd');
 INSERT INTO gem.tcentro_costo ("id_usuario_reg", "id_usuario_mod", "fecha_reg", "fecha_mod", "estado_reg", "id_centro_costo", "codigo", "descripcion", "tipo", "codigo_anh", "descripcion_anh")
 VALUES (1, NULL, E'2012-12-15 16:54:48', E'2012-12-15 16:54:48', E'activo', 2, E'cc2', E'nones', E'cost', E'213', E'asdf');
-
---ORDEN DE TRABAJO - AAO
-INSERT INTO gem.torden_trabajo ("id_usuario_reg", "id_usuario_mod", "fecha_reg", "fecha_mod", "estado_reg", "id_orden_trabajo", "id_uni_cons_mant_predef", "id_uni_cons", "id_tipo_mant", "id_unidad_medida", "id_funcionario_sol", "id_funcionario_asig", "fecha_plan_ini", "fecha_eje_ini", "fecha_eje_fin", "descripcion", "fecha_emision", "num_oit", "codigo_oit", "ubicacion_tecnica", "acumulado", "observacion", "nota_tecnico_equipo", "nota_tecnico_loc", "cat_estado", "cat_prior", "cat_tipo", "id_instruc_seg", "id_calendario_planificacion", "id_alarma", "id_localizacion", "descripcion_lugar", "id_centro_costo", "especialidades", "tiempo_estimado", "id_funcionario_aprob", "id_funcionario_recib", "comentarios", "accidentes", "reclamos", "otros")
-VALUES (1, NULL, E'2012-11-23 16:50:35.765', NULL, E'activo', 2, NULL, 6, 1, 2, 1, 1, E'2012-11-25', E'2012-11-26', NULL, E'Matenimiento de las balbulas principales de combustión', E'2012-11-23', E'1', E'OIT-1', E'Subestación S3', NULL, E'máximo de retraso de 3 dias', E'', E'SS1-S3', E'Borrador', E'Alta', E'Preventivo', NULL, NULL, NULL, 2, E'Sector 1', 2, NULL, '20', 1, 1, NULL, NULL, NULL, NULL);
-INSERT INTO gem.torden_trabajo ("id_usuario_reg", "id_usuario_mod", "fecha_reg", "fecha_mod", "estado_reg", "id_orden_trabajo", "id_uni_cons_mant_predef", "id_uni_cons", "id_tipo_mant", "id_unidad_medida", "id_funcionario_sol", "id_funcionario_asig", "fecha_plan_ini", "fecha_eje_ini", "fecha_eje_fin", "descripcion", "fecha_emision", "num_oit", "codigo_oit", "ubicacion_tecnica", "acumulado", "observacion", "nota_tecnico_equipo", "nota_tecnico_loc", "cat_estado", "cat_prior", "cat_tipo", "id_instruc_seg", "id_calendario_planificacion", "id_alarma", "id_localizacion", "descripcion_lugar", "id_centro_costo", "especialidades", "tiempo_estimado", "id_funcionario_aprob", "id_funcionario_recib", "comentarios", "accidentes", "reclamos", "otros")
-VALUES (1, NULL, E'2012-12-07 11:09:23.553', NULL, E'activo', 3, NULL, 6, 1, 1, 1, 1, E'2012-12-09', E'2012-12-14', NULL, E'', E'2012-12-12', E'', E'', E'', NULL, E'ninguna', E'', E'', E'Borrador', E'Alta', E'Preventivo', NULL, NULL, NULL, 2, E'Sector 2', 2, NULL, '14', 1, 1, NULL, NULL, NULL, NULL);
-INSERT INTO gem.torden_trabajo ("id_usuario_reg", "id_usuario_mod", "fecha_reg", "fecha_mod", "estado_reg", "id_orden_trabajo", "id_uni_cons_mant_predef", "id_uni_cons", "id_tipo_mant", "id_unidad_medida", "id_funcionario_sol", "id_funcionario_asig", "fecha_plan_ini", "fecha_eje_ini", "fecha_eje_fin", "descripcion", "fecha_emision", "num_oit", "codigo_oit", "ubicacion_tecnica", "acumulado", "observacion", "nota_tecnico_equipo", "nota_tecnico_loc", "cat_estado", "cat_prior", "cat_tipo", "id_instruc_seg", "id_calendario_planificacion", "id_alarma", "id_localizacion", "descripcion_lugar", "id_centro_costo", "especialidades", "tiempo_estimado", "id_funcionario_aprob", "id_funcionario_recib", "comentarios", "accidentes", "reclamos", "otros")
-VALUES (1, NULL, E'2012-12-07 11:10:09.970', NULL, E'activo', 4, NULL, 6, 1, 1, 1, 1, E'2012-12-18', E'2012-12-28', NULL, E'', E'2012-12-18', E'', E'', E'', NULL, E'', E'', E'', E'Borrador', E'Media', E'Preventivo', NULL, NULL, NULL, 2, E'Sector 3', 2, NULL, '24', 1, 1, NULL, NULL, NULL, NULL);
-INSERT INTO gem.torden_trabajo ("id_usuario_reg", "id_usuario_mod", "fecha_reg", "fecha_mod", "estado_reg", "id_orden_trabajo", "id_uni_cons_mant_predef", "id_uni_cons", "id_tipo_mant", "id_unidad_medida", "id_funcionario_sol", "id_funcionario_asig", "fecha_plan_ini", "fecha_eje_ini", "fecha_eje_fin", "descripcion", "fecha_emision", "num_oit", "codigo_oit", "ubicacion_tecnica", "acumulado", "observacion", "nota_tecnico_equipo", "nota_tecnico_loc", "cat_estado", "cat_prior", "cat_tipo", "id_instruc_seg", "id_calendario_planificacion", "id_alarma", "id_localizacion", "descripcion_lugar", "id_centro_costo", "especialidades", "tiempo_estimado", "id_funcionario_aprob", "id_funcionario_recib", "comentarios", "accidentes", "reclamos", "otros")
-VALUES (1, NULL, E'2012-12-07 11:10:54.297', NULL, E'activo', 5, NULL, 6, 1, 2, 1, 1, E'2012-12-10', E'2012-12-14', NULL, E'', E'2012-12-10', E'', E'', E'', NULL, E'', E'', E'', E'Borrador', E'Baja', E'Correctivo', NULL, NULL, NULL, 2, E'Sector 4', 2, NULL, '4', 1, 1, NULL, NULL, NULL, NULL);
-
 
 ----------------------------
 -- autor:RAC  
@@ -1290,3 +1278,121 @@ INSERT INTO segu.tusuario_rol ("id_usuario_rol", "id_rol", "id_usuario", "fecha_
 VALUES (2, 2, 2, NULL, 'activo');
 
 
+-- FUNCIONARIO HONORARIO
+INSERT INTO gem.tfuncionario_honorario ("id_usuario_reg", "id_usuario_mod", "fecha_reg", "fecha_mod", "estado_reg", "id_funcionario_honorario", "id_tipo_horario", "id_funcionario", "id_moneda", "costo_hora")
+VALUES (1, NULL, E'2012-12-29 15:17:29.003', E'2012-12-29 15:17:29.003', E'activo', 1, 3, 2, 1, '20');
+
+INSERT INTO gem.tfuncionario_honorario ("id_usuario_reg", "id_usuario_mod", "fecha_reg", "fecha_mod", "estado_reg", "id_funcionario_honorario", "id_tipo_horario", "id_funcionario", "id_moneda", "costo_hora")
+VALUES (1, NULL, E'2012-12-29 15:18:12.431', E'2012-12-29 15:18:12.431', E'activo', 3, 4, 3, 1, '20');
+
+INSERT INTO gem.tfuncionario_honorario ("id_usuario_reg", "id_usuario_mod", "fecha_reg", "fecha_mod", "estado_reg", "id_funcionario_honorario", "id_tipo_horario", "id_funcionario", "id_moneda", "costo_hora")
+VALUES (1, NULL, E'2012-12-29 15:19:50.693', E'2012-12-29 15:19:50.693', E'activo', 4, 3, 4, 1, '20');
+
+INSERT INTO gem.tfuncionario_honorario ("id_usuario_reg", "id_usuario_mod", "fecha_reg", "fecha_mod", "estado_reg", "id_funcionario_honorario", "id_tipo_horario", "id_funcionario", "id_moneda", "costo_hora")
+VALUES (1, 1, E'2012-12-29 15:17:29.003', E'2012-12-29 15:31:18.429', E'activo', 2, 5, 2, 1, '20.5');
+
+
+--ORDEN DE TRABAJO - AAO
+
+INSERT INTO gem.torden_trabajo ("id_usuario_reg", "id_usuario_mod", "fecha_reg", "fecha_mod", "estado_reg", "id_orden_trabajo", "id_uni_cons_mant_predef", "id_uni_cons", "id_tipo_mant", "id_unidad_medida", "id_funcionario_sol", "id_funcionario_asig", "fecha_plan_ini", "fecha_eje_ini", "fecha_eje_fin", "descripcion", "fecha_emision", "num_oit", "codigo_oit", "ubicacion_tecnica", "acumulado", "observacion", "nota_tecnico_equipo", "nota_tecnico_loc", "cat_estado", "cat_prior", "cat_tipo", "id_instruc_seg", "id_calendario_planificacion", "id_alarma", "id_localizacion", "descripcion_lugar", "id_centro_costo", "especialidades", "tiempo_estimado", "id_funcionario_aprob", "id_funcionario_recib", "comentarios", "accidentes", "reclamos", "otros", "hora_eje_inicio", "hora_eje_fin")
+VALUES (1, 1, E'2012-12-30 02:22:46.203', E'2012-12-30 03:51:06.424', E'activo', 12, NULL, 6, 2, 1, 4, 3, E'2013-01-02', NULL, NULL, E'', E'2012-12-30', E'1', E'OIT-001', E'', NULL, E'La computadora no prende. y si prende está muy lenta', E'', E'', E'Revisado', E'Alta', E'Correctivo', NULL, NULL, NULL, 34, E'UMPA LUMPA', 1, E'Mantenimiento de Computadoras', '10', NULL, NULL, E'', E'', E'', E'', NULL, NULL);
+
+INSERT INTO gem.torden_trabajo ("id_usuario_reg", "id_usuario_mod", "fecha_reg", "fecha_mod", "estado_reg", "id_orden_trabajo", "id_uni_cons_mant_predef", "id_uni_cons", "id_tipo_mant", "id_unidad_medida", "id_funcionario_sol", "id_funcionario_asig", "fecha_plan_ini", "fecha_eje_ini", "fecha_eje_fin", "descripcion", "fecha_emision", "num_oit", "codigo_oit", "ubicacion_tecnica", "acumulado", "observacion", "nota_tecnico_equipo", "nota_tecnico_loc", "cat_estado", "cat_prior", "cat_tipo", "id_instruc_seg", "id_calendario_planificacion", "id_alarma", "id_localizacion", "descripcion_lugar", "id_centro_costo", "especialidades", "tiempo_estimado", "id_funcionario_aprob", "id_funcionario_recib", "comentarios", "accidentes", "reclamos", "otros", "hora_eje_inicio", "hora_eje_fin")
+VALUES (1, NULL, E'2012-12-30 02:24:28.138', NULL, E'activo', 13, NULL, 17, 3, 1, 3, 2, E'2013-01-03', NULL, NULL, E'', E'2012-12-30', E'2', E'OIT-002', E'', NULL, E'Tiene un sonido muy fuerte y feo.', E'', E'', E'Borrador', E'Media', E'Correctivo', NULL, NULL, NULL, 33, E'UMPA LUMPA', 2, E'Inspección y corrección del motor eléctrico', '20', NULL, NULL, E'', E'', E'', E'', NULL, NULL);
+
+INSERT INTO gem.torden_trabajo ("id_usuario_reg", "id_usuario_mod", "fecha_reg", "fecha_mod", "estado_reg", "id_orden_trabajo", "id_uni_cons_mant_predef", "id_uni_cons", "id_tipo_mant", "id_unidad_medida", "id_funcionario_sol", "id_funcionario_asig", "fecha_plan_ini", "fecha_eje_ini", "fecha_eje_fin", "descripcion", "fecha_emision", "num_oit", "codigo_oit", "ubicacion_tecnica", "acumulado", "observacion", "nota_tecnico_equipo", "nota_tecnico_loc", "cat_estado", "cat_prior", "cat_tipo", "id_instruc_seg", "id_calendario_planificacion", "id_alarma", "id_localizacion", "descripcion_lugar", "id_centro_costo", "especialidades", "tiempo_estimado", "id_funcionario_aprob", "id_funcionario_recib", "comentarios", "accidentes", "reclamos", "otros", "hora_eje_inicio", "hora_eje_fin")
+VALUES (1, NULL, E'2012-12-30 02:26:03.066', NULL, E'activo', 14, NULL, 9, 4, 1, 2, 3, E'2013-01-02', NULL, NULL, E'', E'2012-12-30', E'3', E'OIT-003', E'', NULL, E'EL motor de combustión interna no prende, y si prende lo unico que prende es fuego xD', E'', E'', E'Borrador', E'Alta', E'Correctivo', NULL, NULL, NULL, 58, E'UMPA LUMPA', 1, E'Mantenimiento de Servidores', '15', NULL, NULL, E'', E'', E'', E'', NULL, NULL);
+
+INSERT INTO gem.torden_trabajo ("id_usuario_reg", "id_usuario_mod", "fecha_reg", "fecha_mod", "estado_reg", "id_orden_trabajo", "id_uni_cons_mant_predef", "id_uni_cons", "id_tipo_mant", "id_unidad_medida", "id_funcionario_sol", "id_funcionario_asig", "fecha_plan_ini", "fecha_eje_ini", "fecha_eje_fin", "descripcion", "fecha_emision", "num_oit", "codigo_oit", "ubicacion_tecnica", "acumulado", "observacion", "nota_tecnico_equipo", "nota_tecnico_loc", "cat_estado", "cat_prior", "cat_tipo", "id_instruc_seg", "id_calendario_planificacion", "id_alarma", "id_localizacion", "descripcion_lugar", "id_centro_costo", "especialidades", "tiempo_estimado", "id_funcionario_aprob", "id_funcionario_recib", "comentarios", "accidentes", "reclamos", "otros", "hora_eje_inicio", "hora_eje_fin")
+VALUES (1, 1, E'2012-12-30 02:27:14', E'2012-12-30 03:42:43.278', E'activo', 15, NULL, 6, 4, 1, 4, 1, E'2013-01-04', NULL, NULL, E'', E'2012-12-30', E'3', E'OIT-003', E'', NULL, E'Se huele a gasssss....', E'', E'', E'Cerrado', E'Alta', E'Correctivo', NULL, NULL, NULL, 9, E'SACABA', 2, E'Inspector de balbulas', '24', NULL, NULL, E'', E'', E'', E'', NULL, NULL);
+
+--LOG ORDEN TRABAJO - AAO
+
+INSERT INTO gem.torden_trabajo_log ("id_usuario_reg", "id_usuario_mod", "fecha_reg", "fecha_mod", "estado_reg", "id_orden_trabajo_log", "id_orden_trabajo", "estado_ini", "estado_fin", "fecha")
+VALUES (1, NULL, E'2012-12-30 02:22:46.203', NULL, E'activo', 16, 12, NULL, E'Borrador', E'2012-12-30 02:22:46.203');
+
+INSERT INTO gem.torden_trabajo_log ("id_usuario_reg", "id_usuario_mod", "fecha_reg", "fecha_mod", "estado_reg", "id_orden_trabajo_log", "id_orden_trabajo", "estado_ini", "estado_fin", "fecha")
+VALUES (1, NULL, E'2012-12-30 02:24:28.138', NULL, E'activo', 17, 13, NULL, E'Borrador', E'2012-12-30 02:24:28.138');
+
+INSERT INTO gem.torden_trabajo_log ("id_usuario_reg", "id_usuario_mod", "fecha_reg", "fecha_mod", "estado_reg", "id_orden_trabajo_log", "id_orden_trabajo", "estado_ini", "estado_fin", "fecha")
+VALUES (1, NULL, E'2012-12-30 02:26:03.066', NULL, E'activo', 18, 14, NULL, E'Borrador', E'2012-12-30 02:26:03.066');
+
+INSERT INTO gem.torden_trabajo_log ("id_usuario_reg", "id_usuario_mod", "fecha_reg", "fecha_mod", "estado_reg", "id_orden_trabajo_log", "id_orden_trabajo", "estado_ini", "estado_fin", "fecha")
+VALUES (1, NULL, E'2012-12-30 02:27:14', NULL, E'activo', 19, 15, NULL, E'Borrador', E'2012-12-30 02:27:14');
+
+INSERT INTO gem.torden_trabajo_log ("id_usuario_reg", "id_usuario_mod", "fecha_reg", "fecha_mod", "estado_reg", "id_orden_trabajo_log", "id_orden_trabajo", "estado_ini", "estado_fin", "fecha")
+VALUES (1, NULL, E'2012-12-30 02:39:03.145', NULL, E'activo', 20, 12, E'Borrador', E'Pendiente', E'2012-12-30 02:39:03.145');
+
+INSERT INTO gem.torden_trabajo_log ("id_usuario_reg", "id_usuario_mod", "fecha_reg", "fecha_mod", "estado_reg", "id_orden_trabajo_log", "id_orden_trabajo", "estado_ini", "estado_fin", "fecha")
+VALUES (1, NULL, E'2012-12-30 03:04:33.548', NULL, E'activo', 21, 15, E'Borrador', E'Pendiente', E'2012-12-30 03:04:33.548');
+
+INSERT INTO gem.torden_trabajo_log ("id_usuario_reg", "id_usuario_mod", "fecha_reg", "fecha_mod", "estado_reg", "id_orden_trabajo_log", "id_orden_trabajo", "estado_ini", "estado_fin", "fecha")
+VALUES (1, NULL, E'2012-12-30 03:05:41.286', NULL, E'activo', 22, 12, E'Pendiente', E'Abierto', E'2012-12-30 03:05:41.286');
+
+INSERT INTO gem.torden_trabajo_log ("id_usuario_reg", "id_usuario_mod", "fecha_reg", "fecha_mod", "estado_reg", "id_orden_trabajo_log", "id_orden_trabajo", "estado_ini", "estado_fin", "fecha")
+VALUES (1, NULL, E'2012-12-30 03:05:55.248', NULL, E'activo', 23, 15, E'Pendiente', E'Abierto', E'2012-12-30 03:05:55.248');
+
+INSERT INTO gem.torden_trabajo_log ("id_usuario_reg", "id_usuario_mod", "fecha_reg", "fecha_mod", "estado_reg", "id_orden_trabajo_log", "id_orden_trabajo", "estado_ini", "estado_fin", "fecha")
+VALUES (1, NULL, E'2012-12-30 03:28:31.856', NULL, E'activo', 24, 15, E'Abierto', E'Cerrado', E'2012-12-30 03:28:31.856');
+
+INSERT INTO gem.torden_trabajo_log ("id_usuario_reg", "id_usuario_mod", "fecha_reg", "fecha_mod", "estado_reg", "id_orden_trabajo_log", "id_orden_trabajo", "estado_ini", "estado_fin", "fecha")
+VALUES (1, NULL, E'2012-12-30 03:28:46.206', NULL, E'activo', 25, 12, E'Abierto', E'Cerrado', E'2012-12-30 03:28:46.206');
+
+INSERT INTO gem.torden_trabajo_log ("id_usuario_reg", "id_usuario_mod", "fecha_reg", "fecha_mod", "estado_reg", "id_orden_trabajo_log", "id_orden_trabajo", "estado_ini", "estado_fin", "fecha")
+VALUES (1, NULL, E'2012-12-30 03:34:23.335', NULL, E'activo', 26, 15, E'Cerrado', E'Abierto', E'2012-12-30 03:34:23.335');
+
+INSERT INTO gem.torden_trabajo_log ("id_usuario_reg", "id_usuario_mod", "fecha_reg", "fecha_mod", "estado_reg", "id_orden_trabajo_log", "id_orden_trabajo", "estado_ini", "estado_fin", "fecha")
+VALUES (1, NULL, E'2012-12-30 03:42:43.278', NULL, E'activo', 27, 15, E'Abierto', E'Cerrado', E'2012-12-30 03:42:43.278');
+
+INSERT INTO gem.torden_trabajo_log ("id_usuario_reg", "id_usuario_mod", "fecha_reg", "fecha_mod", "estado_reg", "id_orden_trabajo_log", "id_orden_trabajo", "estado_ini", "estado_fin", "fecha")
+VALUES (1, NULL, E'2012-12-30 03:51:06.424', NULL, E'activo', 28, 12, E'Cerrado', E'Revisado', E'2012-12-30 03:51:06.424');
+
+-- ACTIVIDAD OT - AAO
+INSERT INTO gem.tactividad ("id_usuario_reg", "id_usuario_mod", "fecha_reg", "fecha_mod", "estado_reg", "id_actividad", "id_orden_trabajo", "id_usuario_resp", "estado", "descripcion", "observaciones", "fecha_plan_ini", "fecha_plan_fin", "fecha_eje_ini", "fecha_eje_fin")
+VALUES (1, NULL, E'2012-12-30 02:32:15.325', NULL, E'activo', 5, 12, 2, E'', E'Inspección inicial e informe del estado actual', E'', E'2013-01-03', E'2013-01-03', NULL, NULL);
+
+INSERT INTO gem.tactividad ("id_usuario_reg", "id_usuario_mod", "fecha_reg", "fecha_mod", "estado_reg", "id_actividad", "id_orden_trabajo", "id_usuario_resp", "estado", "descripcion", "observaciones", "fecha_plan_ini", "fecha_plan_fin", "fecha_eje_ini", "fecha_eje_fin")
+VALUES (1, NULL, E'2012-12-30 02:32:49.391', NULL, E'activo', 6, 12, 2, E'', E'Mantenimiento del motor del equipo y engrase de los componentes del mismo.', E'', E'2013-01-03', E'2013-01-04', NULL, NULL);
+
+INSERT INTO gem.tactividad ("id_usuario_reg", "id_usuario_mod", "fecha_reg", "fecha_mod", "estado_reg", "id_actividad", "id_orden_trabajo", "id_usuario_resp", "estado", "descripcion", "observaciones", "fecha_plan_ini", "fecha_plan_fin", "fecha_eje_ini", "fecha_eje_fin")
+VALUES (1, NULL, E'2012-12-30 02:38:47.746', NULL, E'activo', 7, 12, 2, E'', E'Rectificación de los tubos de enganche', E'tener cuidado al sacar puesto que son muy frágiles', E'2013-01-03', E'2013-01-04', NULL, NULL);
+
+INSERT INTO gem.tactividad ("id_usuario_reg", "id_usuario_mod", "fecha_reg", "fecha_mod", "estado_reg", "id_actividad", "id_orden_trabajo", "id_usuario_resp", "estado", "descripcion", "observaciones", "fecha_plan_ini", "fecha_plan_fin", "fecha_eje_ini", "fecha_eje_fin")
+VALUES (1, NULL, E'2012-12-30 03:03:29.045', NULL, E'activo', 8, 15, 1, E'', E'Inspección y emisión del informe del estado de los componentes del motor de combustión a gas.', E'Evacuar todo el gas del equipo para evitar explosiones', E'2013-01-03', E'2013-01-03', NULL, NULL);
+
+INSERT INTO gem.tactividad ("id_usuario_reg", "id_usuario_mod", "fecha_reg", "fecha_mod", "estado_reg", "id_actividad", "id_orden_trabajo", "id_usuario_resp", "estado", "descripcion", "observaciones", "fecha_plan_ini", "fecha_plan_fin", "fecha_eje_ini", "fecha_eje_fin")
+VALUES (1, NULL, E'2012-12-30 03:04:15.290', NULL, E'activo', 9, 15, 1, E'', E'Ajustes a las bábulas de inyección.', E'', E'2013-01-03', E'2013-01-07', NULL, NULL);
+
+
+-- RECURSO OT - AAO
+INSERT INTO gem.trecurso ("id_usuario_reg", "id_usuario_mod", "fecha_reg", "fecha_mod", "estado_reg", "id_recurso", "id_item", "id_funcionario", "id_especialidad", "id_servicio", "id_tarea", "id_actividad", "id_moneda", "cantidad", "costo", "observaciones", "id_unidad_medida", "hh_normal", "hh_extras", "hh_ext_mov", "codigo", "existencias")
+VALUES (1, NULL, E'2012-12-30 03:09:38.622', NULL, E'activo', 1, 4, NULL, NULL, NULL, NULL, 5, 2, '20', '50', E'ninguna', 11, NULL, NULL, NULL, E'IPD-3ra', E'En algun lugar.');
+
+INSERT INTO gem.trecurso ("id_usuario_reg", "id_usuario_mod", "fecha_reg", "fecha_mod", "estado_reg", "id_recurso", "id_item", "id_funcionario", "id_especialidad", "id_servicio", "id_tarea", "id_actividad", "id_moneda", "cantidad", "costo", "observaciones", "id_unidad_medida", "hh_normal", "hh_extras", "hh_ext_mov", "codigo", "existencias")
+VALUES (1, NULL, E'2012-12-30 03:10:05.642', NULL, E'activo', 2, 4, NULL, NULL, NULL, NULL, 5, 2, '20', '50', E'ninguna', 11, NULL, NULL, NULL, E'IPD-3ra', E'En algun lugar.');
+
+INSERT INTO gem.trecurso ("id_usuario_reg", "id_usuario_mod", "fecha_reg", "fecha_mod", "estado_reg", "id_recurso", "id_item", "id_funcionario", "id_especialidad", "id_servicio", "id_tarea", "id_actividad", "id_moneda", "cantidad", "costo", "observaciones", "id_unidad_medida", "hh_normal", "hh_extras", "hh_ext_mov", "codigo", "existencias")
+VALUES (1, NULL, E'2012-12-30 03:11:25.667', NULL, E'activo', 3, NULL, 3, NULL, NULL, NULL, 6, NULL, NULL, NULL, E'ninguna', NULL, 12, 5, 1, E'', E'');
+
+INSERT INTO gem.trecurso ("id_usuario_reg", "id_usuario_mod", "fecha_reg", "fecha_mod", "estado_reg", "id_recurso", "id_item", "id_funcionario", "id_especialidad", "id_servicio", "id_tarea", "id_actividad", "id_moneda", "cantidad", "costo", "observaciones", "id_unidad_medida", "hh_normal", "hh_extras", "hh_ext_mov", "codigo", "existencias")
+VALUES (1, NULL, E'2012-12-30 03:11:40.706', NULL, E'activo', 4, NULL, 4, NULL, NULL, NULL, 6, NULL, NULL, NULL, E'', NULL, 20, 12, 1, E'', E'');
+
+INSERT INTO gem.trecurso ("id_usuario_reg", "id_usuario_mod", "fecha_reg", "fecha_mod", "estado_reg", "id_recurso", "id_item", "id_funcionario", "id_especialidad", "id_servicio", "id_tarea", "id_actividad", "id_moneda", "cantidad", "costo", "observaciones", "id_unidad_medida", "hh_normal", "hh_extras", "hh_ext_mov", "codigo", "existencias")
+VALUES (1, NULL, E'2012-12-30 03:12:24.618', NULL, E'activo', 5, 1, NULL, NULL, NULL, NULL, 7, 2, '18', '20', E'', 13, NULL, NULL, NULL, E'HUM-P', E'Almacen C-21');
+
+INSERT INTO gem.trecurso ("id_usuario_reg", "id_usuario_mod", "fecha_reg", "fecha_mod", "estado_reg", "id_recurso", "id_item", "id_funcionario", "id_especialidad", "id_servicio", "id_tarea", "id_actividad", "id_moneda", "cantidad", "costo", "observaciones", "id_unidad_medida", "hh_normal", "hh_extras", "hh_ext_mov", "codigo", "existencias")
+VALUES (1, NULL, E'2012-12-30 03:12:45.266', NULL, E'activo', 6, NULL, 4, NULL, NULL, NULL, 7, NULL, NULL, NULL, E'', NULL, 20, 10, 1, E'', E'');
+
+-- PROVEEDOR ITEM SERVICIO - AAO
+
+INSERT INTO param.tproveedor_item_servicio ("id_usuario_reg", "id_usuario_mod", "fecha_reg", "fecha_mod", "estado_reg", "id_proveedor_item", "id_proveedor", "id_item", "id_servicio")
+VALUES (1, NULL, E'2012-12-29 14:54:23.478', NULL, E'activo', 1, 2, 1, NULL);
+
+INSERT INTO param.tproveedor_item_servicio ("id_usuario_reg", "id_usuario_mod", "fecha_reg", "fecha_mod", "estado_reg", "id_proveedor_item", "id_proveedor", "id_item", "id_servicio")
+VALUES (1, NULL, E'2012-12-29 14:54:35.624', NULL, E'activo', 2, 2, NULL, 6);
+
+INSERT INTO param.tproveedor_item_servicio ("id_usuario_reg", "id_usuario_mod", "fecha_reg", "fecha_mod", "estado_reg", "id_proveedor_item", "id_proveedor", "id_item", "id_servicio")
+VALUES (1, NULL, E'2012-12-29 14:54:46.325', NULL, E'activo', 3, 1, 7, NULL);
+
+INSERT INTO param.tproveedor_item_servicio ("id_usuario_reg", "id_usuario_mod", "fecha_reg", "fecha_mod", "estado_reg", "id_proveedor_item", "id_proveedor", "id_item", "id_servicio")
+VALUES (1, NULL, E'2012-12-29 14:54:53.990', NULL, E'activo', 4, 1, NULL, 1);

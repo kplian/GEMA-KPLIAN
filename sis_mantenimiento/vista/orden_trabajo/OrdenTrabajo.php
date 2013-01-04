@@ -20,7 +20,7 @@ Phx.vista.OrdenTrabajo=Ext.extend(Phx.gridInterfaz,{
    			if(this.getComponente('especialidades').getValue() != '') {
    				this.getComponente('especialidades').setValue(this.getComponente('especialidades').getValue() + ' - ');
    			}
-         	this.getComponente('especialidades').setValue(this.getComponente('especialidades').getValue() + e.getValue());
+         	this.getComponente('especialidades').setValue(this.getComponente('especialidades').getValue() + e.getRawValue());
         },
         this);
 		
@@ -267,7 +267,7 @@ Phx.vista.OrdenTrabajo=Ext.extend(Phx.gridInterfaz,{
 					baseParams:{par_filtro:'nombre'}
 				}),
 				valueField: 'id_uni_cons',
-				displayField: 'equipo',
+				displayField: 'nombre',
 				forceSelection:true,
 				typeAhead: false,
     			triggerAction: 'all',
@@ -398,7 +398,7 @@ Phx.vista.OrdenTrabajo=Ext.extend(Phx.gridInterfaz,{
 					remoteSort: true,
 					baseParams: {par_filtro:'espcia.nombre'}
 				}),
-				valueField: 'nombre',
+				valueField: 'id_especialidad',
 				displayField: 'nombre',
 				gdisplayField: 'nombre_especialidad',
 				forceSelection: true,
