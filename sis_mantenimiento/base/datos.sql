@@ -1,12 +1,9 @@
+/***********************************I-SCP-RAC-GEM-0-02/01/2013****************************************/
 /*
 *	Author: RAC
 *	Date: 21/12/2012
 *	Description: Build the menu definition and the composition
 */
-
-
-
-
 /*
 
 Para  definir la la metadata, menus, roles, etc
@@ -192,26 +189,19 @@ select pxp.f_insert_tfuncion ('gem.f_generar_orden_trabajo', 'Funcion para tabla
 ---------------------------------
 
 
-select pxp.f_insert_tprocedimiento ('GEM_GETIMA_INS', '	Insercion de registros
- 	', 'si', '', '', 'gem.f_tipo_mant_ime');
-select pxp.f_insert_tprocedimiento ('GEM_GETIMA_MOD', '	Modificacion de registros
- 	', 'si', '', '', 'gem.f_tipo_mant_ime');
-select pxp.f_insert_tprocedimiento ('GEM_GETIMA_ELI', '	Eliminacion de registros
- 	', 'si', '', '', 'gem.f_tipo_mant_ime');
-select pxp.f_insert_tprocedimiento ('GEM_GEMEDI_INS', '	Insercion de registros
- 	', 'si', '', '', 'gem.ft_equipo_medicion_ime');
-select pxp.f_insert_tprocedimiento ('GEM_GEMEDI_MOD', '	Modificacion de registros
- 	', 'si', '', '', 'gem.ft_equipo_medicion_ime');
+select pxp.f_insert_tprocedimiento ('GEM_GETIMA_INS', '	Insercion de registros', 'si', '', '', 'gem.f_tipo_mant_ime');
+select pxp.f_insert_tprocedimiento ('GEM_GETIMA_MOD', '	Modificacion de registros', 'si', '', '', 'gem.f_tipo_mant_ime');
+select pxp.f_insert_tprocedimiento ('GEM_GETIMA_ELI', '	Eliminacion de registros', 'si', '', '', 'gem.f_tipo_mant_ime');
+select pxp.f_insert_tprocedimiento ('GEM_GEMEDI_INS', '	Insercion de registros', 'si', '', '', 'gem.ft_equipo_medicion_ime');
+select pxp.f_insert_tprocedimiento ('GEM_GEMEDI_MOD', '	Modificacion de registros', 'si', '', '', 'gem.ft_equipo_medicion_ime');
 select pxp.f_insert_tprocedimiento ('GEM_GEMEDI_ELI', '	Eliminacion de registros
  	', 'si', '', '', 'gem.ft_equipo_medicion_ime');
 select pxp.f_insert_tprocedimiento ('GEM_EQUMEDDIN_INS', '	Insercion de mediciones desde la interfaz equipo medicion dinamico
  	', 'si', '', '', 'gem.ft_equipo_medicion_ime');
 select pxp.f_insert_tprocedimiento ('GEM_EQUMEDDIN_ELI', '	Eliminacion de mediciones desde la interfaz equipo medicion dinamico
  	', 'si', '', '', 'gem.ft_equipo_medicion_ime');
-select pxp.f_insert_tprocedimiento ('GM_INSEG_SEL', '	Consulta de datos
- 	', 'si', '', '', 'gem.ft_instruc_seg_sel');
-select pxp.f_insert_tprocedimiento ('GM_INSEG_CONT', '	Conteo de registros
- 	', 'si', '', '', 'gem.ft_instruc_seg_sel');
+select pxp.f_insert_tprocedimiento ('GM_INSEG_SEL', '	Consulta de datos', 'si', '', '', 'gem.ft_instruc_seg_sel');
+select pxp.f_insert_tprocedimiento ('GM_INSEG_CONT', '	Conteo de registros', 'si', '', '', 'gem.ft_instruc_seg_sel');
 select pxp.f_insert_tprocedimiento ('GM_PORSOL_SEL', '	Consulta de datos
  	', 'si', '', '', 'gem.ft_analisis_porque_sol_sel');
 select pxp.f_insert_tprocedimiento ('GM_PORSOL_REP', '	Consulta para reporte de datos
@@ -791,8 +781,49 @@ VALUES (1, NULL, E'2012-12-06 00:00:00', NULL, E'activo', 2, E'torden_trabajo', 
 
 INSERT INTO param.tconfig_alarma ("id_usuario_reg", "id_usuario_mod", "fecha_reg", "fecha_mod", "estado_reg", "id_config_alarma", "codigo", "descripcion", "dias", "id_subsistema")
 VALUES (1, 1, E'2012-12-06 00:00:00', E'2012-12-06 07:13:57.935', E'activo', 1, E'tcalendario_planificado', NULL, 3, 6);
+/***********************************F-SCP-RAC-GEM-0-02/01/2013****************************************/
 
+/***********************************I-SCP-RCM-GEM-36-02/01/2013****************************************/
+--NUEVA INTERFAZ: SOLICITUD DE ORDEN DE TRABAJO
+select pxp.f_insert_tgui ('Solicitud - Orden Trabajo', 'Registro de Solicitudes de Ordenes de Trabajo', 'GEM.2.7.4', 'si', 1, 'sis_mantenimiento/vista/orden_trabajo_sol/OrdenTrabajoSol.php', 4, '', 'OrdenTrabajoSol', 'GEM');
 
+select pxp.f_insert_testructura_gui ('GEM.2.7.4', 'GEM.2.7');
 
+select pxp.f_insert_tfuncion ('gem.ft_orden_trabajo_sol_sel', 'Funcion para tabla', 'GEM');
+select pxp.f_insert_tfuncion ('gem.ft_orden_trabajo_sol_ime', 'Funcion para tabla', 'GEM');
 
+select pxp.f_insert_tprocedimiento ('GEM_SOLORD_INS', '	Insercion de registros', 'si', '', '', 'gem.ft_orden_trabajo_sol_ime');
+select pxp.f_insert_tprocedimiento ('GEM_SOLORD_MOD', '	Modificacion de registros', 'si', '', '', 'gem.ft_orden_trabajo_sol_ime');
+select pxp.f_insert_tprocedimiento ('GEM_SOLORD_ELI', '	Eliminacion de registros', 'si', '', '', 'gem.ft_orden_trabajo_sol_ime');
+select pxp.f_insert_tprocedimiento ('GEM_SOLORD_SEL', '	Consulta de datos', 'si', '', '', 'gem.ft_orden_trabajo_sol_sel');
+select pxp.f_insert_tprocedimiento ('GEM_SOLORD_CONT', '	Conteo de registros', 'si', '', '', 'gem.ft_orden_trabajo_sol_sel');
 
+select pxp.f_insert_tprocedimiento_gui ('GEM_SOLORD_INS', 'GEM.2.7.4', 'si');
+select pxp.f_insert_tprocedimiento_gui ('GEM_SOLORD_SEL', 'GEM.2.7.4', 'si');
+select pxp.f_insert_tprocedimiento_gui ('GEM_SOLORD_MOD', 'GEM.2.7.4', 'si');
+select pxp.f_insert_tprocedimiento_gui ('GEM_SOLORD_CONT', 'GEM.2.7.4', 'si');
+select pxp.f_insert_tprocedimiento_gui ('GEM_SOLORD_ELI', 'GEM.2.7.4', 'si');
+
+select pxp.f_insert_tgui_rol ('GEM.2.7.4', 'PROBAR ROLES');
+
+select pxp.f_insert_trol_procedimiento_gui ('PROBAR ROLES', 'GEM_SOLORD_INS', 'GEM.2.7.4');
+select pxp.f_insert_trol_procedimiento_gui ('PROBAR ROLES', 'GEM_SOLORD_SEL', 'GEM.2.7.4');
+select pxp.f_insert_trol_procedimiento_gui ('PROBAR ROLES', 'GEM_SOLORD_MOD', 'GEM.2.7.4');
+select pxp.f_insert_trol_procedimiento_gui ('PROBAR ROLES', 'GEM_SOLORD_CONT', 'GEM.2.7.4');
+select pxp.f_insert_trol_procedimiento_gui ('PROBAR ROLES', 'GEM_SOLORD_ELI', 'GEM.2.7.4');
+
+--Catálogos
+select pxp.f_add_catalog('GEM','torden_trabajo_sol__prioridad','1');
+select pxp.f_add_catalog('GEM','torden_trabajo_sol__prioridad','2');
+select pxp.f_add_catalog('GEM','torden_trabajo_sol__prioridad','3');
+select pxp.f_add_catalog('GEM','torden_trabajo_sol__prioridad','4');
+select pxp.f_add_catalog('GEM','torden_trabajo_sol__prioridad','5');
+select pxp.f_add_catalog('GEM','torden_trabajo_sol__prioridad','6');
+select pxp.f_add_catalog('GEM','torden_trabajo_sol__prioridad','7');
+select pxp.f_add_catalog('GEM','torden_trabajo_sol__prioridad','8');
+select pxp.f_add_catalog('GEM','torden_trabajo_sol__prioridad','9');
+select pxp.f_add_catalog('GEM','torden_trabajo_sol__importancia','Alta');
+select pxp.f_add_catalog('GEM','torden_trabajo_sol__importancia','Media');
+select pxp.f_add_catalog('GEM','torden_trabajo_sol__importancia','Baja');
+
+/***********************************F-SCP-RCM-GEM-36-02/01/2013****************************************/

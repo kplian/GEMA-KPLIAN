@@ -1491,7 +1491,9 @@ header("content-type: text/javascript; charset=UTF-8");
 				}, data, this.idContenedor, 'UniConsArchivo');
 			}
 
-		}/*,
+		},
+	
+		/*,
 		//Habilita o deshabilita las opciones de los botones y menú al mismo tiempo
 		enableOptions : function(pName, pAccion) {
 			console.log('btn-' + pName + '-' + this.idContenedor);

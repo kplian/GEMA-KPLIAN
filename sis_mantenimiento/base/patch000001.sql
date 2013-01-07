@@ -1428,3 +1428,69 @@ ALTER TABLE gem.tuni_cons
   ADD COLUMN punto_recepcion_despacho VARCHAR(100);
 
 /***********************************F-SCP-AAO-GEM-65-21/12/2012*****************************************/
+
+/***********************************I-SCP-RCM-GEM-65-29/12/2012*****************************************/
+-- Table: gem.torden_trabajo_sol
+
+-- DROP TABLE gem.torden_trabajo_sol;
+
+CREATE TABLE gem.torden_trabajo_sol
+(
+-- Inherited from table pxp.tbase:  id_usuario_reg integer,
+-- Inherited from table pxp.tbase:  id_usuario_mod integer,
+-- Inherited from table pxp.tbase:  fecha_reg timestamp without time zone DEFAULT now(),
+-- Inherited from table pxp.tbase:  fecha_mod timestamp without time zone DEFAULT now(),
+-- Inherited from table pxp.tbase:  estado_reg character varying(10) DEFAULT 'activo'::character varying,
+  id_orden_trabajo_sol serial NOT NULL,
+  id_solicitante integer,
+  id_uni_cons integer,
+  id_localizacion integer,
+  id_unidad_medida_req integer,  
+  id_uo integer,
+  id_responsable integer,
+  id_orden_trabajo integer,
+  fecha date,
+  fecha_requerida date,
+  observacion character varying(1000),
+  descripcion character varying(1000),
+  descripcion_req character varying(1000),
+  cantidad_req numeric(18,2),
+  inspeccion_lugar character varying(2),
+  inspeccion_exacto character varying(2),
+  prioridad character varying(20),
+  fecha_recepcion date,
+  importancia character varying(20),
+  nota character varying(1000),
+  estado character varying(20),
+  fecha_estimada date,
+  fecha_real date,
+  observaciones_resp character varying(1000),
+  constraint pk_torden_trabajo_sol__id_orden_trabajo_sol primary key (id_orden_trabajo_sol),
+  constraint fk_torden_trabajo_sol__id_solicitante foreign key (id_solicitante)
+      references orga.tfuncionario (id_funcionario) match simple
+      on update no action on delete no action,
+  constraint fk_torden_trabajo_sol__id_uni_cons foreign key (id_uni_cons)
+      references gem.tuni_cons (id_uni_cons) match simple
+      on update no action on delete no action,
+  constraint fk_torden_trabajo_sol__id_responsable foreign key (id_responsable)
+      references orga.tfuncionario (id_funcionario) match simple
+      on update no action on delete no action,
+  constraint fk_torden_trabajo_sol__id_unidad_medida_req foreign key (id_unidad_medida_req)
+      references param.tunidad_medida (id_unidad_medida) match simple
+      on update no action on delete no action,
+  constraint fk_torden_trabajo_sol__id_uo foreign key (id_uo)
+      references orga.tuo (id_uo) match simple
+      on update no action on delete no action,
+  constraint fk_torden_trabajo_sol__id_localizacion foreign key (id_localizacion)
+      references gem.tlocalizacion (id_localizacion) match simple
+      on update no action on delete no action,
+  constraint fk_torden_trabajo_sol__id_orden_trabajo foreign key (id_orden_trabajo)
+      references gem.torden_trabajo (id_orden_trabajo) match simple
+      on update no action on delete no action
+)
+INHERITS (pxp.tbase)
+WITH (
+  OIDS=FALSE
+);
+ALTER TABLE gem.torden_trabajo_sol OWNER TO postgres;
+/***********************************F-SCP-RCM-GEM-65-29/12/2012*****************************************/
