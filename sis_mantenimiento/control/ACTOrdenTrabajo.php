@@ -22,7 +22,7 @@ class ACTOrdenTrabajo extends ACTbase{
 			$this->res = $this->objReporte->generarReporteListado('MODOrdenTrabajo','listarOrdenTrabajo');
 		} else {
 			if($this->objParam->getParametro('nombreVista') == 'registrarOT') {
-				$this->objParam->addFiltro(" (geoott.cat_estado = ''Borrador'' or geoott.cat_estado = ''Pendiente'')");
+				$this->objParam->addFiltro(" (geoott.cat_estado in (''Borrador'',''Pendiente'',''generado'')");
 			} elseif($this->objParam->getParametro('nombreVista') == 'ejecutarOT') {
 				$this->objParam->addFiltro(" (geoott.cat_estado = ''Pendiente'' or geoott.cat_estado = ''Abierto'')");
 			} elseif($this->objParam->getParametro('nombreVista') == 'revisarOT') {
