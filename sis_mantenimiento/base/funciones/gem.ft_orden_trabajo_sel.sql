@@ -110,7 +110,7 @@ BEGIN
                         inner join gem.tlocalizacion local on local.id_localizacion = geoott.id_localizacion
 						inner join param.tunidad_medida unimed on unimed.id_unidad_medida = geoott.id_unidad_medida
                         inner join gem.tcentro_costo cencost on cencost.id_centro_costo = geoott.id_centro_costo
-				        where  ';
+				        where geoott.estado_reg = ''activo'' and ';
 			
 			--Definicion de la respuesta
 			v_consulta:=v_consulta||v_parametros.filtro;
@@ -145,7 +145,7 @@ BEGIN
                         inner join gem.tlocalizacion local on local.id_localizacion = geoott.id_localizacion
 						inner join param.tunidad_medida unimed on unimed.id_unidad_medida = geoott.id_unidad_medida
                         inner join gem.tcentro_costo cencost on cencost.id_centro_costo = geoott.id_centro_costo
-					    where ';
+					    where geoott.estado_reg = ''activo'' and ';
 			
 			--Definicion de la respuesta		    
 			v_consulta:=v_consulta||v_parametros.filtro;

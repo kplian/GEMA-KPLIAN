@@ -57,6 +57,7 @@ Phx.vista.FallaEventoExterno=Ext.extend(Phx.gridInterfaz,{
 	       			typeAhead: true,
 	       		    triggerAction: 'all',
 	       		    lazyRender:true,
+	       		    anchor: '100%',
 	       		    mode: 'local',
 	       		    //readOnly:true,
 	       		    valueField: 'tipo',
@@ -72,7 +73,51 @@ Phx.vista.FallaEventoExterno=Ext.extend(Phx.gridInterfaz,{
 	       		grid:true,
 	       		form:true
 	       	},
-		
+		{
+			config:{
+				name: 'codigo',
+				fieldLabel: 'Código',
+				allowBlank: false,
+				width: '100%',
+				gwidth: 100,
+				maxLength:20
+			},
+			type:'TextField',
+			filters:{pfiltro:'gefaev.codigo',type:'string'},
+			id_grupo:1,
+			grid:true,
+			form:true
+		},
+		{
+			config:{
+				name: 'nombre',
+				fieldLabel: 'Nombre',
+				allowBlank: false,
+				width: '100%',
+				gwidth: 100,
+				maxLength:100
+			},
+			type:'TextField',
+			filters:{pfiltro:'gefaev.nombre',type:'string'},
+			id_grupo:1,
+			grid:true,
+			form:true
+		},
+		{
+			config:{
+				name: 'descripcion',
+				fieldLabel: 'Descripción',
+				allowBlank: true,
+				width: '100%',
+				gwidth: 100,
+				maxLength:100
+			},
+			type:'TextArea',
+			filters:{pfiltro:'gefaev.nombre',type:'string'},
+			id_grupo:1,
+			grid:true,
+			form:true
+		},
 		{
 			config:{
 				name: 'estado_reg',
@@ -88,51 +133,6 @@ Phx.vista.FallaEventoExterno=Ext.extend(Phx.gridInterfaz,{
 			grid:true,
 			form:false
 		},
-		{
-			config:{
-				name: 'codigo',
-				fieldLabel: 'Código',
-				allowBlank: true,
-				anchor: '80%',
-				gwidth: 100,
-				maxLength:20
-			},
-			type:'TextField',
-			filters:{pfiltro:'gefaev.codigo',type:'string'},
-			id_grupo:1,
-			grid:true,
-			form:true
-		},
-		{
-			config:{
-				name: 'nombre',
-				fieldLabel: 'Nombre',
-				allowBlank: true,
-				anchor: '80%',
-				gwidth: 100,
-				maxLength:100
-			},
-			type:'TextField',
-			filters:{pfiltro:'gefaev.nombre',type:'string'},
-			id_grupo:1,
-			grid:true,
-			form:true
-		},
-		{
-			config:{
-				name: 'descripcion',
-				fieldLabel: 'Descripcion',
-				allowBlank: true,
-				anchor: '80%',
-				gwidth: 100,
-				maxLength:100
-			},
-			type:'TextField',
-			filters:{pfiltro:'gefaev.nombre',type:'string'},
-			id_grupo:1,
-			grid:true,
-			form:true
-		},		
 		{
 			config:{
 				name: 'fecha_reg',
@@ -220,7 +220,11 @@ Phx.vista.FallaEventoExterno=Ext.extend(Phx.gridInterfaz,{
 		direction: 'ASC'
 	},
 	bdel:true,
-	bsave:true/*,
+	bsave:false,
+	fwidth: 450,
+	fheight: 300
+	
+	/*,
 	loadValoresIniciales:function()
 	{
 		Phx.vista.FallaEventoExterno.superclass.loadValoresIniciales.call(this);

@@ -65,7 +65,7 @@ BEGIN
             'activo',
             v_parametros.id_orden_trabajo,
             v_parametros.id_usuario_resp,
-            v_parametros.estado,
+            'pendiente',
             v_parametros.descripcion,
             v_parametros.observaciones,
             v_parametros.fecha_plan_ini,

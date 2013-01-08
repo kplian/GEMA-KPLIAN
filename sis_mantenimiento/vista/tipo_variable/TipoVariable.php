@@ -55,7 +55,7 @@ Phx.vista.TipoVariable=Ext.extend(Phx.gridInterfaz,{
 				name: 'nombre',
 				fieldLabel: 'Nombre',
 				allowBlank: true,
-				anchor: '80%',
+				width: '100%',
 				gwidth: 100,
 				maxLength:50
 			},
@@ -97,7 +97,7 @@ Phx.vista.TipoVariable=Ext.extend(Phx.gridInterfaz,{
        				mode:'remote',
        				pageSize:10,
        				queryDelay:1000,
-       				width:150,
+       				anchor:'100%',
        				minChars:2,
        				minListWidth:300,
        				renderer:function(value, p, record){return String.format('{0}', record.data['codigo_unidad_medida']);}
@@ -116,12 +116,27 @@ Phx.vista.TipoVariable=Ext.extend(Phx.gridInterfaz,{
 				name: 'descripcion',
 				fieldLabel: 'Descripcion',
 				allowBlank: true,
-				anchor: '80%',
+				width: '100%',
 				gwidth: 100,
 				maxLength:300
 			},
 			type:'TextArea',
 			filters:{pfiltro:'tva.descripcion',type:'string'},
+			id_grupo:1,
+			grid:true,
+			form:true
+		},
+		{
+			config:{
+				name: 'observaciones',
+				fieldLabel: 'Observaciones',
+				allowBlank: true,
+				width: '100%',
+				maxLength:300,
+				gwidth: 200
+			},
+			type:'TextArea',
+			filters:{pfiltro:'tva.observaciones',type:'string'},
 			id_grupo:1,
 			grid:true,
 			form:true
@@ -201,21 +216,6 @@ Phx.vista.TipoVariable=Ext.extend(Phx.gridInterfaz,{
 			id_grupo:1,
 			grid:true,
 			form:false
-		},
-		{
-			config:{
-				name: 'observaciones',
-				fieldLabel: 'Observaciones',
-				allowBlank: true,
-				anchor: '100%',
-				maxLength:300,
-				gwidth: 200
-			},
-			type:'TextArea',
-			filters:{pfiltro:'tva.observaciones',type:'string'},
-			id_grupo:1,
-			grid:true,
-			form:true
 		}
 	],
 	title:'Variables Tipo',
@@ -244,7 +244,9 @@ Phx.vista.TipoVariable=Ext.extend(Phx.gridInterfaz,{
 		direction: 'ASC'
 	},
 	bdel:true,
-	bsave:true,
+	bsave:false,
+	fwidth: 400,
+	
 	loadValoresIniciales:function()
 	{
 		Phx.vista.TipoVariable.superclass.loadValoresIniciales.call(this);

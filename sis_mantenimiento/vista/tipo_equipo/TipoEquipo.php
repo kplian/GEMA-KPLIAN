@@ -17,28 +17,6 @@ Phx.vista.TipoEquipo=Ext.extend(Phx.gridInterfaz,{
     	//llama al constructor de la clase padre
 		Phx.vista.TipoEquipo.superclass.constructor.call(this,config);
 		
-		//test button to remove
-		this.addButton('gen_cod',{
-			text:'Test Button',
-			iconCls: 'blist',
-			disabled: false,
-			handler:function(){
-				Ext.Ajax.request({
-					url:'../../sis_mantenimiento/control/UniCons/reporteUniConsFichaTecnica',
-					params:{'id_uni_cons':2},
-					success: this.successExport,
-					failure: function() {
-						console.log("fail");
-					},
-					timeout: function() {
-						console.log("timeout");
-					},
-					scope:this
-				});
-			},
-			tooltip: '<b>My Test button</b><br/>Solo por motivos de prueba'
-		});
-		
 		this.init();
 		this.load({params:{start:0, limit:50}})
 	},
@@ -56,9 +34,9 @@ Phx.vista.TipoEquipo=Ext.extend(Phx.gridInterfaz,{
 		},{
 			config:{
 				name: 'codigo',
-				fieldLabel: 'codigo',
-				allowBlank: true,
-				anchor: '80%',
+				fieldLabel: 'Código',
+				allowBlank: false,
+				width: '100%',
 				gwidth: 100,
 				maxLength:20
 			},
@@ -70,9 +48,9 @@ Phx.vista.TipoEquipo=Ext.extend(Phx.gridInterfaz,{
 		},{
 			config:{
 				name: 'nombre',
-				fieldLabel: 'nombre',
-				allowBlank: true,
-				anchor: '80%',
+				fieldLabel: 'Nombre',
+				allowBlank: false,
+				width: '100%',
 				gwidth: 100,
 				maxLength:200
 			},
@@ -85,13 +63,13 @@ Phx.vista.TipoEquipo=Ext.extend(Phx.gridInterfaz,{
 		{
 			config:{
 				name: 'descripcion',
-				fieldLabel: 'descripcion',
+				fieldLabel: 'Descripción',
 				allowBlank: true,
-				anchor: '80%',
+				width: '100%',
 				gwidth: 100,
 				maxLength:300
 			},
-			type:'TextField',
+			type:'TextArea',
 			filters:{pfiltro:'teq.descripcion',type:'string'},
 			id_grupo:1,
 			grid:true,
@@ -204,7 +182,9 @@ Phx.vista.TipoEquipo=Ext.extend(Phx.gridInterfaz,{
 		direction: 'ASC'
 	},
 	bdel:true,
-	bsave:true,
+	bsave:false,
+	fwidth: 400,
+	fheight: 250,
 	
 		tabsouth:[
 	    {

@@ -63,7 +63,7 @@ Phx.vista.FuncionarioHonorario=Ext.extend(Phx.gridInterfaz,{
 				mode:'remote',
 				pageSize:20,
 				queryDelay:500,
-				width:210,
+				anchor: '100%',
 				gwidth:220,
 				minChars:2,
 				renderer:function (value, p, record){return String.format('{0}', record.data['desc_tipo_horario']);}
@@ -92,13 +92,13 @@ Phx.vista.FuncionarioHonorario=Ext.extend(Phx.gridInterfaz,{
 	   				fieldLabel:'Moneda',
 	   				gdisplayField:'desc_moneda',//mapea al store del grid
 	   			    gwidth:200,
-	   			    witdth:'100%',
+	   			    anchor:'100%',
 		   			renderer:function (value, p, record){return String.format('{0}', record.data['desc_moneda']);}
 	       	     },
 	   			type:'ComboRec',
 	   			id_grupo:0,
 	   			filters:{	
-			        pfiltro:'MONEDA.nombre',
+			        pfiltro:'MONEDA.codigo',
 					type:'string'
 				},
 	   		   
@@ -110,7 +110,7 @@ Phx.vista.FuncionarioHonorario=Ext.extend(Phx.gridInterfaz,{
 				name: 'costo_hora',
 				fieldLabel: 'Costo/Hora',
 				allowBlank: true,
-				anchor: '80%',
+				anchor: '100%',
 				gwidth: 100,
 				maxLength:1179650
 			},
@@ -232,7 +232,9 @@ Phx.vista.FuncionarioHonorario=Ext.extend(Phx.gridInterfaz,{
 		direction: 'ASC'
 	},
 	bdel:true,
-	bsave:true,
+	bsave:false,
+	fwidth: 450,
+	fheight: 220,
 	loadValoresIniciales:function(){
 		Phx.vista.FuncionarioHonorario.superclass.loadValoresIniciales.call(this);
 		this.getComponente('id_funcionario').setValue(this.maestro.id_funcionario);		

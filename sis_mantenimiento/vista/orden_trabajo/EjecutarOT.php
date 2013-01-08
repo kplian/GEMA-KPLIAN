@@ -74,7 +74,6 @@ Phx.vista.EjecutarOT = {
 	preparaMenu:function(n) {
 	  	var tb = Phx.vista.EjecutarOT.superclass.preparaMenu.call(this);
 	  	var data = this.getSelectedData();
-	  	this.getBoton('btnActividad').setDisabled(false);
 	  	if(data.cat_estado == 'Pendiente') {
 	  		this.getBoton('btnAbrir').setDisabled(false);
 	  		this.getBoton('btnCerrar').setDisabled(true);
@@ -88,7 +87,6 @@ Phx.vista.EjecutarOT = {
 		var tb = Phx.vista.EjecutarOT.superclass.liberaMenu.call(this);
 		this.getBoton('btnAbrir').setDisabled(true);
 	  	this.getBoton('btnCerrar').setDisabled(true);
-	  	this.getBoton('btnActividad').setDisabled(true);
 		return tb;
 	}
 };

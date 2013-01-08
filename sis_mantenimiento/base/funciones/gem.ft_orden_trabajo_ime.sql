@@ -209,7 +209,8 @@ BEGIN
 
 		begin
 			--Sentencia de la eliminacion
-			delete from gem.torden_trabajo
+            update gem.torden_trabajo set
+            	estado_reg = 'inactivo'
             where id_orden_trabajo=v_parametros.id_orden_trabajo;
                
             --Definicion de la respuesta

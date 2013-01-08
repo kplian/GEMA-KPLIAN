@@ -48,30 +48,30 @@ Phx.vista.InstrucSeg=Ext.extend(Phx.gridInterfaz,{
 		},
 		{
 			config:{
-				name: 'descripcion',
-				fieldLabel: 'Descripcion',
-				allowBlank: true,
-				anchor: '80%',
+				name: 'codigo',
+				fieldLabel: 'Codigo',
+				allowBlank: false,
+				anchor: '100%',
 				gwidth: 100,
-				maxLength:200
+				maxLength:20
 			},
 			type:'TextField',
-			filters:{pfiltro:'inseg.descripcion',type:'string'},
+			filters:{pfiltro:'inseg.codigo',type:'string'},
 			id_grupo:1,
 			grid:true,
 			form:true
 		},
 		{
 			config:{
-				name: 'codigo',
-				fieldLabel: 'Codigo',
-				allowBlank: true,
-				anchor: '80%',
+				name: 'descripcion',
+				fieldLabel: 'Descripción',
+				allowBlank: false,
+				anchor: '100%',
 				gwidth: 100,
-				maxLength:20
+				maxLength:200
 			},
-			type:'TextField',
-			filters:{pfiltro:'inseg.codigo',type:'string'},
+			type:'TextArea',
+			filters:{pfiltro:'inseg.descripcion',type:'string'},
 			id_grupo:1,
 			grid:true,
 			form:true
@@ -148,9 +148,9 @@ Phx.vista.InstrucSeg=Ext.extend(Phx.gridInterfaz,{
 		{name:'descripcion', type: 'string'},
 		{name:'codigo', type: 'string'},
 		{name:'id_usuario_reg', type: 'numeric'},
-		{name:'fecha_reg', type: 'date', dateFormat:'Y-m-d H:i:s'},
+		{name:'fecha_reg', type: 'date', dateFormat:'Y-m-d H:i:s.u'},
 		{name:'id_usuario_mod', type: 'numeric'},
-		{name:'fecha_mod', type: 'date', dateFormat:'Y-m-d H:i:s'},
+		{name:'fecha_mod', type: 'date', dateFormat:'Y-m-d H:i:s.u'},
 		{name:'usr_reg', type: 'string'},
 		{name:'usr_mod', type: 'string'},
 		
@@ -160,7 +160,9 @@ Phx.vista.InstrucSeg=Ext.extend(Phx.gridInterfaz,{
 		direction: 'ASC'
 	},
 	bdel:true,
-	bsave:true
+	bsave:false,
+	fwidth: 450,
+	fheight: 230
 	}
 )
 </script>

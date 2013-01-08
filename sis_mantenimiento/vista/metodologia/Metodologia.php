@@ -35,8 +35,8 @@ Phx.vista.Metodologia=Ext.extend(Phx.gridInterfaz,{
 			config:{
 				name: 'codigo',
 				fieldLabel: 'Código',
-				allowBlank: true,
-				anchor: '80%',
+				allowBlank: false,
+				width: '100%',
 				gwidth: 100,
 				maxLength:20
 			},
@@ -50,8 +50,8 @@ Phx.vista.Metodologia=Ext.extend(Phx.gridInterfaz,{
 			config:{
 				name: 'nombre',
 				fieldLabel: 'Metodología',
-				allowBlank: true,
-				anchor: '80%',
+				allowBlank: false,
+				width: '100%',
 				gwidth: 200,
 				maxLength:100
 			},
@@ -160,7 +160,9 @@ Phx.vista.Metodologia=Ext.extend(Phx.gridInterfaz,{
 		direction: 'ASC'
 	},
 	bdel:true,
-	bsave:true
+	bsave:false,
+	fwidth:450,
+	fheight:190
 	}
 )
 </script>

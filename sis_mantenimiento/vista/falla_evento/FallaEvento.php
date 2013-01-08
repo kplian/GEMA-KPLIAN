@@ -58,6 +58,7 @@ Phx.vista.FallaEvento=Ext.extend(Phx.gridInterfaz,{
 	       		    triggerAction: 'all',
 	       		    lazyRender:true,
 	       		    mode: 'local',
+	       		    anchor: '100%',
 	       		    //readOnly:true,
 	       		    valueField: 'tipo',
 	       		   // displayField: 'descestilo',
@@ -72,7 +73,36 @@ Phx.vista.FallaEvento=Ext.extend(Phx.gridInterfaz,{
 	       		grid:true,
 	       		form:true
 	       	},
-		
+		{
+			config:{
+				name: 'codigo',
+				fieldLabel: 'Código',
+				allowBlank: false,
+				width: '100%',
+				gwidth: 100,
+				maxLength:20
+			},
+			type:'TextField',
+			filters:{pfiltro:'gefaev.codigo',type:'string'},
+			id_grupo:1,
+			grid:true,
+			form:true
+		},
+		{
+			config:{
+				name: 'nombre',
+				fieldLabel: 'Nombre',
+				allowBlank: false,
+				width: '100%',
+				gwidth: 100,
+				maxLength:100
+			},
+			type:'TextField',
+			filters:{pfiltro:'gefaev.nombre',type:'string'},
+			id_grupo:1,
+			grid:true,
+			form:true
+		},
 		{
 			config:{
 				name: 'estado_reg',
@@ -87,36 +117,6 @@ Phx.vista.FallaEvento=Ext.extend(Phx.gridInterfaz,{
 			id_grupo:1,
 			grid:true,
 			form:false
-		},
-		{
-			config:{
-				name: 'codigo',
-				fieldLabel: 'Código',
-				allowBlank: true,
-				anchor: '80%',
-				gwidth: 100,
-				maxLength:20
-			},
-			type:'TextField',
-			filters:{pfiltro:'gefaev.codigo',type:'string'},
-			id_grupo:1,
-			grid:true,
-			form:true
-		},
-		{
-			config:{
-				name: 'nombre',
-				fieldLabel: 'Nombre',
-				allowBlank: true,
-				anchor: '80%',
-				gwidth: 100,
-				maxLength:100
-			},
-			type:'TextField',
-			filters:{pfiltro:'gefaev.nombre',type:'string'},
-			id_grupo:1,
-			grid:true,
-			form:true
 		},
 		{
 			config:{
@@ -204,7 +204,9 @@ Phx.vista.FallaEvento=Ext.extend(Phx.gridInterfaz,{
 		direction: 'ASC'
 	},
 	bdel:true,
-	bsave:true,
+	bsave:false,
+	fwidth: 450,
+	fheight: 230,
 	loadValoresIniciales:function()
 	{
 		Phx.vista.FallaEvento.superclass.loadValoresIniciales.call(this);

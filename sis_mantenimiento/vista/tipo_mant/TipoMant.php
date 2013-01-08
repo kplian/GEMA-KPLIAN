@@ -39,6 +39,7 @@ Phx.vista.TipoMant=Ext.extend(Phx.gridInterfaz,{
 			    triggerAction: 'all',
 			    lazyRender:true,
 			    mode: 'local',
+			    anchor: '100%',
 			    gwidth:120,
 			    store: new Ext.data.ArrayStore({
 			    	fields: ['codigo','nombre'],
@@ -65,7 +66,7 @@ Phx.vista.TipoMant=Ext.extend(Phx.gridInterfaz,{
 				name: 'codigo',
 				fieldLabel: 'Código',
 				allowBlank: false,
-				anchor: '80%',
+				width: '100%',
 				gwidth: 100,
 				maxLength:20
 			},
@@ -80,7 +81,7 @@ Phx.vista.TipoMant=Ext.extend(Phx.gridInterfaz,{
 				name: 'nombre',
 				fieldLabel: 'Nombre',
 				allowBlank: false,
-				anchor: '80%',
+				width: '100%',
 				gwidth: 200,
 				maxLength:100
 			},
@@ -189,7 +190,9 @@ Phx.vista.TipoMant=Ext.extend(Phx.gridInterfaz,{
 		direction: 'ASC'
 	},
 	bdel:true,
-	bsave:true
+	bsave:false,
+	fwidth: 450,
+	fheight: 230
 	}
 )
 </script>

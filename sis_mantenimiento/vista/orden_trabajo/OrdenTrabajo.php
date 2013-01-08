@@ -30,14 +30,14 @@ Phx.vista.OrdenTrabajo=Ext.extend(Phx.gridInterfaz,{
 				iconCls: 'bchecklist',
 				disabled: true,
 				handler: loadActividadesOT,
-				tooltip: '<b>Ver las actividades de la Orden de Trabajo Actual</b>'
+				tooltip: '<b>Actividades</b><br/>Ver las actividades de la Orden de Trabajo Actual'
 			}
 		);
 		
-		this.addButton('reportOT',{
-			text:'Report OT',
+		this.addButton('reporteOT',{
+			text:'Report OIT',
 			iconCls: 'bpdf32',
-			disabled: false,
+			disabled: true,
 			handler:function() {
 				var rec=this.sm.getSelected();
 				Phx.CP.loadingShow();
@@ -50,7 +50,7 @@ Phx.vista.OrdenTrabajo=Ext.extend(Phx.gridInterfaz,{
 					scope:this
 				});
 			},
-			tooltip: '<b>My Test button</b><br/>Solo por motivos de prueba'
+			tooltip: '<b>Reporte OIT</b><br/>Generar el reporte de la Orden Interna de Trabajo seleccionada.'
 		});
 		
 		function loadActividadesOT() {
@@ -193,7 +193,7 @@ Phx.vista.OrdenTrabajo=Ext.extend(Phx.gridInterfaz,{
 			config:{
 				name: 'descripcion_lugar',
 				fieldLabel: 'Sector',
-				allowBlank: true,
+				allowBlank: false,
 				width: '100%',
 				gwidth: 250,
 				maxLength: 1000
@@ -264,10 +264,11 @@ Phx.vista.OrdenTrabajo=Ext.extend(Phx.gridInterfaz,{
 					totalProperty:'total',
 					fields: ['id_uni_cons','codigo','nombre'],
 					remoteSort: true,
-					baseParams:{par_filtro:'nombre'}
+					baseParams:{par_filtro:'tuc.nombre'}
 				}),
 				valueField: 'id_uni_cons',
 				displayField: 'nombre',
+				gdisplayField:'equipo',
 				forceSelection:true,
 				typeAhead: false,
     			triggerAction: 'all',
@@ -281,7 +282,7 @@ Phx.vista.OrdenTrabajo=Ext.extend(Phx.gridInterfaz,{
 				renderer:function (value, p, record){return String.format('{0}', record.data['equipo']);}
 			},
 			type:'ComboBox',
-			filters:{pfiltro:'ite.nombre',type:'string'},
+			filters:{pfiltro:'unicons.nombre',type:'string'},
 			id_grupo:0,
 			grid:true,
 			form:true
@@ -290,7 +291,7 @@ Phx.vista.OrdenTrabajo=Ext.extend(Phx.gridInterfaz,{
 			config:{
 				name: 'num_oit',
 				fieldLabel: 'Nº OIT',
-				allowBlank: true,
+				allowBlank: false,
 				anchor: '100%',
 				gwidth: 70,
 				maxLength: 20
@@ -305,7 +306,7 @@ Phx.vista.OrdenTrabajo=Ext.extend(Phx.gridInterfaz,{
 			config:{
 				name: 'codigo_oit',
 				fieldLabel: 'Código OIT',
-				allowBlank: true,
+				allowBlank: false,
 				anchor: '100%',
 				gwidth: 100,
 				maxLength:20
@@ -353,7 +354,7 @@ Phx.vista.OrdenTrabajo=Ext.extend(Phx.gridInterfaz,{
 				renderer:function (value, p, record){return String.format('{0}', record.data['tipo_mant']);}
 			},
 			type:'ComboBox',
-			filters:{pfiltro:'ite.nombre',type:'string'},
+			filters:{pfiltro:'tipman.nombre',type:'string'},
 			id_grupo:0,
 			grid:true,
 			form:true
@@ -483,7 +484,7 @@ Phx.vista.OrdenTrabajo=Ext.extend(Phx.gridInterfaz,{
 	   			type:'ComboRec',
 	   			id_grupo:0,
 	   			filters:{	
-			        pfiltro:'PERSON.nombre_completo1',
+			        pfiltro:'fun.desc_funcionario1',
 					type:'string'
 				},
 	   		   
@@ -504,7 +505,7 @@ Phx.vista.OrdenTrabajo=Ext.extend(Phx.gridInterfaz,{
 	   			type:'ComboRec',
 	   			id_grupo:0,
 	   			filters:{	
-			        pfiltro:'PERSON.nombre_completo1',
+			        pfiltro:'fun1.desc_funcionario1',
 					type:'string'
 				},
 	   		   
@@ -576,7 +577,7 @@ Phx.vista.OrdenTrabajo=Ext.extend(Phx.gridInterfaz,{
 	   			type:'ComboRec',
 	   			id_grupo:1,
 	   			filters:{
-			        pfiltro:'PERSON.nombre_completo1',
+			        pfiltro:'fun2.desc_funcionario1',
 					type:'string'
 				},
 	   			grid:true,
@@ -597,7 +598,7 @@ Phx.vista.OrdenTrabajo=Ext.extend(Phx.gridInterfaz,{
 	   			type:'ComboRec',
 	   			id_grupo:1,
 	   			filters:{
-			        pfiltro:'PERSON.nombre_completo1',
+			        pfiltro:'fun3.desc_funcionario1',
 					type:'string'
 				},
 	   			grid:true,
@@ -945,7 +946,20 @@ Phx.vista.OrdenTrabajo=Ext.extend(Phx.gridInterfaz,{
 		        collapsed:false
 			}
 			]
-		}]
+		}],
+	preparaMenu: function(n) {
+		var tb = Phx.vista.OrdenTrabajo.superclass.preparaMenu.call(this);
+	  	var data = this.getSelectedData();
+	  	this.getBoton('btnActividad').setDisabled(false);
+	  	this.getBoton('reporteOT').setDisabled(false);
+  		return tb;
+	},
+	liberaMenu: function() {
+		var tb = Phx.vista.OrdenTrabajo.superclass.liberaMenu.call(this);
+		this.getBoton('reporteOT').setDisabled(true);
+		this.getBoton('btnActividad').setDisabled(true);
+		return tb;
+	}
 	
 })
 </script>

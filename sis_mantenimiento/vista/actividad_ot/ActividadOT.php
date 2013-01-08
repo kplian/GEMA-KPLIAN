@@ -38,7 +38,7 @@ Phx.vista.actividad=Ext.extend(Phx.gridInterfaz,{
 	   				origen: 'USUARIO',
 	   				tinit: true,
 	   				fieldLabel: 'Usuario Responsable',
-	   				gdisplayField: 'desc_person',//mapea al store del grid
+	   				gdisplayField: 'usuario_resp',//mapea al store del grid
 	   			    gwidth: 220,
 	   			    anchor: '100%',
 		   			renderer: function (value, p, record){return String.format('{0}', record.data['usuario_resp']);}

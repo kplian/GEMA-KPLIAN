@@ -72,7 +72,6 @@ Phx.vista.RevisarOT = {
 	preparaMenu:function(n) {
 		var tb = Phx.vista.RevisarOT.superclass.preparaMenu.call(this);
 	  	var data = this.getSelectedData();
-	  	this.getBoton('btnActividad').setDisabled(false);
 	  	if(data.cat_estado == 'Cerrado') {
 	  		this.getBoton('btnFinalizar').setDisabled(false);
 	  		this.getBoton('btnReabrir').setDisabled(false);
@@ -86,7 +85,6 @@ Phx.vista.RevisarOT = {
 		var tb = Phx.vista.RevisarOT.superclass.liberaMenu.call(this);
 		this.getBoton('btnFinalizar').setDisabled(true);
 	  	this.getBoton('btnReabrir').setDisabled(true);
-	  	this.getBoton('btnActividad').setDisabled(true);
 		return tb;
 	}
 };

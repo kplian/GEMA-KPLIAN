@@ -77,7 +77,6 @@ Phx.vista.RegistrarOT = {
 	preparaMenu: function(n) {
 		var tb = Phx.vista.RegistrarOT.superclass.preparaMenu.call(this);
 	  	var data = this.getSelectedData();
-	  	this.getBoton('btnActividad').setDisabled(false);
 	  	if(data.cat_estado == 'Borrador') {
 	  		this.getBoton('btnCheck').setDisabled(false);
 	  		this.getBoton('btnUncheck').setDisabled(true);
@@ -95,7 +94,6 @@ Phx.vista.RegistrarOT = {
 		var tb = Phx.vista.RegistrarOT.superclass.liberaMenu.call(this);
 		this.getBoton('btnCheck').setDisabled(true);
 	  	this.getBoton('btnUncheck').setDisabled(true);
-	  	this.getBoton('btnActividad').setDisabled(true);
 		return tb;
 	}
 };
