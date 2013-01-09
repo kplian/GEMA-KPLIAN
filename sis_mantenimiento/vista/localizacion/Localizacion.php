@@ -264,7 +264,7 @@ header("content-type: text/javascript; charset=UTF-8");
 		},
 		
 		onBtnRepCal: function(){
-            var nodo = this.sm.getSelectedNode();
+            var nodo = this.sm.getSelectedNode();            
             if(nodo){
                 Phx.CP.loadWindows('../../../sis_mantenimiento/vista/calendario_planificado/GenerarReporteCalendario.php',
                         'Calendario de Planificacion',
@@ -309,6 +309,19 @@ header("content-type: text/javascript; charset=UTF-8");
 				}, data, this.idContenedor, 'LocalizacionMed')
 			}
 		},
+		
+		onBtnRepInd : function() {
+            var node = this.sm.getSelectedNode();
+            var data = node.attributes;
+            Phx.CP.log(node);
+            if (data) {
+                Phx.CP.loadWindows('../../../sis_mantenimiento/vista/localizacion_med/GenerarReporteIndicadores.php', 'Reporte Indicadores ' + node.text, {
+                    modal : true,
+                    width : 900,
+                    height : 400
+                }, data, this.idContenedor, 'GenerarReporteIndicadores')
+            }
+        },
 
 		onBtnTPMPorquePorque : function() {
 			var rec = this.sm.getSelectedNode();
@@ -713,6 +726,9 @@ header("content-type: text/javascript; charset=UTF-8");
 				//INDICADORES
 				this.menuLoc.disable();
 				this.ctxMenu.items.get('mni-indicad-' + this.idContenedor).disable();
+				//REPORTE INDICADORES
+				this.menuLoc.disable();
+				this.ctxMenu.items.get('mni-repInd-' + this.idContenedor).disable();
 				//TARJETAS TPM
 				this.menuLoc.disable();
 				this.ctxMenu.items.get('mni-tarTPM-' + this.idContenedor).disable();
@@ -786,6 +802,9 @@ header("content-type: text/javascript; charset=UTF-8");
 				//INDICADORES
 				this.menuLoc.disable();
 				this.ctxMenu.items.get('mni-indicad-' + this.idContenedor).disable();
+				//REPORTE INDICADORES
+				this.menuLoc.disable();
+				this.ctxMenu.items.get('mni-repInd-' + this.idContenedor).disable();
 				//TARJETAS TPM
 				this.menuLoc.disable();
 				this.ctxMenu.items.get('mni-tarTPM-' + this.idContenedor).disable();
@@ -865,6 +884,9 @@ header("content-type: text/javascript; charset=UTF-8");
 				//INDICADORES
 				this.menuLoc.enable();
 				this.ctxMenu.items.get('mni-indicad-' + this.idContenedor).enable();
+				//REPORTE INDICADORES
+				this.menuLoc.enable();
+				this.ctxMenu.items.get('mni-repInd-' + this.idContenedor).enable();
 				//TARJETAS TPM
 				this.menuLoc.enable();
 				this.ctxMenu.items.get('mni-tarTPM-' + this.idContenedor).enable();
@@ -1017,6 +1039,14 @@ header("content-type: text/javascript; charset=UTF-8");
 				handler: this.onBtnMed,
 				scope: this
 			});
+			
+            this.ctxMenu.addMenuItem({
+                id: 'mni-repInd-'+this.idContenedor,
+                text : 'Reporte Indicadores',
+                handler : this.onBtnRepInd,
+                scope : this
+            });
+            
 			this.ctxMenu.addMenuItem({
 				id: 'mni-tarTPM-'+this.idContenedor,
 				text: 'Tarjetas TPM',

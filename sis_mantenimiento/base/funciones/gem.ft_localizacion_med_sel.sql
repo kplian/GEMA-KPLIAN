@@ -1,7 +1,11 @@
-CREATE OR REPLACE FUNCTION "gem"."ft_localizacion_med_sel"(	
-				p_administrador integer, p_id_usuario integer, p_tabla character varying, p_transaccion character varying)
-RETURNS character varying AS
-$BODY$
+CREATE OR REPLACE FUNCTION gem.ft_localizacion_med_sel (
+  p_administrador integer,
+  p_id_usuario integer,
+  p_tabla varchar,
+  p_transaccion varchar
+)
+RETURNS varchar AS
+$body$
 /**************************************************************************
  SISTEMA:		Mantenimiento Industrial - Plantas y Estaciones
  FUNCION: 		gem.ft_localizacion_med_sel
@@ -88,7 +92,64 @@ BEGIN
 			return v_consulta;
 						
 		end;
+	
+    /*********************************    
+ 	#TRANSACCION:  'GM_LOCMED_REP'
+ 	#DESCRIPCION:	Consulta de datos
+ 	#AUTOR:			Gonzalo Sarmiento Sejas	
+ 	#FECHA:			04-01-2013
+	***********************************/
 
+	elsif(p_transaccion='GM_LOCMED_REP')then
+     				
+    	begin
+    	
+    		--Obtiene todos los id_localizacion
+			WITH RECURSIVE t(id,id_fk,nombre,n) AS (
+					SELECT l.id_localizacion,l.id_localizacion_fk, l.nombre,1
+					FROM gem.tlocalizacion l 
+					WHERE l.id_localizacion = v_parametros.id_localizacion
+					UNION ALL
+					SELECT l.id_localizacion,l.id_localizacion_fk, l.nombre , n+1
+					FROM gem.tlocalizacion l, t
+					WHERE l.id_localizacion_fk = t.id
+				)
+			SELECT pxp.list(id::text)
+			into v_ids_loc
+			FROM t;
+    		
+    		--Sentencia de la consulta
+			v_consulta:='select                    
+                        loc.nombre as nombre_sistema,
+                        locpad.nombre as nombre_localizacion,
+                        loc.codigo,
+						locmed.tiempo_mnp_hrs,
+						locmed.estado_reg,
+						locmed.tiempo_standby_hrs,
+						locmed.num_paros,
+						locmed.tiempo_op_hrs,
+						to_char(locmed.fecha_med,''Month'')as mes_literal,
+                        to_char(locmed.fecha_med,''mm'')as mes,
+						to_char(locmed.fecha_med,''YY'')as anio,
+						to_char(locmed.fecha_med,''dd-Month-YYYY'') as fecha_med,
+						locmed.tiempo_mpp_hrs,
+						to_char(locmed.fecha_reg,''dd-mm-YYYY'') as fecha_reg,
+						to_char(locmed.fecha_mod,''dd-mm-YYYY'') as fecha_mod	
+						from gem.tlocalizacion_med locmed
+                        inner join gem.tlocalizacion loc on loc.id_localizacion = locmed.id_localizacion
+                        inner join gem.tlocalizacion locpad on locpad.id_localizacion = loc.id_localizacion_fk
+				        where locmed.id_localizacion in ('||v_ids_loc||') and 
+                        locmed.fecha_med between '''||v_parametros.fecha_ini||''' and '''||v_parametros.fecha_fin||''' and ';
+			
+			--Definicion de la respuesta
+			v_consulta:=v_consulta||v_parametros.filtro;
+			v_consulta:=v_consulta||' order by ' ||v_parametros.ordenacion|| ' ' || v_parametros.dir_ordenacion || ' limit ' || v_parametros.cantidad || ' offset ' || v_parametros.puntero;
+
+			--Devuelve la respuesta
+			return v_consulta;
+						
+		end;
+    
 	/*********************************    
  	#TRANSACCION:  'GM_LOCMED_CONT'
  	#DESCRIPCION:	Conteo de registros
@@ -195,7 +256,9 @@ EXCEPTION
 			v_resp = pxp.f_agrega_clave(v_resp,'procedimientos',v_nombre_funcion);
 			raise exception '%',v_resp;
 END;
-$BODY$
-LANGUAGE 'plpgsql' VOLATILE
+$body$
+LANGUAGE 'plpgsql'
+VOLATILE
+CALLED ON NULL INPUT
+SECURITY INVOKER
 COST 100;
-ALTER FUNCTION "gem"."ft_localizacion_med_sel"(integer, integer, character varying, character varying) OWNER TO postgres;

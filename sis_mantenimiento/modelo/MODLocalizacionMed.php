@@ -145,6 +145,42 @@ class MODLocalizacionMed extends MODbase{
 		//Devuelve la respuesta
 		return $this->respuesta;
 	}
-			
+	
+    function reporteLocalizacionMed(){
+        //Definicion de variables para ejecucion del procedimientp
+        $this->procedimiento='gem.ft_localizacion_med_sel';
+        $this->transaccion='GM_LOCMED_REP';
+        $this->tipo_procedimiento='SEL';//tipo de transaccion
+        $this->setCount(false);
+        //Parametros
+        $this->setParametro('id_localizacion','id_localizacion','int4');
+        $this->setParametro('fecha_ini','fecha_ini','varchar');
+        $this->setParametro('fecha_fin','fecha_fin','varchar');
+                
+        //Definicion de la lista del resultado del query
+        $this->captura('nombre_sistema','varchar');
+        $this->captura('nombre_localizacion','varchar');
+        $this->captura('codigo','varchar');
+        $this->captura('tiempo_mnp_hrs','numeric');
+        $this->captura('estado_reg','varchar');
+        $this->captura('tiempo_standby_hrs','numeric');
+        $this->captura('num_paros','int4');
+        $this->captura('tiempo_op_hrs','numeric');
+        $this->captura('mes_literal','text');
+        $this->captura('mes','text');
+        $this->captura('anio','text');
+        $this->captura('fecha_med','text');
+        $this->captura('tiempo_mpp_hrs','numeric');
+        $this->captura('fecha_reg','text');
+        $this->captura('fecha_mod','text');
+        
+        //Ejecuta la instruccion
+        $this->armarConsulta();
+        //echo $this->consulta;exit;
+        $this->ejecutarConsulta();
+        
+        //Devuelve la respuesta
+        return $this->respuesta;
+    }		
 }
 ?>
