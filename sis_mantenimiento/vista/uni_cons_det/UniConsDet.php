@@ -46,12 +46,11 @@ Phx.vista.UniConsDet=Ext.extend(Phx.gridInterfaz,{
 		{
 			config:{
 				name: 'codigo',
-				fieldLabel: 'codigo',
-				allowBlank: true,
-				anchor: '80%',
+				fieldLabel: 'Código',
+				allowBlank: false,
+				anchor: '100%',
 				gwidth: 100,
-				maxLength:8,
-				inputType:'hidden'
+				maxLength:8
 			},
 			type:'TextField',
 			filters:{pfiltro:'ucdet.codigo',type:'string'},
@@ -62,9 +61,9 @@ Phx.vista.UniConsDet=Ext.extend(Phx.gridInterfaz,{
 		{
 			config:{
 				name: 'nombre',
-				fieldLabel: 'nombre',
-				allowBlank: true,
-				anchor: '80%',
+				fieldLabel: 'Nombre',
+				allowBlank: false,
+				anchor: '100%',
 				gwidth: 100,
 				maxLength:25
 			},
@@ -77,9 +76,9 @@ Phx.vista.UniConsDet=Ext.extend(Phx.gridInterfaz,{
 		{
 			config:{
 				name: 'valor',
-				fieldLabel: 'valor',
+				fieldLabel: 'Valor',
 				allowBlank: true,
-				anchor: '80%',
+				anchor: '100%',
 				gwidth: 100,
 				maxLength:2000
 			},
@@ -140,9 +139,9 @@ Phx.vista.UniConsDet=Ext.extend(Phx.gridInterfaz,{
 		{
 			config:{
 				name: 'descripcion',
-				fieldLabel: 'descripcion',
+				fieldLabel: 'Descripción',
 				allowBlank: true,
-				anchor: '80%',
+				anchor: '100%',
 				gwidth: 100,
 				maxLength:500
 			},
@@ -228,7 +227,7 @@ Phx.vista.UniConsDet=Ext.extend(Phx.gridInterfaz,{
 			form:false
 		}
 	],
-	title:'Detalle de Equipo',
+	title:'Atributos del Equipo',
 	ActSave:'../../sis_mantenimiento/control/UniConsDet/insertarUniConsDet',
 	ActDel:'../../sis_mantenimiento/control/UniConsDet/eliminarUniConsDet',
 	ActList:'../../sis_mantenimiento/control/UniConsDet/listarUniConsDet',
@@ -256,6 +255,8 @@ Phx.vista.UniConsDet=Ext.extend(Phx.gridInterfaz,{
 	},
 	bdel:true,
 	bsave:true,
+	fwidth: 450,
+	fheight: 330,
 	onReloadPage:function(m){
         this.maestro=m;
 		this.Atributos[1].valorInicial=this.maestro.id_uni_cons;

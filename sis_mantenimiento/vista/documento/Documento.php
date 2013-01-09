@@ -58,8 +58,8 @@ Phx.vista.Documento=Ext.extend(Phx.gridInterfaz,{
             config:{
                 name: 'codigo',
                 fieldLabel: 'Código',
-                allowBlank: true,
-                anchor: '80%',
+                allowBlank: false,
+                anchor: '100%',
                 gwidth: 100,
                 maxLength:150
             },
@@ -73,7 +73,7 @@ Phx.vista.Documento=Ext.extend(Phx.gridInterfaz,{
             config:{
                 name: 'nombre',
                 fieldLabel: 'Nombre',
-                allowBlank: true,
+                allowBlank: false,
                 anchor: '100%',
                 gwidth: 130,
                 maxLength:150
@@ -291,7 +291,8 @@ Phx.vista.Documento=Ext.extend(Phx.gridInterfaz,{
         direction: 'ASC'
     },
     bdel:true,
-    bsave:true,
+    bsave:false,
+    fwidth: 450,
     
     preparaMenu:function(tb){
         // llamada funcion clase padre

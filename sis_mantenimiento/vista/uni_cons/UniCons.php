@@ -37,10 +37,10 @@ Phx.vista.UniCons=Ext.extend(Phx.arbInterfaz,{
 		//para definir atributos del equipo	
 		this.addButton('btnAtrib', {
 				text : '',
-				iconCls : 'blist',
+				iconCls : 'bchecklist',
 				disabled : false,
 				handler : this.onBtnAtribPlan,
-				tooltip : '<b>Atributos de la plantilla</b><br/>Definir atributos de la plantilla'
+				tooltip : '<b>Variables de Medición</b><br/>Define las variables del equipo'
 		});
 		
 		/*this.addButton('btn_MedicionGraf',{
@@ -56,36 +56,35 @@ Phx.vista.UniCons=Ext.extend(Phx.arbInterfaz,{
            iconCls : 'bupload',
            disabled : true,
            handler : this.onButtonUpload,
-           tooltip : '<b>Archivos</b><br/><b>Archivos de Unidades Constructoras</b>'
+           tooltip : '<b>Archivos</b><br/>Archivos del Equipo'
         });
         
         this.addButton('btnItems',{
             text : '',
-            iconCls : 'bven1',
+            iconCls : 'bitems',
             disabled : true,
             handler : this.onButtonItems,
-            tooltip : '<b>Items</b><br/><b>Registro de items del equipo</b>'
+            tooltip : '<b>Items</b><br/>Registro de items del equipo'
         });
         
         this.addButton('btnProveedores',{
             text : '',
-            iconCls : 'bven1',
+            iconCls : 'bassign',
             disabled : true,
             handler : this.onButtonProv,
-            tooltip : '<b>Proveedores</b><br/><b>Registro de proveedores del equipo</b>'
+            tooltip : '<b>Proveedores</b><br/>Registro de proveedores del equipo'
         });
 		
 		//Incluye un menú
    		this.menuOp = new Ext.Toolbar.SplitButton({
    			text: '',
    			handler: this.onMedicionesClick,
-   			iconCls: 'blist',
+   			iconCls: 'bgear',
    			scope: this,
+   			tooltip : '<b>Mantenimientos</b><br/>',
    			menu:{
    				items: [
    				{
-   					text: 'Archivos', handler:this.onArchivosClick, scope: this
-   				},{
    					text: 'Análisis de Mantenimiento', handler: this.onAnalisisClick, scope: this
    				},{
    					text: 'Plan de Mantenimiento', handler: this.onPlanClick, scope: this
@@ -98,7 +97,7 @@ Phx.vista.UniCons=Ext.extend(Phx.arbInterfaz,{
     
 		this.addButton('btnDocTecnica', {
 				text : '',
-				iconCls : 'blist',
+				iconCls : 'brenew',
 				disabled : false,
 				handler : this.onBtnDocTecnica,
 				tooltip : '<b>Documentación Técnica</b><br/>Define la documentación técnica.'
@@ -192,7 +191,7 @@ Phx.vista.UniCons=Ext.extend(Phx.arbInterfaz,{
 	       				mode:'remote',
 	       				pageSize:10,
 	       				queryDelay:200,
-	       				width:250,
+	       				anchor:'100%',
 	       				minChars:2,
 		       			tpl:'<tpl for="."><div class="x-combo-list-item"><p>{nombre}</p><p>{codigo}</p> </div></tpl>'
 		   			},
@@ -224,8 +223,8 @@ Phx.vista.UniCons=Ext.extend(Phx.arbInterfaz,{
 			config:{
 				name: 'nombre',
 				fieldLabel: 'Nombre',
-				allowBlank: true,
-				anchor: '80%',
+				allowBlank: false,
+				anchor: '100%',
 				gwidth: 100,
 				maxLength:200
 			},
@@ -239,8 +238,8 @@ Phx.vista.UniCons=Ext.extend(Phx.arbInterfaz,{
 			config:{
 				name: 'codigo',
 				fieldLabel: 'Código',
-				allowBlank: true,
-				anchor: '80%',
+				allowBlank: false,
+				anchor: '100%',
 				gwidth: 100,
 				maxLength:140
 			},
@@ -566,7 +565,7 @@ Phx.vista.UniCons=Ext.extend(Phx.arbInterfaz,{
 	onBtnAtribPlan:function(){
 		var nodo = this.sm.getSelectedNode();
            Phx.CP.loadWindows('../../../sis_mantenimiento/vista/equipo_variable/EquipoVariable.php',
-					'Calendario de Planificacion',
+					'Variables de Medición',
 					{
 						width:800,
 						height:400
@@ -633,19 +632,15 @@ Phx.vista.UniCons=Ext.extend(Phx.arbInterfaz,{
 				    
 			}
 	},
-	onArchivosClick: function(){
-		
-	},	
-	
-    onAnalisisClick: function(){
+	onAnalisisClick: function(){
 				var node=this.sm.getSelectedNode();
 		        var data =node.attributes;
 		        if(data){
 					Phx.CP.loadWindows('../../../sis_mantenimiento/vista/analisis_mant/AnalisisMant.php',
-					'AnalisisMant',{
+					'Análisis de Mantenimiento (RCM)',{
 						modal:true,
 						width:900,
-						height:400
+						height:600
 					},
 					data,this.idContenedor,'AnalisisMant')
 				}
@@ -703,9 +698,10 @@ Phx.vista.UniCons=Ext.extend(Phx.arbInterfaz,{
 		 onBeforeLoad:function(treeLoader, node) {
 				treeLoader.baseParams.tipo_nodo = node.attributes.tipo_nodo;
 				Phx.vista.UniCons.superclass.onBeforeLoad.call(this,treeLoader, node)
-		}
+		},
 	
-	
+	fwidth: 450,
+	fheight: 500
 })
 </script>
 		

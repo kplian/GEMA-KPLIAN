@@ -1,3 +1,5 @@
+--------------- SQL ---------------
+
 CREATE OR REPLACE FUNCTION gem.ft_analisis_mant_sel (
   p_administrador integer,
   p_id_usuario integer,
@@ -90,9 +92,11 @@ BEGIN
 			--Sentencia de la consulta de conteo de registros
 			v_consulta:='select count(id_analisis_mant)
 					    from gem.tanalisis_mant geanma
-					    inner join segu.tusuario usu1 on usu1.id_usuario = geanma.id_usuario_reg
+						inner join segu.tusuario usu1 on usu1.id_usuario = geanma.id_usuario_reg
 						left join segu.tusuario usu2 on usu2.id_usuario = geanma.id_usuario_mod
-					    where ';
+						inner join gem.ttipo_mant getima on getima.id_tipo_mant = geanma.id_tipo_mant
+						inner join orga.vfuncionario fun on fun.id_funcionario = geanma.id_funcionario_rev
+				        where geanma.id_uni_cons='||v_parametros.id_uni_cons|| ' and ';
 			
 			--Definicion de la respuesta		    
 			v_consulta:=v_consulta||v_parametros.filtro;

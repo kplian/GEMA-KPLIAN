@@ -1,10 +1,10 @@
 --------------- SQL ---------------
 
-CREATE OR REPLACE FUNCTION "gem"."ft_uni_cons_proveedor_sel" (
-  "p_administrador" integer,
-  "p_id_usuario" integer,
-  "p_tabla" varchar,
-  "p_transaccion" varchar
+CREATE OR REPLACE FUNCTION gem.ft_uni_cons_proveedor_sel (
+  p_administrador integer,
+  p_id_usuario integer,
+  p_tabla varchar,
+  p_transaccion varchar
 )
 RETURNS varchar AS
 $body$
@@ -107,9 +107,12 @@ BEGIN
 			--Sentencia de la consulta de conteo de registros
 			v_consulta:='select count(id_uni_cons_proveedor)
 					    from gem.tuni_cons_proveedor unipro
-					    inner join segu.tusuario usu1 on usu1.id_usuario = unipro.id_usuario_reg
+						inner join segu.tusuario usu1 on usu1.id_usuario = unipro.id_usuario_reg
 						left join segu.tusuario usu2 on usu2.id_usuario = unipro.id_usuario_mod
-					    where ';
+                        inner join param.vproveedor prov on prov.id_proveedor=unipro.id_proveedor
+                        left join param.tinstitucion inst on prov.id_institucion = inst.id_institucion
+    					left join segu.tpersona contact on prov.id_persona = contact.id_persona
+				        where unipro.id_uni_cons='||v_parametros.id_uni_cons||' and ';
 			
 			--Definicion de la respuesta		    
 			v_consulta:=v_consulta||v_parametros.filtro;

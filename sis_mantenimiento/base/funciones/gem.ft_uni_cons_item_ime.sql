@@ -1,4 +1,6 @@
-﻿CREATE OR REPLACE FUNCTION gem.ft_uni_cons_item_ime (
+--------------- SQL ---------------
+
+CREATE OR REPLACE FUNCTION gem.ft_uni_cons_item_ime (
   p_administrador integer,
   p_id_usuario integer,
   p_tabla varchar,
@@ -54,7 +56,8 @@ BEGIN
 			fecha_reg,
 			id_usuario_reg,
 			fecha_mod,
-			id_usuario_mod
+			id_usuario_mod,
+            observaciones
           	) values(
 			v_parametros.estado_reg,
 			v_parametros.id_uni_cons,
@@ -62,7 +65,8 @@ BEGIN
 			now(),
 			p_id_usuario,
 			null,
-			null
+			null,
+            v_parametros.observaciones
 			)RETURNING id_uni_cons_item into v_id_uni_cons_item;
                
 			--Definicion de la respuesta
@@ -90,7 +94,8 @@ BEGIN
 			id_item = v_parametros.id_item,
             estado_reg = v_parametros.estado_reg,
 			fecha_mod = now(),
-			id_usuario_mod = p_id_usuario
+			id_usuario_mod = p_id_usuario,
+            observaciones = v_parametros.observaciones
 			where id_uni_cons_item=v_parametros.id_uni_cons_item;
                
 			--Definicion de la respuesta

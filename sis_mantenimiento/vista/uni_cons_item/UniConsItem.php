@@ -53,7 +53,7 @@ Phx.vista.UniConsItem=Ext.extend(Phx.gridInterfaz,{
                     },
                     fields: ['id_item','codigo','nombre'],
                     remoteSort: true,
-                    baseParams:{par_filtro:'codigo#nombre'}
+                    baseParams:{par_filtro:'item.codigo#item.nombre'}
                 }),
                 valueField: 'id_item',
                 displayField: 'nombre',
@@ -66,7 +66,7 @@ Phx.vista.UniConsItem=Ext.extend(Phx.gridInterfaz,{
                 mode:'remote',
                 pageSize:10,
                 queryDelay:1000,
-                width:250,
+                anchor: '100%',
                 minChars:2,
                 enableMultiSelect:true,            
                 renderer:function(value, p, record){return String.format('{0}', record.data['nombre']);}
@@ -94,13 +94,13 @@ Phx.vista.UniConsItem=Ext.extend(Phx.gridInterfaz,{
                 lazyRender:true,
                 mode:'local',
                 pageSize:10,
-                width:250,               
+                anchor: '100%',               
                 renderer:function(value, p, record){return String.format('{0}', record.data['estado_reg']);}
             },
             type:'ComboBox',
             id_grupo:0,
             filters:{   
-                pfiltro:'estado_reg',
+                pfiltro:'unitem.estado_reg',
                 type:'string'
             },
             grid:true,
@@ -119,12 +119,12 @@ Phx.vista.UniConsItem=Ext.extend(Phx.gridInterfaz,{
 		    config:{
 		        name:'observaciones',
 		        fieldLabel:'Observaciones',
-		        anchor:'80%',
+		        anchor:'100%',
 		        allowBlank:true,
 		        gwidth:150,
 		        maxLength:2000		        
 		    },
-		    type:'TextField',
+		    type:'TextArea',
 		    filters:{pfiltro:'unitem.observaciones',type:'string'},
 		    id_grupo:1,
 		    grid:true,
@@ -193,7 +193,7 @@ Phx.vista.UniConsItem=Ext.extend(Phx.gridInterfaz,{
 			form:false
 		}
 	],
-	title:'Items de la Unidad constructiva',
+	title:'Item del Equipo',
 	ActSave:'../../sis_mantenimiento/control/UniConsItem/insertarUniConsItem',
 	ActDel:'../../sis_mantenimiento/control/UniConsItem/eliminarUniConsItem',
 	ActList:'../../sis_mantenimiento/control/UniConsItem/listarUniConsItem',
@@ -217,7 +217,9 @@ Phx.vista.UniConsItem=Ext.extend(Phx.gridInterfaz,{
 		direction: 'ASC'
 	},
 	bdel:true,
-	bsave:true
+	bsave:false,
+	fwidth: 450,
+	fheight: 250
 }
 )
 </script>

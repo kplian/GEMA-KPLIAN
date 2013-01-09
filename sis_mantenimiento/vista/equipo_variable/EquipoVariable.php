@@ -82,14 +82,14 @@ Phx.vista.EquipoVariable=Ext.extend(Phx.gridInterfaz,{
 	       				mode:'remote',
 	       				pageSize:10,
 	       				queryDelay:200,
-	       				width:250,
+	       				anchor: '100%',
 	       				minChars:2,
 	       				renderer:function(value, p, record){return String.format('{0}', record.data['nombre_tipo_variable']);},
 		       			tpl:'<tpl for="."><div class="x-combo-list-item"><p>{nombre} ({codigo_unidad_medida})</p></div></tpl>'
 		   			},
 	       			type:'ComboBox',
 	       			id_grupo:1,
-	       			filters:{   pfiltro:'tva.descripcion#tva.nombre',
+	       			filters:{   pfiltro:'tva.nombre',
 	       						type:'string'
 	       					},
 	       			grid:true,
@@ -128,7 +128,7 @@ Phx.vista.EquipoVariable=Ext.extend(Phx.gridInterfaz,{
        				mode:'remote',
        				pageSize:10,
        				queryDelay:1000,
-       				width:150,
+       				anchor: '100%',
        				minChars:2,
        				minListWidth:300,
        				renderer:function(value, p, record){return String.format('{0}', record.data['codigo_unidad_medida']);}
@@ -163,6 +163,7 @@ Phx.vista.EquipoVariable=Ext.extend(Phx.gridInterfaz,{
 	       		id_grupo:0,
 	       		filters:{	
 	       		         type: 'list',
+	       		         pfiltro: 'eqv.tipo',
 	       				 options: ['numeric','text'],	
 	       		 	},
 	       		grid:true,
@@ -173,7 +174,7 @@ Phx.vista.EquipoVariable=Ext.extend(Phx.gridInterfaz,{
 				name: 'valor_min',
 				fieldLabel: 'Minimo',
 				allowBlank: true,
-				anchor: '80%',
+				anchor: '100%',
 				gwidth: 100,
 				maxLength:4
 			},
@@ -187,7 +188,7 @@ Phx.vista.EquipoVariable=Ext.extend(Phx.gridInterfaz,{
 				name: 'valor_max',
 				fieldLabel: 'Maximo',
 				allowBlank: true,
-				anchor: '80%',
+				anchor: '100%',
 				gwidth: 100,
 				maxLength:4
 			},
@@ -202,7 +203,7 @@ Phx.vista.EquipoVariable=Ext.extend(Phx.gridInterfaz,{
 				name: 'obs',
 				fieldLabel: 'Observaciones',
 				allowBlank: true,
-				anchor: '80%',
+				anchor: '100%',
 				gwidth: 100,
 				maxLength:255
 			},
@@ -332,9 +333,9 @@ Phx.vista.EquipoVariable=Ext.extend(Phx.gridInterfaz,{
 		{name:'valor_min', type: 'numeric'},
 		{name:'id_tipo_variable', type: 'numeric'},
 		{name:'id_usuario_reg', type: 'numeric'},
-		{name:'fecha_reg', type: 'date', dateFormat:'Y-m-d H:i:s'},
+		{name:'fecha_reg', type: 'date', dateFormat:'Y-m-d H:i:s.u'},
 		{name:'id_usuario_mod', type: 'numeric'},
-		{name:'fecha_mod', type: 'date', dateFormat:'Y-m-d H:i:s'},
+		{name:'fecha_mod', type: 'date', dateFormat:'Y-m-d H:i:s.u'},
 		{name:'usr_reg', type: 'string'},
 		{name:'usr_mod', type: 'string'},
 		
@@ -368,7 +369,9 @@ Phx.vista.EquipoVariable=Ext.extend(Phx.gridInterfaz,{
 		direction: 'ASC'
 	},
 	bdel:true,
-	bsave:true
+	bsave:false,
+	fwidth: 450,
+	fheight: 350
 	}
 )
 </script>

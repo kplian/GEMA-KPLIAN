@@ -44,8 +44,8 @@ Phx.vista.ModoFalla=Ext.extend(Phx.gridInterfaz,{
 			config:{
 				name: 'modo_falla',
 				fieldLabel: 'Modo Falla',
-				allowBlank: true,
-				anchor: '80%',
+				allowBlank: false,
+				anchor: '100%',
 				gwidth: 100,
 				maxLength:1000
 			},
@@ -59,8 +59,8 @@ Phx.vista.ModoFalla=Ext.extend(Phx.gridInterfaz,{
 			config:{
 				name: 'efecto_falla',
 				fieldLabel: 'Efecto Falla',
-				allowBlank: true,
-				anchor: '80%',
+				allowBlank: false,
+				anchor: '100%',
 				gwidth: 100,
 				maxLength:1000
 			},
@@ -173,9 +173,9 @@ Phx.vista.ModoFalla=Ext.extend(Phx.gridInterfaz,{
 		{name:'efecto_falla', type: 'string'},
 		{name:'orden', type: 'numeric'},
 		{name:'estado_reg', type: 'string'},
-		{name:'fecha_reg', type: 'date', dateFormat:'Y-m-d H:i:s'},
+		{name:'fecha_reg', type: 'date', dateFormat:'Y-m-d H:i:s.u'},
 		{name:'id_usuario_reg', type: 'numeric'},
-		{name:'fecha_mod', type: 'date', dateFormat:'Y-m-d H:i:s'},
+		{name:'fecha_mod', type: 'date', dateFormat:'Y-m-d H:i:s.u'},
 		{name:'id_usuario_mod', type: 'numeric'},
 		{name:'usr_reg', type: 'string'},
 		{name:'usr_mod', type: 'string'},
@@ -186,8 +186,9 @@ Phx.vista.ModoFalla=Ext.extend(Phx.gridInterfaz,{
 		direction: 'ASC'
 	},
 	bdel:true,
-	bsave:true,
-	
+	bsave:false,
+	fwidth: 450,
+	fheight: 230,
 	loadValoresIniciales:function(){
         Phx.vista.FFuncion.superclass.loadValoresIniciales.call(this);
         this.getComponente('id_funcion_falla').setValue(this.maestro.id_funcion_falla);     

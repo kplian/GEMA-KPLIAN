@@ -57,7 +57,7 @@ Phx.vista.UniConsProveedor=Ext.extend(Phx.gridInterfaz,{
             type:'ComboBox',
             id_grupo:0,
             filters:{   
-                pfiltro:'estado_reg',
+                pfiltro:'unipro.estado_reg',
                 type:'string'
             },
             grid:true,
@@ -200,7 +200,7 @@ Phx.vista.UniConsProveedor=Ext.extend(Phx.gridInterfaz,{
 		direction: 'ASC'
 	},
 	bdel:true,
-	bsave:true
+	bsave:false
 }
 )
 </script>

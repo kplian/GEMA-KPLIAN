@@ -36,7 +36,7 @@ Phx.vista.MantPredef=Ext.extend(Phx.gridInterfaz,{
 				name: 'codigo',
 				fieldLabel: 'Código',
 				allowBlank: true,
-				anchor: '80%',
+				anchor: '100%',
 				gwidth: 100,
 				maxLength:20
 			},
@@ -108,7 +108,7 @@ Phx.vista.MantPredef=Ext.extend(Phx.gridInterfaz,{
 				mode:'remote',
 				pageSize:20,
 				queryDelay:500,
-				width:210,
+				anchor: '100%',
 				gwidth:220,
 				minChars:2,
 				renderer:function (value, p, record){return String.format('{0}', record.data['desc_tipo_equipo']);}
@@ -127,11 +127,12 @@ Phx.vista.MantPredef=Ext.extend(Phx.gridInterfaz,{
 				origen: 'UNIDADMEDIDA',
 				gdisplayField: 'desc_unidad_medida_estimado',
 				gwidth: 200,
+				anchor: '100%',
 				renderer:function(value, p, record){return String.format('{0}', record.data['desc_unidad_medida_estimado']);}
 			},
 			type: 'ComboRec',
 			id_grupo: 0,
-			filters:{pfiltro:'gemapr.tipo',type:'string'},
+			filters:{pfiltro:'unimed.descripcion',type:'string'},
 			grid: true,
 			form: true
 		},
@@ -140,7 +141,7 @@ Phx.vista.MantPredef=Ext.extend(Phx.gridInterfaz,{
 				name: 'tiempo_estimado',
 				fieldLabel: 'Tiempo estimado',
 				allowBlank: true,
-				anchor: '80%',
+				anchor: '100%',
 				gwidth: 100,
 				maxLength:1179650
 			},
@@ -261,7 +262,9 @@ Phx.vista.MantPredef=Ext.extend(Phx.gridInterfaz,{
 		direction: 'ASC'
 	},
 	bdel:true,
-	bsave:true
+	bsave:false,
+	fwidth: 450,
+	fheight: 300
 	}
 )
 </script>

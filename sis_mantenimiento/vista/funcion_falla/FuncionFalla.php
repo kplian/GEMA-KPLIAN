@@ -80,13 +80,13 @@ Phx.vista.FuncionFalla=Ext.extend(Phx.gridInterfaz,{
 				mode:'remote',
 				pageSize:20,
 				queryDelay:500,
-				width:210,
+				anchor: '100%',
 				gwidth:220,
 				minChars:2,
 				renderer:function (value, p, record){return String.format('{0}', record.data['desc_falla_evento']);}
 			},
 			type:'ComboBox',
-			filters:{pfiltro:'gefall.nombre',type:'string'},
+			filters:{pfiltro:'gefaev.nombre',type:'string'},
 			id_grupo:0,
 			grid:true,
 			form:true
@@ -96,7 +96,7 @@ Phx.vista.FuncionFalla=Ext.extend(Phx.gridInterfaz,{
 				name: 'modo_falla',
 				fieldLabel: 'Modo falla',
 				allowBlank: true,
-				anchor: '80%',
+				anchor: '100%',
 				gwidth: 100,
 				maxLength:1000
 			},
@@ -111,7 +111,7 @@ Phx.vista.FuncionFalla=Ext.extend(Phx.gridInterfaz,{
 				name: 'efecto_falla',
 				fieldLabel: 'Efecto falla',
 				allowBlank: true,
-				anchor: '80%',
+				anchor: '100%',
 				gwidth: 100,
 				maxLength:1000
 			},
@@ -126,7 +126,7 @@ Phx.vista.FuncionFalla=Ext.extend(Phx.gridInterfaz,{
 				name: 'orden',
 				fieldLabel: 'Orden',
 				allowBlank: true,
-				anchor: '80%',
+				anchor: '100%',
 				gwidth: 100,
 				maxLength:4
 			},
@@ -141,7 +141,7 @@ Phx.vista.FuncionFalla=Ext.extend(Phx.gridInterfaz,{
 				name: 'estado_reg',
 				fieldLabel: 'Estado Reg.',
 				allowBlank: true,
-				anchor: '80%',
+				anchor: '100%',
 				gwidth: 100,
 				maxLength:10
 			},
@@ -225,9 +225,9 @@ Phx.vista.FuncionFalla=Ext.extend(Phx.gridInterfaz,{
 		{name:'orden', type: 'numeric'},
 		{name:'efecto_falla', type: 'string'},
 		{name:'estado_reg', type: 'string'},
-		{name:'fecha_reg', type: 'date', dateFormat:'Y-m-d H:i:s'},
+		{name:'fecha_reg', type: 'date', dateFormat:'Y-m-d H:i:s.u'},
 		{name:'id_usuario_reg', type: 'numeric'},
-		{name:'fecha_mod', type: 'date', dateFormat:'Y-m-d H:i:s'},
+		{name:'fecha_mod', type: 'date', dateFormat:'Y-m-d H:i:s.u'},
 		{name:'id_usuario_mod', type: 'numeric'},
 		{name:'usr_reg', type: 'string'},
 		{name:'usr_mod', type: 'string'},
@@ -238,7 +238,9 @@ Phx.vista.FuncionFalla=Ext.extend(Phx.gridInterfaz,{
 		direction: 'ASC'
 	},
 	bdel:true,
-	bsave:true,
+	bsave:false,
+	fwidth: 450,
+	fheight: 250,
 	/*
 	onReloadPage:function(m){
 		this.maestro=m;						

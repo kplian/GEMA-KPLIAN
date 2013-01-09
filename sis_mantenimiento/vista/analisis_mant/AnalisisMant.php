@@ -16,10 +16,10 @@ Phx.vista.AnalisisMant=Ext.extend(Phx.gridInterfaz,{
 		this.maestro=config.maestro;
     	//llama al constructor de la clase padre
 		Phx.vista.AnalisisMant.superclass.constructor.call(this,config);		
-        this.addButton('btnList',{
+        this.addButton('btnReporte',{
             text :'Reporte Analisis RCM',
-            iconCls : 'blist',
-            disabled: false,
+            iconCls : 'bpdf32',
+            disabled: true,
             handler : this.onButtonAnalisisRCM,
             tooltip : '<b>Reporte RCM</b><br/><b>Reporte Analisis RCM</b>'
         });
@@ -86,13 +86,13 @@ Phx.vista.AnalisisMant=Ext.extend(Phx.gridInterfaz,{
 				mode:'remote',
 				pageSize:20,
 				queryDelay:500,
-				width:210,
+				anchor: '100%',
 				gwidth:220,
 				minChars:2,
 				renderer:function (value, p, record){return String.format('{0}', record.data['desc_tipo_mant']);}
 			},
 			type:'ComboBox',
-			filters:{pfiltro:'geanma.nombre',type:'string'},
+			filters:{pfiltro:'getima.nombre',type:'string'},
 			id_grupo:0,
 			grid:true,
 			form:true
@@ -132,7 +132,7 @@ Phx.vista.AnalisisMant=Ext.extend(Phx.gridInterfaz,{
 				name: 'descripcion',
 				fieldLabel: 'Descripción',
 				allowBlank: true,
-				anchor: '80%',
+				anchor: '100%',
 				gwidth: 100,
 				maxLength:100
 			},
@@ -150,13 +150,13 @@ Phx.vista.AnalisisMant=Ext.extend(Phx.gridInterfaz,{
 	   				fieldLabel:'Funcionario Rev.',
 	   				gdisplayField:'desc_person',//mapea al store del grid
 	   			    gwidth:200,
-	   			    witdth:'100%',
+	   			    anchor:'100%',
 		   			renderer:function (value, p, record){return String.format('{0}', record.data['desc_person']);}
 	       	     },
 	   			type:'ComboRec',
 	   			id_grupo:0,
 	   			filters:{	
-			        pfiltro:'PERSON.nombre_completo1',
+			        pfiltro:'fun.desc_funcionario1',
 					type:'string'
 				},
 	   		   
@@ -251,13 +251,13 @@ Phx.vista.AnalisisMant=Ext.extend(Phx.gridInterfaz,{
 		{name:'id_tipo_mant', type: 'numeric'},
 		{name:'id_funcionario_rev', type: 'numeric'},
 		{name:'estado_reg', type: 'string'},
-		{name:'fecha_emision', type: 'date', dateFormat:'Y-m-d H:i:s'},
+		{name:'fecha_emision', type: 'date', dateFormat:'Y-m-d'},
 		{name:'descripcion', type: 'string'},
-		{name:'fecha_rev', type: 'date', dateFormat:'Y-m-d H:i:s'},
+		{name:'fecha_rev', type: 'date', dateFormat:'Y-m-d'},
 		{name:'id_usuario_reg', type: 'numeric'},
-		{name:'fecha_reg', type: 'date', dateFormat:'Y-m-d H:i:s'},
+		{name:'fecha_reg', type: 'date', dateFormat:'Y-m-d H:i:s.u'},
 		{name:'id_usuario_mod', type: 'numeric'},
-		{name:'fecha_mod', type: 'date', dateFormat:'Y-m-d H:i:s'},
+		{name:'fecha_mod', type: 'date', dateFormat:'Y-m-d H:i:s.u'},
 		{name:'usr_reg', type: 'string'},
 		{name:'usr_mod', type: 'string'},
 		{name:'desc_tipo_mant', type: 'string'},
@@ -269,8 +269,8 @@ Phx.vista.AnalisisMant=Ext.extend(Phx.gridInterfaz,{
 		direction: 'ASC'
 	},
 	bdel:true,
-	bsave:true,
-			
+	bsave:false,
+	fwidth: 450,
 	onReloadPage:function(m)
 	{
 		this.maestro=m;						
@@ -294,13 +294,22 @@ Phx.vista.AnalisisMant=Ext.extend(Phx.gridInterfaz,{
                     scope:this
                 });  
 	},
-    
 	south:{
 		  url:'../../../sis_mantenimiento/vista/funcion/Funcion.php',
 		  title:'Funciones', 
 		  height:'50%',	//altura de la ventana hijo
 		  //width:'50%',		//ancho de la ventana hjo
 		  cls:'FFuncion'
+	},
+	preparaMenu: function(n) {
+		var tb = Phx.vista.AnalisisMant.superclass.preparaMenu.call(this);
+	  	this.getBoton('btnReporte').setDisabled(false);
+  		return tb;
+	},
+	liberaMenu: function() {
+		var tb = Phx.vista.AnalisisMant.superclass.liberaMenu.call(this);
+		this.getBoton('btnReporte').setDisabled(true);
+		return tb;
 	}
 })
 </script>

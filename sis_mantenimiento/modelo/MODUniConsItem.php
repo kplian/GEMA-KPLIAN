@@ -53,6 +53,7 @@ class MODUniConsItem extends MODbase{
 		$this->setParametro('estado_reg','estado_reg','varchar');
 		$this->setParametro('id_uni_cons','id_uni_cons','int4');
 		$this->setParametro('id_item','id_item','int4');
+		$this->setParametro('observaciones','observaciones','varchar');
 
 		//Ejecuta la instruccion
 		$this->armarConsulta();
@@ -73,6 +74,7 @@ class MODUniConsItem extends MODbase{
 		$this->setParametro('estado_reg','estado_reg','varchar');
 		$this->setParametro('id_uni_cons','id_uni_cons','int4');
 		$this->setParametro('id_item','id_item','int4');
+		$this->setParametro('observaciones','observaciones','varchar');
 
 		//Ejecuta la instruccion
 		$this->armarConsulta();

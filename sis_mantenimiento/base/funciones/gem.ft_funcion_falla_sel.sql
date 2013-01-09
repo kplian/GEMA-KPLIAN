@@ -1,3 +1,5 @@
+--------------- SQL ---------------
+
 CREATE OR REPLACE FUNCTION gem.ft_funcion_falla_sel (
   p_administrador integer,
   p_id_usuario integer,
@@ -87,9 +89,10 @@ BEGIN
 			--Sentencia de la consulta de conteo de registros
 			v_consulta:='select count(id_funcion_falla)
 					    from gem.tfuncion_falla gefall
-					    inner join segu.tusuario usu1 on usu1.id_usuario = gefall.id_usuario_reg
+						inner join segu.tusuario usu1 on usu1.id_usuario = gefall.id_usuario_reg
 						left join segu.tusuario usu2 on usu2.id_usuario = gefall.id_usuario_mod
-					    where ';
+						inner join gem.tfalla_evento gefaev on gefaev.id_falla_evento = gefall.id_falla_evento
+				        where gefall.id_funcion='||v_parametros.id_funcion||' and ';
 			
 			--Definicion de la respuesta		    
 			v_consulta:=v_consulta||v_parametros.filtro;

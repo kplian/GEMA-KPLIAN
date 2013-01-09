@@ -1,3 +1,5 @@
+--------------- SQL ---------------
+
 CREATE OR REPLACE FUNCTION gem.ft_funcion_analisis_sel (
   p_administrador integer,
   p_id_usuario integer,
@@ -83,9 +85,9 @@ BEGIN
 			--Sentencia de la consulta de conteo de registros
 			v_consulta:='select count(id_funcion)
 					    from gem.tfuncion gefunc
-					    inner join segu.tusuario usu1 on usu1.id_usuario = gefunc.id_usuario_reg
+						inner join segu.tusuario usu1 on usu1.id_usuario = gefunc.id_usuario_reg
 						left join segu.tusuario usu2 on usu2.id_usuario = gefunc.id_usuario_mod
-					    where ';
+				        where gefunc.id_analisis_mant='||v_parametros.id_analisis_mant||' and ';
 			
 			--Definicion de la respuesta		    
 			v_consulta:=v_consulta||v_parametros.filtro;

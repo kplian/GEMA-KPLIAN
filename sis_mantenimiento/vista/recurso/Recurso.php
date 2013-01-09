@@ -21,7 +21,7 @@ Phx.vista.recurso=Ext.extend(Phx.gridInterfaz,{
 		this.bnew = modificarRecursos;
 		this.bdel = modificarRecursos;
 		this.bedit = modificarRecursos;
-		this.bsave = modificarRecursos;
+		this.bsave = false;
 		
 		Phx.vista.recurso.superclass.constructor.call(this,config);
 		this.init();

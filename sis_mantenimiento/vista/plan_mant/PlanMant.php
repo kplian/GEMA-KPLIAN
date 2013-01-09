@@ -15,10 +15,10 @@ Phx.vista.PlanMant=Ext.extend(Phx.gridInterfaz,{
 	constructor:function(config){
 		this.maestro=config.maestro;
 		Phx.vista.PlanMant.superclass.constructor.call(this,config);
-		this.addButton('btnList',{
+		this.addButton('btnReporte',{
             text :'Reporte Plan RCM',
-            iconCls : 'blist',
-            disabled: false,
+            iconCls : 'bpdf32',
+            disabled: true,
             handler : this.onButtonReportePlanRCM,
             tooltip : '<b>Plan RCM</b><br/><b>Reporte Plan RCM</b>'
         });
@@ -68,7 +68,7 @@ Phx.vista.PlanMant=Ext.extend(Phx.gridInterfaz,{
    				mode:'remote',
    				pageSize:10,
    				queryDelay:1000,
-   				width:250,
+   				anchor: '100%',
    				gwidth:100,
    				minChars:2,   				
    				renderer:function (value, p, record){return String.format('{0}', record.data['desc_person']);}								
@@ -86,7 +86,7 @@ Phx.vista.PlanMant=Ext.extend(Phx.gridInterfaz,{
 			config:{
 				name: 'nombre_funcionario',
 				fieldLabel: 'Funcionario',
-				anchor: '80%',
+				anchor: '100%',
 				gwidth: 100
 			},
 			type:'TextField',
@@ -125,7 +125,7 @@ Phx.vista.PlanMant=Ext.extend(Phx.gridInterfaz,{
    				mode:'remote',
    				pageSize:10,
    				queryDelay:1000,
-   				width:250,
+   				anchor: '100%',
    				gwidth:100,
    				minChars:2,   				
    				renderer:function (value, p, record){return String.format('{0}', record.data['desc_person']);}
@@ -143,7 +143,7 @@ Phx.vista.PlanMant=Ext.extend(Phx.gridInterfaz,{
 			config:{
 				name: 'nombre_funcionario_rev',
 				fieldLabel: 'Funcionario revisor',
-				anchor: '80%',
+				anchor: '100%',
 				gwidth: 100
 			},
 			type:'TextField',
@@ -181,7 +181,7 @@ Phx.vista.PlanMant=Ext.extend(Phx.gridInterfaz,{
    				mode:'remote',
    				pageSize:10,
    				queryDelay:1000,
-   				width:250,
+   				anchor: '100%',
    				gwidth:100,
    				minChars:2,   				   			   
    				renderer:function (value, p, record){return String.format('{0}', record.data['nombre']);}
@@ -209,7 +209,7 @@ Phx.vista.PlanMant=Ext.extend(Phx.gridInterfaz,{
 				name: 'descripcion',
 				fieldLabel: 'Descripcion',
 				allowBlank: true,
-				anchor: '80%',
+				anchor: '100%',
 				gwidth: 100,
 				maxLength:500
 			},
@@ -224,7 +224,7 @@ Phx.vista.PlanMant=Ext.extend(Phx.gridInterfaz,{
 				name: 'fecha',
 				fieldLabel: 'Fecha',
 				allowBlank: true,
-				anchor: '80%',
+				anchor: '100%',
 				//gwidth: 100,
 				//renderer:function (value,p,record){return value?value.dateFormat('d/m/Y h:i:s'):''}
 				format:'Y/m/d'
@@ -240,7 +240,7 @@ Phx.vista.PlanMant=Ext.extend(Phx.gridInterfaz,{
 				name: 'estado_reg',
 				fieldLabel: 'Estado Reg.',
 				allowBlank: true,
-				anchor: '80%',
+				anchor: '100%',
 				gwidth: 100,
 				maxLength:10
 			},
@@ -347,8 +347,9 @@ Phx.vista.PlanMant=Ext.extend(Phx.gridInterfaz,{
 		direction: 'ASC'
 	},
 	bdel:true,
-	bsave:true,
-	
+	bsave:false,
+	fwidth: 450,
+	fheight: 350,
 	onButtonReportePlanRCM:function(){
         var rec=this.sm.getSelected();
                 console.debug(rec);
@@ -372,7 +373,17 @@ Phx.vista.PlanMant=Ext.extend(Phx.gridInterfaz,{
 		  height:'40%', 
 		  width:400,
 		  cls:'Tarea'
-	}	
+	},
+	preparaMenu: function(n) {
+		var tb = Phx.vista.PlanMant.superclass.preparaMenu.call(this);
+	  	this.getBoton('btnReporte').setDisabled(false);
+  		return tb;
+	},
+	liberaMenu: function() {
+		var tb = Phx.vista.PlanMant.superclass.liberaMenu.call(this);
+		this.getBoton('btnReporte').setDisabled(true);
+		return tb;
+	}
 }
 )
 </script>

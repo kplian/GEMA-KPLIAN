@@ -45,7 +45,7 @@ Phx.vista.MantPredefDet=Ext.extend(Phx.gridInterfaz,{
 			config:{
 				name: 'nombre',
 				fieldLabel: 'Nombre',
-				allowBlank: true,
+				allowBlank: false,
 				anchor: '100%',
 				gwidth: 100,
 				maxLength:100
@@ -183,9 +183,9 @@ Phx.vista.MantPredefDet=Ext.extend(Phx.gridInterfaz,{
 		{name:'id_mant_predef', type: 'numeric'},
 		{name:'observacion', type: 'string'},
 		{name:'estado_reg', type: 'string'},
-		{name:'fecha_reg', type: 'date', dateFormat:'Y-m-d H:i:s'},
+		{name:'fecha_reg', type: 'date', dateFormat:'Y-m-d H:i:s.u'},
 		{name:'id_usuario_reg', type: 'numeric'},
-		{name:'fecha_mod', type: 'date', dateFormat:'Y-m-d H:i:s'},
+		{name:'fecha_mod', type: 'date', dateFormat:'Y-m-d H:i:s.u'},
 		{name:'id_usuario_mod', type: 'numeric'},
 		{name:'usr_reg', type: 'string'},
 		{name:'usr_mod', type: 'string'},
@@ -196,7 +196,8 @@ Phx.vista.MantPredefDet=Ext.extend(Phx.gridInterfaz,{
 		direction: 'ASC'
 	},
 	bdel:true,
-	bsave:true
+	bsave:false,
+	fwidht: 450
 	}
 )
 </script>

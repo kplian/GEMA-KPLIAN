@@ -1,3 +1,5 @@
+--------------- SQL ---------------
+
 CREATE OR REPLACE FUNCTION gem.ft_uni_cons_item_sel (
   p_administrador integer,
   p_id_usuario integer,
@@ -86,9 +88,10 @@ BEGIN
 			--Sentencia de la consulta de conteo de registros
 			v_consulta:='select count(id_uni_cons_item)
 					    from gem.tuni_cons_item unitem
-					    inner join segu.tusuario usu1 on usu1.id_usuario = unitem.id_usuario_reg
+						inner join segu.tusuario usu1 on usu1.id_usuario = unitem.id_usuario_reg
 						left join segu.tusuario usu2 on usu2.id_usuario = unitem.id_usuario_mod
-					    where ';
+                        inner join alm.titem item on item.id_item=unitem.id_item
+				        where unitem.id_uni_cons = '||v_parametros.id_uni_cons||' and ';
 		
 			--Definicion de la respuesta		    
 			v_consulta:=v_consulta||v_parametros.filtro;

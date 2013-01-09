@@ -16,15 +16,15 @@ Phx.vista.FFuncion=Ext.extend(Phx.gridInterfaz,{
 		this.maestro=config.maestro;
     	//llama al constructor de la clase padre
 		Phx.vista.FFuncion.superclass.constructor.call(this,config);
-		this.addButton('btnList',{
-            text :'FallaFuncion',
+		this.addButton('btnFallaFuncion',{
+            text :'Fallas',
             iconCls : 'blist',
-            disabled: false,
+            disabled: true,
             handler : this.onButtonFuncionFalla,
             tooltip : '<b>Falla Funcion</b><br/><b>Fallas de funcion</b>'
         });
 		this.grid.getTopToolbar().disable();
-		this.grid.getBottomToolbar().disable();		
+		this.grid.getBottomToolbar().disable();
 		this.init();
 	},
 			
@@ -52,9 +52,9 @@ Phx.vista.FFuncion=Ext.extend(Phx.gridInterfaz,{
 			config:{
 				name: 'descripcion',
 				fieldLabel: 'Descripción',
-				allowBlank: true,
-				anchor: '80%',
-				gwidth: 100,
+				allowBlank: false,
+				anchor: '100%',
+				gwidth: 200,
 				maxLength:1000
 			},
 			type:'TextArea',
@@ -68,8 +68,8 @@ Phx.vista.FFuncion=Ext.extend(Phx.gridInterfaz,{
 				name: 'orden',
 				fieldLabel: 'Orden',
 				allowBlank: true,
-				anchor: '80%',
-				gwidth: 100,
+				anchor: '100%',
+				gwidth: 80,
 				maxLength:4
 			},
 			type:'NumberField',
@@ -83,7 +83,7 @@ Phx.vista.FFuncion=Ext.extend(Phx.gridInterfaz,{
 				name: 'estado_reg',
 				fieldLabel: 'Estado Reg.',
 				allowBlank: true,
-				anchor: '80%',
+				anchor: '100%',
 				gwidth: 100,
 				maxLength:10
 			},
@@ -166,8 +166,8 @@ Phx.vista.FFuncion=Ext.extend(Phx.gridInterfaz,{
 		{name:'orden', type: 'numeric'},
 		{name:'estado_reg', type: 'string'},
 		{name:'id_usuario_reg', type: 'numeric'},
-		{name:'fecha_reg', type: 'date', dateFormat:'Y-m-d H:i:s'},
-		{name:'fecha_mod', type: 'date', dateFormat:'Y-m-d H:i:s'},
+		{name:'fecha_reg', type: 'date', dateFormat:'Y-m-d H:i:s.u'},
+		{name:'fecha_mod', type: 'date', dateFormat:'Y-m-d H:i:s.u'},
 		{name:'id_usuario_mod', type: 'numeric'},
 		{name:'usr_reg', type: 'string'},
 		{name:'usr_mod', type: 'string'},
@@ -178,7 +178,9 @@ Phx.vista.FFuncion=Ext.extend(Phx.gridInterfaz,{
 		direction: 'ASC'
 	},
 	bdel:true,
-	bsave:true,
+	bsave:false,
+	fwidth: 450,
+	fheight: 220,
 	loadValoresIniciales:function(){
 		Phx.vista.FFuncion.superclass.loadValoresIniciales.call(this);
 		this.getComponente('id_analisis_mant').setValue(this.maestro.id_analisis_mant);		
@@ -193,13 +195,23 @@ Phx.vista.FFuncion=Ext.extend(Phx.gridInterfaz,{
             var rec=this.sm.getSelected();
                         
             Phx.CP.loadWindows('../../../sis_mantenimiento/vista/funcion_falla/FuncionFalla.php',
-            'FuncionFalla',
+            'Fallas de Función',
             {
                 modal:true,
                 width:800,
-                height:400
+                height:600
             },rec.data,this.idContenedor,'FuncionFalla')
-    }
+    },
+    preparaMenu: function(n) {
+		var tb = Phx.vista.FFuncion.superclass.preparaMenu.call(this);
+	  	this.getBoton('btnFallaFuncion').setDisabled(false);
+  		return tb;
+	},
+	liberaMenu: function() {
+		var tb = Phx.vista.FFuncion.superclass.liberaMenu.call(this);
+		this.getBoton('btnFallaFuncion').setDisabled(true);
+		return tb;
+	}
 })
 </script>
 		
