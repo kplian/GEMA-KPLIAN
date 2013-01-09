@@ -193,8 +193,8 @@ Phx.vista.EquipoMedicionDinamico=Ext.extend(Phx.gridInterfaz,{
 			var data = new google.visualization.DataTable();
 			//adciona columnas
 			//data.addColumn('string', 'nombre');
-			data.addColumn('date', 'Fecha');
-			//data.addColumn('string', 'Hora');
+			data.addColumn('datetime', 'Fecha');
+			//data.addColumn('timeofday', 'Hora');
 			for (j=0;j<this.recColumnas.length ;j++){
 				data.addColumn('number', this.recColumnas[j].data.nombre_tipo_variable);
 						
@@ -203,18 +203,20 @@ Phx.vista.EquipoMedicionDinamico=Ext.extend(Phx.gridInterfaz,{
 				var fila = [];
 			    
 			   // fila[0]='prueba';
-			    fila[0]=rec[i].data['fecha']
-			    //fila[1]=rec[i].data['hora']
+			    //fila[0]=rec[i].data['fecha'].dateFormat('d/m/Y')+' '+rec[i].data['hora']
+			    var time=rec[i].data['hora'].split(":");
+			    rec[i].data['fecha'].setHours(time[0],time[1],time[2],0);
 			    
-			    for (j=0;j<this.recColumnas.length ;j++){
-			      var codigo_col = 'col_'+this.recColumnas[j].data.key;
-				   
-				   
-				   
-				   var aux = parseFloat(rec[i].data[codigo_col])
-				   fila[j+1]=aux?aux:0;
+			    fila[0]=rec[i].data['fecha'];
+			   
+			
+			    
+			    for (j=0;j<this.recColumnas.length;j++){
+			        var codigo_col = 'col_'+this.recColumnas[j].data.key;
+				    var aux = parseFloat(rec[i].data[codigo_col]);
+				    fila[j+1]=aux?aux:0;
 			      }
-			     data.addRow(fila)
+			     data.addRow(fila);
 			  }
 			  var pagIndicadores =  Phx.CP.getPagina(this.idContenedor+'-east');
 			  if(pagIndicadores){

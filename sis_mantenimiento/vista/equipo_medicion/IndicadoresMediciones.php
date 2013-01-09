@@ -85,7 +85,7 @@ Phx.vista.IndicadoresMediciones=Ext.extend(Phx.baseInterfaz,{
 			 	
 			 	
 			 	if(Ext.Panel.chart){
-			 	    Ext.Panel.chart.draw(data, {width: mysize.width,height:mysize.height});
+			 	    Ext.Panel.chart.draw(data, {legend: 'none',pointSize: 5,width: mysize.width,height:mysize.height});
 			 	}
 			 	
 			 },
@@ -96,26 +96,18 @@ Phx.vista.IndicadoresMediciones=Ext.extend(Phx.baseInterfaz,{
 					// google.load('visualization', '1', {'packages':['motionchart'], "callback": retorno});
 					 
 			    //  if (window['google']){
-						google.load("visualization", "1", {packages:["corechart"],"callback": retorno});                
+						google.load("visualization", "1", {packages:["corechart",'annotatedtimeline'],"callback": retorno});                
 						var domEl = this.body.dom;
 					 	var mysize =this.size ;
 					 	  
 				 	  
 					function retorno(){
 					  	
-					 	var options = {
-						          title: 'Company Performance'
-						        };
-					  	
-					  	/*var data = google.visualization.arrayToDataTable([
-						           ['Year', 'Sales', 'Expenses','ddddd','xxxxx'],
-							          ['2004',  0,0,0,0],
-							          ['2005',  0,0,0,0],
-							          ['2006',  0,0,0,0],
-							          ['2007',  0,0,0,0]
-												        ]);*/
-					  	
+					 						  	
 					  	Ext.Panel.chart = new google.visualization.LineChart(domEl);
+					  	//Ext.Panel.chart = new google.visualization.AnnotatedTimeLine(domEl);
+					  
+					  	
 					    //Ext.Panel.chart = new google.visualization.MotionChart(domEl);
 					    //Ext.Panel.chart.draw(data, {width: mysize.width, height:mysize.height});
 					    
@@ -131,10 +123,10 @@ Phx.vista.IndicadoresMediciones=Ext.extend(Phx.baseInterfaz,{
 			       this.doLayout(true,true)
 			        if(Ext.Panel.chart){
 					 	    Ext.Panel.chart.draw(this.data, {
-					 		
-					 		width: w, 
-					 		
-					 		height:h
+					 	    	legend: 'none',
+						        pointSize: 5,
+					 		    width: w, 
+					 		    height:h
 					 		});
 			 		}
 			 		
