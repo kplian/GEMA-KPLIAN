@@ -315,7 +315,7 @@ header("content-type: text/javascript; charset=UTF-8");
             var data = node.attributes;
             Phx.CP.log(node);
             if (data) {
-                Phx.CP.loadWindows('../../../sis_mantenimiento/vista/localizacion_med/GenerarReporteIndicadores.php', 'Reporte Indicadores ' + node.text, {
+                Phx.CP.loadWindows('../../../sis_mantenimiento/vista/localizacion_med/GenerarReporteIndicadores.php', 'Reporte Indicadores por Mes' + node.text, {
                     modal : true,
                     width : 900,
                     height : 400
@@ -1042,7 +1042,7 @@ header("content-type: text/javascript; charset=UTF-8");
 			
             this.ctxMenu.addMenuItem({
                 id: 'mni-repInd-'+this.idContenedor,
-                text : 'Reporte Indicadores',
+                text : 'Reporte Indicadores por Mes',
                 handler : this.onBtnRepInd,
                 scope : this
             });

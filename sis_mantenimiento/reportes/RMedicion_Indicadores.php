@@ -257,8 +257,8 @@ Class RMedicionIndicadores extends Report {
         
         $mes = $dataSource->getParameter('mes');
         $this->anio = $dataSource->getParameter('anio');
-        $this->numDias = $this->diasMes($mes,$this->anio);
-        $this->mesLiteral = $this->getMesLiteral($mes);
+        $this->numDias = $dataSource->getParameter('numDias');
+        $this->mesLiteral = $dataSource->getParameter('mesLiteral');
         
         $dataset = $dataSource->getDataSet();
         
@@ -325,16 +325,6 @@ Class RMedicionIndicadores extends Report {
         $pdf->Cell($width0*2, $height, "Total Horas de trabajo", 1, 0, 'C', false, '', 1, false, 'T', 'C');
         $pdf->Cell($width0, $height, "Total Hrs. MNP", 1, 0, 'C', false, '', 1, false, 'T', 'C');
         $pdf->Cell($width0, $height, "Total Hrs. MPP", 1, 0, 'C', false, '', 1, false, 'T', 'C');        
-    }
-
-    function diasMes($month, $year) {
-        return date("d",mktime(0,0,0,$month+1,0,$year));
-    }
-    
-    function getMesLiteral($numeroMes){
-        $mes = array('01' => "January",'02'=>"February",'03'=>"March",'04'=>"April",'05'=>"May",'06'=>"June",
-                    '07'=>"July",'08'=>"August",'09'=>"September",'10'=>"October",'11'=>"November",'12'=>"December");        
-        return $mes[$numeroMes];
     }
     
     function dibujarEjeCartesiano($x, $y, $max, $numDias, $titulo, $mes, $anio, TCPDF $pdf){

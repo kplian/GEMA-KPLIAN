@@ -10,30 +10,56 @@ header("content-type: text/javascript; charset=UTF-8");
 ?>
 <script>
 Phx.vista.GenerarReporteIndicadores=Ext.extend(Phx.frmInterfaz,{
-    Atributos:[                  
+    Atributos:[
         {
-        config:{
-            id: 'fecha_ini',
-            name:'fecha_ini',
-            fieldLabel:'Fecha Inicio',
-            allowBlank:false,
-            vtype: 'daterange',
-            endDateField:'fecha_fin',
-            format:'d/m/Y'           
-        },
-        type:'DateField'
-        },
-        {
-            config:{
-                id: 'fecha_fin',
-                name:'fecha_fin',
-                fieldLabel:'Fecha Fin',
+            config:{                
+                name:'mes',
+                fieldLabel:'Mes',
                 allowBlank:false,
-                vtype: 'daterange',
-                startDateField:'fecha_ini',
-                format:'d-m-Y'
+                emptyText:'Mes...',
+                store: ['January','February','March','April','May','June','July','August','September','October','November','December'],
+                valueField: 'mes',
+                displayField: 'mes',
+                forceSelection:true,
+                triggerAction: 'all',
+                lazyRender:true,
+                mode:'local',
+                width:130,               
+                renderer:function(value, p, record){return String.format('{0}', record.data['mes']);}
             },
-            type:'DateField'
+            type:'ComboBox',
+            id_grupo:0,
+            filters:{   
+                pfiltro:'mes',
+                type:'string'
+            },
+            grid:true,
+            form:true
+        },
+        {
+            config:{                
+                name:'anio',
+                fieldLabel:'Año',
+                allowBlank:false,
+                emptyText:'Año...',
+                store: ['2010','2011','2012','2013','2014','2015','2016','2017','2018','2019','2020','2021','2022','2023','2024','2025'],
+                valueField: 'anio',
+                displayField: 'anio',
+                forceSelection:true,
+                triggerAction: 'all',
+                lazyRender:true,
+                mode:'local',
+                width:130,               
+                renderer:function(value, p, record){return String.format('{0}', record.data['anio']);}
+            },
+            type:'ComboBox',
+            id_grupo:0,
+            filters:{   
+                pfiltro:'anio',
+                type:'string'
+            },
+            grid:true,
+            form:true
         },
         {
           config:{
