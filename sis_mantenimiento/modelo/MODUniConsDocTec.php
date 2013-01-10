@@ -70,7 +70,7 @@ class MODUniConsDocTec extends MODbase {
 		return $this->respuesta;
 	}
 	
-	function eliminarUniConDocumentoTec() {
+	function eliminarUniConsDocumentoTec() {
 		$this->procedimiento = 'gem.ft_uni_cons_doc_tec_ime';
 		$this->transaccion = 'GEM_UCDOCTEC_ELI';
 		$this->tipo_procedimiento = 'IME';

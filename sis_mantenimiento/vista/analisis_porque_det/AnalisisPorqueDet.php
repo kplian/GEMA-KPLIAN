@@ -43,12 +43,12 @@ Phx.vista.AnalisisPorqueDet=Ext.extend(Phx.gridInterfaz,{
 			config:{
 				name: 'porque',
 				fieldLabel: 'Porque',
-				allowBlank: true,
-				anchor: '80%',
+				allowBlank: false,
+				anchor: '100%',
 				gwidth: 100,
 				maxLength:2000
 			},
-			type:'TextField',
+			type:'TextArea',
 			filters:{pfiltro:'det.porque',type:'string'},
 			id_grupo:1,
 			grid:true,
@@ -58,12 +58,12 @@ Phx.vista.AnalisisPorqueDet=Ext.extend(Phx.gridInterfaz,{
 			config:{
 				name: 'respuesta',
 				fieldLabel: 'Respuesta',
-				allowBlank: true,
-				anchor: '80%',
+				allowBlank: false,
+				anchor: '100%',
 				gwidth: 100,
 				maxLength:3000
 			},
-			type:'TextField',
+			type:'TextArea',
 			filters:{pfiltro:'det.respuesta',type:'string'},
 			id_grupo:1,
 			grid:true,
@@ -73,12 +73,12 @@ Phx.vista.AnalisisPorqueDet=Ext.extend(Phx.gridInterfaz,{
             config:{
                 name: 'solucion',
                 fieldLabel: 'Solucion',
-                allowBlank: true,
-                anchor: '80%',
+                allowBlank: false,
+                anchor: '100%',
                 gwidth: 100,
                 maxLength:3000
             },
-            type:'TextField',
+            type:'TextArea',
             filters:{pfiltro:'det.solucion',type:'string'},
             id_grupo:1,
             grid:true,
@@ -185,8 +185,9 @@ Phx.vista.AnalisisPorqueDet=Ext.extend(Phx.gridInterfaz,{
 		direction: 'ASC'
 	},
 	bdel:true,
-	bsave:true,
-	
+	bsave:false,
+	fwidht: 450,
+	fheight: 350,
 	onReloadPage:function(m){       
         this.maestro=m;
         this.Atributos[1].valorInicial=this.maestro.id_analisis_porque;

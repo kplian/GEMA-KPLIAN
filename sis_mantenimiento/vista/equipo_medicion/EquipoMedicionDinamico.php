@@ -78,7 +78,7 @@ Phx.vista.EquipoMedicionDinamico=Ext.extend(Phx.gridInterfaz,{
 										name: 'fecha',
 										fieldLabel: 'Fecha',
 										allowBlank: false,
-										anchor: '80%',
+										anchor: '100%',
 										format: 'd/m/Y',
 										renderer:function (value,p,record){return value?value.dateFormat('d/m/Y'):''}
 								},
@@ -95,6 +95,7 @@ Phx.vista.EquipoMedicionDinamico=Ext.extend(Phx.gridInterfaz,{
 										name: 'hora',
 										fieldLabel: 'Hora',
 										format:'H:i:s',
+										anchor: '100%',
 										allowBlank: false
 								},
 								type:'TimeField',
@@ -158,8 +159,8 @@ Phx.vista.EquipoMedicionDinamico=Ext.extend(Phx.gridInterfaz,{
 		    
 		
 		    this.addButton('btnGrafica',{
-            text : 'Gráficar',
-            iconCls : 'bstatistics',
+            text : 'Graficar',
+            iconCls : 'bgraph',
             disabled : false,
             handler : this.onButtonGrafica,
             tooltip : '<b>Gráfica</b><br/><b>Genera gráfica (La ordenación de los resultados afecta la gráfica)</b>'
@@ -312,6 +313,7 @@ Phx.vista.EquipoMedicionDinamico=Ext.extend(Phx.gridInterfaz,{
 	bsave:true,
 	bnew:true,
 	bedit:true,
+	fwidth: 450,
 	/* preparaMenu:function(tb){
 			this.getBoton('generartable').enable();
             Phx.vista.EquipoMedicionDinamico.superclass.preparaMenu.call(this,tb)

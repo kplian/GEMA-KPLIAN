@@ -75,8 +75,8 @@ Phx.vista.TpmTarjeta=Ext.extend(Phx.gridInterfaz,{
             config:{
                 name: 'codigo',
                 fieldLabel: 'Codigo',
-                allowBlank: true,
-                anchor: '80%',
+                allowBlank: false,
+                anchor: '100%',
                 gwidth: 100,
                 maxLength:15
             },
@@ -91,7 +91,7 @@ Phx.vista.TpmTarjeta=Ext.extend(Phx.gridInterfaz,{
                 name: 'revision',
                 fieldLabel: 'Revision',
                 allowBlank: true,
-                anchor: '80%',
+                anchor: '100%',
                 gwidth: 100,
                 maxLength:4
             },
@@ -106,7 +106,6 @@ Phx.vista.TpmTarjeta=Ext.extend(Phx.gridInterfaz,{
                 name: 'fecha_emision',
                 fieldLabel: 'Fecha emision',
                 allowBlank: true,
-                anchor: '80%',
                 gwidth: 120,
                 renderer:function (value,p,record){return value?value.dateFormat('d/m/Y'):''},
                 format:'d/m/Y'
@@ -121,7 +120,7 @@ Phx.vista.TpmTarjeta=Ext.extend(Phx.gridInterfaz,{
             config: {
                 name: 'tipo',
                 fieldLabel: 'Tipo',
-                anchor: '90%',
+                anchor: '100%',
                 tinit: true,
                 allowBlank: false,
                 origen: 'CATALOGO',
@@ -240,8 +239,9 @@ Phx.vista.TpmTarjeta=Ext.extend(Phx.gridInterfaz,{
 		direction: 'ASC'
 	},
 	bdel:true,
-	bsave:true,
-	
+	bsave:false,
+	fwidth: 450,
+	fheight: 250, 
 	south:{	   
         url:'../../../sis_mantenimiento/vista/tpm_tarjeta_det/TpmTarjetaDet.php',
         title:'Detalles', 

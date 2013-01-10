@@ -276,15 +276,6 @@ header("content-type: text/javascript; charset=UTF-8");
            }
         },
 
-		onBtnGenerarOT: function() {
-			var nodo = this.sm.getSelectedNode();
-			Phx.CP.loadWindows('../../../sis_mantenimiento/vista/orden_trabajo/GenerarOrdenTrabajo.php', 'Generar Ordenes de Trabajo', {
-				width: 800,
-				height: 400
-			}, nodo.attributes, this.idContenedor, 'GenerarOdenTrabajo')
-
-		},
-
 		onBtnUsuario: function() {
 			var node = this.sm.getSelectedNode();
 			var data = node.attributes;
@@ -371,8 +362,8 @@ header("content-type: text/javascript; charset=UTF-8");
 			config: {
 				name: 'codigo',
 				fieldLabel: 'Código',
-				allowBlank: true,
-				anchor: '80%',
+				allowBlank: false,
+				anchor: '100%',
 				gwidth: 100,
 				maxLength: 30
 			},
@@ -389,7 +380,7 @@ header("content-type: text/javascript; charset=UTF-8");
 				name: 'estado_reg',
 				fieldLabel: 'Estado Reg.',
 				allowBlank: true,
-				anchor: '80%',
+				anchor: '100%',
 				gwidth: 100,
 				maxLength: 10
 			},
@@ -405,8 +396,8 @@ header("content-type: text/javascript; charset=UTF-8");
 			config: {
 				name: 'nombre',
 				fieldLabel: 'Nombre',
-				allowBlank: true,
-				anchor: '80%',
+				allowBlank: false,
+				anchor: '100%',
 				gwidth: 100,
 				maxLength: 150
 			},
@@ -422,8 +413,8 @@ header("content-type: text/javascript; charset=UTF-8");
 			config: {
 				name: 'ubicacion',
 				fieldLabel: 'Ubicación',
-				allowBlank: true,
-				anchor: '80%',
+				allowBlank: false,
+				anchor: '100%',
 				gwidth: 100,
 				maxLength: 500
 			},
@@ -440,7 +431,7 @@ header("content-type: text/javascript; charset=UTF-8");
 				name: 'latitud',
 				fieldLabel: 'Latitud',
 				allowBlank: true,
-				anchor: '80%',
+				anchor: '100%',
 				gwidth: 100,
 				maxLength: 200
 			},
@@ -457,7 +448,7 @@ header("content-type: text/javascript; charset=UTF-8");
 				name: 'longitud',
 				fieldLabel: 'Longitud',
 				allowBlank: true,
-				anchor: '80%',
+				anchor: '100%',
 				gwidth: 100,
 				maxLength: 200
 			},
@@ -474,7 +465,7 @@ header("content-type: text/javascript; charset=UTF-8");
 				name: 'coordenadas',
 				fieldLabel: 'Zoom',
 				allowBlank: true,
-				anchor: '80%',
+				anchor: '100%',
 				gwidth: 100,
 				maxLength: 200
 			},
@@ -491,7 +482,7 @@ header("content-type: text/javascript; charset=UTF-8");
 				name: 'desc_ubicacion',
 				fieldLabel: 'Descripción',
 				allowBlank: true,
-				anchor: '80%',
+				anchor: '100%',
 				gwidth: 100,
 				maxLength: 2000
 			},
@@ -508,7 +499,7 @@ header("content-type: text/javascript; charset=UTF-8");
 				name: 'usr_reg',
 				fieldLabel: 'Creado por',
 				allowBlank: true,
-				anchor: '80%',
+				anchor: '100%',
 				gwidth: 100,
 				maxLength: 4
 			},
@@ -584,7 +575,7 @@ header("content-type: text/javascript; charset=UTF-8");
 		textRoot: 'YPFB Logística',
 		id_nodo: 'id_localizacion',
 		id_nodo_p: 'id_localizacion_fk',
-
+		fwidth: 450,
 		onButtonNew: function() {
 			var nodo = this.sm.getSelectedNode();
 			Phx.vista.Localizacion.superclass.onButtonNew.call(this);
@@ -777,9 +768,6 @@ header("content-type: text/javascript; charset=UTF-8");
 				this.ctxMenu.items.get('mni-equipos-' + this.idContenedor).disable();
 				this.ctxMenu.items.get('mni-equipos-' + this.idContenedor).menu.items.get('mni-rcm-' + this.idContenedor).disable();
 				this.ctxMenu.items.get('mni-equipos-' + this.idContenedor).menu.items.get('mni-rcm-' + this.idContenedor).menu.items.get('mni-rcmPlan-' + this.idContenedor).disable();
-				//GENERAR OTs
-				this.getBoton('btn-genOT').disable();
-				this.ctxMenu.items.get('mni-genOT-' + this.idContenedor).disable();
 				
 			} else if(tiponodo=='uni_cons'||tiponodo=='uni_cons_f'||tiponodo=='rama') {
 				//*****************************************NODO SELECCIONADO: EQUIPOS
@@ -854,10 +842,6 @@ header("content-type: text/javascript; charset=UTF-8");
 				this.ctxMenu.items.get('mni-equipos-' + this.idContenedor).enable();
 				this.ctxMenu.items.get('mni-equipos-' + this.idContenedor).menu.items.get('mni-rcm-' + this.idContenedor).enable();
 				this.ctxMenu.items.get('mni-equipos-' + this.idContenedor).menu.items.get('mni-rcm-' + this.idContenedor).menu.items.get('mni-rcmPlan-' + this.idContenedor).enable();
-				//GENERAR OTs
-				this.getBoton('btn-genOT').enable();
-				this.ctxMenu.items.get('mni-genOT-' + this.idContenedor).enable();
-				
 			} else{
 				//*****************************************NODO SELECCIONADO: LOCALIZACIONES
 				//AGREGAR EQUIPO
@@ -935,9 +919,6 @@ header("content-type: text/javascript; charset=UTF-8");
 				this.ctxMenu.items.get('mni-equipos-' + this.idContenedor).disable();
 				this.ctxMenu.items.get('mni-equipos-' + this.idContenedor).menu.items.get('mni-rcm-' + this.idContenedor).disable();
 				this.ctxMenu.items.get('mni-equipos-' + this.idContenedor).menu.items.get('mni-rcm-' + this.idContenedor).menu.items.get('mni-rcmPlan-' + this.idContenedor).disable();
-				//GENERAR OTs
-				this.getBoton('btn-genOT').enable();
-				this.ctxMenu.items.get('mni-genOT-' + this.idContenedor).enable();
 			}
 			
 			//llamada a la clase padre
@@ -1136,17 +1117,20 @@ header("content-type: text/javascript; charset=UTF-8");
 				id: 'ctx-PlaMan-' + this.idContenedor,
 				text: 'Planificación del Mantenimiento',
 				menu: {
-					items: [{
-						id: 'mni-verCalGen-' + this.idContenedor,
-						text: 'Ver Calendario',
-						handler: this.onBtnVerCalGen,
-						scope: this
-					}, {
+					items: [
+					{
 						id: 'mni-calGen-' + this.idContenedor,
 						text: 'Generar Calendario',
 						handler: this.onBtnCalGen,
 						scope: this
-					}, {
+					},
+					{
+						id: 'mni-verCalGen-' + this.idContenedor,
+						text: 'Ver Calendario',
+						handler: this.onBtnVerCalGen,
+						scope: this
+					}, 
+					{
                         id: 'mni-repCal-' + this.idContenedor,
                         text: 'Reporte Calendario',
                         handler: this.onBtnRepCal,
@@ -1154,16 +1138,6 @@ header("content-type: text/javascript; charset=UTF-8");
                     }]                    
 				}
 			});
-			
-			this.ctxMenu.add('-');
-			
-			this.ctxMenu.addMenuItem({
-				id:'mni-genOT-'+this.idContenedor,
-				text: 'Generar OTs',
-				handler: this.onBtnGenerarOT,
-				scope: this
-			});
-
 		},
 
 		addBotones: function() {
@@ -1278,19 +1252,21 @@ header("content-type: text/javascript; charset=UTF-8");
 				disabled: true,
 				scope: this,
 				 menu:{
-				 items: [{
-					 id:'btn-verCalGen-' + this.idContenedor,
-					 text: 'Ver el  Calendario',
-					 disabled: true,
-					 tooltip: '<b>Ver el calendario</b><br/>Genera el Caledario para todos los equipos de manera recursiva',
-					 handler:this.onBtnVerCalGen, scope: this
-					 },{
+				 items: [
+				 	 {
 					 id:'btn-calGen-' + this.idContenedor,
 					 text: 'Generar Calendario',
 					 disabled: true,
 					 handler: this.onBtnCalGen,
 					 tooltip: '<b>Generar Calendario</b><br/>Genera el Caledario para todos los equipos de manera recursiva',
 					 scope: this
+					 },
+				 	 {
+					 id:'btn-verCalGen-' + this.idContenedor,
+					 text: 'Ver el  Calendario',
+					 disabled: true,
+					 tooltip: '<b>Ver el calendario</b><br/>Genera el Caledario para todos los equipos de manera recursiva',
+					 handler:this.onBtnVerCalGen, scope: this
 					 },
 					 {
                      id:'btn-repCal-' + this.idContenedor,
@@ -1305,15 +1281,6 @@ header("content-type: text/javascript; charset=UTF-8");
 			});
 
 			this.tbar.add(this.menuOp);
-			
-			this.addButton('btn-genOT', {
-				text: 'Generar OTs',
-				iconCls: 'block',
-				disabled: true,
-				handler: this.onBtnGenerarOT,
-				tooltip: '<b>Generar Orden de Trabajo</b><br/>Genera las Ordenes de Trabajo correspondientes al nodo y sus hijos'
-			});
-
 		},
 		crearWindowAddEquipo : function() {
 			this.formUC = new Ext.form.FormPanel({

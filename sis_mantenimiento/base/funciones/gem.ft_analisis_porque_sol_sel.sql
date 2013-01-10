@@ -1,3 +1,5 @@
+--------------- SQL ---------------
+
 CREATE OR REPLACE FUNCTION gem.ft_analisis_porque_sol_sel (
   p_administrador integer,
   p_id_usuario integer,
@@ -125,9 +127,10 @@ BEGIN
 			--Sentencia de la consulta de conteo de registros
 			v_consulta:='select count(id_analisis_porque_sol)
 					    from gem.tanalisis_porque_sol porsol
-					    inner join segu.tusuario usu1 on usu1.id_usuario = porsol.id_usuario_reg
+						inner join segu.tusuario usu1 on usu1.id_usuario = porsol.id_usuario_reg
 						left join segu.tusuario usu2 on usu2.id_usuario = porsol.id_usuario_mod
-					    where ';
+                        inner join orga.vfuncionario fun on fun.id_funcionario = porsol.id_funcionario
+				        where porsol.id_analisis_porque='||v_parametros.id_analisis_porque||' and ';
 			
 			--Definicion de la respuesta		    
 			v_consulta:=v_consulta||v_parametros.filtro;

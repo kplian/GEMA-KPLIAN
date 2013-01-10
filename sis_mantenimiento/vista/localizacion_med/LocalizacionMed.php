@@ -22,18 +22,18 @@ Phx.vista.LocalizacionMed=Ext.extend(Phx.gridInterfaz,{
 		this.v_id_localizacion_orig=this.maestro.id_localizacion;
 		this.load({params:{start:0, limit:50, id_localizacion:this.maestro.id_localizacion}});
 		this.addButton('btnInd', {
-				text : 'Indicadores',
-				iconCls : 'block',
+				text : 'Estadísticas',
+				iconCls : 'bstats',
 				disabled : true,
 				handler : this.onBtnInd,
-				tooltip : '<b>Indicadores</b><br/>Visualiza los valores de los indicadores'
+				tooltip : '<b>Totales</b><br/>Muestra los valores totales de los indicadores en un periodo de tiempo definido.'
 			});
 		this.tbar.add('Desde: ',this.dteFechaIni);
 	    this.tbar.add('Hasta: ',this.dteFechaFin);
 	    this.tbar.add('Días: ',this.intDiasMes);
 	    this.addButton('btnGrafica',{
             text : 'Graficar',
-            iconCls : 'bstatistics',
+            iconCls : 'bgraph',
             disabled : false,
             handler : this.onButtonGrafica,
             tooltip : '<b>Gráfica</b><br/><b>Genera gráfica (La ordenación de los resultados afecta la gráfica)</b>'
@@ -76,7 +76,6 @@ Phx.vista.LocalizacionMed=Ext.extend(Phx.gridInterfaz,{
 				name: 'fecha_med',
 				fieldLabel: 'Fecha Medición',
 				allowBlank: false,
-				anchor: '80%',
 				gwidth: 100,
 				renderer:function (value,p,record){return value?value.dateFormat('d/m/Y'):''},
 				format:'d/m/Y'
@@ -92,7 +91,7 @@ Phx.vista.LocalizacionMed=Ext.extend(Phx.gridInterfaz,{
 				name: 'num_paros',
 				fieldLabel: 'Nro. Paros',
 				allowBlank: true,
-				anchor: '80%',
+				anchor: '100%',
 				gwidth: 100,
 				maxLength:4
 			},
@@ -107,7 +106,7 @@ Phx.vista.LocalizacionMed=Ext.extend(Phx.gridInterfaz,{
 				name: 'tiempo_op_hrs',
 				fieldLabel: 'Operativo',
 				allowBlank: true,
-				anchor: '80%',
+				anchor: '100%',
 				gwidth: 100,
 				maxLength:1179650
 			},
@@ -122,7 +121,7 @@ Phx.vista.LocalizacionMed=Ext.extend(Phx.gridInterfaz,{
 				name: 'tiempo_standby_hrs',
 				fieldLabel: 'Stand By',
 				allowBlank: true,
-				anchor: '80%',
+				anchor: '100%',
 				gwidth: 100,
 				maxLength:1179650
 			},
@@ -151,7 +150,7 @@ Phx.vista.LocalizacionMed=Ext.extend(Phx.gridInterfaz,{
 					fields: ['id_uni_cons','codigo','nombre'],
 					// turn on remote sorting
 					remoteSort: true,
-					baseParams:{par_filtro:'nombre'}
+					baseParams:{par_filtro:'tuc.nombre'}
 				}),
 				valueField: 'id_uni_cons',
 				displayField: 'nombre',
@@ -180,7 +179,7 @@ Phx.vista.LocalizacionMed=Ext.extend(Phx.gridInterfaz,{
 				name: 'tiempo_mnp_hrs',
 				fieldLabel: 'MNP',
 				allowBlank: true,
-				anchor: '80%',
+				anchor: '100%',
 				gwidth: 100,
 				maxLength:1179650
 			},
@@ -195,7 +194,7 @@ Phx.vista.LocalizacionMed=Ext.extend(Phx.gridInterfaz,{
 				name: 'tiempo_mpp_hrs',
 				fieldLabel: 'MPP',
 				allowBlank: true,
-				anchor: '80%',
+				anchor: '100%',
 				gwidth: 100,
 				maxLength:1179650
 			},
@@ -210,7 +209,7 @@ Phx.vista.LocalizacionMed=Ext.extend(Phx.gridInterfaz,{
 				name: 'estado_reg',
 				fieldLabel: 'Estado Reg.',
 				allowBlank: true,
-				anchor: '80%',
+				anchor: '100%',
 				gwidth: 100,
 				maxLength:10
 			},
@@ -312,7 +311,9 @@ Phx.vista.LocalizacionMed=Ext.extend(Phx.gridInterfaz,{
 		direction: 'ASC'
 	},
 	bdel:true,
-	bsave:true,
+	bsave: false,
+	fwidth: 450,
+	
 	loadValoresIniciales:function(){
 		Phx.vista.LocalizacionMed.superclass.loadValoresIniciales.call(this);
 		this.getComponente('id_localizacion').setValue(this.maestro.id_localizacion);
@@ -330,10 +331,10 @@ Phx.vista.LocalizacionMed=Ext.extend(Phx.gridInterfaz,{
 			{
 				xtype:'fieldset',
 				layout: 'form',
-                border: true,
+                border: false,
                 title: 'Tiempo en Horas',
-                bodyStyle: 'padding:0 10px 0;',
-                columnWidth: '.5',
+                bodyStyle: 'padding:0px 10px;',
+                columnWidth: 1,
                 items:[],
 		        id_grupo:0,
 			}
@@ -418,10 +419,10 @@ Phx.vista.LocalizacionMed=Ext.extend(Phx.gridInterfaz,{
 				fecha_fin: this.dteFechaFin.getValue()
 			};
            Phx.CP.loadWindows('../../../sis_mantenimiento/vista/localizacion_med/Indicadores.php',
-					'Indicadores',
+					'Estadísticas Indicadores',
 					{
-						width:800,
-						height:400
+						width:600,
+						height:300
 				    },data,this.idContenedor,'IndicadoresGraf')	
 		} else{
 			//if(this.dteFechaIni.getValue()==''){

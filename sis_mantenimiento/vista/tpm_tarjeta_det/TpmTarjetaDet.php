@@ -44,7 +44,7 @@ Phx.vista.TpmTarjetaDet=Ext.extend(Phx.gridInterfaz,{
             config:{
                 name:'id_funcionario_detec',
                 fieldLabel:'Detec. Funcionario',
-                allowBlank:true,
+                allowBlank:false,
                 emptyText:'Detec Funcionario...',
                 store: new Ext.data.JsonStore({
                     url: '../../sis_organigrama/control/Funcionario/listarFuncionario',
@@ -58,11 +58,11 @@ Phx.vista.TpmTarjetaDet=Ext.extend(Phx.gridInterfaz,{
                     fields: ['id_funcionario','desc_person'],
                     // turn on remote sorting
                     remoteSort: true,
-                    baseParams:{par_filtro:'desc_person'}
+                    baseParams:{par_filtro:'person.nombre_completo1'}
                 }),
                 valueField: 'id_funcionario',
                 displayField: 'desc_person',
-                gdisplayField: 'desc_person',
+                gdisplayField: 'desc_func_detec',
                 hiddenName: 'id_funcionario',
                 forceSelection:true,
                 typeAhead: true,
@@ -71,14 +71,14 @@ Phx.vista.TpmTarjetaDet=Ext.extend(Phx.gridInterfaz,{
                 mode:'remote',
                 pageSize:10,
                 queryDelay:1000,
-                width:250,
+                anchor: '100%',
                 minChars:2,
                 gwidth: 140,            
                 renderer:function(value, p, record){return String.format('{0}', record.data['desc_func_detec']);}
             },
             type:'ComboBox',
             id_grupo:0,
-            filters:{   pfiltro:'descripcion',
+            filters:{   pfiltro:'fundet.desc_funcionario1',
                         type:'string'
                     },
             grid:true,
@@ -87,8 +87,8 @@ Phx.vista.TpmTarjetaDet=Ext.extend(Phx.gridInterfaz,{
         {
             config:{
                 name:'id_uni_cons',
-                fieldLabel:'Unidad Construc.',
-                allowBlank:true,
+                fieldLabel:'Equipo',
+                allowBlank:false,
                 emptyText:'Unidad Construc...',
                 store: new Ext.data.JsonStore({
                     url: '../../sis_mantenimiento/control/UniCons/listarUniConsLocalizacion',
@@ -106,7 +106,7 @@ Phx.vista.TpmTarjetaDet=Ext.extend(Phx.gridInterfaz,{
                 }),
                 valueField: 'id_uni_cons',
                 displayField: 'nombre',
-                gdisplayField: 'codigo',
+                gdisplayField: 'desc_uni_cons',
                 hiddenName: 'id_uni_cons',
                 forceSelection:true,
                 typeAhead: true,
@@ -115,7 +115,7 @@ Phx.vista.TpmTarjetaDet=Ext.extend(Phx.gridInterfaz,{
                 mode:'remote',
                 pageSize:10,
                 queryDelay:1000,
-                width:250,
+                anchor: '100%',
                 minChars:2,
                 gwidth: 130,            
                 renderer:function(value, p, record){return String.format('{0}', record.data['desc_uni_cons']);}
@@ -123,7 +123,7 @@ Phx.vista.TpmTarjetaDet=Ext.extend(Phx.gridInterfaz,{
             type:'ComboBox',
             id_grupo:0,
             filters:{   
-                pfiltro:'nombre',
+                pfiltro:'uni.nombre',
                 type:'string'
             },
             grid:true,
@@ -134,7 +134,7 @@ Phx.vista.TpmTarjetaDet=Ext.extend(Phx.gridInterfaz,{
                 name: 'descripcion',
                 fieldLabel: 'Descripcion',
                 allowBlank: true,
-                anchor: '80%',
+                anchor: '100%',
                 gwidth: 100,
                 maxLength:2000
             },
@@ -343,7 +343,7 @@ Phx.vista.TpmTarjetaDet=Ext.extend(Phx.gridInterfaz,{
                 name: 'oportunidad_mejora',
                 fieldLabel: 'Oport. Mejora',
                 allowBlank: true,
-                anchor: '80%',
+                anchor: '100%',
                 gwidth: 110,
                 maxLength:500
             },
@@ -358,7 +358,6 @@ Phx.vista.TpmTarjetaDet=Ext.extend(Phx.gridInterfaz,{
                 name: 'fecha_coloc',
                 fieldLabel: 'Fecha Colocacion',
                 allowBlank: true,
-                anchor: '80%',
                 gwidth: 140,
                 renderer:function (value,p,record){return value?value.dateFormat('d/m/Y'):''},
                 format:'d/m/Y'
@@ -374,7 +373,6 @@ Phx.vista.TpmTarjetaDet=Ext.extend(Phx.gridInterfaz,{
                 name: 'fecha_retiro',
                 fieldLabel: 'Fecha Retiro',
                 allowBlank: true,
-                anchor: '80%',
                 gwidth: 120,
                 renderer:function (value,p,record){return value?value.dateFormat('d/m/Y'):''},
                 format:'d/m/Y'
@@ -403,11 +401,11 @@ Phx.vista.TpmTarjetaDet=Ext.extend(Phx.gridInterfaz,{
                     fields: ['id_funcionario','desc_person'],
                     // turn on remote sorting
                     remoteSort: true,
-                    baseParams:{par_filtro:'desc_person'}
+                    baseParams:{par_filtro:'person.nombre_completo1'}
                 }),
                 valueField: 'id_funcionario',
                 displayField: 'desc_person',
-                gdisplayField: 'desc_person',
+                gdisplayField: 'desc_func_efec',
                 hiddenName: 'id_funcionario',
                 forceSelection:true,
                 typeAhead: true,
@@ -416,14 +414,14 @@ Phx.vista.TpmTarjetaDet=Ext.extend(Phx.gridInterfaz,{
                 mode:'remote',
                 pageSize:10,
                 queryDelay:1000,
-                width:250,
+                anchor: '100%',
                 minChars:2,            
                 renderer:function(value, p, record){return String.format('{0}', record.data['desc_func_efec']);}
             },
             type:'ComboBox',
             id_grupo:0,
             filters:{   
-                pfiltro:'descripcion',
+                pfiltro:'funefe.desc_funcionario1',
                 type:'string'
             },
             grid:true,
@@ -434,11 +432,11 @@ Phx.vista.TpmTarjetaDet=Ext.extend(Phx.gridInterfaz,{
 				name: 'observaciones',
 				fieldLabel: 'Observaciones',
 				allowBlank: true,
-				anchor: '80%',
+				anchor: '100%',
 				gwidth: 120,
 				maxLength:1000
 			},
-			type:'TextField',
+			type:'TextArea',
 			filters:{pfiltro:'tardet.observaciones',type:'string'},
 			id_grupo:1,
 			grid:true,
@@ -561,8 +559,8 @@ Phx.vista.TpmTarjetaDet=Ext.extend(Phx.gridInterfaz,{
 		direction: 'ASC'
 	},
 	bdel:true,
-	bsave:true,
-	
+	bsave:false,
+	fwidth: 450,
 	onReloadPage:function(m){       
         this.maestro=m;
         this.Atributos[1].valorInicial=this.maestro.id_tpm_tarjeta;

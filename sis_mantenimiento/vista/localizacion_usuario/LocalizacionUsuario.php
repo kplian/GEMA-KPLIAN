@@ -35,7 +35,7 @@ Phx.vista.LocalizacionUsuario=Ext.extend(Phx.gridInterfaz,{
 			config: {
 				name: 'id_usuario',
 				fieldLabel: 'Usuario',
-				anchor: '90%',
+				anchor: '100%',
 				tinit: true,
 				allowBlank: false,
 				origen: 'USUARIO',
@@ -48,7 +48,7 @@ Phx.vista.LocalizacionUsuario=Ext.extend(Phx.gridInterfaz,{
 			type: 'ComboRec',
 			id_grupo: 0,
 			filters: {
-				pfiltro: 'nombre_completo1#nombre_completo2',
+				pfiltro: 'usu3.desc_persona',
 				type: 'string'
 			},
 			grid: true,
@@ -58,7 +58,7 @@ Phx.vista.LocalizacionUsuario=Ext.extend(Phx.gridInterfaz,{
 			config: {
 				name: 'tipo',
 				fieldLabel: 'Responsabilidad',
-				anchor: '90%',
+				anchor: '100%',
 				tinit: false,
 				allowBlank: false,
 				origen: 'CATALOGO',
@@ -71,7 +71,7 @@ Phx.vista.LocalizacionUsuario=Ext.extend(Phx.gridInterfaz,{
 			},
 			type: 'ComboRec',
 			id_grupo: 0,
-			filters:{pfiltro:'locosu.tipo',type:'string'},
+			filters:{pfiltro:'locusu.tipo',type:'string'},
 			grid: true,
 			form: true
 		},
@@ -185,7 +185,9 @@ Phx.vista.LocalizacionUsuario=Ext.extend(Phx.gridInterfaz,{
 		direction: 'ASC'
 	},
 	bdel:true,
-	bsave:true,
+	bsave:false,
+	fwidth: 450,
+	fheight: 200,
 	loadValoresIniciales:function(){
 		Phx.vista.LocalizacionUsuario.superclass.loadValoresIniciales.call(this);
 		this.getComponente('id_localizacion').setValue(this.maestro.id_localizacion);

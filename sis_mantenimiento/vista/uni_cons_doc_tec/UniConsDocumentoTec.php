@@ -67,6 +67,7 @@ Phx.vista.UniConsDocumentoTec=Ext.extend(Phx.gridInterfaz,{
 				allowBlank: false,
 			    triggerAction: 'all',
 			    lazyRender: true,
+			    forceSelection:true,
 			    mode: 'local',
 			    store: new Ext.data.ArrayStore({
 			    	fields: ['value','nombre'],
@@ -87,9 +88,11 @@ Phx.vista.UniConsDocumentoTec=Ext.extend(Phx.gridInterfaz,{
 				}
 		    },
 		    type: 'ComboBox',
-		    filters: {
-				pfiltro: 'doctec.adjunto',
-				type: 'string'},
+		    filters:{	
+	       		         type: 'list',
+	       		         pfiltro: 'doctec.adjunto',
+	       				 options: ['Si','No'],	
+	       		 	},
 		    id_grupo: 0,
 		    form: true,
 		    grid: true
@@ -135,7 +138,7 @@ Phx.vista.UniConsDocumentoTec=Ext.extend(Phx.gridInterfaz,{
 	ActSave: '../../sis_mantenimiento/control/UniConsDocumentoTec/guardarUniConsDocumentoTec',
 	ActDel: '../../sis_mantenimiento/control/UniConsDocumentoTec/eliminarUniConsDocumentoTec',
 	ActList: '../../sis_mantenimiento/control/UniConsDocumentoTec/listarUniConsDocumentoTec',
-	id_store: 'id_documentacion_tec',
+	id_store: 'id_documento_tec',
 	fields: [
 		'id_documento_tec',
 		'id_usuario_reg',
@@ -155,8 +158,8 @@ Phx.vista.UniConsDocumentoTec=Ext.extend(Phx.gridInterfaz,{
 		field: 'id_documento_tec',
 		direction: 'ASC'
 	},
-	fheight: 450,
-	fwidth: 410,
+	fheight: 300,
+	fwidth: 450,
 	bnew: true,
 	bdel: true,
 	bedit: true

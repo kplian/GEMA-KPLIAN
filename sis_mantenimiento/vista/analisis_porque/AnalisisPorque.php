@@ -19,7 +19,7 @@ Phx.vista.AnalisisPorque=Ext.extend(Phx.gridInterfaz,{
 		
 		this.addButton('btnReporte',{
             text:'Reporte',
-            iconCls: 'blist',
+            iconCls: 'bpdf32',
             disabled: false,
             handler:function(){
                 var rec=this.sm.getSelected();
@@ -75,8 +75,8 @@ Phx.vista.AnalisisPorque=Ext.extend(Phx.gridInterfaz,{
             config:{
                 name: 'numero',
                 fieldLabel: 'Numero de Analisis',
-                allowBlank: true,
-                anchor: '80%',
+                allowBlank: false,
+                anchor: '100%',
                 gwidth: 150,
                 maxLength:4
             },
@@ -90,8 +90,8 @@ Phx.vista.AnalisisPorque=Ext.extend(Phx.gridInterfaz,{
             config:{
                 name: 'problema',
                 fieldLabel: 'Problema',
-                allowBlank: true,
-                anchor: '80%',
+                allowBlank: false,
+                anchor: '100%',
                 gwidth: 100,
                 maxLength:2000
             },
@@ -105,8 +105,8 @@ Phx.vista.AnalisisPorque=Ext.extend(Phx.gridInterfaz,{
             config:{
                 name: 'fecha',
                 fieldLabel: 'Fecha',
-                allowBlank: true,
-                anchor: '80%',
+                allowBlank: false,
+                anchor: '100%',
                 gwidth: 100,
                 renderer:function (value,p,record){return value?value.dateFormat('Y-m-d H:i:s'):''},
                 format:'Y-m-d H:i:s'
@@ -121,7 +121,7 @@ Phx.vista.AnalisisPorque=Ext.extend(Phx.gridInterfaz,{
             config: {
                 name: 'estado',
                 fieldLabel: 'Estado',
-                anchor: '90%',
+                anchor: '100%',
                 tinit: true,
                 allowBlank: false,
                 origen: 'CATALOGO',
@@ -143,7 +143,7 @@ Phx.vista.AnalisisPorque=Ext.extend(Phx.gridInterfaz,{
                 name: 'operadores',
                 fieldLabel: 'Operadores',
                 allowBlank: true,
-                anchor: '80%',
+                anchor: '100%',
                 gwidth: 100,
                 maxLength:1000
             },
@@ -158,7 +158,7 @@ Phx.vista.AnalisisPorque=Ext.extend(Phx.gridInterfaz,{
 				name: 'tecnicos',
 				fieldLabel: 'Tecnicos',
 				allowBlank: true,
-				anchor: '80%',
+				anchor: '100%',
 				gwidth: 100,
 				maxLength:1000
 			},
@@ -173,7 +173,7 @@ Phx.vista.AnalisisPorque=Ext.extend(Phx.gridInterfaz,{
                 name: 'coordinadores',
                 fieldLabel: 'Coordinadores',
                 allowBlank: true,
-                anchor: '80%',
+                anchor: '100%',
                 gwidth: 140,
                 maxLength:1000
             },
@@ -188,7 +188,7 @@ Phx.vista.AnalisisPorque=Ext.extend(Phx.gridInterfaz,{
 				name: 'estado_reg',
 				fieldLabel: 'Estado Reg.',
 				allowBlank: true,
-				anchor: '80%',
+				anchor: '100%',
 				gwidth: 100,
 				maxLength:10
 			},
@@ -288,8 +288,8 @@ Phx.vista.AnalisisPorque=Ext.extend(Phx.gridInterfaz,{
 		direction: 'ASC'
 	},
 	bdel:true,
-	bsave:true,
-	
+	bsave:false,
+	fwidth: 450,
     tabsouth:[
         {
           url:'../../../sis_mantenimiento/vista/analisis_porque_det/AnalisisPorqueDet.php',

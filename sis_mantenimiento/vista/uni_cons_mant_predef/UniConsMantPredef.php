@@ -62,7 +62,7 @@ Phx.vista.UniConsMantPredef=Ext.extend(Phx.gridInterfaz,{
 				mode:'remote',
 				pageSize:20,
 				queryDelay:500,
-				width:300,
+				anchor: '100%',
 				gwidth:220,
 				minChars:2,
 				renderer:function (value, p, record){return String.format('{0}', record.data['desc_mant_predef']);}, 
@@ -90,13 +90,14 @@ Phx.vista.UniConsMantPredef=Ext.extend(Phx.gridInterfaz,{
 				fieldLabel: 'Unidad de Medida',
 				allowBlank: false,
 				origen: 'UNIDADMEDIDA',
-				gdisplayField: 'desc_unidad_medida_estimado',
+				gdisplayField: 'desc_unidad_medida',
+				anchor: '100%',
 				gwidth: 200,
 				renderer:function(value, p, record){return String.format('{0}', record.data['desc_unidad_medida']);}
 			},
 			type: 'ComboRec',
 			id_grupo: 0,
-			filters:{pfiltro:'um.codigo',type:'string'},
+			filters:{pfiltro:'paunme.codigo',type:'string'},
 			grid: true,
 			form: true
 		},
@@ -151,8 +152,8 @@ Phx.vista.UniConsMantPredef=Ext.extend(Phx.gridInterfaz,{
 			config:{
 				name: 'frecuencia',
 				fieldLabel: 'Frecuencia',
-				allowBlank: true,
-				anchor: '80%',
+				allowBlank: false,
+				anchor: '100%',
 				gwidth: 100,
 				maxLength:1179650
 			},
@@ -167,7 +168,6 @@ Phx.vista.UniConsMantPredef=Ext.extend(Phx.gridInterfaz,{
 				name: 'ult_fecha_mant',
 				fieldLabel: 'Últ. Fecha Mant.',
 				allowBlank: true,
-				anchor: '80%',
 				gwidth: 100,
 				renderer:function (value,p,record){return value?value.dateFormat('d/m/Y h:i:s'):''}
 			},
@@ -181,8 +181,8 @@ Phx.vista.UniConsMantPredef=Ext.extend(Phx.gridInterfaz,{
 			config:{
 				name: 'fecha_ini',
 				fieldLabel: 'Desde',
-				allowBlank: true,
-				anchor: '80%',
+				allowBlank: false,
+				anchor: '100%',
 				gwidth: 100,
 				renderer:function (value,p,record){return value?value.dateFormat('d/m/Y h:i:s'):''},
 				format:'d/m/Y'
@@ -198,7 +198,7 @@ Phx.vista.UniConsMantPredef=Ext.extend(Phx.gridInterfaz,{
 				name: 'tiempo_estimado',
 				fieldLabel: 'Tiempo estimado',
 				allowBlank: true,
-				anchor: '80%',
+				anchor: '100%',
 				gwidth: 100,
 				maxLength:1179650
 			},
@@ -215,12 +215,13 @@ Phx.vista.UniConsMantPredef=Ext.extend(Phx.gridInterfaz,{
 				allowBlank: true,
 				origen: 'UNIDADMEDIDA',
 				gdisplayField: 'desc_unidad_medida_estimado',
+				anchor: '100%',
 				gwidth: 200,
 				renderer:function(value, p, record){return String.format('{0}', record.data['desc_unidad_medida_estimado']);}
 			},
 			type: 'ComboRec',
 			id_grupo: 0,
-			filters:{pfiltro:'geeqma.tipo',type:'string'},
+			filters:{pfiltro:'unimed.descripcion',type:'string'},
 			grid: true,
 			form: true
 		},
@@ -332,7 +333,9 @@ Phx.vista.UniConsMantPredef=Ext.extend(Phx.gridInterfaz,{
 		direction: 'ASC'
 	},
 	bdel:true,
-	bsave:true,
+	bsave:false,
+	fwidth: 450,
+	fheight: 300,
 	loadValoresIniciales:function(){
 		Phx.vista.UniConsMantPredef.superclass.loadValoresIniciales.call(this);
 		this.getComponente('id_uni_cons').setValue(this.maestro.id_uni_cons);

@@ -669,7 +669,7 @@ Phx.vista.UniCons=Ext.extend(Phx.arbInterfaz,{
                     'Documentacion Técnica',
                     {
                         modal:true,
-                        width:900,
+                        width:700,
                         height:500
                     },
                     data,this.idContenedor,'UniConsDocumentoTec')

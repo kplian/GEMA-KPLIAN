@@ -1,3 +1,5 @@
+--------------- SQL ---------------
+
 CREATE OR REPLACE FUNCTION gem.ft_tpm_tarjeta_det_sel (
   p_administrador integer,
   p_id_usuario integer,
@@ -103,9 +105,12 @@ BEGIN
 			--Sentencia de la consulta de conteo de registros
 			v_consulta:='select count(id_tpm_tarjeta_det)
 					    from gem.ttpm_tarjeta_det tardet
-					    inner join segu.tusuario usu1 on usu1.id_usuario = tardet.id_usuario_reg
+						inner join segu.tusuario usu1 on usu1.id_usuario = tardet.id_usuario_reg
 						left join segu.tusuario usu2 on usu2.id_usuario = tardet.id_usuario_mod
-					    where ';
+                        left join orga.vfuncionario fundet on fundet.id_funcionario=tardet.id_funcionario_detec
+                        left join orga.vfuncionario funefe on funefe.id_funcionario=tardet.id_funcionario_efec
+                        left join gem.tuni_cons uni on uni.id_uni_cons=tardet.id_uni_cons
+				        where tardet.id_tpm_tarjeta='||v_parametros.id_tpm_tarjeta||' and ';
 			
 			--Definicion de la respuesta		    
 			v_consulta:=v_consulta||v_parametros.filtro;

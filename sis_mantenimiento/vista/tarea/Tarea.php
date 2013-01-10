@@ -50,7 +50,7 @@ Phx.vista.Tarea=Ext.extend(Phx.gridInterfaz,{
 				fieldLabel: 'id_uni_cons',
 				inputType:'hidden',
 				disabled:true,
-				anchor: '80%',
+				anchor: '100%',
 				gwidth: 100,
 				maxLength:4
 			},
@@ -90,7 +90,7 @@ Phx.vista.Tarea=Ext.extend(Phx.gridInterfaz,{
    				mode:'remote',
    				pageSize:10,
    				queryDelay:1000,
-   				width:250,
+   				anchor: '100%',
    				minChars:2,
        			enableMultiSelect:true,   			
    				renderer:function(value, p, record){return String.format('{0}', record.data['nombre_uni_cons_hijo']);}
@@ -134,7 +134,7 @@ Phx.vista.Tarea=Ext.extend(Phx.gridInterfaz,{
    				mode:'remote',
    				pageSize:10,
    				queryDelay:1000,
-   				width:250,
+   				anchor: '100%',
    				minChars:2,
        			enableMultiSelect:true,   			
    				renderer:function(value, p, record){return String.format('{0}', record.data['modo_falla']);}
@@ -178,7 +178,7 @@ Phx.vista.Tarea=Ext.extend(Phx.gridInterfaz,{
    				mode:'remote',
    				pageSize:10,
    				queryDelay:1000,
-   				width:250,
+   				anchor: '100%',
    				minChars:2,
        			enableMultiSelect:true,   			
    				renderer:function(value, p, record){return String.format('{0}', record.data['codigo']);}
@@ -196,7 +196,7 @@ Phx.vista.Tarea=Ext.extend(Phx.gridInterfaz,{
 				name: 'col_h',
 				fieldLabel: 'Col h',
 				allowBlank: true,
-				anchor: '80%',
+				anchor: '100%',
 				gwidth: 100,
 				maxLength:2
 			},
@@ -211,7 +211,7 @@ Phx.vista.Tarea=Ext.extend(Phx.gridInterfaz,{
 				name: 'col_s',
 				fieldLabel: 'Col s',
 				allowBlank: true,
-				anchor: '80%',
+				anchor: '100%',
 				gwidth: 100,
 				maxLength:2
 			},
@@ -226,7 +226,7 @@ Phx.vista.Tarea=Ext.extend(Phx.gridInterfaz,{
 				name: 'col_o',
 				fieldLabel: 'Col o',
 				allowBlank: true,
-				anchor: '80%',
+				anchor: '100%',
 				gwidth: 100,
 				maxLength:2
 			},
@@ -241,7 +241,7 @@ Phx.vista.Tarea=Ext.extend(Phx.gridInterfaz,{
 				name: 'col_n',
 				fieldLabel: 'Col n',
 				allowBlank: true,
-				anchor: '80%',
+				anchor: '100%',
 				gwidth: 100,
 				maxLength:2
 			},
@@ -256,7 +256,7 @@ Phx.vista.Tarea=Ext.extend(Phx.gridInterfaz,{
 				name: 'col_hson1',
 				fieldLabel: 'Col hson1',
 				allowBlank: true,
-				anchor: '80%',
+				anchor: '100%',
 				gwidth: 100,
 				maxLength:2
 			},
@@ -271,7 +271,7 @@ Phx.vista.Tarea=Ext.extend(Phx.gridInterfaz,{
 				name: 'col_hson2',
 				fieldLabel: 'Col hson2',
 				allowBlank: true,
-				anchor: '80%',
+				anchor: '100%',
 				gwidth: 100,
 				maxLength:2
 			},
@@ -286,7 +286,7 @@ Phx.vista.Tarea=Ext.extend(Phx.gridInterfaz,{
 				name: 'col_hson3',
 				fieldLabel: 'Col hson3',
 				allowBlank: true,
-				anchor: '80%',
+				anchor: '100%',
 				gwidth: 100,
 				maxLength:2
 			},
@@ -301,7 +301,7 @@ Phx.vista.Tarea=Ext.extend(Phx.gridInterfaz,{
 				name: 'col_h4',
 				fieldLabel: 'Col h4',
 				allowBlank: true,
-				anchor: '80%',
+				anchor: '100%',
 				gwidth: 100,
 				maxLength:2
 			},
@@ -316,7 +316,7 @@ Phx.vista.Tarea=Ext.extend(Phx.gridInterfaz,{
 				name: 'col_h5',
 				fieldLabel: 'Col h5',
 				allowBlank: true,
-				anchor: '80%',
+				anchor: '100%',
 				gwidth: 100,
 				maxLength:2
 			},
@@ -331,7 +331,7 @@ Phx.vista.Tarea=Ext.extend(Phx.gridInterfaz,{
 				name: 'col_s4',
 				fieldLabel: 'Col s4',
 				allowBlank: true,
-				anchor: '80%',
+				anchor: '100%',
 				gwidth: 100,
 				maxLength:2
 			},
@@ -346,7 +346,7 @@ Phx.vista.Tarea=Ext.extend(Phx.gridInterfaz,{
 				name: 'tareas',
 				fieldLabel: 'Tareas',
 				allowBlank: true,
-				anchor: '80%',
+				anchor: '100%',
 				gwidth: 100,
 				maxLength:1000
 			},
@@ -361,7 +361,7 @@ Phx.vista.Tarea=Ext.extend(Phx.gridInterfaz,{
 				name: 'frecuencia',
 				fieldLabel: 'Frecuencia',
 				allowBlank: true,
-				anchor: '80%',
+				anchor: '100%',
 				gwidth: 100,
 				maxLength:1179650
 			},
@@ -401,7 +401,7 @@ Phx.vista.Tarea=Ext.extend(Phx.gridInterfaz,{
    				mode:'remote',
    				pageSize:10,
    				queryDelay:1000,
-   				width:250,
+   				anchor: '100%',
    				minChars:2,
      			enableMultiSelect:true,	       			
 				renderer:function(value, p, record){return String.format('{0}', record.data['nombre_especialidad']);}
@@ -445,7 +445,7 @@ Phx.vista.Tarea=Ext.extend(Phx.gridInterfaz,{
    				mode:'remote',
    				pageSize:10,
    				queryDelay:1000,
-   				width:250,
+   				anchor: '100%',
    				minChars:2,
        			enableMultiSelect:true,   			
    				renderer:function(value, p, record){return String.format('{0}', record.data['nombre_falla']);}
@@ -464,7 +464,7 @@ Phx.vista.Tarea=Ext.extend(Phx.gridInterfaz,{
 				name: 'estado_reg',
 				fieldLabel: 'Estado Reg.',
 				allowBlank: true,
-				anchor: '80%',
+				anchor: '100%',
 				gwidth: 100,
 				maxLength:10
 			},
@@ -479,7 +479,7 @@ Phx.vista.Tarea=Ext.extend(Phx.gridInterfaz,{
 				name: 'fecha_reg',
 				fieldLabel: 'Fecha creación',
 				allowBlank: true,
-				anchor: '80%',
+				anchor: '100%',
 				//gwidth: 100,
 				//renderer:function (value,p,record){return value?value.dateFormat('d/m/Y h:i:s'):''}
 				format:'Y-m-d'
@@ -495,7 +495,7 @@ Phx.vista.Tarea=Ext.extend(Phx.gridInterfaz,{
 				name: 'usr_reg',
 				fieldLabel: 'Creado por',
 				allowBlank: true,
-				anchor: '80%',
+				anchor: '100%',
 				gwidth: 100,
 				maxLength:4
 			},
@@ -583,7 +583,7 @@ Phx.vista.Tarea=Ext.extend(Phx.gridInterfaz,{
 		direction: 'ASC'
 	},
 	bdel:true,
-	bsave:true,
+	bsave:false,
 	
 	onReloadPage:function(m){       
 		this.maestro=m;

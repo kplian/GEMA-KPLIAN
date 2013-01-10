@@ -53,7 +53,7 @@ Phx.vista.UniConsArchivo=Ext.extend(Phx.gridInterfaz,{
 				name: 'id_uni_cons_archivo_padre',
 				fieldLabel: 'id_uni_cons_archivo_padre',
 				allowBlank: true,
-				anchor: '80%',
+				anchor: '100%',
 				gwidth: 100,
 				maxLength:4
 			},
@@ -67,8 +67,8 @@ Phx.vista.UniConsArchivo=Ext.extend(Phx.gridInterfaz,{
             config:{
                 name: 'nombre',
                 fieldLabel: 'Nombre',
-                allowBlank: true,
-                anchor: '80%',
+                allowBlank: false,
+                anchor: '100%',
                 gwidth: 100,
                 maxLength:30
             },
@@ -106,7 +106,7 @@ Phx.vista.UniConsArchivo=Ext.extend(Phx.gridInterfaz,{
                 name: 'codigo',
                 fieldLabel: 'Codigo',
                 allowBlank: true,
-                anchor: '80%',
+                anchor: '100%',
                 gwidth: 100,
                 maxLength:5
             },
@@ -120,8 +120,8 @@ Phx.vista.UniConsArchivo=Ext.extend(Phx.gridInterfaz,{
             config:{
                 name: 'nombre_archivo',
                 fieldLabel: 'Nombre Archivo',
-                allowBlank: true,
-                anchor: '80%',
+                allowBlank: false,
+                anchor: '100%',
                 gwidth: 100,
                 maxLength:30
             },
@@ -136,7 +136,7 @@ Phx.vista.UniConsArchivo=Ext.extend(Phx.gridInterfaz,{
 				name: 'extension',
 				fieldLabel: 'Extension',
 				allowBlank: true,
-				anchor: '80%',
+				anchor: '100%',
 				gwidth: 100,
 				maxLength:5
 			},
@@ -151,7 +151,7 @@ Phx.vista.UniConsArchivo=Ext.extend(Phx.gridInterfaz,{
 				name: 'resumen',
 				fieldLabel: 'Resumen',
 				allowBlank: true,
-				anchor: '80%',
+				anchor: '100%',
 				gwidth: 100,
 				maxLength:100
 			},
@@ -166,7 +166,7 @@ Phx.vista.UniConsArchivo=Ext.extend(Phx.gridInterfaz,{
 				name: 'palabras_clave',
 				fieldLabel: 'Palabras Clave',
 				allowBlank: true,
-				anchor: '80%',
+				anchor: '100%',
 				gwidth: 100,
 				maxLength:20
 			},
@@ -181,7 +181,7 @@ Phx.vista.UniConsArchivo=Ext.extend(Phx.gridInterfaz,{
 				name: 'estado_reg',
 				fieldLabel: 'Estado Reg.',
 				allowBlank: true,
-				anchor: '80%',
+				anchor: '100%',
 				gwidth: 100,
 				maxLength:10
 			},
@@ -282,7 +282,9 @@ Phx.vista.UniConsArchivo=Ext.extend(Phx.gridInterfaz,{
 		direction: 'ASC'
 	},
 	bdel:true,
-	bsave:true,
+	bsave:false,
+	fwidht: 450,
+	fheight: 300,
 	preparaMenu:function(tb){
         Phx.vista.UniConsArchivo.superclass.preparaMenu.call(this,tb)
         this.getBoton('btnUpload').enable();

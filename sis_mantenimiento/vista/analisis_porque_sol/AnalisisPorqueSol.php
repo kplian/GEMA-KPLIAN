@@ -43,7 +43,7 @@ Phx.vista.AnalisisPorqueSol=Ext.extend(Phx.gridInterfaz,{
             config:{
                 name:'id_funcionario',
                 fieldLabel:'Funcionario',
-                allowBlank:true,
+                allowBlank: false,
                 emptyText:'Funcionario...',
                 store: new Ext.data.JsonStore({
                     url: '../../sis_organigrama/control/Funcionario/listarFuncionario',
@@ -57,11 +57,11 @@ Phx.vista.AnalisisPorqueSol=Ext.extend(Phx.gridInterfaz,{
                     fields: ['id_funcionario','desc_person'],
                     // turn on remote sorting
                     remoteSort: true,
-                    baseParams:{par_filtro:'desc_person'}
+                    baseParams:{par_filtro:'person.nombre_completo1'}
                 }),
                 valueField: 'id_funcionario',
                 displayField: 'desc_person',
-                gdisplayField: 'desc_person',
+                gdisplayField: 'desc_funcionario1',
                 hiddenName: 'id_funcionario',
                 forceSelection:true,
                 typeAhead: true,
@@ -70,7 +70,7 @@ Phx.vista.AnalisisPorqueSol=Ext.extend(Phx.gridInterfaz,{
                 mode:'remote',
                 pageSize:10,
                 queryDelay:1000,
-                width:250,
+                anchor: '100%',
                 minChars:2,            
                 renderer:function(value, p, record){return String.format('{0}', record.data['desc_funcionario1']);}
             },
@@ -87,8 +87,8 @@ Phx.vista.AnalisisPorqueSol=Ext.extend(Phx.gridInterfaz,{
             config:{
                 name: 'descripcion',
                 fieldLabel: 'Descripcion',
-                allowBlank: true,
-                anchor: '80%',
+                allowBlank: false,
+                anchor: '100%',
                 gwidth: 100,
                 maxLength:2000
             },
@@ -102,10 +102,10 @@ Phx.vista.AnalisisPorqueSol=Ext.extend(Phx.gridInterfaz,{
             config:{
                 name: 'fecha',
                 fieldLabel: 'Fecha',
-                allowBlank: true,
-                anchor: '80%',
+                allowBlank: false,
                 gwidth: 100,
-                format:'Y-m-d'
+                format: 'd/m/Y',
+                renderer:function (value,p,record){return value?value.dateFormat('d/m/Y h:i:s'):''}
             },
             type:'DateField',
             filters:{pfiltro:'porsol.fecha',type:'date'},
@@ -118,7 +118,7 @@ Phx.vista.AnalisisPorqueSol=Ext.extend(Phx.gridInterfaz,{
                 name: 'estado',
                 fieldLabel: 'Estado',
                 allowBlank: true,
-                anchor: '80%',
+                anchor: '100%',
                 gwidth: 100,
                 maxLength:15
             },
@@ -133,7 +133,7 @@ Phx.vista.AnalisisPorqueSol=Ext.extend(Phx.gridInterfaz,{
 				name: 'estado_reg',
 				fieldLabel: 'Estado Reg.',
 				allowBlank: true,
-				anchor: '80%',
+				anchor: '100%',
 				gwidth: 100,
 				maxLength:10
 			},
@@ -216,7 +216,7 @@ Phx.vista.AnalisisPorqueSol=Ext.extend(Phx.gridInterfaz,{
 		{name:'desc_funcionario1', type: 'string'},
 		{name:'estado_reg', type: 'string'},
 		{name:'estado', type: 'string'},
-		{name:'fecha', type: 'timestamp'},
+		{name:'fecha', type: 'date', dateFormat:'Y-m-d H:i:s'},
 		{name:'descripcion', type: 'string'},
 		{name:'id_usuario_reg', type: 'numeric'},
 		{name:'fecha_reg', type: 'timestamp'},
@@ -231,8 +231,8 @@ Phx.vista.AnalisisPorqueSol=Ext.extend(Phx.gridInterfaz,{
 		direction: 'ASC'
 	},
 	bdel:true,
-	bsave:true,
-    
+	bsave:false,
+    fwidht: 450,
     onReloadPage:function(m){       
         this.maestro=m;
         this.Atributos[1].valorInicial=this.maestro.id_analisis_porque;

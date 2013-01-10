@@ -20,7 +20,7 @@ Phx.vista.PlanMant=Ext.extend(Phx.gridInterfaz,{
             iconCls : 'bpdf32',
             disabled: true,
             handler : this.onButtonReportePlanRCM,
-            tooltip : '<b>Plan RCM</b><br/><b>Reporte Plan RCM</b>'
+            tooltip : '<b>Plan RCM</b><br/>Reporte Plan RCM'
         });
 		this.init();
 		this.load({params:{start:0, limit:50, id_uni_cons:this.id_uni_cons}});
@@ -48,17 +48,17 @@ Phx.vista.PlanMant=Ext.extend(Phx.gridInterfaz,{
 					id: 'id_funcionario',
 					root: 'datos',
 					sortInfo:{
-						field: 'nombre',
+						field: 'desc_person',
 						direction: 'ASC'
 					},
 					totalProperty: 'total',
 					fields: ['id_funcionario','desc_person'],
 					remoteSort: true,
-					baseParams:{par_filtro:'desc_person'}
+					baseParams:{par_filtro:'person.nombre_completo1'}
 				}),
 				valueField: 'id_funcionario',
    				displayField: 'desc_person',
-   				gdisplayField:'nombre',//dibuja el campo extra de la consulta al hacer un inner join con orra tabla
+   				gdisplayField:'nombre_funcionario',//dibuja el campo extra de la consulta al hacer un inner join con orra tabla
    				tpl:'<tpl for="."><div class="x-combo-list-item"><p>{desc_person}</p> </div></tpl>',
    				hiddenName: 'id_funcionario',
    				forceSelection:true,
@@ -105,17 +105,17 @@ Phx.vista.PlanMant=Ext.extend(Phx.gridInterfaz,{
 					id: 'id_funcionario',
 					root: 'datos',
 					sortInfo:{
-						field: 'nombre',
+						field: 'desc_person',
 						direction: 'ASC'
 					},
 					totalProperty: 'total',
 					fields: ['id_funcionario','desc_person'],
 					remoteSort: true,
-					baseParams:{par_filtro:'desc_person'}
+					baseParams:{par_filtro:'person.nombre_completo1'}
 				}),
 				valueField: 'id_funcionario',
    				displayField: 'desc_person',
-   				gdisplayField:'nombre',//dibuja el campo extra de la consulta al hacer un inner join con orra tabla
+   				gdisplayField:'nombre_funcionario_rev',
    				tpl:'<tpl for="."><div class="x-combo-list-item"><p>{desc_person}</p> </div></tpl>',
    				hiddenName: 'id_funcionario',
    				forceSelection:true,
@@ -224,7 +224,6 @@ Phx.vista.PlanMant=Ext.extend(Phx.gridInterfaz,{
 				name: 'fecha',
 				fieldLabel: 'Fecha',
 				allowBlank: true,
-				anchor: '100%',
 				//gwidth: 100,
 				//renderer:function (value,p,record){return value?value.dateFormat('d/m/Y h:i:s'):''}
 				format:'Y/m/d'
@@ -349,7 +348,7 @@ Phx.vista.PlanMant=Ext.extend(Phx.gridInterfaz,{
 	bdel:true,
 	bsave:false,
 	fwidth: 450,
-	fheight: 350,
+	fheight: 300,
 	onButtonReportePlanRCM:function(){
         var rec=this.sm.getSelected();
                 console.debug(rec);
