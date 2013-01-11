@@ -313,6 +313,19 @@ header("content-type: text/javascript; charset=UTF-8");
                 }, data, this.idContenedor, 'GenerarReporteIndicadores')
             }
         },
+        
+        onBtnRepAnualInd : function() {
+            var node = this.sm.getSelectedNode();
+            var data = node.attributes;
+            Phx.CP.log(node);
+            if (data) {
+                Phx.CP.loadWindows('../../../sis_mantenimiento/vista/localizacion_med/GenerarReporteAnualIndicadores.php', 'Reporte Anual Indicadores' + node.text, {
+                    modal : true,
+                    width : 900,
+                    height : 400
+                }, data, this.idContenedor, 'GenerarReporteAnualIndicadores')
+            }
+        },
 
 		onBtnTPMPorquePorque : function() {
 			var rec = this.sm.getSelectedNode();
@@ -720,6 +733,7 @@ header("content-type: text/javascript; charset=UTF-8");
 				//REPORTE INDICADORES
 				this.menuLoc.disable();
 				this.ctxMenu.items.get('mni-repInd-' + this.idContenedor).disable();
+				this.ctxMenu.items.get('mni-repAnualInd-' + this.idContenedor).disable();
 				//TARJETAS TPM
 				this.menuLoc.disable();
 				this.ctxMenu.items.get('mni-tarTPM-' + this.idContenedor).disable();
@@ -793,6 +807,7 @@ header("content-type: text/javascript; charset=UTF-8");
 				//REPORTE INDICADORES
 				this.menuLoc.disable();
 				this.ctxMenu.items.get('mni-repInd-' + this.idContenedor).disable();
+				this.ctxMenu.items.get('mni-repAnualInd-' + this.idContenedor).disable();
 				//TARJETAS TPM
 				this.menuLoc.disable();
 				this.ctxMenu.items.get('mni-tarTPM-' + this.idContenedor).disable();
@@ -871,6 +886,7 @@ header("content-type: text/javascript; charset=UTF-8");
 				//REPORTE INDICADORES
 				this.menuLoc.enable();
 				this.ctxMenu.items.get('mni-repInd-' + this.idContenedor).enable();
+				this.ctxMenu.items.get('mni-repAnualInd-' + this.idContenedor).enable();
 				//TARJETAS TPM
 				this.menuLoc.enable();
 				this.ctxMenu.items.get('mni-tarTPM-' + this.idContenedor).enable();
@@ -1025,6 +1041,13 @@ header("content-type: text/javascript; charset=UTF-8");
                 id: 'mni-repInd-'+this.idContenedor,
                 text : 'Reporte Indicadores por Mes',
                 handler : this.onBtnRepInd,
+                scope : this
+            });
+            
+            this.ctxMenu.addMenuItem({
+                id: 'mni-repAnualInd-'+this.idContenedor,
+                text : 'Reporte Anual Indicadores',
+                handler : this.onBtnRepAnualInd,
                 scope : this
             });
             

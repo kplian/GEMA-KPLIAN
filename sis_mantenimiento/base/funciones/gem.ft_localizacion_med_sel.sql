@@ -150,6 +150,59 @@ BEGIN
 						
 		end;
     
+    /*********************************    
+ 	#TRANSACCION:  'GM_LOCMED_REP_ANUAL'
+ 	#DESCRIPCION:	Consulta de datos
+ 	#AUTOR:			Gonzalo Sarmiento Sejas	
+ 	#FECHA:			09-01-2013
+	***********************************/
+
+	elsif(p_transaccion='GM_LOCMED_REP_ANUAL')then
+     				
+    	begin
+    	
+    		--Obtiene todos los id_localizacion
+			WITH RECURSIVE t(id,id_fk,nombre,n) AS (
+					SELECT l.id_localizacion,l.id_localizacion_fk, l.nombre,1
+					FROM gem.tlocalizacion l 
+					WHERE l.id_localizacion = v_parametros.id_localizacion
+					UNION ALL
+					SELECT l.id_localizacion,l.id_localizacion_fk, l.nombre , n+1
+					FROM gem.tlocalizacion l, t
+					WHERE l.id_localizacion_fk = t.id
+				)
+			SELECT pxp.list(id::text)
+			into v_ids_loc
+			FROM t;
+    		
+    		--Sentencia de la consulta
+			v_consulta:='select                    
+                        (sum(locmed.num_paros))::varchar as num_paros,
+						(sum(locmed.tiempo_op_hrs))::varchar as tiempo_op_hrs,                        
+						(sum(locmed.tiempo_standby_hrs))::varchar as tiempo_standby_hrs,                        
+						(sum(locmed.tiempo_mnp_hrs))::varchar as tiempo_mnp_hrs,                        
+						(sum(locmed.tiempo_mpp_hrs))::varchar as tiempo_mpp_hrs,
+                        (date_part(''month'',locmed.fecha_med))::varchar as mes,
+                        (count(locmed.id_localizacion_med))::varchar as dias,
+						loc.nombre as nombre_sistema,
+                        locpad.nombre as nombre_localizacion,
+                        loc.codigo						
+						from gem.tlocalizacion_med locmed
+                        inner join gem.tlocalizacion loc on loc.id_localizacion = locmed.id_localizacion
+                        inner join gem.tlocalizacion locpad on locpad.id_localizacion = loc.id_localizacion_fk
+				        where locmed.id_localizacion in ('||v_ids_loc||') and 
+                        locmed.fecha_med between '''||v_parametros.fecha_ini||''' and '''||v_parametros.fecha_fin||'''
+                        group by date_part(''month'',locmed.fecha_med), loc.codigo,nombre_sistema,nombre_localizacion, loc.codigo ';
+			
+			--Definicion de la respuesta
+			v_consulta:=v_consulta||' order by ' ||v_parametros.ordenacion|| ' ' || v_parametros.dir_ordenacion || ' limit ' || v_parametros.cantidad || ' offset ' || v_parametros.puntero;
+
+			--Devuelve la respuesta
+			return v_consulta;
+						
+		end;
+    
+    
 	/*********************************    
  	#TRANSACCION:  'GM_LOCMED_CONT'
  	#DESCRIPCION:	Conteo de registros

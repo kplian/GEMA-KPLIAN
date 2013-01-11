@@ -6,12 +6,10 @@
 *@date 07-12-2012 14:20:30
 *@description Clase que recibe los parametros enviados por la vista para mandar a la capa de Modelo
 */
-
 require_once(dirname(__FILE__).'/../reportes/pxpReport/ReportWriter.php');
 require_once(dirname(__FILE__).'/../reportes/RMedicion_Indicadores.php');
+require_once(dirname(__FILE__).'/../reportes/RAnualMedicion_Indicadores.php');
 require_once(dirname(__FILE__).'/../reportes/pxpReport/DataSource.php');
-
-
 class ACTLocalizacionMed extends ACTbase{    
 			
 	function listarLocalizacionMed(){
@@ -69,6 +67,7 @@ class ACTLocalizacionMed extends ACTbase{
 	}
     
     function reporteLocalizacionMed(){
+
         $mesLiteral = $this->objParam->getParametro('mes');
         $anio = $this->objParam->getParametro('anio');
         $mesNumeral = $this->getMesNumeral($mesLiteral); 
@@ -121,6 +120,47 @@ class ACTLocalizacionMed extends ACTbase{
         $this->res->imprimirRespuesta($this->res->generarJson());
     }
 
+    function reporteAnualLocalizacionMed(){
+        $anio = $this->objParam->getParametro('anio');
+        
+        $dataSource = new DataSource();
+        $this->objParam->defecto('ordenacion','mes');
+        $this->objParam->defecto('dir_ordenacion','asc');
+        $this->objParam->defecto('cantidad',1000);
+        $this->objParam->defecto('puntero',0);
+        $this->objParam->addParametro('fecha_ini',"01/01/"."$anio");
+        $this->objParam->addParametro('fecha_fin',"31/12/"."$anio");
+        $this->objFunc = $this->create('MODLocalizacionMed');
+        $resultReporteAnual = $this->objFunc->reporteAnualLocalizacionMed();
+        $datosLocalizacionMed = $resultReporteAnual->getDatos();
+        
+        //armamos el array parametros y metemos ahi los data sets de las otras tablas
+        $dataSource->putParameter('numMeses',12);
+        $dataSource->putParameter('anio',$anio);
+        if($datosLocalizacionMed[0]['nombre_sistema']!=null){
+            $dataSource->putParameter('sistema', $datosLocalizacionMed[0]['nombre_sistema']);      
+        }else{
+            $dataSource->putParameter('sistema', $this->objParam->getParametro('localizacion'));
+        }
+        $dataSource->putParameter('codigo', $datosLocalizacionMed[0]['codigo']);
+        $dataSource->putParameter('localizacion', $datosLocalizacionMed[0]['nombre_localizacion']);
+        $dataSource->setDataSet($resultReporteAnual->getDatos());
+                
+        //build the report
+        $reporte = new RAnualMedicionIndicadores();
+        $reporte->setDataSource($dataSource);
+        $nombreArchivo = 'ReporteAnualMedicionIndicadores.pdf';
+        $reportWriter = new ReportWriter($reporte, dirname(__FILE__).'/../../reportes_generados/'.$nombreArchivo);
+        $reportWriter->writeReport(ReportWriter::PDF);
+        
+        $mensajeExito = new Mensaje();
+        $mensajeExito->setMensaje('EXITO','Reporte.php','Reporte generado',
+                                        'Se generó con éxito el reporte: '.$nombreArchivo,'control');
+        $mensajeExito->setArchivoGenerado($nombreArchivo);
+        $this->res = $mensajeExito;
+        $this->res->imprimirRespuesta($this->res->generarJson());                
+    }
+    
     function diasMes($month, $year) {
         return date("d",mktime(0,0,0,$month+1,0,$year));
     }
@@ -132,5 +172,4 @@ class ACTLocalizacionMed extends ACTbase{
     }
 			
 }
-
 ?>

@@ -181,6 +181,38 @@ class MODLocalizacionMed extends MODbase{
         
         //Devuelve la respuesta
         return $this->respuesta;
+    }
+
+    function reporteAnualLocalizacionMed(){
+        //Definicion de variables para ejecucion del procedimientp
+        $this->procedimiento='gem.ft_localizacion_med_sel';
+        $this->transaccion='GM_LOCMED_REP_ANUAL';
+        $this->tipo_procedimiento='SEL';//tipo de transaccion
+        $this->setCount(false);
+        //Parametros
+        $this->setParametro('id_localizacion','id_localizacion','int4');
+        $this->setParametro('fecha_ini','fecha_ini','varchar');
+        $this->setParametro('fecha_fin','fecha_fin','varchar');
+                
+        //Definicion de la lista del resultado del query
+        $this->captura('num_paros','varchar');
+        $this->captura('tiempo_op_hrs','varchar');
+        $this->captura('tiempo_standby_hrs','varchar');
+        $this->captura('tiempo_mnp_hrs','varchar');
+        $this->captura('tiempo_mpp_hrs','varchar');
+        $this->captura('mes','varchar');
+        $this->captura('dias','varchar');
+        $this->captura('nombre_sistema','varchar');
+        $this->captura('nombre_localizacion','varchar');
+        $this->captura('codigo','varchar');
+        
+        //Ejecuta la instruccion
+        $this->armarConsulta();
+        //echo $this->consulta;exit;
+        $this->ejecutarConsulta();
+        
+        //Devuelve la respuesta
+        return $this->respuesta;
     }		
 }
 ?>
