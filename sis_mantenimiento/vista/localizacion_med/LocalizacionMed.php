@@ -196,10 +196,25 @@ Phx.vista.LocalizacionMed=Ext.extend(Phx.gridInterfaz,{
 				allowBlank: true,
 				anchor: '100%',
 				gwidth: 100,
-				maxLength:1179650
+				maxLength:100
 			},
 			type:'NumberField',
 			filters:{pfiltro:'locmed.tiempo_mpp_hrs',type:'numeric'},
+			id_grupo:0,
+			grid:true,
+			form:true
+		},
+		{
+			config:{
+				name: 'observaciones',
+				fieldLabel: 'Observaciones',
+				allowBlank: true,
+				anchor: '100%',
+				gwidth: 250,
+				maxLength:500
+			},
+			type:'TextArea',
+			filters:{pfiltro:'locmed.observaciones',type:'string'},
 			id_grupo:0,
 			grid:true,
 			form:true
@@ -303,7 +318,8 @@ Phx.vista.LocalizacionMed=Ext.extend(Phx.gridInterfaz,{
 		{name:'fecha_mod', type: 'date', dateFormat:'Y-m-d H:i:s'},
 		{name:'usr_reg', type: 'string'},
 		{name:'usr_mod', type: 'string'},
-		{name:'desc_uni_cons', type: 'string'}
+		{name:'desc_uni_cons', type: 'string'},
+		{name:'observaciones', type: 'string'}
 		
 	],
 	sortInfo:{

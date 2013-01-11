@@ -77,7 +77,8 @@ BEGIN
 						locmed.fecha_mod,
 						usu1.cuenta as usr_reg,
 						usu2.cuenta as usr_mod,
-						(unicon.codigo || ''-'' || unicon.nombre)::varchar as desc_uni_cons	
+						(unicon.codigo || ''-'' || unicon.nombre)::varchar as desc_uni_cons,
+						observaciones	
 						from gem.tlocalizacion_med locmed
 						inner join segu.tusuario usu1 on usu1.id_usuario = locmed.id_usuario_reg
 						left join segu.tusuario usu2 on usu2.id_usuario = locmed.id_usuario_mod
