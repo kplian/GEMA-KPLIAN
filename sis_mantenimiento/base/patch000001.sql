@@ -135,7 +135,7 @@ CREATE TABLE gem.tfalla_evento(
 	codigo varchar(20), 
 	nombre varchar(100), 
 	tipo varchar(10),
-	CONSTRAINT pk_tfalla_evento__id_falla_evento PRIMARY KEY (id_falla_evento)
+	CONSTRAINT pk_tfalla_evento__id_falla_evento PRIMARY KEY (id_falla_evento),
     CONSTRAINT chk_tfalla_evento__tipo check (tipo in ('falla','evento'))
 )INHERITS (pxp.tbase)
 WITH (
@@ -189,7 +189,7 @@ CREATE TABLE gem.tmant_predef_det (
   nombre varchar(100),
   descripcion varchar(2000),
   observacion varchar(2000),
-  pk_tmant_predef_det__id_mant_predef_det PRIMARY KEY (id_mant_predef_det)
+  CONSTRAINT pk_tmant_predef_det__id_mant_predef_det PRIMARY KEY (id_mant_predef_det)
 ) INHERITS (pxp.tbase)
 WITHOUT OIDS;
 alter table gem.tmant_predef_det owner to postgres;
@@ -832,14 +832,6 @@ ALTER COLUMN fecha_plan_ini DROP NOT NULL;
 /***********************************F-SCP-RAC-GEM-60-04/12/2012*****************************************/
   
 /***********************************I-SCP-AAO-GEM-4-04/12/2012*****************************************/
-ALTER TABLE gem.torden_trabajo
-  DROP CONSTRAINT fk_torden_trabajo__id_cat_estado RESTRICT;
-
-ALTER TABLE gem.torden_trabajo
-  DROP CONSTRAINT fk_torden_trabajo__id_cat_prior RESTRICT;
-
-ALTER TABLE gem.torden_trabajo
-  DROP CONSTRAINT fk_torden_trabajo__id_cat_tipo RESTRICT;
   
 ALTER TABLE gem.torden_trabajo
   RENAME COLUMN id_cat_estado TO cat_estado;

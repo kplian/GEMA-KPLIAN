@@ -426,18 +426,6 @@ add CONSTRAINT fk_tlocalizacion_usuario__id_usuario FOREIGN KEY (id_usuario)
       ON DELETE NO ACTION;
       
 alter table gem.torden_trabajo
-add constraint fk_torden_trabajo__id_cat_estado foreign key(id_cat_estado)
-	references param.tcatalogo(id_catalogo);
-
-alter table gem.torden_trabajo
-add constraint fk_torden_trabajo__id_cat_prior foreign key(id_cat_prior)
-	references param.tcatalogo(id_catalogo);
-
-alter table gem.torden_trabajo
-add constraint fk_torden_trabajo__id_cat_tipo foreign key(id_cat_tipo)
-	references param.tcatalogo(id_catalogo);
-	
-alter table gem.torden_trabajo
 add constraint fk_torden_trabajo__id_instruc_seg foreign key(id_instruc_seg)
 	references gem.tinstruc_seg(id_instruc_seg);
 	
