@@ -20,7 +20,7 @@ add CONSTRAINT fk_ttipo_equipo__id_usuario_mod FOREIGN KEY (id_usuario_mod)
     ON UPDATE NO ACTION
     NOT DEFERRABLE;
     
-alter table gem.gem.tuni_cons
+alter table gem.tuni_cons
 add CONSTRAINT fk_tuni_cons__id_tipo_equipo FOREIGN KEY (id_tipo_equipo)
     REFERENCES gem.ttipo_equipo(id_tipo_equipo)
     ON DELETE NO ACTION
@@ -228,7 +228,7 @@ add CONSTRAINT fk_tuni_cons_mant_predef__id_unidad_medida FOREIGN KEY (id_unidad
     NOT DEFERRABLE;
     
 alter table gem.tcalendario_planificado
-add CONSTRAINT fk_tcalendario_planificado__id_uni_cons_mant_predef FOREIGN KEY (id_uni_cons_mat_predef)
+add CONSTRAINT fk_tcalendario_planificado__id_uni_cons_mant_predef FOREIGN KEY (id_uni_cons_mant_predef)
     REFERENCES gem.tuni_cons_mant_predef(id_uni_cons_mant_predef)
     ON DELETE NO ACTION
     ON UPDATE NO ACTION
@@ -555,10 +555,6 @@ add constraint fk_torden_trabajo_sol__id_orden_trabajo foreign key (id_orden_tra
     references gem.torden_trabajo (id_orden_trabajo) match simple
     on update no action on delete no action;
     
-ALTER TABLE gem.tdocumento
-ADD CONSTRAINT fk_tdocumento__id_documento_padre FOREIGN KEY (id_documento_padre)
-	REFERENCES gem.tdocumento (id_documento);
-	
 alter table param.tproveedor
 add constraint fk_tproveedor__id_lugar foreign key(id_lugar)
 	references param.tlugar(id_lugar);
