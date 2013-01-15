@@ -1,7 +1,11 @@
-CREATE OR REPLACE FUNCTION "gem"."ft_orden_trabajo_sol_sel"(	
-				p_administrador integer, p_id_usuario integer, p_tabla character varying, p_transaccion character varying)
-RETURNS character varying AS
-$BODY$
+CREATE OR REPLACE FUNCTION gem.ft_orden_trabajo_sol_sel (
+  p_administrador integer,
+  p_id_usuario integer,
+  p_tabla varchar,
+  p_transaccion varchar
+)
+RETURNS varchar AS
+$body$
 /**************************************************************************
  SISTEMA:		Mantenimiento Industrial - Plantas y Estaciones
  FUNCION: 		gem.ft_orden_trabajo_sol_sel
@@ -99,6 +103,77 @@ BEGIN
 		end;
 
 	/*********************************    
+ 	#TRANSACCION:  'GM_SOLORD_REP'
+ 	#DESCRIPCION:	Consulta de datos
+ 	#AUTOR:		    Gonzalo Sarmiento	
+ 	#FECHA:			15-01-2013
+	***********************************/
+
+	elsif(p_transaccion='GM_SOLORD_REP')then
+     				
+    	begin
+    		--Sentencia de la consulta
+			v_consulta:='select
+						solord.id_orden_trabajo_sol,
+						solord.id_solicitante,
+						solord.id_uni_cons,
+						solord.id_responsable,
+						solord.id_unidad_medida_req,
+						solord.id_uo,
+						solord.id_localizacion,
+						solord.id_orden_trabajo,
+						solord.inspeccion_lugar,
+						solord.fecha_estimada,
+						solord.estado,
+						solord.nota,
+						solord.descripcion,
+						solord.descripcion_req,
+						solord.fecha_requerida,
+						solord.estado_reg,
+						solord.inspeccion_exacto,
+						solord.cantidad_req,
+						solord.importancia,
+						solord.fecha_real,
+						solord.observaciones_resp,
+						solord.fecha_recepcion,
+						solord.observacion,
+						solord.prioridad,
+						solord.fecha,
+						solord.id_usuario_reg,
+						solord.fecha_reg,
+						solord.id_usuario_mod,
+						solord.fecha_mod,
+						usu1.cuenta as usr_reg,
+						usu2.cuenta as usr_mod,
+						funsol.desc_funcionario1 as desc_solicitante,
+						locali.codigo || '' - '' || locali.nombre as desc_localizacion,
+						unicon.codigo || '' - '' || unicon.nombre as desc_equipo,
+						funres.desc_funcionario1 as desc_responsable,
+						unimed.descripcion as desc_unidad_medida,
+						uniorg.codigo as codigo_uo,
+                        uniorg.nombre_unidad as nombre_uo,
+                        uniorg.nombre_cargo as nombre_cargo 
+						from gem.torden_trabajo_sol solord
+						inner join segu.tusuario usu1 on usu1.id_usuario = solord.id_usuario_reg
+						left join segu.tusuario usu2 on usu2.id_usuario = solord.id_usuario_mod
+						inner join orga.vfuncionario funsol on funsol.id_funcionario = solord.id_solicitante
+						inner join gem.tlocalizacion locali on locali.id_localizacion = solord.id_localizacion
+						inner join gem.tuni_cons unicon on unicon.id_uni_cons = solord.id_uni_cons
+						inner join orga.vfuncionario funres on funres.id_funcionario = solord.id_responsable
+						left join param.tunidad_medida unimed on unimed.id_unidad_medida = solord.id_unidad_medida_req
+						inner join orga.tuo uniorg on uniorg.id_uo = solord.id_uo
+				        where solord.id_orden_trabajo_sol='||v_parametros.id_orden_trabajo_sol||' and ';
+			
+			--Definicion de la respuesta
+			v_consulta:=v_consulta||v_parametros.filtro;
+			v_consulta:=v_consulta||' order by ' ||v_parametros.ordenacion|| ' ' || v_parametros.dir_ordenacion || ' limit ' || v_parametros.cantidad || ' offset ' || v_parametros.puntero;
+
+			--Devuelve la respuesta
+			return v_consulta;
+						
+		end;
+    
+	/*********************************    
  	#TRANSACCION:  'GM_SOLORD_CONT'
  	#DESCRIPCION:	Conteo de registros
  	#AUTOR:		admin	
@@ -144,7 +219,9 @@ EXCEPTION
 			v_resp = pxp.f_agrega_clave(v_resp,'procedimientos',v_nombre_funcion);
 			raise exception '%',v_resp;
 END;
-$BODY$
-LANGUAGE 'plpgsql' VOLATILE
+$body$
+LANGUAGE 'plpgsql'
+VOLATILE
+CALLED ON NULL INPUT
+SECURITY INVOKER
 COST 100;
-ALTER FUNCTION "gem"."ft_orden_trabajo_sol_sel"(integer, integer, character varying, character varying) OWNER TO postgres;

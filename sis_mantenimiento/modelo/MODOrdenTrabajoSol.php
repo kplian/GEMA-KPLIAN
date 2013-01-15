@@ -180,6 +180,61 @@ class MODOrdenTrabajoSol extends MODbase{
 		//Devuelve la respuesta
 		return $this->respuesta;
 	}
-			
+    
+	function listarOrdenTrabajoRep(){
+        //Definicion de variables para ejecucion del procedimientp
+        $this->procedimiento='gem.ft_orden_trabajo_sol_sel';
+        $this->transaccion='GM_SOLORD_REP';
+        $this->tipo_procedimiento='SEL';//tipo de transaccion
+        
+        $this->setCount(false);
+        $this->setParametro('id_orden_trabajo_sol','id_orden_trabajo_sol','int4');        
+        //Definicion de la lista del resultado del query
+        $this->captura('id_orden_trabajo_sol','int4');
+        $this->captura('id_solicitante','int4');
+        $this->captura('id_uni_cons','int4');
+        $this->captura('id_responsable','int4');
+        $this->captura('id_unidad_medida_req','int4');
+        $this->captura('id_uo','int4');
+        $this->captura('id_localizacion','int4');
+        $this->captura('id_orden_trabajo','int4');
+        $this->captura('inspeccion_lugar','varchar');
+        $this->captura('fecha_estimada','date');
+        $this->captura('estado','varchar');
+        $this->captura('nota','varchar');
+        $this->captura('descripcion','varchar');
+        $this->captura('descripcion_req','varchar');
+        $this->captura('fecha_requerida','date');
+        $this->captura('estado_reg','varchar');
+        $this->captura('inspeccion_exacto','varchar');
+        $this->captura('cantidad_req','numeric');
+        $this->captura('importancia','varchar');
+        $this->captura('fecha_real','date');
+        $this->captura('observaciones_resp','varchar');
+        $this->captura('fecha_recepcion','date');
+        $this->captura('observacion','varchar');
+        $this->captura('prioridad','varchar');
+        $this->captura('fecha','date');
+        $this->captura('id_usuario_reg','int4');
+        $this->captura('fecha_reg','timestamp');
+        $this->captura('id_usuario_mod','int4');
+        $this->captura('fecha_mod','timestamp');
+        $this->captura('usr_reg','varchar');
+        $this->captura('usr_mod','varchar');
+        $this->captura('desc_solicitante','text');
+        $this->captura('desc_localizacion','text');
+        $this->captura('desc_equipo','text');
+        $this->captura('desc_responsable','text');
+        $this->captura('desc_unidad_medida','varchar');
+        $this->captura('codigo_uo','varchar');
+        $this->captura('nombre_uo','varchar');
+        $this->captura('nombre_cargo','varchar');
+        //Ejecuta la instruccion
+        $this->armarConsulta();
+        $this->ejecutarConsulta();
+        
+        //Devuelve la respuesta
+        return $this->respuesta;
+    }		
 }
 ?>

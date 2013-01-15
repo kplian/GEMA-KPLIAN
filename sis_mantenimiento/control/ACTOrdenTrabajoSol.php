@@ -7,6 +7,10 @@
 *@description Clase que recibe los parametros enviados por la vista para mandar a la capa de Modelo
 */
 
+require_once(dirname(__FILE__).'/../reportes/pxpReport/ReportWriter.php');
+require_once(dirname(__FILE__).'/../reportes/ROrdenTrabajo_Solicitado.php');
+require_once(dirname(__FILE__).'/../reportes/pxpReport/DataSource.php');
+
 class ACTOrdenTrabajoSol extends ACTbase{    
 			
 	function listarOrdenTrabajoSol(){
@@ -44,6 +48,31 @@ class ACTOrdenTrabajoSol extends ACTbase{
 		$this->res=$this->objFunc->finalizarOrdenTrabajoSol($this->objParam);
 		$this->res->imprimirRespuesta($this->res->generarJson());
 	}
+
+    function reporteOTSolicitado(){
+        $dataSource = new DataSource();
+        $this->objParam->defecto('ordenacion','id_orden_trabajo_sol');
+        $this->objParam->defecto('dir_ordenacion','asc');
+        $this->objParam->defecto('puntero','0');
+        $this->objParam->defecto('cantidad','1000');
+        $this->objFunc=$this->create('MODOrdenTrabajoSol');
+        $this->res=$this->objFunc->listarOrdenTrabajoRep($this->objParam);
+        
+        $dataSource->setDataSet($this->res->getDatos());
+        
+        $reporte = new ROrdenTrabajoSolicitado();
+        $reporte->setDataSource($dataSource);
+        $nombreArchivo = 'ReporteOrdenTrabajoSolicitado.pdf';
+        $reportWriter = new ReportWriter($reporte, dirname(__FILE__).'/../../reportes_generados/'.$nombreArchivo);
+        $reportWriter->writeReport(ReportWriter::PDF);
+        
+        $mensajeExito = new Mensaje();
+        $mensajeExito->setMensaje('EXITO','Reporte.php','Reporte generado',
+                                        'Se generó con éxito el reporte: '.$nombreArchivo,'control');
+        $mensajeExito->setArchivoGenerado($nombreArchivo);
+        $this->res = $mensajeExito;
+        $this->res->imprimirRespuesta($this->res->generarJson());        
+    }
 			
 }
 
