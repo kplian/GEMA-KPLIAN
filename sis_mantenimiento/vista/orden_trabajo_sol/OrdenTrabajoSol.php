@@ -28,6 +28,26 @@ Phx.vista.OrdenTrabajoSol=Ext.extend(Phx.gridInterfaz,{
 				tooltip: '<b>Envía la petición de generación de una Orden de Trabajo</b>'
 			}
 		);
+		
+		this.addButton('btn-reporte',{
+            text:'Reporte OT Solicitado',
+            iconCls: 'bpdf32',
+            disabled: true,
+            handler:function() {
+                var rec=this.sm.getSelected();
+                console.debug(rec);
+                Phx.CP.loadingShow();
+                Ext.Ajax.request({
+                    url:'../../sis_mantenimiento/control/OrdenTrabajoSol/reporteOTSolicitado',
+                    params:{'id_orden_trabajo_sol': rec.data.id_orden_trabajo_sol},
+                    success: this.successExport,
+                    failure: this.conexionFailure,
+                    timeout: this.timeout,
+                    scope:this
+                });
+            },
+            tooltip: '<b>Reporte OIT</b><br/>Generar el reporte de la Orden de Trabajo Solicitada.'
+        });
 	},
 			
 	Atributos:[
@@ -756,11 +776,13 @@ Phx.vista.OrdenTrabajoSol=Ext.extend(Phx.gridInterfaz,{
 		var tb = Phx.vista.OrdenTrabajoSol.superclass.preparaMenu.call(this);
 	  	var data = this.getSelectedData();
 	  	this.getBoton('btn-fin').setDisabled(false);
+	  	this.getBoton('btn-reporte').setDisabled(false);
   		return tb;
 	},
 	liberaMenu: function() {
 		var tb = Phx.vista.OrdenTrabajoSol.superclass.liberaMenu.call(this);
 		this.getBoton('btn-fin').setDisabled(true);
+		this.getBoton('btn-reporte').setDisabled(true);
 		return tb;
 	}
 })
