@@ -63,9 +63,9 @@ Phx.vista.Tarea=Ext.extend(Phx.gridInterfaz,{
 		{
 			config:{
    				name:'id_uni_cons_hijo',
-   				fieldLabel:'Unidad Constructiva',
+   				fieldLabel:'Equipo Hijo',
    				allowBlank:true,
-   				emptyText:'Unidades Constructivas..',
+   				emptyText:'Equipos Hijos..',
    				store: new Ext.data.JsonStore({
 					url: '../../sis_mantenimiento/control/UniCons/listarUniConsHijo',
 					id: 'id_uni_cons_hijo',
@@ -100,6 +100,50 @@ Phx.vista.Tarea=Ext.extend(Phx.gridInterfaz,{
    			filters:{
    		        pfiltro:'nombre',
                 type:'string'
+   			},
+   			grid:true,
+   			form:true
+	    },
+	    {
+   			config:{
+   				name:'id_falla_evento',
+   				fieldLabel:'Falla evento',
+   				allowBlank:true,
+   				emptyText:'Falla evento...',
+   				store: new Ext.data.JsonStore({
+					url: '../../sis_mantenimiento/control/FallaEvento/listarFallaEvento',
+					id: 'id_falla_evento',
+					root: 'datos',
+					sortInfo:{
+						field: 'nombre',
+						direction: 'ASC'
+					},
+					totalProperty: 'total',
+					fields: ['id_falla_evento','codigo','nombre'],
+					remoteSort: true,
+					baseParams:{par_filtro:'codigo#nombre'}
+				}),
+   				valueField: 'id_falla_evento',
+   				displayField: 'nombre',
+   				gdisplayField: 'nombre_evento',
+   				hiddenName: 'id_falla_evento',
+   				forceSelection:true,
+   				typeAhead: true,
+       			triggerAction: 'all',
+       			lazyRender:true,
+   				mode:'remote',
+   				pageSize:10,
+   				queryDelay:1000,
+   				anchor: '100%',
+   				minChars:2,
+       			enableMultiSelect:true,   			
+   				renderer:function(value, p, record){return String.format('{0}', record.data['nombre_falla']);}
+   			},
+   			type:'ComboBox',
+   			id_grupo:0,
+   			filters:{   
+   				pfiltro:'nombre',
+   				type:'string'
    			},
    			grid:true,
    			form:true
@@ -145,49 +189,6 @@ Phx.vista.Tarea=Ext.extend(Phx.gridInterfaz,{
    			    pfiltro:'nombre_falla',
    				type:'string'
    			},
-   			grid:true,
-   			form:true
-		},
-		{
-			config:{
-				name: 'id_unidad_medida',
-				fieldLabel: 'Unidad de medida',
-				allowBlank: false,
-				emptyText:'Unidad de medida...',
-				store: new Ext.data.JsonStore({
-					url: '../../sis_parametros/control/UnidadMedida/listarUnidadMedida',
-					id: 'id_unidad_medida',
-					root: 'datos',
-					sortInfo:{
-						field: 'codigo',
-						direction: 'ASC'
-					},
-					totalProperty: 'total',
-					fields: ['id_unidad_medida','codigo','descripcion'],
-					remoteSort: true,
-					baseParams:{par_filtro:'codigo#descripcion'}
-	    		}),	    				
-				valueField: 'id_unidad_medida',
-   				displayField: 'codigo',
-   				gdisplayField: 'descripcion',
-   				hiddenName: 'id_unidad_medida',
-   				forceSelection:true,
-   				typeAhead: true,
-       			triggerAction: 'all',
-       			lazyRender:true,
-   				mode:'remote',
-   				pageSize:10,
-   				queryDelay:1000,
-   				anchor: '100%',
-   				minChars:2,
-       			enableMultiSelect:true,   			
-   				renderer:function(value, p, record){return String.format('{0}', record.data['codigo']);}
-			},
-			type:'ComboBox',
-   			id_grupo:0,
-   			filters:{   pfiltro:'codigo',
-   						type:'string'
-   					},
    			grid:true,
    			form:true
 		},
@@ -360,7 +361,7 @@ Phx.vista.Tarea=Ext.extend(Phx.gridInterfaz,{
 			config:{
 				name: 'frecuencia',
 				fieldLabel: 'Frecuencia',
-				allowBlank: true,
+				allowBlank: false,
 				anchor: '100%',
 				gwidth: 100,
 				maxLength:1179650
@@ -370,6 +371,49 @@ Phx.vista.Tarea=Ext.extend(Phx.gridInterfaz,{
 			id_grupo:1,
 			grid:true,
 			form:true
+		},
+		{
+			config:{
+				name: 'id_unidad_medida',
+				fieldLabel: 'Unidad de medida',
+				allowBlank: false,
+				emptyText:'Unidad de medida...',
+				store: new Ext.data.JsonStore({
+					url: '../../sis_parametros/control/UnidadMedida/listarUnidadMedida',
+					id: 'id_unidad_medida',
+					root: 'datos',
+					sortInfo:{
+						field: 'codigo',
+						direction: 'ASC'
+					},
+					totalProperty: 'total',
+					fields: ['id_unidad_medida','codigo','descripcion'],
+					remoteSort: true,
+					baseParams:{par_filtro:'codigo#descripcion'}
+	    		}),	    				
+				valueField: 'id_unidad_medida',
+   				displayField: 'codigo',
+   				gdisplayField: 'descripcion',
+   				hiddenName: 'id_unidad_medida',
+   				forceSelection:true,
+   				typeAhead: true,
+       			triggerAction: 'all',
+       			lazyRender:true,
+   				mode:'remote',
+   				pageSize:10,
+   				queryDelay:1000,
+   				anchor: '100%',
+   				minChars:2,
+       			enableMultiSelect:true,   			
+   				renderer:function(value, p, record){return String.format('{0}', record.data['codigo']);}
+			},
+			type:'ComboBox',
+   			id_grupo:0,
+   			filters:{   pfiltro:'codigo',
+   						type:'string'
+   					},
+   			grid:true,
+   			form:true
 		},
 		{
 	       	config:{
@@ -407,50 +451,6 @@ Phx.vista.Tarea=Ext.extend(Phx.gridInterfaz,{
 				renderer:function(value, p, record){return String.format('{0}', record.data['nombre_especialidad']);}
        		},
        		type:'ComboBox',
-   			id_grupo:0,
-   			filters:{   
-   				pfiltro:'nombre',
-   				type:'string'
-   			},
-   			grid:true,
-   			form:true
-	    },
-		{
-   			config:{
-   				name:'id_falla_evento',
-   				fieldLabel:'Falla evento',
-   				allowBlank:true,
-   				emptyText:'Falla evento...',
-   				store: new Ext.data.JsonStore({
-					url: '../../sis_mantenimiento/control/FallaEvento/listarFallaEvento',
-					id: 'id_falla_evento',
-					root: 'datos',
-					sortInfo:{
-						field: 'nombre',
-						direction: 'ASC'
-					},
-					totalProperty: 'total',
-					fields: ['id_falla_evento','codigo','nombre'],
-					remoteSort: true,
-					baseParams:{par_filtro:'codigo#nombre'}
-				}),
-   				valueField: 'id_falla_evento',
-   				displayField: 'nombre',
-   				gdisplayField: 'nombre_evento',
-   				hiddenName: 'id_falla_evento',
-   				forceSelection:true,
-   				typeAhead: true,
-       			triggerAction: 'all',
-       			lazyRender:true,
-   				mode:'remote',
-   				pageSize:10,
-   				queryDelay:1000,
-   				anchor: '100%',
-   				minChars:2,
-       			enableMultiSelect:true,   			
-   				renderer:function(value, p, record){return String.format('{0}', record.data['nombre_falla']);}
-   			},
-   			type:'ComboBox',
    			id_grupo:0,
    			filters:{   
    				pfiltro:'nombre',

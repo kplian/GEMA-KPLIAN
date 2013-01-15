@@ -53,7 +53,7 @@ Phx.vista.EquipoVariable=Ext.extend(Phx.gridInterfaz,{
 	       				  hideTrigger:true,
 	       				  forceSelection:false,
 	       				  name:'id_tipo_variable',
-	       				  fieldLabel:'Nombre Atributo',
+	       				  fieldLabel:'Nombre de Variable',
 	       				  allowBlank:false,
 	       				  emptyText:'Tipos...',
 	       				  store: new Ext.data.JsonStore({

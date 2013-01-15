@@ -35,7 +35,7 @@ Phx.vista.MantPredef=Ext.extend(Phx.gridInterfaz,{
 			config:{
 				name: 'codigo',
 				fieldLabel: 'Código',
-				allowBlank: true,
+				allowBlank: false,
 				anchor: '100%',
 				gwidth: 100,
 				maxLength:20
@@ -50,7 +50,7 @@ Phx.vista.MantPredef=Ext.extend(Phx.gridInterfaz,{
 			config:{
 				name: 'nombre',
 				fieldLabel: 'Nombre',
-				allowBlank: true,
+				allowBlank: false,
 				anchor: '100%',
 				gwidth: 150,
 				maxLength:100

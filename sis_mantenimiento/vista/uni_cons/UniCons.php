@@ -61,7 +61,7 @@ Phx.vista.UniCons=Ext.extend(Phx.arbInterfaz,{
         
         this.addButton('btnItems',{
             text : '',
-            iconCls : 'bitems',
+            iconCls : 'bengine',
             disabled : true,
             handler : this.onButtonItems,
             tooltip : '<b>Items</b><br/>Registro de items del equipo'
@@ -97,7 +97,7 @@ Phx.vista.UniCons=Ext.extend(Phx.arbInterfaz,{
     
 		this.addButton('btnDocTecnica', {
 				text : '',
-				iconCls : 'brenew',
+				iconCls : 'bdocuments',
 				disabled : false,
 				handler : this.onBtnDocTecnica,
 				tooltip : '<b>Documentación Técnica</b><br/>Define la documentación técnica.'
