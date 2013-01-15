@@ -1,4 +1,4 @@
-/***********************************I-SCP-RAC-GEN-0-02/01/2013****************************************/
+/***********************************I-DAT-RAC-GEN-0-02/01/2013****************************************/
 /*
 *	Author: RAC
 *	Date: 21/12/2012
@@ -781,9 +781,9 @@ VALUES (1, NULL, E'2012-12-06 00:00:00', NULL, E'activo', 2, E'torden_trabajo', 
 
 INSERT INTO param.tconfig_alarma ("id_usuario_reg", "id_usuario_mod", "fecha_reg", "fecha_mod", "estado_reg", "id_config_alarma", "codigo", "descripcion", "dias", "id_subsistema")
 VALUES (1, 1, E'2012-12-06 00:00:00', E'2012-12-06 07:13:57.935', E'activo', 1, E'tcalendario_planificado', NULL, 3, 6);
-/***********************************F-SCP-RAC-GEM-0-02/01/2013****************************************/
+/***********************************F-DAT-RAC-GEM-0-02/01/2013****************************************/
 
-/***********************************I-SCP-RCM-GEM-36-02/01/2013****************************************/
+/***********************************I-DAT-RCM-GEM-36-02/01/2013****************************************/
 --NUEVA INTERFAZ: SOLICITUD DE ORDEN DE TRABAJO
 select pxp.f_insert_tgui ('Solicitud - Orden Trabajo', 'Registro de Solicitudes de Ordenes de Trabajo', 'GEM.2.7.4', 'si', 1, 'sis_mantenimiento/vista/orden_trabajo_sol/OrdenTrabajoSol.php', 4, '', 'OrdenTrabajoSol', 'GEM');
 
@@ -826,4 +826,4 @@ select pxp.f_add_catalog('GEM','torden_trabajo_sol__importancia','Alta');
 select pxp.f_add_catalog('GEM','torden_trabajo_sol__importancia','Media');
 select pxp.f_add_catalog('GEM','torden_trabajo_sol__importancia','Baja');
 
-/***********************************F-SCP-RCM-GEM-36-02/01/2013****************************************/
+/***********************************F-DAT-RCM-GEM-36-02/01/2013****************************************/
