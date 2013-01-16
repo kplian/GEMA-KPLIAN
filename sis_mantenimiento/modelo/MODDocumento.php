@@ -27,7 +27,7 @@ class MODDocumento extends MODbase{
         $this->captura('resumen','varchar');
         $this->captura('nombre_archivo','varchar');
         $this->captura('extension','varchar');
-        $this->captura('archivo','bytea','id_documento','extension','archivo','../../../sis_mantenimiento/control/documentos/');
+        $this->captura('archivo','bytea','id_documento','extension','archivo','../../../documentos/');
         $this->captura('palabras_clave','varchar');
         $this->captura('tipo','varchar');
         $this->captura('estado_reg','varchar');
@@ -170,7 +170,7 @@ class MODDocumento extends MODbase{
         $this->captura('resumen','varchar');
         $this->captura('nombre_archivo','varchar');
         $this->captura('extension','varchar');
-        $this->captura('archivo','bytea','id_documento','extension','archivo','../../../sis_mantenimiento/control/documentos/');
+        $this->captura('archivo','bytea','id_documento','extension','archivo','../../../documentos/');
         $this->captura('palabras_clave','varchar');
         $this->captura('tipo','varchar');
         $this->captura('estado_reg','varchar');

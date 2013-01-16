@@ -95,7 +95,7 @@ Phx.vista.Documento=Ext.extend(Phx.gridInterfaz,{
                 anchor:'100%',
                 renderer:function (value, p, record){                      
                             if(record.data['extension'].length!=0)
-                            return  String.format('{0}',"<div style='text-align:center'><a href = '../../../sis_mantenimiento/control/documentos/"+ record.data['archivo']+"' align='center' width='70' height='70'>documento</a></div>");
+                            return  String.format('{0}',"<div style='text-align:center'><a href = '../../../documentos/"+ record.data['archivo']+"' align='center' width='70' height='70'>documento</a></div>");
                         },  
                 buttonCfg: {
                     iconCls: 'upload-icon'

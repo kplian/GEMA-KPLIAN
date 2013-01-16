@@ -107,7 +107,7 @@ Phx.vista.SubirDocumento=Ext.extend(Phx.frmInterfaz,{
 	onSubmit: function(o) {
         if (this.form.getForm().isValid()) {
 
-            Phx.CP.loadingShow();
+            //Phx.CP.loadingShow();
             
             if(this.extension.length==0){
                 this.ActSave='../../sis_mantenimiento/control/Documento/subirDocumento';
