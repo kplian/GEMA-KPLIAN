@@ -29,7 +29,7 @@ class MODUniConsArchivo extends MODbase{
 		$this->captura('estado_reg','varchar');
 		$this->captura('codigo','varchar');
 		$this->captura('nombre','varchar');
-		$this->captura('archivo','bytea','id_uni_cons_archivo','extension','archivo','../../../sis_mantenimiento/control/archivos_uni_cons/');
+		$this->captura('archivo','bytea','id_uni_cons_archivo','extension','archivo','../../../archivos_uni_cons/');
 		$this->captura('nombre_archivo','varchar');
 		$this->captura('fecha_reg','timestamp');
 		$this->captura('id_usuario_reg','int4');
@@ -173,7 +173,7 @@ class MODUniConsArchivo extends MODbase{
         $this->captura('estado_reg','varchar');
         $this->captura('codigo','varchar');
         $this->captura('nombre','varchar');
-        $this->captura('archivo','bytea','id_uni_cons_archivo','extension','archivo','../../../sis_mantenimiento/control/archivos_uni_cons/');
+        $this->captura('archivo','bytea','id_uni_cons_archivo','extension','archivo','../../../archivos_uni_cons/');
         $this->captura('nombre_archivo','varchar');
         $this->captura('fecha_reg','timestamp');
         $this->captura('id_usuario_reg','int4');
