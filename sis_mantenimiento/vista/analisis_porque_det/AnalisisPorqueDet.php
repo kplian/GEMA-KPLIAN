@@ -16,7 +16,8 @@ Phx.vista.AnalisisPorqueDet=Ext.extend(Phx.gridInterfaz,{
 		this.maestro=config.maestro;
     	//llama al constructor de la clase padre
 		Phx.vista.AnalisisPorqueDet.superclass.constructor.call(this,config);
-		this.init();
+		this.init();		
+        this.grid.getTopToolbar().disable();
 	},
 			
 	Atributos:[

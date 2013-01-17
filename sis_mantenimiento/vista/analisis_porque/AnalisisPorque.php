@@ -122,7 +122,7 @@ Phx.vista.AnalisisPorque=Ext.extend(Phx.gridInterfaz,{
                 name: 'estado',
                 fieldLabel: 'Estado',
                 anchor: '100%',
-                tinit: true,
+                //tinit: true,
                 allowBlank: false,
                 origen: 'CATALOGO',
                 gdisplayField: 'estado',

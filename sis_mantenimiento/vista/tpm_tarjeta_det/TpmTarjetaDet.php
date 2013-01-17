@@ -17,6 +17,7 @@ Phx.vista.TpmTarjetaDet=Ext.extend(Phx.gridInterfaz,{
 		this.maestro=config.maestro;
     	//llama al constructor de la clase padre
 		Phx.vista.TpmTarjetaDet.superclass.constructor.call(this,config);
+		this.grid.getTopToolbar().disable();
 		this.init();
 	},
 			

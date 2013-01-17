@@ -121,7 +121,6 @@ Phx.vista.TpmTarjeta=Ext.extend(Phx.gridInterfaz,{
                 name: 'tipo',
                 fieldLabel: 'Tipo',
                 anchor: '100%',
-                tinit: true,
                 allowBlank: false,
                 origen: 'CATALOGO',
                 gdisplayField: 'descripcion',
