@@ -204,6 +204,18 @@ Phx.vista.PlanMant=Ext.extend(Phx.gridInterfaz,{
 			type:'Field',			
 			form:true
 		},		
+        {
+            config:{
+                name: 'tipo_mant',
+                fieldLabel: 'Tipo Mantenimiento',
+                anchor: '100%',
+                gwidth: 100
+            },
+            type:'TextField',
+            id_grupo:1,
+            grid:true,
+            form:false
+        },		
 		{
 			config:{
 				name: 'descripcion',
@@ -330,6 +342,7 @@ Phx.vista.PlanMant=Ext.extend(Phx.gridInterfaz,{
 		{name:'id_funcionario_rev', type: 'numeric'},		
 		{name:'nombre_funcionario_rev',type:'string'},		
 		{name:'id_tipo_mant', type: 'numeric'},
+		{name:'tipo_mant', type: 'string'},
 		{name:'id_uni_cons', type: 'numeric'},
 		{name:'descripcion', type: 'string'},
 		{name:'fecha', type: 'timestamp'},

@@ -27,6 +27,7 @@ class MODPlanMant extends MODbase{
 		$this->captura('id_funcionario_rev','int4');
 		$this->captura('nombre_funcionario_rev','text');
 		$this->captura('id_tipo_mant','int4');
+        $this->captura('tipo_mant','varchar');
 		$this->captura('id_uni_cons','int4');
 		$this->captura('descripcion','varchar');
 		$this->captura('fecha','timestamp');

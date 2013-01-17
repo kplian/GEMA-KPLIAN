@@ -51,6 +51,7 @@ BEGIN
 						plama.id_funcionario_rev,
                         vperev.nombre_completo1 as nombre_funcionario_rev,
 						plama.id_tipo_mant,
+                        tip.nombre as tipo_mant,
 						plama.id_uni_cons,
 						plama.descripcion,                       
 						plama.fecha,
@@ -67,7 +68,8 @@ BEGIN
                         inner join segu.vpersona vper on vper.id_persona=fun.id_persona
                         inner join orga.tfuncionario funrev on funrev.id_funcionario=plama.id_funcionario_rev                          
                         inner join segu.vpersona vperev on vperev.id_persona=funrev.id_persona
-						left join segu.tusuario usu2 on usu2.id_usuario = plama.id_usuario_mod
+						inner join gem.ttipo_mant tip on tip.id_tipo_mant=plama.id_tipo_mant
+                        left join segu.tusuario usu2 on usu2.id_usuario = plama.id_usuario_mod
 				        where  plama.id_uni_cons='||v_parametros.id_uni_cons||' and ';
 			
 			--Definicion de la respuesta
