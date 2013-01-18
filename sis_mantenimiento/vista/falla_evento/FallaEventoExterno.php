@@ -194,7 +194,7 @@ Phx.vista.FallaEventoExterno=Ext.extend(Phx.gridInterfaz,{
 			form:false
 		}
 	],
-	title:'Falla/Evento',
+	title:'Falla Evento',
 	ActSave:'../../sis_mantenimiento/control/FallaEventoExterno/insertarFallaEventoExterno',
 	ActDel:'../../sis_mantenimiento/control/FallaEventoExterno/eliminarFallaEventoExterno',
 	ActList:'../../sis_mantenimiento/control/FallaEventoExterno/listarFallaEventoExterno',

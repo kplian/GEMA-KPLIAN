@@ -18,8 +18,8 @@ class ACTOrdenTrabajoSol extends ACTbase{
 
 		$this->objParam->defecto('dir_ordenacion','asc');
 		if($this->objParam->getParametro('tipoReporte')=='excel_grid' || $this->objParam->getParametro('tipoReporte')=='pdf_grid'){
-			$this->objReporte = new Reporte($this->objParam);
-			$this->res = $this->objReporte->generarReporteListado('FuncionesMantenimiento','listarOrdenTrabajoSol');
+			$this->objReporte = new Reporte($this->objParam,$this);
+			$this->res = $this->objReporte->generarReporteListado('MODOrdenTrabajoSol','listarOrdenTrabajoSol');
 		} else{
 			$this->objFunc=$this->create('MODOrdenTrabajoSol');
 			$this->res=$this->objFunc->listarOrdenTrabajoSol($this->objParam);
@@ -57,14 +57,16 @@ class ACTOrdenTrabajoSol extends ACTbase{
         $this->objParam->defecto('cantidad','1000');
         $this->objFunc=$this->create('MODOrdenTrabajoSol');
         $this->res=$this->objFunc->listarOrdenTrabajoRep($this->objParam);
+
         
         $dataSource->setDataSet($this->res->getDatos());
-        
+		        
         $reporte = new ROrdenTrabajoSolicitado();
+		
         $reporte->setDataSource($dataSource);
         $nombreArchivo = 'ReporteOrdenTrabajoSolicitado.pdf';
         $reportWriter = new ReportWriter($reporte, dirname(__FILE__).'/../../reportes_generados/'.$nombreArchivo);
-        $reportWriter->writeReport(ReportWriter::PDF);
+		$reportWriter->writeReport(ReportWriter::PDF);
         
         $mensajeExito = new Mensaje();
         $mensajeExito->setMensaje('EXITO','Reporte.php','Reporte generado',

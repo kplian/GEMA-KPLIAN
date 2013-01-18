@@ -6,15 +6,27 @@
 
 /* Data for the 'param.tunidad_medida' table  (Records 1 - 11) */
 INSERT INTO param.tunidad_medida ("id_usuario_reg", "id_usuario_mod", "fecha_reg", "fecha_mod", "estado_reg", "id_unidad_medida", "codigo", "descripcion", "tipo")
-VALUES (1, NULL, E'2012-12-03 18:24:21.439', NULL, E'activo', 10, E'PSI', NULL, NULL);
+VALUES (1, NULL, E'2012-12-03 18:24:21.439', NULL, E'activo', 10, E'PSI', E'Presion', NULL);
 INSERT INTO param.tunidad_medida ("id_usuario_reg", "id_usuario_mod", "fecha_reg", "fecha_mod", "estado_reg", "id_unidad_medida", "codigo", "descripcion", "tipo")
-VALUES (1, 1, E'2012-12-11 18:10:16.274', E'2012-12-14 11:27:00.522', E'activo', 11, E'oC', NULL, E'Longitud');
+VALUES (1, NULL, E'2012-12-11 18:10:40.283', NULL, E'activo', 12, E'RPM', E'RPM', NULL);
 INSERT INTO param.tunidad_medida ("id_usuario_reg", "id_usuario_mod", "fecha_reg", "fecha_mod", "estado_reg", "id_unidad_medida", "codigo", "descripcion", "tipo")
-VALUES (1, NULL, E'2012-12-11 18:10:40.283', NULL, E'activo', 12, E'RPM', NULL, NULL);
+VALUES (1, NULL, E'2012-12-11 18:11:24.133', NULL, E'activo', 13, E'CAU', E'Caudal', NULL);
 INSERT INTO param.tunidad_medida ("id_usuario_reg", "id_usuario_mod", "fecha_reg", "fecha_mod", "estado_reg", "id_unidad_medida", "codigo", "descripcion", "tipo")
-VALUES (1, NULL, E'2012-12-11 18:11:24.133', NULL, E'activo', 13, E'CAU', NULL, NULL);
+VALUES (1, 1, E'2012-11-02 13:26:52', E'2012-12-19 18:00:08.498', E'activo', 1, E'hora', E'Hora', E'Tiempo');
 INSERT INTO param.tunidad_medida ("id_usuario_reg", "id_usuario_mod", "fecha_reg", "fecha_mod", "estado_reg", "id_unidad_medida", "codigo", "descripcion", "tipo")
-VALUES (1, NULL, E'2012-12-20 14:15:55.044', NULL, E'activo', 14, E'Litros', NULL, E'Masa');
+VALUES (1, 1, E'2012-11-02 13:29:13', E'2012-12-19 18:00:55.574', E'activo', 2, E'dia', E'Dia', E'Tiempo');
+INSERT INTO param.tunidad_medida ("id_usuario_reg", "id_usuario_mod", "fecha_reg", "fecha_mod", "estado_reg", "id_unidad_medida", "codigo", "descripcion", "tipo")
+VALUES (1, 1, E'2012-11-02 13:34:20', E'2012-12-19 18:01:24.560', E'activo', 3, E'semana', E'Semana', E'Tiempo');
+INSERT INTO param.tunidad_medida ("id_usuario_reg", "id_usuario_mod", "fecha_reg", "fecha_mod", "estado_reg", "id_unidad_medida", "codigo", "descripcion", "tipo")
+VALUES (1, 1, E'2012-11-02 13:29:13', E'2012-12-19 18:50:36.757', E'activo', 4, E'mes', E'Mes', E'Tiempo');
+INSERT INTO param.tunidad_medida ("id_usuario_reg", "id_usuario_mod", "fecha_reg", "fecha_mod", "estado_reg", "id_unidad_medida", "codigo", "descripcion", "tipo")
+VALUES (1, 1, E'2012-11-02 13:30:42', E'2012-12-19 19:05:56.585', E'activo', 5, E'año', E'Año', E'Tiempo');
+INSERT INTO param.tunidad_medida ("id_usuario_reg", "id_usuario_mod", "fecha_reg", "fecha_mod", "estado_reg", "id_unidad_medida", "codigo", "descripcion", "tipo")
+VALUES (1, NULL, E'2012-11-02 13:31:27', E'2012-11-02 13:31:27', E'activo', 9, E'kilometros', E'Kilometros', E'Longitud');
+INSERT INTO param.tunidad_medida ("id_usuario_reg", "id_usuario_mod", "fecha_reg", "fecha_mod", "estado_reg", "id_unidad_medida", "codigo", "descripcion", "tipo")
+VALUES (1, 1, E'2012-12-11 18:10:16.274', E'2012-12-14 11:27:00.522', E'activo', 11, E'oC', E'Grados Centigrados', E'Longitud');
+INSERT INTO param.tunidad_medida ("id_usuario_reg", "id_usuario_mod", "fecha_reg", "fecha_mod", "estado_reg", "id_unidad_medida", "codigo", "descripcion", "tipo")
+VALUES (1, NULL, E'2012-12-20 14:15:55.044', NULL, E'activo', 14, E'Litros', E'Litros', E'Masa');
 
 
 /* Data for the 'gem.tmetodologia' table  (Records 1 - 1) */
