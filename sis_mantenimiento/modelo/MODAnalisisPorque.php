@@ -128,6 +128,7 @@ class MODAnalisisPorque extends MODbase{
         $this->captura('fecha_reg','text');        
         $this->captura('fecha_mod','text');
         $this->captura('nombre_loc','varchar');
+        $this->captura('estacion_planta','varchar');
         $this->captura('nro_analisis','int4');
         $this->captura('maquina','varchar');
         $this->captura('tag','varchar');

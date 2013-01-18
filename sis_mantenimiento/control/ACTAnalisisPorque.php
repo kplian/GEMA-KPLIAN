@@ -67,8 +67,7 @@ class ACTAnalisisPorque extends ACTbase{
         }
         $dataSource->putParameter('numero', $datosAnalisisPorque[0]['nro_analisis']);
         $dataSource->putParameter('localizacion', $datosAnalisisPorque[0]['nombre_loc']);
-        $finded = strpos($datosAnalisisPorque[0]['nombre_loc'], 'Estación');
-        $dataSource->putParameter('estacion_planta', $finded===false?'Planta':'Estacion');
+        $dataSource->putParameter('estacion_planta', $datosAnalisisPorque[0]['estacion_planta']);
         $dataSource->putParameter('id_uni_cons', $datosAnalisisPorque[0]['maquina']);
         $dataSource->putParameter('tag', $datosAnalisisPorque[0]['tag']);
         $dataSource->putParameter('problema', $datosAnalisisPorque[0]['problema']);

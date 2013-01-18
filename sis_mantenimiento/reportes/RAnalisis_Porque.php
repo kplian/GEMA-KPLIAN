@@ -122,12 +122,12 @@ Class RAnalisisPorque extends Report {
         $pdf->Cell($width1, $height, 'Estación:', 0, 0, 'R', false, '', 0, false, 'T', 'C');
         $pdf->SetFont('', 'B');
         $pdf->setTextColor(51,51,153);
-        $pdf->Cell($width3, $height, ($this->getDataSource()->getParameter('estacion_planta')=='Estacion'?'X':''), '1', 0, 'C', false, '', 0, false, 'T', 'C');
+        $pdf->Cell($width3, $height, ($this->getDataSource()->getParameter('estacion_planta')=='ESTACION'?'X':''), '1', 0, 'C', false, '', 0, false, 'T', 'C');
         $pdf->setTextColor(0,0,0);
         $pdf->Cell($width1, $height, 'Planta:', 0, 0, 'R', false, '', 0, false, 'T', 'C');
         $pdf->SetFont('', 'B');
         $pdf->setTextColor(51,51,153);
-        $pdf->Cell($width3, $height, ($this->getDataSource()->getParameter('estacion_planta')=='Planta'?'X':''), '1', 0, 'C', false, '', 0, false, 'T', 'C');
+        $pdf->Cell($width3, $height, ($this->getDataSource()->getParameter('estacion_planta')=='PLANTA'?'X':''), '1', 0, 'C', false, '', 0, false, 'T', 'C');
         $pdf->Ln();
         $pdf->setTextColor(0,0,0);
         $pdf->Cell($width2, $height, 'Máquina:', 0, 0, 'R', false, '', 0, false, 'T', 'C');
@@ -236,10 +236,9 @@ Class RAnalisisPorque extends Report {
         $pdf->SetFontSize(6.5);
         foreach($dataSource->getDataset() as $row) {
             $pdf->Cell($widthMarginLeft, $height, '', 0, 0, 'C', false, '', 0, false, 'T', 'C');
-            $pdf->Cell($width3*2, $height, $row['porque'], 1, 0, 'L', false, '', 0, false, 'T', 'C');
-            $pdf->Cell($width3*2+$width, $height, $row['respuesta'], 1, 0, 'L', false, '', 1, false, 'T', 'C');
-            $pdf->Cell($width3*2, $height, $row['solucion'], 1, 0, 'L', false, '', 1, false, 'T', 'C');
-            $pdf->Ln();
+            $pdf->MultiCell($width3*2, $height, $row['porque'], 1,'L', false ,0);
+            $pdf->MultiCell($width3*2+$width, $height, $row['respuesta'], 1,'L', false ,0);
+            $pdf->MultiCell($width3*2, $height, $row['solucion'], 1,'L', false ,1);
         }
     }
 

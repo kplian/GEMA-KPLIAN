@@ -87,6 +87,13 @@ Phx.vista.GenerarReporteCalendario=Ext.extend(Phx.frmInterfaz,{
         this.getComponente('id_uni_cons').setValue(this.id_uni_cons);
         this.getComponente('localizacion').setValue(this.nombre);      
     },
+    
+    loadValoresIniciales:function(){        
+        this.getComponente('id_localizacion').setValue(this.id_localizacion);
+        this.getComponente('tipo_nodo').setValue(this.tipo_nodo);
+        this.getComponente('id_uni_cons').setValue(this.id_uni_cons);
+        this.getComponente('localizacion').setValue(this.nombre);
+    },
     tipo:'reporte',
     clsSubmit:'bprint'
     

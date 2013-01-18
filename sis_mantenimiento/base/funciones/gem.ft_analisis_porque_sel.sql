@@ -117,8 +117,9 @@ BEGIN
                         anapor.numero as revision,
 						to_char(anapor.fecha_reg, ''dd/MM/YYYY'') as fecha_reg,
 						to_char(anapor.fecha_mod, ''dd/MM/YYYY'') as fecha_mod,
-                        loc.nombre as nombre_loc,
-						anapor.id_analisis_porque as nro_analisis,
+                        ciudad.nombre as nombre_loc,
+                        tipo.nombre as estacion_planta,
+                        anapor.id_analisis_porque as nro_analisis,
                         uni.nombre as maquina,
                         uni.codigo as tag,
 						anapor.problema,                        
@@ -136,10 +137,9 @@ BEGIN
 						inner join segu.tusuario usu1 on usu1.id_usuario = anapor.id_usuario_reg
 						left join segu.tusuario usu2 on usu2.id_usuario = anapor.id_usuario_mod
                         inner join gem.tuni_cons uni on uni.id_uni_cons = anapor.id_uni_cons
-                        inner join gem.tuni_cons_comp unicomp on unicomp.id_uni_cons_hijo = anapor.id_uni_cons
-					    inner join gem.tuni_cons_comp unipad on unipad.id_uni_cons_hijo = unicomp.id_uni_cons_padre
-						inner join gem.tuni_cons unilug on unilug.id_uni_cons = unipad.id_uni_cons_padre
-                        inner join gem.tlocalizacion loc on loc.id_localizacion = unilug.id_localizacion 				        
+                        inner join gem.tlocalizacion unidad on unidad.id_localizacion=uni.id_localizacion
+                        inner join gem.tlocalizacion ciudad on ciudad.id_localizacion=unidad.id_localizacion_fk
+                        inner join gem.tlocalizacion tipo on tipo.id_localizacion=ciudad.id_localizacion_fk
                         where anapor.id_analisis_porque='||v_parametros.id_analisis_porque||' and ';
 			
 			--Definicion de la respuesta
