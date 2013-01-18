@@ -250,15 +250,12 @@ Phx.vista.actividad=Ext.extend(Phx.gridInterfaz,{
 		this.bnew = false;
 		this.bdel = false;
 		if(config.nombreVista == "registrarOT") {
-			showSouth = false;
 			if(config.cat_estado == "Borrador") {
 				this.bnew = true;
 				this.bdel = true;
 			}
 		} else if(config.nombreVista == "ejecutarOT") {
-			if(config.cat_estado == "Pendiente") {
-				showSouth = false;
-			} else if(config.cat_estado == "Abierto") {
+			if(config.cat_estado == "Abierto") {
 				this.bsave = true;
 			}
 		}
@@ -270,7 +267,8 @@ Phx.vista.actividad=Ext.extend(Phx.gridInterfaz,{
 				height: 300,
 				cls:'recurso',
 				params: {
-					nombreVista: config.nombreVista
+					nombreVista: config.nombreVista,
+					estadoOT: config.cat_estado
 				}
 			};
 		}

@@ -14,10 +14,11 @@ header("content-type: text/javascript; charset=UTF-8");
 Phx.vista.recurso=Ext.extend(Phx.gridInterfaz,{
 	constructor: function(config) {
 		modificarRecursos = false;
-		if(config.nombreVista == "ejecutarOT") {
-			modificarRecursos = true;
+		if(config.nombreVista == "ejecutarOT" || config.nombreVista == "registrarOT") {
+			if(config.estadoOT == "Borrador" || config.estadoOT == "Abierto") {
+				modificarRecursos = true;
+			}
 		}
-		
 		this.bnew = modificarRecursos;
 		this.bdel = modificarRecursos;
 		this.bedit = modificarRecursos;
