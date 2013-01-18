@@ -15,7 +15,8 @@ Phx.vista.Tarea=Ext.extend(Phx.gridInterfaz,{
 	constructor:function(config){
 		this.maestro=config.maestro;
 		Phx.vista.Tarea.superclass.constructor.call(this,config);
-		this.init();
+		this.init();		
+        this.grid.getTopToolbar().disable();
 	},
 			
 	Atributos:[

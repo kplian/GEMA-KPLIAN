@@ -74,11 +74,7 @@ Phx.vista.PlanMant=Ext.extend(Phx.gridInterfaz,{
    				renderer:function (value, p, record){return String.format('{0}', record.data['desc_person']);}								
 			},
    			type:'ComboBox',
-   			id_grupo:0,
-   			filters:{	
-		        pfiltro:'nombre',
-				type:'string'
-	        },   		   
+   			id_grupo:0, 		   
    			grid:false,
    			form:true
 		},
@@ -91,6 +87,10 @@ Phx.vista.PlanMant=Ext.extend(Phx.gridInterfaz,{
 			},
 			type:'TextField',
 			id_grupo:1,
+			filters:{    
+                pfiltro:'vper.nombre_completo1',
+                type:'string'
+            },
 			grid:true,
 			form:false
 		},
@@ -131,11 +131,7 @@ Phx.vista.PlanMant=Ext.extend(Phx.gridInterfaz,{
    				renderer:function (value, p, record){return String.format('{0}', record.data['desc_person']);}
 			},
    			type:'ComboBox',
-   			id_grupo:0,
-   			filters:{	
-		        pfiltro:'nombre',
-				type:'string'
-	        },   		   
+   			id_grupo:0,  		   
    			grid:false,
    			form:true
 		},
@@ -148,6 +144,10 @@ Phx.vista.PlanMant=Ext.extend(Phx.gridInterfaz,{
 			},
 			type:'TextField',
 			id_grupo:1,
+			filters:{    
+                pfiltro:'vperev.nombre_completo1',
+                type:'string'
+            },
 			grid:true,
 			form:false
 		},

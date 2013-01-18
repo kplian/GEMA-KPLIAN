@@ -269,8 +269,8 @@ header("content-type: text/javascript; charset=UTF-8");
                 Phx.CP.loadWindows('../../../sis_mantenimiento/vista/calendario_planificado/GenerarReporteCalendario.php',
                         'Calendario de Planificacion',
                         {
-                            width:800,
-                            height:400
+                            width:300,
+                            height:200
                         },
                         nodo.attributes,this.idContenedor,'GenerarReporteCalendario')
            }

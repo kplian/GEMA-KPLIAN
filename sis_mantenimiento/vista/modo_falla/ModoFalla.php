@@ -16,7 +16,8 @@ Phx.vista.ModoFalla=Ext.extend(Phx.gridInterfaz,{
 		this.maestro=config.maestro;
     	//llama al constructor de la clase padre
 		Phx.vista.ModoFalla.superclass.constructor.call(this,config);
-		this.init();
+		this.init();		
+        this.grid.getTopToolbar().disable();
 		//this.load({params:{start:0, limit:50, id_funcion_falla:this.id_funcion_falla}})
 	},
 			
