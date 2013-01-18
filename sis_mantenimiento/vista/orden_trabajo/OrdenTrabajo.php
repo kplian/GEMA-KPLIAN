@@ -91,14 +91,14 @@ Phx.vista.OrdenTrabajo=Ext.extend(Phx.gridInterfaz,{
 					var result;
 					if(value == "Borrador") {
 						result = "<div style='text-align:center'><img src = '../../../lib/imagenes/ball_red.png' align='center' width='18' height='18' title='Borrador'/></div>";
-					} else if(value == 'Generado') {
-						result = "<div style='text-align:center'><img src = '../../../lib/imagenes/ball_blue.png' align='center' width='18' height='18' title='Generado'/></div>";
+					} else if(value == 'generado') {
+						result = "<div style='text-align:center'><img src = '../../../lib/imagenes/ball_red_generated.png' align='center' width='18' height='18' title='Generado'/></div>";
 					} else if(value == 'Pendiente') {
-						result = "<div style='text-align:center'><img src = '../../../lib/imagenes/ball_green.png' align='center' width='18' height='18' title='Pendiente'/></div>";
+						result = "<div style='text-align:center'><img src = '../../../lib/imagenes/ball_red_pending.png' align='center' width='18' height='18' title='Pendiente'/></div>";
 					} else if(value == 'Abierto') {
 						result = "<div style='text-align:center'><img src = '../../../lib/imagenes/ball_yellow.png' align='center' width='18' height='18' title='Abierto'/></div>";
 					} else if(value == 'Cerrado') {
-						result = "<div style='text-align:center'><img src = '../../../lib/imagenes/ball_red.png' align='center' width='18' height='18' title='Cerrado'/></div>";
+						result = "<div style='text-align:center'><img src = '../../../lib/imagenes/ball_yellow_pending.png' align='center' width='18' height='18' title='Cerrado'/></div>";
 					} else if(value == 'Revisado') {
 						result = "<div style='text-align:center'><img src = '../../../lib/imagenes/ball_green.png' align='center' width='18' height='18' title='Revisado'/></div>";
 					}
@@ -220,11 +220,12 @@ Phx.vista.OrdenTrabajo=Ext.extend(Phx.gridInterfaz,{
 						direction:'ASC'
 					},
 					totalProperty:'total',
-					fields: ['id_centro_costo','codigo'],
+					fields: ['id_centro_costo','codigo', 'descripcion'],
 					// turn on remote sorting
 					remoteSort: true,
 					baseParams:{par_filtro:'codigo'}
 				}),
+				tpl:'<tpl for="."><div class="x-combo-list-item"><p>Cuenta: {codigo}</p><p>Desc.: {descripcion}</p></div></tpl>',
 				valueField: 'id_centro_costo',
 				displayField: 'codigo',
 				gdisplayField:'codigo_centro_costo',
@@ -266,6 +267,7 @@ Phx.vista.OrdenTrabajo=Ext.extend(Phx.gridInterfaz,{
 					remoteSort: true,
 					baseParams:{par_filtro:'tuc.nombre'}
 				}),
+				tpl:'<tpl for="."><div class="x-combo-list-item"><p>Nombre: {nombre}</p><p>Código: {codigo}</p></div></tpl>',
 				valueField: 'id_uni_cons',
 				displayField: 'nombre',
 				gdisplayField:'equipo',
@@ -531,7 +533,7 @@ Phx.vista.OrdenTrabajo=Ext.extend(Phx.gridInterfaz,{
 			config:{
 				name: 'tiempo_estimado',
 				fieldLabel: 'Tiempo Estimado',
-				allowBlank: true,
+				allowBlank: false,
 				anchor: '100%',
 				gwidth: 70,
 				maxLength:15
@@ -901,7 +903,7 @@ Phx.vista.OrdenTrabajo=Ext.extend(Phx.gridInterfaz,{
 		{name:'codigo_centro_costo', type: 'string'},
 		{name:'especialidades', type: 'string'},
 		{name:'id_funcionario_aprob', type: 'numeric'},
-		{name:'desc_funcionaro_aprob', type: 'string'},
+		{name:'desc_funcionario_aprob', type: 'string'},
 		{name:'id_funcionario_recib', type: 'numeric'},
 		{name:'desc_funcionario_recib', type: 'string'},
 		{name:'comentarios', type: 'string'},

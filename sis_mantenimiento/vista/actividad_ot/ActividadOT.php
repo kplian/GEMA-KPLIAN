@@ -244,16 +244,22 @@ Phx.vista.actividad=Ext.extend(Phx.gridInterfaz,{
 		direction: 'ASC'
 	},
 	constructor: function(config) {
-		showSouth = true;
-		modificarActividades = false;
+		var showSouth = true;
+		this.bedit = true;
+		this.bsave = false;
+		this.bnew = false;
+		this.bdel = false;
 		if(config.nombreVista == "registrarOT") {
 			showSouth = false;
 			if(config.cat_estado == "Borrador") {
-				modificarActividades = true;
+				this.bnew = true;
+				this.bdel = true;
 			}
 		} else if(config.nombreVista == "ejecutarOT") {
 			if(config.cat_estado == "Pendiente") {
 				showSouth = false;
+			} else if(config.cat_estado == "Abierto") {
+				this.bsave = true;
 			}
 		}
 		
@@ -268,10 +274,6 @@ Phx.vista.actividad=Ext.extend(Phx.gridInterfaz,{
 				}
 			};
 		}
-		this.bnew = modificarActividades;
-		this.bdel = modificarActividades;
-		this.bedit = modificarActividades;
-		this.bsave = modificarActividades;
 		Phx.vista.actividad.superclass.constructor.call(this,config);
 		this.init();
 		this.load({
@@ -281,6 +283,20 @@ Phx.vista.actividad=Ext.extend(Phx.gridInterfaz,{
 				id_orden_trabajo: this.id_orden_trabajo
 			}
 		});
+		
+		
+		if(config.cat_estado == "Borrador" || config.cat_estado == "generado") {
+			this.ocultarGrupo(1);
+		} else if(config.cat_estado == "Pendiente"){
+			this.ocultarGrupo(1);
+			this.readOnlyGroup(0, true);
+		} else if(config.cat_estado == "Abierto") {
+			this.readOnlyGroup(0, true);
+		} else if(config.cat_estado == "Cerrado" || config.cat_estado == "Revisado") {
+			this.readOnlyGroup(0, true);
+			this.readOnlyGroup(1, true);
+		}
+		
 		this.Atributos[1].valorInicial = this.id_orden_trabajo;
 	},
 	Grupos: [{ 
@@ -291,7 +307,7 @@ Phx.vista.actividad=Ext.extend(Phx.gridInterfaz,{
 				layout: 'form',
                 border: true,
                 title: 'Planificación',
-                bodyStyle: 'padding:0 10px 0;',
+                bodyStyle: 'padding:0px 10px; margin: 3px 4px',
                 columnWidth: 1,
                 items:[],
 		        id_grupo:0,
@@ -302,7 +318,7 @@ Phx.vista.actividad=Ext.extend(Phx.gridInterfaz,{
 				layout: 'form',
                 border: true,
                 title: 'Ejecución',
-                bodyStyle: 'padding:0 10px 0;',
+                bodyStyle: 'padding:0px 10px; margin: 3px 4px',
                 columnWidth: 1,
                 items:[],
 		        id_grupo:1,

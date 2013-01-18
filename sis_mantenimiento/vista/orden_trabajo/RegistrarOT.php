@@ -21,6 +21,7 @@ Phx.vista.RegistrarOT = {
 		Phx.vista.RegistrarOT.superclass.constructor.call(this,config);
 		this.init();
 		this.load({params:{start:0, limit:50, 'nombreVista': this.nombreVista}});
+		this.blockGroup(1);
 		this.addButton('btnCheck',
 			{
 				text: 'Check',
@@ -76,16 +77,14 @@ Phx.vista.RegistrarOT = {
 	},
 	preparaMenu: function(n) {
 		var tb = Phx.vista.RegistrarOT.superclass.preparaMenu.call(this);
-	  	var data = this.getSelectedData();
+		var data = this.getSelectedData();
 	  	if(data.cat_estado == 'Borrador') {
 	  		this.getBoton('btnCheck').setDisabled(false);
 	  		this.getBoton('btnUncheck').setDisabled(true);
-	  		this.getBoton('edit').setDisabled(false);
 	  		this.getBoton('del').setDisabled(false);
 	  	} else if(data.cat_estado == 'Pendiente') {
 	  		this.getBoton('btnCheck').setDisabled(true);
 	  		this.getBoton('btnUncheck').setDisabled(false);
-	  		this.getBoton('edit').setDisabled(true);
 	  		this.getBoton('del').setDisabled(true);
 	  	}
   		return tb;
@@ -95,6 +94,26 @@ Phx.vista.RegistrarOT = {
 		this.getBoton('btnCheck').setDisabled(true);
 	  	this.getBoton('btnUncheck').setDisabled(true);
 		return tb;
+	},
+	handleForm: function(source) {
+		if (source == "bnew") {
+			this.readOnlyGroup(0, false);
+		} else {
+			var data = this.getSelectedData();
+			if(data.cat_estado == 'Borrador') {
+		  		this.readOnlyGroup(0, false);
+		  	} else if(data.cat_estado == 'Pendiente') {
+		  		this.readOnlyGroup(0, true);
+			} 
+		}
+	},
+	onButtonNew: function() {
+		Phx.vista.RegistrarOT.superclass.onButtonNew.call(this);
+		this.handleForm("bnew");
+	},
+	onButtonEdit: function() {
+		Phx.vista.RegistrarOT.superclass.onButtonEdit.call(this);
+		this.handleForm();
 	}
 };
 </script>

@@ -91,7 +91,7 @@ Phx.vista.UniConsDocumentoTec=Ext.extend(Phx.gridInterfaz,{
 		    filters:{	
 	       		         type: 'list',
 	       		         pfiltro: 'doctec.adjunto',
-	       				 options: ['Si','No'],	
+	       		         options: ['true', 'false']
 	       		 	},
 		    id_grupo: 0,
 		    form: true,

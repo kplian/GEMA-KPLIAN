@@ -44,8 +44,6 @@ select pxp.f_insert_tgui ('Instrucciones de Seguridad', 'Registro de instruccion
 select pxp.f_insert_tgui ('Localizaciones', 'Registro de Localizaciones', 'GEM.2.1', 'si', 1, 'sis_mantenimiento/vista/localizacion/Localizacion.php', 3, '', 'Localizacion', 'GEM');
 select pxp.f_insert_tgui ('Plantilla de Equipos', 'Registro Plantilla de Equipos', 'GEM.2.2', 'si', 2, 'sis_mantenimiento/vista/uni_cons/UniCons.php', 3, '', 'UniCons', 'GEM');
 select pxp.f_insert_tgui ('Mantenimientos Predefinidos', 'Registro de Mantenimientos predefinidos', 'GEM.2.3', 'si', 3, 'sis_mantenimiento/vista/mant_predef/MantPredef.php', 3, '', 'MantPredef', 'GEM');
-select pxp.f_insert_tgui ('Órdenes de Trabajo', 'Registro Órdenes de Trabajo', 'GEM.2.4', 'si', 4, 'sis_mantenimiento/vista/orden_trabajo/OrdenTrabajo.php', 3, '', 'OrdenTrabajo', 'GEM');
-select pxp.f_insert_tgui ('Mediciones por Equipo', 'Registro de Mediciones por Equipo', 'GEM.2.5', 'si', 5, 'sis_mantenimiento/vista/equipo_medicion/EquipoMedicion.php', 3, '', 'EquipoMedicion', 'GEM');
 select pxp.f_insert_tgui ('Eventos/Incidentes por Equipo', 'Registro de Eventos/Incidentes por equipo', 'GEM.2.6', 'no', 6, 'sis_mantenimiento/vista/equipo_evento/EquipoEvento.php', 3, '', 'EquipoEvento', 'GEM');
 select pxp.f_insert_tgui ('Procedimientos, Instructivos ...', 'Registro de Procedimientos, Instructivos, etc.', 'GEM.3.1', 'si', 1, 'sis_mantenimiento/vista/documento/Documento.php', 3, '', 'Documento', 'GEM');
 select pxp.f_insert_tgui ('Fallas/Eventos Equipos...', 'Registro de Fallas/Eventos Equipos', 'GEM.3.11', 'si', 5, 'sis_mantenimiento/vista/falla_evento/FallaEventoExterno.php', 3, '', 'FallaEventoExterno', 'GEM');
@@ -70,8 +68,6 @@ select pxp.f_insert_testructura_gui ('GEM.1.2', 'GEM.1');
 select pxp.f_insert_testructura_gui ('GEM.1.1', 'GEM.1');
 select pxp.f_insert_testructura_gui ('GEM.2.7', 'GEM.2');
 select pxp.f_insert_testructura_gui ('GEM.2.6', 'GEM.2');
-select pxp.f_insert_testructura_gui ('GEM.2.5', 'GEM.2');
-select pxp.f_insert_testructura_gui ('GEM.2.4', 'GEM.2');
 select pxp.f_insert_testructura_gui ('GEM.2.3', 'GEM.2');
 select pxp.f_insert_testructura_gui ('GEM.2.2', 'GEM.2');
 select pxp.f_insert_testructura_gui ('GEM.2.1', 'GEM.2');

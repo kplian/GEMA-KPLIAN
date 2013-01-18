@@ -576,84 +576,130 @@ Phx.vista.recurso=Ext.extend(Phx.gridInterfaz,{
     },
     loadValoresIniciales:function(){
 		Phx.vista.recurso.superclass.loadValoresIniciales.call(this);
-		this.onRecursoSelect(this.getComponente('recurso'));		
+		this.onRecursoSelect(this.getComponente('recurso'));
 	},
     onRecursoSelect: function(e, data, index) {
-         	if(e.value == 'item') {
-         		this.getComponente('id_item').setVisible(true);
-         		this.getComponente('id_funcionario').setVisible(false);
-         		this.getComponente('id_especialidad').setVisible(false);
-         		this.getComponente('id_servicio').setVisible(false);
-         		this.getComponente('hh_normal').setVisible(false);
-         		this.getComponente('hh_extras').setVisible(false);
-         		this.getComponente('hh_ext_mov').setVisible(false);
-         		this.getComponente('id_unidad_medida').setVisible(true);
-         		this.getComponente('cantidad').setVisible(true);
-         		this.getComponente('id_moneda').setVisible(true);
-         		this.getComponente('costo').setVisible(true);
-         		this.getComponente('codigo').setVisible(true);
-         		this.getComponente('existencias').setVisible(true);
-         	}
-         	else if(e.value == 'funcionario') {
-         		this.getComponente('id_item').setVisible(false);
-         		this.getComponente('id_funcionario').setVisible(true);
-         		this.getComponente('id_especialidad').setVisible(false);
-         		this.getComponente('id_servicio').setVisible(false);
-         		this.getComponente('hh_normal').setVisible(true);
-         		this.getComponente('hh_extras').setVisible(true);
-         		this.getComponente('hh_ext_mov').setVisible(true);
-         		this.getComponente('id_unidad_medida').setVisible(false);
-         		this.getComponente('cantidad').setVisible(false);
-         		this.getComponente('id_moneda').setVisible(false);
-         		this.getComponente('costo').setVisible(false);
-         		this.getComponente('codigo').setVisible(false);
-         		this.getComponente('existencias').setVisible(false);
-         	}
-         	else if(e.value == 'especialidad') {
-         		this.getComponente('id_item').setVisible(false);
-         		this.getComponente('id_funcionario').setVisible(false);
-         		this.getComponente('id_especialidad').setVisible(true);
-         		this.getComponente('id_servicio').setVisible(false);
-         		this.getComponente('hh_normal').setVisible(false);
-         		this.getComponente('hh_extras').setVisible(false);
-         		this.getComponente('hh_ext_mov').setVisible(false);
-         		this.getComponente('id_unidad_medida').setVisible(false);
-         		this.getComponente('cantidad').setVisible(false);
-         		this.getComponente('id_moneda').setVisible(false);
-         		this.getComponente('costo').setVisible(false);
-         		this.getComponente('codigo').setVisible(false);
-         		this.getComponente('existencias').setVisible(false);
-         	}
-         	else if(e.value == 'servicio') {
-         		this.getComponente('id_item').setVisible(false);
-         		this.getComponente('id_funcionario').setVisible(false);
-         		this.getComponente('id_especialidad').setVisible(false);
-         		this.getComponente('id_servicio').setVisible(true);
-         		this.getComponente('hh_normal').setVisible(false);
-         		this.getComponente('hh_extras').setVisible(false);
-         		this.getComponente('hh_ext_mov').setVisible(false);
-         		this.getComponente('id_unidad_medida').setVisible(false);
-         		this.getComponente('cantidad').setVisible(false);
-         		this.getComponente('id_moneda').setVisible(false);
-         		this.getComponente('costo').setVisible(false);
-         		this.getComponente('codigo').setVisible(false);
-         		this.getComponente('existencias').setVisible(false);
-         	} else {
-         		this.getComponente('id_item').setVisible(false);
-         		this.getComponente('id_funcionario').setVisible(false);
-         		this.getComponente('id_especialidad').setVisible(false);
-         		this.getComponente('id_servicio').setVisible(false);
-         		this.getComponente('hh_normal').setVisible(false);
-         		this.getComponente('hh_extras').setVisible(false);
-         		this.getComponente('hh_ext_mov').setVisible(false);
-         		this.getComponente('id_unidad_medida').setVisible(false);
-         		this.getComponente('cantidad').setVisible(false);
-         		this.getComponente('id_moneda').setVisible(false);
-         		this.getComponente('costo').setVisible(false);
-         		this.getComponente('codigo').setVisible(false);
-         		this.getComponente('existencias').setVisible(false);
-         	}
-        }
+    	if(e.value == 'item') {
+     		this.getComponente('id_item').setVisible(true);
+     		this.getComponente('id_unidad_medida').setVisible(true);
+     		this.getComponente('cantidad').setVisible(true);
+     		this.getComponente('id_moneda').setVisible(true);
+     		this.getComponente('costo').setVisible(true);
+     		this.getComponente('codigo').setVisible(true);
+     		this.getComponente('existencias').setVisible(true);
+     		
+     		this.getComponente('id_funcionario').setVisible(false);
+     		this.getComponente('id_especialidad').setVisible(false);
+     		this.getComponente('id_servicio').setVisible(false);
+     		this.getComponente('hh_normal').setVisible(false);
+     		this.getComponente('hh_extras').setVisible(false);
+     		this.getComponente('hh_ext_mov').setVisible(false);
+     		this.getComponente('id_funcionario').reset();
+     		this.getComponente('id_especialidad').reset();
+     		this.getComponente('id_servicio').reset();
+     		this.getComponente('hh_normal').reset();
+     		this.getComponente('hh_extras').reset();
+     		this.getComponente('hh_ext_mov').reset();
+     	}
+     	else if(e.value == 'funcionario') {
+     		
+     		this.getComponente('id_funcionario').setVisible(true);
+     		this.getComponente('hh_normal').setVisible(true);
+     		this.getComponente('hh_extras').setVisible(true);
+     		this.getComponente('hh_ext_mov').setVisible(true);
+     		
+     		this.getComponente('id_item').setVisible(false);
+     		this.getComponente('id_especialidad').setVisible(false);
+     		this.getComponente('id_servicio').setVisible(false);
+     		this.getComponente('id_unidad_medida').setVisible(false);
+     		this.getComponente('cantidad').setVisible(false);
+     		this.getComponente('id_moneda').setVisible(false);
+     		this.getComponente('costo').setVisible(false);
+     		this.getComponente('codigo').setVisible(false);
+     		this.getComponente('existencias').setVisible(false);
+     		this.getComponente('id_item').reset();
+     		this.getComponente('id_especialidad').reset();
+     		this.getComponente('id_servicio').reset();
+     		this.getComponente('id_unidad_medida').reset();
+     		this.getComponente('cantidad').reset();
+     		this.getComponente('id_moneda').reset();
+     		this.getComponente('costo').reset();
+     		this.getComponente('codigo').reset();
+     		this.getComponente('existencias').reset();
+     	}
+     	else if(e.value == 'especialidad') {
+     		this.getComponente('id_especialidad').setVisible(true);
+     		
+     		this.getComponente('id_item').setVisible(false);
+     		this.getComponente('id_funcionario').setVisible(false);
+     		this.getComponente('id_servicio').setVisible(false);
+     		this.getComponente('hh_normal').setVisible(false);
+     		this.getComponente('hh_extras').setVisible(false);
+     		this.getComponente('hh_ext_mov').setVisible(false);
+     		this.getComponente('id_unidad_medida').setVisible(false);
+     		this.getComponente('cantidad').setVisible(false);
+     		this.getComponente('id_moneda').setVisible(false);
+     		this.getComponente('costo').setVisible(false);
+     		this.getComponente('codigo').setVisible(false);
+     		this.getComponente('existencias').setVisible(false);
+     		
+     		this.getComponente('id_item').reset();
+     		this.getComponente('id_funcionario').reset();
+     		this.getComponente('id_servicio').reset();
+     		this.getComponente('hh_normal').reset();
+     		this.getComponente('hh_extras').reset();
+     		this.getComponente('hh_ext_mov').reset();
+     		this.getComponente('id_unidad_medida').reset();
+     		this.getComponente('cantidad').reset();
+     		this.getComponente('id_moneda').reset();
+     		this.getComponente('costo').reset();
+     		this.getComponente('codigo').reset();
+     		this.getComponente('existencias').reset();
+     	}
+     	else if(e.value == 'servicio') {
+     		this.getComponente('id_servicio').setVisible(true);
+     		
+     		this.getComponente('id_item').setVisible(false);
+     		this.getComponente('id_funcionario').setVisible(false);
+     		this.getComponente('id_especialidad').setVisible(false);
+     		this.getComponente('hh_normal').setVisible(false);
+     		this.getComponente('hh_extras').setVisible(false);
+     		this.getComponente('hh_ext_mov').setVisible(false);
+     		this.getComponente('id_unidad_medida').setVisible(false);
+     		this.getComponente('cantidad').setVisible(false);
+     		this.getComponente('id_moneda').setVisible(false);
+     		this.getComponente('costo').setVisible(false);
+     		this.getComponente('codigo').setVisible(false);
+     		this.getComponente('existencias').setVisible(false);
+     		
+     		this.getComponente('id_item').reset();
+     		this.getComponente('id_funcionario').reset();
+     		this.getComponente('id_especialidad').reset();
+     		this.getComponente('hh_normal').reset();
+     		this.getComponente('hh_extras').reset();
+     		this.getComponente('hh_ext_mov').reset();
+     		this.getComponente('id_unidad_medida').reset();
+     		this.getComponente('cantidad').reset();
+     		this.getComponente('id_moneda').reset();
+     		this.getComponente('costo').reset();
+     		this.getComponente('codigo').reset();
+     		this.getComponente('existencias').reset();
+     	} else {
+     		this.getComponente('id_item').setVisible(false);
+     		this.getComponente('id_funcionario').setVisible(false);
+     		this.getComponente('id_especialidad').setVisible(false);
+     		this.getComponente('id_servicio').setVisible(false);
+     		this.getComponente('hh_normal').setVisible(false);
+     		this.getComponente('hh_extras').setVisible(false);
+     		this.getComponente('hh_ext_mov').setVisible(false);
+     		this.getComponente('id_unidad_medida').setVisible(false);
+     		this.getComponente('cantidad').setVisible(false);
+     		this.getComponente('id_moneda').setVisible(false);
+     		this.getComponente('costo').setVisible(false);
+     		this.getComponente('codigo').setVisible(false);
+     		this.getComponente('existencias').setVisible(false);
+     	}
+    }
   }
 )
 </script>

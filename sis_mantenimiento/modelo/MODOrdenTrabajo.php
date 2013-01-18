@@ -62,7 +62,7 @@ class MODOrdenTrabajo extends MODbase{
 		$this->captura('codigo_centro_costo','varchar');
 		$this->captura('especialidades','varchar');
 		$this->captura('id_funcionario_aprob','int4');
-		$this->captura('desc_funcionaro_aprob','text');
+		$this->captura('desc_funcionario_aprob','text');
 		$this->captura('id_funcionario_recib','int4');
 		$this->captura('desc_funcionario_recib','text');
 		$this->captura('comentarios','varchar');

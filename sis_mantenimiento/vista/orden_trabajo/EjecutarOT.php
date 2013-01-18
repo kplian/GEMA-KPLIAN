@@ -14,10 +14,13 @@ Phx.vista.EjecutarOT = {
 	requireclase:'Phx.vista.OrdenTrabajo',
 	nombreVista:'ejecutarOT',
 	title:'Registrar Orden Trabajo',
+	bedit: true,
 	constructor: function(config) {
 		Phx.vista.EjecutarOT.superclass.constructor.call(this,config);
 		this.init();
 		this.load({params:{start:0, limit:50, 'nombreVista': this.nombreVista}});
+		this.readOnlyGroup(0, true);
+		this.blockGroup(1);
 		this.addButton('btnAbrir', 
 			{
 				text: 'Abrir',
@@ -74,9 +77,11 @@ Phx.vista.EjecutarOT = {
 	preparaMenu:function(n) {
 	  	var tb = Phx.vista.EjecutarOT.superclass.preparaMenu.call(this);
 	  	var data = this.getSelectedData();
+	  	
 	  	if(data.cat_estado == 'Pendiente') {
 	  		this.getBoton('btnAbrir').setDisabled(false);
 	  		this.getBoton('btnCerrar').setDisabled(true);
+	  		
 	  	} else if(data.cat_estado == 'Abierto') {
 	  		this.getBoton('btnAbrir').setDisabled(true);
 	  		this.getBoton('btnCerrar').setDisabled(false);
@@ -88,6 +93,18 @@ Phx.vista.EjecutarOT = {
 		this.getBoton('btnAbrir').setDisabled(true);
 	  	this.getBoton('btnCerrar').setDisabled(true);
 		return tb;
+	},
+	handleForm: function() {
+		var data = this.getSelectedData();
+		if(data.cat_estado == 'Pendiente') {
+	  		this.blockGroup(1);
+	  	} else if(data.cat_estado == 'Abierto') {
+	  		this.unblockGroup(1);
+		}
+	},
+	onButtonEdit: function() {
+		Phx.vista.RegistrarOT.superclass.onButtonEdit.call(this);
+		this.handleForm();
 	}
 };
 </script>

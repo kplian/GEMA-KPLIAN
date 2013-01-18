@@ -14,10 +14,13 @@ Phx.vista.RevisarOT = {
 	requireclase:'Phx.vista.OrdenTrabajo',
 	nombreVista:'revisarOT',
 	title:'Revisión de Orden Trabajo',
+	bedit: true,
 	constructor: function(config) {
 		Phx.vista.RevisarOT.superclass.constructor.call(this,config);
 		this.init();
 		this.load({params:{start:0, limit:50, 'nombreVista': this.nombreVista}});
+		this.readOnlyGroup(0, true);
+		this.readOnlyGroup(1, true);
 		this.addButton('btnReabrir', 
 			{
 				text: 'Re Abrir',
