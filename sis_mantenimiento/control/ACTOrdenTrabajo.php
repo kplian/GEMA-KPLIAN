@@ -14,9 +14,9 @@ require_once(dirname(__FILE__).'/../reportes/pxpReport/DataSource.php');
 class ACTOrdenTrabajo extends ACTbase{    
 			
 	function listarOrdenTrabajo(){
-		$this->objParam->defecto('ordenacion','id_orden_trabajo');
+		$this->objParam->defecto('ordenacion','fecha_emision');
 
-		$this->objParam->defecto('dir_ordenacion','asc');
+		$this->objParam->addParametroConsulta('dir_ordenacion','desc');
 		if($this->objParam->getParametro('tipoReporte')=='excel_grid' || $this->objParam->getParametro('tipoReporte')=='pdf_grid'){
 			$this->objReporte = new Reporte($this->objParam, $this);
 			$this->res = $this->objReporte->generarReporteListado('MODOrdenTrabajo','listarOrdenTrabajo');

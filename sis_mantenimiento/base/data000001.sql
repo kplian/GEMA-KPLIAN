@@ -825,3 +825,9 @@ select pxp.f_add_catalog('GEM','torden_trabajo_sol__importancia','Media');
 select pxp.f_add_catalog('GEM','torden_trabajo_sol__importancia','Baja');
 
 /***********************************F-DAT-RCM-GEM-36-02/01/2013****************************************/
+
+/***********************************I-DAT-AAO-GEM-106-18/01/2013****************************************/
+select pxp.f_insert_tgui ('Órdenes de Trabajo', 'Registro Órdenes de Trabajo', 'GEM.2.4', 'si', 4, 'sis_mantenimiento/vista/orden_trabajo/ListadoGeneralOT.php', 3, '', 'ListadoGeneralOT', 'GEM');
+select pxp.f_insert_testructura_gui ('GEM.2.4', 'GEM.2');
+
+/***********************************F-DAT-AAO-GEM-106-18/01/2013****************************************/
