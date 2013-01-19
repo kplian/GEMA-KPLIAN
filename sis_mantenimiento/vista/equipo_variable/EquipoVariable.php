@@ -99,7 +99,7 @@ Phx.vista.EquipoVariable=Ext.extend(Phx.gridInterfaz,{
        			config:{
        				name:'id_unidad_medida',
        				fieldLabel:'Unidad de Medida',
-       				allowBlank:true,
+       				allowBlank:false,
        				emptyText:'Unidades...',
        				store: new Ext.data.JsonStore({
     					url: '../../sis_parametros/control/UnidadMedida/listarUnidadMedida',
@@ -121,7 +121,7 @@ Phx.vista.EquipoVariable=Ext.extend(Phx.gridInterfaz,{
        				displayField: 'codigo',
        				gdisplayField: 'codigo_unidad_medida',
        				hiddenName: 'id_unidad_medida',
-       				//forceSelection:false,
+       				forceSelection:true,
        				typeAhead: true,
            			triggerAction: 'all',
            			lazyRender:true,
@@ -148,7 +148,7 @@ Phx.vista.EquipoVariable=Ext.extend(Phx.gridInterfaz,{
 	       			fieldLabel:'Tipo dato',
 	       			allowBlank:false,
 	       			emptyText:'Estilo...',
-	       			
+	       			forceSelection:true,
 	       			typeAhead: true,
 	       		    triggerAction: 'all',
 	       		    lazyRender:true,

@@ -502,7 +502,7 @@ BEGIN
                             tuc.codigo,                            
                             tuc.nombre                            
                   	        from gem.tuni_cons tuc
-                    	    where tuc.tipo_nodo!=''base'' and tuc.id_localizacion='||v_parametros.id_localizacion||' and ';
+                    	    where tuc.estado_reg=''activo'' and tuc.tipo_nodo!=''base'' and tuc.id_localizacion='||v_parametros.id_localizacion||' and ';
 			v_consulta:=v_consulta||v_parametros.filtro;
             --Devuelve la respuesta
             return v_consulta;

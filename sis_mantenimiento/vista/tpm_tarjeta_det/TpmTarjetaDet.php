@@ -118,8 +118,9 @@ Phx.vista.TpmTarjetaDet=Ext.extend(Phx.gridInterfaz,{
                 queryDelay:1000,
                 anchor: '100%',
                 minChars:2,
-                gwidth: 130,            
-                renderer:function(value, p, record){return String.format('{0}', record.data['desc_uni_cons']);}
+                gwidth: 130,
+                tpl:'<tpl for="."><div class="x-combo-list-item"><p>{nombre}</p><p>{codigo}</p> </div></tpl>'            
+                //renderer:function(value, p, record){return String.format('{0}', record.data['desc_uni_cons']);}
             },
             type:'ComboBox',
             id_grupo:0,

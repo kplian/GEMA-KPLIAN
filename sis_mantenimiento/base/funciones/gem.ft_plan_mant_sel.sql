@@ -96,7 +96,7 @@ BEGIN
 					    from gem.tplan_mant plama
 					    inner join segu.tusuario usu1 on usu1.id_usuario = plama.id_usuario_reg
 						left join segu.tusuario usu2 on usu2.id_usuario = plama.id_usuario_mod
-					    where ';
+					    where  plama.id_uni_cons='||v_parametros.id_uni_cons||' and ';
 			
 			--Definicion de la respuesta		    
 			v_consulta:=v_consulta||v_parametros.filtro;
