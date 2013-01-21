@@ -27,6 +27,7 @@ class ACTLocalizacionMed extends ACTbase{
 			$this->objReporte = new Reporte($this->objParam);
 			$this->res = $this->objReporte->generarReporteListado('MODLocalizacionMed','listarLocalizacionMed');
 		} else{
+			$this->objParam->addFiltro(" (locmed.fecha_med between ''".$this->objParam->getParametro('fecha_ini')."'' and ''".$this->objParam->getParametro('fecha_fin')."'') ");
 			$this->objFunc=$this->create('MODLocalizacionMed');
 			$this->res=$this->objFunc->listarLocalizacionMed();
 		}
