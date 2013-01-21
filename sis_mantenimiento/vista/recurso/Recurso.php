@@ -63,7 +63,7 @@ Phx.vista.recurso=Ext.extend(Phx.gridInterfaz,{
 			    store: new Ext.data.ArrayStore({
 			    	fields: ['codigo','nombre'],
 					data: [
-						['item','Item'], 
+						['item','Repuestos y Materiales'], 
 						['funcionario','Funcionario'],
 						['especialidad','Especialidad'],
 						['servicio','Servicio']
@@ -81,9 +81,9 @@ Phx.vista.recurso=Ext.extend(Phx.gridInterfaz,{
 		{
 			config: {
 				name: 'id_item',
-				fieldLabel: 'Item',
+				fieldLabel: 'Repuesto/ Material',
 				allowBlank: true,
-				emptyText: 'Elija un item...',
+				emptyText: 'Elija un material...',
 				store: new Ext.data.JsonStore({
 					url: '../../sis_almacenes/control/Item/listarItem',
 					id: 'id_item',
@@ -543,7 +543,7 @@ Phx.vista.recurso=Ext.extend(Phx.gridInterfaz,{
 		field: 'id_recurso',
 		direction: 'ASC'
 	},
-	fheight: 450,
+	fheight: 470,
 	fwidth: 410,
 	onReloadPage:function(m) {
 		this.maestro=m;

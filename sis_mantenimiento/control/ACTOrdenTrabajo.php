@@ -24,7 +24,7 @@ class ACTOrdenTrabajo extends ACTbase{
 			if($this->objParam->getParametro('nombreVista') == 'registrarOT') {
 				$this->objParam->addFiltro(" geoott.cat_estado in (''Borrador'',''Pendiente'',''generado'')");
 			} elseif($this->objParam->getParametro('nombreVista') == 'ejecutarOT') {
-				$this->objParam->addFiltro(" (geoott.cat_estado = ''Pendiente'' or geoott.cat_estado = ''Abierto'')");
+				$this->objParam->addFiltro(" (geoott.cat_estado = ''Pendiente'' or geoott.cat_estado = ''Abierto'' or geoott.cat_estado = ''EjecucionPendiente'')");
 			} elseif($this->objParam->getParametro('nombreVista') == 'revisarOT') {
 				$this->objParam->addFiltro(" (geoott.cat_estado = ''Cerrado'' or geoott.cat_estado = ''Revisado'')");
 			}
