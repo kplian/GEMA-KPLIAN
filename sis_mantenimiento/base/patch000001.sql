@@ -1145,4 +1145,4 @@ ALTER TABLE gem.torden_trabajo
 
 ALTER TABLE gem.torden_trabajo_log
   ADD COLUMN mensaje_estado VARCHAR(250);
-/***********************************I-SCP-AAO-GEM-104-21/01/2013*****************************************/
+/***********************************F-SCP-AAO-GEM-104-21/01/2013*****************************************/
