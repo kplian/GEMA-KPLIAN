@@ -1138,3 +1138,11 @@ alter table gem.tlocalizacion_med
 add column observaciones varchar(500);
 
 /***********************************F-SCP-RCM-GEM-96-11/01/2013*****************************************/
+
+/***********************************I-SCP-AAO-GEM-104-21/01/2013*****************************************/
+ALTER TABLE gem.torden_trabajo
+  ADD COLUMN mensaje_estado VARCHAR(250);
+
+ALTER TABLE gem.torden_trabajo_log
+  ADD COLUMN mensaje_estado VARCHAR(250);
+/***********************************I-SCP-AAO-GEM-104-21/01/2013*****************************************/

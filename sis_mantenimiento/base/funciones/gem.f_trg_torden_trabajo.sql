@@ -49,7 +49,8 @@ BEGIN
                 id_orden_trabajo,
                 estado_ini,
                 estado_fin,
-                fecha
+                fecha,
+                mensaje_estado
                 ) values(
                 'activo',
                 NEW.id_usuario_mod,
@@ -59,7 +60,8 @@ BEGIN
                 NEW.id_orden_trabajo,
                 OLD.cat_estado,
                 NEW.cat_estado,
-                now()
+                now(),
+                NEW.mensaje_estado
             );
         END IF;
    END;

@@ -23,6 +23,8 @@ Phx.vista.OrdenTrabajo=Ext.extend(Phx.gridInterfaz,{
          	this.getComponente('especialidades').setValue(this.getComponente('especialidades').getValue() + e.getRawValue());
         },
         this);
+        
+        this.crearMensajeEstadoForm();
 		
 		this.addButton('btnActividad',
 			{
@@ -97,10 +99,14 @@ Phx.vista.OrdenTrabajo=Ext.extend(Phx.gridInterfaz,{
 						result = "<div style='text-align:center'><img src = '../../../lib/imagenes/ball_red_pending.png' align='center' width='18' height='18' title='Pendiente'/></div>";
 					} else if(value == 'Abierto') {
 						result = "<div style='text-align:center'><img src = '../../../lib/imagenes/ball_yellow.png' align='center' width='18' height='18' title='Abierto'/></div>";
+					} else if(value == 'EjecucionPendiente') {
+						result = "<div style='text-align:center'><img src = '../../../lib/imagenes/ball_yellow_pause.png' align='center' width='18' height='18' title='Ejecucion Pendiente'/></div>";
 					} else if(value == 'Cerrado') {
 						result = "<div style='text-align:center'><img src = '../../../lib/imagenes/ball_yellow_pending.png' align='center' width='18' height='18' title='Cerrado'/></div>";
 					} else if(value == 'Revisado') {
 						result = "<div style='text-align:center'><img src = '../../../lib/imagenes/ball_green.png' align='center' width='18' height='18' title='Revisado'/></div>";
+					} else if(value == "Cancelado") {
+						result = "<div style='text-align:center'><img src = '../../../lib/imagenes/ball_close.png' align='center' width='18' height='18' title='Cancelado'/></div>";
 					}
 					return result;
 				}
@@ -961,8 +967,92 @@ Phx.vista.OrdenTrabajo=Ext.extend(Phx.gridInterfaz,{
 		this.getBoton('reporteOT').setDisabled(true);
 		this.getBoton('btnActividad').setDisabled(true);
 		return tb;
-	}
-	
+	},
+	crearMensajeEstadoForm: function() {
+		this.mensajeEstadoForm = new Ext.form.FormPanel({
+			bodyStyle: 'padding:10 20px 10;',
+			autoDestroy: true,
+			border: false,
+			layout: 'form',
+			autoScroll: true,
+			defaults: {
+				xtype: 'textfield'
+			},
+			items: [
+			{
+				xtype: 'textarea',
+				name: 'motivo',
+				fieldLabel: '*Motivo',
+				width: '100%',
+				allowBlank: false
+			},
+			{
+				xtype: 'textfield',
+				name: 'estado',
+				fieldLabel: 'estado',
+				allowBlank: true,
+				hidden: true
+			}]
+		});
+
+		this.mensajeEstadoFormDialog = new Ext.Window({
+			title: 'Motivo',
+			collapsible: true,
+			maximizable: true,
+			autoDestroy: true,
+			width: 400,
+			height: 200,
+			layout: 'fit',
+			buttonAlign: 'center',
+			items: this.mensajeEstadoForm,
+			modal: true,
+			closeAction: 'hide',
+			buttons: [{
+				text: 'Guardar',
+				handler: this.procesarMensajeEstadoForm,
+				scope: this
+			}, {
+				text: 'Cancelar',
+				handler: function() {
+					this.mensajeEstadoFormDialog.hide();
+				},
+				scope: this
+			}]
+		});
+	},
+	procesarMensajeEstadoForm: function() {
+		if (this.mensajeEstadoForm.getForm().isValid()) {
+			Phx.CP.loadingShow();
+
+			var rec=this.sm.getSelected();
+			var data = rec.data;
+			var txtMensajeExtra = this.mensajeEstadoForm.getForm().findField('motivo');
+			var txtEstado = this.mensajeEstadoForm.getForm().findField('estado');
+			Ext.Ajax.request({
+				url:'../../sis_mantenimiento/control/OrdenTrabajo/procesarOT',
+				params: {
+					'id_orden_trabajo': data.id_orden_trabajo,
+					'cat_estado_anterior': data.cat_estado,
+					'cat_estado': txtEstado.getValue(),
+					'mensaje_estado': txtMensajeExtra.getValue()
+				},
+				success: this.successProcesarOT,
+				failure: this.conexionFailure,
+				timeout: this.timeout,
+				scope: this
+			});
+		}
+	},
+	successProcesarOT: function(resp) {
+			Phx.CP.loadingHide();
+			var reg = Ext.util.JSON.decode(Ext.util.Format.trim(resp.responseText));
+			if (reg.ROOT.error) {
+				alert("ERROR no esperado")
+			} else {
+				this.mensajeEstadoFormDialog.hide();
+			}
+			this.reload();
+		},
 })
 </script>
 		

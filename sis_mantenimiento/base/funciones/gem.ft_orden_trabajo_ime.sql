@@ -236,7 +236,8 @@ BEGIN
 			update gem.torden_trabajo set
 			cat_estado = v_parametros.cat_estado,
             id_usuario_mod = p_id_usuario,
-			fecha_mod = now()
+			fecha_mod = now(),
+            mensaje_estado = v_parametros.mensaje_estado
             where id_orden_trabajo = v_parametros.id_orden_trabajo;
                
             --Definicion de la respuesta

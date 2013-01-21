@@ -22,6 +22,16 @@ Phx.vista.RegistrarOT = {
 		this.init();
 		this.load({params:{start:0, limit:50, 'nombreVista': this.nombreVista}});
 		this.blockGroup(1);
+		
+		this.addButton('btnCancelarOT',
+			{
+				text: '',
+				iconCls: 'bcancelfile',
+				disabled: true,
+				handler: this.onBtnCancelarOT,
+				tooltip: '<b>Cancelar Orden de Trabajo</b><br/>Cancela la orden de trabajo actual.'
+			}
+		);
 		this.addButton('btnCheck',
 			{
 				text: 'Check',
@@ -44,40 +54,57 @@ Phx.vista.RegistrarOT = {
 		function checkOT() {
 			var rec = this.sm.getSelected();
 			var data = rec.data;
-			Ext.Ajax.request({
-				url:'../../sis_mantenimiento/control/OrdenTrabajo/procesarOT',
-				params: {
-					'id_orden_trabajo': data.id_orden_trabajo, 
-					'cat_estado_anterior': data.cat_estado,
-					'cat_estado': 'Pendiente'
-				},
-				success:this.successSave,
-				failure: this.conexionFailure,
-				timeout:this.timeout,
-				scope:this
-			});
+			var global = this;
+			Ext.Msg.confirm('Confirmación',
+				'¿Está seguro de marcar esta Orden de Trabajo como pendiente de ejecución?', 
+				function(btn) {
+					if (btn == "yes") {
+						Ext.Ajax.request({
+							url:'../../sis_mantenimiento/control/OrdenTrabajo/procesarOT',
+							params: {
+								'id_orden_trabajo': data.id_orden_trabajo, 
+								'cat_estado_anterior': data.cat_estado,
+								'cat_estado': 'Pendiente'
+							},
+							success: global.successSave,
+							failure: global.conexionFailure,
+							timeout: global.timeout,
+							scope: global
+					});
+					}
+				}
+			);
 		}
 		
 		function uncheckOT() {
 			var rec = this.sm.getSelected();
 			var data = rec.data;
-			Ext.Ajax.request({
-				url:'../../sis_mantenimiento/control/OrdenTrabajo/procesarOT',
-				params: {
-					'id_orden_trabajo': data.id_orden_trabajo,
-					'cat_estado_anterior': data.cat_estado,
-					'cat_estado': 'Borrador'
-				},
-				success:this.successSave,
-				failure: this.conexionFailure,
-				timeout:this.timeout,
-				scope:this
-			});
+			var global = this;
+			Ext.Msg.confirm('Confirmación',
+				'¿Está seguro de habilitar esta Orden de Trabajo para su modificación?', 
+				function(btn) {
+					if (btn == "yes") {
+						Ext.Ajax.request({
+							url:'../../sis_mantenimiento/control/OrdenTrabajo/procesarOT',
+							params: {
+								'id_orden_trabajo': data.id_orden_trabajo,
+								'cat_estado_anterior': data.cat_estado,
+								'cat_estado': 'Borrador'
+							},
+							success: global.successSave,
+							failure: global.conexionFailure,
+							timeout: global.timeout,
+							scope: global
+						});
+					}
+				}
+			);
 		}
 	},
 	preparaMenu: function(n) {
 		var tb = Phx.vista.RegistrarOT.superclass.preparaMenu.call(this);
 		var data = this.getSelectedData();
+		this.getBoton('btnCancelarOT').setDisabled(false);
 	  	if(data.cat_estado == 'Borrador') {
 	  		this.getBoton('btnCheck').setDisabled(false);
 	  		this.getBoton('btnUncheck').setDisabled(true);
@@ -91,6 +118,7 @@ Phx.vista.RegistrarOT = {
 	},
 	liberaMenu: function() {
 		var tb = Phx.vista.RegistrarOT.superclass.liberaMenu.call(this);
+		this.getBoton('btnCancelarOT').setDisabled(true);
 		this.getBoton('btnCheck').setDisabled(true);
 	  	this.getBoton('btnUncheck').setDisabled(true);
 		return tb;
@@ -114,6 +142,11 @@ Phx.vista.RegistrarOT = {
 	onButtonEdit: function() {
 		Phx.vista.RegistrarOT.superclass.onButtonEdit.call(this);
 		this.handleForm();
+	},
+	onBtnCancelarOT: function() {
+		this.mensajeEstadoForm.getForm().reset();
+		this.mensajeEstadoForm.getForm().findField('estado').setValue('Cancelado');
+		this.mensajeEstadoFormDialog.show();
 	}
 };
 </script>
