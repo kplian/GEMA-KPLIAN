@@ -98,8 +98,6 @@ Phx.vista.FuncionarioGem = {
        			grid:false,
        			form:true
        	});
-		
-		
 		this.init();
 		this.load({params:{start:0, limit:50}});
 		console.log(this.Atributos);
