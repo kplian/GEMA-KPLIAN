@@ -1146,3 +1146,10 @@ ALTER TABLE gem.torden_trabajo
 ALTER TABLE gem.torden_trabajo_log
   ADD COLUMN mensaje_estado VARCHAR(250);
 /***********************************F-SCP-AAO-GEM-104-21/01/2013*****************************************/
+
+/***********************************I-SCP-RCM-GEM-110-23/01/2013*****************************************/
+ALTER TABLE	gem.tuni_cons_archivo
+  ADD COLUMN reporte varchar(2) DEFAULT 'no';
+ALTER TABLE	gem.tuni_cons_archivo
+  ADD CONSTRAINT chk_tuni_cons_archivo__reporte CHECK (reporte in ('si','no'));
+/***********************************F-SCP-RCM-GEM-110-23/01/2013*****************************************/
