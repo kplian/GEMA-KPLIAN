@@ -121,9 +121,8 @@ Phx.vista.UniCons=Ext.extend(Phx.arbInterfaz,{
 		
 		this.rootVisible=false;
 		
-		
-		
-		
+        this.tbar.items.get('b-new-' + this.idContenedor).disable();
+		this.getBoton('btnAtrib').disable();
 	},
 	expanded:false,
 
@@ -456,7 +455,6 @@ Phx.vista.UniCons=Ext.extend(Phx.arbInterfaz,{
 	},
 	bdel:true,
 	
-	
 	onButtonNew:function(){
 			var nodo = this.sm.getSelectedNode();			
 			Phx.vista.UniCons.superclass.onButtonNew.call(this);
@@ -466,6 +464,12 @@ Phx.vista.UniCons=Ext.extend(Phx.arbInterfaz,{
 			
 			//this.getComponente('nivel').setValue((nodo.attributes.nivel*1)+1);
 	 },
+	 
+	 
+    onButtonAct: function(){
+        Phx.vista.UniCons.superclass.onButtonAct.call(this);
+        this.tbar.items.get('b-new-' + this.idContenedor).disable();
+    },
 	 
 	loadValoresIniciales:function(){
 		var tipo = (this.cmbTipo.getValue()=='Plantillas')?'tuc':'uc';
@@ -490,32 +494,51 @@ Phx.vista.UniCons=Ext.extend(Phx.arbInterfaz,{
 	},
 	
 	preparaMenu:function(n){
+	    Phx.vista.UniCons.superclass.preparaMenu.call(this,n);
+	    this.tbar.items.get('b-new-' + this.idContenedor).enable();
 		var tiponodo = n.attributes.tipo_nodo;
 			//si es una nodo tipo carpeta habilitamos la opcion de nuevo	
 			if((tiponodo == 'raiz_borrador' || tiponodo == 'raiz_aprobado' )&& n.attributes.id != 'id'){
-				this.getBoton('btnBlock').enable();	
-                this.getBoton('btnUpload').disable();
-                this.getBoton('btnItems').disable();
-                this.getBoton('btnProveedores').disable();
-				if(tiponodo == 'raiz_aprobado'){
+			    this.getBoton('btnBlock').enable();	
+                if(tiponodo == 'raiz_aprobado'){
 					this.getBoton('btnBlock').setIconClass('bunlock'); 
-		            this.getBoton('btnBlock').setTooltip('<p>Desbloquear permite editar</p>'); 
+		            this.getBoton('btnBlock').setTooltip('<p>Desbloquear permite editar</p>');
+		            this.getBoton('btnUpload').enable();
+                    this.getBoton('btnItems').enable();
+                    this.getBoton('btnProveedores').enable();
+                    this.getBoton('btnAtrib').enable();
+                    this.tbar.items.get('b-new-' + this.idContenedor).disable();
+                    this.tbar.items.get('b-edit-' + this.idContenedor).disable();
+                    this.tbar.items.get('b-del-' + this.idContenedor).disable(); 
 		        }
 				else{
 					this.getBoton('btnBlock').setIconClass('block'); 
-		            this.getBoton('btnBlock').setTooltip('<p>Bloquea la edición del equipo</p>'); 
-				}
-				
+		            this.getBoton('btnBlock').setTooltip('<p>Bloquea la edición del equipo</p>');
+		            this.getBoton('btnUpload').enable();
+                    this.getBoton('btnItems').enable();
+                    this.getBoton('btnProveedores').enable();
+                    this.getBoton('btnAtrib').enable();                     
+				}			
 				
 			}
 			else {
-				this.getBoton('btnBlock').disable();
-                this.getBoton('btnUpload').enable();
-                this.getBoton('btnItems').enable();
-                this.getBoton('btnProveedores').enable();
+			    if(tiponodo=='base'){
+    				this.getBoton('btnBlock').disable();
+                    this.getBoton('btnUpload').disable();
+                    this.getBoton('btnItems').disable();
+                    this.getBoton('btnProveedores').disable();
+                    this.getBoton('btnAtrib').disable();
+                }
+                else{
+                    this.getBoton('btnBlock').disable();
+                    this.getBoton('btnUpload').enable();
+                    this.getBoton('btnItems').enable();
+                    this.getBoton('btnProveedores').enable();
+                    this.getBoton('btnAtrib').enable();
+                }                
 			}
 			// llamada funcion clace padre
-			Phx.vista.UniCons.superclass.preparaMenu.call(this,n);
+			
 			
 		},
 	

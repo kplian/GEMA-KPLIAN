@@ -261,12 +261,16 @@ Phx.vista.UniConsDet=Ext.extend(Phx.gridInterfaz,{
         this.maestro=m;
 		this.Atributos[1].valorInicial=this.maestro.id_uni_cons;
 		
-		
 		// this.Atributos.config['id_subsistema'].setValue(this.maestro.id_subsistema);
 
        if(m.id != 'id'){
     	
 		this.store.baseParams={id_uni_cons:this.maestro.id_uni_cons};
+		if(this.maestro.tipo_nodo=='raiz_aprobado'||this.maestro.tipo_nodo=='base'){
+		    this.grid.getTopToolbar().disable();
+		}else{
+		    this.grid.getTopToolbar().enable();
+		}
 		this.load({params:{start:0, limit:50}})
        
        }
