@@ -10,7 +10,7 @@
 class ACTDiagramaDecisionAccion extends ACTbase{    
 			
 	function listarDiagramaDecisionAccion(){
-		$this->objParam->defecto('ordenacion','id_partida');
+		$this->objParam->defecto('ordenacion','id_diagrama_decision_accion');
 
 		$this->objParam->defecto('dir_ordenacion','asc');
 		if($this->objParam->getParametro('tipoReporte')=='excel_grid' || $this->objParam->getParametro('tipoReporte')=='pdf_grid'){
@@ -28,8 +28,8 @@ class ACTDiagramaDecisionAccion extends ACTbase{
         
         //obtiene el parametro nodo enviado por la vista
         $node=$this->objParam->getParametro('node');
-
-        $id_partida=$this->objParam->getParametro('id_diagrama_decision_accion');
+            
+        $id_diagrama_decision_accion=$this->objParam->getParametro('id_diagrama_decision_accion');
         $tipo_nodo=$this->objParam->getParametro('tipo_nodo');
         
                    

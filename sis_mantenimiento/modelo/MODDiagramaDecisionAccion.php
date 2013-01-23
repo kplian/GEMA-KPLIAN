@@ -50,7 +50,8 @@ class MODDiagramaDecisionAccion extends MODbase{
         
         $id_padre = $this->objParam->getParametro('id_padre');
         
-        $this->setParametro('id_padre','id_padre','varchar');       
+        $this->setParametro('id_padre','id_padre','varchar');
+        $this->setParametro('id_diagrama_decision','id_diagrama_decision','int4');       
         //$this->setParametro('id_subsistema','id_subsistema','integer');
                 
         //Definicion de la lista del resultado del query
@@ -78,6 +79,7 @@ class MODDiagramaDecisionAccion extends MODbase{
 		//Define los parametros para la funcion
 		$this->setParametro('estado_reg','estado_reg','varchar');
 		$this->setParametro('id_diagrama_decision_accion_fk','id_diagrama_decision_accion_fk','int4');
+        $this->setParametro('id_diagrama_decision','id_diagrama_decision','int4');
 		$this->setParametro('tipo','tipo','varchar');
 		$this->setParametro('nombre','nombre','varchar');
 		$this->setParametro('codigo','codigo','varchar');
@@ -99,7 +101,7 @@ class MODDiagramaDecisionAccion extends MODbase{
 		//Define los parametros para la funcion
 		$this->setParametro('id_diagrama_decision_accion','id_diagrama_decision_accion','int4');
 		$this->setParametro('estado_reg','estado_reg','varchar');
-		$this->setParametro('id_partida_fk','id_partida_fk','int4');
+		$this->setParametro('id_diagrama_decision_accion_fk','id_diagrama_decision_accion_fk','int4');
 		$this->setParametro('tipo','tipo','varchar');
 		$this->setParametro('nombre','nombre','varchar');
 		$this->setParametro('codigo','codigo','varchar');
@@ -112,7 +114,7 @@ class MODDiagramaDecisionAccion extends MODbase{
 		return $this->respuesta;
 	}
 			
-	function eliminarPartida(){
+	function eliminarDiagramaDecisionAccion(){
 		//Definicion de variables para ejecucion del procedimiento
 		$this->procedimiento='gem.ft_diagrama_decision_accion_ime';
 		$this->transaccion='GEM_GEDIAC_ELI';

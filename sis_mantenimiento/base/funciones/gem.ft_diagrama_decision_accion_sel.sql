@@ -108,10 +108,10 @@ BEGIN
                     
         begin       
               if(v_parametros.id_padre = '%') then
-                v_where := ' par.id_diagrama_decision_accion_fk is NULL';   
+                v_where := ' diac.id_diagrama_decision_accion_fk is NULL';   
                      
               else
-                v_where := ' par.id_diagrama_decision_accion_fk = '||v_parametros.id_padre;
+                v_where := ' diac.id_diagrama_decision_accion_fk = '||v_parametros.id_padre;
               end if;
        
        
@@ -123,14 +123,15 @@ BEGIN
                         diac.tipo,
                         diac.nombre,
                          case
-                          when (par.id_diagrama_decision_accion_fk is null )then
+                          when (diac.id_diagrama_decision_accion_fk is null )then
                                ''raiz''::varchar
                           ELSE
                               ''hijo''::varchar
                           END as tipo_nodo
                         from gem.tdiagrama_decision_accion diac
-                        where  '||v_where|| ' 
-                        ORDER BY gem.id_diagrama_decision_accion';
+                        where  '||v_where||' and diac.id_diagrama_decision='
+                        ||v_parametros.id_diagrama_decision|| 
+                        'ORDER BY diac.id_diagrama_decision_accion';
             raise notice '%',v_consulta;
            
             --Devuelve la respuesta
