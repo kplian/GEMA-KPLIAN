@@ -16,13 +16,52 @@ Phx.vista.LocalizacionMed=Ext.extend(Phx.gridInterfaz,{
 		this.maestro=config;
     	//llama al constructor de la clase padre
 		Phx.vista.LocalizacionMed.superclass.constructor.call(this,config);
-		this.init();
-		this.getComponente('id_localizacion_orig').setValue(this.maestro.id_localizacion);
+		
+		this.dteFechaIni = new Ext.form.DateField({
+			vtype: 'daterange',
+		    name:  'startdt1',
+		    format: 'd/m/Y',
+		    allowBlank: false,
+		    id: 'startdt'+this.idContenedor,
+	        endDateField: 'enddt'+this.idContenedor,
+	        width:103
+		});
+		this.dteFechaFin = new Ext.form.DateField({
+		    vtype: 'daterange',
+		    name: 'enddt1',
+		    format: 'd/m/Y',
+		    allowBlank: false,
+	        id: 'enddt'+this.idContenedor,
+	        startDateField: 'startdt'+this.idContenedor,
+	        width:103
+		});
+		this.intDiasMes = new Ext.form.NumberField({
+		 	name: 'numDias',
+		 	allowBlank:false,
+		 	width:35,
+		 	value:7
+		});
+		this.limit = 1000;
+		this.cmbLimit = new Ext.form.ComboBox({
+	        store:[100,200,500,1000,5000,10000,20000,50000],
+	        value:this.limit,
+	        typeAhead: true,
+	        mode: 'local',
+	        triggerAction: 'all',
+	        emptyText:'Tipo..',
+	        selectOnFocus:true,
+	        width:65
+	    });
+		
+		this.dteFechaIni.on('change', this.updateDays, this);
+		this.dteFechaFin.on('change', this.updateDays, this);
+		
+        this.getComponente('id_localizacion_orig').setValue(this.maestro.id_localizacion);
 		//alert(this.getComponente('id_localizacion_orig').getValue())
 		this.v_id_localizacion_orig=this.maestro.id_localizacion;
-		this.load({params:{start:0, limit:50, id_localizacion:this.maestro.id_localizacion}});
+		
 		this.addButton('btnInd', {
-				text : 'Estadísticas',
+				text : '',
 				iconCls : 'bstats',
 				disabled : true,
 				handler : this.onBtnInd,
@@ -31,6 +70,7 @@ Phx.vista.LocalizacionMed=Ext.extend(Phx.gridInterfaz,{
 		this.tbar.add('Desde: ',this.dteFechaIni);
 	    this.tbar.add('Hasta: ',this.dteFechaFin);
 	    this.tbar.add('Días: ',this.intDiasMes);
+	    this.tbar.add('Limite: ',this.cmbLimit);
 	    this.addButton('btnGrafica',{
             text : 'Graficar',
             iconCls : 'bgraph',
@@ -38,7 +78,26 @@ Phx.vista.LocalizacionMed=Ext.extend(Phx.gridInterfaz,{
             handler : this.onButtonGrafica,
             tooltip : '<b>Gráfica</b><br/><b>Genera gráfica (La ordenación de los resultados afecta la gráfica)</b>'
              });
-         this.getBoton('btnInd').enable();
+        this.getBoton('btnInd').enable();
+		
+		this.init();
+		var milisegundos=parseInt(7*24*60*60*1000);
+		var fechaActual = new Date();
+		var fechaini  = new Date();
+		fechaini.setTime(parseInt(fechaActual.getTime()-milisegundos));
+		this.dteFechaIni.setValue(fechaini);
+		this.dteFechaFin.setValue(fechaActual);
+		
+		this.store.baseParams={
+			'id_localizacion':this.maestro.id_localizacion,
+			fecha_ini:this.dteFechaIni.getValue().dateFormat('d/m/Y'),
+			fecha_fin:this.dteFechaFin.getValue().dateFormat('d/m/Y') 
+			};
+		
+		this.load({params:{
+			start:0, 
+			limit:this.limit
+			}});
 	},
 	v_id_localizacion_orig:'',
 			
@@ -335,11 +394,12 @@ Phx.vista.LocalizacionMed=Ext.extend(Phx.gridInterfaz,{
 		this.getComponente('id_localizacion').setValue(this.maestro.id_localizacion);
 		this.getComponente('id_localizacion_orig').setValue(this.maestro.id_localizacion);
 	},	
-	onReloadPage:function(m){
-		this.maestro=m;						
-		this.store.baseParams={id_localizacion:this.maestro.id_localizacion};
-		this.load({params:{start:0, limit:50}});
-	
+	onReloadPage:function(m)
+	{
+		this.maestro=m;	
+		this.limit = this.cmbLimit.getValue();					
+		this.store.baseParams={id_localizacion:this.maestro.id_localización};
+		this.load({params:{start:0, limit:this.limit}});			
 	},
 	Grupos:[{ 
 		layout: 'column',
@@ -371,30 +431,6 @@ Phx.vista.LocalizacionMed=Ext.extend(Phx.gridInterfaz,{
 		  //width:'50%',		//ancho de la ventana hjo
 		  cls:'IndicadoresGraf'
 	},*/
-	dteFechaIni:new Ext.form.DateField({
-		vtype: 'daterange',
-	    name:  'startdt',
-	    format: 'd/m/Y',
-	    allowBlank: false,
-        id: 'startdt'+this.idContenedor,
-        endDateField: 'enddt'+this.idContenedor,
-        width:103
-	}),
-	dteFechaFin:new Ext.form.DateField({
-	    vtype: 'daterange',
-	    name: 'enddt',
-	    format: 'd/m/Y',
-	    allowBlank: false,
-        id: 'enddt'+this.idContenedor,
-        startDateField: 'startdt'+this.idContenedor,
-        width:103
-	 }),
-	 intDiasMes: new Ext.form.NumberField({
-	 	name: 'numDias',
-	 	allowBlank:false,
-	 	width:27,
-	 	value:30
-	 }),
 	onButtonGrafica:function(){
 		var rec = this.store.data.items;
 	
@@ -450,12 +486,31 @@ Phx.vista.LocalizacionMed=Ext.extend(Phx.gridInterfaz,{
 			//if(this.intDiasMes.getValue()==''){
 				this.intDiasMes.isValid();
 			//}
-			this.dteFechaFin
 			Ext.MessageBox.alert('Alerta','Para generar los indicadores debe definir el Rango de Fechas y el Número de Días');
 		}
-		
-		
-		
-	}
+	},
+	updateDays: function(){
+		var totalMillis = this.dteFechaFin.getValue().getTime() - this.dteFechaIni.getValue().getTime();
+		var dias = totalMillis/(1000*60*60*24);
+		this.intDiasMes.setValue(parseInt(dias));
+	},
+	onButtonAct: function(){
+		if(this.dteFechaIni.isValid() && this.dteFechaFin.isValid())
+		{
+			this.store.baseParams=Ext.apply(
+				this.store.baseParams,{
+					fecha_ini:this.dteFechaIni.getValue().dateFormat('d/m/Y'),
+					fecha_fin:this.dteFechaFin.getValue().dateFormat('d/m/Y')})
+			this.limit = this.cmbLimit.getValue();
+			if(this.store.lastOptions){
+			 //Phx.vista.EquipoMedicionDinamico.superclass.onButtonAct.call(this);
+			 this.load({params:{start:0, limit:this.limit},callback:this.successReloadGrid,scope:this})
+			}
+			else{
+				this.load({params:{start:0, limit:this.limit},callback:this.successReloadGrid,scope:this})
+			}
+		}
+	},
+	successReloadGrid:function(rec,con,res){},
 })
 </script>

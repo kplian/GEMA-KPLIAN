@@ -1,7 +1,7 @@
 <?php
 /**
 *@package pXP
-*@file gen-Partida.php
+*@file gen-DiagramaDecicionAccion.php
 *@author  (admin)
 *@date 23-11-2012 20:06:53
 *@description Archivo con la interfaz de usuario que permite la ejecucion de todas las funcionalidades del sistema
@@ -14,10 +14,12 @@ Phx.vista.DiagramaDecisionAccion=Ext.extend(Phx.arbInterfaz,{
 
 	constructor:function(config){
 		this.maestro=config.maestro;
-		console.log(config)
+		//console.log(config)
     	//llama al constructor de la clase padre
 		Phx.vista.DiagramaDecisionAccion.superclass.constructor.call(this,config);
 		this.init();
+		this.root.ui.hide();		
+        this.treePanel.getTopToolbar().disable();
 	},
 			
 	Atributos:[
@@ -31,6 +33,16 @@ Phx.vista.DiagramaDecisionAccion=Ext.extend(Phx.arbInterfaz,{
 			type:'Field',
 			form:true 
 		},
+		{
+            //configuracion del componente
+            config:{
+                    labelSeparator:'',
+                    inputType:'hidden',
+                    name: 'id_diagrama_decision'
+            },
+            type:'Field',
+            form:true 
+        },
 		{
 			config:{
 				name: 'estado_reg',
@@ -170,15 +182,16 @@ Phx.vista.DiagramaDecisionAccion=Ext.extend(Phx.arbInterfaz,{
 	ActSave:'../../sis_mantenimiento/control/DiagramaDecisionAccion/insertarDiagramaDecisionAccion',
 	ActDel:'../../sis_mantenimiento/control/DiagramaDecisionAccion/eliminarDiagramaDecisionAccion',
 	ActList:'../../sis_mantenimiento/control/DiagramaDecisionAccion/listarDiagramaDecisionAccionArb',
-	id_store:'id_diagrama_decision_accion',
+	id_store:'id_diagrama_decision',
 	textRoot:'Diagrama de Decision',
-    id_nodo:'id_partida',
-    id_nodo_p:'id_partida_fk',
+    id_nodo:'id_diagrama_decision_accion',
+    id_nodo_p:'id_diagrama_decision_accion_fk',
 	fields: [
 		'id',
         'tipo_meta',
-		{name:'id_partida', type: 'numeric'},
-		{name:'id_partida_fk', type: 'numeric'},
+        {name:'id_diagrama_decision', type: 'numeric'},
+		{name:'id_diagrama_decision_accion', type: 'numeric'},
+		{name:'id_diagrama_decision_accion_fk', type: 'numeric'},
 		{name:'tipo', type: 'string'},
 		{name:'descripcion', type: 'string'},
 		{name:'codigo', type: 'string'},
@@ -191,12 +204,13 @@ Phx.vista.DiagramaDecisionAccion=Ext.extend(Phx.arbInterfaz,{
 		
 	],
 	sortInfo:{
-		field: 'id_diagrama_decicion_accion',
+		field: 'id_diagrama_decision_accion',
 		direction: 'ASC'
 	},
 	bdel:true,
 	bsave:true,
 	rootVisible:true,
+	expanded:false,
 	
 	onButtonNew:function(){
         var nodo = this.sm.getSelectedNode();           
@@ -204,7 +218,8 @@ Phx.vista.DiagramaDecisionAccion=Ext.extend(Phx.arbInterfaz,{
     },
     
     preparaMenu:function(n){
-        if(n.attributes.tipo_nodo == 'hijo' || n.attributes.tipo_nodo == 'raiz' || n.attributes.id == 'id'){
+        var tiponodo = n.attributes.tipo_nodo;        
+        if(tiponodo == 'hijo' || tiponodo == 'raiz' || n.attributes.id == 'id'){
             this.tbar.items.get('b-new-'+this.idContenedor).enable()
         }
         else {
@@ -243,9 +258,18 @@ Phx.vista.DiagramaDecisionAccion=Ext.extend(Phx.arbInterfaz,{
 		this.getComponente('id_diagrama_decision').setValue(this.maestro.id_diagrama_decision);		
 	},
 	onReloadPage:function(m){
-		this.maestro=m;						
-		this.store.baseParams={id_diagrama_decision:this.maestro.id_diagrama_decision};
-		this.load({params:{start:0, limit:50}});			
+	    this.root.ui.show();
+		this.maestro=m;
+		
+		if(this.maestro.id_diagrama_decision!='' && this.maestro.id_diagrama_decision!=undefined){				
+    		this.loaderTree.baseParams={id_diagrama_decision:this.maestro.id_diagrama_decision};
+    		this.root.reload();
+    		this.paramsCheck={id_diagrama_decision:this.maestro.id_diagrama_decision};
+    		//this.tbar.items.get('b-new-'+this.idContenedor).disable();
+    	}
+        else{
+            this.getBoton('act').disable();
+        }			
 	}
 }
 )

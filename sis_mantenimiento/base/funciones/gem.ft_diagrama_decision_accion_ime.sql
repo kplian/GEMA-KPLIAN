@@ -50,6 +50,7 @@ BEGIN
         	insert into gem.tdiagrama_decision_accion(
 			estado_reg,
 			id_diagrama_decision_accion_fk,
+            id_diagrama_decision,
 			tipo,
 			nombre,
 			codigo,
@@ -60,6 +61,7 @@ BEGIN
           	) values(
 			'activo',
 			v_parametros.id_diagrama_decision_accion_fk,
+            v_parametros.id_diagrama_decision,
 			v_parametros.tipo,
 			v_parametros.nombre,
 			v_parametros.codigo,
@@ -70,8 +72,8 @@ BEGIN
 			)RETURNING id_diagrama_decision_accion into v_id_diagrama_decision_accion;
                
 			--Definicion de la respuesta
-			v_resp = pxp.f_agrega_clave(v_resp,'mensaje','Partida almacenado(a) con exito (id_partida'||v_id_partida||')'); 
-            v_resp = pxp.f_agrega_clave(v_resp,'id_partida',v_id_partida::varchar);
+			v_resp = pxp.f_agrega_clave(v_resp,'mensaje','Partida almacenado(a) con exito (id_diagrama_decision_accion'||v_id_diagrama_decision_accion||')'); 
+            v_resp = pxp.f_agrega_clave(v_resp,'id_partida',v_id_diagrama_decision_accion::varchar);
 
             --Devuelve la respuesta
             return v_resp;
@@ -96,11 +98,11 @@ BEGIN
 			codigo = v_parametros.codigo,
 			id_usuario_mod = p_id_usuario,
 			fecha_mod = now()
-			where id_partida=v_parametros.id_partida;
+			where id_diagrama_decision_accion=v_parametros.id_diagrama_decision_accion;
                
 			--Definicion de la respuesta
             v_resp = pxp.f_agrega_clave(v_resp,'mensaje','Registro modificado(a)'); 
-            v_resp = pxp.f_agrega_clave(v_resp,'id_partida',v_parametros.id_partida::varchar);
+            v_resp = pxp.f_agrega_clave(v_resp,'id_partida',v_parametros.id_diagrama_decision_accion::varchar);
                
             --Devuelve la respuesta
             return v_resp;
