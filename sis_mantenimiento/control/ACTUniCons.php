@@ -260,6 +260,9 @@ class ACTUniCons extends ACTbase{
 			$this->objReporte = new Reporte($this->objParam, $this);
 			$this->res = $this->objReporte->generarReporteListado('MODUniCons','listarUniConsPlano');
 		} else{
+			if ($this->objParam->getParametro('id_localizacion')!=null) {
+				$this->objParam->addFiltro(" tuc.id_localizacion = ".$this->objParam->getParametro('id_localizacion'));
+			}
 			$this->objFunc=$this->create('MODUniCons');	
 			$this->res=$this->objFunc->listarUniConsPlano();
 		}

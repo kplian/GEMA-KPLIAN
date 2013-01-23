@@ -23,7 +23,12 @@ Phx.vista.OrdenTrabajo=Ext.extend(Phx.gridInterfaz,{
          	this.getComponente('especialidades').setValue(this.getComponente('especialidades').getValue() + e.getRawValue());
         },
         this);
-        
+        this.getComponente('id_localizacion').on('select', function(e, data, index) {
+        	this.getComponente('id_uni_cons').enable();
+        	this.getComponente('id_uni_cons').reset();
+        	this.getComponente('id_uni_cons').lastQuery = null;
+        	this.getComponente('id_uni_cons').store.baseParams.id_localizacion=data.id;
+        },this);
         this.crearMensajeEstadoForm();
 		
 		this.addButton('btnActividad',
@@ -151,9 +156,11 @@ Phx.vista.OrdenTrabajo=Ext.extend(Phx.gridInterfaz,{
 					fields: ['id_localizacion','codigo','nombre'],
 					// turn on remote sorting
 					remoteSort: true,
-					baseParams:{par_filtro:'nombre'}
+					baseParams:{par_filtro:'nombre#codigo'}
 				}),
+				tpl:'<tpl for="."><div class="x-combo-list-item"><p>Nombre: {nombre}</p><p>Código: {codigo}</p></div></tpl>',
 				valueField: 'id_localizacion',
+				hiddenValue: 'id_localizacion',
 				displayField: 'nombre',
 				gdisplayField: 'nombre_localizacion',
 				forceSelection:true,
@@ -271,11 +278,12 @@ Phx.vista.OrdenTrabajo=Ext.extend(Phx.gridInterfaz,{
 					totalProperty:'total',
 					fields: ['id_uni_cons','codigo','nombre'],
 					remoteSort: true,
-					baseParams:{par_filtro:'tuc.nombre'}
+					baseParams:{par_filtro:'tuc.nombre#tuc.codigo'}
 				}),
 				tpl:'<tpl for="."><div class="x-combo-list-item"><p>Nombre: {nombre}</p><p>Código: {codigo}</p></div></tpl>',
 				valueField: 'id_uni_cons',
-				displayField: 'nombre',
+				hiddenValue: 'id_uni_cons',
+				displayField: 'codigo',
 				gdisplayField:'equipo',
 				forceSelection:true,
 				typeAhead: false,
@@ -1053,6 +1061,14 @@ Phx.vista.OrdenTrabajo=Ext.extend(Phx.gridInterfaz,{
 			}
 			this.reload();
 		},
+	onButtonNew: function() {
+		Phx.vista.OrdenTrabajo.superclass.onButtonNew.call(this);
+		this.getComponente('id_uni_cons').disable();
+	},
+	onButtonEdit: function() {
+		Phx.vista.OrdenTrabajo.superclass.onButtonEdit.call(this);
+		this.getComponente('id_uni_cons').enable();
+	},
 })
 </script>
 		

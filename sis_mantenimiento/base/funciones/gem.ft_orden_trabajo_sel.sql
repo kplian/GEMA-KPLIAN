@@ -29,6 +29,9 @@ DECLARE
 	v_parametros  		record;
 	v_nombre_funcion   	text;
 	v_resp				varchar;
+    v_cargo				varchar;
+    v_filtro			varchar;
+    v_id_funcionario	varchar;
 			    
 BEGIN
 
@@ -45,6 +48,25 @@ BEGIN
 	if(p_transaccion='GEM_GEOOTT_SEL')then
      				
     	begin
+        	
+        	select tipo into v_cargo from gem.tlocalizacion_usuario 
+            where id_usuario = p_id_usuario and estado_reg = 'activo' offset 0 limit 1;
+
+            select tf.id_funcionario into v_id_funcionario from orga.tfuncionario tf
+            inner join segu.tusuario tu on tf.id_persona = tu.id_persona
+            where tu.id_usuario = p_id_usuario 
+            and tf.estado_reg = 'activo' offset 0 limit 1;
+            
+        	if p_administrador = 1 then
+           		v_filtro = ' 0=0 and ';
+            elseif v_cargo = 'Gerente' or v_cargo = 'Ingeniero' or v_cargo = 'Jefe' then
+	            v_filtro =  p_id_usuario::varchar||' = ANY (unicons.id_usuarios) and ';
+            elseif (v_cargo = 'Operador' and (v_id_funcionario is not null)) then
+            	v_filtro =  v_id_funcionario||' = geoott.id_funcionario_asig and ';
+            else 
+            	raise exception 'Debes ser un funcionario para poder ver estas ordenes de trabajo';
+            end if;
+            
     		--Sentencia de la consulta
 			v_consulta:='select
 						geoott.id_orden_trabajo,
@@ -113,8 +135,9 @@ BEGIN
 				        where geoott.estado_reg = ''activo'' and ';
 			
 			--Definicion de la respuesta
-			v_consulta:=v_consulta||v_parametros.filtro;
+			v_consulta:=v_consulta|| v_filtro || v_parametros.filtro;
 			v_consulta:=v_consulta||' order by ' ||v_parametros.ordenacion|| ' ' || v_parametros.dir_ordenacion || ' limit ' || v_parametros.cantidad || ' offset ' || v_parametros.puntero;
+			
 
 			--Devuelve la respuesta
 			return v_consulta;
@@ -129,9 +152,26 @@ BEGIN
 	***********************************/
 
 	elsif(p_transaccion='GEM_GEOOTT_CONT')then
-
 		begin
-			--Sentencia de la consulta de conteo de registros
+        	select tipo into v_cargo from gem.tlocalizacion_usuario 
+            where id_usuario = p_id_usuario and estado_reg = 'activo' offset 0 limit 1;
+
+            select tf.id_funcionario into v_id_funcionario from orga.tfuncionario tf
+            inner join segu.tusuario tu on tf.id_persona = tu.id_persona
+            where tu.id_usuario = p_id_usuario 
+            and tf.estado_reg = 'activo' offset 0 limit 1;
+            
+        	if p_administrador = 1 then
+           		v_filtro = ' 0=0 and ';
+            elseif v_cargo = 'Gerente' or v_cargo = 'Ingeniero' or v_cargo = 'Jefe' then
+	            v_filtro =  p_id_usuario::varchar||' = ANY (unicons.id_usuarios) and ';
+            elseif (v_cargo = 'Operador' and (v_id_funcionario is not null)) then
+            	v_filtro =  v_id_funcionario||' = geoott.id_funcionario_asig and ';
+            else 
+            	raise exception 'Debes ser un funcionario para poder ver estas ordenes de trabajo';
+            end if;
+	       --Sentencia de la consulta de conteo de registros
+            
 			v_consulta:='select count(id_orden_trabajo)
 					    from gem.torden_trabajo geoott
 					    inner join segu.tusuario usu1 on usu1.id_usuario = geoott.id_usuario_reg
@@ -147,8 +187,9 @@ BEGIN
                         inner join gem.tcentro_costo cencost on cencost.id_centro_costo = geoott.id_centro_costo
 					    where geoott.estado_reg = ''activo'' and ';
 			
+            
 			--Definicion de la respuesta		    
-			v_consulta:=v_consulta||v_parametros.filtro;
+			v_consulta:=v_consulta|| v_filtro || v_parametros.filtro;
 
 			--Devuelve la respuesta
 			return v_consulta;
