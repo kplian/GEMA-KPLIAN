@@ -685,7 +685,6 @@ header("content-type: text/javascript; charset=UTF-8");
 			this.getBoton('btn-incCalen').disable();
 			this.getBoton('btn-addEqu').disable();
 			this.menuLoc.menu.items.get('btn-usuSinc-' + this.idContenedor).enable();
-			this.getBoton('btn-genOT').disable();
 			this.menuOp.disable();
 		},
 
