@@ -44,15 +44,10 @@ Phx.vista.UniConsProveedor=Ext.extend(Phx.gridInterfaz,{
                 allowBlank:false,
                 emptyText:'Estado reg...',
                 store: ['activo','inactivo'],
-                valueField: 'estado_reg',
-                displayField: 'estado_reg',
                 forceSelection:true,
                 triggerAction: 'all',
-                lazyRender:true,
                 mode:'local',
-                pageSize:10,
-                width:250,               
-                renderer:function(value, p, record){return String.format('{0}', record.data['estado_reg']);}
+                width:250
             },
             type:'ComboBox',
             id_grupo:0,
