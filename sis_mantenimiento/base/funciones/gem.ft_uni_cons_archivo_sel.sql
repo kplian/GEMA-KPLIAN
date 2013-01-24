@@ -68,12 +68,13 @@ BEGIN
 						inner join segu.tusuario usu1 on usu1.id_usuario = unidoc.id_usuario_reg
 						left join segu.tusuario usu2 on usu2.id_usuario = unidoc.id_usuario_mod
 				        where unidoc.id_uni_cons_archivo_padre is NULL 
+                        and unidoc.estado_reg = ''activo''
                         and unidoc.id_uni_cons = ' ||v_parametros.id_uni_cons|| ' and ';
 			
 			--Definicion de la respuesta
 			v_consulta:=v_consulta||v_parametros.filtro;
 			v_consulta:=v_consulta||' order by ' ||v_parametros.ordenacion|| ' ' || v_parametros.dir_ordenacion || ' limit ' || v_parametros.cantidad || ' offset ' || v_parametros.puntero;
-
+			
 			--Devuelve la respuesta
 			return v_consulta;
 						
@@ -131,6 +132,7 @@ BEGIN
 						inner join segu.tusuario usu1 on usu1.id_usuario = unidoc.id_usuario_reg
 						left join segu.tusuario usu2 on usu2.id_usuario = unidoc.id_usuario_mod
 				        where unidoc.id_uni_cons_archivo_padre is NULL 
+                        and unidoc.estado_reg = ''activo''
                         and unidoc.id_uni_cons = ' ||v_parametros.id_uni_cons|| ' and ';
 			
 			--Definicion de la respuesta		    

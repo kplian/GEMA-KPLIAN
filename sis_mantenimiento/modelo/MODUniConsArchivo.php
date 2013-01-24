@@ -130,7 +130,7 @@ class MODUniConsArchivo extends MODbase{
         //Define los parametros para la funcion 
         $this->setParametro('id_uni_cons_archivo','id_uni_cons_archivo','integer');   
         $this->setParametro('extension','extension','varchar');
-        $this->setParametro('archivo','archivo','bytea',false,'',false,array('doc','pdf','docx'));
+        $this->setParametro('archivo','archivo','bytea',false,'',false,array('doc','pdf','docx','jpg'));
                 
         
         //Ejecuta la instruccion

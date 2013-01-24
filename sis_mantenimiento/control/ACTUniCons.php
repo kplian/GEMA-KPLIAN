@@ -438,6 +438,21 @@ class ACTUniCons extends ACTbase{
 		$docTecDataSource->setDataSet($resultDocTec->getDatos());
 		$dataSource->putParameter('documentacionTecnicaDataSource', $docTecDataSource);
 		
+		//Imagen del Equipo
+		$this->objParam->addParametroConsulta('cantidad', 1);
+		$this->objParam->addParametroConsulta('puntero', 0);
+		$this->objParam->addParametroConsulta('ordenacion', 'id_uni_cons_archivo');
+		$this->objParam->addParametroConsulta('dir_ordenacion', 'asc');
+		$this->objParam->addParametroConsulta('filtro', " unidoc.extension in (''bmp'',''jpg'',''gif'',''png'') and (unidoc.reporte = ''si'' or unidoc.reporte = ''SI'') ");
+		$this->objParam->addParametro('id_uni_cons', $idUniCons);
+		$this->objFunc = $this->create('MODUniConsArchivo');
+		$resultArchivo = $this->objFunc->listarUniConsArchivo();
+		
+		$imagenData = $resultArchivo->getDatos();
+		if(count($imagenData) > 0) {
+			$dataSource->putParameter('imagePath', '../../../archivos_uni_cons/'.$imagenData[0]['id_uni_cons_archivo'].'.'.$imagenData[0]['extension']);
+		}
+		
 		//build the report
 		$reporte = new RUniCons_FichaTecnica();
 		$reporte->setDataSource($dataSource);
