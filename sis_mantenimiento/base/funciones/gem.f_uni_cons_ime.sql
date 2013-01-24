@@ -389,7 +389,7 @@ BEGIN
               
     /*********************************    
  	#TRANSACCION:  'GEM_ADDUC_MOD'
- 	#DESCRIPCION:	Generate unicons fron template tipo_cuni_cons
+ 	#DESCRIPCION:	Generate unicons from template tipo_cuni_cons
  	#AUTOR:		rac	
  	#FECHA:		09-08-2012 00:42:57
 	***********************************/
@@ -458,17 +458,29 @@ BEGIN
              
              -- 1) busca los datos del primer nodo raiz
              
-             FOR g_registros in  (select  tuc.codigo,tuc.estado,tuc.id_tipo_equipo,tuc.nombre,tuc.tipo_nodo , tuc.id_uni_cons
-                                  from gem.tuni_cons tuc 
-                                    where   tuc.id_uni_cons =  v_parametros.id_uni_cons  
-                                    and tuc.estado_reg='activo') LOOP
+			FOR g_registros in (
+            	select  
+                	tuc.codigo,
+                    tuc.estado,
+                    tuc.id_tipo_equipo,
+                    tuc.nombre,
+                    tuc.tipo_nodo,
+                    tuc.id_uni_cons,
+                    tuc.herramientas_especiales,
+                    tuc.otros_datos_tec,
+                    tuc.funcion,
+                    tuc.punto_recepcion_despacho
+                from gem.tuni_cons tuc 
+                where tuc.id_uni_cons = v_parametros.id_uni_cons  
+                and tuc.estado_reg='activo'
+			) LOOP
                
              --  busca los usarios con acceso a esta nueva_unidad constructiva
              
               WITH RECURSIVE arbol (id_localizacion,id_localizacion_fk) AS (  
                         select lo.id_localizacion,lo.id_localizacion_fk
                         from gem.tlocalizacion lo
-                        where lo.id_localizacion = 11
+                        where lo.id_localizacion = v_parametros.id_localizacion
                       UNION ALL
                          SELECT lo2.id_localizacion, lo2.id_localizacion_fk
                          FROM arbol a
@@ -478,43 +490,45 @@ BEGIN
                SELECT pxp.aggarray( lu.id_usuario) into v_id_usuarios_tmp
               FROM arbol a 
               inner join gem.tlocalizacion_usuario lu on lu.id_localizacion = a.id_localizacion; 
-             
-             
-              
-                
                 
                 -- 2)  los inserta como UC
                       
                        --Sentencia de la insercion
-                        insert into gem.tuni_cons(
-                        estado_reg,
-                        estado,
-                        nombre,
-                        tipo,
-                        codigo,
-                        id_tipo_equipo,
-                                        
-                        id_usuario_reg,
-                        fecha_reg,
-                        id_localizacion,
-                         tipo_nodo,
-                         id_plantilla,
-                         id_usuarios
-                        ) values(
-                        'activo',
-                       'registrado',
-                        upper(g_registros.nombre),
-                        'uc',
-                        upper(v_parametros.codigo_uni_cons),
-                        g_registros.id_tipo_equipo,
-                        p_id_usuario,
-                        now(),
-                        v_parametros.id_localizacion,
-                        'raiz',
-                         v_parametros.id_uni_cons,
-                         v_id_usuarios_tmp
-                        
-                        )RETURNING id_uni_cons into v_id_uni_cons;
+						insert into gem.tuni_cons (
+                        	estado_reg,
+                        	estado,
+                        	nombre,
+                        	tipo,
+                        	codigo,
+                        	id_tipo_equipo,
+                        	id_usuario_reg,
+                        	fecha_reg,
+                        	id_localizacion,
+                        	tipo_nodo,
+                         	id_plantilla,
+                         	id_usuarios,
+                            herramientas_especiales,
+                            otros_datos_tec,
+                            funcion,
+                            punto_recepcion_despacho
+                        ) values (
+                        	'activo',
+                       		'registrado',
+                        	upper(g_registros.nombre),
+                        	'uc',
+                        	upper(v_parametros.codigo_uni_cons),
+                        	g_registros.id_tipo_equipo,
+                        	p_id_usuario,
+                        	now(),
+                        	v_parametros.id_localizacion,
+                        	'raiz',
+                         	v_parametros.id_uni_cons,
+                         	v_id_usuarios_tmp,
+                            g_registros.herramientas_especiales,
+                            g_registros.otros_datos_tec,
+                            g_registros.funcion,
+                            g_registros.punto_recepcion_despacho
+                        ) RETURNING id_uni_cons into v_id_uni_cons;
                         
                         
                      --insertamos la relacion con el nodo relacionador

@@ -16,7 +16,11 @@ Phx.vista.UniConsArchivo=Ext.extend(Phx.gridInterfaz,{
 		this.maestro=config.maestro;
 		Phx.vista.UniConsArchivo.superclass.constructor.call(this,config);
 		this.init();
-		this.load({params:{start:0, limit:50}});
+		this.load({params:{
+			start:0, 
+			limit:50,
+			id_uni_cons: this.id_uni_cons
+			}});
 		this.addButton('btnUpload', {
                 text : 'Upload archivo',
                 iconCls : 'bupload1',
@@ -36,6 +40,8 @@ Phx.vista.UniConsArchivo=Ext.extend(Phx.gridInterfaz,{
                 height:150
             },rec.data,this.idContenedor,'SubirArchivo')
         }
+        
+        this.Atributos[1].valorInicial = this.id_uni_cons;
 	},
 			
 	Atributos:[
@@ -44,6 +50,15 @@ Phx.vista.UniConsArchivo=Ext.extend(Phx.gridInterfaz,{
 					labelSeparator:'',
 					inputType:'hidden',
 					name: 'id_uni_cons_archivo'
+			},
+			type:'Field',
+			form:true 
+		},
+		{
+			config:{
+					labelSeparator:'',
+					inputType:'hidden',
+					name: 'id_uni_cons'
 			},
 			type:'Field',
 			form:true 
@@ -275,7 +290,8 @@ Phx.vista.UniConsArchivo=Ext.extend(Phx.gridInterfaz,{
 		{name:'id_usuario_mod', type: 'numeric'},
 		{name:'fecha_mod', type: 'timestamp'},
 		{name:'usr_reg', type: 'string'},
-		{name:'usr_mod', type: 'string'}		
+		{name:'usr_mod', type: 'string'},
+		{name:'id_uni_cons', type: 'numeric'}
 	],
 	sortInfo:{
 		field: 'id_uni_cons_archivo',

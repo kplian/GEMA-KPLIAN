@@ -1,4 +1,6 @@
-﻿CREATE OR REPLACE FUNCTION gem.ft_uni_cons_archivo_ime (
+--------------- SQL ---------------
+
+CREATE OR REPLACE FUNCTION gem.ft_uni_cons_archivo_ime (
   p_administrador integer,
   p_id_usuario integer,
   p_tabla varchar,
@@ -58,7 +60,8 @@ BEGIN
 			fecha_reg,
 			id_usuario_reg,
 			id_usuario_mod,
-			fecha_mod
+			fecha_mod,
+            id_uni_cons
           	) values(
 			v_parametros.resumen,
 			v_parametros.palabras_clave,
@@ -69,7 +72,8 @@ BEGIN
 			now(),
 			p_id_usuario,
 			null,
-			null
+			null,
+            v_parametros.id_uni_cons
 			)RETURNING id_uni_cons_archivo into v_id_uni_cons_archivo;
                
 			--Definicion de la respuesta
@@ -99,7 +103,8 @@ BEGIN
 			nombre = v_parametros.nombre,
 			nombre_archivo = v_parametros.nombre_archivo,
 			id_usuario_mod = p_id_usuario,
-			fecha_mod = now()
+			fecha_mod = now(),
+            id_uni_cons = v_parametros.id_uni_cons
 			where id_uni_cons_archivo=v_parametros.id_uni_cons_archivo;
                
 			--Definicion de la respuesta
@@ -156,7 +161,8 @@ BEGIN
             tipo,
             id_usuario_reg,
             fecha_reg,
-            estado_reg
+            estado_reg,
+            id_uni_cons
             )values(
             v_transferencia.id_uni_cons_archivo,
             v_transferencia.codigo,
@@ -169,7 +175,8 @@ BEGIN
             'hijo',            
             p_id_usuario,
             now(),
-			'activo'
+			'activo',
+            v_transferencia.id_uni_cons
             );
             
             update gem.tuni_cons_archivo set

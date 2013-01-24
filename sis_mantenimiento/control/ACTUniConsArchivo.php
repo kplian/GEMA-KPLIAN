@@ -16,7 +16,7 @@ class ACTUniConsArchivo extends ACTbase{
 			$this->objReporte = new Reporte($this->objParam, $this);
 			$this->res = $this->objReporte->generarReporteListado('MODUniConsArchivo','listarUniConsArchivo');
 		} else{
-			$this->objFunc=$this->create('MODUniConsArchivo');	
+			$this->objFunc=$this->create('MODUniConsArchivo');
 			$this->res=$this->objFunc->listarUniConsArchivo();
 		}
 		$this->res->imprimirRespuesta($this->res->generarJson());

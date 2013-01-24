@@ -19,6 +19,8 @@ class MODUniConsArchivo extends MODbase{
 		$this->transaccion='GEM_UNIDOC_SEL';
 		$this->tipo_procedimiento='SEL';//tipo de transaccion
 		
+		$this->setParametro('id_uni_cons','id_uni_cons','int4');
+		
 		$_SESSION["ARCHIVO"]=array();
 		//Definicion de la lista del resultado del query
 		$this->captura('id_uni_cons_archivo','int4');
@@ -37,6 +39,7 @@ class MODUniConsArchivo extends MODbase{
 		$this->captura('fecha_mod','timestamp');
 		$this->captura('usr_reg','varchar');
 		$this->captura('usr_mod','varchar');
+		$this->captura('id_uni_cons','int4');
 		
 		//Ejecuta la instruccion
 		$this->armarConsulta();
@@ -62,6 +65,7 @@ class MODUniConsArchivo extends MODbase{
 		$this->setParametro('nombre','nombre','varchar');
 		$this->setParametro('archivo','archivo','bytea');
 		$this->setParametro('nombre_archivo','nombre_archivo','varchar');
+		$this->setParametro('id_uni_cons','id_uni_cons','int4');
 
 		//Ejecuta la instruccion
 		$this->armarConsulta();
@@ -88,6 +92,7 @@ class MODUniConsArchivo extends MODbase{
 		$this->setParametro('nombre','nombre','varchar');
 		$this->setParametro('archivo','archivo','bytea');
 		$this->setParametro('nombre_archivo','nombre_archivo','varchar');
+		$this->setParametro('id_uni_cons','id_uni_cons','int4');
 
 		//Ejecuta la instruccion
 		$this->armarConsulta();

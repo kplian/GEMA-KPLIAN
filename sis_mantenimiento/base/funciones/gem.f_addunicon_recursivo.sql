@@ -91,11 +91,22 @@ BEGIN
 
  --    2.1) recorremso el listado      
       
-      FOR g_registros in  (select  tuc.codigo,tuc.estado,
-                                          tuc.id_tipo_equipo,tuc.nombre,tuc.tipo_nodo , tuc.id_uni_cons
-                                 from gem.tuni_cons tuc 
-                                 inner join gem.tuni_cons_comp ucc  on ucc.id_uni_cons_hijo = tuc.id_uni_cons 
-                                 where   ucc.id_uni_cons_padre = v_id_orig and tuc.estado_reg='activo') LOOP
+		FOR g_registros in  (
+			select  
+            	tuc.codigo,
+                tuc.estado,
+            	tuc.id_tipo_equipo,
+                tuc.nombre,
+                tuc.tipo_nodo,
+                tuc.id_uni_cons,
+                tuc.herramientas_especiales,
+                tuc.otros_datos_tec,
+                tuc.funcion,
+                tuc.punto_recepcion_despacho
+			from gem.tuni_cons tuc 
+            inner join gem.tuni_cons_comp ucc  on ucc.id_uni_cons_hijo = tuc.id_uni_cons 
+            where   ucc.id_uni_cons_padre = v_id_orig and tuc.estado_reg='activo'
+		) LOOP
                
 
   --   2.2) insertamos el nuevo id con la llave forane de padre v_id_cop
@@ -121,7 +132,11 @@ BEGIN
                 fecha_reg,
                 
                 tipo_nodo,
-                incluir_calgen
+                incluir_calgen,
+                herramientas_especiales,
+                otros_datos_tec,
+                funcion,
+                punto_recepcion_despacho
                 ) values(
                 'activo',
                'registrado',
@@ -132,7 +147,11 @@ BEGIN
                 v_id_usuario,
                 now(),
                 'rama',
-                v_incluir_calgen
+                v_incluir_calgen,
+                g_registros.herramientas_especiales,
+                g_registros.otros_datos_tec,
+                g_registros.funcion,
+                g_registros.punto_recepcion_despacho
                 )RETURNING id_uni_cons into v_id_uni_cons;
             
    
