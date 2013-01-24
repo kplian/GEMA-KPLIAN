@@ -389,7 +389,7 @@ BEGIN
               
     /*********************************    
  	#TRANSACCION:  'GEM_ADDUC_MOD'
- 	#DESCRIPCION:	Generate unicons fron template tipo_cuni_cons
+ 	#DESCRIPCION:	Generate unicons from template tipo_cuni_cons
  	#AUTOR:		rac	
  	#FECHA:		09-08-2012 00:42:57
 	***********************************/
@@ -480,7 +480,7 @@ BEGIN
               WITH RECURSIVE arbol (id_localizacion,id_localizacion_fk) AS (  
                         select lo.id_localizacion,lo.id_localizacion_fk
                         from gem.tlocalizacion lo
-                        where lo.id_localizacion = 11
+                        where lo.id_localizacion = v_parametros.id_localizacion
                       UNION ALL
                          SELECT lo2.id_localizacion, lo2.id_localizacion_fk
                          FROM arbol a
