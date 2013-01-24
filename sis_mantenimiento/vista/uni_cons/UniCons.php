@@ -93,7 +93,7 @@ Phx.vista.UniCons=Ext.extend(Phx.arbInterfaz,{
    			}
    		});
    		
-   		this.tbar.add(this.menuOp);
+   		//this.tbar.add(this.menuOp);
     
 		this.addButton('btnDocTecnica', {
 				text : '',
