@@ -290,7 +290,8 @@ Phx.vista.UniConsArchivo=Ext.extend(Phx.gridInterfaz,{
 		{name:'id_usuario_mod', type: 'numeric'},
 		{name:'fecha_mod', type: 'timestamp'},
 		{name:'usr_reg', type: 'string'},
-		{name:'usr_mod', type: 'string'}		
+		{name:'usr_mod', type: 'string'},
+		{name:'id_uni_cons', type: 'numeric'}
 	],
 	sortInfo:{
 		field: 'id_uni_cons_archivo',

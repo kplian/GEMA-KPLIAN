@@ -477,7 +477,107 @@ BEGIN
                 g_registros.observaciones
             );
 		END LOOP;
-    
+        
+	-- 8) clonar los archivos de equipo.
+    	
+    	FOR g_registros in ( 
+			SELECT 
+            	ucarch.id_uni_cons_archivo,
+            	ucarch.nombre,
+                ucarch.nombre_archivo,
+                ucarch.resumen,
+                ucarch.extension,
+                ucarch.palabras_clave,
+                ucarch.codigo,
+                ucarch.archivo,
+                ucarch.tipo,
+                ucarch.reporte
+			FROM gem.tuni_cons_archivo ucarch
+			WHERE ucarch.id_uni_cons = v_id_orig
+            	and ucarch.estado_reg = 'activo'
+                and ucarch.id_uni_cons_archivo_padre is null
+		) LOOP
+        	INSERT INTO gem.tuni_cons_archivo (
+                id_usuario_reg,
+                fecha_reg,
+                estado_reg,
+                id_uni_cons,
+                nombre,
+                nombre_archivo,
+                resumen,
+                extension,
+                palabras_clave,
+                codigo,
+                archivo,
+                tipo,
+                reporte
+            ) VALUES (
+                v_id_usuario,
+                now(),
+                'activo',
+                v_id_cop,
+                g_registros.nombre,
+                g_registros.nombre_archivo,
+                g_registros.resumen,
+                g_registros.extension,
+                g_registros.palabras_clave,
+                g_registros.codigo,
+                g_registros.archivo,
+                g_registros.tipo,
+                g_registros.reporte
+            ) RETURNING id_uni_cons_archivo INTO v_id_copia_2;
+            
+            -- clonar los uni_cons_archvio tipo hijos
+            
+            FOR g_registros_2 in ( 
+                SELECT 
+                	ucarch2.id_uni_cons,
+                    ucarch2.nombre,
+                    ucarch2.nombre_archivo,
+                    ucarch2.resumen,
+                    ucarch2.extension,
+                    ucarch2.palabras_clave,
+                    ucarch2.codigo,
+                    ucarch2.archivo,
+                    ucarch2.tipo,
+                    ucarch2.reporte
+                FROM gem.tuni_cons_archivo ucarch2
+                WHERE ucarch2.id_uni_cons_archivo_padre = g_registros.id_uni_cons_archivo
+                    and ucarch2.estado_reg = 'activo'
+            ) LOOP
+                INSERT INTO gem.tuni_cons_archivo (
+                    id_usuario_reg,
+                    fecha_reg,
+                    estado_reg,
+                    id_uni_cons_archivo_padre,
+                    id_uni_cons,
+                    nombre,
+                    nombre_archivo,
+                    resumen,
+                    extension,
+                    palabras_clave,
+                    codigo,
+                    archivo,
+                    tipo,
+                    reporte
+                ) VALUES (
+                    v_id_usuario,
+                    now(),
+                    'activo',
+                    v_id_copia_2,
+                    g_registros_2.id_uni_cons,
+                    g_registros_2.nombre,
+                    g_registros_2.nombre_archivo,
+                    g_registros_2.resumen,
+                    g_registros_2.extension,
+                    g_registros_2.palabras_clave,
+                    g_registros_2.codigo,
+                    g_registros_2.archivo,
+                    g_registros_2.tipo,
+                    g_registros_2.reporte
+                );
+            END LOOP;
+		END LOOP;
  RETURN TRUE;
 END;
 $body$
