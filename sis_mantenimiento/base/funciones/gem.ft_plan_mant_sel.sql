@@ -96,7 +96,11 @@ BEGIN
 					    from gem.tplan_mant plama
 					    inner join segu.tusuario usu1 on usu1.id_usuario = plama.id_usuario_reg
 						left join segu.tusuario usu2 on usu2.id_usuario = plama.id_usuario_mod
-					    where  plama.id_uni_cons='||v_parametros.id_uni_cons||' and ';
+						inner join orga.tfuncionario fun on fun.id_funcionario=plama.id_funcionario
+						inner join segu.vpersona vper on vper.id_persona=fun.id_persona
+						inner join orga.tfuncionario funrev on funrev.id_funcionario=plama.id_funcionario_rev
+						inner join segu.vpersona vperev on vperev.id_persona=funrev.id_persona
+						where  plama.id_uni_cons='||v_parametros.id_uni_cons||' and ';
 			
 			--Definicion de la respuesta		    
 			v_consulta:=v_consulta||v_parametros.filtro;
