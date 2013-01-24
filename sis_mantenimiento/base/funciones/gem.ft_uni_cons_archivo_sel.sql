@@ -1,4 +1,6 @@
-﻿CREATE OR REPLACE FUNCTION gem.ft_uni_cons_archivo_sel (
+--------------- SQL ---------------
+
+CREATE OR REPLACE FUNCTION gem.ft_uni_cons_archivo_sel (
   p_administrador integer,
   p_id_usuario integer,
   p_tabla varchar,
@@ -60,11 +62,13 @@ BEGIN
 						unidoc.id_usuario_mod,
 						unidoc.fecha_mod,
 						usu1.cuenta as usr_reg,
-						usu2.cuenta as usr_mod	
+						usu2.cuenta as usr_mod,
+                        unidoc.id_uni_cons
 						from gem.tuni_cons_archivo unidoc
 						inner join segu.tusuario usu1 on usu1.id_usuario = unidoc.id_usuario_reg
 						left join segu.tusuario usu2 on usu2.id_usuario = unidoc.id_usuario_mod
-				        where unidoc.id_uni_cons_archivo_padre is NULL and ';
+				        where unidoc.id_uni_cons_archivo_padre is NULL 
+                        and unidoc.id_uni_cons = ' ||v_parametros.id_uni_cons|| ' and ';
 			
 			--Definicion de la respuesta
 			v_consulta:=v_consulta||v_parametros.filtro;
@@ -124,9 +128,10 @@ BEGIN
 			--Sentencia de la consulta de conteo de registros
 			v_consulta:='select count(id_uni_cons_archivo)
 					    from gem.tuni_cons_archivo unidoc
-					    inner join segu.tusuario usu1 on usu1.id_usuario = unidoc.id_usuario_reg
+						inner join segu.tusuario usu1 on usu1.id_usuario = unidoc.id_usuario_reg
 						left join segu.tusuario usu2 on usu2.id_usuario = unidoc.id_usuario_mod
-					    where ';
+				        where unidoc.id_uni_cons_archivo_padre is NULL 
+                        and unidoc.id_uni_cons = ' ||v_parametros.id_uni_cons|| ' and ';
 			
 			--Definicion de la respuesta		    
 			v_consulta:=v_consulta||v_parametros.filtro;

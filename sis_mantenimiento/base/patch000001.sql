@@ -1153,3 +1153,15 @@ ALTER TABLE	gem.tuni_cons_archivo
 ALTER TABLE	gem.tuni_cons_archivo
   ADD CONSTRAINT chk_tuni_cons_archivo__reporte CHECK (reporte in ('si','no'));
 /***********************************F-SCP-RCM-GEM-110-23/01/2013*****************************************/
+
+/***********************************I-SCP-AAO-GEM-109-24/01/2013*****************************************/
+ALTER TABLE gem.tuni_cons_archivo
+  ADD COLUMN id_uni_cons INTEGER;
+
+ALTER TABLE gem.tuni_cons_archivo
+  ADD CONSTRAINT fk_tuni_cons_archivo__id_uni_cons FOREIGN KEY (id_uni_cons)
+    REFERENCES gem.tuni_cons(id_uni_cons)
+    ON DELETE NO ACTION
+    ON UPDATE NO ACTION
+    NOT DEFERRABLE;
+/***********************************F-SCP-AAO-GEM-109-24/01/2013*****************************************/
