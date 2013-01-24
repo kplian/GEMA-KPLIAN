@@ -171,12 +171,25 @@ Class RUniCons_FichaTecnica extends Report {
 		$pdf->SetFont('', 'B');
 		$pdf->setTextColor(51,51,153);
 		$pdf->Cell($w = $width2, $h = $height, $txt = $this->getDataSource()->getParameter('puntoRecepcionDespacho'), $border = 'B', $ln = 0, $align = 'L', $fill = false, $link = '', $stretch = 0, $ignore_min_height = false, $calign = 'T', $valign = 'M');
+		$pdf->Ln();
+		$pdf->Ln();
 		
+		$xContinue = $pdf->GetX();
+		$yContinue = $pdf->GetY();
+		
+		//write immage
+		$pdf->SetXY($xPictureBox, $yPictureBox);
+		if($this->getDataSource()->getParameter('imagePath') != null) {
+			$pdf->Image($file = $this->getDataSource()->getParameter('imagePath'), $x = $xPictureBox, $y = $yPictureBox, 
+				$w = 65, $h = 35, $type = '', $link = '', $align = '', $resize = true, $dpi = 300, $palign = '', $ismask = false, $imgmask = false, $border = 1, $fitbox = false, $hidden = false, $fitonpage = false, $alt = false, $altimgs = array()); 	
+		} else {
+			$pdf->SetXY($xPictureBox, $yPictureBox);
+			$pdf->Cell(65, 35, '', 1, 0, 'L', false, '', 0, false, 'T', 'C');
+		}
 		
 		//paint el detalle del padre
 		$dataset = $this->getDataSource()->getDataset();
-		$pdf->Ln();
-		$pdf->Ln();
+		$pdf->SetXY($xContinue, $yContinue);
 		//Detalle de la unidad constructiva
 		$pdf->SetFontSize(7.5);
 		$pdf->SetFont('', 'B');
@@ -186,12 +199,20 @@ Class RUniCons_FichaTecnica extends Report {
 		
 		$colCount = 0;
 		$pdf->SetFontSize(6.5);
+		
+		
+		$widthColVariable = 30;
+		$widthColValor = 50;
+		$widthSeparator = 15;
+		
+		$pdf->Cell(10, $height, '', 0, 0, 'C', false, '', 0, false, 'T', 'C');
+		$this->writePair($pdf, 'TAG', $widthColVariable, $this->getDataSource()->getParameter('codigo'), $widthColValor, 0, $height);
+		$pdf->Cell($widthSeparator, $height, '', 0, 0, 'C', false, '', 0, false, 'T', 'C');
+		$colCount++;
+		
 		foreach($dataset as $row) {
 			
 			//Tabla
-			$widthColVariable = 30;
-			$widthColValor = 50;
-			$widthSeparator = 15;
 			if($colCount == 0) {
 				$pdf->Cell(10, $height, '', 0, 0, 'C', false, '', 0, false, 'T', 'C');
 				$this->writePair($pdf, $row['nombre'], $widthColVariable, $row['valor'], $widthColValor, 0, $height);
@@ -237,11 +258,6 @@ Class RUniCons_FichaTecnica extends Report {
 		$pdf->Ln();
 		$pdf->Cell($w = 30, $h = $height, $txt = 'Observaciones', $border = 0, $ln = 0, $align = 'L', $fill = false, $link = '', $stretch = 0, $ignore_min_height = false, $calign = 'T', $valign = 'M');
 		$pdf->MultiCell($w = 155, $h = $hMedium, $txt = $this->getDataSource()->getParameter('observaciones'), $border = 0, $align = 'L', $fill = false, $ln = 0, $x = '',$y = '', $reseth = true, $stretch = 0, $ishtml = false, $autopadding = true, $maxh = $hMedium, $valign = 'T', $fitcell = false);
-		
-		//write immage
-		//TODO: write image
-		$pdf->SetXY($xPictureBox, $yPictureBox);
-		$pdf->Cell(0, 35, '', 1, 0, 'L', false, '', 0, false, 'T', 'C');
 		
 		$pdf->Output($fileName, 'F');
 	}
