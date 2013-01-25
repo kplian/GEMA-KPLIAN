@@ -530,6 +530,7 @@ Phx.vista.UniCons=Ext.extend(Phx.arbInterfaz,{
                     this.getBoton('btnAtrib').disable();
                 }
                 else{
+                    this.tbar.items.get('b-new-' + this.idContenedor).disable();
                     this.getBoton('btnBlock').disable();
                     this.getBoton('btnUpload').enable();
                     this.getBoton('btnItems').enable();
