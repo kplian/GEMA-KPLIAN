@@ -33,6 +33,7 @@ DECLARE
 	v_mensaje_error         text;
 	v_id_uni_cons_archivo	integer;
     v_transferencia			record;
+    v_reporte				record;
 			    
 BEGIN
 
@@ -47,8 +48,13 @@ BEGIN
 	***********************************/
 
 	if(p_transaccion='GEM_UNIDOC_INS')then
-					
+	
         begin
+        	if(v_parametros.reporte='si') then
+              select * into v_reporte from gem.tuni_cons_archivo where reporte='si';
+              update gem.tuni_cons_archivo set 
+              reporte='no' where id_uni_cons_archivo=v_reporte.id_uni_cons_archivo;
+            end if;
         	--Sentencia de la insercion
         	insert into gem.tuni_cons_archivo(
 			resumen,
@@ -56,6 +62,7 @@ BEGIN
 			estado_reg,
 			codigo,
 			nombre,
+            reporte,
 			nombre_archivo,
 			fecha_reg,
 			id_usuario_reg,
@@ -68,6 +75,7 @@ BEGIN
 			'activo',
 			v_parametros.codigo,
 			v_parametros.nombre,
+            v_parametros.reporte,
 			v_parametros.nombre_archivo,
 			now(),
 			p_id_usuario,
@@ -100,6 +108,7 @@ BEGIN
 			resumen = v_parametros.resumen,
 			palabras_clave = v_parametros.palabras_clave,
 			codigo = v_parametros.codigo,
+            reporte = v_parametros.reporte,
 			nombre = v_parametros.nombre,
 			nombre_archivo = v_parametros.nombre_archivo,
 			id_usuario_mod = p_id_usuario,

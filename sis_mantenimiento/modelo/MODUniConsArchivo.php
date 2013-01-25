@@ -31,6 +31,7 @@ class MODUniConsArchivo extends MODbase{
 		$this->captura('estado_reg','varchar');
 		$this->captura('codigo','varchar');
 		$this->captura('nombre','varchar');
+        $this->captura('reporte','varchar');
 		$this->captura('archivo','bytea','id_uni_cons_archivo','extension','archivo','../../../archivos_uni_cons/');
 		$this->captura('nombre_archivo','varchar');
 		$this->captura('fecha_reg','timestamp');
@@ -63,6 +64,7 @@ class MODUniConsArchivo extends MODbase{
 		$this->setParametro('estado_reg','estado_reg','varchar');
 		$this->setParametro('codigo','codigo','varchar');
 		$this->setParametro('nombre','nombre','varchar');
+        $this->setParametro('reporte','reporte','varchar');
 		$this->setParametro('archivo','archivo','bytea');
 		$this->setParametro('nombre_archivo','nombre_archivo','varchar');
 		$this->setParametro('id_uni_cons','id_uni_cons','int4');
@@ -90,6 +92,7 @@ class MODUniConsArchivo extends MODbase{
 		$this->setParametro('estado_reg','estado_reg','varchar');
 		$this->setParametro('codigo','codigo','varchar');
 		$this->setParametro('nombre','nombre','varchar');
+        $this->setParametro('reporte','reporte','varchar');
 		$this->setParametro('archivo','archivo','bytea');
 		$this->setParametro('nombre_archivo','nombre_archivo','varchar');
 		$this->setParametro('id_uni_cons','id_uni_cons','int4');
@@ -130,7 +133,7 @@ class MODUniConsArchivo extends MODbase{
         //Define los parametros para la funcion 
         $this->setParametro('id_uni_cons_archivo','id_uni_cons_archivo','integer');   
         $this->setParametro('extension','extension','varchar');
-        $this->setParametro('archivo','archivo','bytea',false,'',false,array('doc','pdf','docx','jpg'));
+        $this->setParametro('archivo','archivo','bytea',false,'',false,array('doc','pdf','docx','jpg','jpeg','bmp','gif','png'));
                 
         
         //Ejecuta la instruccion

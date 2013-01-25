@@ -55,6 +55,7 @@ BEGIN
 						unidoc.estado_reg,
 						unidoc.codigo,
 						unidoc.nombre,
+                        unidoc.reporte,
 						unidoc.archivo,
 						unidoc.nombre_archivo,
 						unidoc.fecha_reg,

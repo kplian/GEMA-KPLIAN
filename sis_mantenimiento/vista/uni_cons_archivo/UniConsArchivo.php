@@ -41,10 +41,31 @@ Phx.vista.UniConsArchivo=Ext.extend(Phx.gridInterfaz,{
             },rec.data,this.idContenedor,'SubirArchivo')
         }
         
-        this.Atributos[1].valorInicial = this.id_uni_cons;
+        this.iniciarEventos();
+        this.Atributos[2].valorInicial = this.id_uni_cons;        
 	},
 			
-	Atributos:[
+	Atributos:[	       
+        {
+            config:{                
+                name:'tipo',
+                fieldLabel:'Tipo',
+                allowBlank:false,
+                emptyText:'Tipo...',
+                store: ['imagen','documento'],
+                forceSelection:true,
+                triggerAction: 'all',
+                mode:'local',
+            },
+            type:'ComboBox',
+            id_grupo:0,
+            filters:{   
+                pfiltro:'tipo',
+                type:'string'
+            },
+            grid:false,
+            form:true
+        },
 		{
 			config:{
 					labelSeparator:'',
@@ -162,6 +183,26 @@ Phx.vista.UniConsArchivo=Ext.extend(Phx.gridInterfaz,{
 			form:false
 		},
 		{
+            config:{                
+                name:'reporte',
+                fieldLabel:'Reporte',
+                allowBlank:false,
+                emptyText:'Reporte?...',
+                store: ['si','no'],
+                forceSelection:true,
+                triggerAction: 'all',
+                mode:'local',
+            },
+            type:'ComboBox',
+            id_grupo:0,
+            filters:{   
+                pfiltro:'reporte',
+                type:'string'
+            },
+            grid:true,
+            form:true
+        },
+		{
 			config:{
 				name: 'resumen',
 				fieldLabel: 'Resumen',
@@ -278,6 +319,7 @@ Phx.vista.UniConsArchivo=Ext.extend(Phx.gridInterfaz,{
 		{name:'id_uni_cons_archivo', type: 'numeric'},
 		{name:'id_uni_cons_archivo_padre', type: 'numeric'},
 		{name:'extension', type: 'string'},
+		{name:'reporte', type: 'string'},
 		{name:'resumen', type: 'string'},
 		{name:'palabras_clave', type: 'string'},
 		{name:'estado_reg', type: 'string'},
@@ -310,6 +352,36 @@ Phx.vista.UniConsArchivo=Ext.extend(Phx.gridInterfaz,{
         Phx.vista.UniConsArchivo.superclass.liberaMenu.call(this,tb)
         this.getBoton('btnUpload').disable();      
     },
+    
+    iniciarEventos:function()
+    {       
+        this.ocultarComponente(this.getComponente('reporte'));
+        this.getComponente('tipo').on('select',function(c,r,n){
+                if(n=='imagen' || n=='0'){
+                    this.getComponente('reporte').enable();
+                    this.mostrarComponente(this.getComponente('reporte'));
+                }else{
+                    this.ocultarComponente(this.getComponente('reporte'));
+                    this.getComponente('reporte').setValue('no');
+                    this.getComponente('reporte').disable();
+                }
+                
+        },this);
+    },
+    
+    onButtonEdit:function(){
+        datos=this.sm.getSelected().data;
+        Phx.vista.UniConsArchivo.superclass.onButtonEdit.call(this); //sobrecarga enable select
+        if(datos.reporte=='si'){
+            this.getComponente('reporte').enable();
+            this.mostrarComponente(this.getComponente('reporte'));
+        }else{
+            this.getComponente('reporte').setValue('no');
+            this.getComponente('reporte').disable();
+            this.ocultarComponente(this.getComponente('reporte'));
+        }
+    },
+    
     south:{
           url:'../../../sis_mantenimiento/vista/uni_cons_archivo/ListarVersionesArchivo.php',
           title:'Versiones de archivo',
