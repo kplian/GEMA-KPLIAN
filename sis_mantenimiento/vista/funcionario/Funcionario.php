@@ -16,9 +16,7 @@ Phx.vista.FuncionarioGem = {
 	bdel: true,
 	bedit: true,
 	bnew: true,
-	constructor: function(config) {
-		Phx.vista.FuncionarioGem.superclass.constructor.call(this,config);
-		this.Atributos.push({
+	AtributosExtra:[{
        			config:{
        				name:'id_especialidades',
        				fieldLabel:'Especialidades Técnicas',
@@ -34,10 +32,8 @@ Phx.vista.FuncionarioGem = {
        					},
        					totalProperty: 'total',
        					fields: ['id_especialidad','codigo','nombre','desc_especialidad_nivel'],
-       					// turn on remote sorting
        					remoteSort: true,
        					baseParams:{par_filtro:'espcia.nombre#espcia.codigo#espniv.nombre'}
-       					
        				}),
        				valueField: 'id_especialidad',
        				displayField: 'nombre',
@@ -48,10 +44,10 @@ Phx.vista.FuncionarioGem = {
        				mode:'remote',
        				pageSize:10,
        				queryDelay:1000,
-       				anchor: '100%',
+       				anchor: '90%',
        				minChars:2,
 	       			enableMultiSelect:true,
-       				//renderer:function(value, p, record){return String.format('{0}', record.data['descripcion']);}
+	       			hiddenName:'id_especialidades'
        			},
        			type:'AwesomeCombo',
        			id_grupo:0,
@@ -59,49 +55,57 @@ Phx.vista.FuncionarioGem = {
        			form:true
        	},
        	{
-       			config:{
-       				name:'id_horarios',
-       				fieldLabel:'Horarios',
-       				allowBlank:true,
-       				emptyText:'Horarios...',
-       				store: new Ext.data.JsonStore({
-              			url: '../../sis_organigrama/control/TipoHorario/listarTipoHorario',
-       					id: 'id_tipo_horario',
-       					root: 'datos',
-       					sortInfo:{
-       						field: 'nombre',
-       						direction: 'ASC'
-       					},
-       					totalProperty: 'total',
-       					fields: ['id_tipo_horario','codigo','nombre'],
-       					// turn on remote sorting
-       					remoteSort: true,
-       					baseParams:{par_filtro:'nombre#codigo'}
-       					
-       				}),
-       				valueField: 'id_tipo_horario',
-       				displayField: 'nombre',
-       				forceSelection:true,
-       				typeAhead: true,
-           			triggerAction: 'all',
-           			lazyRender:true,
-       				mode:'remote',
-       				pageSize:10,
-       				queryDelay:1000,
-       				anchor: '100%',
-       				minChars:2,
-	       			enableMultiSelect:true,
-       				//renderer:function(value, p, record){return String.format('{0}', record.data['descripcion']);}
-       			},
-       			type:'AwesomeCombo',
-       			id_grupo:0,
-       			grid:false,
-       			form:true
-       	});
+	       	config:{
+	       			name: 'horario1',
+	       			fieldLabel: "Horario Normal (Bs./Hora)",
+	       			gwidth: 120,
+	       			allowBlank:false,	
+	       			anchor:'50%',
+	       			hiddenName:'horario1'
+	       			
+	       		},
+	       		type:'NumberField',
+	       		filters:{type:'numeric'},
+	       		id_grupo:0,
+	       		grid:true,
+	       		form:true
+	     },
+       	{
+	       	config:{
+	       			name: 'horario2',
+	       			fieldLabel: "Horario Extra1 (Bs./Hora)",
+	       			gwidth: 120,
+	       			allowBlank:true,	
+	       			anchor:'50%',
+	       			hiddenName:'horario2'
+	       		},
+	       		type:'NumberField',
+	       		filters:{type:'numeric'},
+	       		id_grupo:0,
+	       		grid:true,
+	       		form:true
+	     },
+       	{
+	       	config:{
+	       			name: 'horario3',
+	       			fieldLabel: "Horario Extra2 (Bs./Hora)",
+	       			gwidth: 120,
+	       			allowBlank:true,	
+	       			anchor:'50%',
+	       			hiddenName:'horario3'
+	       		},
+	       		type:'NumberField',
+	       		filters:{type:'numeric'},
+	       		id_grupo:0,
+	       		grid:true,
+	       		form:true
+	     }
+	],
+
+	constructor: function(config) {
+       	Phx.vista.FuncionarioGem.superclass.constructor.call(this,config);
 		this.init();
 		this.load({params:{start:0, limit:50}});
-		console.log(this.Atributos);
-		
 	},
 	tabsouth:[{
 		  url:'../../../sis_organigrama/vista/funcionario_especialidad/FuncionarioEspecialidad.php',
@@ -117,7 +121,28 @@ Phx.vista.FuncionarioGem = {
 		  //width:'50%',		//ancho de la ventana hjo
 		  cls:'FuncionarioHonorario'
 		}
-	]
+	],
+	ActSave:'../../sis_mantenimiento/control/Funcionario/guardarFuncionario',
+	ActDel:'../../sis_mantenimiento/control/Funcionario/eliminarFuncionario',
+	ActList:'../../sis_mantenimiento/control/Funcionario/listarFuncionario',
+	onButtonEdit: function() {
+		//Dfine como opcional el dato del horario 1
+		this.getComponente('horario1').allowBlank=true;
+		this.ocultarComponente(this.getComponente('id_especialidades'));
+		this.ocultarComponente(this.getComponente('horario1'));
+		this.ocultarComponente(this.getComponente('horario2'));
+		this.ocultarComponente(this.getComponente('horario3'));
+		Phx.vista.FuncionarioGem.superclass.onButtonEdit.call(this);
+		
+	},
+	onButtonNew: function(){
+		this.getComponente('horario1').allowBlank=false;
+		this.mostrarComponente(this.getComponente('id_especialidades'));
+		this.mostrarComponente(this.getComponente('horario1'));
+		this.mostrarComponente(this.getComponente('horario2'));
+		this.mostrarComponente(this.getComponente('horario3'));
+		Phx.vista.FuncionarioGem.superclass.onButtonNew.call(this);
+	}
 
 };
 </script>

@@ -828,3 +828,8 @@ select pxp.f_add_catalog('GEM','torden_trabajo_sol__importancia','Baja');
 select pxp.f_insert_tgui ('Órdenes de Trabajo', 'Registro Órdenes de Trabajo', 'GEM.2.4', 'si', 4, 'sis_mantenimiento/vista/orden_trabajo/ListadoGeneralOT.php', 3, '', 'ListadoGeneralOT', 'GEM');
 select pxp.f_insert_testructura_gui ('GEM.2.4', 'GEM.2');
 /***********************************F-DAT-AAO-GEM-106-18/01/2013****************************************/
+
+/***********************************I-DAT-RCM-GEN-97-06/02/2013****************************************/
+update param.tmoneda set tipo_moneda = 'secundaria';
+update param.tmoneda set tipo_moneda = 'base' where moneda ilike '%Bolivianos%';
+/***********************************F-DAT-RCM-GEN-97-06/02/2013****************************************/
