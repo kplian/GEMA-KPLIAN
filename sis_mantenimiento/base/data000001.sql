@@ -829,7 +829,7 @@ select pxp.f_insert_tgui ('Órdenes de Trabajo', 'Registro Órdenes de Trabajo',
 select pxp.f_insert_testructura_gui ('GEM.2.4', 'GEM.2');
 /***********************************F-DAT-AAO-GEM-106-18/01/2013****************************************/
 
-/***********************************I-DAT-RCM-GEN-97-06/02/2013****************************************/
+/***********************************I-DAT-RCM-GEM-97-06/02/2013****************************************/
 update param.tmoneda set tipo_moneda = 'secundaria';
 update param.tmoneda set tipo_moneda = 'base' where moneda ilike '%Bolivianos%';
-/***********************************F-DAT-RCM-GEN-97-06/02/2013****************************************/
+/***********************************F-DAT-RCM-GEM-97-06/02/2013****************************************/

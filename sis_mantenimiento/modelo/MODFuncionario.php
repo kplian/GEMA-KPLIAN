@@ -41,6 +41,7 @@ class MODFuncionario extends MODbase{
 		$this->captura('telefono1','varchar');
 		$this->captura('celular1','varchar');
 		$this->captura('correo','varchar');
+		$this->captura('telefono_ofi','varchar');
 
 		
 		//Ejecuta la funcion
@@ -68,6 +69,7 @@ class MODFuncionario extends MODbase{
 		$this->setParametro('fecha_ingreso','fecha_ingreso','date');
 		$this->setParametro('email_empresa','email_empresa','varchar');
 		$this->setParametro('interno','interno','varchar');
+		$this->setParametro('telefono_ofi','telefono_ofi','varchar');
 		$this->setParametro('id_especialidades','id_especialidades','varchar');
 		$this->setParametro('horario1','horario1','numeric');
 		$this->setParametro('horario2','horario2','numeric');
@@ -100,6 +102,7 @@ class MODFuncionario extends MODbase{
 		$this->setParametro('fecha_ingreso','fecha_ingreso','date');
 		$this->setParametro('email_empresa','email_empresa','varchar');
 		$this->setParametro('interno','interno','varchar');
+		$this->setParametro('telefono_ofi','telefono_ofi','varchar');
 		$this->setParametro('id_especialidades','id_especialidades','varchar');
 		$this->setParametro('horario1','horario1','numeric');
 		$this->setParametro('horario2','horario2','numeric');

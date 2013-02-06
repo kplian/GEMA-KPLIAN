@@ -68,38 +68,15 @@ BEGIN
                             PERSON.num_documento,
                             PERSON.telefono1, 
                             PERSON.celular1, 
-                            PERSON.correo
-                            
+                            PERSON.correo,
+                            FUNCIO.telefono_ofi
                             FROM orga.tfuncionario FUNCIO
                             INNER JOIN SEGU.vpersona PERSON ON PERSON.id_persona=FUNCIO.id_persona
                             inner join segu.tusuario usu1 on usu1.id_usuario = FUNCIO.id_usuario_reg
 						    left join segu.tusuario usu2 on usu2.id_usuario = FUNCIO.id_usuario_mod
-                            
                             WHERE ';
                
-               
                v_consulta:=v_consulta||v_parametros.filtro;
-               v_consulta:=v_consulta||'      GROUP BY FUNCIO.id_funcionario,
-                            FUNCIO.codigo,
-                            FUNCIO.estado_reg,
-                            FUNCIO.fecha_reg,
-                            FUNCIO.id_persona,
-                            FUNCIO.id_usuario_reg,
-                            FUNCIO.fecha_mod,
-                            FUNCIO.id_usuario_mod,
-                            FUNCIO.email_empresa,
-                            FUNCIO.interno,
-                            FUNCIO.fecha_ingreso,
-                            PERSON.nombre_completo1,
-                            usu1.cuenta,
-						    usu2.cuenta,
-                            PERSON.ci, 
-                            PERSON.num_documento,
-                            PERSON.telefono1, 
-                            PERSON.celular1, 
-                            PERSON.correo';
-               
-               
                
                v_consulta:=v_consulta||' order by ' ||v_parametros.ordenacion|| ' ' || v_parametros.dir_ordenacion || ' limit ' || v_parametros.cantidad || ' OFFSET ' || v_parametros.puntero;
 
@@ -120,7 +97,7 @@ BEGIN
           BEGIN
 
                v_consulta:='SELECT
-                                  count(FUNCIO.id_funcionario)
+                            count(FUNCIO.id_funcionario)
                             FROM orga.tfuncionario FUNCIO
                             INNER JOIN SEGU.vpersona PERSON ON PERSON.id_persona=FUNCIO.id_persona
                             inner join segu.tusuario usu1 on usu1.id_usuario = FUNCIO.id_usuario_reg
