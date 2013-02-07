@@ -154,6 +154,28 @@ Phx.vista.EquipoMedicionConsol=Ext.extend(Phx.gridInterfaz,{
 		this.maestro=m;	
 		this.store.baseParams={id_localizacion:this.maestro.id_localización};
 		this.load({params:{start:0, limit:50}});			
+	},
+	onButtonAct:function(){
+		if(this.dteFechaIni.isValid() && this.dteFechaFin.isValid())
+		{
+			this.store.baseParams=Ext.apply(this.store.baseParams,{fecha_desde:this.dteFechaIni.getValue().dateFormat('d/m/Y'),fecha_hasta:this.dteFechaFin.getValue().dateFormat('d/m/Y')   })
+			
+			
+			if(this.store.lastOptions){
+			 //Phx.vista.EquipoMedicionDinamico.superclass.onButtonAct.call(this);
+			 
+			 this.load({params:{start:0, limit:50},callback:this.successReloadGrid,scope:this})
+			}
+			else{
+				this.load({params:{start:0, limit:50},callback:this.successReloadGrid,scope:this})
+			}
+			
+		}
+		
+	},
+	successReloadGrid:function(rec,con,res){
+
+		
 	}
 }
 
