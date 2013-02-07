@@ -1198,4 +1198,7 @@ ALTER TABLE gem.tlocalizacion_correl OWNER TO postgres;
 
 alter table gem.torden_trabajo_sol
 add column nro_sol varchar(20);
+
+alter table gem.tlocalizacion
+add column tipo_numeracion varchar(20);
 /***********************************F-SCP-RCM-GEM-123-18/02/2013*****************************************/
