@@ -371,7 +371,7 @@ class ACTUniCons extends ACTbase{
 		
 		//get detalle
 		$this->objParam->addParametroConsulta('filtro', ' 0 = 0');
-		$this->objParam->addParametroConsulta('ordenacion', 'id_uni_cons_det');
+		$this->objParam->addParametroConsulta('ordenacion', 'codigo');
 		$this->objParam->addParametroConsulta('dir_ordenacion', 'asc');
 		$this->objParam->addParametroConsulta('cantidad', 1000);
 		$this->objParam->addParametroConsulta('puntero', 0);
