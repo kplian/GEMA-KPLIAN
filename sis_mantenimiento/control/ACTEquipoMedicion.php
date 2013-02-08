@@ -51,8 +51,6 @@ class ACTEquipoMedicion extends ACTbase{
 		
 		
 		
-
-		
 		if(!isset($id334)){
 		   $codigo= $this->objParam->getParametro('id_mediciones_mes');
 			

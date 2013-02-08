@@ -79,7 +79,8 @@ BEGIN
 			id_usuario_reg,
 			id_usuario_mod,
 			fecha_mod,
-			observaciones
+			observaciones,
+			num_paros_planif
           	) values(
 			v_parametros.id_localizacion,
 			v_parametros.id_uni_cons,
@@ -94,7 +95,8 @@ BEGIN
 			p_id_usuario,
 			null,
 			null,
-			v_parametros.observaciones
+			v_parametros.observaciones,
+			v_parametros.num_paros_planif
 			)RETURNING id_localizacion_med into v_id_localizacion_med;
                
 			--Definicion de la respuesta
@@ -148,7 +150,8 @@ BEGIN
 			tiempo_mpp_hrs = v_parametros.tiempo_mpp_hrs,
 			id_usuario_mod = p_id_usuario,
 			fecha_mod = now(),
-			observaciones = v_parametros.observaciones
+			observaciones = v_parametros.observaciones,
+			num_paros_planif=v_parametros.num_paros_planif
 			where id_localizacion_med=v_parametros.id_localizacion_med;
                
 			--Definicion de la respuesta

@@ -57,6 +57,7 @@ Phx.vista.EquipoMedicionDinamico=Ext.extend(Phx.gridInterfaz,{
 		this.fields.push('id_uni_cons')
 		this.fields.push({name:'fecha', type: 'date', dateFormat:'Y-m-d'})
 		this.fields.push('hora')
+		this.fields.push('observaciones')
 		
 		if(res)
 		{
@@ -102,8 +103,21 @@ Phx.vista.EquipoMedicionDinamico=Ext.extend(Phx.gridInterfaz,{
 								grid:true,
 								form:true 
 						};
+			this.Atributos[3]={
+			//configuracion del componente
+								config:{
+										
+										name: 'observaciones',
+										fieldLabel: 'Observaciones',
+										anchor: '100%',
+										allowBlank: true
+								},
+								type:'TextArea',
+								grid:true,
+								form:true 
+						};
 									
-			var recText = this.id_store +'#integer@fecha#date@hora#time';			
+			var recText = this.id_store +'#integer@fecha#date@hora#time@observaciones#varchar';			
 			
 			for (var i=0;i<rec.length;i++){
 				var configDef={};

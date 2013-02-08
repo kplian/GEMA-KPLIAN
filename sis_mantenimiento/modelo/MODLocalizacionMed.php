@@ -41,6 +41,7 @@ class MODLocalizacionMed extends MODbase{
 		$this->captura('usr_mod','varchar');
 		$this->captura('desc_uni_cons','varchar');
 		$this->captura('observaciones','varchar');
+		$this->captura('num_paros_planif','int4');
 		
 		//Ejecuta la instruccion
 		$this->armarConsulta();
@@ -68,6 +69,7 @@ class MODLocalizacionMed extends MODbase{
 		$this->setParametro('fecha_med','fecha_med','date');
 		$this->setParametro('tiempo_mpp_hrs','tiempo_mpp_hrs','numeric');
 		$this->setParametro('observaciones','observaciones','varchar');
+		$this->setParametro('num_paros_planif','num_paros_planif','int4');
 
 		//Ejecuta la instruccion
 		$this->armarConsulta();
@@ -95,6 +97,7 @@ class MODLocalizacionMed extends MODbase{
 		$this->setParametro('fecha_med','fecha_med','date');
 		$this->setParametro('tiempo_mpp_hrs','tiempo_mpp_hrs','numeric');
 		$this->setParametro('observaciones','observaciones','varchar');
+		$this->setParametro('num_paros_planif','num_paros_planif','int4');
 
 		//Ejecuta la instruccion
 		$this->armarConsulta();

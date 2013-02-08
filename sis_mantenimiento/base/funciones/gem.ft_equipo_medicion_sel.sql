@@ -1,5 +1,3 @@
---------------- SQL ---------------
-
 CREATE OR REPLACE FUNCTION gem.ft_equipo_medicion_sel (
   p_administrador integer,
   p_id_usuario integer,
@@ -191,7 +189,8 @@ BEGIN
           v_consulta = 'create temp table tt_mediciones_equipo_'||p_id_usuario||'(
                         id_mediciones_mes serial,
                         fecha date,
-                        hora time
+                        hora time,
+                        observaciones varchar
           ';  
         
          
@@ -235,8 +234,8 @@ BEGIN
          --  LLenamos la tabla temporal          
                        
           --  2) FOR  consulta las fechas de la tabla  equipo medicion filtrados por uni_cons,
-                   
-               FOR g_registros in  (select DISTINCT em.fecha_medicion, em.hora 
+--                   raise exception 'paciencia';
+               FOR g_registros in  (select DISTINCT em.fecha_medicion, em.hora, coalesce(em.observaciones,'') as observaciones
                                       from gem.tequipo_medicion em 
                                       inner join gem.tequipo_variable ev 
                                       on ev.id_equipo_variable = em.id_equipo_variable 
@@ -244,18 +243,21 @@ BEGIN
                                               and  ev.estado_reg = 'activo' and ev.tipo='numeric'
                                                 and em.fecha_medicion between  v_parametros.fecha_ini and v_parametros.fecha_fin 
                                       order by em.fecha_medicion) LOOP
-                                      
+--                                      raise notice 'PPPPPPP %',v_consulta2;
                       --2.0) (atributos) arma primera parte de la cadena de insercion con datos del equipo y del mantenimiento
      
                
            					 v_consulta1= 'INSERT into tt_mediciones_equipo_'||p_id_usuario||' (
                                                      fecha,
-                                                     hora ';
+                                                     hora,
+                                                     observaciones ';
                                                        
  							--  (valores)   arma la cadena de insercion de valores 
          
-         
-            				v_consulta2= ') values('''||g_registros.fecha_medicion||''','''||g_registros.hora||'''';                  
+
+            				v_consulta2= ') values('''||g_registros.fecha_medicion||''','''||g_registros.hora||''','''||g_registros.observaciones||'''';                  
+                            
+                       --     raise notice 'fytftttrfd%',v_consulta2;
                                                                               
                     
                      --2.1) FOR  consulta los registros de la tabla  equipo medicion agrupados por fecha y unic_cons,

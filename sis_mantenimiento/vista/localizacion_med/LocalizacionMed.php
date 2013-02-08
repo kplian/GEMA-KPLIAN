@@ -148,14 +148,29 @@ Phx.vista.LocalizacionMed=Ext.extend(Phx.gridInterfaz,{
 		{
 			config:{
 				name: 'num_paros',
-				fieldLabel: 'Nro. Paros',
+				fieldLabel: 'Nro. Paros No Planif.',
 				allowBlank: true,
 				anchor: '100%',
-				gwidth: 100,
+				gwidth: 150,
 				maxLength:4
 			},
 			type:'NumberField',
 			filters:{pfiltro:'locmed.num_paros',type:'numeric'},
+			id_grupo:0,
+			grid:true,
+			form:true
+		},
+		{
+			config:{
+				name: 'num_paros_planif',
+				fieldLabel: 'Nro. Paros Planif.',
+				allowBlank: true,
+				anchor: '100%',
+				gwidth: 150,
+				maxLength:4
+			},
+			type:'NumberField',
+			filters:{pfiltro:'locmed.num_paros_planif',type:'numeric'},
 			id_grupo:0,
 			grid:true,
 			form:true
@@ -378,8 +393,8 @@ Phx.vista.LocalizacionMed=Ext.extend(Phx.gridInterfaz,{
 		{name:'usr_reg', type: 'string'},
 		{name:'usr_mod', type: 'string'},
 		{name:'desc_uni_cons', type: 'string'},
-		{name:'observaciones', type: 'string'}
-		
+		{name:'observaciones', type: 'string'},
+		{name:'num_paros_planif', type: 'numeric'}
 	],
 	sortInfo:{
 		field: 'fecha_med',

@@ -1165,3 +1165,8 @@ ALTER TABLE gem.tuni_cons_archivo
     ON UPDATE NO ACTION
     NOT DEFERRABLE;
 /***********************************F-SCP-AAO-GEM-109-24/01/2013*****************************************/
+
+/***********************************I-SCP-RCM-GEM-116-08/02/2013*****************************************/
+alter table gem.tlocalizacion_med
+add column num_paros_planif integer;
+/***********************************F-SCP-RCM-GEM-116-08/02/2013*****************************************/

@@ -1,5 +1,3 @@
---------------- SQL ---------------
-
 CREATE OR REPLACE FUNCTION gem.ft_equipo_medicion_ime (
   p_administrador integer,
   p_id_usuario integer,
@@ -163,12 +161,13 @@ BEGIN
              
            
         
-        
+
         
         --Sentencia de la consulta
 			  v_consulta_inser:='insert into gem.tequipo_medicion (
                                                               fecha_medicion,
                                                               hora,
+                                                              observaciones,
                                                               estado_reg,
                                                               id_usuario_reg,
                                                               fecha_reg,
@@ -176,6 +175,7 @@ BEGIN
                                                               medicion) values(
                                                                               '''||v_parametros.fecha ||''',
                                                                               '''||v_parametros.hora||''',
+                                                                              '''||v_parametros.observaciones||''',
                                                                               ''estado'',
                                                                               '||p_id_usuario||',
                                                                               '''||now()||''',' ;
@@ -187,6 +187,7 @@ BEGIN
                                           id_usuario_mod = '||p_id_usuario||',
                                           fecha_mod = '''||now()||''',
                                           hora = '''||v_parametros.hora||''',
+                                          observaciones = '''||v_parametros.observaciones||''',
                                           fecha_medicion = '''||v_parametros.fecha||''',';
                                           
                                           /*
@@ -200,14 +201,14 @@ BEGIN
                         
               v_param= string_to_array(v_parametros.datos,'@');
               v_tamano = coalesce(array_length(v_param, 1),0);
-             
-             v_i = 4; --iniciamos dsde la posicion 4 que es porterioa  :  id, fecha, hora,.... 
+
+             v_i = 5; --iniciamos dsde la posicion 4 que es porterioa  :  id, fecha, hora,.... 
 	       
             raise notice '>>>>>>         WHILE' ;
             WHILE  v_i <= v_tamano LOOP
           
         
-        
+
                 v_param_det= string_to_array(v_param[v_i],'#');
               raise notice '111111111' ;
                 v_medicion:=trim(pxp.f_get_parametro(p_tabla,v_param_det[1]));
@@ -219,7 +220,7 @@ BEGIN
                
                 v_id_equipo_medicion:=(trim(pxp.f_get_parametro(p_tabla,v_param_det[1])))::integer;--el valor de id_quipo_medicion
                 
-                raise NOTICE '<<<<<<   nombre   %   medicion %  id_equipo_medicion  %      ev  %',v_param_det[1],v_medicion,v_id_equipo_medicion,v_id_equipo_variable[2];
+                raise notice '<<<<<<   nombre   %   medicion %  id_equipo_medicion  %      ev  %',v_param_det[1],v_medicion,v_id_equipo_medicion,v_id_equipo_variable[2];
                 
                 
                  --define si insertamos o modificammos
