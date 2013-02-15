@@ -307,10 +307,10 @@ Class RUniCons_FichaTecnica extends Report {
 	}
 	
 	function writeRepuestos (DataSource $dataSource, TCPDF $pdf) {
-		$widthMarginLeft = 10;
+		$widthMarginLeft = 0.01;
 		$widthNombre = 60;
 		$widthItem = 20;
-		$widthObservaciones = 90;
+		$widthObservaciones = 106;
 		
 		$pdf->Ln();
 		$pdf->Ln();
@@ -320,7 +320,7 @@ Class RUniCons_FichaTecnica extends Report {
 		$pdf->SetFillColor(51,51,153, true);
 		$pdf->setTextColor(255,255,255);
 		$pdf->Cell($widthMarginLeft, $height, '', 0, 0, 'C', false, '', 0, false, 'T', 'C');
-		$pdf->Cell($widthNombre + $widthItem + $widthObservaciones, $height, 'Repuestos', 1, 0, 'C', true, '', 0, false, 'T', 'C');
+		$pdf->Cell($widthNombre + $widthItem + $widthObservaciones, $height, 'REPUESTOS', 1, 0, 'C', true, '', 0, false, 'T', 'C');
 		$pdf->Ln();
 		
 		$pdf->Cell($widthMarginLeft, $height, '', 0, 0, 'C', false, '', 0, false, 'T', 'C');
