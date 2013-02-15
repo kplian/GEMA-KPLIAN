@@ -350,6 +350,19 @@ header("content-type: text/javascript; charset=UTF-8");
 				}, data, this.idContenedor, 'TpmTarjeta')
 			}
 		},
+		
+		onConsolEqMed: function() {
+			var node = this.sm.getSelectedNode();
+			var data = node.attributes;
+			Phx.CP.log(node);
+			if (data) {
+				Phx.CP.loadWindows('../../../sis_mantenimiento/vista/equipo_medicion/EquipoMedicionConsol.php', 'Consolidación Mediciones: ' + node.text, {
+					modal: true,
+					width: 900,
+					height: 400
+				}, data, this.idContenedor, 'EquipoMedicionConsol')
+			}
+		},
 
 		winmodal: false,
 
@@ -737,6 +750,10 @@ header("content-type: text/javascript; charset=UTF-8");
 				this.menuLoc.disable();
 				this.ctxMenu.items.get('mni-tarTPM-' + this.idContenedor).disable();
 				this.menuLoc.menu.items.get('btn-tarTPM-' + this.idContenedor).disable();
+				//CONSOLIDACION MEDICIONES
+				this.menuLoc.disable();
+				this.ctxMenu.items.get('mni-consolEqMed-' + this.idContenedor).disable();
+				this.menuLoc.menu.items.get('btn-consolEqMed-' + this.idContenedor).disable();
 				//SINCRONIZACION
 				this.menuLoc.disable();
 				this.ctxMenu.items.get('mni-usuSinc-' + this.idContenedor).disable();
@@ -811,6 +828,10 @@ header("content-type: text/javascript; charset=UTF-8");
 				this.menuLoc.disable();
 				this.ctxMenu.items.get('mni-tarTPM-' + this.idContenedor).disable();
 				this.menuLoc.menu.items.get('btn-tarTPM-' + this.idContenedor).disable();
+				//CONSOLIDACION MEDICIONES
+				this.menuLoc.disable();
+				this.ctxMenu.items.get('mni-consolEqMed-' + this.idContenedor).disable();
+				this.menuLoc.menu.items.get('btn-consolEqMed-' + this.idContenedor).disable();
 				//SINCRONIZACION
 				this.menuLoc.disable();
 				this.ctxMenu.items.get('mni-usuSinc-' + this.idContenedor).disable();
@@ -818,7 +839,6 @@ header("content-type: text/javascript; charset=UTF-8");
 				//INCLUIR/EXCLUIR EQUIPOS
 				this.getBoton('btn-incCalen').enable();
 				this.ctxMenu.items.get('mni-incCalen-' + this.idContenedor).enable();
-				//EQUIPOS
 				//EQUIPOS
 				this.menuEq.enable();
 				this.ctxMenu.items.get('mni-equipos-' + this.idContenedor).enable();
@@ -890,6 +910,10 @@ header("content-type: text/javascript; charset=UTF-8");
 				this.menuLoc.enable();
 				this.ctxMenu.items.get('mni-tarTPM-' + this.idContenedor).enable();
 				this.menuLoc.menu.items.get('btn-tarTPM-' + this.idContenedor).enable();
+				//CONSOLIDACION MEDICIONES
+				this.menuLoc.enable();
+				this.ctxMenu.items.get('mni-consolEqMed-' + this.idContenedor).enable();
+				this.menuLoc.menu.items.get('btn-consolEqMed-' + this.idContenedor).enable();
 				//SINCRONIZACION
 				this.menuLoc.enable();
 				this.ctxMenu.items.get('mni-usuSinc-' + this.idContenedor).enable();
@@ -1056,6 +1080,13 @@ header("content-type: text/javascript; charset=UTF-8");
 				handler: this.onBtnTarjetasTPM,
 				scope: this
 			});
+			
+			this.ctxMenu.addMenuItem({
+				id: 'mni-consolEqMed-'+this.idContenedor,
+				text: 'Consolidación Mediciones',
+				handler: this.onConsolEqMed,
+				scope: this
+			});
 			//Sincronización de usuarios
 			this.ctxMenu.add('-');
 			this.ctxMenu.addMenuItem({
@@ -1191,9 +1222,16 @@ header("content-type: text/javascript; charset=UTF-8");
 					handler: this.onBtnTarjetasTPM,
 					tooltip: '<b>Tarjetas TPM</b>',
 					scope: this
-					}
-				 ]
-				 }
+				}, 
+				{
+					id:'btn-consolEqMed-' + this.idContenedor,
+					text: 'Consolidación Mediciones',
+					disabled: true,
+					handler: this.onConsolEqMed,
+					tooltip: '<b>Consolidación Mediciones</b>',
+					scope: this
+				}
+			]}
 			});
 			this.tbar.add(this.menuLoc);
 			

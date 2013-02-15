@@ -34,6 +34,7 @@ DECLARE
     v_cod               varchar;
     v_cod2				varchar;
     v_pos 				integer;
+    v_ids				varchar;
 			    
 BEGIN
 
@@ -338,6 +339,103 @@ BEGIN
 			--Devuelve la respuesta
             
            -- raise exception '%',v_consulta;
+			return v_consulta;
+
+		end;
+    
+    /*********************************    
+ 	#TRANSACCION:  'GEM_LOMECO_SEL'
+ 	#DESCRIPCION:	Mediciones consolidades por Localización
+ 	#AUTOR:			rcm	
+ 	#FECHA:			14/02/2013
+	***********************************/    
+    elsif(p_transaccion='GEM_LOMECO_SEL')then
+     				
+    	begin
+        
+            --Obtencion de los ids de localizacion
+            WITH RECURSIVE t(id,id_fk,nombre,n) AS (
+                SELECT l.id_localizacion,l.id_localizacion_fk, l.nombre,1
+                FROM gem.tlocalizacion l 
+                WHERE l.id_localizacion = v_parametros.id_localizacion
+                UNION ALL
+                SELECT l.id_localizacion,l.id_localizacion_fk, l.nombre,n+1
+                FROM gem.tlocalizacion l, t
+                WHERE l.id_localizacion_fk = t.id
+            )
+            SELECT (pxp.list(id::text))::varchar
+            INTO v_ids
+            FROM t;
+        
+			--Sentencia de la consulta de conteo de registros
+			v_consulta:='select
+                        tvar.nombre,sum(eqmed.medicion) as total,umed.codigo as unidad_medida, umed.descripcion
+                        from gem.tuni_cons ucons
+                        inner join gem.tequipo_variable eqvar
+                        on eqvar.id_uni_cons = eqvar.id_uni_cons
+                        inner join gem.tequipo_medicion eqmed
+                        on eqmed.id_equipo_variable = eqvar.id_equipo_variable
+                        inner join gem.ttipo_variable tvar
+                        on tvar.id_tipo_variable = eqvar.id_tipo_variable
+                        inner join param.tunidad_medida umed
+                        on umed.id_unidad_medida = tvar.id_unidad_medida
+                        where ucons.tipo = ''uc''
+                        and ucons.id_localizacion in ('||v_ids||')
+                        and eqmed.fecha_medicion between ''' || v_parametros.fecha_desde || ''' and ''' || v_parametros.fecha_hasta || '''
+                        group by tvar.nombre,umed.codigo, umed.descripcion';
+			
+            raise notice '%', v_consulta;
+			--Devuelve la respuesta
+			return v_consulta;
+
+		end;
+
+	/*********************************    
+ 	#TRANSACCION:  'GEM_LOMECO_CONT'
+ 	#DESCRIPCION:	Conteo de registros
+ 	#AUTOR:			rcm
+ 	#FECHA:			14/02/2013
+	***********************************/
+
+	elsif(p_transaccion='GEM_LOMECO_CONT')then
+
+		begin
+        
+        	--Obtencion de los ids de localizacion
+            WITH RECURSIVE t(id,id_fk,nombre,n) AS (
+                SELECT l.id_localizacion,l.id_localizacion_fk, l.nombre,1
+                FROM gem.tlocalizacion l 
+                WHERE l.id_localizacion = v_parametros.id_localizacion
+                UNION ALL
+                SELECT l.id_localizacion,l.id_localizacion_fk, l.nombre,n+1
+                FROM gem.tlocalizacion l, t
+                WHERE l.id_localizacion_fk = t.id
+            )
+            SELECT (pxp.list(id::text))::varchar
+            INTO v_ids
+            FROM t;
+            
+			--Sentencia de la consulta de conteo de registros
+			v_consulta:='select count(*)
+            			from (select
+                        tvar.nombre,sum(eqmed.medicion) as total,umed.codigo as unidad_medida, umed.descripcion
+                        from gem.tuni_cons ucons
+                        inner join gem.tequipo_variable eqvar
+                        on eqvar.id_uni_cons = eqvar.id_uni_cons
+                        inner join gem.tequipo_medicion eqmed
+                        on eqmed.id_equipo_variable = eqvar.id_equipo_variable
+                        inner join gem.ttipo_variable tvar
+                        on tvar.id_tipo_variable = eqvar.id_tipo_variable
+                        inner join param.tunidad_medida umed
+                        on umed.id_unidad_medida = tvar.id_unidad_medida
+                        where ucons.tipo = ''uc''
+                        and ucons.id_localizacion in ('||v_ids||')
+                        and eqmed.fecha_medicion between ''' || v_parametros.fecha_desde || ''' and ''' || v_parametros.fecha_hasta || '''
+                        group by tvar.nombre,umed.codigo, umed.descripcion) med';
+
+            raise notice 'AA%', v_consulta;
+
+			--Devuelve la respuesta
 			return v_consulta;
 
 		end;

@@ -245,6 +245,34 @@ class MODEquipoMedicion extends MODbase{
 		//Devuelve la respuesta
 		return $this->respuesta;
 	}
+	
+	function listarMedicionConsol(){
+		//Definicion de variables para ejecucion del procedimientp
+		$this->procedimiento='gem.ft_equipo_medicion_sel';
+		$this->transaccion='GEM_LOMECO_SEL';
+		$this->tipo_procedimiento='SEL';//tipo de transaccion
+		
+		
+		//var_dump($this->objParam);
+		
+		$this->setParametro('id_localizacion','id_localizacion','int4');
+		$this->setParametro('fecha_desde','fecha_desde','date');
+		$this->setParametro('fecha_hasta','fecha_hasta','date');
+				
+		//Definicion de la lista del resultado del query
+		$this->captura('nombre','varchar');
+		$this->captura('total','numeric');
+		$this->captura('unidad_medida','varchar');
+		$this->captura('descripcion','varchar');
+	
+		//Ejecuta la instruccion
+		$this->armarConsulta();
+		$this->ejecutarConsulta();
+		//echo $this->consulta;exit;
+		
+		//Devuelve la respuesta
+		return $this->respuesta;
+	}
 			
 }
 ?>
