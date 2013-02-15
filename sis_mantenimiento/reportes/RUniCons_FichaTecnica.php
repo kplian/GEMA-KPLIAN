@@ -25,7 +25,7 @@ require_once dirname(__FILE__).'/pxpReport/Report.php';
 		
 		$this->SetFontSize(14);
 		$this->SetFont('','B');
-		$this->Cell(105, $height, 'FICHA TECNICA', 1, 0, 'C', false, '', 0, false, 'T', 'C');
+		$this->Cell(105, $height, 'FICHA TÉCNICA', 1, 0, 'C', false, '', 0, false, 'T', 'C');
 		$x = $this->GetX();
 		$y = $this->GetY();
 		
@@ -39,17 +39,17 @@ require_once dirname(__FILE__).'/pxpReport/Report.php';
 		$width2 = 23;
 		$this->SetXY($x, $y);
 		$this->setCellPaddings(2);
-		$this->Cell($width1, $height/4, 'Codigo:', "B", 0, '', false, '', 0, false, 'T', 'C');
+		$this->Cell($width1, $height/4, 'Código:', "B", 0, '', false, '', 0, false, 'T', 'C');
 		$this->SetFont('','B');
-		$this->Cell($width2, $height/4, $this->dataSource->getParameter('codigo'), "B", 0, 'C', false, '', 0, false, 'T', 'C');
+		$this->Cell($width2, $height/4, 'GMAN-RG-SM-06', "B", 0, 'C', false, '', 0, false, 'T', 'C');
 		
 		$this->SetFont('','');
 		$y += 5;
 		$this->SetXY($x, $y);
 		$this->setCellPaddings(2);
-		$this->Cell($width1, $height/4, 'Revision:', "B", 0, '', false, '', 0, false, 'T', 'C');
+		$this->Cell($width1, $height/4, 'Revisión:', "B", 0, '', false, '', 0, false, 'T', 'C');
 		$this->SetFont('','B');
-		$this->Cell($width2, $height/4, '***', "B", 0, 'C', false, '', 0, false, 'T', 'C');
+		$this->Cell($width2, $height/4, '1', "B", 0, 'C', false, '', 0, false, 'T', 'C');
 		
 		$this->SetFont('','');
 		$y += 5;
@@ -65,12 +65,30 @@ require_once dirname(__FILE__).'/pxpReport/Report.php';
 		$this->setCellPaddings(2);
 		$this->Cell($width1, $height/4, 'Página:', "B", 0, '', false, '', 0, false, 'T', 'C');
 		$this->SetFont('','B');
-		$this->Cell($width2, $height/4, $this->PageNo().' de '.$this->getNumPages(), "B", 0, 'C', false, '', 0, false, 'T', 'C');
+		//$this->Cell($width2, $height/4, $this->PageNo().' de '.$this->getNumPages(), "B", 0, 'C', false, '', 0, false, 'T', 'C');
+		$this->Cell($width2, $height/4, '                  '.$this->getAliasNumPage().' de '.$this->getAliasNbPages(), "B", 0, 'C', false, '', 0, false, 'T', 'C');
 		
 	}
 	
 	public function Footer() {
 		//TODO: implement the footer manager
+		$this->SetFontSize(5.5);
+		$this->setY(-10);
+		$ormargins = $this->getOriginalMargins();
+		$this->SetTextColor(0, 0, 0);
+		//set style for cell border
+		$line_width = 0.85 / $this->getScaleFactor();
+		$this->SetLineStyle(array('width' => $line_width, 'cap' => 'butt', 'join' => 'miter', 'dash' => 0, 'color' => array(0, 0, 0)));
+		$ancho = round(($this->getPageWidth() - $ormargins['left'] - $ormargins['right']) / 3);
+		$this->Ln(2);
+		$cur_y = $this->GetY();
+		//$this->Cell($ancho, 0, 'Generado por XPHS', 'T', 0, 'L');
+		$this->Cell($ancho, 0, 'Usuario:                '.$_SESSION['_LOGIN'], '', 1, 'L');
+		$pagenumtxt = 'Página'.' '.$this->getAliasNumPage().' de '.$this->getAliasNbPages();
+		//$this->Cell($ancho, 0, '', '', 0, 'C');
+		$fecha_rep = date("d-m-Y H:i:s");
+		$this->Cell($ancho, 0, "Fecha impresión: ".$fecha_rep, '', 0, 'L');
+		$this->Ln($line_width);
 	}
 }
 
@@ -91,7 +109,7 @@ Class RUniCons_FichaTecnica extends Report {
 		$pdf->SetDefaultMonospacedFont(PDF_FONT_MONOSPACED);
 		
 		//set margins
-		$pdf->SetMargins(PDF_MARGIN_LEFT, 40, PDF_MARGIN_RIGHT);
+		$pdf->SetMargins(PDF_MARGIN_LEFT, 32, PDF_MARGIN_RIGHT);
 		$pdf->SetHeaderMargin(10);
 		$pdf->SetFooterMargin(PDF_MARGIN_FOOTER);
 		
@@ -107,7 +125,7 @@ Class RUniCons_FichaTecnica extends Report {
 		// add a page
 		$pdf->AddPage();
 		
-		$height = 5;
+		$height = 4;
 		$width1 = 30;
 		$width2 = 90;
 		$pdf->SetFontSize(8);
@@ -115,13 +133,13 @@ Class RUniCons_FichaTecnica extends Report {
 		$pdf->Cell(0, $height, 'INFORMACIÓN DE ESTACIÓN:', 0, 0, 'L', false, '', 0, false, 'T', 'C');
 		$pdf->Ln();
 		
-		$pdf->SetFontSize(7.5);
+		$pdf->SetFontSize(6.5);
 		$pdf->SetFont('', '');
 		$pdf->setTextColor(0,0,0);
 		$pdf->Cell($width1, $height, 'Propietario:', 0, 0, 'L', false, '', 0, false, 'T', 'C');
 		$pdf->SetFont('', 'B');
 		$pdf->setTextColor(51,51,153);
-		$pdf->Cell($width2, $height, 'YPFB LOGISTICA SA', 'B', 0, 'L', false, '', 0, false, 'T', 'C');
+		$pdf->Cell($width2, $height, 'YPFB LOGÍSTICA SA.', 'B', 0, 'L', false, '', 0, false, 'T', 'C');
 		$xPictureBox = $pdf->GetX();
 		$yPictureBox = $pdf->GetY();
 		$pdf->Ln();
@@ -195,6 +213,7 @@ Class RUniCons_FichaTecnica extends Report {
 		$pdf->SetFont('', 'B');
 		$pdf->Cell(0, $height, 'IDENTIFICACIÓN:', 0, 0, 'L', false, '', 0, false, 'T', 'C');
 		$pdf->Ln();
+		$height=3;
 		// end title
 		
 		$colCount = 0;
@@ -277,15 +296,15 @@ Class RUniCons_FichaTecnica extends Report {
 	
 	function writeHijoUniCons(DataSource $dataSource, TCPDF $pdf) {
 		$pdf->Ln();
-		$pdf->Ln();
 		$pdf->SetFontSize(7.5);
-		$pdf->SetFont('', 'B');
-		$height = 5;
+		$pdf->SetFont('', '');
+		$height = 4;
 		$pdf->SetFillColor(51,51,153, true);
 		$pdf->setTextColor(255,255,255);
-		$pdf->Cell(0, $height, $dataSource->getParameter('nombreUniConsHijo'), 1, 0, 'C', true, '', 0, false, 'T', 'C');
+		$pdf->Cell(185, $height, $dataSource->getParameter('nombreUniConsHijo'), 1, 0, 'C', true, '', 0, false, 'T', 'C');
 		$pdf->Ln();
-		$pdf->Ln();
+		$height = 3;
+		$pdf->SetFontSize(6.5);
 		foreach($dataSource->getDataset() as $row) {
 			
 			//Tabla
@@ -310,13 +329,13 @@ Class RUniCons_FichaTecnica extends Report {
 		$widthMarginLeft = 0.01;
 		$widthNombre = 60;
 		$widthItem = 20;
-		$widthObservaciones = 106;
+		$widthObservaciones = 105;
 		
 		$pdf->Ln();
 		$pdf->Ln();
 		$pdf->SetFontSize(7.5);
-		$pdf->SetFont('', 'B');
-		$height = 5;
+		$pdf->SetFont('', '');
+		$height = 4;
 		$pdf->SetFillColor(51,51,153, true);
 		$pdf->setTextColor(255,255,255);
 		$pdf->Cell($widthMarginLeft, $height, '', 0, 0, 'C', false, '', 0, false, 'T', 'C');
@@ -330,6 +349,7 @@ Class RUniCons_FichaTecnica extends Report {
 		$pdf->Ln();
 		$pdf->setTextColor(0,0,0);
 		$pdf->SetFontSize(6.5);
+		$height = 3;
 		foreach($dataSource->getDataset() as $row) {
 			$pdf->Cell($widthMarginLeft, $height, '', 0, 0, 'C', false, '', 0, false, 'T', 'C');
 			$pdf->Cell($widthNombre, $height, $row['nombre'], 1, 0, 'L', false, '', 0, false, 'T', 'C');
@@ -353,17 +373,16 @@ Class RUniCons_FichaTecnica extends Report {
 		$pdf->Ln();
 		$pdf->Ln();
 		$pdf->SetFontSize(7.5);
-		$pdf->SetFont('', 'B');
-		$height = 5;
+		$pdf->SetFont('', '');
+		$height = 4;
 		$pdf->SetFillColor(51,51,153, true);
 		$pdf->setTextColor(255,255,255);
 		if($widthMarginLeft > 0) {
 			$pdf->Cell($widthMarginLeft, $height, '', 0, 0, 'C', false, '', 0, false, 'T', 'C');
 		}
-		$pdf->Cell($totalWidth, $height, 'Proveedor de Repuestos', 1, 0, 'C', true, '', 0, false, 'T', 'C');
+		$pdf->Cell($totalWidth, $height, 'PROVEEDOR DE REPUESTOS', 1, 0, 'C', true, '', 0, false, 'T', 'C');
 		$pdf->Ln();
 		
-		$pdf->SetFontSize(6);
 		if ($widthMarginLeft > 0) {
 			$pdf->Cell($widthMarginLeft, $height, '', 0, 0, 'C', false, '', 0, false, 'T', 'C');
 		}
@@ -376,6 +395,8 @@ Class RUniCons_FichaTecnica extends Report {
 		$pdf->Cell($widthEmail, $height, 'Email', 1, 0, 'C', true, '', 0, false, 'T', 'C');
 		$pdf->Ln();
 		$pdf->setTextColor(0,0,0);
+		$height = 3;
+		$pdf->SetFontSize(6.5);
 		
 		foreach($dataSource->getDataset() as $row) {
 			if ($widthMarginLeft > 0) {
@@ -398,33 +419,44 @@ Class RUniCons_FichaTecnica extends Report {
 		$wAdjunto = 15;
 		$wCodigo = 15;
 		$wObs = 100;
-		$hNormal = 5;
+		$hNormal = 4;
 		
 		$pdf->SetFontSize(7.5);
-		$pdf->SetFont('', 'B');
-		$pdf->setTextColor(234,0,0);
-		$pdf->Cell($w = 185, $h = $hNormal, $txt = 'DOCUMENTACION TECNICA', $border = 1, $ln = 0, $align = 'C', $fill = false, $link = '', $stretch = 0, $ignore_min_height = false, $calign = 'T', $valign = 'M');
+		$pdf->SetFont('', '');
+		//$pdf->setTextColor(234,0,0);
+		
+		$height = 4;
+		$pdf->SetFillColor(51,51,153, true);
+		$pdf->setTextColor(255,255,255);
+		
+		//$pdf->Cell($w = 185, $h = $hNormal, $txt = 'DOCUMENTACION TECNICA', $border = 1, $ln = 0, $align = 'C', $fill = false, $link = '', $stretch = 0, $ignore_min_height = false, $calign = 'T', $valign = 'M');
+		$pdf->Cell(185, $height, 'DOCUMENTACIÓN TÉCNICA', 1, 0, 'C', true, '', 0, false, 'T', 'C');
 		$pdf->Ln();
-		$pdf->setTextColor(0,0,0);
-		$pdf->Cell($w = $wDocumento, $h = $hNormal, $txt = 'DOCUMENTO', $border = 1, $ln = 0, $align = 'C', $fill = false, $link = '', $stretch = 0, $ignore_min_height = false, $calign = 'T', $valign = 'M');
-		$pdf->Cell($w = $wAdjunto, $h = $hNormal, $txt = 'ADJUNTO', $border = 1, $ln = 0, $align = 'C', $fill = false, $link = '', $stretch = 0, $ignore_min_height = false, $calign = 'T', $valign = 'M');
-		$pdf->Cell($w = $wCodigo, $h = $hNormal, $txt = 'CODIGO', $border = 1, $ln = 0, $align = 'C', $fill = false, $link = '', $stretch = 0, $ignore_min_height = false, $calign = 'T', $valign = 'M');
-		$pdf->Cell($w = $wObs, $h = $hNormal, $txt = 'OBSERVACIONES', $border = 1, $ln = 0, $align = 'C', $fill = false, $link = '', $stretch = 0, $ignore_min_height = false, $calign = 'T', $valign = 'M');
+		//$pdf->setTextColor(0,0,0);
+
+		$pdf->Cell($w = $wDocumento, $h = $hNormal, $txt = 'Documento', $border = 1, $ln = 0, $align = 'C', $fill = true, $link = '', $stretch = 0, $ignore_min_height = false, $calign = 'T', $valign = 'M');
+		$pdf->Cell($w = $wAdjunto, $h = $hNormal, $txt = 'Si/No', $border = 1, $ln = 0, $align = 'C', $fill = true, $link = '', $stretch = 0, $ignore_min_height = false, $calign = 'T', $valign = 'M');
+		$pdf->Cell($w = $wCodigo, $h = $hNormal, $txt = 'Código', $border = 1, $ln = 0, $align = 'C', $fill = true, $link = '', $stretch = 0, $ignore_min_height = false, $calign = 'T', $valign = 'M');
+		$pdf->Cell($w = $wObs, $h = $hNormal, $txt = 'Observaciones', $border = 1, $ln = 0, $align = 'C', $fill = true, $link = '', $stretch = 0, $ignore_min_height = false, $calign = 'T', $valign = 'M');
 		$pdf->Ln();
 		
-		$pdf->SetFontSize(6.5);
+		//$pdf->SetFontSize(6.5);
+		$pdf->SetFontSize(6);
 		$pdf->SetFont('', '');
+		$pdf->setTextColor(0,0,0);
+		$hNormal=3;
+		
 		foreach($dataSource->getDataset() as $row) {
 			$adjunto = null;
-			$pdf->Cell($w = $wDocumento, $h = $hNormal, $txt = $row['nombre_documento'], $border = 1, $ln = 0, $align = 'C', $fill = false, $link = '', $stretch = 0, $ignore_min_height = false, $calign = 'T', $valign = 'M');
+			$pdf->Cell($w = $wDocumento, $h = $hNormal, $txt = $row['nombre_documento'], $border = 1, $ln = 0, $align = 'L', $fill = false, $link = '', $stretch = 0, $ignore_min_height = false, $calign = 'T', $valign = 'M');
 			if ($row['adjunto'] == "true") {
 				$adjunto = 'Si';
 			} else {
 				$adjunto = 'No';
 			}
-			$pdf->Cell($w = $wAdjunto, $h = $hNormal, $txt = $adjunto, $border = 1, $ln = 0, $align = 'C', $fill = false, $link = '', $stretch = 0, $ignore_min_height = false, $calign = 'T', $valign = 'M');
-			$pdf->Cell($w = $wCodigo, $h = $hNormal, $txt = $row['codigo'], $border = 1, $ln = 0, $align = 'C', $fill = false, $link = '', $stretch = 0, $ignore_min_height = false, $calign = 'T', $valign = 'M');
-			$pdf->Cell($w = $wObs, $h = $hNormal, $txt = $row['observaciones'], $border = 1, $ln = 0, $align = 'C', $fill = false, $link = '', $stretch = 0, $ignore_min_height = false, $calign = 'T', $valign = 'M');
+			$pdf->Cell($w = $wAdjunto, $h = $hNormal, $txt = $adjunto, $border = 1, $ln = 0, $align = 'L', $fill = false, $link = '', $stretch = 0, $ignore_min_height = false, $calign = 'T', $valign = 'M');
+			$pdf->Cell($w = $wCodigo, $h = $hNormal, $txt = $row['codigo'], $border = 1, $ln = 0, $align = 'L', $fill = false, $link = '', $stretch = 0, $ignore_min_height = false, $calign = 'T', $valign = 'M');
+			$pdf->Cell($w = $wObs, $h = $hNormal, $txt = $row['observaciones'], $border = 1, $ln = 0, $align = 'L', $fill = false, $link = '', $stretch = 0, $ignore_min_height = false, $calign = 'T', $valign = 'M');
 			$pdf->Ln();
 		}
 	}
