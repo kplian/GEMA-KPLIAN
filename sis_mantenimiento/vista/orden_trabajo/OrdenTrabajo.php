@@ -34,6 +34,25 @@ Phx.vista.OrdenTrabajo=Ext.extend(Phx.gridInterfaz,{
 			}
 		);
 		
+		this.addButton('gen_cod',{
+			text:'Report OT',
+			iconCls: 'blist',
+			disabled: false,
+			handler:function() {
+				var rec=this.sm.getSelected();
+				
+				Ext.Ajax.request({
+					url:'../../sis_mantenimiento/control/OrdenTrabajo/reporteOT',
+					params:{'id_orden_trabajo': rec.data.id_orden_trabajo},
+					success: this.successExport,
+					failure: this.conexionFailure,
+					timeout: this.timeout,
+					scope:this
+				});
+			},
+			tooltip: '<b>My Test button</b><br/>Solo por motivos de prueba'
+		});
+		
 		function loadActividadesOT() {
 			var rec=this.sm.getSelected();
 			rec.data.nombreVista = this.nombreVista;
@@ -415,7 +434,7 @@ Phx.vista.OrdenTrabajo=Ext.extend(Phx.gridInterfaz,{
 				maxLength: 300
 			},
 			type:'TextArea',
-			filters:{pfiltro:'geoott.observacion',type:'string'},
+			filters:{pfiltro:'geoott.especialidades',type:'string'},
 			id_grupo:0,
 			grid:true,
 			form:true

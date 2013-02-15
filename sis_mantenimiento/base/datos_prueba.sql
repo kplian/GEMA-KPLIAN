@@ -130,6 +130,13 @@ INSERT INTO orga.tespecialidad_nivel(id_usuario_reg,fecha_reg,estado_reg, id_esp
 INSERT INTO gem.ttipo_mant ("id_usuario_reg", "id_usuario_mod", "fecha_reg", "fecha_mod", "estado_reg", "id_tipo_mant", "codigo", "nombre", "tipo")
 VALUES (1, NULL, E'2012-11-23 16:41:18.149', NULL, E'activo', 1, E'MT-1', E'Mantenimiento de Balbulas', E'planificado');
 
+--CENTRO COSTO - AAO
+INSERT INTO gem.tcentro_costo ("id_usuario_reg", "id_usuario_mod", "fecha_reg", "fecha_mod", "estado_reg", "id_centro_costo", "codigo", "descripcion", "tipo", "codigo_anh", "descripcion_anh")
+VALUES (1, 1, E'2012-12-15 16:54:17', E'2012-12-15 16:54:17', E'activo', 1, E'cc1', E'ninguna', E'costo', E'asd', E'asd');
+
+INSERT INTO gem.tcentro_costo ("id_usuario_reg", "id_usuario_mod", "fecha_reg", "fecha_mod", "estado_reg", "id_centro_costo", "codigo", "descripcion", "tipo", "codigo_anh", "descripcion_anh")
+VALUES (1, NULL, E'2012-12-15 16:54:48', E'2012-12-15 16:54:48', E'activo', 2, E'cc2', E'nones', E'cost', E'213', E'asdf');
+
 --ORDEN DE TRABAJO - AAO
 INSERT INTO gem.torden_trabajo ("id_usuario_reg", "id_usuario_mod", "fecha_reg", "fecha_mod", "estado_reg", "id_orden_trabajo", "id_uni_cons_mant_predef", "id_uni_cons", "id_tipo_mant", "id_unidad_medida", "id_funcionario_sol", "id_funcionario_asig", "fecha_plan_ini", "fecha_eje_ini", "fecha_eje_fin", "descripcion", "fecha_emision", "num_oit", "codigo_oit", "ubicacion_tecnica", "acumulado", "observacion", "nota_tecnico_equipo", "nota_tecnico_loc", "cat_estado", "cat_prior", "cat_tipo", "id_instruc_seg", "id_calendario_planificacion", "id_alarma", "id_localizacion", "descripcion_lugar", "id_centro_costo", "especialidades", "tiempo_estimado", "id_funcionario_aprob", "id_funcionario_recib", "comentarios", "accidentes", "reclamos", "otros")
 VALUES (1, NULL, E'2012-11-23 16:50:35.765', NULL, E'activo', 2, NULL, 6, 1, 2, 1, 1, E'2012-11-25', E'2012-11-26', NULL, E'Matenimiento de las balbulas principales de combustión', E'2012-11-23', E'1', E'OIT-1', E'Subestación S3', NULL, E'máximo de retraso de 3 dias', E'', E'SS1-S3', E'Borrador', E'Alta', E'Preventivo', NULL, NULL, NULL, 2, E'Sector 1', 2, NULL, '20', 1, 1, NULL, NULL, NULL, NULL);

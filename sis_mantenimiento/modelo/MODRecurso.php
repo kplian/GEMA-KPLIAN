@@ -45,6 +45,41 @@ class MODRecurso extends MODbase {
 		$this->ejecutarConsulta();
 		return $this->respuesta;
 	}
+
+	function listarRecursoOT() {
+		$this->procedimiento='gem.ft_recurso_sel';
+		$this->transaccion='GEM_RECOT_SEL';
+		$this->tipo_procedimiento='SEL';
+		
+		$this->setParametro('id_orden_trabajo','id_orden_trabajo','varchar');
+
+		$this->captura('id_recurso','int4');
+		$this->captura('id_usuario_reg','int4');
+		$this->captura('usr_reg','varchar');
+		$this->captura('id_usuario_mod','int4');
+		$this->captura('usr_mod','varchar');
+		$this->captura('fecha_reg','timestamp');
+		$this->captura('fecha_mod','timestamp');
+		$this->captura('estado_reg','varchar');
+		$this->captura('id_actividad','int4');
+		$this->captura('id_item','int4');
+		$this->captura('nombre_item','varchar');
+		$this->captura('id_funcionario','int4');
+		$this->captura('nombre_funcionario','varchar');
+		$this->captura('id_especialidad','int4');
+		$this->captura('nombre_especialidad','varchar');
+		$this->captura('id_servicio','int4');
+		$this->captura('nombre_servicio','varchar');
+		$this->captura('id_moneda','int4');
+		$this->captura('codigo_moneda','varchar');
+		$this->captura('cantidad','numeric');
+		$this->captura('costo','numeric');
+		$this->captura('observaciones','varchar');
+		
+		$this->armarConsulta();
+		$this->ejecutarConsulta();
+		return $this->respuesta;
+	}
 			
 	function insertarRecursoActividad() {
 		$this->procedimiento='gem.ft_recurso_ime';

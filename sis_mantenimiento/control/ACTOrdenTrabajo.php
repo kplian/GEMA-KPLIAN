@@ -7,6 +7,10 @@
 *@description Clase que recibe los parametros enviados por la vista para mandar a la capa de Modelo
 */
 
+require_once(dirname(__FILE__).'/../reportes/pxpReport/ReportWriter.php');
+require_once(dirname(__FILE__).'/../reportes/ROrdenTrabajo.php');
+require_once(dirname(__FILE__).'/../reportes/pxpReport/DataSource.php');
+
 class ACTOrdenTrabajo extends ACTbase{    
 			
 	function listarOrdenTrabajo(){
@@ -57,5 +61,81 @@ class ACTOrdenTrabajo extends ACTbase{
 		$this->res=$this->objFunc->procesarOT();
 		$this->res->imprimirRespuesta($this->res->generarJson());
 	}
+	
+	function reporteOT() {
+		$dataSource = new DataSource();
+		$idOrdenTrabajo = $this->objParam->getParametro('id_orden_trabajo');
+		$this->objParam->addParametroConsulta('filtro', ' geoott.id_orden_trabajo = '.$idOrdenTrabajo);
+		$this->objParam->addParametroConsulta('ordenacion', 'geoott.id_orden_trabajo');
+		$this->objParam->addParametroConsulta('dir_ordenacion', 'asc');
+		$this->objParam->addParametroConsulta('cantidad', 1000);
+		$this->objParam->addParametroConsulta('puntero', 0);
+		$this->objFunc = $this->create('MODOrdenTrabajo');
+		$resultOT = $this->objFunc->listarOrdenTrabajo($this->objParam);
+		$datosOT = $resultOT->getDatos();
+		
+		//armamos el array parametros y metemos ahi los data sets de las otras tablas
+		$dataSource->putParameter('fechaEmision', $datosOT[0]['fecha_emision']);
+		$dataSource->putParameter('codigo', $datosOT[0]['codigo_oit']);
+		$dataSource->putParameter('sectorSolicitante', $datosOT[0]['nombre_localizacion']);
+		$dataSource->putParameter('prioridad', $datosOT[0]['cat_prior']);
+		$dataSource->putParameter('sector', $datosOT[0]['descripcion_lugar']);
+		$dataSource->putParameter('cuenta', $datosOT[0]['codigo_centro_costo']);
+		$dataSource->putParameter('equipo', $datosOT[0]['equipo']);
+		$dataSource->putParameter('nOit', $datosOT[0]['num_oit']);
+		$dataSource->putParameter('tipoOit', $datosOT[0]['tipo_mant']);
+		$dataSource->putParameter('tipoMant', $datosOT[0]['cat_tipo']);
+		$dataSource->putParameter('especialidad', $datosOT[0]['especialidad']);
+		$dataSource->putParameter('observacion', $datosOT[0]['observacion']);
+		$dataSource->putParameter('descripcion', $datosOT[0]['descripcion']);
+		$dataSource->putParameter('fechaPlanIni', $datosOT[0]['fecha_plan_ini']);
+		$dataSource->putParameter('tiempoEstimado', $datosOT[0]['tiempo_estimado']);
+		$dataSource->putParameter('fechaEjecIni', $datosOT[0]['fecha_eje_ini']);
+		$dataSource->putParameter('fechaEjecFin', $datosOT[0]['fecha_eje_fin']);
+		$dataSource->putParameter('nombreSolicitante', $datosOT[0]['desc_person']);
+		$dataSource->putParameter('nombreAprobado', $datosOT[0]['desc_funcionaro_aprob']);
+		$dataSource->putParameter('nombreEjecutado', $datosOT[0]['desc_person1']);
+		$dataSource->putParameter('nombreRecibido', $datosOT[0]['desc_funcionario_recib']);
+		$dataSource->putParameter('comentarios', $datosOT[0]['comentarios']);
+		$dataSource->putParameter('accidentes', $datosOT[0]['accidentes']);
+		$dataSource->putParameter('reclamos', $datosOT[0]['reclamos']);
+		$dataSource->putParameter('otros', $datosOT[0]['otros']);
+		
+		$this->objParam->addParametroConsulta('filtro', ' 0 = 0');
+		$this->objParam->addParametroConsulta('ordenacion', 'acti.id_actividad');
+		$modActividad = $this->create('MODActividadOT');
+		$resultActividad = $modActividad->listarActividadOT();
+		$actividadesDataSource = new DataSource();
+		$actividadesDataSource->setDataset($resultActividad->getDatos());
+		$dataSource->putParameter('actividadesDataSource', $actividadesDataSource);
+		
+		$this->objParam->addParametroConsulta('filtro', ' rec.id_item is not null ');
+		$modRepuestos = $this->create('MODRecurso');
+		$resultRepuestos = $modRepuestos->listarRecursoOT();
+		$repuestosDataSource = new DataSource();
+		$repuestosDataSource->setDataset($resultRepuestos->getDatos());
+		$dataSource->putParameter('repuestosDataSource', $repuestosDataSource);
+		
+		$this->objParam->addParametroConsulta('filtro', ' rec.id_funcionario is not null ');
+		$modFuncionarios = $this->create('MODRecurso');
+		$resultFuncionarios = $modFuncionarios->listarRecursoOT();
+		$funcionariosDataSource = new DataSource();
+		$funcionariosDataSource->setDataset($resultFuncionarios->getDatos());
+		$dataSource->putParameter('funcionariosDataSource', $funcionariosDataSource);
+		
+		
+		$reporte = new ROrdenTrabajo();
+		$reporte->setDataSource($dataSource);
+		$nombreArchivo = 'OrdenTrabajo.pdf';
+		$reportWriter = new ReportWriter($reporte, dirname(__FILE__).'/../../reportes_generados/'.$nombreArchivo);
+		$reportWriter->writeReport(ReportWriter::PDF);
+		
+		$mensajeExito = new Mensaje();
+		$mensajeExito->setMensaje('EXITO','Reporte.php','Reporte generado',
+										'Se generó con éxito el reporte: '.$nombreArchivo,'control');
+		$mensajeExito->setArchivoGenerado($nombreArchivo);
+		$this->res = $mensajeExito;
+		$this->res->imprimirRespuesta($this->res->generarJson());
+	} 
 }
 ?>
