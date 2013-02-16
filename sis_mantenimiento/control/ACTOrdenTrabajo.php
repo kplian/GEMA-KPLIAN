@@ -74,7 +74,8 @@ class ACTOrdenTrabajo extends ACTbase{
 		$resultOT = $this->objFunc->listarOrdenTrabajo($this->objParam);
 		$datosOT = $resultOT->getDatos();
 		
-		//armamos el array parametros y metemos ahi los data sets de las otras tablas
+		//calculo dias reales trabajados
+		$diasReales = $this->getDaysBetweenDates($datosOT[0]['fecha_eje_ini'], $datosOT[0]['fecha_eje_fin']);
 		$dataSource->putParameter('fechaEmision', $datosOT[0]['fecha_emision']);
 		$dataSource->putParameter('codigo', $datosOT[0]['codigo_oit']);
 		$dataSource->putParameter('sectorSolicitante', $datosOT[0]['nombre_localizacion']);
@@ -90,6 +91,7 @@ class ACTOrdenTrabajo extends ACTbase{
 		$dataSource->putParameter('descripcion', $datosOT[0]['descripcion']);
 		$dataSource->putParameter('fechaPlanIni', $datosOT[0]['fecha_plan_ini']);
 		$dataSource->putParameter('tiempoEstimado', $datosOT[0]['tiempo_estimado']);
+		$dataSource->putParameter('diasReales', $diasReales);
 		$dataSource->putParameter('fechaEjecIni', $datosOT[0]['fecha_eje_ini']);
 		$dataSource->putParameter('fechaEjecFin', $datosOT[0]['fecha_eje_fin']);
 		$dataSource->putParameter('nombreSolicitante', $datosOT[0]['desc_person']);
@@ -137,5 +139,18 @@ class ACTOrdenTrabajo extends ACTbase{
 		$this->res = $mensajeExito;
 		$this->res->imprimirRespuesta($this->res->generarJson());
 	} 
+
+	private function getDaysBetweenDates($startDate, $endDate) {
+		list($startYear, $startMonth, $startDay) = explode('-', $startDate);
+		list($endYear, $endMonth, $endDay) = explode('-', $endDate);
+		$startMillis = mktime(0, 0, 0, $startMonth, $startDay, $startYear);
+		$endMillis = mktime(0, 0, 0, $endMonth, $endDay, $endYear);
+		$diffMillis = $endMillis - $startMillis;
+		
+		$diffDays = $diffMillis / (60 * 60 * 24);
+		$diffDays = abs($diffDays);
+		$diffDays = floor($diffDays); 
+		return $diffDays;
+	}
 }
 ?>

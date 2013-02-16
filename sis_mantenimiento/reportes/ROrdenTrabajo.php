@@ -190,7 +190,7 @@ Class ROrdenTrabajo extends Report {
 		$pdf->Cell($w = 35, $h = $hGlobal, $txt = 'Días de Trabajo aproximado: ', $border = 1, $ln = 0, $align = 'L', $fill = false, $link = '', $stretch = 0, $ignore_min_height = false, $calign = 'T', $valign = 'M');
 		$pdf->Cell($w = 15, $h = $hGlobal, $txt = $dataSource->getParameter('timpoEstimado'), $border = 1, $ln = 0, $align = 'L', $fill = false, $link = '', $stretch = 0, $ignore_min_height = false, $calign = 'T', $valign = 'M');
 		$pdf->Cell($w = 20, $h = $hGlobal, $txt = 'Dias Reales: ', $border = 1, $ln = 0, $align = 'L', $fill = false, $link = '', $stretch = 0, $ignore_min_height = false, $calign = 'T', $valign = 'M');
-		$pdf->Cell($w = 15, $h = $hGlobal, $txt = 'data', $border = 1, $ln = 0, $align = 'L', $fill = false, $link = '', $stretch = 0, $ignore_min_height = false, $calign = 'T', $valign = 'M');
+		$pdf->Cell($w = 15, $h = $hGlobal, $txt = $dataSource->getParameter('diasReales'), $border = 1, $ln = 0, $align = 'L', $fill = false, $link = '', $stretch = 0, $ignore_min_height = false, $calign = 'T', $valign = 'M');
 		$pdf->Cell($w = $wCargo, $h = $hGlobal, $txt = '', $border = 1, $ln = 0, $align = 'C', $fill = false, $link = '', $stretch = 0, $ignore_min_height = false, $calign = 'T', $valign = 'M');
 		$pdf->setTextColor(0,0,255);
 		$pdf->Cell($w = $wUnidad, $h = $hGlobal, $txt = 'TOTAL (HR)', $border = 1, $ln = 0, $align = 'C', $fill = false, $link = '', $stretch = 0, $ignore_min_height = false, $calign = 'T', $valign = 'M');
@@ -207,11 +207,10 @@ Class ROrdenTrabajo extends Report {
 		//REPUESTOS
 		$wPedidoCodigo =  25;
 		$wExistencias = 20;
-		$wMateriales = 30;
+		$wMateriales = 45;
 		$wUnidad = 15;
 		$wPrecio = 20;
-		$wCantPlanif = 25;
-		$wCantUtiliz = 20;
+		$wCantUtiliz = 25;
 		$wObservaciones = 30;
 		
 		$pdf->setTextColor(0,0,255);
@@ -220,7 +219,6 @@ Class ROrdenTrabajo extends Report {
 		$pdf->MultiCell($w = $wMateriales, $h = $hMedium, $txt = 'MATERIALES/ REPUESTOS', $border = 1, $align = 'C', $fill = false, $ln = 0, $x = '',$y = '', $reseth = true, $stretch = 0, $ishtml = false, $autopadding = true, $maxh = $hMedium, $valign = 'M', $fitcell = false);
 		$pdf->MultiCell($w = $wUnidad, $h = $hMedium, $txt = 'UNIDAD', $border = 1, $align = 'C', $fill = false, $ln = 0, $x = '',$y = '', $reseth = true, $stretch = 0, $ishtml = false, $autopadding = true, $maxh = $hMedium, $valign = 'M', $fitcell = false);
 		$pdf->MultiCell($w = $wPrecio, $h = $hMedium, $txt = 'PRECIO', $border = 1, $align = 'C', $fill = false, $ln = 0, $x = '',$y = '', $reseth = true, $stretch = 0, $ishtml = false, $autopadding = true, $maxh = $hMedium, $valign = 'M', $fitcell = false);
-		$pdf->MultiCell($w = $wCantPlanif, $h = $hMedium, $txt = 'CANT. PLANIF.', $border = 1, $align = 'C', $fill = false, $ln = 0, $x = '',$y = '', $reseth = true, $stretch = 0, $ishtml = false, $autopadding = true, $maxh = $hMedium, $valign = 'M', $fitcell = false);
 		$pdf->MultiCell($w = $wCantUtiliz, $h = $hMedium, $txt = 'CANT. UTILIZ.', $border = 1, $align = 'C', $fill = false, $ln = 0, $x = '',$y = '', $reseth = true, $stretch = 0, $ishtml = false, $autopadding = true, $maxh = $hMedium, $valign = 'M', $fitcell = false);
 		$pdf->MultiCell($w = $wObservaciones, $h = $hMedium, $txt = 'OBSERVACIONES', $border = 1, $align = 'C', $fill = false, $ln = 1, $x = '',$y = '', $reseth = true, $stretch = 0, $ishtml = false, $autopadding = true, $maxh = $hMedium, $valign = 'M', $fitcell = false);
 		
@@ -231,8 +229,7 @@ Class ROrdenTrabajo extends Report {
 			$pdf->MultiCell($w = $wMateriales, $h = $hMedium, $txt = $datarow['nombre_item'], $border = 1, $align = 'C', $fill = false, $ln = 0, $x = '',$y = '', $reseth = true, $stretch = 0, $ishtml = false, $autopadding = true, $maxh = $hMedium, $valign = 'T', $fitcell = false);
 			$pdf->MultiCell($w = $wUnidad, $h = $hMedium, $txt = 'data', $border = 1, $align = 'C', $fill = false, $ln = 0, $x = '',$y = '', $reseth = true, $stretch = 0, $ishtml = false, $autopadding = true, $maxh = $hMedium, $valign = 'T', $fitcell = false);
 			$pdf->MultiCell($w = $wPrecio, $h = $hMedium, $txt = $datarow['costo'], $border = 1, $align = 'C', $fill = false, $ln = 0, $x = '',$y = '', $reseth = true, $stretch = 0, $ishtml = false, $autopadding = true, $maxh = $hMedium, $valign = 'T', $fitcell = false);
-			$pdf->MultiCell($w = $wCantPlanif, $h = $hMedium, $txt = $datarow['cantidad'], $border = 1, $align = 'C', $fill = false, $ln = 0, $x = '',$y = '', $reseth = true, $stretch = 0, $ishtml = false, $autopadding = true, $maxh = $hMedium, $valign = 'T', $fitcell = false);
-			$pdf->MultiCell($w = $wCantUtiliz, $h = $hMedium, $txt = 'data', $border = 1, $align = 'C', $fill = false, $ln = 0, $x = '',$y = '', $reseth = true, $stretch = 0, $ishtml = false, $autopadding = true, $maxh = $hMedium, $valign = 'T', $fitcell = false);
+			$pdf->MultiCell($w = $wCantUtiliz, $h = $hMedium, $txt = $datarow['cantidad'], $border = 1, $align = 'C', $fill = false, $ln = 0, $x = '',$y = '', $reseth = true, $stretch = 0, $ishtml = false, $autopadding = true, $maxh = $hMedium, $valign = 'T', $fitcell = false);
 			$pdf->MultiCell($w = $wObservaciones, $h = $hMedium, $txt = $datarow['observaciones'], $border = 1, $align = 'C', $fill = false, $ln = 1, $x = '',$y = '', $reseth = true, $stretch = 0, $ishtml = false, $autopadding = true, $maxh = $hMedium, $valign = 'T', $fitcell = false);
 		}
 		//manage Funcionarios
