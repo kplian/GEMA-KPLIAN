@@ -993,6 +993,21 @@ Phx.vista.Localizacion=Ext.extend(Phx.arbInterfaz,{
 
 		
 	 },
+	 onFichaTecnicaClick: function(){					
+		var node=this.sm.getSelectedNode();
+		var data = node.attributes;
+		if(data){
+			Ext.Ajax.request({
+				url:'../../sis_mantenimiento/control/UniCons/reporteUniConsFichaTecnica',
+				params:{'id_uni_cons': data.id_uni_cons},
+				success: this.successExport,
+				failure: this.conexionFailure,
+				timeout: this.timeout,
+				scope: this
+			});
+		}
+	 }
+	 ,
 	 onEqMantClick: function(){					
 		var node=this.sm.getSelectedNode();
 		var data =node.attributes;
@@ -1020,7 +1035,7 @@ Phx.vista.Localizacion=Ext.extend(Phx.arbInterfaz,{
 			text:'Equipos',
 			menu:{
 				items:[
-					{text:'Ficha Técnica',handler:this.onClickDatosEq,scope:this},
+					{text:'Ficha Técnica',handler:this.onFichaTecnicaClick,scope:this},
 					{text:'Mantenimientos predefinidos',handler: this.onEqMantClick,scope:this},
 					{text:'Mediciones',handler: this.onClickMed,scope:this},
 					{text:'Upload archivos',handler: this.onClickUp,scope:this},
@@ -1071,6 +1086,7 @@ Phx.vista.Localizacion=Ext.extend(Phx.arbInterfaz,{
 	},
 	onBtnAtribPlan:function(){
 		var nodo = this.sm.getSelectedNode();
+		var data = nodo.attributes;
            Phx.CP.loadWindows('../../../sis_mantenimiento/vista/localizacion_med/LocalizacionMed.php',
 				'Mediciones: ',{
 						modal:true,

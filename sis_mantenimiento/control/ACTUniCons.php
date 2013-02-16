@@ -363,13 +363,21 @@ class ACTUniCons extends ACTbase{
 		}
 		
 		//get detalle
-		$resultDetalle = $this->objFunc->listarUniConsDetalle($this->objParam);
+		$this->objParam->addParametroConsulta('filtro', ' 0 = 0');
+		$this->objParam->addParametroConsulta('ordenacion', 'id_uni_cons_det');
+		$this->objParam->addParametroConsulta('dir_ordenacion', 'asc');
+		$this->objParam->addParametroConsulta('cantidad', 1000);
+		$this->objParam->addParametroConsulta('puntero', 0);
+		$modUniConsDetalle = $this->create('MODUniConsDet');
+		$resultDetalle = $modUniConsDetalle->listarUniConsDet($this->objParam);
 		$dataSource->setDataset($resultDetalle->getDatos());
 		
 		//get Raiz
 		$datosRaiz = array();
 		if($datosUniCons[0]['id_uni_cons_padre'] != null) {
+			$this->objParam->addParametroConsulta('ordenacion', 'id_uni_cons');
 			$this->objParam->addParametro('id_uni_cons', $datosUniCons[0]['id_uni_cons_padre']);
+			$this->objFunc = $this->create('MODUniCons');
 			$resultRaiz = $this->objFunc->obtenerUniCons($this->objParam);
 			$datosRaiz = $resultRaiz->getDatos();
 		}
@@ -377,11 +385,8 @@ class ACTUniCons extends ACTbase{
 		
 		//get repuestos
 		//Reset all extra params:
-		$this->objParam->defecto('ordenacion', 'id_uni_cons_item');
-		$this->objParam->defecto('cantidad', 1000);
-		$this->objParam->defecto('puntero', 0);
+		$this->objParam->addParametroConsulta('ordenacion', 'id_uni_cons_item');
 		$this->objParam->addParametro('id_uni_cons', $idUniCons);
-		
 		$modUniConsItem = $this->create('MODUniConsItem');
 		$resultRepuestos = $modUniConsItem->listarUniConsItem($this->objParam);
 		
@@ -399,15 +404,18 @@ class ACTUniCons extends ACTbase{
 		
 		
 		//get hijos
+		$this->objParam->addParametroConsulta('ordenacion', 'id_uni_cons');
 		$this->objParam->addParametro('id_uni_cons_padre', $idUniCons);
+		$this->objFunc = $this->create('MODUniCons');
 		$resultHijos = $this->objFunc->listarUniConsHijos($this->objParam);
 		$arrayHijos = array();
 		
 		foreach($resultHijos->getDatos() as $rowHijo) {
 			$dataSourceHijo = new DataSource();
+			$this->objParam->addParametroConsulta('ordenacion', 'id_uni_cons_det');
 			$this->objParam->addParametro('id_uni_cons', $rowHijo['id_uni_cons']);
-			
-			$resultDetalleHijo = $this->objFunc->listarUniConsDetalle($this->objParam);
+			$modUniConsDetalle = $this->create('MODUniConsDet');
+			$resultDetalleHijo = $modUniConsDetalle->listarUniConsDet($this->objParam);
 			$dataSourceHijo->putParameter('nombreUniConsHijo', $rowHijo['nombre']);
 			$dataSourceHijo->setDataset($resultDetalleHijo->getDatos());
 			$arrayHijos[] = $dataSourceHijo;
