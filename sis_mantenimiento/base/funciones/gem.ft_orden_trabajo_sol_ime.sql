@@ -27,6 +27,9 @@ DECLARE
 	v_nombre_funcion        text;
 	v_mensaje_error         text;
 	v_id_orden_trabajo_sol	integer;
+	v_id_uni_cons 			integer;
+	v_fecha 				date;
+	v_nro					varchar;
 			    
 BEGIN
 
@@ -124,6 +127,12 @@ BEGIN
 	elsif(p_transaccion='GM_SOLORD_MOD')then
 
 		begin
+		
+			if exists(select 1 from gem.torden_trabajo_sol
+						where id_orden_trabajo_sol = v_parametros.id_orden_trabajo_sol
+						and estado = 'finalizado') then
+				raise exception 'Esta solicitud ya fue finalizada';
+			end if;
 			--Sentencia de la modificacion
 			update gem.torden_trabajo_sol set
 			id_solicitante = v_parametros.id_solicitante,
@@ -172,6 +181,11 @@ BEGIN
 	elsif(p_transaccion='GM_SOLORD_ELI')then
 
 		begin
+			if exists(select 1 from gem.torden_trabajo_sol
+						where id_orden_trabajo_sol = v_parametros.id_orden_trabajo_sol
+						and estado = 'finalizado') then
+				raise exception 'Esta solicitud ya fue finalizada';
+			end if;
 			--Sentencia de la eliminacion
 			delete from gem.torden_trabajo_sol
             where id_orden_trabajo_sol=v_parametros.id_orden_trabajo_sol;
@@ -200,13 +214,28 @@ BEGIN
 				raise exception 'Solicitud no enviada: no existe el registro';
 			end if;
 			
+			if exists(select 1 from gem.torden_trabajo_sol
+						where id_orden_trabajo_sol = v_parametros.id_orden_trabajo_sol
+						and estado = 'finalizado') then
+				raise exception 'Esta solicitud ya fue finalizada';
+			end if;
+			
+			select id_uni_cons, fecha
+			into v_id_uni_cons, v_fecha
+			from gem.torden_trabajo_sol
+			where id_orden_trabajo_sol = v_parametros.id_orden_trabajo_sol; 
+			
+			--Obtención del correlativo
+			v_nro = gem.f_get_correlativo(v_id_uni_cons,'sol_oit',v_fecha);
+			
 			--Sentencia de la modificacion
 			update gem.torden_trabajo_sol set
 			estado = 'finalizado',
 			id_usuario_mod = p_id_usuario,
-			fecha_mod = now()
+			fecha_mod = now(),
+			nro_sol = v_nro
 			where id_orden_trabajo_sol=v_parametros.id_orden_trabajo_sol;
-               
+
 			--Definicion de la respuesta
             v_resp = pxp.f_agrega_clave(v_resp,'mensaje','Solicitud de Orden de Trabajo finalizada'); 
             v_resp = pxp.f_agrega_clave(v_resp,'id_orden_trabajo_sol',v_parametros.id_orden_trabajo_sol::varchar);

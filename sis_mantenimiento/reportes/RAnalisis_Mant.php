@@ -47,17 +47,17 @@ require_once dirname(__FILE__).'/pxpReport/Report.php';
         $y += 5;
         $this->SetXY($x+105, $y);
         $this->setCellPaddings(2);
-        $this->Cell($width1, $height/4, 'Revision:', "B", 0, '', false, '', 0, false, 'T', 'C');
+        $this->Cell($width1, $height/4, 'Revisión:', "B", 0, '', false, '', 0, false, 'T', 'C');
         $this->SetFont('','B');
-        $this->Cell($width2, $height/4, $this->dataSource->getParameter('revision'), "B", 0, 'C', false, '', 0, false, 'T', 'C');
+        $this->Cell($width2, $height/4, '1', "B", 0, 'C', false, '', 0, false, 'T', 'C');
         
         $this->SetFont('','');
         $y += 5;
         $this->SetXY($x+105, $y);
         $this->setCellPaddings(2);
-        $this->Cell($width1, $height/4, 'Fecha Emision:', "B", 0, '', false, '', 0, false, 'T', 'C');
+        $this->Cell($width1, $height/4, 'Fecha Emisión:', "B", 0, '', false, '', 0, false, 'T', 'C');
         $this->SetFont('','B');
-        $this->Cell($width2, $height/4, $this->dataSource->getParameter('fecha_emision'), "B", 0, 'C', false, '', 0, false, 'T', 'C');
+        $this->Cell($width2, $height/4, '29/06/2012', "B", 0, 'C', false, '', 0, false, 'T', 'C');
         
         $this->SetFont('','');
         $y += 5;
@@ -65,12 +65,28 @@ require_once dirname(__FILE__).'/pxpReport/Report.php';
         $this->setCellPaddings(2);
         $this->Cell($width1, $height/4, 'Página:', "B", 0, '', false, '', 0, false, 'T', 'C');
         $this->SetFont('','B');
-        $this->Cell($width2, $height/4, $this->PageNo().' de '.$this->getNumPages(), "B", 0, 'C', false, '', 0, false, 'T', 'C');
+        $this->Cell($width2, $height/4,  '                  '.$this->getAliasNumPage().' de '.$this->getAliasNbPages(), "B", 0, 'C', false, '', 0, false, 'T', 'C');
         
     }
     
     public function Footer() {
-        //TODO: implement the footer manager
+        $this->SetFontSize(5.5);
+		$this->setY(-10);
+		$ormargins = $this->getOriginalMargins();
+		$this->SetTextColor(0, 0, 0);
+		//set style for cell border
+		$line_width = 0.85 / $this->getScaleFactor();
+		$this->SetLineStyle(array('width' => $line_width, 'cap' => 'butt', 'join' => 'miter', 'dash' => 0, 'color' => array(0, 0, 0)));
+		$ancho = round(($this->getPageWidth() - $ormargins['left'] - $ormargins['right']) / 3);
+		$this->Ln(2);
+		$cur_y = $this->GetY();
+		//$this->Cell($ancho, 0, 'Generado por XPHS', 'T', 0, 'L');
+		$this->Cell($ancho, 0, 'Usuario: '.$_SESSION['_LOGIN'], '', 1, 'L');
+		$pagenumtxt = 'Página'.' '.$this->getAliasNumPage().' de '.$this->getAliasNbPages();
+		//$this->Cell($ancho, 0, '', '', 0, 'C');
+		$fecha_rep = date("d-m-Y H:i:s");
+		$this->Cell($ancho, 0, "Fecha impresión: ".$fecha_rep, '', 0, 'L');
+		$this->Ln($line_width);
     }
 }
 

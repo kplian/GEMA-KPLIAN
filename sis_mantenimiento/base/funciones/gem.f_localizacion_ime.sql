@@ -94,7 +94,8 @@ BEGIN
 			id_usuario_mod,
 			fecha_mod,
             latitud,
-            longitud
+            longitud,
+            tipo_numeracion
           	) values(
 			v_parametros.codigo,
 			'activo',
@@ -108,7 +109,8 @@ BEGIN
 			null,
 			null,
             v_parametros.latitud,
-            v_parametros.longitud
+            v_parametros.longitud,
+            v_parametros.tipo_numeracion
 			)RETURNING id_localizacion into v_id_localizacion;
                
 			--Definicion de la respuesta
@@ -142,7 +144,8 @@ BEGIN
             latitud=v_parametros.latitud,
             longitud=v_parametros.longitud,
 			id_usuario_mod = p_id_usuario,
-			fecha_mod = now()
+			fecha_mod = now(),
+			tipo_numeracion = v_parametros.tipo_numeracion
 			where id_localizacion=v_parametros.id_localizacion;
                
 			--Definicion de la respuesta

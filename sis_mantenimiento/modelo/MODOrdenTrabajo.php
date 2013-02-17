@@ -123,6 +123,7 @@ class MODOrdenTrabajo extends MODbase{
 		$this->setParametro('otros','otros','varchar');
 		$this->setParametro('hora_eje_inicio','hora_eje_inicio','time');
 		$this->setParametro('hora_eje_fin','hora_eje_fin','time');
+		$this->setParametro('mensaje_estado', 'mensaje_estado', 'varchar');
 		
 		//Ejecuta la instruccion
 		$this->armarConsulta();
@@ -174,6 +175,7 @@ class MODOrdenTrabajo extends MODbase{
 		$this->setParametro('otros','otros','varchar');
 		$this->setParametro('hora_eje_inicio','hora_eje_inicio','time');
 		$this->setParametro('hora_eje_fin','hora_eje_fin','time');
+		$this->setParametro('mensaje_estado', 'mensaje_estado', 'varchar');
 
 		//Ejecuta la instruccion
 		$this->armarConsulta();
@@ -191,6 +193,7 @@ class MODOrdenTrabajo extends MODbase{
 				
 		//Define los parametros para la funcion
 		$this->setParametro('id_orden_trabajo','id_orden_trabajo','int4');
+		$this->setParametro('mensaje_estado', 'mensaje_estado', 'varchar');
 
 		//Ejecuta la instruccion
 		$this->armarConsulta();
@@ -210,6 +213,7 @@ class MODOrdenTrabajo extends MODbase{
 		$this->setParametro('id_uni_cons_mant_predef','id_uni_cons_mant_predef','int4');
 		$this->setParametro('fecha_ini','fecha_ini','date');
 		$this->setParametro('fecha_fin','fecha_fin','date');
+		$this->setParametro('mensaje_estado', 'mensaje_estado', 'varchar');
  
 		//Ejecuta la instruccion
 		$this->armarConsulta();

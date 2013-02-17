@@ -1,5 +1,3 @@
---------------- SQL ---------------
-
 CREATE OR REPLACE FUNCTION gem.ft_orden_trabajo_sel (
   p_administrador integer,
   p_id_usuario integer,
@@ -123,22 +121,22 @@ BEGIN
 						from gem.torden_trabajo geoott
 						inner join segu.tusuario usu1 on usu1.id_usuario = geoott.id_usuario_reg
 						left join segu.tusuario usu2 on usu2.id_usuario = geoott.id_usuario_mod
-						inner join orga.vfuncionario fun on fun.id_funcionario = geoott.id_funcionario_sol
-						inner join orga.vfuncionario fun1 on fun1.id_funcionario = geoott.id_funcionario_asig
+						left join orga.vfuncionario fun on fun.id_funcionario = geoott.id_funcionario_sol
+						left join orga.vfuncionario fun1 on fun1.id_funcionario = geoott.id_funcionario_asig
                         left join orga.vfuncionario fun2 on fun2.id_funcionario = geoott.id_funcionario_aprob
                         left join orga.vfuncionario fun3 on fun3.id_funcionario = geoott.id_funcionario_recib
 						inner join gem.tuni_cons unicons on unicons.id_uni_cons = geoott.id_uni_cons
-						inner join gem.ttipo_mant tipman on tipman.id_tipo_mant = geoott.id_tipo_mant
-                        inner join gem.tlocalizacion local on local.id_localizacion = geoott.id_localizacion
-						inner join param.tunidad_medida unimed on unimed.id_unidad_medida = geoott.id_unidad_medida
-                        inner join gem.tcentro_costo cencost on cencost.id_centro_costo = geoott.id_centro_costo
+						left join gem.ttipo_mant tipman on tipman.id_tipo_mant = geoott.id_tipo_mant
+                        left join gem.tlocalizacion local on local.id_localizacion = geoott.id_localizacion
+						left join param.tunidad_medida unimed on unimed.id_unidad_medida = geoott.id_unidad_medida
+                        left join gem.tcentro_costo cencost on cencost.id_centro_costo = geoott.id_centro_costo
 				        where geoott.estado_reg = ''activo'' and ';
 			
 			--Definicion de la respuesta
 			v_consulta:=v_consulta|| v_filtro || v_parametros.filtro;
 			v_consulta:=v_consulta||' order by ' ||v_parametros.ordenacion|| ' ' || v_parametros.dir_ordenacion || ' limit ' || v_parametros.cantidad || ' offset ' || v_parametros.puntero;
 			
-
+raise notice '%',v_consulta;
 			--Devuelve la respuesta
 			return v_consulta;
 						
@@ -176,15 +174,15 @@ BEGIN
 					    from gem.torden_trabajo geoott
 					    inner join segu.tusuario usu1 on usu1.id_usuario = geoott.id_usuario_reg
 						left join segu.tusuario usu2 on usu2.id_usuario = geoott.id_usuario_mod
-						inner join orga.vfuncionario fun on fun.id_funcionario = geoott.id_funcionario_sol
-						inner join orga.vfuncionario fun1 on fun1.id_funcionario = geoott.id_funcionario_asig
+						left join orga.vfuncionario fun on fun.id_funcionario = geoott.id_funcionario_sol
+						left join orga.vfuncionario fun1 on fun1.id_funcionario = geoott.id_funcionario_asig
                         left join orga.vfuncionario fun2 on fun2.id_funcionario = geoott.id_funcionario_aprob
                         left join orga.vfuncionario fun3 on fun3.id_funcionario = geoott.id_funcionario_recib
 						inner join gem.tuni_cons unicons on unicons.id_uni_cons = geoott.id_uni_cons
-						inner join gem.ttipo_mant tipman on tipman.id_tipo_mant = geoott.id_tipo_mant
-                        inner join gem.tlocalizacion local on local.id_localizacion = geoott.id_localizacion
-						inner join param.tunidad_medida unimed on unimed.id_unidad_medida = geoott.id_unidad_medida
-                        inner join gem.tcentro_costo cencost on cencost.id_centro_costo = geoott.id_centro_costo
+						left join gem.ttipo_mant tipman on tipman.id_tipo_mant = geoott.id_tipo_mant
+                        left join gem.tlocalizacion local on local.id_localizacion = geoott.id_localizacion
+						left join param.tunidad_medida unimed on unimed.id_unidad_medida = geoott.id_unidad_medida
+                        left join gem.tcentro_costo cencost on cencost.id_centro_costo = geoott.id_centro_costo
 					    where geoott.estado_reg = ''activo'' and ';
 			
             

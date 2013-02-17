@@ -36,6 +36,7 @@ class MODLocalizacion extends MODbase{
 		$this->captura('longitud','text');
 		$this->captura('usr_reg','varchar');
 		$this->captura('usr_mod','varchar');
+		$this->captura('tipo_numeracion','varchar');
 		
 		//Ejecuta la instruccion
 		$this->armarConsulta();
@@ -45,7 +46,7 @@ class MODLocalizacion extends MODbase{
 		return $this->respuesta;
 	}
 
-function listarLocalizacionArb(){
+	function listarLocalizacionArb(){
 		//Definicion de variables para ejecucion del procedimientp
 		$this->procedimiento='gem.f_localizacion_sel';
 		$this-> setCount(false);
@@ -77,6 +78,7 @@ function listarLocalizacionArb(){
 		$this->captura('texto','text');
 		
 		$this->captura('tipo_nodo','varchar');
+		$this->captura('tipo_numeracion','varchar');
 		
 		//Ejecuta la instruccion
 		
@@ -152,6 +154,7 @@ function listarLocalizacionArb(){
 		$this->setParametro('desc_ubicacion','desc_ubicacion','varchar');
 		$this->setParametro('latitud','latitud','varchar');
 		$this->setParametro('longitud','longitud','varchar');
+		$this->setParametro('tipo_numeracion','tipo_numeracion','varchar');
 		
 
 		//Ejecuta la instruccion
@@ -179,6 +182,7 @@ function listarLocalizacionArb(){
 		$this->setParametro('desc_ubicacion','desc_ubicacion','varchar');
 		$this->setParametro('latitud','latitud','varchar');
 		$this->setParametro('longitud','longitud','varchar');
+		$this->setParametro('tipo_numeracion','tipo_numeracion','varchar');
 
 		//Ejecuta la instruccion
 		$this->armarConsulta();

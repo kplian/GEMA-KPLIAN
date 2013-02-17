@@ -1,5 +1,3 @@
---------------- SQL ---------------
-
 CREATE OR REPLACE FUNCTION gem.ft_orden_trabajo_ime (
   p_administrador integer,
   p_id_usuario integer,
@@ -31,7 +29,12 @@ DECLARE
 	v_resp		            varchar;
 	v_nombre_funcion        text;
 	v_mensaje_error         text;
-	v_id_orden_trabajo	integer;
+	v_id_orden_trabajo		integer;
+    v_mensaje_estado		varchar;
+    v_id_uni_cons 			integer;
+    v_fecha					date;
+    v_nro					varchar;
+    v_num_oit				varchar;
 			    
 BEGIN
 
@@ -232,12 +235,33 @@ BEGIN
 	elsif(p_transaccion='GEM_PROCESSOT_MOD')then
 
 		begin
+        	v_mensaje_estado='';
+			if pxp.f_existe_parametro(p_tabla,'mensaje_estado') then
+            	v_mensaje_estado = v_parametros.mensaje_estado;
+            end if;
+            
+			if v_parametros.cat_estado = 'Pendiente' then
+				select id_uni_cons, fecha_emision, num_oit
+				into v_id_uni_cons, v_fecha, v_num_oit
+				from gem.torden_trabajo
+				where id_orden_trabajo = v_parametros.id_orden_trabajo;
+				
+				if v_num_oit is null then
+					--Obtención del correlativo
+					v_nro = gem.f_get_correlativo(v_id_uni_cons,'oit',v_fecha);
+					
+					update gem.torden_trabajo set
+					num_oit = v_nro
+					where id_orden_trabajo = v_parametros.id_orden_trabajo;
+				end if;
+			end if;     
+			
 			--Sentencia de la eliminacion
 			update gem.torden_trabajo set
 			cat_estado = v_parametros.cat_estado,
             id_usuario_mod = p_id_usuario,
 			fecha_mod = now(),
-            mensaje_estado = v_parametros.mensaje_estado
+            mensaje_estado = v_mensaje_estado
             where id_orden_trabajo = v_parametros.id_orden_trabajo;
                
             --Definicion de la respuesta

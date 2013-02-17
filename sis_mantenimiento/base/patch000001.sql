@@ -1183,3 +1183,19 @@ create table gem.torden_trabajo_sol_insumo (
 WITH OIDS;
 ALTER TABLE gem.torden_trabajo_sol_insumo OWNER TO postgres;
 /***********************************F-SCP-RCM-GEM-122-17/02/2013*****************************************/
+
+/***********************************I-SCP-RCM-GEM-123-18/02/2013*****************************************/
+create table gem.tlocalizacion_correl (  
+  id_localizacion_correl serial NOT NULL,
+  id_localizacion integer,
+  gestion integer NOT NULL,
+  correl integer,
+  codigo_formulario varchar(20),
+  CONSTRAINT pk_tlocalizacion_correl__id_localizacion_correl PRIMARY KEY (id_localizacion_correl)
+) INHERITS (pxp.tbase)
+WITH OIDS;
+ALTER TABLE gem.tlocalizacion_correl OWNER TO postgres;
+
+alter table gem.torden_trabajo_sol
+add column nro_sol varchar(20);
+/***********************************F-SCP-RCM-GEM-123-18/02/2013*****************************************/

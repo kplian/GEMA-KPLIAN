@@ -88,6 +88,64 @@ Phx.vista.OrdenTrabajo=Ext.extend(Phx.gridInterfaz,{
 			type:'Field',
 			form:true 
 		},
+		
+		{
+			config:{
+				name: 'num_oit',
+				fieldLabel: 'Nº OIT',
+				allowBlank: false,
+				anchor: '100%',
+				gwidth: 70,
+				maxLength: 20
+			},
+			type:'TextField',
+			filters:{pfiltro:'geoott.num_oit',type:'string'},
+			id_grupo:0,
+			grid:true,
+			form:true
+		},
+		{
+			config:{
+				name: 'id_tipo_mant',
+				fieldLabel: 'Tipo de OIT',
+				allowBlank: false,
+				emptyText:'Tipo de mantenimiento...',
+				store:new Ext.data.JsonStore(
+				{
+					url: '../../sis_mantenimiento/control/TipoMant/listarTipoMant',
+					id: 'id_tipo_mant',
+					root:'datos',
+					sortInfo:{
+						field:'nombre',
+						direction:'ASC'
+					},
+					totalProperty:'total',
+					fields: ['id_tipo_mant','codigo','nombre'],
+					// turn on remote sorting
+					remoteSort: true,
+					baseParams:{par_filtro:'nombre'}
+				}),
+				valueField: 'id_tipo_mant',
+				displayField: 'nombre',
+				gdisplayField:'tipo_mant',
+				forceSelection:true,
+				typeAhead: false,
+    			triggerAction: 'all',
+    			lazyRender:true,
+				mode:'remote',
+				pageSize:20,
+				queryDelay:500,
+				anchor: '100%',
+				gwidth:220,
+				minChars:2,
+				renderer:function (value, p, record){return String.format('{0}', record.data['tipo_mant']);}
+			},
+			type:'ComboBox',
+			filters:{pfiltro:'tipman.nombre',type:'string'},
+			id_grupo:0,
+			grid:true,
+			form:true
+		},
 		{
 			config:{
 				name: 'cat_estado',
@@ -125,6 +183,21 @@ Phx.vista.OrdenTrabajo=Ext.extend(Phx.gridInterfaz,{
 		},
 		{
 			config:{
+				name: 'descripcion',
+				fieldLabel: 'Descripción',
+				allowBlank: true,
+				anchor: '100%',
+				gwidth: 300,
+				maxLength:5000
+			},
+			type:'TextArea',
+			filters:{pfiltro:'geoott.descripcion',type:'string'},
+			id_grupo:0,
+			grid:true,
+			form:true
+		},
+		{
+			config:{
 				name: 'fecha_emision',
 				fieldLabel: 'Emisión',
 				allowBlank: true,
@@ -140,7 +213,7 @@ Phx.vista.OrdenTrabajo=Ext.extend(Phx.gridInterfaz,{
 		{			
 			config:{
 				name: 'id_localizacion',
-				fieldLabel: 'Solicitante Sector',
+				fieldLabel: 'Localización',
 				allowBlank: false,
 				emptyText:'Solicitante Sector...',
 				store:new Ext.data.JsonStore(
@@ -305,21 +378,6 @@ Phx.vista.OrdenTrabajo=Ext.extend(Phx.gridInterfaz,{
 		},
 		{
 			config:{
-				name: 'num_oit',
-				fieldLabel: 'Nº OIT',
-				allowBlank: false,
-				anchor: '100%',
-				gwidth: 70,
-				maxLength: 20
-			},
-			type:'TextField',
-			filters:{pfiltro:'geoott.num_oit',type:'string'},
-			id_grupo:0,
-			grid:true,
-			form:true
-		},
-		{
-			config:{
 				name: 'codigo_oit',
 				fieldLabel: 'Código OIT',
 				allowBlank: false,
@@ -333,48 +391,7 @@ Phx.vista.OrdenTrabajo=Ext.extend(Phx.gridInterfaz,{
 			grid:true,
 			form:true
 		},
-		{
-			config:{
-				name: 'id_tipo_mant',
-				fieldLabel: 'Tipo de OIT',
-				allowBlank: false,
-				emptyText:'Tipo de mantenimiento...',
-				store:new Ext.data.JsonStore(
-				{
-					url: '../../sis_mantenimiento/control/TipoMant/listarTipoMant',
-					id: 'id_tipo_mant',
-					root:'datos',
-					sortInfo:{
-						field:'nombre',
-						direction:'ASC'
-					},
-					totalProperty:'total',
-					fields: ['id_tipo_mant','codigo','nombre'],
-					// turn on remote sorting
-					remoteSort: true,
-					baseParams:{par_filtro:'nombre'}
-				}),
-				valueField: 'id_tipo_mant',
-				displayField: 'nombre',
-				gdisplayField:'tipo_mant',
-				forceSelection:true,
-				typeAhead: false,
-    			triggerAction: 'all',
-    			lazyRender:true,
-				mode:'remote',
-				pageSize:20,
-				queryDelay:500,
-				anchor: '100%',
-				gwidth:220,
-				minChars:2,
-				renderer:function (value, p, record){return String.format('{0}', record.data['tipo_mant']);}
-			},
-			type:'ComboBox',
-			filters:{pfiltro:'tipman.nombre',type:'string'},
-			id_grupo:0,
-			grid:true,
-			form:true
-		},
+		
 		{
 			config: {
 				name: 'cat_tipo',
@@ -471,21 +488,7 @@ Phx.vista.OrdenTrabajo=Ext.extend(Phx.gridInterfaz,{
 			grid:true,
 			form:true
 		},
-		{
-			config:{
-				name: 'descripcion',
-				fieldLabel: 'Descripción',
-				allowBlank: true,
-				anchor: '100%',
-				gwidth: 300,
-				maxLength:5000
-			},
-			type:'TextArea',
-			filters:{pfiltro:'geoott.descripcion',type:'string'},
-			id_grupo:0,
-			grid:true,
-			form:true
-		},
+		
 	   	{
 	   		config:{
 	       		    name:'id_funcionario_sol',

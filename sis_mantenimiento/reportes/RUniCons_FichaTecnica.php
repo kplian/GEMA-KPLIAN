@@ -55,9 +55,9 @@ require_once dirname(__FILE__).'/pxpReport/Report.php';
 		$y += 5;
 		$this->SetXY($x, $y);
 		$this->setCellPaddings(2);
-		$this->Cell($width1, $height/4, 'Fecha Emision:', "B", 0, '', false, '', 0, false, 'T', 'C');
+		$this->Cell($width1, $height/4, 'Fecha Emisión:', "B", 0, '', false, '', 0, false, 'T', 'C');
 		$this->SetFont('','B');
-		$this->Cell($width2, $height/4, $this->dataSource->getParameter('fechaEmision'), "B", 0, 'C', false, '', 0, false, 'T', 'C');
+		$this->Cell($width2, $height/4, '29/06/2012', "B", 0, 'C', false, '', 0, false, 'T', 'C');
 		
 		$this->SetFont('','');
 		$y += 5;

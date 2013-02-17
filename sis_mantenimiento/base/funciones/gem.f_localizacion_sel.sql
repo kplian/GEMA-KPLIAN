@@ -65,7 +65,8 @@ BEGIN
                         loc.latitud,
                         loc.longitud,
 						usu1.cuenta as usr_reg,
-						usu2.cuenta as usr_mod	
+						usu2.cuenta as usr_mod,
+						loc.tipo_numeracion
 						from gem.tlocalizacion loc
 						inner join segu.tusuario usu1 on usu1.id_usuario = loc.id_usuario_reg
 						left join segu.tusuario usu2 on usu2.id_usuario = loc.id_usuario_mod
@@ -124,7 +125,8 @@ BEGIN
                                ''raiz''::varchar
                           ELSE
                               ''hijo''::varchar
-                          END as tipo_nodo
+                          END as tipo_nodo,
+                        loc.tipo_numeracion
                         from gem.tlocalizacion loc
 						inner join segu.tusuario usu1 
                         on usu1.id_usuario = loc.id_usuario_reg

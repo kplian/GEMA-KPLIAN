@@ -77,6 +77,19 @@ Phx.vista.OrdenTrabajoSol=Ext.extend(Phx.gridInterfaz,{
 			form:true
 		},
 		{
+			config:{
+				name: 'nro_sol',
+				fieldLabel: 'Nro.Sol.',
+				allowBlank: true,
+				gwidth: 100
+			},
+			type:'Field',
+			filters:{pfiltro:'solord.nro_sol',type:'string'},
+			id_grupo:0,
+			grid:true,
+			form:false
+		},
+		{
 			config: {
 				name: 'id_solicitante',
 				fieldLabel: 'Solicitado por',
@@ -641,7 +654,8 @@ Phx.vista.OrdenTrabajoSol=Ext.extend(Phx.gridInterfaz,{
 		'desc_equipo',
 		'desc_responsable',
 		'desc_unidad_medida',
-		'desc_uo'
+		'desc_uo',
+		'nro_sol'
 		
 	],
 	onButtonEdit:function(){

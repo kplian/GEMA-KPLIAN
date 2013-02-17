@@ -81,7 +81,8 @@ BEGIN
 						unicon.codigo || '' - '' || unicon.nombre as desc_equipo,
 						funres.desc_funcionario1 as desc_responsable,
 						unimed.descripcion as desc_unidad_medida,
-						uniorg.codigo || '' - '' || uniorg.nombre_unidad as desc_uo 
+						uniorg.codigo || '' - '' || uniorg.nombre_unidad as desc_uo,
+						solord.nro_sol 
 						from gem.torden_trabajo_sol solord
 						inner join segu.tusuario usu1 on usu1.id_usuario = solord.id_usuario_reg
 						left join segu.tusuario usu2 on usu2.id_usuario = solord.id_usuario_mod
@@ -152,7 +153,8 @@ BEGIN
 						unimed.descripcion as desc_unidad_medida,
 						uniorg.codigo as codigo_uo,
                         uniorg.nombre_unidad as nombre_uo,
-                        uniorg.nombre_cargo as nombre_cargo 
+                        uniorg.nombre_cargo as nombre_cargo,
+                        solord.nro_sol 
 						from gem.torden_trabajo_sol solord
 						inner join segu.tusuario usu1 on usu1.id_usuario = solord.id_usuario_reg
 						left join segu.tusuario usu2 on usu2.id_usuario = solord.id_usuario_mod

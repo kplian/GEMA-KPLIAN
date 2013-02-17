@@ -848,3 +848,9 @@ select pxp.f_insert_tprocedimiento_gui ('GEM_EQGRAL_CONT', 'GEM.2.8', 'si');
 select pxp.f_insert_tprocedimiento_gui ('GEM_EQGRAL_MOD', 'GEM.2.8', 'si');
 select pxp.f_insert_tprocedimiento_gui ('GEM_EQGRAL_ELI', 'GEM.2.8', 'si');
 /***********************************F-DAT-RCM-GEM-119-16/02/2013****************************************/
+
+/***********************************I-DAT-RCM-GEM-123-18/02/2013****************************************/
+select pxp.f_add_catalog('GEM','tlocalizacion__cod_form','oit');
+select pxp.f_add_catalog('GEM','tlocalizacion__cod_form','sol_oit');
+select pxp.f_add_catalog('GEM','tlocalizacion__cod_form','oit, sol_oit');
+/***********************************F-DAT-RCM-GEM-123-18/02/2013****************************************/

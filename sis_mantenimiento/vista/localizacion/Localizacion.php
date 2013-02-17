@@ -592,7 +592,28 @@ header("content-type: text/javascript; charset=UTF-8");
 			id_grupo: 1,
 			grid: true,
 			form: false
-		}],
+		},
+		{
+			config: {
+				name: 'tipo_numeracion',
+				fieldLabel: 'Numeración de',
+				anchor: '70%',
+				tinit: false,
+				allowBlank: true,
+				origen: 'CATALOGO',
+				gdisplayField: 'descripcion',
+				gwidth: 200,
+				baseParams:{
+						cod_subsistema:'GEM',
+						catalogo_tipo:'tlocalizacion__cod_form'
+					}
+			},
+			type: 'ComboRec',
+			id_grupo: 0,
+			filters:{pfiltro:'loc.tipo_numeracion',type:'string'},
+			grid: true,
+			form: true
+		},],
 		title: 'Localizacion',
 		ActSave: '../../sis_mantenimiento/control/Localizacion/insertarLocalizacion',
 		ActDel: '../../sis_mantenimiento/control/Localizacion/eliminarLocalizacion',
@@ -672,7 +693,7 @@ header("content-type: text/javascript; charset=UTF-8");
 		}, {
 			name: 'usr_mod',
 			type: 'string'
-		}],
+		},'tipo_numeracion'],
 		east: {
 			url: '../../../sis_mantenimiento/vista/localizacion/mapaLocalizacion.php',
 			title: 'Ubicación',

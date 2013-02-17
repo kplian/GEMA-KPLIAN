@@ -57,6 +57,7 @@ class MODOrdenTrabajoSol extends MODbase{
 		$this->captura('desc_responsable','text');
 		$this->captura('desc_unidad_medida','varchar');
 		$this->captura('desc_uo','text');
+		$this->captura('nro_sol','varchar');
 		
 		//Ejecuta la instruccion
 		$this->armarConsulta();
@@ -229,6 +230,7 @@ class MODOrdenTrabajoSol extends MODbase{
         $this->captura('codigo_uo','varchar');
         $this->captura('nombre_uo','varchar');
         $this->captura('nombre_cargo','varchar');
+		$this->captura('nro_sol','varchar');
         //Ejecuta la instruccion
         $this->armarConsulta();
         $this->ejecutarConsulta();

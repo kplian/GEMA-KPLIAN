@@ -68,7 +68,23 @@ require_once dirname(__FILE__).'/pxpReport/Report.php';
     }
     
     public function Footer() {
-        //TODO: implement the footer manager
+        $this->SetFontSize(5.5);
+		$this->setY(-10);
+		$ormargins = $this->getOriginalMargins();
+		$this->SetTextColor(0, 0, 0);
+		//set style for cell border
+		$line_width = 0.85 / $this->getScaleFactor();
+		$this->SetLineStyle(array('width' => $line_width, 'cap' => 'butt', 'join' => 'miter', 'dash' => 0, 'color' => array(0, 0, 0)));
+		$ancho = round(($this->getPageWidth() - $ormargins['left'] - $ormargins['right']) / 3);
+		$this->Ln(2);
+		$cur_y = $this->GetY();
+		//$this->Cell($ancho, 0, 'Generado por XPHS', 'T', 0, 'L');
+		$this->Cell($ancho, 0, 'Usuario: '.$_SESSION['_LOGIN'], '', 1, 'L');
+		$pagenumtxt = 'Página'.' '.$this->getAliasNumPage().' de '.$this->getAliasNbPages();
+		//$this->Cell($ancho, 0, '', '', 0, 'C');
+		$fecha_rep = date("d-m-Y H:i:s");
+		$this->Cell($ancho, 0, "Fecha impresión: ".$fecha_rep, '', 0, 'L');
+		$this->Ln($line_width);
     }
 }
 
