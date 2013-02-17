@@ -1170,3 +1170,16 @@ ALTER TABLE gem.tuni_cons_archivo
 alter table gem.tlocalizacion_med
 add column num_paros_planif integer;
 /***********************************F-SCP-RCM-GEM-116-08/02/2013*****************************************/
+
+/***********************************I-SCP-RCM-GEM-122-17/02/2013*****************************************/
+create table gem.torden_trabajo_sol_insumo (  
+  id_orden_trabajo_sol_insumo serial NOT NULL,
+  id_orden_trabajo_sol integer NOT NULL,
+  id_unidad_medida integer,
+  descripcion varchar(100),
+  cant_insum numeric(18,2),
+  CONSTRAINT pk_torden_trabajo_sol_insumo__id_orden_trabajo_sol_insumo PRIMARY KEY (id_orden_trabajo_sol_insumo)
+) INHERITS (pxp.tbase)
+WITH OIDS;
+ALTER TABLE gem.torden_trabajo_sol_insumo OWNER TO postgres;
+/***********************************F-SCP-RCM-GEM-122-17/02/2013*****************************************/

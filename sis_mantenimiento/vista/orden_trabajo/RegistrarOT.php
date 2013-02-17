@@ -128,7 +128,7 @@ Phx.vista.RegistrarOT = {
 			this.readOnlyGroup(0, false);
 		} else {
 			var data = this.getSelectedData();
-			if(data.cat_estado == 'Borrador') {
+			if(data.cat_estado == 'Borrador'|| data.cat_estado == 'generado') {
 		  		this.readOnlyGroup(0, false);
 		  	} else if(data.cat_estado == 'Pendiente') {
 		  		this.readOnlyGroup(0, true);

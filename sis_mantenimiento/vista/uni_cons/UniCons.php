@@ -281,7 +281,7 @@ Phx.vista.UniCons=Ext.extend(Phx.arbInterfaz,{
 		{
 			config:{
 				name: 'herramientas_especiales',
-				fieldLabel: 'Herramientas Especiales',
+				fieldLabel: 'Observaciones',
 				allowBlank: true,
 				width: '100%',
 				gwidth: 250,

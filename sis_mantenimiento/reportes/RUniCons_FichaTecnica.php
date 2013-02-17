@@ -41,7 +41,7 @@ require_once dirname(__FILE__).'/pxpReport/Report.php';
 		$this->setCellPaddings(2);
 		$this->Cell($width1, $height/4, 'Código:', "B", 0, '', false, '', 0, false, 'T', 'C');
 		$this->SetFont('','B');
-		$this->Cell($width2, $height/4, 'GMAN-RG-SM-06', "B", 0, 'C', false, '', 0, false, 'T', 'C');
+		$this->Cell($width2, $height/4, 'GMAN-RG-SM-05', "B", 0, 'C', false, '', 0, false, 'T', 'C');
 		
 		$this->SetFont('','');
 		$y += 5;
@@ -71,7 +71,6 @@ require_once dirname(__FILE__).'/pxpReport/Report.php';
 	}
 	
 	public function Footer() {
-		//TODO: implement the footer manager
 		$this->SetFontSize(5.5);
 		$this->setY(-10);
 		$ormargins = $this->getOriginalMargins();
@@ -83,7 +82,7 @@ require_once dirname(__FILE__).'/pxpReport/Report.php';
 		$this->Ln(2);
 		$cur_y = $this->GetY();
 		//$this->Cell($ancho, 0, 'Generado por XPHS', 'T', 0, 'L');
-		$this->Cell($ancho, 0, 'Usuario:                '.$_SESSION['_LOGIN'], '', 1, 'L');
+		$this->Cell($ancho, 0, 'Usuario: '.$_SESSION['_LOGIN'], '', 1, 'L');
 		$pagenumtxt = 'Página'.' '.$this->getAliasNumPage().' de '.$this->getAliasNbPages();
 		//$this->Cell($ancho, 0, '', '', 0, 'C');
 		$fecha_rep = date("d-m-Y H:i:s");
@@ -263,7 +262,7 @@ Class RUniCons_FichaTecnica extends Report {
 		$pdf->SetFontSize(7.5);
 		$pdf->SetFont('', 'B');
 		$pdf->setTextColor(234,0,0);
-		$pdf->Cell($w = $wHalf, $h = $height, $txt = 'HERRAMIENTAS ESPECIALES', $border = 0, $ln = 0, $align = 'L', $fill = false, $link = '', $stretch = 0, $ignore_min_height = false, $calign = 'T', $valign = 'M');
+		$pdf->Cell($w = $wHalf, $h = $height, $txt = 'OBSERVACIONES', $border = 0, $ln = 0, $align = 'L', $fill = false, $link = '', $stretch = 0, $ignore_min_height = false, $calign = 'T', $valign = 'M');
 		$pdf->Cell($w = 5, $h = $height, $txt = '', $border = 0, $ln = 0, $align = 'C', $fill = false, $link = '', $stretch = 0, $ignore_min_height = false, $calign = 'T', $valign = 'M');
 		$pdf->Cell($w = $wHalf, $h = $height, $txt = 'OTROS DATOS TÉCNICOS', $border = 0, $ln = 1, $align = 'L', $fill = false, $link = '', $stretch = 0, $ignore_min_height = false, $calign = 'T', $valign = 'M');
 		

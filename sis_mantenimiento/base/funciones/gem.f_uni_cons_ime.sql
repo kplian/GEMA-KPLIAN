@@ -1035,6 +1035,63 @@ BEGIN
             return v_resp;
 		end;
 		
+	/*********************************    
+ 	#TRANSACCION:  'GM_EQGRAL_MOD'
+ 	#DESCRIPCION:	Modificacion de registros
+ 	#AUTOR:			rcm	
+ 	#FECHA:			16/02/2012
+	***********************************/
+
+	elsif(p_transaccion='GM_EQGRAL_MOD')then
+
+		begin
+			--Sentencia de la modificacion
+			update gem.tuni_cons set
+			--codigo = v_parametros.codigo,
+			incluir_calgen = v_parametros.incluir_calgen,
+			otros_datos_tec = v_parametros.otros_datos_tec,
+			punto_recepcion_despacho = v_parametros.punto_recepcion_despacho,
+			herramientas_especiales = v_parametros.herramientas_especiales,
+			estado = v_parametros.estado,
+			nombre = v_parametros.nombre,
+			funcion = v_parametros.funcion,
+			id_usuario_mod = p_id_usuario,
+			fecha_mod = now()
+			where id_uni_cons=v_parametros.id_uni_cons;
+               
+			--Definicion de la respuesta
+            v_resp = pxp.f_agrega_clave(v_resp,'mensaje','Equipos modificado(a)'); 
+            v_resp = pxp.f_agrega_clave(v_resp,'id_uni_cons',v_parametros.id_uni_cons::varchar);
+               
+            --Devuelve la respuesta
+            return v_resp;
+            
+		end;
+
+	/*********************************    
+ 	#TRANSACCION:  'GM_EQUIPO_ELI'
+ 	#DESCRIPCION:	Eliminacion de registros
+ 	#AUTOR:		admin	
+ 	#FECHA:		05-02-2013 07:24:57
+	***********************************/
+
+	elsif(p_transaccion='GM_EQUIPO_ELI')then
+
+		begin
+			--Sentencia de la eliminacion
+			update gem.tuni_cons set
+			estado_reg = 'inactivo'
+            where id_uni_cons=v_parametros.id_uni_cons;
+               
+            --Definicion de la respuesta
+            v_resp = pxp.f_agrega_clave(v_resp,'mensaje','Equipos eliminado(a)'); 
+            v_resp = pxp.f_agrega_clave(v_resp,'id_uni_cons',v_parametros.id_uni_cons::varchar);
+              
+            --Devuelve la respuesta
+            return v_resp;
+
+		end;
+		
 	else
      
     	raise exception 'Transaccion inexistente: %',p_transaccion;

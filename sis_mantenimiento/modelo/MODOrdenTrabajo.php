@@ -76,6 +76,8 @@ class MODOrdenTrabajo extends MODbase{
 		$this->armarConsulta();
 		$this->ejecutarConsulta();
 		
+		//echo $this->consulta;exit;
+		
 		//Devuelve la respuesta
 		return $this->respuesta;
 	}

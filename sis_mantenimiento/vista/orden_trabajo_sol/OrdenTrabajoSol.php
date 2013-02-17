@@ -784,6 +784,13 @@ Phx.vista.OrdenTrabajoSol=Ext.extend(Phx.gridInterfaz,{
 		this.getBoton('btn-fin').setDisabled(true);
 		this.getBoton('btn-reporte').setDisabled(true);
 		return tb;
+	},
+	south:{
+		  url:'../../../sis_mantenimiento/vista/orden_trabajo_sol_insumo/OrdenTrabajoSolInsumo.php',
+		  title:'Insumos', 
+		  height:'50%',	//altura de la ventana hijo
+		  //width:'50%',		//ancho de la ventana hjo
+		  cls:'OrdenTrabajoSolInsumo'
 	}
 })
 </script>

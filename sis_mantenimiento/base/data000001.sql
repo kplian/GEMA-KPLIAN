@@ -48,7 +48,7 @@ select pxp.f_insert_tgui ('Eventos/Incidentes por Equipo', 'Registro de Eventos/
 select pxp.f_insert_tgui ('Procedimientos, Instructivos ...', 'Registro de Procedimientos, Instructivos, etc.', 'GEM.3.1', 'si', 1, 'sis_mantenimiento/vista/documento/Documento.php', 3, '', 'Documento', 'GEM');
 select pxp.f_insert_tgui ('Fallas/Eventos Equipos...', 'Registro de Fallas/Eventos Equipos', 'GEM.3.11', 'si', 5, 'sis_mantenimiento/vista/falla_evento/FallaEventoExterno.php', 3, '', 'FallaEventoExterno', 'GEM');
 select pxp.f_insert_tgui ('Ordenes de Trabajo', 'Ordenes de Trabajo', 'GEM.2.7', 'si', 1, '', 3, '', '', 'GEM');
-select pxp.f_insert_tgui ('Registro - Orden Trabajo', 'Registro de Ordenes de Trabajo', 'GEM.2.7.1', 'si', 1, 'sis_mantenimiento/vista/orden_trabajo/RegistrarOT.php', 4, '', 'RegistrarOT', 'GEM');
+select pxp.f_insert_tgui ('Emisión - Orden Trabajo', 'Emisión de Ordenes de Trabajo', 'GEM.2.7.1', 'si', 1, 'sis_mantenimiento/vista/orden_trabajo/RegistrarOT.php', 4, '', 'RegistrarOT', 'GEM');
 select pxp.f_insert_tgui ('Ejecución - Orden Trabajo', 'Registro de Ordenes de Trabajo', 'GEM.2.7.2', 'si', 1, 'sis_mantenimiento/vista/orden_trabajo/EjecutarOT.php', 4, '', 'EjecutarOT', 'GEM');
 select pxp.f_insert_tgui ('Revisión - Orden Trabajo', 'Registro de Ordenes de Trabajo', 'GEM.2.7.3', 'si', 1, 'sis_mantenimiento/vista/orden_trabajo/RevisarOT.php', 4, '', 'RevisarOT', 'GEM');
 select pxp.f_insert_testructura_gui ('GEM', 'SISTEMA');
@@ -833,3 +833,18 @@ select pxp.f_insert_testructura_gui ('GEM.2.4', 'GEM.2');
 update param.tmoneda set tipo_moneda = 'secundaria';
 update param.tmoneda set tipo_moneda = 'base' where moneda ilike '%Bolivianos%';
 /***********************************F-DAT-RCM-GEM-97-06/02/2013****************************************/
+
+/***********************************I-DAT-RCM-GEM-119-16/02/2013****************************************/
+select pxp.f_insert_tgui ('Equipos', 'Registro de Equipos', 'GEM.2.8', 'si', 2, 'sis_mantenimiento/vista/uni_cons/UniConsGral.php', 3, '', 'UniConsGral', 'GEM');
+select pxp.f_insert_testructura_gui ('GEM.2.8', 'GEM.2');
+
+select pxp.f_insert_tprocedimiento ('GEM_EQGRAL_SEL', '	Consulta de datos', 'si', '', '', 'gem.f_uni_cons_sel');
+select pxp.f_insert_tprocedimiento ('GEM_EQGRAL_CONT', '	Conteo de registros', 'si', '', '', 'gem.f_uni_cons_sel');
+select pxp.f_insert_tprocedimiento ('GEM_EQGRAL_MOD', '	Modificación de datos', 'si', '', '', 'gem.f_uni_cons_ime');
+select pxp.f_insert_tprocedimiento ('GEM_EQGRAL_ELI', '	Eliminación de datos', 'si', '', '', 'gem.f_uni_cons_ime');
+
+select pxp.f_insert_tprocedimiento_gui ('GEM_EQGRAL_SEL', 'GEM.2.8', 'si');
+select pxp.f_insert_tprocedimiento_gui ('GEM_EQGRAL_CONT', 'GEM.2.8', 'si');
+select pxp.f_insert_tprocedimiento_gui ('GEM_EQGRAL_MOD', 'GEM.2.8', 'si');
+select pxp.f_insert_tprocedimiento_gui ('GEM_EQGRAL_ELI', 'GEM.2.8', 'si');
+/***********************************F-DAT-RCM-GEM-119-16/02/2013****************************************/

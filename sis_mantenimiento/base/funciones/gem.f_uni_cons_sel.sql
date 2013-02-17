@@ -507,6 +507,119 @@ BEGIN
             --Devuelve la respuesta
             return v_consulta;
         end;
+        
+    	/*********************************
+        #TRANSACCION: 'GEM_EQGRAL_SEL'
+        #DESCRIPCION: obtiene los pares ordenados del detalle de una unidad constructiva
+        #AUTOR: aao
+        #FECHA: 12/11/2012
+        ***********************************/
+
+        elsif(p_transaccion='GEM_EQGRAL_SEL')then
+             
+             begin
+             --Sentencia de la consulta
+                  v_consulta:='	select * from (
+                  				select
+								equipo.id_uni_cons,
+								equipo.id_tipo_equipo,
+								equipo.id_localizacion,
+								equipo.tipo_unicons,
+								equipo.id_plantilla,
+								equipo.codigo,
+								equipo.incluir_calgen,
+								equipo.otros_datos_tec,
+								equipo.estado_reg,
+								equipo.punto_recepcion_despacho,
+								equipo.tipo_nodo,
+								equipo.id_usuarios,
+								equipo.tipo,
+								equipo.herramientas_especiales,
+								equipo.estado,
+								equipo.nombre,
+								equipo.funcion,
+								equipo.id_usuario_reg,
+								equipo.fecha_reg,
+								equipo.id_usuario_mod,
+								equipo.fecha_mod,
+								usu1.cuenta as usr_reg,
+								usu2.cuenta as usr_mod,
+								gem.f_get_localizacion_nombre_predecesores(equipo.id_localizacion) as localizaciones,
+								teq.nombre as desc_tipo_equipo,
+								equipo.nombre as desc_plantilla
+								from gem.tuni_cons equipo
+								inner join segu.tusuario usu1 on usu1.id_usuario = equipo.id_usuario_reg
+								left join segu.tusuario usu2 on usu2.id_usuario = equipo.id_usuario_mod
+								inner join gem.ttipo_equipo teq
+								on teq.id_tipo_equipo = equipo.id_tipo_equipo
+								inner join gem.tuni_cons plant
+								on plant.id_uni_cons = equipo.id_plantilla
+								where equipo.tipo = ''uc''
+								and equipo.tipo_nodo = ''raiz''
+								and equipo.estado_reg = ''activo'') eqgral
+								where ';
+								
+			v_consulta:=v_consulta||v_parametros.filtro;
+
+            --Devuelve la respuesta
+            return v_consulta;
+        end;
+
+        /*********************************
+        #TRANSACCION: 'GEM_EQGRAL_CONT'
+        #DESCRIPCION: Conteo de registros
+        #AUTOR: aao
+        #FECHA: 12-11-2012 10:49:00
+        ***********************************/
+
+        elsif(p_transaccion='GEM_EQGRAL_CONT')then
+
+        begin
+            --Sentencia de la consulta de conteo de registros
+            v_consulta:='	select count(id_uni_cons)
+            				 from (
+                  				select
+								equipo.id_uni_cons,
+								equipo.id_tipo_equipo,
+								equipo.id_localizacion,
+								equipo.tipo_unicons,
+								equipo.id_plantilla,
+								equipo.codigo,
+								equipo.incluir_calgen,
+								equipo.otros_datos_tec,
+								equipo.estado_reg,
+								equipo.punto_recepcion_despacho,
+								equipo.tipo_nodo,
+								equipo.id_usuarios,
+								equipo.tipo,
+								equipo.herramientas_especiales,
+								equipo.estado,
+								equipo.nombre,
+								equipo.funcion,
+								equipo.id_usuario_reg,
+								equipo.fecha_reg,
+								equipo.id_usuario_mod,
+								equipo.fecha_mod,
+								usu1.cuenta as usr_reg,
+								usu2.cuenta as usr_mod,
+								gem.f_get_localizacion_nombre_predecesores(equipo.id_localizacion)
+								from gem.tuni_cons equipo
+								inner join segu.tusuario usu1 on usu1.id_usuario = equipo.id_usuario_reg
+								left join segu.tusuario usu2 on usu2.id_usuario = equipo.id_usuario_mod
+								inner join gem.ttipo_equipo teq
+								on teq.id_tipo_equipo = equipo.id_tipo_equipo
+								inner join gem.tuni_cons plant
+								on plant.id_uni_cons = equipo.id_plantilla
+								where equipo.tipo = ''uc''
+								and equipo.tipo_nodo = ''raiz''
+								and equipo.estado_reg = ''activo'') eqgral
+								where ';
+								
+			v_consulta:=v_consulta||v_parametros.filtro;
+            --Devuelve la respuesta
+            return v_consulta;
+
+        end;
 	else
 					     
 		raise exception 'Transaccion inexistente';

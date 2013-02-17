@@ -564,3 +564,9 @@ add constraint fk_tmant_predef__id_tipo_equipo foreign key (id_tipo_equipo)
 	references gem.ttipo_equipo (id_tipo_equipo);
     
 /***********************************F-DEP-RCM-GEM-0-07/01/2013*****************************************/
+
+/***********************************I-DEP-RCM-GEM-122-17/02/2013*****************************************/
+alter table gem.torden_trabajo_sol_insumo
+add constraint fk_torden_trabajo_sol_insumo__id_orden_trabajo_sol
+foreign key (id_orden_trabajo_sol) references gem.torden_trabajo_sol (id_orden_trabajo_sol);
+/***********************************F-DEP-RCM-GEM-122-17/02/2013*****************************************/

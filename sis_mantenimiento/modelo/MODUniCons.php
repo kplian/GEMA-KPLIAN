@@ -103,6 +103,8 @@ class MODUniCons extends MODbase{
 		$this->armarConsulta();
 		$this->ejecutarConsulta();
 		
+		//echo $this->consulta; 
+		
 		//Devuelve la respuesta
 		return $this->respuesta;
 	}
@@ -426,5 +428,98 @@ class MODUniCons extends MODbase{
 		//Devuelve la respuesta
 		return $this->respuesta;
 	}
+	
+	function listarUniConsGral(){
+		//Definicion de variables para ejecucion del procedimientp
+		$this->procedimiento='gem.f_uni_cons_sel';
+		$this->transaccion='GEM_EQGRAL_SEL';
+		$this->tipo_procedimiento='SEL';//tipo de transaccion
+				
+		//Definicion de la lista del resultado del query
+		$this->captura('id_uni_cons','int4');
+		$this->captura('id_tipo_equipo','int4');
+		$this->captura('id_localizacion','int4');
+		$this->captura('tipo_unicons','varchar');
+		$this->captura('id_plantilla','int4');
+		$this->captura('codigo','varchar');
+		$this->captura('incluir_calgen','bool');
+		$this->captura('otros_datos_tec','varchar');
+		$this->captura('estado_reg','varchar');
+		$this->captura('punto_recepcion_despacho','varchar');
+		$this->captura('tipo_nodo','varchar');
+		$this->captura('id_usuarios','_int4');
+		$this->captura('tipo','varchar');
+		$this->captura('herramientas_especiales','varchar');
+		$this->captura('estado','varchar');
+		$this->captura('nombre','varchar');
+		$this->captura('funcion','varchar');
+		$this->captura('id_usuario_reg','int4');
+		$this->captura('fecha_reg','timestamp');
+		$this->captura('id_usuario_mod','int4');
+		$this->captura('fecha_mod','timestamp');
+		$this->captura('usr_reg','varchar');
+		$this->captura('usr_mod','varchar');
+		$this->captura('localizaciones','varchar');
+		$this->captura('desc_tipo_equipo','varchar');
+		$this->captura('desc_plantilla','varchar');
+		
+		//Ejecuta la instruccion
+		$this->armarConsulta();
+		$this->ejecutarConsulta();
+		
+		//Devuelve la respuesta
+		return $this->respuesta;
+	}
+
+	function modificarUniConsGral(){
+		//Definicion de variables para ejecucion del procedimiento
+		$this->procedimiento='gem.f_uni_cons_ime';
+		$this->transaccion='GEM_EQGRAL_MOD';
+		$this->tipo_procedimiento='IME';
+				
+		//Define los parametros para la funcion
+		$this->setParametro('id_uni_cons','id_uni_cons','int4');
+		$this->setParametro('id_tipo_equipo','id_tipo_equipo','int4');
+		$this->setParametro('id_localizacion','id_localizacion','int4');
+		$this->setParametro('tipo_unicons','tipo_unicons','varchar');
+		$this->setParametro('id_plantilla','id_plantilla','int4');
+		$this->setParametro('codigo','codigo','varchar');
+		$this->setParametro('incluir_calgen','incluir_calgen','bool');
+		$this->setParametro('otros_datos_tec','otros_datos_tec','varchar');
+		$this->setParametro('estado_reg','estado_reg','varchar');
+		$this->setParametro('punto_recepcion_despacho','punto_recepcion_despacho','varchar');
+		$this->setParametro('tipo_nodo','tipo_nodo','varchar');
+		$this->setParametro('id_usuarios','id_usuarios','_int4');
+		$this->setParametro('tipo','tipo','varchar');
+		$this->setParametro('herramientas_especiales','herramientas_especiales','varchar');
+		$this->setParametro('estado','estado','varchar');
+		$this->setParametro('nombre','nombre','varchar');
+		$this->setParametro('funcion','funcion','varchar');
+
+		//Ejecuta la instruccion
+		$this->armarConsulta();
+		$this->ejecutarConsulta();
+
+		//Devuelve la respuesta
+		return $this->respuesta;
+	}
+			
+	function eliminarUniConsGral(){
+		//Definicion de variables para ejecucion del procedimiento
+		$this->procedimiento='gem.f_uni_cons_ime';
+		$this->transaccion='GEM_EQGRAL_ELI';
+		$this->tipo_procedimiento='IME';
+				
+		//Define los parametros para la funcion
+		$this->setParametro('id_uni_cons','id_uni_cons','int4');
+
+		//Ejecuta la instruccion
+		$this->armarConsulta();
+		$this->ejecutarConsulta();
+
+		//Devuelve la respuesta
+		return $this->respuesta;
+	}
+	
 }
 ?>
