@@ -40,6 +40,11 @@ class MODRecurso extends MODbase {
 		$this->captura('cantidad','numeric');
 		$this->captura('costo','numeric');
 		$this->captura('observaciones','varchar');
+		$this->captura('id_unidad_medida','int4');
+		$this->captura('codigo_unidad_medida','varchar');
+		$this->captura('hh_normal','int4');
+		$this->captura('hh_extras','int4');
+		$this->captura('hh_ext_mov','int4');
 		
 		$this->armarConsulta();
 		$this->ejecutarConsulta();
@@ -75,6 +80,11 @@ class MODRecurso extends MODbase {
 		$this->captura('cantidad','numeric');
 		$this->captura('costo','numeric');
 		$this->captura('observaciones','varchar');
+		$this->captura('id_unidad_medida','int4');
+		$this->captura('codigo_unidad_medida','varchar');
+		$this->captura('hh_normal','int4');
+		$this->captura('hh_extras','int4');
+		$this->captura('hh_ext_mov','int4');
 		
 		$this->armarConsulta();
 		$this->ejecutarConsulta();
@@ -95,6 +105,10 @@ class MODRecurso extends MODbase {
 		$this->setParametro('cantidad_recurso','cantidad','numeric');
 		$this->setParametro('costo','costo','numeric');
 		$this->setParametro('observaciones','observaciones','varchar');
+		$this->setParametro('id_unidad_medida','id_unidad_medida','int4');
+		$this->setParametro('hh_normal','hh_normal','int4');
+		$this->setParametro('hh_extras','hh_extras','int4');
+		$this->setParametro('hh_ext_mov','hh_ext_mov','int4');
 		
 		$this->armarConsulta();
 		$this->ejecutarConsulta();
@@ -116,6 +130,10 @@ class MODRecurso extends MODbase {
 		$this->setParametro('cantidad_recurso','cantidad','numeric');
 		$this->setParametro('costo','costo','numeric');
 		$this->setParametro('observaciones','observaciones','varchar');
+		$this->setParametro('id_unidad_medida','id_unidad_medida','int4');
+		$this->setParametro('hh_normal','hh_normal','int4');
+		$this->setParametro('hh_extras','hh_extras','int4');
+		$this->setParametro('hh_ext_mov','hh_ext_mov','int4');
 		
 		$this->armarConsulta();
 		$this->ejecutarConsulta();

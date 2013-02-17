@@ -30,34 +30,7 @@ Phx.vista.recurso=Ext.extend(Phx.gridInterfaz,{
    		this.store.removeAll();
    		
    		//listener to combo box 
-   		this.getComponente('recurso').on('select', function(e, data, index) {
-   			console.log(this.getComponente('id_item'));
-         	if(e.value == 'item') {
-         		this.getComponente('id_item').setVisible(true);
-         		this.getComponente('id_funcionario').setVisible(false);
-         		this.getComponente('id_especialidad').setVisible(false);
-         		this.getComponente('id_servicio').setVisible(false);
-         	}
-         	else if(e.value == 'funcionario') {
-         		this.getComponente('id_item').setVisible(false);
-         		this.getComponente('id_funcionario').setVisible(true);
-         		this.getComponente('id_especialidad').setVisible(false);
-         		this.getComponente('id_servicio').setVisible(false);
-         	}
-         	else if(e.value == 'especialidad') {
-         		this.getComponente('id_item').setVisible(false);
-         		this.getComponente('id_funcionario').setVisible(false);
-         		this.getComponente('id_especialidad').setVisible(true);
-         		this.getComponente('id_servicio').setVisible(false);
-         	}
-         	else if(e.value == 'servicio') {
-         		this.getComponente('id_item').setVisible(false);
-         		this.getComponente('id_funcionario').setVisible(false);
-         		this.getComponente('id_especialidad').setVisible(false);
-         		this.getComponente('id_servicio').setVisible(true);
-         	}
-        },
-        this);
+   		this.getComponente('recurso').on('select', this.onRecursoSelect,this);
 	},
 	Atributos: [
 		{
@@ -198,6 +171,60 @@ Phx.vista.recurso=Ext.extend(Phx.gridInterfaz,{
 		},
 		{
 			config: {
+				name: 'hh_normal',
+				fieldLabel: 'HH Normal',
+				allowBlank: true,
+				width: '100%',
+				gwidth: 100,
+				maxLength: 100,
+				hidden: true
+			},
+			type: 'TextField',
+			filters: {
+				pfiltro: 'rec.hh_normal',
+				type: 'numeric'},
+			id_grupo: 0,
+			grid: true,
+			form: true
+		},
+		{
+			config: {
+				name: 'hh_extras',
+				fieldLabel: 'HH Extras',
+				allowBlank: true,
+				width: '100%',
+				gwidth: 100,
+				maxLength: 100,
+				hidden: true
+			},
+			type: 'TextField',
+			filters: {
+				pfiltro: 'rec.hh_extras',
+				type: 'numeric'},
+			id_grupo: 0,
+			grid: true,
+			form: true
+		},
+		{
+			config: {
+				name: 'hh_ext_mov',
+				fieldLabel: 'HH Ext. Mov.',
+				allowBlank: true,
+				width: '100%',
+				gwidth: 100,
+				maxLength: 100,
+				hidden: true
+			},
+			type: 'TextField',
+			filters: {
+				pfiltro: 'rec.hh_ext_mov',
+				type: 'numeric'},
+			id_grupo: 0,
+			grid: true,
+			form: true
+		},
+		{
+			config: {
 				name: 'id_especialidad',
 				fieldLabel: 'Especialidad',
 				allowBlank: true,
@@ -293,7 +320,7 @@ Phx.vista.recurso=Ext.extend(Phx.gridInterfaz,{
 			config: {
 				name: 'id_moneda',
 				fieldLabel: 'Moneda',
-				allowBlank: false,
+				allowBlank: true,
 				emptyText: 'Seleccione una Moneda...',
 				store: new Ext.data.JsonStore({
 					url: '../../sis_parametros/control/Moneda/listarMoneda',
@@ -308,6 +335,7 @@ Phx.vista.recurso=Ext.extend(Phx.gridInterfaz,{
 					remoteSort: true,
 					baseParams: {par_filtro:'codigo'}
 				}),
+				hidden: true,
 				valueField: 'id_moneda',
 				displayField: 'codigo',
 				gdisplayField: 'codigo_moneda',
@@ -318,7 +346,7 @@ Phx.vista.recurso=Ext.extend(Phx.gridInterfaz,{
 				mode: 'remote',
 				pageSize: 20,
 				queryDelay: 500,
-				anchor: '100%',
+				anchor: '99%',
 				gwidth: 70,
 				minChars: 2,
 				renderer: function (value, p, record) {
@@ -336,16 +364,17 @@ Phx.vista.recurso=Ext.extend(Phx.gridInterfaz,{
 		},
 		{
 			config: {
-				name: 'cantidad',
-				fieldLabel: 'Cantidad',
-				allowBlank: false,
-				width: 50,
+				name: 'costo',
+				fieldLabel: 'Costo',
+				allowBlank: true,
+				width: 150,
 				gwidth: 70,
-				maxLength: 100
+				maxLength: 100,
+				hidden: true
 			},
 			type: 'TextField',
 			filters: {
-				pfiltro: 'rec.cantidad',
+				pfiltro: 'rec.costo',
 				type: 'numeric'},
 			id_grupo: 1,
 			grid: true,
@@ -353,16 +382,63 @@ Phx.vista.recurso=Ext.extend(Phx.gridInterfaz,{
 		},
 		{
 			config: {
-				name: 'costo',
-				fieldLabel: 'Costo',
-				allowBlank: false,
-				width: 50,
+				name: 'id_unidad_medida',
+				fieldLabel: 'Unidad',
+				allowBlank: true,
+				emptyText: 'Elija una unidad...',
+				store: new Ext.data.JsonStore({
+					url: '../../sis_parametros/control/UnidadMedida/listarUnidadMedida',
+					id: 'id_unidad_medida',
+					root: 'datos',
+					sortInfo: {
+						field: 'codigo',
+						direction: 'ASC'
+					},
+					totalProperty: 'total',
+					fields: ['id_unidad_medida','codigo'],
+					remoteSort: true,
+					baseParams: {par_filtro:'ume.codigo'}
+				}),
+				hidden: true,
+				valueField: 'id_unidad_medida',
+				displayField: 'codigo',
+				gdisplayField: 'codigo_unidad_medida',
+				forceSelection: false,
+				typeAhead: false,
+    			triggerAction: 'all',
+    			lazyRender: true,
+				mode: 'remote',
+				pageSize: 20,
+				queryDelay: 500,
+				anchor: '99%',
+				gwidth: 150,
+				minChars: 2,
+				renderer: function (value, p, record) {
+					return String.format('{0}', value?record.data['codigo_unidad_medida']:'');
+				}
+			},
+			type: 'ComboBox',
+			filters: {
+				pfiltro: 'unimed.codigo',
+				type: 'string'
+			},
+			id_grupo: 0,
+			grid: true,
+			form: true
+		},
+		{
+			config: {
+				name: 'cantidad',
+				fieldLabel: 'Cantidad',
+				allowBlank: true,
+				width: 150,
 				gwidth: 70,
-				maxLength: 100
+				maxLength: 100,
+				hidden: true
 			},
 			type: 'TextField',
 			filters: {
-				pfiltro: 'rec.costo',
+				pfiltro: 'rec.cantidad',
 				type: 'numeric'},
 			id_grupo: 1,
 			grid: true,
@@ -417,7 +493,12 @@ Phx.vista.recurso=Ext.extend(Phx.gridInterfaz,{
 		{name: 'codigo_moneda', type: 'varchar'},
 		{name: 'cantidad', type: 'numeric'},
 		{name: 'costo', type: 'numeric'},
-		{name: 'observaciones', type: 'varchar'}
+		{name: 'observaciones', type: 'varchar'},
+		{name: 'id_unidad_medida', type: 'int4'},
+		{name: 'codigo_unidad_medida', type: 'varchar'},
+		{name: 'hh_normal', type: 'int4'},
+		{name: 'hh_extras', type: 'int4'},
+		{name: 'hh_ext_mov', type: 'int4'}
 	],
 	sortInfo:{
 		field: 'id_recurso',
@@ -437,7 +518,94 @@ Phx.vista.recurso=Ext.extend(Phx.gridInterfaz,{
 			this.grid.getBottomToolbar().disable(); 
 			this.store.removeAll(); 
 		}
-	}
+	},
+	onButtonEdit: function() {
+        Phx.vista.recurso.superclass.onButtonEdit.call(this);
+        var data = this.getSelectedData();
+	  	if(data.id_item != undefined) {
+	  		this.getComponente('recurso').setValue('item');
+	  		this.onRecursoSelect(this.getComponente('recurso'));
+	  	} else if(data.id_funcionario != undefined) {
+	  		this.getComponente('recurso').setValue('funcionario');
+	  		this.onRecursoSelect(this.getComponente('recurso'));
+	  	} else if(data.id_especialidad != undefined) {
+	  		this.getComponente('recurso').setValue('especialidad');
+	  		this.onRecursoSelect(this.getComponente('recurso'));
+	  	} else if(data.id_servicio != undefined) {
+	  		this.getComponente('recurso').setValue('servicio');
+	  		this.onRecursoSelect(this.getComponente('recurso'));
+	  	}
+    },
+    loadValoresIniciales:function(){
+		Phx.vista.recurso.superclass.loadValoresIniciales.call(this);
+		this.onRecursoSelect(this.getComponente('recurso'));		
+	},
+    onRecursoSelect: function(e, data, index) {
+         	if(e.value == 'item') {
+         		this.getComponente('id_item').setVisible(true);
+         		this.getComponente('id_funcionario').setVisible(false);
+         		this.getComponente('id_especialidad').setVisible(false);
+         		this.getComponente('id_servicio').setVisible(false);
+         		this.getComponente('hh_normal').setVisible(false);
+         		this.getComponente('hh_extras').setVisible(false);
+         		this.getComponente('hh_ext_mov').setVisible(false);
+         		this.getComponente('id_unidad_medida').setVisible(true);
+         		this.getComponente('cantidad').setVisible(true);
+         		this.getComponente('id_moneda').setVisible(true);
+         		this.getComponente('costo').setVisible(true);
+         	}
+         	else if(e.value == 'funcionario') {
+         		this.getComponente('id_item').setVisible(false);
+         		this.getComponente('id_funcionario').setVisible(true);
+         		this.getComponente('id_especialidad').setVisible(false);
+         		this.getComponente('id_servicio').setVisible(false);
+         		this.getComponente('hh_normal').setVisible(true);
+         		this.getComponente('hh_extras').setVisible(true);
+         		this.getComponente('hh_ext_mov').setVisible(true);
+         		this.getComponente('id_unidad_medida').setVisible(false);
+         		this.getComponente('cantidad').setVisible(false);
+         		this.getComponente('id_moneda').setVisible(false);
+         		this.getComponente('costo').setVisible(false);
+         	}
+         	else if(e.value == 'especialidad') {
+         		this.getComponente('id_item').setVisible(false);
+         		this.getComponente('id_funcionario').setVisible(false);
+         		this.getComponente('id_especialidad').setVisible(true);
+         		this.getComponente('id_servicio').setVisible(false);
+         		this.getComponente('hh_normal').setVisible(false);
+         		this.getComponente('hh_extras').setVisible(false);
+         		this.getComponente('hh_ext_mov').setVisible(false);
+         		this.getComponente('id_unidad_medida').setVisible(false);
+         		this.getComponente('cantidad').setVisible(false);
+         		this.getComponente('id_moneda').setVisible(false);
+         		this.getComponente('costo').setVisible(false);
+         	}
+         	else if(e.value == 'servicio') {
+         		this.getComponente('id_item').setVisible(false);
+         		this.getComponente('id_funcionario').setVisible(false);
+         		this.getComponente('id_especialidad').setVisible(false);
+         		this.getComponente('id_servicio').setVisible(true);
+         		this.getComponente('hh_normal').setVisible(false);
+         		this.getComponente('hh_extras').setVisible(false);
+         		this.getComponente('hh_ext_mov').setVisible(false);
+         		this.getComponente('id_unidad_medida').setVisible(false);
+         		this.getComponente('cantidad').setVisible(false);
+         		this.getComponente('id_moneda').setVisible(false);
+         		this.getComponente('costo').setVisible(false);
+         	} else {
+         		this.getComponente('id_item').setVisible(false);
+         		this.getComponente('id_funcionario').setVisible(false);
+         		this.getComponente('id_especialidad').setVisible(false);
+         		this.getComponente('id_servicio').setVisible(false);
+         		this.getComponente('hh_normal').setVisible(false);
+         		this.getComponente('hh_extras').setVisible(false);
+         		this.getComponente('hh_ext_mov').setVisible(false);
+         		this.getComponente('id_unidad_medida').setVisible(false);
+         		this.getComponente('cantidad').setVisible(false);
+         		this.getComponente('id_moneda').setVisible(false);
+         		this.getComponente('costo').setVisible(false);
+         	}
+        }
   }
 )
 </script>

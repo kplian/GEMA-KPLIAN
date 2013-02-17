@@ -86,7 +86,9 @@ BEGIN
             comentarios,
             accidentes,
             reclamos,
-            otros
+            otros,
+            hora_eje_inicio,
+            hora_eje_fin
           	) values(
 			'activo',
 			v_parametros.fecha_plan_ini,
@@ -124,7 +126,9 @@ BEGIN
             v_parametros.comentarios,
             v_parametros.accidentes,
             v_parametros.reclamos,
-            v_parametros.otros
+            v_parametros.otros,
+            v_parametros.hora_eje_inicio,
+            v_parametros.hora_eje_fin
 			)RETURNING id_orden_trabajo into v_id_orden_trabajo;
                
 			--Definicion de la respuesta
@@ -180,7 +184,9 @@ BEGIN
             comentarios = v_parametros.comentarios,
             accidentes = v_parametros.accidentes,
             reclamos = v_parametros.reclamos,
-            otros = v_parametros.otros
+            otros = v_parametros.otros,
+            hora_eje_inicio = v_parametros.hora_eje_inicio,
+            hora_eje_fin = v_parametros.hora_eje_fin
 			where id_orden_trabajo=v_parametros.id_orden_trabajo;
             
 			--Definicion de la respuesta

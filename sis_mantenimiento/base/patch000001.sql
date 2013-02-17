@@ -1560,3 +1560,31 @@ WITH (
 );
 ALTER TABLE gem.tdiagrama_decision_accion OWNER TO postgres;
 /***********************************F-SCP-RCM-GEM-76-14/12/2012*****************************************/
+
+/***********************************F-SCP-AAO-GEM-82-18/12/2012*****************************************/
+ALTER TABLE gem.trecurso
+  ADD COLUMN id_unidad_medida INTEGER;
+
+ALTER TABLE gem.trecurso
+  ADD CONSTRAINT fk_trecurso__id_unidad_medida FOREIGN KEY (id_unidad_medida)
+    REFERENCES param.tunidad_medida(id_unidad_medida)
+    ON DELETE NO ACTION
+    ON UPDATE NO ACTION
+    NOT DEFERRABLE;
+    
+ALTER TABLE gem.trecurso
+  ADD COLUMN hh_normal INTEGER;
+  
+ALTER TABLE gem.trecurso
+  ADD COLUMN hh_extras INTEGER;
+  
+ALTER TABLE gem.trecurso
+  ADD COLUMN hh_ext_mov INTEGER;
+  
+ALTER TABLE gem.torden_trabajo
+  ADD COLUMN hora_eje_inicio TIME(0) WITHOUT TIME ZONE;
+  
+ALTER TABLE gem.torden_trabajo
+  ADD COLUMN hora_eje_fin TIME(0) WITHOUT TIME ZONE;
+
+/***********************************F-SCP-AAO-GEM-82-18/12/2012*****************************************/

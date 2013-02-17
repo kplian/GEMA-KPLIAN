@@ -62,7 +62,12 @@ BEGIN
                     mon.codigo as codigo_moneda,
                     rec.cantidad,
                     rec.costo,
-                    rec.observaciones
+                    rec.observaciones,
+                    rec.id_unidad_medida,
+                    unimed.codigo as codigo_unidad_medida,
+                    rec.hh_normal,
+                    rec.hh_extras,
+                    rec.hh_ext_mov
                     from gem.trecurso rec
                     inner join segu.tusuario usu1 on usu1.id_usuario = rec.id_usuario_reg
                     left join segu.tusuario usu2 on usu2.id_usuario = rec.id_usuario_mod
@@ -72,6 +77,7 @@ BEGIN
                     left join orga.tfuncionario func on rec.id_funcionario = func.id_funcionario
                     left join segu.tpersona pers on func.id_persona = pers.id_persona
                     left join param.tmoneda mon on rec.id_moneda = mon.id_moneda
+                    left join param.tunidad_medida unimed on rec.id_unidad_medida = unimed.id_unidad_medida
                     where rec.id_actividad = ' || v_parametros.id_actividad || ' and ';
 			
 			--Definicion de la respuesta
@@ -105,6 +111,7 @@ BEGIN
                     left join orga.tfuncionario func on rec.id_funcionario = func.id_funcionario
                     left join segu.tpersona pers on func.id_persona = pers.id_persona
                     left join param.tmoneda mon on rec.id_moneda = mon.id_moneda
+                    left join param.tunidad_medida unimed on rec.id_unidad_medida = unimed.id_unidad_medida
                     where rec.id_actividad = ' || v_parametros.id_actividad || ' and ';
 			
 			--Definicion de la respuesta		    
@@ -147,7 +154,12 @@ BEGIN
                     mon.codigo as codigo_moneda,
                     rec.cantidad,
                     rec.costo,
-                    rec.observaciones
+                    rec.observaciones,
+                    rec.id_unidad_medida,
+                    unimed.codigo as codigo_unidad_medida,
+                    rec.hh_normal,
+                    rec.hh_extras,
+                    rec.hh_ext_mov
                     from gem.trecurso rec
                     inner join gem.tactividad acti on rec.id_actividad = acti.id_actividad
                     inner join segu.tusuario usu1 on usu1.id_usuario = rec.id_usuario_reg
@@ -158,6 +170,7 @@ BEGIN
                     left join orga.tfuncionario func on rec.id_funcionario = func.id_funcionario
                     left join segu.tpersona pers on func.id_persona = pers.id_persona
                     left join param.tmoneda mon on rec.id_moneda = mon.id_moneda
+                    left join param.tunidad_medida unimed on rec.id_unidad_medida = unimed.id_unidad_medida
                     where acti.id_orden_trabajo = ' || v_parametros.id_orden_trabajo || ' and ';
 			
 			--Definicion de la respuesta
@@ -191,6 +204,7 @@ BEGIN
                     left join orga.tfuncionario func on rec.id_funcionario = func.id_funcionario
                     left join segu.tpersona pers on func.id_persona = pers.id_persona
                     left join param.tmoneda mon on rec.id_moneda = mon.id_moneda
+                    left join param.tunidad_medida unimed on rec.id_unidad_medida = unimed.id_unidad_medida
                     where rec.id_actividad = ' || v_parametros.id_actividad || ' and ';
 			
 			--Definicion de la respuesta		    

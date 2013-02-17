@@ -40,7 +40,7 @@ Phx.vista.OrdenTrabajo=Ext.extend(Phx.gridInterfaz,{
 			disabled: false,
 			handler:function() {
 				var rec=this.sm.getSelected();
-				
+				Phx.CP.loadingShow();
 				Ext.Ajax.request({
 					url:'../../sis_mantenimiento/control/OrdenTrabajo/reporteOT',
 					params:{'id_orden_trabajo': rec.data.id_orden_trabajo},
@@ -267,7 +267,7 @@ Phx.vista.OrdenTrabajo=Ext.extend(Phx.gridInterfaz,{
 					baseParams:{par_filtro:'nombre'}
 				}),
 				valueField: 'id_uni_cons',
-				displayField: 'nombre',
+				displayField: 'equipo',
 				forceSelection:true,
 				typeAhead: false,
     			triggerAction: 'all',
@@ -620,6 +620,18 @@ Phx.vista.OrdenTrabajo=Ext.extend(Phx.gridInterfaz,{
 		},
 		{
 			config:{
+				name: 'hora_eje_inicio',
+				fieldLabel: '(Hr)Eje. Inicio',
+				format:'H:i:s',
+				allowBlank: true
+			},
+			type:'TimeField',
+			id_grupo: 1,
+			grid:true,
+			form:true
+		},
+		{
+			config:{
 				name: 'fecha_eje_fin',
 				fieldLabel: 'Ejec.Fin',
 				allowBlank: true,
@@ -633,6 +645,18 @@ Phx.vista.OrdenTrabajo=Ext.extend(Phx.gridInterfaz,{
 			grid:true,
 			form:true,
 	       	dateFormat:'d-m-Y'
+		},
+		{
+			config:{
+				name: 'hora_eje_fin',
+				fieldLabel: '(Hr)Eje. Fin',
+				format:'H:i:s',
+				allowBlank: true
+			},
+			type:'TimeField',
+			id_grupo: 1,
+			grid:true,
+			form:true
 		},
 	   	{
 			config:{
@@ -881,8 +905,10 @@ Phx.vista.OrdenTrabajo=Ext.extend(Phx.gridInterfaz,{
 		{name:'desc_funcionario_recib', type: 'string'},
 		{name:'comentarios', type: 'string'},
 		{name:'accidentes', type: 'string'},
-		{name:'reclamos', type: 'string'},
-		{name:'otros', type: 'string'}
+		'reclamos',
+		'otros',
+		'hora_eje_inicio',
+		'hora_eje_fin'
 	],
 	sortInfo:{
 		field: 'id_orden_trabajo',

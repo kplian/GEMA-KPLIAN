@@ -57,7 +57,11 @@ BEGIN
             id_moneda,
             cantidad,
             costo,
-            observaciones
+            observaciones,
+            id_unidad_medida,
+            hh_normal,
+            hh_extras,
+            hh_ext_mov
           	) values(
             p_id_usuario,
             null,
@@ -73,7 +77,11 @@ BEGIN
             v_parametros.id_moneda,
             v_parametros.cantidad_recurso,
             v_parametros.costo,
-            v_parametros.observaciones
+            v_parametros.observaciones,
+            v_parametros.id_unidad_medida,
+            v_parametros.hh_normal,
+            v_parametros.hh_extras,
+            v_parametros.hh_ext_mov
             )RETURNING id_recurso into v_id_recurso;
             
 			--Definicion de la respuesta
@@ -106,7 +114,11 @@ BEGIN
               id_moneda = v_parametros.id_moneda,
               cantidad = v_parametros.cantidad_recurso,
               costo = v_parametros.costo,
-              observaciones = v_parametros.observaciones
+              observaciones = v_parametros.observaciones,
+              id_unidad_medida = v_parametros.id_unidad_medida,
+              hh_normal = v_parametros.hh_normal,
+              hh_extras = v_parametros.hh_extras,
+              hh_ext_mov = v_parametros.hh_ext_mov
             where id_recurso = v_parametros.id_recurso;
             
 			--Definicion de la respuesta

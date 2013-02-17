@@ -69,6 +69,8 @@ class MODOrdenTrabajo extends MODbase{
 		$this->captura('accidentes','varchar');
 		$this->captura('reclamos','varchar');
 		$this->captura('otros','varchar');
+		$this->captura('hora_eje_inicio','time');
+		$this->captura('hora_eje_fin','time');
 		
 		//Ejecuta la instruccion
 		$this->armarConsulta();
@@ -117,6 +119,8 @@ class MODOrdenTrabajo extends MODbase{
 		$this->setParametro('accidentes','accidentes','varchar');
 		$this->setParametro('reclamos','reclamos','varchar');
 		$this->setParametro('otros','otros','varchar');
+		$this->setParametro('hora_eje_inicio','hora_eje_inicio','time');
+		$this->setParametro('hora_eje_fin','hora_eje_fin','time');
 		
 		//Ejecuta la instruccion
 		$this->armarConsulta();
@@ -166,6 +170,8 @@ class MODOrdenTrabajo extends MODbase{
 		$this->setParametro('accidentes','accidentes','varchar');
 		$this->setParametro('reclamos','reclamos','varchar');
 		$this->setParametro('otros','otros','varchar');
+		$this->setParametro('hora_eje_inicio','hora_eje_inicio','time');
+		$this->setParametro('hora_eje_fin','hora_eje_fin','time');
 
 		//Ejecuta la instruccion
 		$this->armarConsulta();
