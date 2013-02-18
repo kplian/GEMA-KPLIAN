@@ -1283,11 +1283,14 @@ VALUES (1, NULL, E'2012-12-15 16:54:48', E'2012-12-15 16:54:48', E'activo', 2, E
 -- FECHA: 20 12 2012
 -- para probar y crear roles
 -------------------------
+
+/*
+
 INSERT INTO segu.tusuario ("id_usuario", "id_clasificador", "cuenta", "contrasena", "fecha_caducidad", "fecha_reg", "estilo", "contrasena_anterior", "id_persona", "estado_reg", "autentificacion")
 VALUES (2, 1, E'spanza', E'533cd2ec574f9a6ded5801efbfee21ba', E'2016-05-07', E'2012-12-20', E'xtheme-blue.css', NULL, 3, E'activo', E'local');
 
 INSERT INTO segu.tusuario_rol ("id_usuario_rol", "id_rol", "id_usuario", "fecha_reg", "estado_reg")
-VALUES (2, 2, 2, NULL, 'activo');
+VALUES (2, 2, 2, NULL, 'activo');*/
 
 
 -- FUNCIONARIO HONORARIO

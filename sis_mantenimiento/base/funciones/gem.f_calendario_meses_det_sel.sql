@@ -263,7 +263,7 @@ BEGIN
              
         if v_parametros.tipo_nodo <> 'uni_cons' and  v_parametros.tipo_nodo <> 'rama' THEN  
         
-        raise notice '>>>>>>>>>>>>>  Lamada recursisa %', v_parametros.tipo_nodo;
+           raise notice '>>>>>>>>>>>>>  Lamada recursisa %', v_parametros.tipo_nodo;
          
           --2) consulta recusiva  de los equipos correspondientes a la localizacion
           
@@ -293,11 +293,16 @@ BEGIN
                                                             from gem.tuni_cons uc
                                                             LEFT join  gem.tuni_cons_comp ucc 
                                                                         on ucc.id_uni_cons_padre = uc.id_uni_cons
-                                                            where    uc.id_uni_cons ='|| g_registros.id_uni_cons||'    
+                                                            where    uc.id_uni_cons ='|| g_registros.id_uni_cons||'  and uc.estado_reg = ''activo''  
                                                                UNION ALL  
-                                                            SELECT uc2.id_uni_cons, ucc2.id_uni_cons_padre, ucc2.id_uni_cons_hijo,(a.codigo||'',''||uc2.codigo)::text as codigo,(a.nombre||'',''||uc2.nombre)::text as nombre, uc2.incluir_calgen  
+                                                            SELECT uc2.id_uni_cons, 
+                                                                   ucc2.id_uni_cons_padre, 
+                                                                   ucc2.id_uni_cons_hijo, 
+                                                                   (a.codigo||'',''||uc2.codigo)::text as codigo,
+                                                                   (a.nombre||'',''||uc2.nombre)::text as nombre, 
+                                                                   uc2.incluir_calgen  
                                                             FROM arbol a 
-                                                            INNER JOIN  gem.tuni_cons uc2   ON uc2.id_uni_cons = a.id_uni_cons_hijo
+                                                            INNER JOIN  gem.tuni_cons uc2   ON uc2.id_uni_cons = a.id_uni_cons_hijo and uc2.estado_reg = ''activo''
                                                             LEFT JOIN   gem.tuni_cons_comp ucc2 on ucc2.id_uni_cons_padre = uc2.id_uni_cons
                                                           )  
                                                        SELECT distinct id_uni_cons, codigo, nombre, incluir_calgen FROM arbol';
@@ -335,11 +340,11 @@ BEGIN
                                               from gem.tuni_cons uc
                                               LEFT join  gem.tuni_cons_comp ucc 
                                                           on ucc.id_uni_cons_padre = uc.id_uni_cons
-                                              where    uc.id_uni_cons ='|| v_parametros.id_uni_cons||'    
+                                              where    uc.id_uni_cons ='|| v_parametros.id_uni_cons||'  and uc.estado_reg = ''activo''  
                                          		 UNION ALL  
                                               SELECT uc2.id_uni_cons, ucc2.id_uni_cons_padre, ucc2.id_uni_cons_hijo,(a.codigo||'',''||uc2.codigo)::text as codigo,(a.nombre||'',''||uc2.nombre)::text as nombre, uc2.incluir_calgen  
                                               FROM arbol a 
-                                              INNER JOIN  gem.tuni_cons uc2   ON uc2.id_uni_cons = a.id_uni_cons_hijo
+                                              INNER JOIN  gem.tuni_cons uc2   ON uc2.id_uni_cons = a.id_uni_cons_hijo and uc2.estado_reg = ''activo''
                                               LEFT JOIN   gem.tuni_cons_comp ucc2 on ucc2.id_uni_cons_padre = uc2.id_uni_cons
                                             )  
                                          SELECT distinct id_uni_cons, codigo, nombre, incluir_calgen FROM arbol';
@@ -440,10 +445,11 @@ BEGIN
                           AND unicon.tipo_nodo = ''raiz'' and unicon.tipo = ''uc''   ';*/
                           
                       v_consulta= '     
-                         SELECT count (man.id_uni_cons_mant_predef) FROM gem.tuni_cons unicon 
+                         SELECT count (man.id_uni_cons_mant_predef) 
+                         FROM gem.tuni_cons unicon 
                           INNER JOIN gem.tuni_cons_mant_predef man on man.id_uni_cons = unicon.id_uni_cons
                            inner join gem.tmant_predef mp on mp.id_mant_predef = man.id_mant_predef
-                           WHERE  unicon.tipo = ''uc'' ';
+                           WHERE  unicon.tipo = ''uc'' and unicon.estado_reg = ''activo'' ';
         
         
          ELSEIF  v_parametros.tipo_nodo = 'uni_cons' THEN  
@@ -455,8 +461,8 @@ BEGIN
 
                                               from gem.tuni_cons uc
                                               LEFT join  gem.tuni_cons_comp ucc 
-                                                          on ucc.id_uni_cons_padre = uc.id_uni_cons
-                                              where    uc.id_uni_cons ='|| v_parametros.id_uni_cons||'    
+                                                          on ucc.id_uni_cons_padre = uc.id_uni_cons 
+                                              where    uc.id_uni_cons ='|| v_parametros.id_uni_cons||'  and uc.estado_reg = ''activo''   
                                          		 UNION ALL  
                                               SELECT uc2.id_uni_cons, ucc2.id_uni_cons_padre, ucc2.id_uni_cons_hijo, uc2.incluir_calgen  
                                               FROM arbol a 
@@ -473,10 +479,11 @@ BEGIN
          
        
            
-            v_consulta=' SELECT count (man.id_uni_cons_mant_predef) FROM gem.tuni_cons unicon 
+            v_consulta=' SELECT count (man.id_uni_cons_mant_predef) 
+                           FROM gem.tuni_cons unicon 
                           INNER JOIN gem.tuni_cons_mant_predef man on man.id_uni_cons = unicon.id_uni_cons
                            inner join gem.tmant_predef mp on mp.id_mant_predef = man.id_mant_predef
-                           WHERE   unicon.id_uni_cons='|| v_parametros.id_uni_cons;
+                           WHERE   unicon.id_uni_cons='|| v_parametros.id_uni_cons||'  and unicon.estado_reg = ''activo''  ';
          
          END IF;
         
