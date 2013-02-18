@@ -435,7 +435,7 @@ Phx.vista.OrdenTrabajo=Ext.extend(Phx.gridInterfaz,{
 						catalogo_tipo:'torden_trabajo_cat_tipo'
 				}
 			},
-			type: 'ComboRec',
+			type: 'Field',
 			id_grupo: 0,
 			filters:{pfiltro:'geoott.cat_tipo',type:'string'},
 			grid: true,
@@ -706,10 +706,25 @@ Phx.vista.OrdenTrabajo=Ext.extend(Phx.gridInterfaz,{
 			grid:true,
 			form:true
 		},
+		{
+			config:{
+				name: 'descripcion_causa',
+				fieldLabel: 'Descripción Causa',
+				allowBlank: true,
+				anchor: '100%',
+				gwidth: 200,
+				maxLength: 1000
+			},
+			type:'TextArea',
+			filters:{pfiltro:'geoott.descripcion_causa',type:'string'},
+			id_grupo:1,
+			grid:true,
+			form:true
+		},
 	   	{
 			config:{
 				name: 'comentarios',
-				fieldLabel: 'Comentarios',
+				fieldLabel: 'Acción Realizada',
 				allowBlank: true,
 				anchor: '100%',
 				gwidth: 200,
@@ -717,6 +732,21 @@ Phx.vista.OrdenTrabajo=Ext.extend(Phx.gridInterfaz,{
 			},
 			type:'TextArea',
 			filters:{pfiltro:'geoott.comentarios',type:'string'},
+			id_grupo:1,
+			grid:true,
+			form:true
+		},
+		{
+			config:{
+				name: 'prevension',
+				fieldLabel: 'Prevensión Tomada',
+				allowBlank: true,
+				anchor: '100%',
+				gwidth: 200,
+				maxLength: 1000
+			},
+			type:'TextArea',
+			filters:{pfiltro:'geoott.prevension',type:'string'},
 			id_grupo:1,
 			grid:true,
 			form:true
@@ -746,7 +776,7 @@ Phx.vista.OrdenTrabajo=Ext.extend(Phx.gridInterfaz,{
 				maxLength: 1000
 			},
 			type:'TextArea',
-			filters:{pfiltro:'geoott.comentarios',type:'string'},
+			filters:{pfiltro:'geoott.reclamos',type:'string'},
 			id_grupo:1,
 			grid:true,
 			form:true
@@ -956,7 +986,9 @@ Phx.vista.OrdenTrabajo=Ext.extend(Phx.gridInterfaz,{
 		'reclamos',
 		'otros',
 		'hora_eje_inicio',
-		'hora_eje_fin'
+		'hora_eje_fin',
+		'descripcion_causa',
+		'prevension'
 	],
 	sortInfo:{
 		field: 'id_orden_trabajo',

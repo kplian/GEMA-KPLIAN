@@ -174,5 +174,11 @@ class ACTOrdenTrabajo extends ACTbase{
 		}
 		$this->res->imprimirRespuesta($this->res->generarJson());
 	}
+	
+	function precerrarOIT() {
+		$this->objFunc = $this->create('MODOrdenTrabajo');
+		$this->res=$this->objFunc->precerrarOIT();
+		$this->res->imprimirRespuesta($this->res->generarJson());
+	}
 }
 ?>

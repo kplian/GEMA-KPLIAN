@@ -1207,3 +1207,10 @@ add column tipo_numeracion varchar(20);
 alter table gem.tuni_cons_item
 add column id_proveedor integer;
 /***********************************F-SCP-RCM-GEM-124-18/02/2013*****************************************/
+
+/***********************************I-SCP-RCM-GEM-125-19/02/2013*****************************************/
+alter table gem.torden_trabajo
+add column descripcion_causa varchar(1000);
+alter table gem.torden_trabajo
+add column prevension varchar(1000);
+/***********************************F-SCP-RCM-GEM-125-19/02/2013*****************************************/
