@@ -91,7 +91,9 @@ BEGIN
             reclamos,
             otros,
             hora_eje_inicio,
-            hora_eje_fin
+            hora_eje_fin,
+            descripcion_causa,
+            prevension
           	) values(
 			'activo',
 			v_parametros.fecha_plan_ini,
@@ -131,7 +133,9 @@ BEGIN
             v_parametros.reclamos,
             v_parametros.otros,
             v_parametros.hora_eje_inicio,
-            v_parametros.hora_eje_fin
+            v_parametros.hora_eje_fin,
+            v_parametros.descripcion_causa,
+            v_parametros.prevension
 			)RETURNING id_orden_trabajo into v_id_orden_trabajo;
                
 			--Definicion de la respuesta
@@ -189,7 +193,9 @@ BEGIN
             reclamos = v_parametros.reclamos,
             otros = v_parametros.otros,
             hora_eje_inicio = v_parametros.hora_eje_inicio,
-            hora_eje_fin = v_parametros.hora_eje_fin
+            hora_eje_fin = v_parametros.hora_eje_fin,
+            descripcion_causa = v_parametros.descripcion_causa,
+            prevension = v_parametros.prevension
 			where id_orden_trabajo=v_parametros.id_orden_trabajo;
             
 			--Definicion de la respuesta
@@ -246,15 +252,34 @@ BEGIN
 				from gem.torden_trabajo
 				where id_orden_trabajo = v_parametros.id_orden_trabajo;
 				
-				if v_num_oit is null then
+				if coalesce(v_num_oit,'') = '' then
 					--Obtención del correlativo
 					v_nro = gem.f_get_correlativo(v_id_uni_cons,'oit',v_fecha);
 					
 					update gem.torden_trabajo set
 					num_oit = v_nro
 					where id_orden_trabajo = v_parametros.id_orden_trabajo;
+                else
+                --raise exception 'error: %',v_num_oit;
 				end if;
 			end if;     
+            
+            if v_parametros.cat_estado = 'Cerrado' then
+            	if not exists(select * from gem.trecurso rec
+                				inner join gem.tactividad ac
+                                on ac.id_actividad = rec.id_actividad
+                                where ac.id_orden_trabajo = v_parametros.id_orden_trabajo
+                                and rec.id_item is not null ) then
+                	raise exception 'Para Cerrar la OIT debe registrar los Repuestos utilizados';
+                end if;
+                if not exists(select * from gem.trecurso rec
+                				inner join gem.tactividad ac
+                                on ac.id_actividad = rec.id_actividad
+                                where ac.id_orden_trabajo = v_parametros.id_orden_trabajo
+                                and rec.id_funcionario is not null ) then
+                	raise exception 'Para Cerrar la OIT debe registrar la Mano de Obra utilizada';
+                end if;
+            end if;
 			
 			--Sentencia de la eliminacion
 			update gem.torden_trabajo set
@@ -266,6 +291,29 @@ BEGIN
                
             --Definicion de la respuesta
             v_resp = pxp.f_agrega_clave(v_resp,'mensaje','Orden Interna de Trabajo Procesada'); 
+            v_resp = pxp.f_agrega_clave(v_resp,'id_orden_trabajo',v_parametros.id_orden_trabajo::varchar);
+              
+            --Devuelve la respuesta
+            return v_resp;
+		end;
+        
+    	elsif(p_transaccion='GEM_PRECER_MOD')then
+
+		begin
+        	
+			--Sentencia de la eliminacion
+			update gem.torden_trabajo set
+			descripcion_causa = v_parametros.descripcion_causa,
+            comentarios = v_parametros.comentarios,
+            prevension = v_parametros.prevension,
+            accidentes =v_parametros.accidentes,
+            reclamos = v_parametros.reclamos,
+            id_usuario_mod = p_id_usuario,
+			fecha_mod = now()
+            where id_orden_trabajo = v_parametros.id_orden_trabajo;
+               
+            --Definicion de la respuesta
+            v_resp = pxp.f_agrega_clave(v_resp,'mensaje','Orden Interna de Trabajo Precerrada'); 
             v_resp = pxp.f_agrega_clave(v_resp,'id_orden_trabajo',v_parametros.id_orden_trabajo::varchar);
               
             --Devuelve la respuesta

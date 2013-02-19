@@ -46,7 +46,7 @@ Phx.vista.EjecutarOT = {
 				text: 'Cerrar',
 				iconCls: 'block',
 				disabled: true,
-				handler: closeOT,
+				handler: btncloseOT,
 				tooltip: '<b>Cierra la Orde de Trabajo para su revisión</b>'
 			}
 		);
@@ -85,14 +85,24 @@ Phx.vista.EjecutarOT = {
 			);
 		}
 		
+		function btncloseOT(){
+			var rec=this.sm.getSelected();
+			var data = rec.data;
+			if(rec){
+				this.wUC.show()	
+			}
+			
+		}
+		
 		function closeOT() {
 			var rec=this.sm.getSelected();
 			var data = rec.data;
 			var global = this;
-			Ext.Msg.confirm('Confirmación',
+			Phx.CP.loadingHide();
+			/*Ext.Msg.confirm('Confirmación',
 				'¿Está seguro de dar por finalizada la ejecución a esta Orden de Trabajo?', 
 				function(btn) {
-					if (btn == "yes") {
+					if (btn == "yes") {*/
 						Ext.Ajax.request({
 							url:'../../sis_mantenimiento/control/OrdenTrabajo/procesarOT',
 							params: {
@@ -105,10 +115,12 @@ Phx.vista.EjecutarOT = {
 							timeout: global.timeout,
 							scope: global
 						});
-					}
+					/*}
 				}
-			);
+			);*/
 		}
+		
+		this.crearVentanaCerrar();
 	},
 	preparaMenu:function(n) {
 	  	var tb = Phx.vista.EjecutarOT.superclass.preparaMenu.call(this);
@@ -168,6 +180,144 @@ Phx.vista.EjecutarOT = {
 			this.mensajeEstadoForm.getForm().findField('estado').setValue('EjecucionPendiente');
 		}
 		this.mensajeEstadoFormDialog.show();
-	}, 
+	},
+	crearVentanaCerrar: function() {
+			this.formUC = new Ext.form.FormPanel({
+				baseCls: 'x-plain-' + this.idContenedor,
+				bodyStyle: 'padding:10 20px 10;',
+				autoDestroy: true,
+				border: false,
+				layout: 'form',
+				items: [{
+						xtype: 'textarea',
+						name: 'descripcion_causa',
+						fieldLabel: 'Descripción Causa',
+						allowBlank: false,
+						width:'100%'
+					},
+					{
+						xtype: 'textarea',
+						name: 'comentarios',
+						fieldLabel: 'Acción Realizada',
+						allowBlank: false,
+						width:'100%'
+					},
+					{
+						xtype: 'textarea',
+						name: 'prevension',
+						fieldLabel: 'Prevensión Tomada',
+						allowBlank: false,
+						width:'100%'
+					},
+					{
+						xtype: 'textarea',
+						name: 'accidentes',
+						fieldLabel: 'Accidentes',
+						allowBlank: false,
+						width:'100%'
+					},
+					{
+						xtype: 'textarea',
+						name: 'reclamos',
+						fieldLabel: 'Reclamos',
+						allowBlank: false,
+						width:'100%'
+					}
+				]
+			});
+
+			var desc_causa = this.formUC.getForm().findField('descripcion_causa');
+			var comentarios = this.formUC.getForm().findField('comentarios');
+			var prevension = this.formUC.getForm().findField('prevension');
+			var accidentes = this.formUC.getForm().findField('accidentes');
+			var reclamos = this.formUC.getForm().findField('reclamos');
+
+			this.wUC = new Ext.Window({
+				title: 'Cerrar Orden de Trabajo',
+				collapsible: true,
+				maximizable: true,
+				autoDestroy: true,
+				width: 450,
+				height: 400,
+				layout: 'fit',
+				plain: true,
+				bodyStyle: 'padding:5px;',
+				buttonAlign: 'center',
+				items: this.formUC,
+				modal: true,
+				closeAction: 'hide',
+				buttons: [{
+					text: 'Guardar',
+					handler: this.onCerrarOIT,
+					scope: this
+
+				}, {
+					text: 'Cancelar',
+					handler: function() {
+						this.wUC.hide()
+					},
+					scope: this
+				}]
+			});
+		},
+		onCerrarOIT: function() {
+			if (this.formUC.getForm().isValid()) {
+				var global = this;
+				Ext.Msg.confirm('Confirmación',
+				'¿Está seguro de cerrar la Orden de Trabajo?', 
+				function(btn) {
+					if (btn == "yes") {
+						Phx.CP.loadingShow();
+						var rec=global.sm.getSelected();
+						var desc_causa = global.formUC.getForm().findField('descripcion_causa');
+						var comentarios = global.formUC.getForm().findField('comentarios');
+						var prevension = global.formUC.getForm().findField('prevension');
+						var accidentes = global.formUC.getForm().findField('accidentes');
+						var reclamos = global.formUC.getForm().findField('reclamos');
+		
+						Ext.Ajax.request({
+							url: '../../sis_mantenimiento/control/OrdenTrabajo/precerrarOIT',
+							params: {
+								descripcion_causa: desc_causa.getValue(),
+								comentarios: comentarios.getValue(),
+								prevension: prevension.getValue(),
+								accidentes: accidentes.getValue(),
+								reclamos: reclamos.getValue(),
+								id_orden_trabajo: rec.data.id_orden_trabajo
+							},
+							//success: global.closeOT,
+							success: function(){
+								global.wUC.hide();
+								Ext.Ajax.request({
+									url:'../../sis_mantenimiento/control/OrdenTrabajo/procesarOT',
+									params: {
+										'id_orden_trabajo': rec.data.id_orden_trabajo,
+										'cat_estado_anterior': rec.data.cat_estado,
+										'cat_estado': 'Cerrado'
+									},
+									success: global.successSave,
+									failure: global.conexionFailure,
+									timeout: global.timeout,
+									scope: global
+								});
+							},
+							failure: global.conexionFailure,
+							timeout: global.timeout,
+							scope: global
+						});
+					}
+				})
+			}	
+		},
+		successCerrarOIT: function(resp) {
+			Phx.CP.loadingHide();
+			var reg = Ext.util.JSON.decode(Ext.util.Format.trim(resp.responseText));
+			if (reg.ROOT.error) {
+				alert("ERROR no esperado")
+			} else {
+				this.wUC.hide();
+				this.reload();
+			}
+		} 
 };
 </script>

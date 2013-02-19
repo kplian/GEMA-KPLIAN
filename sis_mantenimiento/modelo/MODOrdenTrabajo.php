@@ -72,6 +72,8 @@ class MODOrdenTrabajo extends MODbase{
 		$this->captura('hora_eje_inicio','time');
 		$this->captura('hora_eje_fin','time');
 		$this->captura('codigo','varchar');
+		$this->captura('descripcion_causa','varchar');
+		$this->captura('prevension','varchar');
 		
 		//Ejecuta la instruccion
 		$this->armarConsulta();
@@ -125,6 +127,8 @@ class MODOrdenTrabajo extends MODbase{
 		$this->setParametro('hora_eje_inicio','hora_eje_inicio','time');
 		$this->setParametro('hora_eje_fin','hora_eje_fin','time');
 		$this->setParametro('mensaje_estado', 'mensaje_estado', 'varchar');
+		$this->setParametro('descripcion_causa', 'descripcion_causa', 'varchar');
+		$this->setParametro('prevension', 'prevension', 'varchar');
 		
 		//Ejecuta la instruccion
 		$this->armarConsulta();
@@ -177,6 +181,8 @@ class MODOrdenTrabajo extends MODbase{
 		$this->setParametro('hora_eje_inicio','hora_eje_inicio','time');
 		$this->setParametro('hora_eje_fin','hora_eje_fin','time');
 		$this->setParametro('mensaje_estado', 'mensaje_estado', 'varchar');
+		$this->setParametro('descripcion_causa', 'descripcion_causa', 'varchar');
+		$this->setParametro('prevension', 'prevension', 'varchar');
 
 		//Ejecuta la instruccion
 		$this->armarConsulta();
@@ -261,6 +267,25 @@ class MODOrdenTrabajo extends MODbase{
 		
 		
 		//Devuelve la respuesta
+		return $this->respuesta;
+	}
+	
+	function precerrarOIT() {
+		$this->procedimiento='gem.ft_orden_trabajo_ime';
+		$this->transaccion='GEM_PRECER_MOD';
+		$this->tipo_procedimiento='IME';
+		
+		$this->setParametro('id_orden_trabajo','id_orden_trabajo','int4');
+		$this->setParametro('descripcion_causa','descripcion_causa','varchar');
+		$this->setParametro('comentarios', 'comentarios', 'varchar');
+		$this->setParametro('prevension', 'prevension', 'varchar');
+		$this->setParametro('accidentes', 'accidentes', 'varchar');
+		$this->setParametro('reclamos', 'reclamos', 'varchar');
+		
+		$this->armarConsulta();
+		//echo $this->consulta;exit;
+		$this->ejecutarConsulta();
+
 		return $this->respuesta;
 	}
 }
