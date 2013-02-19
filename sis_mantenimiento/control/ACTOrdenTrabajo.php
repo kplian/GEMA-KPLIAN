@@ -56,6 +56,12 @@ class ACTOrdenTrabajo extends ACTbase{
 		$this->res->imprimirRespuesta($this->res->generarJson());
 	}
 	
+	function generarAllOT(){
+		$this->objFunc=$this->create('MODOrdenTrabajo');	
+		$this->res=$this->objFunc->generarAllOT();
+		$this->res->imprimirRespuesta($this->res->generarJson());
+	}
+	
 	function procesarOT() {
 		$this->objFunc = $this->create('MODOrdenTrabajo');
 		$this->res=$this->objFunc->procesarOT();
