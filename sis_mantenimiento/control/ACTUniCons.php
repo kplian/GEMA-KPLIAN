@@ -402,9 +402,11 @@ class ACTUniCons extends ACTbase{
 		$dataSource->putParameter('repuestoDataSource', $repuestoDataSource);
 		
 		//get Provedores
-		$this->objParam->addParametroConsulta('ordenacion', 'id_uni_cons_proveedor');
-		$modUniConsProveedor = $this->create('MODUniConsProveedor');
-		$resultProveedor = $modUniConsProveedor->listarUniConsProveedor($this->objParam);
+		
+		$this->objParam->addParametroConsulta('ordenacion', 'item.nombre');
+		$this->objParam->addParametro('id_uni_cons', $idUniCons);
+		$modUniConsProveedor = $this->create('MODUniConsItem');
+		$resultProveedor = $modUniConsProveedor->listarItemProveedor($this->objParam);
 		$proveedorDataSource = new DataSource();
 		$proveedorDataSource->setDataSet($resultProveedor->getDatos());
 		$dataSource->putParameter('proveedorDataSource', $proveedorDataSource);

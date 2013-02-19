@@ -237,5 +237,29 @@ class MODOrdenTrabajo extends MODbase{
 
 		return $this->respuesta;
 	}
+
+	function listarCostoOIT(){
+		//Definicion de variables para ejecucion del procedimientp
+		$this->procedimiento='gem.f_get_costo_oit_sel';
+		$this->transaccion='GEM_CTOIT_SEL';
+		$this->tipo_procedimiento='SEL';//tipo de transaccion
+		$this->setCount(false);
+		$this->setTipoRetorno('record');
+
+		$this->setParametro('id_orden_trabajo','id_orden_trabajo','int4');
+		//Definicion de la lista del resultado del query
+		$this->captura('descripcion','varchar');
+		$this->captura('costo','numeric');
+		
+		//Ejecuta la instruccion
+		$this->armarConsulta();
+		//echo $this->consulta;exit;
+		$this->ejecutarConsulta();
+		
+		
+		
+		//Devuelve la respuesta
+		return $this->respuesta;
+	}
 }
 ?>

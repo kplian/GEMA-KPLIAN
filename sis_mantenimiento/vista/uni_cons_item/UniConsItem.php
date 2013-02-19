@@ -80,6 +80,48 @@ Phx.vista.UniConsItem=Ext.extend(Phx.gridInterfaz,{
             grid:true,
             form:true
         },
+        {
+          config:{
+                name:'id_proveedor',
+                fieldLabel:'Proveedor',
+                allowBlank:true,
+                emptyText:'Proveedor...',
+                store: new Ext.data.JsonStore({
+                    url: '../../sis_parametros/control/Proveedor/listarProveedorCombos',
+                    id: 'id_proveedor',
+                    root: 'datos',
+                    sortInfo:{
+                        field: 'desc_proveedor',
+                        direction: 'ASC'
+                    },
+                    fields: ['id_proveedor','desc_proveedor'],
+                    remoteSort: true,
+                    baseParams:{par_filtro:'desc_proveedor'}
+                }),
+                valueField: 'id_proveedor',
+                displayField: 'desc_proveedor',
+                gdisplayField: 'desc_proveedor',
+                hiddenName: 'id_proveedor',
+                forceSelection:true,
+                typeAhead: true,
+                triggerAction: 'all',
+                lazyRender:true,
+                mode:'remote',
+                pageSize:10,
+                queryDelay:1000,
+                width:250,
+                enableMultiSelect:true,            
+                renderer:function(value, p, record){return String.format('{0}', record.data['desc_proveedor']);}
+            },
+            type:'ComboBox',
+            id_grupo:0,
+            filters:{   
+                pfiltro:'desc_proveedor',
+                type:'string'
+            },
+            grid:true,
+            form:true
+        },
 		{
 			config:{				
 			    name:'estado_reg',
@@ -210,7 +252,9 @@ Phx.vista.UniConsItem=Ext.extend(Phx.gridInterfaz,{
 		{name:'fecha_mod', type: 'timestamp'},
 		{name:'id_usuario_mod', type: 'numeric'},
 		{name:'usr_reg', type: 'string'},
-		{name:'usr_mod', type: 'string'}		
+		{name:'usr_mod', type: 'string'},
+		'id_proveedor',
+		'desc_proveedor'		
 	],
 	sortInfo:{
 		field: 'id_uni_cons_item',

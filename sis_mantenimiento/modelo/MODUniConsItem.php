@@ -34,6 +34,8 @@ class MODUniConsItem extends MODbase{
 		$this->captura('id_usuario_mod','int4');
 		$this->captura('usr_reg','varchar');
 		$this->captura('usr_mod','varchar');
+		$this->captura('id_proveedor','int4');
+		$this->captura('desc_proveedor','varchar');
 		
 		//Ejecuta la instruccion
 		$this->armarConsulta();
@@ -54,6 +56,7 @@ class MODUniConsItem extends MODbase{
 		$this->setParametro('id_uni_cons','id_uni_cons','int4');
 		$this->setParametro('id_item','id_item','int4');
 		$this->setParametro('observaciones','observaciones','varchar');
+		$this->setParametro('id_proveedor','id_proveedor','int4');
 
 		//Ejecuta la instruccion
 		$this->armarConsulta();
@@ -75,6 +78,7 @@ class MODUniConsItem extends MODbase{
 		$this->setParametro('id_uni_cons','id_uni_cons','int4');
 		$this->setParametro('id_item','id_item','int4');
 		$this->setParametro('observaciones','observaciones','varchar');
+		$this->setParametro('id_proveedor','id_proveedor','int4');
 
 		//Ejecuta la instruccion
 		$this->armarConsulta();
@@ -97,6 +101,31 @@ class MODUniConsItem extends MODbase{
 		$this->armarConsulta();
 		$this->ejecutarConsulta();
 
+		//Devuelve la respuesta
+		return $this->respuesta;
+	}
+	
+	function listarItemProveedor(){
+		//Definicion de variables para ejecucion del procedimientp
+		$this->procedimiento='gem.ft_uni_cons_item_sel';
+		$this->transaccion='GEM_ITEPRO_SEL';
+		$this->tipo_procedimiento='SEL';//tipo de transaccion
+		$this-> setCount(false);
+		
+			
+		//Definicion de la lista del resultado del query
+		$this->captura('nombre','varchar');
+		$this->captura('codigo','varchar');
+		$this->captura('desc_proveedor','varchar');
+		$this->captura('contacto','text');
+        $this->captura('direccion','varchar');
+        $this->captura('telefono1','varchar');
+        $this->captura('email1','varchar');		
+		
+		//Ejecuta la instruccion
+		$this->armarConsulta();
+		$this->ejecutarConsulta();
+		
 		//Devuelve la respuesta
 		return $this->respuesta;
 	}

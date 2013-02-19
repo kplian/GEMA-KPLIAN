@@ -64,16 +64,16 @@ Phx.vista.UniCons=Ext.extend(Phx.arbInterfaz,{
             iconCls : 'bengine',
             disabled : true,
             handler : this.onButtonItems,
-            tooltip : '<b>Items</b><br/>Registro de items del equipo'
+            tooltip : '<b>Repuestos/Proveedores</b><br/>Registro de Repuestos y Proveedores del Equipo'
         });
         
-        this.addButton('btnProveedores',{
+        /*this.addButton('btnProveedores',{
             text : '',
             iconCls : 'bassign',
             disabled : true,
             handler : this.onButtonProv,
             tooltip : '<b>Proveedores</b><br/>Registro de proveedores del equipo'
-        });
+        });*/
 		
 		//Incluye un menú
    		this.menuOp = new Ext.Toolbar.SplitButton({

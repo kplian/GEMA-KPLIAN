@@ -57,7 +57,8 @@ BEGIN
 			id_usuario_reg,
 			fecha_mod,
 			id_usuario_mod,
-            observaciones
+            observaciones,
+            id_proveedor
           	) values(
 			v_parametros.estado_reg,
 			v_parametros.id_uni_cons,
@@ -66,7 +67,8 @@ BEGIN
 			p_id_usuario,
 			null,
 			null,
-            v_parametros.observaciones
+            v_parametros.observaciones,
+            v_parametros.id_proveedor
 			)RETURNING id_uni_cons_item into v_id_uni_cons_item;
                
 			--Definicion de la respuesta
@@ -95,7 +97,8 @@ BEGIN
             estado_reg = v_parametros.estado_reg,
 			fecha_mod = now(),
 			id_usuario_mod = p_id_usuario,
-            observaciones = v_parametros.observaciones
+            observaciones = v_parametros.observaciones,
+            id_proveedor=v_parametros.id_proveedor
 			where id_uni_cons_item=v_parametros.id_uni_cons_item;
                
 			--Definicion de la respuesta

@@ -668,8 +668,8 @@ Phx.vista.recurso=Ext.extend(Phx.gridInterfaz,{
      		this.getComponente('hh_ext_mov').setVisible(false);
      		this.getComponente('id_unidad_medida').setVisible(false);
      		this.getComponente('cantidad').setVisible(false);
-     		this.getComponente('id_moneda').setVisible(false);
-     		this.getComponente('costo').setVisible(false);
+     		this.getComponente('id_moneda').setVisible(true);
+     		this.getComponente('costo').setVisible(true);
      		this.getComponente('codigo').setVisible(false);
      		this.getComponente('existencias').setVisible(false);
      		

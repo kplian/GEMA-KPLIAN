@@ -1,10 +1,11 @@
--- Function: gem.f_formula_indicadores_sel(integer, integer, character varying, character varying)
-
--- DROP FUNCTION gem.f_formula_indicadores_sel(integer, integer, character varying, character varying);
-
-CREATE OR REPLACE FUNCTION gem.f_formula_indicadores_sel(p_administrador integer, p_id_usuario integer, p_tabla character varying, p_transaccion character varying)
-  RETURNS SETOF record AS
-$BODY$
+CREATE OR REPLACE FUNCTION gem.f_formula_indicadores_sel (
+  p_administrador integer,
+  p_id_usuario integer,
+  p_tabla varchar,
+  p_transaccion varchar
+)
+RETURNS SETOF record AS
+$body$
 /**************************************************************************
  PXP - KPLIAN
 ***************************************************************************
@@ -210,8 +211,8 @@ BEGIN
 
 			FOR g_registros in (select count(nombre) from tt_indicadores_res) LOOP
 			     RETURN NEXT g_registros;
-			   END LOOP;
-raise exception 'ffffggggg';
+		   END LOOP;
+
 		end;
 
 	ELSE
@@ -231,8 +232,9 @@ EXCEPTION
 		raise exception '%',v_resp;
 				        
 END;
-$BODY$
-  LANGUAGE plpgsql VOLATILE
-  COST 100
-  ROWS 1000;
-ALTER FUNCTION gem.f_formula_indicadores_sel(integer, integer, character varying, character varying) OWNER TO postgres;
+$body$
+LANGUAGE 'plpgsql'
+VOLATILE
+CALLED ON NULL INPUT
+SECURITY INVOKER
+COST 100 ROWS 1000;

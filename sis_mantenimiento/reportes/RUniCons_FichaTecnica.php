@@ -243,8 +243,8 @@ Class RUniCons_FichaTecnica extends Report {
 			}
 		}
 		
-		$this->writeRepuestos($this->getDataSource()->getParameter('repuestoDataSource'), $pdf);
-		
+		//$this->writeRepuestos($this->getDataSource()->getParameter('repuestoDataSource'), $pdf);
+		$pdf->Ln();
 		foreach($this->getDataSource()->getParameter('arrayHijos') as $hijoDataSource) {
 			$this->writeHijoUniCons($hijoDataSource, $pdf);
 		}
@@ -395,19 +395,19 @@ Class RUniCons_FichaTecnica extends Report {
 		$pdf->Ln();
 		$pdf->setTextColor(0,0,0);
 		$height = 3;
-		$pdf->SetFontSize(6.5);
+		$pdf->SetFontSize(5.5);
 		
 		foreach($dataSource->getDataset() as $row) {
 			if ($widthMarginLeft > 0) {
 				$pdf->Cell($widthMarginLeft, $height, '', 0, 0, 'C', false, '', 0, false, 'T', 'C');
 			}
-			$pdf->Cell($widthDescripcion, $height, $row['desc_proveedor'], 1, 0, 'L', false, '', 0, false, 'T', 'C');
-			$pdf->Cell($widthParte, $height, $row['parte'], 1, 0, 'L', false, '', 0, false, 'T', 'C');
-			$pdf->Cell($widthProveedor, $height, $row['institucion'], 1, 0, 'L', false, '', 0, false, 'T', 'C');
+			$pdf->Cell($widthDescripcion, $height, $row['nombre'], 1, 0, 'L', false, '', 0, false, 'T', 'C');
+			$pdf->Cell($widthParte, $height, $row['codigo'], 1, 0, 'L', false, '', 0, false, 'T', 'C');
+			$pdf->Cell($widthProveedor, $height, $row['desc_proveedor'], 1, 0, 'L', false, '', 0, false, 'T', 'C');
 			$pdf->Cell($widthContacto, $height, $row['contacto'], 1, 0, 'L', false, '', 0, false, 'T', 'C');
 			$pdf->Cell($widthDireccion, $height, $row['direccion'], 1, 0, 'L', false, '', 0, false, 'T', 'C');
-			$pdf->Cell($widthTelefono, $height, $row['telefono'], 1, 0, 'C', false, '', 0, false, 'T', 'C');
-			$pdf->Cell($widthEmail, $height, $row['email'], 1, 0, 'C', false, '', 0, false, 'T', 'C');
+			$pdf->Cell($widthTelefono, $height, $row['telefono1'], 1, 0, 'C', false, '', 0, false, 'T', 'C');
+			$pdf->Cell($widthEmail, $height, $row['email1'], 1, 0, 'C', false, '', 0, false, 'T', 'C');
 			$pdf->Ln();
 		}
 	}

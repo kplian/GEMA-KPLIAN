@@ -74,6 +74,30 @@ Phx.vista.OrdenTrabajo=Ext.extend(Phx.gridInterfaz,{
 				    'actividad'
 			);
 		}
+		
+		function costoOIT() {
+			var rec=this.sm.getSelected();
+			Phx.CP.loadWindows('../../../sis_mantenimiento/vista/orden_trabajo/OrdenTrabajoCosto.php',
+					'Costo OIT',
+					{
+						width:1000,
+						height:600
+				    },
+				    rec.data,
+				    this.idContenedor,
+				    'OrdenTrabajoCosto'
+			);
+		}
+		
+		this.addButton('btnCostoOIT',
+			{
+				text: 'Costo OIT',
+				iconCls: 'bchecklist',
+				disabled: false,
+				handler: costoOIT,
+				tooltip: '<b>Costo OIT</b><br/>Detalle de los costos de la OIT'
+			}
+		);
 	},
 	fheight:'80%',
 	fwidth:'80%',
@@ -96,7 +120,8 @@ Phx.vista.OrdenTrabajo=Ext.extend(Phx.gridInterfaz,{
 				allowBlank: false,
 				anchor: '100%',
 				gwidth: 70,
-				maxLength: 20
+				maxLength: 20,
+				disabled:true
 			},
 			type:'TextField',
 			filters:{pfiltro:'geoott.num_oit',type:'string'},
@@ -378,23 +403,18 @@ Phx.vista.OrdenTrabajo=Ext.extend(Phx.gridInterfaz,{
 		},
 		{
 			config:{
-				name: 'codigo_oit',
-				fieldLabel: 'Código OIT',
-				allowBlank: false,
-				anchor: '100%',
-				gwidth: 100,
-				maxLength:20
+					labelSeparator:'',
+					inputType:'hidden',
+					name: 'codigo_oit'
 			},
-			type:'TextField',
-			filters:{pfiltro:'geoott.codigo_oit',type:'string'},
-			id_grupo:0,
-			grid:true,
-			form:true
+			type:'Field',
+			form:true 
 		},
 		
 		{
 			config: {
 				name: 'cat_tipo',
+				inputType:'hidden',
 				fieldLabel: 'Tipo',
 				anchor: '100%',
 				tinit: true,

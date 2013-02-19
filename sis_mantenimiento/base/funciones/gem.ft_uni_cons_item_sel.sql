@@ -1,5 +1,3 @@
---------------- SQL ---------------
-
 CREATE OR REPLACE FUNCTION gem.ft_uni_cons_item_sel (
   p_administrador integer,
   p_id_usuario integer,
@@ -59,11 +57,14 @@ BEGIN
 						unitem.fecha_mod,
 						unitem.id_usuario_mod,
 						usu1.cuenta as usr_reg,
-						usu2.cuenta as usr_mod	
+						usu2.cuenta as usr_mod,
+						unitem.id_proveedor,
+						pro.desc_proveedor	
 						from gem.tuni_cons_item unitem
 						inner join segu.tusuario usu1 on usu1.id_usuario = unitem.id_usuario_reg
 						left join segu.tusuario usu2 on usu2.id_usuario = unitem.id_usuario_mod
                         inner join alm.titem item on item.id_item=unitem.id_item
+                        left join param.vproveedor pro on pro.id_proveedor= unitem.id_proveedor
 				        where unitem.id_uni_cons = '||v_parametros.id_uni_cons||' and ';
 			
 			--Definicion de la respuesta
@@ -91,6 +92,7 @@ BEGIN
 						inner join segu.tusuario usu1 on usu1.id_usuario = unitem.id_usuario_reg
 						left join segu.tusuario usu2 on usu2.id_usuario = unitem.id_usuario_mod
                         inner join alm.titem item on item.id_item=unitem.id_item
+                        left join param.vproveedor pro on pro.id_proveedor = unitem.id_proveedor
 				        where unitem.id_uni_cons = '||v_parametros.id_uni_cons||' and ';
 		
 			--Definicion de la respuesta		    
@@ -99,6 +101,41 @@ BEGIN
 			--Devuelve la respuesta
 			return v_consulta;
 
+		end;
+		
+	/*********************************    
+ 	#TRANSACCION:  'GEM_ITEPRO_SEL'
+ 	#DESCRIPCION:	Consulta de datos
+ 	#AUTOR:			rcm
+ 	#FECHA:			18/02/2013
+	***********************************/
+
+	elsif(p_transaccion='GEM_ITEPRO_SEL')then
+     				
+    	begin
+    		--Sentencia de la consulta
+			v_consulta:='select
+						item.nombre, item.codigo, prov.desc_proveedor,
+						per.nombre || '' ''|| per.apellido_paterno||'' ''||per.apellido_materno as contacto,
+						inst.direccion,inst.telefono1, inst.email1
+						from gem.tuni_cons_item uitem
+						inner join alm.titem item
+						on item.id_item = uitem.id_item
+						left join param.vproveedor prov
+						on prov.id_proveedor = uitem.id_proveedor
+						left join segu.tpersona per
+						on per.id_persona = prov.id_persona
+						left join param.tinstitucion inst
+						on inst.id_institucion = prov.id_institucion
+				        where ';
+			
+			--Definicion de la respuesta
+			v_consulta:=v_consulta||v_parametros.filtro;
+			v_consulta:=v_consulta||' order by ' ||v_parametros.ordenacion|| ' ' || v_parametros.dir_ordenacion || ' limit ' || v_parametros.cantidad || ' offset ' || v_parametros.puntero;
+
+			--Devuelve la respuesta
+			return v_consulta;
+						
 		end;
 	else
 					     

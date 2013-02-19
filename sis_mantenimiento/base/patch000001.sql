@@ -1202,3 +1202,8 @@ add column nro_sol varchar(20);
 alter table gem.tlocalizacion
 add column tipo_numeracion varchar(20);
 /***********************************F-SCP-RCM-GEM-123-18/02/2013*****************************************/
+
+/***********************************I-SCP-RCM-GEM-124-18/02/2013*****************************************/
+alter table gem.tuni_cons_item
+add column id_proveedor integer;
+/***********************************F-SCP-RCM-GEM-124-18/02/2013*****************************************/
