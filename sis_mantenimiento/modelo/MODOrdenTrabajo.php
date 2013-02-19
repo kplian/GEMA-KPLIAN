@@ -71,6 +71,7 @@ class MODOrdenTrabajo extends MODbase{
 		$this->captura('otros','varchar');
 		$this->captura('hora_eje_inicio','time');
 		$this->captura('hora_eje_fin','time');
+		$this->captura('codigo','varchar');
 		
 		//Ejecuta la instruccion
 		$this->armarConsulta();
@@ -233,6 +234,7 @@ class MODOrdenTrabajo extends MODbase{
 		$this->setParametro('mensaje_estado', 'mensaje_estado', 'varchar');
 		
 		$this->armarConsulta();
+		//echo $this->consulta;exit;
 		$this->ejecutarConsulta();
 
 		return $this->respuesta;

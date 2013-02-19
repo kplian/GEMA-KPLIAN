@@ -117,7 +117,8 @@ BEGIN
                         geoott.reclamos,
                         geoott.otros,
                         geoott.hora_eje_inicio,
-            			geoott.hora_eje_fin
+        	    		geoott.hora_eje_fin,
+						unicons.codigo
 						from gem.torden_trabajo geoott
 						inner join segu.tusuario usu1 on usu1.id_usuario = geoott.id_usuario_reg
 						left join segu.tusuario usu2 on usu2.id_usuario = geoott.id_usuario_mod

@@ -105,6 +105,7 @@ class ACTOrdenTrabajo extends ACTbase{
 		$dataSource->putParameter('otros', $datosOT[0]['otros']);
 		$dataSource->putParameter('horaEjeInicio', $datosOT[0]['hora_eje_inicio']);
 		$dataSource->putParameter('horaEjeFin', $datosOT[0]['hora_eje_fin']);
+		$dataSource->putParameter('codigo', $datosOT[0]['codigo']);
 		
 		
 		$this->objParam->addParametroConsulta('filtro', ' 0 = 0');

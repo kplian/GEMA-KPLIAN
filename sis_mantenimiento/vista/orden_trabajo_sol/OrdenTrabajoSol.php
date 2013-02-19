@@ -148,7 +148,7 @@ Phx.vista.OrdenTrabajoSol=Ext.extend(Phx.gridInterfaz,{
 					// turn on remote sorting
 					remoteSort: true,
 					baseParams: {
-						par_filtro: 'tuc.codigo#tuc.codigo'
+						par_filtro: 'nombre#codigo'
 					}
 				}),
 				valueField: 'id_localizacion',

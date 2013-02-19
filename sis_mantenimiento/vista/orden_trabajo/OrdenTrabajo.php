@@ -112,7 +112,15 @@ Phx.vista.OrdenTrabajo=Ext.extend(Phx.gridInterfaz,{
 			type:'Field',
 			form:true 
 		},
-		
+		{
+			config:{
+					labelSeparator:'',
+					inputType:'hidden',
+					name: 'codigo_oit'
+			},
+			type:'Field',
+			form:true 
+		},
 		{
 			config:{
 				name: 'num_oit',
@@ -1091,7 +1099,7 @@ Phx.vista.OrdenTrabajo=Ext.extend(Phx.gridInterfaz,{
 	onButtonEdit: function() {
 		Phx.vista.OrdenTrabajo.superclass.onButtonEdit.call(this);
 		this.getComponente('id_uni_cons').enable();
-	},
+	}
 })
 </script>
 		
