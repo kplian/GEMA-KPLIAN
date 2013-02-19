@@ -91,6 +91,8 @@ require_once dirname(__FILE__).'/pxpReport/Report.php';
 }
 
 Class RCalendarioPlanificado extends Report {
+	
+				private $ano=NULL;
 
     function write($fileName) {
         $pdf = new CustomReport('L', PDF_UNIT, "LEGAL", true, 'UTF-8', false);
@@ -124,11 +126,11 @@ Class RCalendarioPlanificado extends Report {
         $width4 = 75;
         
         $dataset = $this->getDataSource()->getDataset();
-        $ano=NULL;
+        //$ano=NULL;
         foreach ($dataset[0] as $key => $value) {
             if(preg_match("/^c+.+[1-4]$/",$key))                
                 $recuperado = explode('_', $key);
-            $ano=$recuperado[2];
+            $this->ano=$recuperado[2];
         }
         
         $pdf->SetFontSize(7.5);
@@ -143,7 +145,7 @@ Class RCalendarioPlanificado extends Report {
         $pdf->SetFont('', 'B');
         $pdf->SetFillColor(51,51,153, true);
         $pdf->setTextColor(255,255,255);
-        $pdf->Cell($width4*3+$width1, $height, 'GESTION '.$ano, 1, 0, 'C', true, '', 0, false, 'T', 'C');
+        $pdf->Cell($width4*3+$width1, $height, 'GESTION '.$this->ano, 1, 0, 'C', true, '', 0, false, 'T', 'C');
         
         $this->writeDetalles($this->getDataSource(), $pdf);
         
@@ -239,78 +241,78 @@ Class RCalendarioPlanificado extends Report {
             $pdf->Cell($width3+$width2+$width1, $height/2, $row['nombre_mant'], 1, 0, 'L', false, '', 1, false, 'T', 'C');
             $pdf->SetFillColor(140,190,230, true);
             $pdf->setTextColor(0,0,0);
-            $pdf->Cell($width2/2, $height/2, ($row['january_2012_s1']==1)?'X':'', 1, 0, 'C', true, '', 0, false, 'T', 'C');
-            $pdf->Cell($width2/2, $height/2, ($row['january_2012_s2']==1)?'X':'', 1, 0, 'C', true, '', 0, false, 'T', 'C');
-            $pdf->Cell($width2/2, $height/2, ($row['january_2012_s3']==1)?'X':'', 1, 0, 'C', true, '', 0, false, 'T', 'C');
-            $pdf->Cell($width2/2, $height/2, ($row['january_2012_s4']==1)?'X':'', 1, 0, 'C', true, '', 0, false, 'T', 'C');
+            $pdf->Cell($width2/2, $height/2, ($row['january_'.$this->ano.'_s1']==1)?'X':'', 1, 0, 'C', true, '', 0, false, 'T', 'C');
+            $pdf->Cell($width2/2, $height/2, ($row['january_'.$this->ano.'_s2']==1)?'X':'', 1, 0, 'C', true, '', 0, false, 'T', 'C');
+            $pdf->Cell($width2/2, $height/2, ($row['january_'.$this->ano.'_s3']==1)?'X':'', 1, 0, 'C', true, '', 0, false, 'T', 'C');
+            $pdf->Cell($width2/2, $height/2, ($row['january_'.$this->ano.'_s4']==1)?'X':'', 1, 0, 'C', true, '', 0, false, 'T', 'C');
             $pdf->SetFillColor(255,190,130, true);
             $pdf->setTextColor(0,0,0);
-            $pdf->Cell($width2/2, $height/2, ($row['february_2012_s1']==1)?'X':'', 1, 0, 'C', true, '', 0, false, 'T', 'C');
-            $pdf->Cell($width2/2, $height/2, ($row['february_2012_s2']==1)?'X':'', 1, 0, 'C', true, '', 0, false, 'T', 'C');
-            $pdf->Cell($width2/2, $height/2, ($row['february_2012_s3']==1)?'X':'', 1, 0, 'C', true, '', 0, false, 'T', 'C');
-            $pdf->Cell($width2/2, $height/2, ($row['february_2012_s4']==1)?'X':'', 1, 0, 'C', true, '', 0, false, 'T', 'C');
+            $pdf->Cell($width2/2, $height/2, ($row['february_'.$this->ano.'_s1']==1)?'X':'', 1, 0, 'C', true, '', 0, false, 'T', 'C');
+            $pdf->Cell($width2/2, $height/2, ($row['february_'.$this->ano.'_s2']==1)?'X':'', 1, 0, 'C', true, '', 0, false, 'T', 'C');
+            $pdf->Cell($width2/2, $height/2, ($row['february_'.$this->ano.'_s3']==1)?'X':'', 1, 0, 'C', true, '', 0, false, 'T', 'C');
+            $pdf->Cell($width2/2, $height/2, ($row['february_'.$this->ano.'_s4']==1)?'X':'', 1, 0, 'C', true, '', 0, false, 'T', 'C');
             $pdf->SetFillColor(140,190,230, true);
             $pdf->setTextColor(0,0,0);
-            $pdf->Cell($width2/2, $height/2, ($row['march_2012_s1']==1)?'X':'', 1, 0, 'C', true, '', 0, false, 'T', 'C');
-            $pdf->Cell($width2/2, $height/2, ($row['march_2012_s2']==1)?'X':'', 1, 0, 'C', true, '', 0, false, 'T', 'C');
-            $pdf->Cell($width2/2, $height/2, ($row['march_2012_s3']==1)?'X':'', 1, 0, 'C', true, '', 0, false, 'T', 'C');
-            $pdf->Cell($width2/2, $height/2, ($row['march_2012_s4']==1)?'X':'', 1, 0, 'C', true, '', 0, false, 'T', 'C');
+            $pdf->Cell($width2/2, $height/2, ($row['march_'.$this->ano.'_s1']==1)?'X':'', 1, 0, 'C', true, '', 0, false, 'T', 'C');
+            $pdf->Cell($width2/2, $height/2, ($row['march_'.$this->ano.'_s2']==1)?'X':'', 1, 0, 'C', true, '', 0, false, 'T', 'C');
+            $pdf->Cell($width2/2, $height/2, ($row['march_'.$this->ano.'_s3']==1)?'X':'', 1, 0, 'C', true, '', 0, false, 'T', 'C');
+            $pdf->Cell($width2/2, $height/2, ($row['march_'.$this->ano.'_s4']==1)?'X':'', 1, 0, 'C', true, '', 0, false, 'T', 'C');
             $pdf->SetFillColor(255,190,130, true);
             $pdf->setTextColor(0,0,0);
-            $pdf->Cell($width2/2, $height/2, ($row['april_2012_s1']==1)?'X':'', 1, 0, 'C', true, '', 0, false, 'T', 'C');
-            $pdf->Cell($width2/2, $height/2, ($row['april_2012_s2']==1)?'X':'', 1, 0, 'C', true, '', 0, false, 'T', 'C');
-            $pdf->Cell($width2/2, $height/2, ($row['april_2012_s3']==1)?'X':'', 1, 0, 'C', true, '', 0, false, 'T', 'C');
-            $pdf->Cell($width2/2, $height/2, ($row['april_2012_s4']==1)?'X':'', 1, 0, 'C', true, '', 0, false, 'T', 'C');
+            $pdf->Cell($width2/2, $height/2, ($row['april_'.$this->ano.'_s1']==1)?'X':'', 1, 0, 'C', true, '', 0, false, 'T', 'C');
+            $pdf->Cell($width2/2, $height/2, ($row['april_'.$this->ano.'_s2']==1)?'X':'', 1, 0, 'C', true, '', 0, false, 'T', 'C');
+            $pdf->Cell($width2/2, $height/2, ($row['april_'.$this->ano.'_s3']==1)?'X':'', 1, 0, 'C', true, '', 0, false, 'T', 'C');
+            $pdf->Cell($width2/2, $height/2, ($row['april_'.$this->ano.'_s4']==1)?'X':'', 1, 0, 'C', true, '', 0, false, 'T', 'C');
             $pdf->SetFillColor(140,190,230, true);
             $pdf->setTextColor(0,0,0);
-            $pdf->Cell($width2/2, $height/2, ($row['may_2012_s1']==1)?'X':'', 1, 0, 'C', true, '', 0, false, 'T', 'C');
-            $pdf->Cell($width2/2, $height/2, ($row['may_2012_s2']==1)?'X':'', 1, 0, 'C', true, '', 0, false, 'T', 'C');
-            $pdf->Cell($width2/2, $height/2, ($row['may_2012_s3']==1)?'X':'', 1, 0, 'C', true, '', 0, false, 'T', 'C');
-            $pdf->Cell($width2/2, $height/2, ($row['may_2012_s4']==1)?'X':'', 1, 0, 'C', true, '', 0, false, 'T', 'C');
+            $pdf->Cell($width2/2, $height/2, ($row['may_'.$this->ano.'_s1']==1)?'X':'', 1, 0, 'C', true, '', 0, false, 'T', 'C');
+            $pdf->Cell($width2/2, $height/2, ($row['may_'.$this->ano.'_s2']==1)?'X':'', 1, 0, 'C', true, '', 0, false, 'T', 'C');
+            $pdf->Cell($width2/2, $height/2, ($row['may_'.$this->ano.'_s3']==1)?'X':'', 1, 0, 'C', true, '', 0, false, 'T', 'C');
+            $pdf->Cell($width2/2, $height/2, ($row['may_'.$this->ano.'_s4']==1)?'X':'', 1, 0, 'C', true, '', 0, false, 'T', 'C');
             $pdf->SetFillColor(255,190,130, true);
             $pdf->setTextColor(0,0,0);
-            $pdf->Cell($width2/2, $height/2, ($row['june_2012_s1']==1)?'X':'', 1, 0, 'C', true, '', 0, false, 'T', 'C');
-            $pdf->Cell($width2/2, $height/2, ($row['june_2012_s2']==1)?'X':'', 1, 0, 'C', true, '', 0, false, 'T', 'C');
-            $pdf->Cell($width2/2, $height/2, ($row['june_2012_s3']==1)?'X':'', 1, 0, 'C', true, '', 0, false, 'T', 'C');
-            $pdf->Cell($width2/2, $height/2, ($row['june_2012_s4']==1)?'X':'', 1, 0, 'C', true, '', 0, false, 'T', 'C');
+            $pdf->Cell($width2/2, $height/2, ($row['june_'.$this->ano.'_s1']==1)?'X':'', 1, 0, 'C', true, '', 0, false, 'T', 'C');
+            $pdf->Cell($width2/2, $height/2, ($row['june_'.$this->ano.'_s2']==1)?'X':'', 1, 0, 'C', true, '', 0, false, 'T', 'C');
+            $pdf->Cell($width2/2, $height/2, ($row['june_'.$this->ano.'_s3']==1)?'X':'', 1, 0, 'C', true, '', 0, false, 'T', 'C');
+            $pdf->Cell($width2/2, $height/2, ($row['june_'.$this->ano.'_s4']==1)?'X':'', 1, 0, 'C', true, '', 0, false, 'T', 'C');
             $pdf->SetFillColor(140,190,230, true);
             $pdf->setTextColor(0,0,0);
-            $pdf->Cell($width2/2, $height/2, ($row['july_2012_s1']==1)?'X':'', 1, 0, 'C', true, '', 0, false, 'T', 'C');
-            $pdf->Cell($width2/2, $height/2, ($row['july_2012_s2']==1)?'X':'', 1, 0, 'C', true, '', 0, false, 'T', 'C');
-            $pdf->Cell($width2/2, $height/2, ($row['july_2012_s3']==1)?'X':'', 1, 0, 'C', true, '', 0, false, 'T', 'C');
-            $pdf->Cell($width2/2, $height/2, ($row['july_2012_s4']==1)?'X':'', 1, 0, 'C', true, '', 0, false, 'T', 'C');
+            $pdf->Cell($width2/2, $height/2, ($row['july_'.$this->ano.'_s1']==1)?'X':'', 1, 0, 'C', true, '', 0, false, 'T', 'C');
+            $pdf->Cell($width2/2, $height/2, ($row['july_'.$this->ano.'_s2']==1)?'X':'', 1, 0, 'C', true, '', 0, false, 'T', 'C');
+            $pdf->Cell($width2/2, $height/2, ($row['july_'.$this->ano.'_s3']==1)?'X':'', 1, 0, 'C', true, '', 0, false, 'T', 'C');
+            $pdf->Cell($width2/2, $height/2, ($row['july_'.$this->ano.'_s4']==1)?'X':'', 1, 0, 'C', true, '', 0, false, 'T', 'C');
             $pdf->SetFillColor(255,190,130, true);
             $pdf->setTextColor(0,0,0);
-            $pdf->Cell($width2/2, $height/2, ($row['august_2012_s1']==1)?'X':'', 1, 0, 'C', true, '', 0, false, 'T', 'C');
-            $pdf->Cell($width2/2, $height/2, ($row['august_2012_s2']==1)?'X':'', 1, 0, 'C', true, '', 0, false, 'T', 'C');
-            $pdf->Cell($width2/2, $height/2, ($row['august_2012_s3']==1)?'X':'', 1, 0, 'C', true, '', 0, false, 'T', 'C');
-            $pdf->Cell($width2/2, $height/2, ($row['august_2012_s4']==1)?'X':'', 1, 0, 'C', true, '', 0, false, 'T', 'C');
+            $pdf->Cell($width2/2, $height/2, ($row['august_'.$this->ano.'_s1']==1)?'X':'', 1, 0, 'C', true, '', 0, false, 'T', 'C');
+            $pdf->Cell($width2/2, $height/2, ($row['august_'.$this->ano.'_s2']==1)?'X':'', 1, 0, 'C', true, '', 0, false, 'T', 'C');
+            $pdf->Cell($width2/2, $height/2, ($row['august_'.$this->ano.'_s3']==1)?'X':'', 1, 0, 'C', true, '', 0, false, 'T', 'C');
+            $pdf->Cell($width2/2, $height/2, ($row['august_'.$this->ano.'_s4']==1)?'X':'', 1, 0, 'C', true, '', 0, false, 'T', 'C');
             $pdf->SetFillColor(140,190,230, true);
             $pdf->setTextColor(0,0,0);
             $x=$pdf->getX();
             $y=$pdf->getY();
-            $pdf->Cell($width2/2, $height/2, ($row['september_2012_s1']==1)?'X':'', 1, 0, 'C', true, '', 0, false, 'T', 'C');
-            $pdf->Cell($width2/2, $height/2, ($row['september_2012_s2']==1)?'X':'', 1, 0, 'C', true, '', 0, false, 'T', 'C');
-            $pdf->Cell($width2/2, $height/2, ($row['september_2012_s3']==1)?'X':'', 1, 0, 'C', true, '', 0, false, 'T', 'C');
-            $pdf->Cell($width2/2, $height/2, ($row['september_2012_s4']==1)?'X':'', 1, 0, 'C', true, '', 0, false, 'T', 'C');
+            $pdf->Cell($width2/2, $height/2, ($row['september_'.$this->ano.'_s1']==1)?'X':'', 1, 0, 'C', true, '', 0, false, 'T', 'C');
+            $pdf->Cell($width2/2, $height/2, ($row['september_'.$this->ano.'_s2']==1)?'X':'', 1, 0, 'C', true, '', 0, false, 'T', 'C');
+            $pdf->Cell($width2/2, $height/2, ($row['september_'.$this->ano.'_s3']==1)?'X':'', 1, 0, 'C', true, '', 0, false, 'T', 'C');
+            $pdf->Cell($width2/2, $height/2, ($row['september_'.$this->ano.'_s4']==1)?'X':'', 1, 0, 'C', true, '', 0, false, 'T', 'C');
             $pdf->SetFillColor(255,190,130, true);
             $pdf->setTextColor(0,0,0);
-            $pdf->Cell($width2/2, $height/2, ($row['october_2012_s1']==1)?'X':'', 1, 0, 'C', true, '', 0, false, 'T', 'C');
-            $pdf->Cell($width2/2, $height/2, ($row['october_2012_s2']==1)?'X':'', 1, 0, 'C', true, '', 0, false, 'T', 'C');
-            $pdf->Cell($width2/2, $height/2, ($row['october_2012_s3']==1)?'X':'', 1, 0, 'C', true, '', 0, false, 'T', 'C');
-            $pdf->Cell($width2/2, $height/2, ($row['october_2012_s4']==1)?'X':'', 1, 0, 'C', true, '', 0, false, 'T', 'C');
+            $pdf->Cell($width2/2, $height/2, ($row['october_'.$this->ano.'_s1']==1)?'X':'', 1, 0, 'C', true, '', 0, false, 'T', 'C');
+            $pdf->Cell($width2/2, $height/2, ($row['october_'.$this->ano.'_s2']==1)?'X':'', 1, 0, 'C', true, '', 0, false, 'T', 'C');
+            $pdf->Cell($width2/2, $height/2, ($row['october_'.$this->ano.'_s3']==1)?'X':'', 1, 0, 'C', true, '', 0, false, 'T', 'C');
+            $pdf->Cell($width2/2, $height/2, ($row['october_'.$this->ano.'_s4']==1)?'X':'', 1, 0, 'C', true, '', 0, false, 'T', 'C');
             $pdf->SetFillColor(140,190,230, true);
             $pdf->setTextColor(0,0,0);
-            $pdf->Cell($width2/2, $height/2, ($row['november_2012_s1']==1)?'X':'', 1, 0, 'C', true, '', 0, false, 'T', 'C');
-            $pdf->Cell($width2/2, $height/2, ($row['november_2012_s2']==1)?'X':'', 1, 0, 'C', true, '', 0, false, 'T', 'C');
-            $pdf->Cell($width2/2, $height/2, ($row['november_2012_s3']==1)?'X':'', 1, 0, 'C', true, '', 0, false, 'T', 'C');
-            $pdf->Cell($width2/2, $height/2, ($row['november_2012_s4']==1)?'X':'', 1, 0, 'C', true, '', 0, false, 'T', 'C');
+            $pdf->Cell($width2/2, $height/2, ($row['november_'.$this->ano.'_s1']==1)?'X':'', 1, 0, 'C', true, '', 0, false, 'T', 'C');
+            $pdf->Cell($width2/2, $height/2, ($row['november_'.$this->ano.'_s2']==1)?'X':'', 1, 0, 'C', true, '', 0, false, 'T', 'C');
+            $pdf->Cell($width2/2, $height/2, ($row['november_'.$this->ano.'_s3']==1)?'X':'', 1, 0, 'C', true, '', 0, false, 'T', 'C');
+            $pdf->Cell($width2/2, $height/2, ($row['november_'.$this->ano.'_s4']==1)?'X':'', 1, 0, 'C', true, '', 0, false, 'T', 'C');
             $pdf->SetFillColor(255,190,130, true);
             $pdf->setTextColor(0,0,0);
-            $pdf->Cell($width2/2, $height/2, ($row['december_2012_s1']==1)?'X':'', 1, 0, 'C', true, '', 0, false, 'T', 'C');
-            $pdf->Cell($width2/2, $height/2, ($row['december_2012_s2']==1)?'X':'', 1, 0, 'C', true, '', 0, false, 'T', 'C');
-            $pdf->Cell($width2/2, $height/2, ($row['december_2012_s3']==1)?'X':'', 1, 0, 'C', true, '', 0, false, 'T', 'C');
-            $pdf->Cell($width2/2, $height/2, ($row['december_2012_s4']==1)?'X':'', 1, 0, 'C', true, '', 0, false, 'T', 'C');
+            $pdf->Cell($width2/2, $height/2, ($row['december_'.$this->ano.'_s1']==1)?'X':'', 1, 0, 'C', true, '', 0, false, 'T', 'C');
+            $pdf->Cell($width2/2, $height/2, ($row['december_'.$this->ano.'_s2']==1)?'X':'', 1, 0, 'C', true, '', 0, false, 'T', 'C');
+            $pdf->Cell($width2/2, $height/2, ($row['december_'.$this->ano.'_s3']==1)?'X':'', 1, 0, 'C', true, '', 0, false, 'T', 'C');
+            $pdf->Cell($width2/2, $height/2, ($row['december_'.$this->ano.'_s4']==1)?'X':'', 1, 0, 'C', true, '', 0, false, 'T', 'C');
                         
             $pdf->Ln();
         }
