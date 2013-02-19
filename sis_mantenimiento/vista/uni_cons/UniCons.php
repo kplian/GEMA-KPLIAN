@@ -505,7 +505,7 @@ Phx.vista.UniCons=Ext.extend(Phx.arbInterfaz,{
 		            this.getBoton('btnBlock').setTooltip('<p>Desbloquear permite editar</p>');
 		            this.getBoton('btnUpload').enable();
                     this.getBoton('btnItems').enable();
-                    this.getBoton('btnProveedores').enable();
+                    //this.getBoton('btnProveedores').enable();
                     this.getBoton('btnAtrib').enable();
                     this.tbar.items.get('b-new-' + this.idContenedor).disable();
                     this.tbar.items.get('b-edit-' + this.idContenedor).disable();
@@ -516,7 +516,7 @@ Phx.vista.UniCons=Ext.extend(Phx.arbInterfaz,{
 		            this.getBoton('btnBlock').setTooltip('<p>Bloquea la edición del equipo</p>');
 		            this.getBoton('btnUpload').enable();
                     this.getBoton('btnItems').enable();
-                    this.getBoton('btnProveedores').enable();
+                    //this.getBoton('btnProveedores').enable();
                     this.getBoton('btnAtrib').enable();                     
 				}			
 				
@@ -526,7 +526,7 @@ Phx.vista.UniCons=Ext.extend(Phx.arbInterfaz,{
     				this.getBoton('btnBlock').disable();
                     this.getBoton('btnUpload').disable();
                     this.getBoton('btnItems').disable();
-                    this.getBoton('btnProveedores').disable();
+                    //this.getBoton('btnProveedores').disable();
                     this.getBoton('btnAtrib').disable();
                 }
                 else{
@@ -534,7 +534,7 @@ Phx.vista.UniCons=Ext.extend(Phx.arbInterfaz,{
                     this.getBoton('btnBlock').disable();
                     this.getBoton('btnUpload').enable();
                     this.getBoton('btnItems').enable();
-                    this.getBoton('btnProveedores').enable();
+                    //this.getBoton('btnProveedores').enable();
                     this.getBoton('btnAtrib').enable();
                 }                
 			}
