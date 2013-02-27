@@ -580,5 +580,5 @@ references gem.tlocalizacion (id_localizacion);
 /***********************************I-DEP-RCM-GEM-124-18/02/2013*****************************************/
 alter table gem.tuni_cons_item
 add constraint fk_tuni_cons_item__id_proveedor foreign key (id_proveedor)
-references parem.tproveedor (id_proveedor);
+references param.tproveedor (id_proveedor);
 /***********************************F-DEP-RCM-GEM-124-18/02/2013*****************************************/
