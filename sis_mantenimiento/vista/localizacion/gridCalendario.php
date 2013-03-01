@@ -422,6 +422,14 @@ Phx.vista.gridCalendario=Ext.extend(Phx.gridInterfaz,{
 					handler : this.onBtnGenOt,
 					tooltip : '<b>Generar OT</b><br/>Genera Ordenes de Trabajo para el matenimeinto selecionado en todas las fecha visualizadas'
 				});
+				
+			this.addButton('GenAllOT', {
+					text : 'Generar Totas las OT',
+					iconCls : 'bgear',
+					disabled : false,
+					handler : this.onBtnGenAllOt,
+					tooltip : '<b>Generar OT</b><br/>Genera todas las ordenes de trabajo para todos los mantenimientos listados'
+				});	
 			
 			var id_l = (this.tipo_nodo=='uni_cons')?this.id_uni_cons:this.id_localizacion;
 			
@@ -587,6 +595,35 @@ Phx.vista.gridCalendario=Ext.extend(Phx.gridInterfaz,{
         Phx.vista.gridCalendario.superclass.onDestroy.call(this,c);
 
     },
+    
+    onBtnGenAllOt:function(a){
+    	
+    	Phx.CP.loadingShow();
+    	var dateFechaIni =this.formUCCL.getForm().findField('fecha_ini');
+		var dateFechaFin =this.formUCCL.getForm().findField('fecha_fin');
+	
+		 Ext.Ajax.request({
+		                    form: this.form.getForm().getEl(),
+		                    url: '../../sis_mantenimiento/control/OrdenTrabajo/generarAllOT',
+		                    params: {
+		                         	fecha_ini:dateFechaIni.getValue().dateFormat('d-m-Y'),
+		    						fecha_fin:dateFechaFin.getValue().dateFormat('d-m-Y'),
+		    						tipo_nodo:this.tipo_nodo,
+							        id_localizacion:(this.tipo_nodo=='uni_cons'||this.tipo_nodo=='rama')?undefined:this.id_localizacion,
+							        id_uni_cons:this.id_uni_cons
+							        },		                    	
+		                    success: this.successGenOT,
+		                    failure:this.conexionFailure,
+		                    timeout: this.timeout,
+		                    scope: this
+		               });
+    	
+    	
+    	
+    	
+    },
+    
+    
     onBtnGenOt:function(a){
     	Phx.CP.loadingShow();
     	var dateFechaIni =this.formUCCL.getForm().findField('fecha_ini');
