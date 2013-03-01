@@ -4,6 +4,10 @@
 *	Description: Test data
 */
 
+--USUARIOS
+INSERT INTO segu.tusuario ("id_clasificador", "cuenta", "contrasena", "fecha_caducidad", "fecha_reg", "estilo", "contrasena_anterior", "id_persona", "estado_reg", "autentificacion")
+VALUES (1, E'spanza2', E'533cd2ec574f9a6ded5801efbfee21ba', E'2014-02-28', E'2013-02-28', E'xtheme-blue.css', NULL, 3, E'activo', E'local');
+
 /* Data for the 'param.tunidad_medida' table  (Records 1 - 11) */
 INSERT INTO param.tunidad_medida ("id_usuario_reg", "id_usuario_mod", "fecha_reg", "fecha_mod", "estado_reg", "id_unidad_medida", "codigo", "descripcion", "tipo")
 VALUES (1, NULL, E'2012-12-03 18:24:21.439', NULL, E'activo', 10, E'PSI', E'Presion', NULL);
