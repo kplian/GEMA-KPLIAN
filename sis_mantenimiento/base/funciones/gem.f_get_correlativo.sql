@@ -15,6 +15,7 @@ DECLARE
     v_id_localizacion_correl integer;
     v_correl integer;
     v_sql varchar;
+    v_codigo varchar;
 
 BEGIN
 
@@ -56,6 +57,7 @@ BEGIN
 	for v_rec in execute(v_sql) loop
     	v_sw = true;
         v_id_localizacion = v_rec.id_localizacion;
+		v_codigo = v_rec.codigo;
 	end loop;
             
     --Se verifica si existe el registro, e.o.c se crea el registro
@@ -92,7 +94,7 @@ BEGIN
     correl = correl + 1
     where id_localizacion_correl = v_id_localizacion_correl;
             
-	return pxp.f_llenar_ceros(v_correl,5)||'/'||v_gestion;
+	return v_codigo||'-'||pxp.f_llenar_ceros(v_correl,5)||'/'||v_gestion;
 
 END;
 $body$
