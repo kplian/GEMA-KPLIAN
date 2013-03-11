@@ -15,7 +15,7 @@ Phx.vista.OrdenTrabajo=Ext.extend(Phx.gridInterfaz,{
 		this.maestro=config.maestro;
 		Phx.vista.OrdenTrabajo.superclass.constructor.call(this,config);
 		this.init();
-		
+	
 		this.getComponente('id_especialidad').on('select', function(e, data, index) {
    			if(this.getComponente('especialidades').getValue() != '') {
    				this.getComponente('especialidades').setValue(this.getComponente('especialidades').getValue() + ' - ');
@@ -127,7 +127,7 @@ Phx.vista.OrdenTrabajo=Ext.extend(Phx.gridInterfaz,{
 				fieldLabel: 'Nº OIT',
 				allowBlank: false,
 				anchor: '100%',
-				gwidth: 70,
+				gwidth: 150,
 				maxLength: 20,
 				disabled:true
 			},

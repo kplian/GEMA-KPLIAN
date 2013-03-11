@@ -1,5 +1,3 @@
---------------- SQL ---------------
-
 CREATE OR REPLACE FUNCTION gem.f_uni_cons_ime (
   p_administrador integer,
   p_id_usuario integer,
@@ -73,81 +71,71 @@ BEGIN
 		     BEGIN     
              
             
-            IF (pxp.f_existe_parametro(p_tabla,'nombre_tipo_equipo')) THEN
+			if (pxp.f_existe_parametro(p_tabla,'nombre_tipo_equipo')) then
                             
-             --verifie if "tipo_equipo" don't exist    
-              
-             if v_parametros.id_tipo_equipo is null and v_parametros.nombre_tipo_equipo  != '' then
-                 --search for other sames
-                 select teq.id_tipo_equipo into v_id_tipo_equipo  
-                 from gem.ttipo_equipo  teq 
-                 where teq.nombre ilike v_parametros.nombre_tipo_equipo  
-                 and teq.estado_reg='activo' limit 1 offset 0;
+             	--verifie if "tipo_equipo" don't exist    
+            	if v_parametros.id_tipo_equipo is null and v_parametros.nombre_tipo_equipo  != '' then
+                	--search for other sames
+                	select teq.id_tipo_equipo
+                	into v_id_tipo_equipo  
+                	from gem.ttipo_equipo  teq 
+                	where teq.nombre ilike v_parametros.nombre_tipo_equipo  
+                	and teq.estado_reg='activo' limit 1 offset 0;
                  
-                   if v_id_tipo_equipo is null then
-                           --insert new "tipo_equipo"
-                             insert into gem.ttipo_equipo(
-                            estado_reg,
-                            nombre,
-                            descripcion,
-                            codigo,
-                            id_usuario_reg,
-                            fecha_reg                   
-                            ) values(
-                            'activo',
-                            upper(v_parametros.nombre_tipo_equipo),
-                            '',
-                            'reg indirecto',
-                            p_id_usuario,
-                            now()                   
-                            )RETURNING id_tipo_equipo into v_id_tipo_equipo;  
-                     
-                      end if;
-                  else
-                       v_id_tipo_equipo = v_parametros.id_tipo_equipo;                   
-                  end IF;
-             else
+                   	if v_id_tipo_equipo is null then
+						--insert new "tipo_equipo"
+                        insert into gem.ttipo_equipo(
+                        estado_reg,nombre,descripcion,codigo,id_usuario_reg,fecha_reg                   
+                        ) values(
+                        'activo',upper(v_parametros.nombre_tipo_equipo),'','reg indirecto',p_id_usuario,now()                   
+                        )RETURNING id_tipo_equipo into v_id_tipo_equipo;  
+                    end if;
+				else
+                	v_id_tipo_equipo = v_parametros.id_tipo_equipo;                   
+                end if;
+
+			else
+
                 v_id_tipo_equipo = v_parametros.id_tipo_equipo;                   
-             END IF;
-               -- verificar duplicidad de codigo de uo
-               if exists (
-                   select distinct 1 
-                   from gem.tuni_cons uc 
-                   where lower(uc.codigo)=lower(v_parametros.codigo) and uc.estado_reg='activo') then
-                   
-                   raise exception 'CODIGO DUPLICADO';
-                end if;
+
+            end if;
+
+            --Verificar duplicidad de codigo de uo
+            if exists(select distinct 1 
+                   	from gem.tuni_cons uc 
+                   	where lower(uc.codigo)=lower(v_parametros.codigo) and uc.estado_reg='activo') then
+            	raise exception 'Código duplicado';
+			end if;
                 
-                if(v_parametros.tipo = 'tuc') then
+			if(v_parametros.tipo = 'tuc') then
+            	v_estado = 'borrador';  --falta validar
+			else
+				v_estado = 'registrado';  -- falta confirma el proceso de alta ,si ya no necesita modificaciones
+			end if;
                 
-                  v_estado = 'borrador';  --falta validar
-                 else
-                  v_estado = 'registrado';  -- falta confirma el proceso de alta ,si ya no necesita modificaciones
+            --verifica el tipo_nodo
+            if(v_parametros.id_uni_cons_padre='id') then
+            	v_tipo_nodo='base';--carpetas agrupadores
+            	v_id_uni_cons_padre=NULL;
+            else
+				--revismos el padre si es base entoces el nodo sera tipo raiz
+                v_id_uni_cons_padre = (v_parametros.id_uni_cons_padre)::integer;
                 
-                end if;
-                
-                --verifica el tipo_nodo
-                 if(v_parametros.id_uni_cons_padre='id') then
-                   v_tipo_nodo='base';--carpetas agrupadores
-                   v_id_uni_cons_padre=NULL;
-                 
-                 else
-                 
-                    --revismos el padre si es base entoces el nodo sera tipo raiz
-                      v_id_uni_cons_padre = (v_parametros.id_uni_cons_padre)::integer;
-                      select  uc.tipo_nodo into v_tipo_nodo from gem.tuni_cons uc where uc.id_uni_cons=v_id_uni_cons_padre;
+                select  uc.tipo_nodo
+                into v_tipo_nodo
+                from gem.tuni_cons uc
+                where uc.id_uni_cons=v_id_uni_cons_padre;
                       
-                      if v_tipo_nodo = 'base' then
-                          v_tipo_nodo = 'raiz';
-                      else
-                          v_tipo_nodo = 'rama';
-                      end if;
+                if v_tipo_nodo = 'base' then
+                	v_tipo_nodo = 'raiz';
+                else
+                	v_tipo_nodo = 'rama';
                 end if;
+                
+			end if;
                
-               --registra primera unidad
-               
-                --Sentencia de la insercion
-                insert into gem.tuni_cons(
+            --Registra primera unidad
+            insert into gem.tuni_cons(
                 estado_reg,
                 estado,
                 nombre,
@@ -163,8 +151,9 @@ BEGIN
                 herramientas_especiales,
                 otros_datos_tec,
                 funcion,
-                punto_recepcion_despacho
-                ) values(
+                punto_recepcion_despacho,
+                horas_dia
+			) values(
                 'activo',
                 v_estado,
                 upper(v_parametros.nombre),
@@ -180,44 +169,38 @@ BEGIN
                 v_parametros.herramientas_especiales,
                 v_parametros.otros_datos_tec,
                 v_parametros.funcion,
-                v_parametros.punto_recepcion_despacho
-                )RETURNING id_uni_cons into v_id_uni_cons;
+                v_parametros.punto_recepcion_despacho,
+                v_parametros.horas_dia
+			)RETURNING id_uni_cons into v_id_uni_cons;
                 
-                
+			-- si no es un nodo base registramo la relacion con el padre
                
+            if(v_tipo_nodo != 'base')then
+
+				insert into gem.tuni_cons_comp(
+                    estado_reg,
+                    opcional,
+                    id_uni_cons_padre,
+                    cantidad,
+                    id_uni_cons_hijo,
+                    id_usuario_reg,
+                    fecha_reg,
+                    id_usuario_mod,
+                    fecha_mod
+				) values(
+                	'activo',
+                    'no',
+                    v_id_uni_cons_padre,
+                    '1',
+                    v_id_uni_cons,
+                    p_id_usuario,
+                    now(),
+                    null,
+                    null
+				)RETURNING id_uni_cons_comp into v_id_uni_cons_comp;
                
-               -- si no es un nodo base registramo la relacion con el padre
+			end if;
                
-               if(v_tipo_nodo != 'base')then
-               
-                     insert into gem.tuni_cons_comp(
-                        estado_reg,
-                        opcional,
-                        id_uni_cons_padre,
-                        cantidad,
-                        id_uni_cons_hijo,
-                        id_usuario_reg,
-                        fecha_reg,
-                        id_usuario_mod,
-                        fecha_mod
-                        ) values(
-                        'activo',
-                        'no',
-                        v_id_uni_cons_padre,
-                        '1',
-                        v_id_uni_cons,
-                        p_id_usuario,
-                        now(),
-                        null,
-                        null
-                        )RETURNING id_uni_cons_comp into v_id_uni_cons_comp;
-               
-               
-               end if;
-               
-               
-               
-          
 			--Definicion de la respuesta
 			v_resp = pxp.f_agrega_clave(v_resp,'mensaje','Equipos almacenado(a) con exito (id_uni_cons'||v_id_uni_cons||')'); 
             v_resp = pxp.f_agrega_clave(v_resp,'id_uni_cons',v_id_uni_cons::varchar);
@@ -601,6 +584,9 @@ BEGIN
               v_resul ='';
               
              
+             --------------------
+             -- (1) VERIFICACION PARA GENERAR EL CALENDARIO
+             --------------------
              --si es el nodo es de tipo localizacion
              
              if v_parametros.tipo_nodo <> 'uni_cons' and v_parametros.tipo_nodo <> 'rama' THEN
@@ -653,6 +639,7 @@ BEGIN
                                      
                                      v_vector_uni_cons=  array_append(v_vector_uni_cons,g_registros2.id_uni_cons);
                    
+                   					--Función que verifica si el equipo y mantenimiento ya tienen generado un mantenimiento
                                      v_resul_par = gem.f_verifica_calendario_equipo (g_registros2.id_uni_cons,v_parametros.fecha_fin,p_id_usuario);
                        
                                      IF(v_resul_par!=''  )THEN
@@ -664,7 +651,6 @@ BEGIN
                                                                
                                      END IF;
                                      
-                        
                                      v_contador = v_contador + 1;
                           
                                  END IF;
@@ -698,7 +684,7 @@ BEGIN
                  
                      IF g_registros.incluir_calgen THEN
                      
-                     v_vector_uni_cons= array_append( v_vector_uni_cons,g_registros.id_uni_cons);
+                     	v_vector_uni_cons= array_append( v_vector_uni_cons,g_registros.id_uni_cons);
               
                          v_resul_par =  gem.f_verifica_calendario_equipo (g_registros.id_uni_cons,v_parametros.fecha_fin,p_id_usuario);
                         
@@ -739,49 +725,47 @@ BEGIN
              --armar un vector de uni_cons
                
             -- raise exception '%',v_resul; 
-                -- verificamos si existe elementos
-             IF  v_resul!='' THEN
-                --si existen sacamos un error detallado
-                   v_resp = pxp.f_agrega_clave(v_resp,'mensaje','La verificacion se realizado con exito, existen calendarios '||v_resul); 
-                   v_resp = pxp.f_agrega_clave(v_resp,'unidades',v_resul); 
-                   v_resp = pxp.f_agrega_clave(v_resp,'generado','false');
-                   v_resp = pxp.f_agrega_clave(v_resp,'contador',v_contador::varchar); 
-                   
             
-              ELSE
-                -- raise exception 'LLEGa  %',v_vector_uni_cons[1];
-              --si no hay calendarios los generamos
-              
-             
-             v_tamano = coalesce(array_length(v_vector_uni_cons, 1),0);
-             
+            ---------------------------
+            -- (2)GENERACIÓN DEL CALENDARIO
+            ---------------------------
+            
+            -- Verificamos si existen equipos con  mantenimientos planificados en estas fechas
+			IF  v_resul!='' THEN
 
-            
-             FOR v_i IN 1..v_tamano LOOP
+            	--Existen, por lo tanto se despliega el detalle de los equipos afectados
+                v_resp = pxp.f_agrega_clave(v_resp,'mensaje','La verificacion se realizado con exito, existen calendarios '||v_resul); 
+                v_resp = pxp.f_agrega_clave(v_resp,'unidades',v_resul); 
+                v_resp = pxp.f_agrega_clave(v_resp,'generado','false');
+                v_resp = pxp.f_agrega_clave(v_resp,'contador',v_contador::varchar); 
+           
+			ELSE
+            	--No existen, por lo tanto se genera el calendario
+               	v_tamano = coalesce(array_length(v_vector_uni_cons, 1),0);
               
-                   v_bool =  gem.f_genera_calendario_equipo (v_vector_uni_cons[v_i],v_parametros.fecha_fin,p_id_usuario);
-                       
-                                             
-                    IF NOT v_bool THEN
-                     raise exception 'error al generar calendario para %',g_registros.id_uni_cons;
+            	FOR v_i IN 1..v_tamano LOOP
+                  
+                	v_bool =  gem.f_genera_calendario_equipo (v_vector_uni_cons[v_i],v_parametros.fecha_fin,p_id_usuario);
+                                                 
+					IF NOT v_bool THEN
+                    	raise exception 'Error al generar calendario para %',g_registros.id_uni_cons;
                     END IF;  
-               
+                   
                 END LOOP;
-                
-                
-                -- 3) retonra exito
-             v_resp = pxp.f_agrega_clave(v_resp,'mensaje','Verificado y Generando el calendario para la localizaciones'); 
-             v_resp = pxp.f_agrega_clave(v_resp,'generado','true');
-             v_resp = pxp.f_agrega_clave(v_resp,'contador',v_contador::varchar); 
+                    
+                 -- 3) Retorna exito
+                 v_resp = pxp.f_agrega_clave(v_resp,'mensaje','Verificado y Generado el calendario para la localizaciones'); 
+                 v_resp = pxp.f_agrega_clave(v_resp,'generado','true');
+                 v_resp = pxp.f_agrega_clave(v_resp,'contador',v_contador::varchar); 
                 
             END IF;
-             
-             
-              
-             return v_resp;
+            
+            --------------------- 
+            -- (3)RESPUESTA
+            ---------------------
+			return v_resp;
      
-
-            END;
+		END;
 
 
 
@@ -799,7 +783,6 @@ BEGIN
               v_contador=0;
              
              --si es el nodo es de tipo localizacion
-             
              if v_parametros.tipo_nodo <> 'uni_cons' and v_parametros.tipo_nodo <> 'rama' THEN
              
                    -- 1)  busca recursivamente los equipos que correponden a la localizacion indicada
@@ -883,7 +866,7 @@ BEGIN
                  ) LOOP
                  
                      IF g_registros.incluir_calgen THEN
-              
+
                          v_bool =  gem.f_genera_calendario_equipo (g_registros.id_uni_cons,v_parametros.fecha_fin,p_id_usuario);
                         
                         IF NOT v_bool THEN
@@ -1085,6 +1068,39 @@ BEGIN
                
             --Definicion de la respuesta
             v_resp = pxp.f_agrega_clave(v_resp,'mensaje','Equipos eliminado(a)'); 
+            v_resp = pxp.f_agrega_clave(v_resp,'id_uni_cons',v_parametros.id_uni_cons::varchar);
+              
+            --Devuelve la respuesta
+            return v_resp;
+
+		end;
+		
+	/*********************************    
+ 	#TRANSACCION:  'GEM_EQGRAL_MOD'
+ 	#DESCRIPCION:	Eliminacion de registros
+ 	#AUTOR:			rcm	
+ 	#FECHA:			07/03/2013
+	***********************************/
+
+	elsif(p_transaccion='GEM_EQGRAL_MOD')then
+
+		begin
+			--Sentencia de la eliminacion
+			update gem.tuni_cons set
+			incluir_calgen = v_parametros.incluir_calgen,
+			otros_datos_tec = v_parametros.otros_datos_tec,
+			punto_recepcion_despacho = v_parametros.punto_recepcion_despacho,
+			herramientas_especiales = v_parametros.herramientas_especiales,
+			nombre = v_parametros.nombre,
+			funcion = v_parametros.funcion,
+			horas_dia = v_parametros.horas_dia,
+			tipo_unicons = v_parametros.tipo_unicons,
+			id_usuario_mod = p_id_usuario,
+			fecha_mod = now()
+			where id_uni_cons=v_parametros.id_uni_cons;
+               
+            --Definicion de la respuesta
+            v_resp = pxp.f_agrega_clave(v_resp,'mensaje','Equipo actualzado(a)'); 
             v_resp = pxp.f_agrega_clave(v_resp,'id_uni_cons',v_parametros.id_uni_cons::varchar);
               
             --Devuelve la respuesta

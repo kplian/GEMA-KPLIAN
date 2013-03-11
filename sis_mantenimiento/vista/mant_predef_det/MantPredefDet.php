@@ -171,10 +171,11 @@ Phx.vista.MantPredefDet=Ext.extend(Phx.gridInterfaz,{
 		Phx.vista.MantPredefDet.superclass.loadValoresIniciales.call(this);
 		this.getComponente('id_mant_predef').setValue(this.maestro.id_mant_predef);		
 	},
+	tam_pag:10,
 	onReloadPage:function(m){
 		this.maestro=m;						
 		this.store.baseParams={id_mant_predef:this.maestro.id_mant_predef};
-		this.load({params:{start:0, limit:50}});			
+		this.load({params:{start:0, limit:this.tam_pag}});			
 	},
 	fields: [
 		{name:'id_mant_predef_det', type: 'numeric'},

@@ -31,29 +31,6 @@ header("content-type: text/javascript; charset=UTF-8");
 			}, this);
 			//Inicializa baseParams
 			this.baseParams = {};
-
-			/*
-			this.createMenu({
-				name : 'hola',
-				text : 'HOLA',
-				handler : this.onBtnRCMAnalisis,
-				disabled : false
-			});
-			this.createMenu({
-				name : 'chau',
-				text : 'CHAU',
-				handler : this.onBtnRCMAnalisis,
-				tipo : 'menu',
-				disabled : false
-			});
-			this.createMenu({
-				name : 'chauuno',
-				text : 'CHAU UNO',
-				handler : this.onBtnRCMAnalisis,
-				tipo : 'menu',
-				disabled : false,
-				padre : 'chau'
-			});*/
 		},
 
 		onBeforeLoad: function(treeLoader, node) {
@@ -851,8 +828,8 @@ header("content-type: text/javascript; charset=UTF-8");
 				this.menuLoc.menu.items.get('btn-tarTPM-' + this.idContenedor).disable();
 				//CONSOLIDACION MEDICIONES
 				this.menuLoc.disable();
-				this.ctxMenu.items.get('mni-consolEqMed-' + this.idContenedor).disable();
-				this.menuLoc.menu.items.get('btn-consolEqMed-' + this.idContenedor).disable();
+				//this.ctxMenu.items.get('mni-consolEqMed-' + this.idContenedor).disable();
+				//this.menuLoc.menu.items.get('btn-consolEqMed-' + this.idContenedor).disable();
 				//SINCRONIZACION
 				this.menuLoc.disable();
 				this.ctxMenu.items.get('mni-usuSinc-' + this.idContenedor).disable();
@@ -1570,68 +1547,13 @@ header("content-type: text/javascript; charset=UTF-8");
 			}
 
 		},
-	
-		/*,
-		//Habilita o deshabilita las opciones de los botones y menú al mismo tiempo
-		enableOptions : function(pName, pAccion) {
-			console.log('btn-' + pName + '-' + this.idContenedor);
-			if (pAccion == 'enable') {
-				this.getBoton('btn-' + pName + '-' + this.idContenedor).enable();
-				this.tbar.items.get
-				this.menuOp.menu.items.get
-				this.ctxMenu.items.get('mni-' + pName + '-' + this.idContenedor).enable();
-			} else if (pAccion == 'disable') {
-				this.getBoton('btn-' + pName + '-' + this.idContenedor).disable();
-				this.ctxMenu.items.get('mni-' + pName + '-' + this.idContenedor).disable();
-			} else {
-				return;
-			}
-
-		}*/
-		/*,
-		createMenu : function(pMenu) {
-			if (pMenu.padre == undefined) {
-				//var ff=Ext.getCmp('sbt-'+pMenu.name+'-'+this.idContenedor).;
-				//var ff=this.tbar.items.get('sbt-'+pMenu.name+'-'+this.idContenedor);
-				var ff = this.getForm().getForm().findField('sbt-' + pMenu.name + '-' + this.idContenedor)
-				//ff.
-				console.log('fass', ff)
-
-			} else {
-
-				if (pMenu.tipo == 'menu') {
-					this.tbar.add({
-						id : 'sbt-' + pMenu.name + '-' + this.idContenedor,
-						xtype : 'tbsplit',
-						text : pMenu.text,
-						//handler: this.onMedicionesClick,
-						iconCls : 'bcalendar',
-						disabled : pMenu.disabled,
-						scope : this
-					})
-					this.ctxMenu.addMenuItem({
-						id : 'mni-' + pMenu.name + '-' + this.idContenedor,
-						text : pMenu.text
-					});
-				} else {
-					this.addButton('btn-' + pMenu.name + '-' + this.idContenedor, {
-						text : pMenu.text,
-						iconCls : 'bgear',
-						disabled : pMenu.disabled,
-						handler : pMenu.handler,
-						tooltip : 'HOLAS'
-					});
-					this.ctxMenu.addMenuItem({
-						id : 'mni-' + pMenu.name + '-' + this.idContenedor,
-						text : pMenu.text,
-						handler : pMenu.handler,
-						scope : this
-					});
-				}
-
-			}
-
-		}*/
+		south:{
+			  url:'../../../sis_mantenimiento/vista/uni_cons/UniConsGral.php',
+			  title:'Equipos', 
+			  height:'50%',	//altura de la ventana hijo
+			  //width:'50%',		//ancho de la ventana hjo
+			  cls:'UniConsGral'
+		}
 	})
 </script>
 

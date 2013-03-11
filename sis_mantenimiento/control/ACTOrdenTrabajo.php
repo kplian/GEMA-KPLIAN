@@ -15,8 +15,13 @@ class ACTOrdenTrabajo extends ACTbase{
 			
 	function listarOrdenTrabajo(){
 		$this->objParam->defecto('ordenacion','fecha_emision');
-
 		$this->objParam->addParametroConsulta('dir_ordenacion','desc');
+		
+		if($this->objParam->getParametro('id_uni_cons_p')!=''){
+			$this->objParam->addFiltro("geoott.id_uni_cons = ".$this->objParam->getParametro('id_uni_cons_p'));	
+		}
+		
+		
 		if($this->objParam->getParametro('tipoReporte')=='excel_grid' || $this->objParam->getParametro('tipoReporte')=='pdf_grid'){
 			$this->objReporte = new Reporte($this->objParam, $this);
 			$this->res = $this->objReporte->generarReporteListado('MODOrdenTrabajo','listarOrdenTrabajo');

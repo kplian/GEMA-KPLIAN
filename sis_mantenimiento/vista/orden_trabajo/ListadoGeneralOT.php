@@ -22,7 +22,11 @@ Phx.vista.ListadoGeneralOT = {
 		this.init();
 		this.readOnlyGroup(0, true);
 		this.readOnlyGroup(1, true);
-		this.load({params:{start:0, limit:50}});
+		if(this.id_uni_cons){
+			this.load({params:{start:0, limit:50, id_uni_cons_p:this.id_uni_cons}});
+		} else{
+			this.load({params:{start:0, limit:50}});	
+		}
 	}
 };
 </script>

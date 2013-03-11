@@ -1,5 +1,3 @@
---------------- SQL ---------------
-
 CREATE OR REPLACE FUNCTION gem.f_uni_cons_sel (
   p_administrador integer,
   p_id_usuario integer,
@@ -34,7 +32,7 @@ DECLARE
     v_join_te varchar;
     v_tipo varchar;
     v_filtro varchar;
-    
+    v_ids_loc			varchar;
 			    
 BEGIN
 
@@ -50,34 +48,26 @@ BEGIN
    
 	if(p_transaccion='GEM_TUC_SEL')then
      				
-    	begin
+	begin
         
-          if(v_parametros.id_padre = '%') then
-               v_condicion:='tuc.tipo_nodo=''base'' ';
-                v_join='LEFT';
-          else
-               v_condicion:='ucc.id_uni_cons_padre='||v_parametros.id_padre||' and tuc.tipo_nodo!=''base'' ';
-                v_join='INNER';
-          end if;
-               v_condicion:=v_condicion ||' and tuc.estado_reg=''activo''  and tuc.tipo='''||v_parametros.tipo||'''';
+    	if(v_parametros.id_padre = '%') then
+        	v_condicion:='tuc.tipo_nodo=''base'' ';
+            v_join='LEFT';
+		else
+        	v_condicion:='ucc.id_uni_cons_padre='||v_parametros.id_padre||' and tuc.tipo_nodo!=''base'' ';
+            v_join='INNER';
+		end if;
                
-        
-        if v_parametros.tipo_nodo = 'base'  and  v_parametros.tipo = 'uc' and  p_administrador != 1  THEN
-             v_filtro = p_id_usuario||' = ANY (tuc.id_usuarios) ';
-       else 
+        v_condicion:=v_condicion ||' and tuc.estado_reg=''activo''  and tuc.tipo='''||v_parametros.tipo||'''';
+               
+		if v_parametros.tipo_nodo = 'base'  and  v_parametros.tipo = 'uc' and  p_administrador != 1  then
+			v_filtro = p_id_usuario||' = ANY (tuc.id_usuarios) ';
+		else 
             v_filtro = '  0=0 ';
-    
-       end if;
+		end if;
         
-        
-        
-        
-        
-        
-        
-        
-    		--Sentencia de la consulta
-			v_consulta:='select
+    	--Sentencia de la consulta
+		v_consulta:='select
 						tuc.id_uni_cons,
 						tuc.estado_reg,
 						tuc.estado,
@@ -106,7 +96,8 @@ BEGIN
                         tuc.herramientas_especiales,
                         tuc.otros_datos_tec,
                         tuc.funcion,
-                        tuc.punto_recepcion_despacho
+                        tuc.punto_recepcion_despacho,
+                        tuc.horas_dia
 						from gem.tuni_cons tuc
                         '||v_join||' join gem.tuni_cons_comp ucc on ucc.id_uni_cons_hijo = tuc.id_uni_cons  and ucc.estado_reg=''activo'' 
 						inner join segu.tusuario usu1 on usu1.id_usuario = tuc.id_usuario_reg
@@ -115,7 +106,6 @@ BEGIN
 				        where  '||v_condicion|| '  and '||v_filtro;
 			
 			--Definicion de la respuesta
-		
 			v_consulta:=v_consulta||' order by tuc.id_uni_cons';
             
             raise notice '%', v_consulta;
@@ -165,12 +155,11 @@ BEGIN
 		
 	elsif(p_transaccion='GEM_TUCPLA_SEL')then
      				
-    	begin
-        v_tipo='uc';        
-        if pxp.f_existe_parametro(p_tabla,'tipo') then
-         v_tipo='tuc';        
-        end if;
-        
+		begin
+        	v_tipo='uc';        
+        	if pxp.f_existe_parametro(p_tabla,'tipo') then
+         		v_tipo='tuc';        
+        	end if;
         
     		--Sentencia de la consulta
 			v_consulta:='select
@@ -199,7 +188,7 @@ BEGIN
 			--Definicion de la respuesta
 			v_consulta:=v_consulta||v_parametros.filtro;
 			v_consulta:=v_consulta||' order by ' ||v_parametros.ordenacion|| ' ' || v_parametros.dir_ordenacion || ' limit ' || v_parametros.cantidad || ' offset ' || v_parametros.puntero;
-
+			raise notice '%',v_consulta;
 			--Devuelve la respuesta
 			return v_consulta;
 						
@@ -216,13 +205,11 @@ BEGIN
 	elsif(p_transaccion='GEM_TUCPLA_CONT')then
 
 		begin
-        
-       
-        v_tipo='uc';        
-        if pxp.f_existe_parametro(p_tabla,'tipo') then
-         v_tipo='tuc';        
-        end if;
-        
+
+	        v_tipo='uc';        
+	        if pxp.f_existe_parametro(p_tabla,'tipo') then
+				v_tipo='tuc';        
+	        end if;
         
 			--Sentencia de la consulta de conteo de registros
 			v_consulta:='select count(id_uni_cons)
@@ -233,7 +220,6 @@ BEGIN
 				        where tuc.tipo = '''||v_tipo||'''
 				        and tuc.estado_reg = ''activo'' and tuc.tipo_nodo = ''raiz'' and (tuc.estado=''aprobado'' or tuc.estado=''registrado'') and ';
 			 
-				      
            -- raise exception '%', v_consulta;
 			
 			--Definicion de la respuesta		    
@@ -510,16 +496,18 @@ BEGIN
         
     	/*********************************
         #TRANSACCION: 'GEM_EQGRAL_SEL'
-        #DESCRIPCION: obtiene los pares ordenados del detalle de una unidad constructiva
-        #AUTOR: aao
-        #FECHA: 12/11/2012
+        #DESCRIPCION: Listado plano de todos los equipos a partir de una localización padre
+        #AUTOR: rcm
+        #FECHA: 05/02/2013
         ***********************************/
 
         elsif(p_transaccion='GEM_EQGRAL_SEL')then
              
              begin
-             --Sentencia de la consulta
-                  v_consulta:='	select * from (
+--             raise exception '%,%',v_parametros.tipo_nodo,v_parametros.id_uni_cons;
+             	if v_parametros.tipo_nodo in ('uni_cons','uni_cons_f') then
+             		--equipo
+             		v_consulta:='	select * from (
                   				select
 								equipo.id_uni_cons,
 								equipo.id_tipo_equipo,
@@ -544,9 +532,54 @@ BEGIN
 								equipo.fecha_mod,
 								usu1.cuenta as usr_reg,
 								usu2.cuenta as usr_mod,
-								gem.f_get_localizacion_nombre_predecesores(equipo.id_localizacion) as localizaciones,
+								--gem.f_get_localizacion_nombre_predecesores(equipo.id_localizacion) as localizaciones,
 								teq.nombre as desc_tipo_equipo,
-								equipo.nombre as desc_plantilla
+								equipo.nombre as desc_plantilla,
+								equipo.horas_dia
+								from gem.tuni_cons equipo
+								inner join segu.tusuario usu1 on usu1.id_usuario = equipo.id_usuario_reg
+								left join segu.tusuario usu2 on usu2.id_usuario = equipo.id_usuario_mod
+								inner join gem.ttipo_equipo teq
+								on teq.id_tipo_equipo = equipo.id_tipo_equipo
+								inner join gem.tuni_cons plant
+								on plant.id_uni_cons = equipo.id_plantilla
+								where equipo.id_uni_cons = '||v_parametros.id_uni_cons||') eqgral
+								where ';
+								
+					v_consulta:=v_consulta||v_parametros.filtro;
+					v_consulta:=v_consulta||' order by ' ||v_parametros.ordenacion|| ' ' || v_parametros.dir_ordenacion || ' limit ' || v_parametros.cantidad || ' offset ' || v_parametros.puntero;
+		           
+             	elsif v_parametros.tipo_nodo in ('id') then
+             		--raiz
+             		v_consulta:='	select * from (
+                  				select
+								equipo.id_uni_cons,
+								equipo.id_tipo_equipo,
+								equipo.id_localizacion,
+								equipo.tipo_unicons,
+								equipo.id_plantilla,
+								equipo.codigo,
+								equipo.incluir_calgen,
+								equipo.otros_datos_tec,
+								equipo.estado_reg,
+								equipo.punto_recepcion_despacho,
+								equipo.tipo_nodo,
+								equipo.id_usuarios,
+								equipo.tipo,
+								equipo.herramientas_especiales,
+								equipo.estado,
+								equipo.nombre,
+								equipo.funcion,
+								equipo.id_usuario_reg,
+								equipo.fecha_reg,
+								equipo.id_usuario_mod,
+								equipo.fecha_mod,
+								usu1.cuenta as usr_reg,
+								usu2.cuenta as usr_mod,
+								--gem.f_get_localizacion_nombre_predecesores(equipo.id_localizacion) as localizaciones,
+								teq.nombre as desc_tipo_equipo,
+								equipo.nombre as desc_plantilla,
+								equipo.horas_dia
 								from gem.tuni_cons equipo
 								inner join segu.tusuario usu1 on usu1.id_usuario = equipo.id_usuario_reg
 								left join segu.tusuario usu2 on usu2.id_usuario = equipo.id_usuario_mod
@@ -559,8 +592,74 @@ BEGIN
 								and equipo.estado_reg = ''activo'') eqgral
 								where ';
 								
-			v_consulta:=v_consulta||v_parametros.filtro;
-
+					v_consulta:=v_consulta||v_parametros.filtro;
+					v_consulta:=v_consulta||' order by ' ||v_parametros.ordenacion|| ' ' || v_parametros.dir_ordenacion || ' limit ' || v_parametros.cantidad || ' offset ' || v_parametros.puntero;
+		           
+             	else
+             		--localizaciones
+             		--Obtiene todos los id_localizacion
+					WITH RECURSIVE t(id,id_fk,nombre,n) AS (
+							SELECT l.id_localizacion,l.id_localizacion_fk, l.nombre,1
+							FROM gem.tlocalizacion l 
+							WHERE l.id_localizacion = v_parametros.id_localizacion
+							UNION ALL
+							SELECT l.id_localizacion,l.id_localizacion_fk, l.nombre , n+1
+							FROM gem.tlocalizacion l, t
+							WHERE l.id_localizacion_fk = t.id
+						)
+					SELECT pxp.list(id::text)
+					into v_ids_loc
+					FROM t;
+					
+	             	--Sentencia de la consulta
+	                  v_consulta:='	select * from (
+                  				select
+								equipo.id_uni_cons,
+								equipo.id_tipo_equipo,
+								equipo.id_localizacion,
+								equipo.tipo_unicons,
+								equipo.id_plantilla,
+								equipo.codigo,
+								equipo.incluir_calgen,
+								equipo.otros_datos_tec,
+								equipo.estado_reg,
+								equipo.punto_recepcion_despacho,
+								equipo.tipo_nodo,
+								equipo.id_usuarios,
+								equipo.tipo,
+								equipo.herramientas_especiales,
+								equipo.estado,
+								equipo.nombre,
+								equipo.funcion,
+								equipo.id_usuario_reg,
+								equipo.fecha_reg,
+								equipo.id_usuario_mod,
+								equipo.fecha_mod,
+								usu1.cuenta as usr_reg,
+								usu2.cuenta as usr_mod,
+								--gem.f_get_localizacion_nombre_predecesores(equipo.id_localizacion) as localizaciones,
+								teq.nombre as desc_tipo_equipo,
+								equipo.nombre as desc_plantilla,
+								equipo.horas_dia
+								from gem.tuni_cons equipo
+								inner join segu.tusuario usu1 on usu1.id_usuario = equipo.id_usuario_reg
+								left join segu.tusuario usu2 on usu2.id_usuario = equipo.id_usuario_mod
+								inner join gem.ttipo_equipo teq
+								on teq.id_tipo_equipo = equipo.id_tipo_equipo
+								inner join gem.tuni_cons plant
+								on plant.id_uni_cons = equipo.id_plantilla
+								where equipo.tipo = ''uc''
+								and equipo.tipo_nodo = ''raiz''
+								and equipo.estado_reg = ''activo''
+								and equipo.id_localizacion in ('||v_ids_loc||')) eqgral
+								where ';
+								
+					v_consulta:=v_consulta||v_parametros.filtro;
+					v_consulta:=v_consulta||' order by ' ||v_parametros.ordenacion|| ' ' || v_parametros.dir_ordenacion || ' limit ' || v_parametros.cantidad || ' offset ' || v_parametros.puntero;
+		             		
+             	end if;
+             
+             	
             --Devuelve la respuesta
             return v_consulta;
         end;
@@ -575,47 +674,156 @@ BEGIN
         elsif(p_transaccion='GEM_EQGRAL_CONT')then
 
         begin
-            --Sentencia de la consulta de conteo de registros
-            v_consulta:='	select count(id_uni_cons)
-            				 from (
-                  				select
-								equipo.id_uni_cons,
-								equipo.id_tipo_equipo,
-								equipo.id_localizacion,
-								equipo.tipo_unicons,
-								equipo.id_plantilla,
-								equipo.codigo,
-								equipo.incluir_calgen,
-								equipo.otros_datos_tec,
-								equipo.estado_reg,
-								equipo.punto_recepcion_despacho,
-								equipo.tipo_nodo,
-								equipo.id_usuarios,
-								equipo.tipo,
-								equipo.herramientas_especiales,
-								equipo.estado,
-								equipo.nombre,
-								equipo.funcion,
-								equipo.id_usuario_reg,
-								equipo.fecha_reg,
-								equipo.id_usuario_mod,
-								equipo.fecha_mod,
-								usu1.cuenta as usr_reg,
-								usu2.cuenta as usr_mod,
-								gem.f_get_localizacion_nombre_predecesores(equipo.id_localizacion)
-								from gem.tuni_cons equipo
-								inner join segu.tusuario usu1 on usu1.id_usuario = equipo.id_usuario_reg
-								left join segu.tusuario usu2 on usu2.id_usuario = equipo.id_usuario_mod
-								inner join gem.ttipo_equipo teq
-								on teq.id_tipo_equipo = equipo.id_tipo_equipo
-								inner join gem.tuni_cons plant
-								on plant.id_uni_cons = equipo.id_plantilla
-								where equipo.tipo = ''uc''
-								and equipo.tipo_nodo = ''raiz''
-								and equipo.estado_reg = ''activo'') eqgral
-								where ';
-								
-			v_consulta:=v_consulta||v_parametros.filtro;
+        
+        	if v_parametros.tipo_nodo in ('uni_cons','uni_cons_f') then
+        		--unicons
+        		v_consulta:='	select count(id_uni_cons)
+	            				 from (
+	                  				select
+									equipo.id_uni_cons,
+									equipo.id_tipo_equipo,
+									equipo.id_localizacion,
+									equipo.tipo_unicons,
+									equipo.id_plantilla,
+									equipo.codigo,
+									equipo.incluir_calgen,
+									equipo.otros_datos_tec,
+									equipo.estado_reg,
+									equipo.punto_recepcion_despacho,
+									equipo.tipo_nodo,
+									equipo.id_usuarios,
+									equipo.tipo,
+									equipo.herramientas_especiales,
+									equipo.estado,
+									equipo.nombre,
+									equipo.funcion,
+									equipo.id_usuario_reg,
+									equipo.fecha_reg,
+									equipo.id_usuario_mod,
+									equipo.fecha_mod,
+									usu1.cuenta as usr_reg,
+									usu2.cuenta as usr_mod,
+									equipo.horas_dia
+	                                --,gem.f_get_localizacion_nombre_predecesores(equipo.id_localizacion)
+									from gem.tuni_cons equipo
+									inner join segu.tusuario usu1 on usu1.id_usuario = equipo.id_usuario_reg
+									left join segu.tusuario usu2 on usu2.id_usuario = equipo.id_usuario_mod
+									inner join gem.ttipo_equipo teq
+									on teq.id_tipo_equipo = equipo.id_tipo_equipo
+									inner join gem.tuni_cons plant
+									on plant.id_uni_cons = equipo.id_plantilla
+									where equipo.id_uni_cons = '|| v_parametros.id_uni_cons ||') eqgral
+									where ';
+										
+				v_consulta:=v_consulta||v_parametros.filtro;
+        	
+        	elsif v_parametros.tipo_nodo in ('id') then
+        		--Nodo raiz
+        		v_consulta:='	select count(id_uni_cons)
+	            				 from (
+	                  				select
+									equipo.id_uni_cons,
+									equipo.id_tipo_equipo,
+									equipo.id_localizacion,
+									equipo.tipo_unicons,
+									equipo.id_plantilla,
+									equipo.codigo,
+									equipo.incluir_calgen,
+									equipo.otros_datos_tec,
+									equipo.estado_reg,
+									equipo.punto_recepcion_despacho,
+									equipo.tipo_nodo,
+									equipo.id_usuarios,
+									equipo.tipo,
+									equipo.herramientas_especiales,
+									equipo.estado,
+									equipo.nombre,
+									equipo.funcion,
+									equipo.id_usuario_reg,
+									equipo.fecha_reg,
+									equipo.id_usuario_mod,
+									equipo.fecha_mod,
+									usu1.cuenta as usr_reg,
+									usu2.cuenta as usr_mod,
+									equipo.horas_dia
+	                                --,gem.f_get_localizacion_nombre_predecesores(equipo.id_localizacion)
+									from gem.tuni_cons equipo
+									inner join segu.tusuario usu1 on usu1.id_usuario = equipo.id_usuario_reg
+									left join segu.tusuario usu2 on usu2.id_usuario = equipo.id_usuario_mod
+									inner join gem.ttipo_equipo teq
+									on teq.id_tipo_equipo = equipo.id_tipo_equipo
+									inner join gem.tuni_cons plant
+									on plant.id_uni_cons = equipo.id_plantilla
+									where equipo.tipo = ''uc''
+									and equipo.tipo_nodo = ''raiz''
+									and equipo.estado_reg = ''activo'') eqgral
+									where ';
+										
+				v_consulta:=v_consulta||v_parametros.filtro;
+        	
+        	else
+        		--Localizacion
+        		--Obtiene todos los id_localizacion
+				WITH RECURSIVE t(id,id_fk,nombre,n) AS (
+						SELECT l.id_localizacion,l.id_localizacion_fk, l.nombre,1
+						FROM gem.tlocalizacion l 
+						WHERE l.id_localizacion = v_parametros.id_localizacion
+						UNION ALL
+						SELECT l.id_localizacion,l.id_localizacion_fk, l.nombre , n+1
+						FROM gem.tlocalizacion l, t
+						WHERE l.id_localizacion_fk = t.id
+					)
+				SELECT pxp.list(id::text)
+				into v_ids_loc
+				FROM t;
+						
+	            --Sentencia de la consulta de conteo de registros
+	            v_consulta:='	select count(id_uni_cons)
+	            				 from (
+	                  				select
+									equipo.id_uni_cons,
+									equipo.id_tipo_equipo,
+									equipo.id_localizacion,
+									equipo.tipo_unicons,
+									equipo.id_plantilla,
+									equipo.codigo,
+									equipo.incluir_calgen,
+									equipo.otros_datos_tec,
+									equipo.estado_reg,
+									equipo.punto_recepcion_despacho,
+									equipo.tipo_nodo,
+									equipo.id_usuarios,
+									equipo.tipo,
+									equipo.herramientas_especiales,
+									equipo.estado,
+									equipo.nombre,
+									equipo.funcion,
+									equipo.id_usuario_reg,
+									equipo.fecha_reg,
+									equipo.id_usuario_mod,
+									equipo.fecha_mod,
+									usu1.cuenta as usr_reg,
+									usu2.cuenta as usr_mod,
+									equipo.horas_dia
+	                                --,gem.f_get_localizacion_nombre_predecesores(equipo.id_localizacion)
+									from gem.tuni_cons equipo
+									inner join segu.tusuario usu1 on usu1.id_usuario = equipo.id_usuario_reg
+									left join segu.tusuario usu2 on usu2.id_usuario = equipo.id_usuario_mod
+									inner join gem.ttipo_equipo teq
+									on teq.id_tipo_equipo = equipo.id_tipo_equipo
+									inner join gem.tuni_cons plant
+									on plant.id_uni_cons = equipo.id_plantilla
+									where equipo.tipo = ''uc''
+									and equipo.tipo_nodo = ''raiz''
+									and equipo.estado_reg = ''activo''
+									and equipo.id_localizacion in ('||v_ids_loc||')) eqgral
+									where ';
+										
+				v_consulta:=v_consulta||v_parametros.filtro;
+        	
+        	end if;
+        
+        	
             --Devuelve la respuesta
             return v_consulta;
 

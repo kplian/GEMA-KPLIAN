@@ -24,10 +24,7 @@ class MODUniCons extends MODbase{
 		$this->setParametro('tipo','tipo','varchar');
 		
 		$this->setParametro('tipo_nodo','tipo_nodo','varchar');
-		
-		
-		
-		
+
 		//Definicion de la lista del resultado del query
 		$this->captura('id_uni_cons','int4');
 		$this->captura('estado_reg','varchar');
@@ -58,6 +55,7 @@ class MODUniCons extends MODbase{
 		$this->captura('otros_datos_tec','varchar');
 		$this->captura('funcion','varchar');
 		$this->captura('punto_recepcion_despacho','varchar');
+		$this->captura('horas_dia','int4');
 		
 		
 		//Ejecuta la instruccion
@@ -103,7 +101,7 @@ class MODUniCons extends MODbase{
 		$this->armarConsulta();
 		$this->ejecutarConsulta();
 		
-		//echo $this->consulta; 
+		//echo $this->consulta;exit; 
 		
 		//Devuelve la respuesta
 		return $this->respuesta;
@@ -266,6 +264,7 @@ class MODUniCons extends MODbase{
 				
 		//Ejecuta la instruccion
 		$this->armarConsulta();
+		echo $this->consulta;exit;
 		$this->ejecutarConsulta();
 
 		//Devuelve la respuesta
@@ -434,6 +433,11 @@ class MODUniCons extends MODbase{
 		$this->procedimiento='gem.f_uni_cons_sel';
 		$this->transaccion='GEM_EQGRAL_SEL';
 		$this->tipo_procedimiento='SEL';//tipo de transaccion
+		
+		//Envío de parámetros
+		$this->setParametro('id_localizacion','id_localizacion','int4');
+		$this->setParametro('tipo_nodo','tipo_nodo','varchar');
+		$this->setParametro('id_uni_cons','id_uni_cons','int4');
 				
 		//Definicion de la lista del resultado del query
 		$this->captura('id_uni_cons','int4');
@@ -459,12 +463,14 @@ class MODUniCons extends MODbase{
 		$this->captura('fecha_mod','timestamp');
 		$this->captura('usr_reg','varchar');
 		$this->captura('usr_mod','varchar');
-		$this->captura('localizaciones','varchar');
+		//$this->captura('localizaciones','varchar');
 		$this->captura('desc_tipo_equipo','varchar');
 		$this->captura('desc_plantilla','varchar');
+		$this->captura('horas_dia','integer');
 		
 		//Ejecuta la instruccion
 		$this->armarConsulta();
+		//echo $this->consulta;exit;
 		$this->ejecutarConsulta();
 		
 		//Devuelve la respuesta
@@ -495,6 +501,7 @@ class MODUniCons extends MODbase{
 		$this->setParametro('estado','estado','varchar');
 		$this->setParametro('nombre','nombre','varchar');
 		$this->setParametro('funcion','funcion','varchar');
+		$this->setParametro('horas_dia','horas_dia','int4');
 
 		//Ejecuta la instruccion
 		$this->armarConsulta();
@@ -520,6 +527,8 @@ class MODUniCons extends MODbase{
 		//Devuelve la respuesta
 		return $this->respuesta;
 	}
+	
+	
 	
 }
 ?>

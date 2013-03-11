@@ -34,7 +34,7 @@ Phx.vista.RegistrarOT = {
 		);
 		this.addButton('btnCheck',
 			{
-				text: 'Check',
+				text: 'Emitir',
 				iconCls: 'bok',
 				disabled: true,
 				handler: checkOT,
@@ -43,7 +43,7 @@ Phx.vista.RegistrarOT = {
 		);
 		this.addButton('btnUncheck',
 			{
-				text: 'Uncheck',
+				text: 'Corregir',
 				iconCls: 'bundo',
 				disabled: true,
 				handler: uncheckOT,
