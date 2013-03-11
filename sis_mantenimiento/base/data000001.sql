@@ -854,3 +854,9 @@ select pxp.f_add_catalog('GEM','tlocalizacion__cod_form','oit');
 select pxp.f_add_catalog('GEM','tlocalizacion__cod_form','sol_oit');
 select pxp.f_add_catalog('GEM','tlocalizacion__cod_form','oit, sol_oit');
 /***********************************F-DAT-RCM-GEM-123-18/02/2013****************************************/
+
+/***********************************I-DAT-RCM-GEM-120-07/03/2013****************************************/
+select pxp.f_add_catalog('GEM','tuni_cons__tipo_unicons','Estacion');
+select pxp.f_add_catalog('GEM','tuni_cons__tipo_unicons','Planta');
+select pxp.f_add_catalog('GEM','tuni_cons__tipo_unicons','Vehiculo');
+/***********************************F-DAT-RCM-GEM-120-07/03/2013****************************************/

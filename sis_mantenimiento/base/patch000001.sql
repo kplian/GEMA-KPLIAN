@@ -1214,3 +1214,23 @@ add column descripcion_causa varchar(1000);
 alter table gem.torden_trabajo
 add column prevension varchar(1000);
 /***********************************F-SCP-RCM-GEM-125-19/02/2013*****************************************/
+
+/***********************************I-SCP-RCM-GEM-120-05/03/2013*****************************************/
+alter table gem.tuni_cons
+add column horas_dia integer;
+
+alter table gem.tuni_cons
+drop constraint chk_tuni_cons__tipo_unicos;
+
+alter table gem.ttipo_variable
+add constraint chk_ttipo_variable__id_tipo_equipo__nombre unique (id_tipo_equipo,nombre);
+
+alter table gem.tequipo_medicion
+add constraint uq_tequipo_medicion__id_equipo_variable__fecha_medicion__hora
+unique(id_equipo_variable, fecha_medicion, hora);
+/***********************************F-SCP-RCM-GEM-120-05/03/2013*****************************************/
+
+/***********************************I-SCP-RCM-GEM-124-10/03/2013*****************************************/
+ALTER TABLE gem.trecurso
+  ADD COLUMN concepto VARCHAR(50);
+/***********************************F-SCP-RCM-GEM-124-10/03/2013*****************************************/

@@ -1,5 +1,3 @@
---------------- SQL ---------------
-
 CREATE OR REPLACE FUNCTION gem.f_calendario_planificado_ime (
   p_administrador integer,
   p_id_usuario integer,
@@ -38,6 +36,7 @@ DECLARE
     v_id_uni_cons_mant_predef integer;
     v_estado varchar;
     v_tipo varchar;
+    v_aux varchar;
 
 BEGIN
 
@@ -183,74 +182,13 @@ BEGIN
 
 		begin
         
-          --preguntas el por tl tipo y el estado del calendario planificado       
-        
-           --recupero la fecha anterio 
-                 select c.fecha_ini,c.id_uni_cons_mant_predef , c.estado, c.tipo
-                     into 
-                       v_fecha_ini,v_id_uni_cons_mant_predef, v_estado, v_tipo
-                from gem.tcalendario_planificado c
-                where id_calendario_planificado=v_parametros.id_calendario_planificado;      
-          
-           IF ( v_estado !=  'generado'  and v_tipo = 'planificado') THEN
-           
-             raise exception 'Solo puede cambiar las fechas que no tienen asignada una Orden de Trabajo';
-           
-           END IF;
-          
-                 
-            --verifica si desea modificar en cadena las fecha siguientes
+            --Llamada a función para actualizar el calendario
+            v_aux = gem.f_actualizar_calendario(p_id_usuario,v_parametros.id_calendario_planificado,v_parametros.fecha_ini,v_parametros.recursivo);
             
-            IF v_parametros.recursivo = 'true' THEN
-            
-               
-                
-                --definimos si sumamos o restamos
-                --calculo la diferencia en dias
-                  v_dif=   v_fecha_ini - v_parametros.fecha_ini::date; 
-                 
-                
-                
-                -- modifico en cadenas todos los mantenimiento siguientes en que esten en estado planificado
-                
-                	update gem.tcalendario_planificado set
-                    fecha_ini = fecha_ini -  CAST(v_dif::varchar||' days' as INTERVAL) ,
-                    id_usuario_mod = p_id_usuario,
-                    fecha_mod = now(),
-                    observaciones=observaciones||',fecha modificada en cadena'
-                    where id_uni_cons_mant_predef=v_id_uni_cons_mant_predef 
-                    and fecha_ini > v_fecha_ini and tipo='planificado';
-                    
-                    --modificamos la fecha pivote
-                    
-                    update gem.tcalendario_planificado set
-                    fecha_ini = v_parametros.fecha_ini,
-                    id_usuario_mod = p_id_usuario,
-                    fecha_mod = now()
-                    where id_calendario_planificado=v_parametros.id_calendario_planificado;
-            
-            
-            
-            
-            
-            ELSE
-            
-            
-            --en caso de que no queire modificar en cadena
-          
-			--Sentencia de la modificacion
-			update gem.tcalendario_planificado set
-			fecha_ini = v_parametros.fecha_ini,
-			id_usuario_mod = p_id_usuario,
-			fecha_mod = now()
-			where id_calendario_planificado=v_parametros.id_calendario_planificado;
-               
-			--Definicion de la respuesta
+            --Definicion de la respuesta
             v_resp = pxp.f_agrega_clave(v_resp,'mensaje','Calendario modificado desde vista de calendario(a)'); 
             v_resp = pxp.f_agrega_clave(v_resp,'id_calendario_planificado',v_parametros.id_calendario_planificado::varchar);
             
-            
-            END IF;   
             --Devuelve la respuesta
             return v_resp;
             
