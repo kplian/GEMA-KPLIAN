@@ -59,6 +59,8 @@ DECLARE
     v_servicio		numeric;
     v_total			numeric;
     v_aux numeric;
+    v_hotel numeric;
+    v_alimentacion numeric;
 
 
 BEGIN
@@ -147,7 +149,25 @@ BEGIN
             
             v_tot_func=v_hn+v_he1+v_he2;
             
-            v_total = v_repuestos + v_tot_func + v_servicio;
+            select 
+            coalesce(sum(rec.costo),0)
+            into v_hotel
+            from gem.trecurso rec
+            inner join gem.tactividad act
+            on act.id_actividad = rec.id_actividad
+            where act.id_orden_trabajo = v_parametros.id_orden_trabajo
+            and rec.concepto = 'hotel';
+            
+            select 
+            coalesce(sum(rec.costo),0)
+            into v_alimentacion
+            from gem.trecurso rec
+            inner join gem.tactividad act
+            on act.id_actividad = rec.id_actividad
+            where act.id_orden_trabajo = v_parametros.id_orden_trabajo
+            and rec.concepto = 'alimentacion';
+            
+            v_total = v_repuestos + v_tot_func + v_servicio + v_hotel + v_alimentacion;
             
             --Creación de tabla temporal para almacenamiento de los costos
             create temporary table tt_costo_oit(
@@ -159,6 +179,8 @@ BEGIN
             insert into tt_costo_oit(descripcion, costo) values('Repuestos',v_repuestos);
             insert into tt_costo_oit(descripcion, costo) values('Mano de Obra',v_tot_func);
             insert into tt_costo_oit(descripcion, costo) values('Servicios',v_servicio);
+            insert into tt_costo_oit(descripcion, costo) values('Hotel',v_hotel);
+            insert into tt_costo_oit(descripcion, costo) values('Alimentación',v_alimentacion);
             insert into tt_costo_oit(descripcion, costo) values('TOTAL',v_total);
             
             raise notice '%',v_parametros.id_orden_trabajo;

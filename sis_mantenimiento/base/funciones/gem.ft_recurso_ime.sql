@@ -25,6 +25,7 @@ DECLARE
 	v_mensaje_error         text;
 
 	v_id_recurso			integer;
+	v_recurso				varchar;
 			    
 BEGIN
 
@@ -41,6 +42,10 @@ BEGIN
 	if(p_transaccion='GEM_RECACTI_INS')then
 					
         begin
+        	v_recurso=null;
+        	if v_parametros.recurso in ('hotel','alimentacion') then
+        		v_recurso = v_parametros.recurso;
+        	end if;
         	--Sentencia de la insercion
         	insert into gem.trecurso(
             id_usuario_reg,
@@ -63,7 +68,8 @@ BEGIN
             hh_extras,
             hh_ext_mov,
             codigo,
-            existencias
+            existencias,
+            concepto
           	) values(
             p_id_usuario,
             null,
@@ -85,7 +91,8 @@ BEGIN
             v_parametros.hh_extras,
             v_parametros.hh_ext_mov,
             v_parametros.codigo,
-            v_parametros.existencias
+            v_parametros.existencias,
+            v_recurso
             )RETURNING id_recurso into v_id_recurso;
             
 			--Definicion de la respuesta
@@ -106,6 +113,11 @@ BEGIN
 	elsif(p_transaccion='GEM_RECACTI_MOD')then
 
 		begin
+			v_recurso=null;
+        	if v_parametros.recurso in ('hotel','alimentacion') then
+        		v_recurso = v_parametros.recurso;
+        	end if;
+        	
 			--Sentencia de la modificacion
 			update gem.trecurso set
               id_usuario_mod = p_id_usuario,
@@ -124,7 +136,8 @@ BEGIN
               hh_extras = v_parametros.hh_extras,
               hh_ext_mov = v_parametros.hh_ext_mov,
               codigo = v_parametros.codigo,
-              existencias = v_parametros.existencias
+              existencias = v_parametros.existencias,
+              concepto = v_recurso
             where id_recurso = v_parametros.id_recurso;
             
 			--Definicion de la respuesta

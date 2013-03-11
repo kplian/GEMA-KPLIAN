@@ -69,7 +69,8 @@ BEGIN
                     rec.hh_extras,
                     rec.hh_ext_mov,
                     rec.codigo,
-                    rec.existencias
+                    rec.existencias,
+                    rec.concepto
                     from gem.trecurso rec
                     inner join segu.tusuario usu1 on usu1.id_usuario = rec.id_usuario_reg
                     left join segu.tusuario usu2 on usu2.id_usuario = rec.id_usuario_mod

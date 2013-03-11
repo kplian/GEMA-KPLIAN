@@ -11,13 +11,133 @@ header("content-type: text/javascript; charset=UTF-8");
 ?>
 <script>
 Phx.vista.UniConsGral=Ext.extend(Phx.gridInterfaz,{
-
+	tam_pag:50,
 	constructor:function(config){
 		this.maestro=config.maestro;
+		//console.log(this.maestro);
     	//llama al constructor de la clase padre
 		Phx.vista.UniConsGral.superclass.constructor.call(this,config);
 		this.init();
-		this.load({params:{start:0, limit:50}})
+		
+		this.grid.getTopToolbar().disable();
+		this.grid.getBottomToolbar().disable();
+		
+		//para definir atributos del equipo	
+		this.addButton('btnAtrib', {
+				text : '',
+				iconCls : 'bchecklist',
+				disabled : false,
+				handler : this.onBtnAtribPlan,
+				tooltip : '<b>Variables de Medición</b><br/>Define las variables del equipo'
+		});
+		
+		this.addButton('btnUpload',{
+           text :'',
+           iconCls : 'bupload',
+           disabled : true,
+           handler : this.onButtonUpload,
+           tooltip : '<b>Archivos</b><br/>Archivos del Equipo'
+        });
+        
+        this.addButton('btnItems',{
+            text : '',
+            iconCls : 'bengine',
+            disabled : true,
+            handler : this.onButtonItems,
+            tooltip : '<b>Repuestos/Proveedores</b><br/>Registro de Repuestos y Proveedores del Equipo'
+        });
+        
+        this.addButton('btnDocTecnica', {
+				text : '',
+				iconCls : 'bdocuments',
+				disabled : false,
+				handler : this.onBtnDocTecnica,
+				tooltip : '<b>Documentación Técnica</b><br/>Define la documentación técnica.'
+		});
+		
+		this.addButton('btnOT', {
+				text : '',
+				iconCls : 'bdocuments',
+				disabled : false,
+				handler : this.onBtnOT,
+				tooltip : '<b>Histórico de OITs</b><br/>Despliegue de todos los mantenimientos del Equipo seleccionado.'
+		});
+		
+		//Aumenta campos para filtro por caracteristicas
+		var cmb_caract = new Ext.form.ComboBox({
+			name:'cmb_caract',
+			fieldLabel:'Características',
+			allowBlank:true,
+			emptyText:'Elija una característica...',
+			store: new Ext.data.JsonStore({
+  			url: '../../sis_mantenimiento/control/UniConsDet/listarCaract',
+				id: 'id_uni_cons_det',
+				root: 'datos',
+				sortInfo:{
+					field: 'nombre',
+					direction: 'ASC'
+				},
+				totalProperty: 'total',
+				fields: ['nombre'],
+				// turn on remote sorting
+				remoteSort: true,
+				baseParams:{par_filtro:'nombre'}
+			}),
+			valueField: 'nombre',
+			displayField: 'nombre',
+			forceSelection:true,
+			typeAhead: false,
+			triggerAction: 'all',
+			lazyRender:true,
+			mode:'remote',
+			pageSize:10,
+			queryDelay:1000,
+			minChars:2,
+			width:180,
+			listWidth:300
+		});
+		
+		var txt_caract = new Ext.form.TextField({
+			name: 'txt_caract',
+			fieldLabel: 'Valor',
+			allowBlank:true,
+			emptyText:'Defina el valor de la característica...',
+			width: 200
+		});
+		
+		//Agrega eventos a los componentes creados
+		cmb_caract.on('select',function (combo, record, index){
+			//Verifica que el campo de texto tenga algun valor
+			if(Ext.util.Format.trim(txt_caract.getValue())!=''){
+				this.store.baseParams.nombre_caract=cmb_caract.getValue();
+				this.store.baseParams.valor_caract=txt_caract.getValue();	
+				this.store.load({params:{start:0, limit:this.tam_pag}});	
+			} else{
+				this.store.baseParams.nombre_caract='';
+				this.store.baseParams.valor_caract='';
+				this.store.load({params:{start:0, limit:this.tam_pag}});
+			}
+		},this);
+		
+		cmb_caract.store.on('exception', this.conexionFailure);
+		
+		txt_caract.on('blur',function (combo, record, index){
+			//Verifica que el campo de texto tenga algun valor
+			if(Ext.util.Format.trim(cmb_caract.getValue())!=''){
+				this.store.baseParams.nombre_caract=cmb_caract.getValue();
+				this.store.baseParams.valor_caract=txt_caract.getValue();	
+				this.store.load({params:{start:0, limit:this.tam_pag}});
+			} else{
+				this.store.baseParams.nombre_caract='';
+				this.store.baseParams.valor_caract='';
+				this.store.load({params:{start:0, limit:this.tam_pag}});
+			}
+		},this);
+		
+		
+		//Agrega los botones a la barra de herramientas
+		this.tbar.add(cmb_caract);
+		this.tbar.add(txt_caract);
 	},
 			
 	Atributos:[
@@ -33,85 +153,20 @@ Phx.vista.UniConsGral=Ext.extend(Phx.gridInterfaz,{
 		},
 		{
 			config:{
-				name: 'id_tipo_equipo',
-				fieldLabel: 'Tipo Equipo',
-				anchor: '80%',
-				gwidth: 100,
-				maxLength:4
-			},
-			type:'Field',
-			filters:{pfiltro:'eqgral.desc_tipo_equipo',type:'string'},
-			id_grupo:1,
-			grid:true,
-			form:false
-		},
-		{
-			config:{
-				name: 'id_localizacion',
-				fieldLabel: 'Localizaciones',
-				allowBlank: true,
-				anchor: '80%',
-				gwidth: 100,
-				maxLength:4
-			},
-			type:'Field',
-			filters:{pfiltro:'eqgral.localizaciones',type:'string'},
-			id_grupo:1,
-			grid:true,
-			form:true
-		},
-		{
-			config:{
-				name: 'tipo_unicons',
-				fieldLabel: 'Tipo Equipo',
-				allowBlank: true,
-				anchor: '80%',
-				gwidth: 100,
-				maxLength:15
-			},
-			type:'TextField',
-			filters:{pfiltro:'eqgral.tipo_unicons',type:'string'},
-			id_grupo:1,
-			grid:true,
-			form:true
-		},
-		{
-			config:{
-				name: 'id_plantilla',
-				fieldLabel: 'Plantilla',
-				allowBlank: true,
-				anchor: '80%',
-				gwidth: 100,
-				maxLength:4
-			},
-			type:'NumberField',
-			filters:{pfiltro:'eqgral.desc_plantilla',type:'string'},
-			id_grupo:1,
-			grid:true,
-			form:true
-		},
-		{
-			config:{
-				name: 'codigo',
-				fieldLabel: 'Código',
-				allowBlank: true,
-				anchor: '80%',
-				gwidth: 100,
-				maxLength:150
-			},
-			type:'TextField',
-			filters:{pfiltro:'eqgral.codigo',type:'string'},
-			id_grupo:1,
-			grid:true,
-			form:true
-		},
-		{
-			config:{
 				name: 'incluir_calgen',
-				fieldLabel: 'Plan. Calen.',
+				fieldLabel: 'Incuido Plan.',
 				allowBlank: false,
 				anchor: '80%',
-				gwidth: 100
+				gwidth: 100,
+				renderer: function(value,p,record,otro, otro2){
+					var result;
+					if(value=='t'){
+						result = "<div style='text-align:center'><img src = '../../../lib/imagenes/otros/tuc.png' align='center' width='18' height='18' title='Borrador'/></div>";
+					} else{
+						result = "<div style='text-align:center'><img src = '../../../lib/imagenes/otros/tucred.png' align='center' width='18' height='18' title='Revisado'/></div>";
+					}
+					return result;
+				}
 			},
 			type:'Checkbox',
 			filters:{pfiltro:'eqgral.incluir_calgen',type:'boolean'},
@@ -121,18 +176,202 @@ Phx.vista.UniConsGral=Ext.extend(Phx.gridInterfaz,{
 		},
 		{
 			config:{
+				name: 'codigo',
+				fieldLabel: 'Código',
+				allowBlank: true,
+				anchor: '100%',
+				gwidth: 150,
+				maxLength:150,
+				disabled:true
+			},
+			type:'TextField',
+			filters:{pfiltro:'eqgral.codigo',type:'string'},
+			id_grupo:1,
+			grid:true,
+			form:true
+		},
+		{
+			config:{
+				name: 'nombre',
+				fieldLabel: 'Nombre Equipo',
+				allowBlank: true,
+				anchor: '100%',
+				gwidth: 250,
+				maxLength:200
+			},
+			type:'TextField',
+			filters:{pfiltro:'eqgral.nombre',type:'string'},
+			id_grupo:1,
+			grid:true,
+			form:true
+		},
+		{
+			config:{
+				name: 'id_tipo_equipo',
+				fieldLabel: 'Tipo Equipo',
+				anchor: '80%',
+				gwidth: 140,
+				maxLength:4,
+				renderer: function (value, p, record){
+					return String.format('{0}', record.data['desc_tipo_equipo']);
+				}
+			},
+			type:'Field',
+			filters:{pfiltro:'eqgral.desc_tipo_equipo',type:'string'},
+			id_grupo:1,
+			grid:true,
+			form:false
+		},
+		{
+			config:{
+				name:'horas_dia',
+				fieldLabel: 'Horas/Dia',
+				anchor:'50%',
+				gwidth:100
+			},
+			type:'NumberField',
+			filters:{pfiltro:'eqgral.horas_dia',type:'numeric'},
+			id_grupo:1,
+			grid:true,
+			form:true
+		},
+		{
+			config:{
+				name: 'funcion',
+				fieldLabel: 'Función',
+				allowBlank: true,
+				anchor: '100%',
+				gwidth: 100,
+				maxLength:200
+			},
+			type:'TextArea',
+			filters:{pfiltro:'eqgral.funcion',type:'string'},
+			id_grupo:1,
+			grid:true,
+			form:true
+		},
+		{
+			config:{
 				name: 'otros_datos_tec',
 				fieldLabel: 'Otros Datos Técnicos',
 				allowBlank: true,
-				anchor: '80%',
+				anchor: '100%',
 				gwidth: 100,
 				maxLength:1000
 			},
-			type:'TextField',
+			type:'TextArea',
 			filters:{pfiltro:'eqgral.otros_datos_tec',type:'string'},
 			id_grupo:1,
 			grid:true,
 			form:true
+		},
+		{
+			config:{
+				name: 'punto_recepcion_despacho',
+				fieldLabel: 'Punto Recepción/Despacho',
+				allowBlank: true,
+				anchor: '100%',
+				gwidth: 100,
+				maxLength:100
+			},
+			type:'TextArea',
+			filters:{pfiltro:'eqgral.punto_recepcion_despacho',type:'string'},
+			id_grupo:1,
+			grid:true,
+			form:true
+		},
+		{
+			config:{
+				name: 'herramientas_especiales',
+				fieldLabel: 'Herramientas Especiales',
+				allowBlank: true,
+				anchor: '100%',
+				gwidth: 100,
+				maxLength:1000
+			},
+			type:'TextArea',
+			filters:{pfiltro:'eqgral.herramientas_especiales',type:'string'},
+			id_grupo:1,
+			grid:true,
+			form:true
+		},
+		{
+			config:{
+				name: 'Usuarios permitidos',
+				fieldLabel: 'id_usuarios',
+				allowBlank: true,
+				anchor: '100%',
+				gwidth: 100,
+				maxLength:-5
+			},
+			type:'TextField',
+			filters:{pfiltro:'eqgral.id_usuarios',type:'string'},
+			id_grupo:1,
+			grid:true,
+			form:false
+		},
+		{
+			config:{
+					labelSeparator:'',
+					inputType:'hidden',
+					name: 'id_localizacion'
+			},
+			type:'Field',
+			form:true 
+		},
+		{
+			config: {
+				name: 'tipo_unicons',
+				fieldLabel: 'Tipo',
+				anchor: '100%',
+				tinit: false,
+				allowBlank: true,
+				origen: 'CATALOGO',
+				gdisplayField: 'descripcion',
+				gwidth: 200,
+				baseParams:{
+						cod_subsistema:'GEM',
+						catalogo_tipo:'tuni_cons__tipo_unicons'
+					}
+			},
+			type: 'ComboRec',
+			id_grupo: 0,
+			filters:{pfiltro:'eqgral.tipo_unicons',type:'string'},
+			grid: true,
+			form: true
+		},
+		{
+			config:{
+				name: 'estado',
+				fieldLabel: 'Estado',
+				allowBlank: true,
+				anchor: '80%',
+				gwidth: 100,
+				maxLength:20
+			},
+			type:'TextField',
+			filters:{pfiltro:'eqgral.estado',type:'string'},
+			id_grupo:1,
+			grid:true,
+			form:false
+		},
+		{
+			config:{
+				name: 'id_plantilla',
+				fieldLabel: 'Plantilla',
+				allowBlank: true,
+				anchor: '80%',
+				gwidth: 100,
+				maxLength:4,
+				renderer: function (value, p, record){
+					return String.format('{0}', record.data['desc_plantilla']);
+				}
+			},
+			type:'NumberField',
+			filters:{pfiltro:'eqgral.desc_plantilla',type:'string'},
+			id_grupo:1,
+			grid:true,
+			form:false
 		},
 		{
 			config:{
@@ -151,123 +390,21 @@ Phx.vista.UniConsGral=Ext.extend(Phx.gridInterfaz,{
 		},
 		{
 			config:{
-				name: 'punto_recepcion_despacho',
-				fieldLabel: 'Punto Recepción/Despacho',
-				allowBlank: true,
-				anchor: '80%',
-				gwidth: 100,
-				maxLength:100
+					labelSeparator:'',
+					inputType:'hidden',
+					name: 'tipo_nodo'
 			},
-			type:'TextField',
-			filters:{pfiltro:'eqgral.punto_recepcion_despacho',type:'string'},
-			id_grupo:1,
-			grid:true,
-			form:true
+			type:'Field',
+			form:true 
 		},
 		{
 			config:{
-				name: 'tipo_nodo',
-				fieldLabel: 'Tipo nodo',
-				allowBlank: true,
-				anchor: '80%',
-				gwidth: 100,
-				maxLength:20
+					labelSeparator:'',
+					inputType:'hidden',
+					name: 'tipo'
 			},
-			type:'TextField',
-			filters:{pfiltro:'eqgral.tipo_nodo',type:'string'},
-			id_grupo:1,
-			grid:true,
-			form:true
-		},
-		{
-			config:{
-				name: 'id_usuarios',
-				fieldLabel: 'id_usuarios',
-				allowBlank: true,
-				anchor: '80%',
-				gwidth: 100,
-				maxLength:-5
-			},
-			type:'TextField',
-			filters:{pfiltro:'eqgral.id_usuarios',type:'string'},
-			id_grupo:1,
-			grid:true,
-			form:false
-		},
-		{
-			config:{
-				name: 'tipo',
-				fieldLabel: 'tipo',
-				allowBlank: true,
-				anchor: '80%',
-				gwidth: 100,
-				maxLength:15
-			},
-			type:'TextField',
-			filters:{pfiltro:'eqgral.tipo',type:'string'},
-			id_grupo:1,
-			grid:true,
-			form:true
-		},
-		{
-			config:{
-				name: 'herramientas_especiales',
-				fieldLabel: 'Herramientas Especiales',
-				allowBlank: true,
-				anchor: '80%',
-				gwidth: 100,
-				maxLength:1000
-			},
-			type:'TextField',
-			filters:{pfiltro:'eqgral.herramientas_especiales',type:'string'},
-			id_grupo:1,
-			grid:true,
-			form:true
-		},
-		{
-			config:{
-				name: 'estado',
-				fieldLabel: 'Estado',
-				allowBlank: true,
-				anchor: '80%',
-				gwidth: 100,
-				maxLength:20
-			},
-			type:'TextField',
-			filters:{pfiltro:'eqgral.estado',type:'string'},
-			id_grupo:1,
-			grid:true,
-			form:true
-		},
-		{
-			config:{
-				name: 'nombre',
-				fieldLabel: 'Nombre Equipo',
-				allowBlank: true,
-				anchor: '80%',
-				gwidth: 100,
-				maxLength:200
-			},
-			type:'TextField',
-			filters:{pfiltro:'eqgral.nombre',type:'string'},
-			id_grupo:1,
-			grid:true,
-			form:true
-		},
-		{
-			config:{
-				name: 'funcion',
-				fieldLabel: 'Función',
-				allowBlank: true,
-				anchor: '80%',
-				gwidth: 100,
-				maxLength:200
-			},
-			type:'TextField',
-			filters:{pfiltro:'eqgral.funcion',type:'string'},
-			id_grupo:1,
-			grid:true,
-			form:true
+			type:'Field',
+			form:true 
 		},
 		{
 			config:{
@@ -291,8 +428,8 @@ Phx.vista.UniConsGral=Ext.extend(Phx.gridInterfaz,{
 				allowBlank: true,
 				anchor: '80%',
 				gwidth: 100,
-						format: 'd/m/Y', 
-						renderer:function (value,p,record){return value?value.dateFormat('d/m/Y H:i:s'):''}
+				format: 'd/m/Y', 
+				renderer:function (value,p,record){return value?value.dateFormat('d/m/Y H:i:s'):''}
 			},
 			type:'DateField',
 			filters:{pfiltro:'equipo.fecha_reg',type:'date'},
@@ -345,7 +482,7 @@ Phx.vista.UniConsGral=Ext.extend(Phx.gridInterfaz,{
 		{name:'tipo_unicons', type: 'string'},
 		{name:'id_plantilla', type: 'numeric'},
 		{name:'codigo', type: 'string'},
-		{name:'incluir_calgen', type: 'boolean'},
+		{name:'incluir_calgen', type: 'string'},
 		{name:'otros_datos_tec', type: 'string'},
 		{name:'estado_reg', type: 'string'},
 		{name:'punto_recepcion_despacho', type: 'string'},
@@ -365,16 +502,88 @@ Phx.vista.UniConsGral=Ext.extend(Phx.gridInterfaz,{
 		{name:'localizaciones', type: 'string'},
 		{name:'desc_tipo_equipo', type: 'string'},
 		{name:'desc_plantilla', type: 'string'},
+		{name:'horas_dia', type: 'numeric'}
 		
 	],
 	sortInfo:{
-		field: 'id_uni_cons',
+		field: 'codigo',
 		direction: 'ASC'
 	},
 	bdel:true,
-	bsave:true
-	}
-)
+	bsave:true,
+	bnew:false,
+	loadValoresIniciales: function() {
+		//console.log(this.maestro);
+		Phx.vista.UniConsGral.superclass.loadValoresIniciales.call(this);
+				alert('hola'+this.maestro)
+		this.getComponente('id_localizacion').setValue(this.maestro.id_localizacion);
+	},
+	onReloadPage: function(m) {
+		//console.log(this.maestro)
+		this.maestro=m;	
+		if(this.maestro.id!='id'){
+			var id_loc;
+			if(isNaN(this.maestro.id_localizacion)){
+				id_loc=0;
+			} else{
+				id_loc= this.maestro.id_localizacion
+			}
+			this.store.baseParams={id_localizacion:id_loc,tipo_nodo:this.maestro.tipo_nodo,id_uni_cons:this.maestro.id_uni_cons};
+		
+			this.load({params:{start:0, limit:this.tam_pag}});	
+		}
+		
+	},
+	onBtnAtribPlan:function(){
+		var rec=this.sm.getSelected();
+		Phx.CP.loadWindows('../../../sis_mantenimiento/vista/equipo_variable/EquipoVariable.php',
+			'Variables de Medición',
+			{
+				width:800,
+				height:400
+			},rec.data,this.idContenedor,'EquipoVariable')
+		
+		
+	},
+    onButtonUpload: function(){
+       var rec=this.sm.getSelected();
+       if(data){
+           Phx.CP.loadWindows('../../../sis_mantenimiento/vista/uni_cons_archivo/UniConsArchivo.php',
+                               'Archivos de Unidades Constructoras',
+                               {
+                                   modal:true,
+                                   width:900,
+                                   height:500
+                               },
+                               rec.data,this.idContenedor,'UniConsArchivo');
+           
+       }  
+    },
+    onButtonItems: function(){
+      var rec=this.sm.getSelected();
+      if(rec.data){
+          Phx.CP.loadWindows('../../../sis_mantenimiento/vista/uni_cons_item/UniConsItem.php',
+          'Registro de items por equipo',{
+              modal:true,
+              width:900,
+              height:400
+          },
+          rec.data,this.idContenedor,'UniConsItem');
+      }  
+    },
+    onBtnOT: function(){
+      var rec=this.sm.getSelected();
+      if(rec.data){
+          Phx.CP.loadWindows('../../../sis_mantenimiento/vista/orden_trabajo/ListadoGeneralOT.php',
+          'Histórico OITs',{
+              modal:true,
+              width:900,
+              height:400
+          },
+          rec.data,this.idContenedor,'ListadoGeneralOT');
+      }  
+    }
+})
 </script>
 		
 		
