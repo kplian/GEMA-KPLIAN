@@ -1,5 +1,3 @@
---------------- SQL ---------------
-
 CREATE OR REPLACE FUNCTION gem.f_uni_cons_det_sel (
   p_administrador integer,
   p_id_usuario integer,
@@ -94,6 +92,55 @@ BEGIN
                         inner join param.tunidad_medida um on  um.id_unidad_medida = ucdet.id_unidad_medida
 						left join segu.tusuario usu2 on usu2.id_usuario = ucdet.id_usuario_mod
 					    where ucdet.estado_reg = ''activo''  AND ucdet.id_uni_cons ='|| v_parametros.id_uni_cons||' AND  ';
+			
+			--Definicion de la respuesta		    
+			v_consulta:=v_consulta||v_parametros.filtro;
+
+			--Devuelve la respuesta
+			return v_consulta;
+
+		end;
+        
+	/*********************************    
+ 	#TRANSACCION:  'GM_LISCAR_SEL'
+ 	#DESCRIPCION:	Lista todas las características
+ 	#AUTOR:			rcm
+ 	#FECHA:			11/03/2013
+	***********************************/
+
+	elsif(p_transaccion='GM_LISCAR_SEL')then
+     				
+    	begin
+    		--Sentencia de la consulta
+			v_consulta:='select
+                        distinct upper(nombre)
+                        from gem.tuni_cons_det
+				        where ';
+			
+			--Definicion de la respuesta
+			v_consulta:=v_consulta||v_parametros.filtro;
+			v_consulta:=v_consulta||' order by 1 asc limit ' || v_parametros.cantidad || ' offset ' || v_parametros.puntero;
+
+			--Devuelve la respuesta
+			return v_consulta;
+						
+		end;
+
+	/*********************************    
+ 	#TRANSACCION:  'GM_LISCAR_CONT'
+ 	#DESCRIPCION:	Conteo de registros
+ 	#AUTOR:			rcm
+ 	#FECHA:			11/03/2013
+	***********************************/
+
+	elsif(p_transaccion='GM_LISCAR_CONT')then
+
+		begin
+			--Sentencia de la consulta de conteo de registros
+			v_consulta:='select
+                        count(distinct(upper(nombre)))
+                        from gem.tuni_cons_det
+				        where ';
 			
 			--Definicion de la respuesta		    
 			v_consulta:=v_consulta||v_parametros.filtro;
