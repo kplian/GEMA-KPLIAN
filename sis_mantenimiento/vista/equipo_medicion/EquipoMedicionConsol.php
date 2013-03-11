@@ -39,7 +39,16 @@ Phx.vista.EquipoMedicionConsol=Ext.extend(Phx.gridInterfaz,{
 		this.tbar.add('Desde: ',this.dteFechaIni);
 	    this.tbar.add('Hasta: ',this.dteFechaFin);
 	    
-		this.getComponente('id_localizacion').setValue(this.maestro.id_localizacion);
+	    console.log('FASSSSS',this.maestro);
+	    
+	    if(isNaN(this.maestro.id_localizacion)){
+	    	if(isNaN(this.maestro.id_uni_cons)){
+	    		
+	    	}
+	    } else{
+	    	this.getComponente('id_localizacion').setValue(this.maestro.id_localizacion);	
+	    }
+		
 		this.init();
 		
 		var milisegundos=parseInt(7*24*60*60*1000);
@@ -49,12 +58,22 @@ Phx.vista.EquipoMedicionConsol=Ext.extend(Phx.gridInterfaz,{
 		this.dteFechaIni.setValue(fechaini);
 		this.dteFechaFin.setValue(fechaActual);
 		
+		if(isNaN(this.maestro.id_localizacion)){
+	    	if(!isNaN(this.maestro.id_uni_cons)){
+	    		this.store.baseParams={
+					'id_uni_cons':this.maestro.id_uni_cons,
+					fecha_desde:this.dteFechaIni.getValue().dateFormat('d/m/Y'),
+					fecha_hasta:this.dteFechaFin.getValue().dateFormat('d/m/Y') 
+				};
+	    	}
+	    } else{
+	    	this.store.baseParams={
+				'id_localizacion':this.maestro.id_localizacion,
+				fecha_desde:this.dteFechaIni.getValue().dateFormat('d/m/Y'),
+				fecha_hasta:this.dteFechaFin.getValue().dateFormat('d/m/Y') 
+			};	
+	    }
 		
-		this.store.baseParams={
-			'id_localizacion':this.maestro.id_localizacion,
-			fecha_desde:this.dteFechaIni.getValue().dateFormat('d/m/Y'),
-			fecha_hasta:this.dteFechaFin.getValue().dateFormat('d/m/Y') 
-			};
 		
 		this.load({params:{start:0, limit:50}})
 	},
@@ -158,7 +177,9 @@ Phx.vista.EquipoMedicionConsol=Ext.extend(Phx.gridInterfaz,{
 	onButtonAct:function(){
 		if(this.dteFechaIni.isValid() && this.dteFechaFin.isValid())
 		{
-			this.store.baseParams=Ext.apply(this.store.baseParams,{fecha_desde:this.dteFechaIni.getValue().dateFormat('d/m/Y'),fecha_hasta:this.dteFechaFin.getValue().dateFormat('d/m/Y')   })
+			this.store.baseParams=Ext.apply(this.store.baseParams,{fecha_desde:this.dteFechaIni.getValue().dateFormat('d/m/Y'),
+																	fecha_hasta:this.dteFechaFin.getValue().dateFormat('d/m/Y')
+																});
 			
 			
 			if(this.store.lastOptions){

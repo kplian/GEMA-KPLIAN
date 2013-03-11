@@ -256,6 +256,7 @@ class MODEquipoMedicion extends MODbase{
 		//var_dump($this->objParam);
 		
 		$this->setParametro('id_localizacion','id_localizacion','int4');
+		$this->setParametro('id_uni_cons','id_uni_cons','int4');
 		$this->setParametro('fecha_desde','fecha_desde','date');
 		$this->setParametro('fecha_hasta','fecha_hasta','date');
 				
