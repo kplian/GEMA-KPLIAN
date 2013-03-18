@@ -1,5 +1,3 @@
---------------- SQL ---------------
-
 CREATE OR REPLACE FUNCTION gem.f_equipo_variable_sel (
   p_administrador integer,
   p_id_usuario integer,
@@ -29,6 +27,7 @@ DECLARE
 	v_parametros  		record;
 	v_nombre_funcion   	text;
 	v_resp				varchar;
+	v_ids				varchar;
 			    
 BEGIN
 
@@ -153,6 +152,86 @@ BEGIN
 					inner join gem.ttipo_variable getiva on getiva.id_tipo_variable = geeqva.id_tipo_variable
 					inner join param.tunidad_medida paunme on paunme.id_unidad_medida = getiva.id_unidad_medida
 					where ';
+			
+			--Definicion de la respuesta		    
+			v_consulta:=v_consulta||v_parametros.filtro;
+
+			--Devuelve la respuesta
+			return v_consulta;
+
+		end;
+		
+	/*********************************    
+ 	#TRANSACCION:  'GEM_VARLOC_SEL'
+ 	#DESCRIPCION:	Consulta de datos
+ 	#AUTOR:			rcm	
+ 	#FECHA:			14/03/2013
+	***********************************/
+
+	elsif(p_transaccion='GEM_VARLOC_SEL')then
+     				
+    	begin
+    		--Obtiene los ids de  las localizaciones hijos
+         	v_ids = gem.f_get_id_localizaciones(v_parametros.id_localizacion);
+         	
+    		--Sentencia de la consulta
+			v_consulta:='select distinct
+						tva.id_tipo_variable
+                        tva.nombre as nombre_tipo_variable,
+                        um.codigo as codigo_unidad_medida,
+                        um.id_unidad_medida,
+                        tva.id_tipo_variable as key,
+                        eqv.tipo
+						from gem.tequipo_variable eqv
+						inner join gem.ttipo_variable tva on tva.id_tipo_variable = eqv.id_tipo_variable
+                        inner join segu.tusuario usu1 on usu1.id_usuario = eqv.id_usuario_reg
+                        inner join param.tunidad_medida um on  um.id_unidad_medida = tva.id_unidad_medida
+						left join segu.tusuario usu2 on usu2.id_usuario = eqv.id_usuario_mod
+						inner join gem.tuni_cons ucons on ucons.id_uni_cons = eqv.id_uni_cons
+				        where eqv.estado_reg = ''activo''
+				        and ucons.estado_reg = ''activo''
+				        and ucons.tipo_nodo = ''raiz''
+				        and ucons.id_localizacion in ('|| v_ids||')
+				        and eqv.tipo = ''numeric''
+				        and ';
+			
+			--Definicion de la respuesta
+			v_consulta:=v_consulta||v_parametros.filtro;
+			v_consulta:=v_consulta||' order by ' ||v_parametros.ordenacion|| ' ' || v_parametros.dir_ordenacion || ' limit ' || v_parametros.cantidad || ' offset ' || v_parametros.puntero;
+
+			--Devuelve la respuesta
+			return v_consulta;
+						
+		end;
+
+	/*********************************    
+ 	#TRANSACCION:  'GEM_VARLOC_CONT'
+ 	#DESCRIPCION:	Conteo de registros
+ 	#AUTOR:			rcm
+ 	#FECHA:			14/03/2013
+	***********************************/
+
+	elsif(p_transaccion='GEM_VARLOC_CONT')then
+
+		begin
+        
+        	--Obtiene los ids de  las localizaciones hijos
+         	v_ids = gem.f_get_id_localizaciones(v_parametros.id_localizacion);
+            
+			--Sentencia de la consulta de conteo de registros
+			v_consulta:='select count(eqv.id_equipo_variable)
+					    from gem.tequipo_variable eqv
+					   	inner join gem.ttipo_variable tva on tva.id_tipo_variable = eqv.id_tipo_variable
+                        inner join segu.tusuario usu1 on usu1.id_usuario = eqv.id_usuario_reg
+                        inner join param.tunidad_medida um on  um.id_unidad_medida = tva.id_unidad_medida
+						left join segu.tusuario usu2 on usu2.id_usuario = eqv.id_usuario_mod
+						inner join gem.tuni_cons ucons on ucons.id_uni_cons = eqv.id_uni_cons
+				        where  eqv.estado_reg = ''activo''
+				        and ucons.estado_reg = ''activo''
+				        and ucons.tipo_nodo = ''raiz''
+				        and ucons.id_localizacion in ('|| v_ids||')
+				        and eqv.tipo = ''numeric''
+				        and ';
 			
 			--Definicion de la respuesta		    
 			v_consulta:=v_consulta||v_parametros.filtro;

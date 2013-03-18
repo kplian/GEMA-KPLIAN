@@ -115,6 +115,25 @@ class ACTEquipoMedicion extends ACTbase{
 		}
 		$this->res->imprimirRespuesta($this->res->generarJson());
 	}
+	
+	function listarLocalizacionEquipoMedicionDinamico(){
+		//$this->objParam->defecto('ordenacion','fecha');
+		//$this->objParam->defecto('dir_ordenacion','asc');
+		
+		if($this->objParam->getParametro('nombre_caract')!=null&&$this->objParam->getParametro('valor_caract')!=null){
+			$aux="ucons.id_uni_cons in (select id_uni_cons from gem.tuni_cons_det ucdet where upper(ucdet.nombre) = ''".$this->objParam->getParametro('nombre_caract')."'' and ucdet.valor ilike ''%".$this->objParam->getParametro('valor_caract')."%'')";
+			$this->objParam->addFiltro($aux);
+		}
+		
+		if($this->objParam->getParametro('tipoReporte')=='excel_grid' || $this->objParam->getParametro('tipoReporte')=='pdf_grid'){
+			$this->objReporte = new Reporte($this->objParam, $this);
+			$this->res = $this->objReporte->generarReporteListado('MODEquipoMedicion','listarLocalizacionEquipoMedicionDinamico');
+		} else{
+			$this->objFunc=$this->create('MODEquipoMedicion');	
+			$this->res=$this->objFunc->listarLocalizacionEquipoMedicionDinamico();
+		}
+		$this->res->imprimirRespuesta($this->res->generarJson());
+	}
 			
 }
 

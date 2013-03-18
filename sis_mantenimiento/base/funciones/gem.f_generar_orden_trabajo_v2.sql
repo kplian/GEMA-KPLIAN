@@ -154,8 +154,9 @@ BEGIN
              --  *periodicidad y unidad de medida          <- tuni_cons_mant_predef
          
          
-           select      un.id_uni_cons,un.codigo,        un.nombre,         un.tipo_unicons
-                  into v_uni_cons,    v_codigo_uni_cons,v_nombre_uni_cons, v_tipo_planta_estacio   
+           select
+           un.id_uni_cons,un.codigo,        un.nombre,         un.tipo_unicons, un.id_localizacion
+           into v_uni_cons,    v_codigo_uni_cons,v_nombre_uni_cons, v_tipo_planta_estacio   , v_id_localizacion
            from gem.tuni_cons un 
            where un.id_uni_cons = v_id_uni_cons;
          
@@ -251,7 +252,9 @@ BEGIN
                                 fecha_plan_ini,
                               --  fecha_plan_fin,
                               --  periodicidad,
-                                cat_estado
+                                cat_estado,
+                                id_localizacion,
+                                fecha_emision
                               ) 
                               VALUES (
                                 p_id_usuario,
@@ -263,7 +266,9 @@ BEGIN
                              --   g_registros.fecha_ini,
                                 v_fecha_fin,
                                -- v_periodicidad,
-                                'generado'
+                                'generado',
+                                v_id_localizacion,
+                                now()::date
                                
                               )RETURNING id_orden_trabajo   into v_id_orden_trabajo;
                             

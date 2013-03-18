@@ -35,6 +35,8 @@ DECLARE
     v_fecha					date;
     v_nro					varchar;
     v_num_oit				varchar;
+    v_rec_ot				record;
+    v_observaciones			varchar;
 			    
 BEGIN
 
@@ -246,7 +248,35 @@ BEGIN
             	v_mensaje_estado = v_parametros.mensaje_estado;
             end if;
             
+            --Obtención de datos de la orden de trabajo para validación previa al pasar de estado
+            select
+            *
+            into v_rec_ot
+            from gem.torden_trabajo
+            where id_orden_trabajo = v_parametros.id_orden_trabajo;
+            
+            v_observaciones = '';
 			if v_parametros.cat_estado = 'Pendiente' then
+				--Verificación de datos completados
+				 if v_rec_ot.id_tipo_mant is null then
+				 	raise exception 'No es posible continuar porque no se ha definido el Tipo de Mantenimiento. Presione el botón Editar y complete los datos faltantes';
+				 end if;
+				 if v_rec_ot.cat_prior is null then
+				 	raise exception 'No es posible continuar porque no se ha definido la Prioridad. Presione el botón Editar y complete los datos faltantes';
+				 end if;
+				 if v_rec_ot.descripcion_lugar is null then
+				 	raise exception 'No es posible continuar porque no se ha definido el Sector. Presione el botón Editar y complete los datos faltantes';
+				 end if;
+				 if v_rec_ot.id_centro_costo is null then
+				 	raise exception 'No es posible continuar porque no se ha definido la Cuenta. Presione el botón Editar y complete los datos faltantes';
+				 end if;
+				 if v_rec_ot.id_funcionario_sol is null then
+				 	raise exception 'No es posible continuar porque no se ha definido al Solicitante. Presione el botón Editar y complete los datos faltantes';
+				 end if;
+				 if v_rec_ot.id_funcionario_asig is null then
+				 	raise exception 'No es posible continuar porque no se ha definido al funcionario Asignado. Presione el botón Editar y complete los datos faltantes';
+				 end if;
+			
 				select id_uni_cons, fecha_emision, num_oit
 				into v_id_uni_cons, v_fecha, v_num_oit
 				from gem.torden_trabajo

@@ -582,7 +582,13 @@ Phx.vista.UniConsGral=Ext.extend(Phx.gridInterfaz,{
           },
           rec.data,this.idContenedor,'ListadoGeneralOT');
       }  
-    }
+    },
+    east:{
+		  url:'../../../sis_mantenimiento/vista/uni_cons_det/UniConsDet.php',
+		  title:'Atributos del Equipo', 
+		  width:400,
+		  cls:'UniConsDet'
+		 }
 })
 </script>
 		

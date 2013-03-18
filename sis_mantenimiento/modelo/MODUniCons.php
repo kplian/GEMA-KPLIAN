@@ -95,6 +95,8 @@ class MODUniCons extends MODbase{
 		$this->captura('usr_reg','varchar');
 		$this->captura('usr_mod','varchar');
 		$this->captura('nombre_tipo_equipo','varchar');
+		$this->captura('padres_loc','varchar');
+		$this->captura('desc_localizacion','text');
 		
 		
 		//Ejecuta la instruccion

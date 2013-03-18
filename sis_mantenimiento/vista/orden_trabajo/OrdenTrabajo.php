@@ -23,12 +23,12 @@ Phx.vista.OrdenTrabajo=Ext.extend(Phx.gridInterfaz,{
          	this.getComponente('especialidades').setValue(this.getComponente('especialidades').getValue() + e.getRawValue());
         },
         this);
-        this.getComponente('id_localizacion').on('select', function(e, data, index) {
-        	this.getComponente('id_uni_cons').enable();
-        	this.getComponente('id_uni_cons').reset();
-        	this.getComponente('id_uni_cons').lastQuery = null;
-        	this.getComponente('id_uni_cons').store.baseParams.id_localizacion=data.id;
+
+       this.getComponente('id_uni_cons').on('select', function(e, data, index) {
+        	this.getComponente('id_localizacion').setValue(data.data.id_localizacion);
+        	this.getComponente('id_localizacion').setRawValue(data.data.desc_localizacion);
         },this);
+       
         this.crearMensajeEstadoForm();
 		
 		this.addButton('btnActividad',
@@ -243,11 +243,54 @@ Phx.vista.OrdenTrabajo=Ext.extend(Phx.gridInterfaz,{
 			grid:true,
 			form:false
 		},
+		{
+			config:{
+				name: 'id_uni_cons',
+				fieldLabel: 'Equipo',
+				allowBlank: false,
+				emptyText:'Elija un equipo...',
+				store:new Ext.data.JsonStore(
+				{
+					url: '../../sis_mantenimiento/control/UniCons/listarUniConsPlano',
+					id: 'id_uni_cons',
+					root:'datos',
+					sortInfo:{
+						field:'nombre',
+						direction:'ASC'
+					},
+					totalProperty:'total',
+					fields: ['id_uni_cons','codigo','nombre','nombre_tipo_equipo','padres_loc', 'id_localizacion','desc_localizacion'],
+					remoteSort: true,
+					baseParams:{par_filtro:'tuc.nombre#tuc.codigo#eq.nombre'}
+				}),
+				tpl:'<tpl for="."><div class="x-combo-list-item"><p>Nombre: {nombre}</p><p>Código: {codigo}</p><p>Tipo Equipo: {nombre_tipo_equipo}</p><p>Localización: {padres_loc}</p></div></tpl>',
+				valueField: 'id_uni_cons',
+				hiddenValue: 'id_uni_cons',
+				displayField: 'codigo',
+				gdisplayField:'equipo',
+				forceSelection:true,
+				typeAhead: false,
+    			triggerAction: 'all',
+    			lazyRender:true,
+				mode:'remote',
+				pageSize:20,
+				queryDelay:500,
+				anchor: '100%',
+				gwidth: 350,
+				minChars:2,
+				renderer:function (value, p, record){return String.format('{0}', record.data['equipo']);}
+			},
+			type:'ComboBox',
+			filters:{pfiltro:'unicons.nombre#unicons.codigo',type:'string'},
+			id_grupo:0,
+			grid:true,
+			form:true
+		},
 		{			
 			config:{
 				name: 'id_localizacion',
 				fieldLabel: 'Localización',
-				allowBlank: false,
+				allowBlank: true,
 				emptyText:'Solicitante Sector...',
 				store:new Ext.data.JsonStore(
 				{
@@ -279,7 +322,9 @@ Phx.vista.OrdenTrabajo=Ext.extend(Phx.gridInterfaz,{
 				anchor: '100%',
 				gwidth:220,
 				minChars:2,
-				renderer:function (value, p, record){return String.format('{0}', record.data['nombre_localizacion']);}
+				renderer:function (value, p, record){return String.format('{0}', record.data['nombre_localizacion']);},
+				autoSelect:true,
+				disabled:true
 			},
 			type:'ComboBox',
 			filters:{pfiltro:'local.nombre',type:'string'},
@@ -362,49 +407,6 @@ Phx.vista.OrdenTrabajo=Ext.extend(Phx.gridInterfaz,{
 			},
 			type:'ComboBox',
 			filters:{pfiltro:'cencost.codigo',type:'string'},
-			id_grupo:0,
-			grid:true,
-			form:true
-		},
-		{
-			config:{
-				name: 'id_uni_cons',
-				fieldLabel: 'Equipo',
-				allowBlank: false,
-				emptyText:'Elija un equipo...',
-				store:new Ext.data.JsonStore(
-				{
-					url: '../../sis_mantenimiento/control/UniCons/listarUniConsPlano',
-					id: 'id_uni_cons',
-					root:'datos',
-					sortInfo:{
-						field:'nombre',
-						direction:'ASC'
-					},
-					totalProperty:'total',
-					fields: ['id_uni_cons','codigo','nombre'],
-					remoteSort: true,
-					baseParams:{par_filtro:'tuc.nombre#tuc.codigo'}
-				}),
-				tpl:'<tpl for="."><div class="x-combo-list-item"><p>Nombre: {nombre}</p><p>Código: {codigo}</p></div></tpl>',
-				valueField: 'id_uni_cons',
-				hiddenValue: 'id_uni_cons',
-				displayField: 'codigo',
-				gdisplayField:'equipo',
-				forceSelection:true,
-				typeAhead: false,
-    			triggerAction: 'all',
-    			lazyRender:true,
-				mode:'remote',
-				pageSize:20,
-				queryDelay:500,
-				anchor: '100%',
-				gwidth: 250,
-				minChars:2,
-				renderer:function (value, p, record){return String.format('{0}', record.data['equipo']);}
-			},
-			type:'ComboBox',
-			filters:{pfiltro:'unicons.nombre',type:'string'},
 			id_grupo:0,
 			grid:true,
 			form:true
@@ -522,7 +524,7 @@ Phx.vista.OrdenTrabajo=Ext.extend(Phx.gridInterfaz,{
 	       		    name:'id_funcionario_sol',
 	   				origen:'FUNCIONARIO',
 	   				tinit:true,
-	   				fieldLabel:'Solicitante',
+	   				fieldLabel: 'Solicitante',
 	   				gdisplayField:'desc_person',
 	   			    gwidth: 120,
 	   			    anchor: '100%',
@@ -1126,11 +1128,11 @@ Phx.vista.OrdenTrabajo=Ext.extend(Phx.gridInterfaz,{
 		},
 	onButtonNew: function() {
 		Phx.vista.OrdenTrabajo.superclass.onButtonNew.call(this);
-		this.getComponente('id_uni_cons').disable();
+		//this.getComponente('id_uni_cons').disable();
 	},
 	onButtonEdit: function() {
 		Phx.vista.OrdenTrabajo.superclass.onButtonEdit.call(this);
-		this.getComponente('id_uni_cons').enable();
+		//this.getComponente('id_uni_cons').enable();
 	}
 })
 </script>

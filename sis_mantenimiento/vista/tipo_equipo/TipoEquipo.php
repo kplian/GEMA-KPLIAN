@@ -51,7 +51,7 @@ Phx.vista.TipoEquipo=Ext.extend(Phx.gridInterfaz,{
 				fieldLabel: 'Nombre',
 				allowBlank: false,
 				width: '100%',
-				gwidth: 100,
+				gwidth: 250,
 				maxLength:200
 			},
 			type:'TextField',

@@ -105,7 +105,7 @@ Phx.vista.RegistrarOT = {
 		var tb = Phx.vista.RegistrarOT.superclass.preparaMenu.call(this);
 		var data = this.getSelectedData();
 		this.getBoton('btnCancelarOT').setDisabled(false);
-	  	if(data.cat_estado == 'Borrador') {
+	  	if(data.cat_estado == 'Borrador'||data.cat_estado=='generado'||data.cat_estado=='Generado') {
 	  		this.getBoton('btnCheck').setDisabled(false);
 	  		this.getBoton('btnUncheck').setDisabled(true);
 	  		this.getBoton('del').setDisabled(false);

@@ -144,6 +144,31 @@ class MODEquipoVariable extends MODbase{
 		//Devuelve la respuesta
 		return $this->respuesta;
 	}
+	
+	function listarColumnasEquipoVariableLoc(){
+		//Definicion de variables para ejecucion del procedimientp
+		$this->procedimiento='gem.f_equipo_variable_sel';
+		$this->transaccion='GEM_VARLOC_SEL';
+		$this->tipo_procedimiento='SEL';//tipo de transaccion
+		//var_dump($this->objParam);exit;
+		$this->setParametro('id_localizacion','id_localizacion','integer');
+				
+		//Definicion de la lista del resultado del query
+		$this->captura('id_tipo_variable','int4');
+		$this->captura('nombre_tipo_variable','varchar');
+		$this->captura('codigo_unidad_medida','varchar');
+		$this->captura('id_unidad_medida','int4');
+		$this->captura('key','int4');
+		$this->captura('tipo','varchar');
+		
+		
+		//Ejecuta la instruccion
+		$this->armarConsulta();
+		$this->ejecutarConsulta();
+		
+		//Devuelve la respuesta
+		return $this->respuesta;
+	}
 			
 }
 ?>

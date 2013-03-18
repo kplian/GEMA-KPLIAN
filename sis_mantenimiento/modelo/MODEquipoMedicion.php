@@ -61,24 +61,17 @@ class MODEquipoMedicion extends MODbase{
         
 		$datos = $this->objParam->getParametro('datos');
 		
-		//$this->setParametro('datos','datos','varchar');	
+		//$this->setParametro('datos','datos','varchar');
 		$this->setParametro('id_uni_cons','id_uni_cons','integer');	
 		$this->setParametro('fecha_ini','fecha_ini','date');	
 		$this->setParametro('fecha_fin','fecha_fin','date');	
 		
-		
 		$parametros= explode('@',$datos);
-		
 		$tamaño = sizeof($parametros);
 		
 		for($i=0;$i<$tamaño;$i++){
-				
-			
-			
 			$parametros_tipo=explode('#',$parametros[$i]);
-			
 			$this->captura($parametros_tipo[0],$parametros_tipo[1]);
-			
 		}
 		//Definicion de la lista del resultado del query
 		
@@ -270,6 +263,46 @@ class MODEquipoMedicion extends MODbase{
 		$this->armarConsulta();
 		$this->ejecutarConsulta();
 		//echo $this->consulta;exit;
+		
+		//Devuelve la respuesta
+		return $this->respuesta;
+	}
+	
+	function listarLocalizacionEquipoMedicionDinamico(){
+		//Definicion de variables para ejecucion del procedimientp
+		$this->procedimiento='gem.ft_equipo_medicion_sel';
+		$this->transaccion='GEM_EQMECO_SEL';
+		$this->tipo_procedimiento='SEL';//tipo de transaccion
+		//$this->objParam->defecto('ordenacion','id_tipo_sensor_columna');
+        //$this->objParam->defecto('dir_ordenacion','asc');
+        //$this->count=false;
+        
+		$datos = $this->objParam->getParametro('datos');
+		
+		//$this->setParametro('datos','datos','varchar');
+		$this->setParametro('id_localizacion','id_localizacion','integer');	
+		$this->setParametro('id_uni_cons','id_uni_cons','integer');	
+		$this->setParametro('fecha_ini','fecha_ini','date');	
+		$this->setParametro('fecha_fin','fecha_fin','date');	
+		
+		$parametros= explode('@',$datos);
+		$tamaño = sizeof($parametros);
+		
+		//var_dump($parametros);exit;
+		
+		for($i=0;$i<$tamaño;$i++){
+			$parametros_tipo=explode('#',$parametros[$i]);
+			$this->captura($parametros_tipo[0],$parametros_tipo[1]);
+		}
+		//Definicion de la lista del resultado del query
+		
+		
+		//Ejecuta la instruccion
+		$this->armarConsulta();
+		//echo $this->consulta;exit;
+		$this->ejecutarConsulta();
+		
+		
 		
 		//Devuelve la respuesta
 		return $this->respuesta;

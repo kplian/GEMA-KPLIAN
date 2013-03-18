@@ -39,11 +39,21 @@ DECLARE
     v_kilometraje numeric;
     v_combustible numeric;
     v_rend numeric;
+    v_aux text;
+    v_columnas varchar;
+    v_col_rend varchar;
+    v_col_kil varchar;
+    v_col_comb varchar;
+    v_aux1 varchar;
 
 BEGIN
 
-v_nombre_funcion = 'gem.ft_equipo_medicion_sel';
+    v_nombre_funcion = 'gem.ft_equipo_medicion_sel';
     v_parametros = pxp.f_get_record(p_tabla);
+    v_columnas = '';
+    v_col_rend = '';
+    v_col_kil = '';
+    v_col_comb = '';
 
 /*********************************
 #TRANSACCION: 'GEM_GEMEDI_SEL'
@@ -491,6 +501,197 @@ begin
 			return v_consulta;
 
 		end;
+        
+    /*********************************
+    #TRANSACCION: 'GEM_EQMECO_SEL'
+    #DESCRIPCION: coonsulta dinamica a las mediciones del equipo indicado
+    #AUTOR: rcm
+    #FECHA: 11/03/2013
+    ***********************************/
+
+    elseif(p_transaccion='GEM_EQMECO_SEL' or p_transaccion = 'GEM_EQMECO_CONT')then
+
+        begin
+        
+          -------------------------------------------------------
+          -- (1) CREACION DE LA TABLA TEMPORAL CON COLUMNAS DINAMICAS
+          -------------------------------------------------------
+          --Columnsa fijas
+          v_consulta = 'create temp table tt_mediciones_equipo_'||p_id_usuario||'(
+          				id_uni_cons integer,
+                        id_mediciones_mes serial,
+                        fecha date,
+                        hora time,
+                        observaciones varchar
+                        ';
+
+         --Obtiene los ids de  las localizaciones hijos para filtrar por todos los equipos de una localización
+         v_ids = gem.f_get_id_localizaciones(v_parametros.id_localizacion);
+         
+         --Obtiene todas las columnas de todos los equipos de la localización
+         v_aux = 'select distinct
+                  tva.id_tipo_variable,
+                  tva.nombre as nombre_tipo_variable
+                  from gem.tequipo_variable eqv
+                  inner join gem.ttipo_variable tva on tva.id_tipo_variable = eqv.id_tipo_variable
+                  inner join gem.tuni_cons ucons on ucons.id_uni_cons = eqv.id_uni_cons
+                  where eqv.estado_reg = ''activo'' and eqv.tipo=''numeric''
+                  and ucons.estado_reg = ''activo''
+                  and ucons.tipo_nodo = ''raiz''
+                  and ucons.id_localizacion in ('||v_ids||')
+                  order by tva.id_tipo_variable';
+         
+--         raise notice '---->%',v_aux;
+         --Bucle para completar las columnas de la tabla temporal a crear
+         
+         v_columnas = 'ucons.codigo as equipo,med.id_uni_cons, med.id_mediciones_mes, med.fecha, med.hora, med.observaciones';
+--         raise exception 'fffhh: %',v_columnas;
+         
+          FOR g_registros in execute(v_aux) LOOP
+            
+              v_cod= 'col_'||g_registros.id_tipo_variable;
+              
+            --Verifica si existe la columna de rendimiento
+			if upper(trim(g_registros.nombre_tipo_variable)) = 'RENDIMIENTO' then
+            	v_col_rend = v_cod;
+            elsif upper(trim(g_registros.nombre_tipo_variable)) = 'KILOMETRAJE' then
+            	v_col_kil = v_cod;
+            elsif upper(trim(g_registros.nombre_tipo_variable)) = 'COMBUSTIBLE' then
+            	v_col_comb = v_cod;
+            end if;
+     
+              --semana 1
+              v_cod2=v_cod||'_time';
+              v_consulta =v_consulta||', '||v_cod||' varchar';
+              
+            	v_consulta =v_consulta||', '||v_cod||'_key integer';
+
+              
+           if upper(trim(g_registros.nombre_tipo_variable)) = 'RENDIMIENTO' then
+           		v_columnas = v_columnas || ',med.' ||v_cod||',rend_key';
+           else
+           		v_columnas = v_columnas || ',med.' ||v_cod||',med.'||v_cod||'_key';
+           end if;
+            
+    
+         end loop;
+         
+    --        raise exception 'fffff:%',v_columnas;         
+
+          --concatena el finald e la creacion
+           v_consulta =v_consulta||') on commit drop';
+          --crea tabla
+
+  --         raise notice 'CREA TABLA TEMPORAL,%',v_consulta;
+           execute(v_consulta);
+           
+            --Verifica si existe la columna Rendimiento para aumentar en la consulta
+			if v_col_rend != '' and v_col_kil != '' and v_col_comb != '' then
+           		v_aux1 = 'round(med.'||v_col_kil ||'::numeric/med.'||v_col_comb || '::numeric,2)::varchar as '||v_col_rend;
+                v_columnas = replace(v_columnas,'med.'||v_col_rend,v_aux1);
+                v_columnas = replace(v_columnas,'rend_key',v_col_rend||'_key');
+--                raise exception 'REND: %',v_columnas;
+			end if;
+
+       
+            ----------------------------------------------
+            -- (2) INSERCION DE DATOS EN LA TABLA TEMPORAL
+            ----------------------------------------------
+
+          -- 2) FOR consulta las fechas de la tabla equipo medicion filtrados por uni_cons,
+-- raise exception 'paciencia';
+
+		--Se obtiene la fecha, hora, observacion por equipo para llenar todas las mediciones de una hora y fecha en una fila
+		v_aux= 'select DISTINCT ucons.id_uni_cons, em.fecha_medicion, em.hora,
+                coalesce(em.observaciones,'''') as observaciones
+                from gem.tequipo_medicion em
+                inner join gem.tequipo_variable ev
+                on ev.id_equipo_variable = em.id_equipo_variable
+                inner join gem.tuni_cons ucons
+                on ucons.id_uni_cons = ev.id_uni_cons
+                where ucons.id_localizacion in ('||v_ids||')
+                and ev.estado_reg = ''activo'' and ev.tipo=''numeric''
+                and ucons.estado_reg = ''activo''
+                and ucons.tipo_nodo = ''raiz''
+                and em.fecha_medicion between '''|| v_parametros.fecha_ini||''' and '''|| v_parametros.fecha_fin||'''
+                order by em.fecha_medicion';
+
+		FOR g_registros in execute(v_aux) LOOP
+            --2.0) (atributos) arma las columnas de las columnas fijas
+
+			v_consulta1= 'INSERT into tt_mediciones_equipo_'||p_id_usuario||' (
+            			id_uni_cons,
+                        fecha,
+                        hora,
+                        observaciones ';
+
+			  -- (valores) arma los valores de las columnas fijas
+             v_consulta2= ') values('||g_registros.id_uni_cons||','''||g_registros.fecha_medicion||''','''||g_registros.hora||''','''||g_registros.observaciones||'''';
+
+            --2.1) FOR consulta los registros de la tabla equipo medicion agrupados por fecha y uni_cons,
+			FOR g_registros2 in (select tva.id_tipo_variable,
+                                 em.id_equipo_medicion,
+                                 em.medicion,
+                                 em.hora
+                                 from gem.tequipo_medicion em
+                                 inner join gem.tequipo_variable ev
+                                 on ev.id_equipo_variable = em.id_equipo_variable
+                                 inner join gem.ttipo_variable tva on tva.id_tipo_variable = ev.id_tipo_variable
+                                 where ev.estado_reg = 'activo' and ev.tipo='numeric'
+                                 and ev.id_uni_cons = g_registros.id_uni_cons
+                                 and em.fecha_medicion = g_registros.fecha_medicion
+                                 and em.hora = g_registros.hora) LOOP
+            
+                -- 2.1.1) arma consulta de insercion
+                v_cod = 'col_'||g_registros2.id_tipo_variable;
+                                       
+                --revisa si la medicion no se repita para la misma fecha y hora
+                --si se repeti nos quedamos con la primera
+                v_pos = position (v_cod in v_consulta1);
+                                       
+                if(v_pos = 0) then
+                    v_consulta1=v_consulta1||','||v_cod||','||v_cod||'_key';
+                    --v_consulta2=v_consulta2||','''||quote_literal(g_registros2.medicion)||''','||g_registros2.id_equipo_medicion;
+                    v_consulta2=v_consulta2||','||quote_literal(g_registros2.medicion)||','||g_registros2.id_equipo_medicion;
+                end if;
+                      
+			END LOOP;
+
+            -- 2.2) finaliza la cadena de insercion
+            v_consulta1 = v_consulta1||v_consulta2|| ') ';
+                      
+            -- 2.3) inserta los datos en la tabla temporal
+    --        raise notice 'INSERCION %',v_consulta1;
+   
+     		execute(v_consulta1);
+        
+		END LOOP;
+    
+     -- 3) consulta de la tabla temporal
+    if(p_transaccion='GEM_EQMECO_SEL') then
+    --ucons.codigo || '' -> '' || ucons.nombre as equipo'||v_columnas||'
+--            			ucons.codigo || '' -> '' || ucons.nombre as equipo, med.*
+--        v_consulta:='select ucons.codigo || '' -> '' || ucons.nombre as equipo, med.*
+       	v_consulta:='select '||v_columnas||'
+                    from tt_mediciones_equipo_'||p_id_usuario||' med
+                    inner join gem.tuni_cons ucons on ucons.id_uni_cons = med.id_uni_cons
+                    where '||v_parametros.filtro;
+       
+        v_consulta:=v_consulta||' order by ' ||v_parametros.ordenacion|| ' ' ||
+        v_parametros.dir_ordenacion || ' limit ' || v_parametros.cantidad || ' offset ' || v_parametros.puntero;
+    else
+        v_consulta:='select count (id_mediciones_mes)
+        			from tt_mediciones_equipo_'||p_id_usuario||' med
+                    inner join gem.tuni_cons ucons on ucons.id_uni_cons = med.id_uni_cons
+        			where '||v_parametros.filtro;
+    end if; 
+
+    --Devuelve la respuesta
+--    raise exception 'SQL: %',v_consulta;
+    return v_consulta;
+         
+       
+end;
 
 	else
 

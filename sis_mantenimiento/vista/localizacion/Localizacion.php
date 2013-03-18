@@ -340,6 +340,18 @@ header("content-type: text/javascript; charset=UTF-8");
 				}, data, this.idContenedor, 'EquipoMedicionConsol')
 			}
 		},
+		onBtnDetConsolMed: function() {
+			var node = this.sm.getSelectedNode();
+			var data = node.attributes;
+			Phx.CP.log(node);
+			if (data) {
+				Phx.CP.loadWindows('../../../sis_mantenimiento/vista/equipo_medicion/EquipoMedicionDinamicoLoc.php', 'Detalle Consolidación de Mediciones: ' + node.text, {
+					modal: true,
+					width: '95%',
+					height: '95%'
+				}, data, this.idContenedor, 'EquipoMedicionDinamicoLoc')
+			}
+		},
 
 		winmodal: false,
 
@@ -1078,11 +1090,19 @@ header("content-type: text/javascript; charset=UTF-8");
 				handler: this.onBtnTarjetasTPM,
 				scope: this
 			});
-			
+
+			this.ctxMenu.add('-');			
 			this.ctxMenu.addMenuItem({
 				id: 'mni-consolEqMed-'+this.idContenedor,
 				text: 'Consolidación Mediciones',
 				handler: this.onConsolEqMed,
+				scope: this
+			});
+			//Detalle consolidación de mediciones
+			this.ctxMenu.addMenuItem({
+				id: 'mni-detConsolMed-' + this.idContenedor,
+				text: 'Detalle Mediciones Consolidadas',
+				handler: this.onBtnDetConsolMed,
 				scope: this
 			});
 			//Sincronización de usuarios

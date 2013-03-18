@@ -149,7 +149,7 @@ BEGIN
   	#AUTOR_MOD:		rac
  	#FECHA_MOD:		3/09/2012
     #DESCRIPCION_MOD  aumtenra el parametro tipo 
-                      para escoger el tipo de estructura que se lisata, 
+                      para escoger el tipo de estructura que se lista, 
                       ademas solo lista nodos raiz con estado  aprobado o registrado
 	***********************************/
 		
@@ -177,11 +177,14 @@ BEGIN
 						tuc.id_usuario_mod,
 						usu1.cuenta as usr_reg,
 						usu2.cuenta as usr_mod,
-						eq.nombre as nombre_tipo_equipo	
+						eq.nombre as nombre_tipo_equipo,
+                        gem.f_get_nombre_localizacion_rec(tuc.id_localizacion,''padres'') as padres_loc,
+                        loc.codigo || '' - '' || loc.nombre as desc_localizacion
 						from gem.tuni_cons tuc
 						inner join segu.tusuario usu1 on usu1.id_usuario = tuc.id_usuario_reg
 						left join segu.tusuario usu2 on usu2.id_usuario = tuc.id_usuario_mod
                         left join gem.ttipo_equipo eq on eq.id_tipo_equipo= tuc.id_tipo_equipo
+                        left join gem.tlocalizacion loc on loc.id_localizacion = tuc.id_localizacion
 				        where tuc.tipo = '''||v_tipo||'''
 				        and tuc.estado_reg = ''activo'' and tuc.tipo_nodo = ''raiz'' and (tuc.estado=''aprobado'' or tuc.estado=''registrado'') and ';
 			 
@@ -217,6 +220,7 @@ BEGIN
 						inner join segu.tusuario usu1 on usu1.id_usuario = tuc.id_usuario_reg
 						left join segu.tusuario usu2 on usu2.id_usuario = tuc.id_usuario_mod
                         left join gem.ttipo_equipo eq on eq.id_tipo_equipo= tuc.id_tipo_equipo
+                        left join gem.tlocalizacion loc on loc.id_localizacion = tuc.id_localizacion
 				        where tuc.tipo = '''||v_tipo||'''
 				        and tuc.estado_reg = ''activo'' and tuc.tipo_nodo = ''raiz'' and (tuc.estado=''aprobado'' or tuc.estado=''registrado'') and ';
 			 
@@ -658,7 +662,7 @@ BEGIN
 					v_consulta:=v_consulta||' order by ' ||v_parametros.ordenacion|| ' ' || v_parametros.dir_ordenacion || ' limit ' || v_parametros.cantidad || ' offset ' || v_parametros.puntero;
 		             		
              	end if;
-             
+           raise notice '%',v_consulta;  
              	
             --Devuelve la respuesta
             return v_consulta;

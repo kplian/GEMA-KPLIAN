@@ -99,7 +99,7 @@ BEGIN
 						usu2.cuenta as usr_mod,
 						fun.desc_funcionario1 as desc_person,
 						fun1.desc_funcionario1 as desc_person1,
-						unicons.nombre as equipo,
+						(unicons.codigo || '' - '' ||unicons.nombre)::varchar as equipo,
 						tipman.nombre as tipo_mant,
 						unimed.descripcion as desc_unidad_medida,
                         geoott.id_localizacion,

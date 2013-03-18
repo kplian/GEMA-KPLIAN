@@ -483,7 +483,6 @@ class ACTUniCons extends ACTbase{
 		if($this->objParam->getParametro('nombre_caract')!=null&&$this->objParam->getParametro('valor_caract')!=null){
 			$aux="eqgral.id_uni_cons in (select id_uni_cons from gem.tuni_cons_det ucdet where upper(ucdet.nombre) = ''".$this->objParam->getParametro('nombre_caract')."'' and ucdet.valor ilike ''%".$this->objParam->getParametro('valor_caract')."%'')";
 			$this->objParam->addFiltro($aux);
-			//echo 'fuck yeah: '.$aux;exit;
 		}
 		
 		
