@@ -139,6 +139,49 @@ Phx.vista.OrdenTrabajo=Ext.extend(Phx.gridInterfaz,{
 		},
 		{
 			config:{
+				name: 'id_uni_cons',
+				fieldLabel: 'Equipo',
+				allowBlank: false,
+				emptyText:'Elija un equipo...',
+				store:new Ext.data.JsonStore(
+				{
+					url: '../../sis_mantenimiento/control/UniCons/listarUniConsPlano',
+					id: 'id_uni_cons',
+					root:'datos',
+					sortInfo:{
+						field:'nombre',
+						direction:'ASC'
+					},
+					totalProperty:'total',
+					fields: ['id_uni_cons','codigo','nombre','nombre_tipo_equipo','padres_loc', 'id_localizacion','desc_localizacion'],
+					remoteSort: true,
+					baseParams:{par_filtro:'tuc.nombre#tuc.codigo#eq.nombre'}
+				}),
+				tpl:'<tpl for="."><div class="x-combo-list-item"><p>Nombre: {nombre}</p><p>Código: {codigo}</p><p>Tipo Equipo: {nombre_tipo_equipo}</p><p>Localización: {padres_loc}</p></div></tpl>',
+				valueField: 'id_uni_cons',
+				hiddenValue: 'id_uni_cons',
+				displayField: 'codigo',
+				gdisplayField:'equipo',
+				forceSelection:true,
+				typeAhead: false,
+    			triggerAction: 'all',
+    			lazyRender:true,
+				mode:'remote',
+				pageSize:20,
+				queryDelay:500,
+				anchor: '100%',
+				gwidth: 350,
+				minChars:2,
+				renderer:function (value, p, record){return String.format('{0}', record.data['equipo']);}
+			},
+			type:'ComboBox',
+			filters:{pfiltro:'unicons.nombre#unicons.codigo',type:'string'},
+			id_grupo:0,
+			grid:true,
+			form:true
+		},
+		{
+			config:{
 				name: 'id_tipo_mant',
 				fieldLabel: 'Tipo de OIT',
 				allowBlank: false,
@@ -242,49 +285,6 @@ Phx.vista.OrdenTrabajo=Ext.extend(Phx.gridInterfaz,{
 			id_grupo:0,
 			grid:true,
 			form:false
-		},
-		{
-			config:{
-				name: 'id_uni_cons',
-				fieldLabel: 'Equipo',
-				allowBlank: false,
-				emptyText:'Elija un equipo...',
-				store:new Ext.data.JsonStore(
-				{
-					url: '../../sis_mantenimiento/control/UniCons/listarUniConsPlano',
-					id: 'id_uni_cons',
-					root:'datos',
-					sortInfo:{
-						field:'nombre',
-						direction:'ASC'
-					},
-					totalProperty:'total',
-					fields: ['id_uni_cons','codigo','nombre','nombre_tipo_equipo','padres_loc', 'id_localizacion','desc_localizacion'],
-					remoteSort: true,
-					baseParams:{par_filtro:'tuc.nombre#tuc.codigo#eq.nombre'}
-				}),
-				tpl:'<tpl for="."><div class="x-combo-list-item"><p>Nombre: {nombre}</p><p>Código: {codigo}</p><p>Tipo Equipo: {nombre_tipo_equipo}</p><p>Localización: {padres_loc}</p></div></tpl>',
-				valueField: 'id_uni_cons',
-				hiddenValue: 'id_uni_cons',
-				displayField: 'codigo',
-				gdisplayField:'equipo',
-				forceSelection:true,
-				typeAhead: false,
-    			triggerAction: 'all',
-    			lazyRender:true,
-				mode:'remote',
-				pageSize:20,
-				queryDelay:500,
-				anchor: '100%',
-				gwidth: 350,
-				minChars:2,
-				renderer:function (value, p, record){return String.format('{0}', record.data['equipo']);}
-			},
-			type:'ComboBox',
-			filters:{pfiltro:'unicons.nombre#unicons.codigo',type:'string'},
-			id_grupo:0,
-			grid:true,
-			form:true
 		},
 		{			
 			config:{

@@ -575,7 +575,7 @@ Phx.vista.UniConsGral=Ext.extend(Phx.gridInterfaz,{
       var rec=this.sm.getSelected();
       if(rec.data){
           Phx.CP.loadWindows('../../../sis_mantenimiento/vista/orden_trabajo/ListadoGeneralOT.php',
-          'Histórico OITs',{
+          'Histórico OITs: ['+rec.data.codigo+']',{
               modal:true,
               width:900,
               height:400

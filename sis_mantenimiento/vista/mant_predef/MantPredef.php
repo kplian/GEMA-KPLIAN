@@ -153,6 +153,48 @@ Phx.vista.MantPredef=Ext.extend(Phx.gridInterfaz,{
 		},
 		{
 			config:{
+				name: 'id_tipo_mant',
+				fieldLabel: 'Tipo de OIT',
+				allowBlank: false,
+				emptyText:'Tipo de mantenimiento...',
+				store:new Ext.data.JsonStore(
+				{
+					url: '../../sis_mantenimiento/control/TipoMant/listarTipoMant',
+					id: 'id_tipo_mant',
+					root:'datos',
+					sortInfo:{
+						field:'nombre',
+						direction:'ASC'
+					},
+					totalProperty:'total',
+					fields: ['id_tipo_mant','codigo','nombre'],
+					// turn on remote sorting
+					remoteSort: true,
+					baseParams:{par_filtro:'nombre'}
+				}),
+				valueField: 'id_tipo_mant',
+				displayField: 'nombre',
+				gdisplayField:'desc_tipo_mant',
+				forceSelection:true,
+				typeAhead: false,
+    			triggerAction: 'all',
+    			lazyRender:true,
+				mode:'remote',
+				pageSize:20,
+				queryDelay:500,
+				anchor: '100%',
+				gwidth:220,
+				minChars:2,
+				renderer:function (value, p, record){return String.format('{0}', record.data['desc_tipo_mant']);}
+			},
+			type:'ComboBox',
+			filters:{pfiltro:'tipman.nombre',type:'string'},
+			id_grupo:0,
+			grid:true,
+			form:true
+		},
+		{
+			config:{
 				name: 'estado_reg',
 				fieldLabel: 'Estado Reg.',
 				allowBlank: true,
@@ -248,7 +290,9 @@ Phx.vista.MantPredef=Ext.extend(Phx.gridInterfaz,{
 		{name:'desc_tipo_equipo', type: 'string'},
 		{name:'id_unidad_medida_estimado', type: 'numeric'},
 		{name:'tiempo_estimado', type: 'numeric'},
-		{name:'desc_unidad_medida_estimado', type: 'string'}
+		{name:'desc_unidad_medida_estimado', type: 'string'},
+		{name:'id_tipo_mant', type: 'numeric'},
+		{name:'desc_tipo_mant', type: 'string'}
 	],
 	south:{
 		  url:'../../../sis_mantenimiento/vista/mant_predef_det/MantPredefDet.php',

@@ -55,7 +55,8 @@ BEGIN
 			id_usuario_mod,
 			id_tipo_equipo,
 			id_unidad_medida_estimado,
-			tiempo_estimado
+			tiempo_estimado,
+			id_tipo_mant
           	) values(
 			v_parametros.codigo,
 			v_parametros.descripcion,
@@ -67,7 +68,8 @@ BEGIN
 			null,
 			v_parametros.id_tipo_equipo,
 			v_parametros.id_unidad_medida_estimado,
-			v_parametros.tiempo_estimado
+			v_parametros.tiempo_estimado,
+			v_parametros.id_tipo_mant
 			)RETURNING id_mant_predef into v_id_mant_predef;
                
 			--Definicion de la respuesta
@@ -98,7 +100,8 @@ BEGIN
 			id_usuario_mod = p_id_usuario,
 			id_tipo_equipo = v_parametros.id_tipo_equipo,
 			id_unidad_medida_estimado = v_parametros.id_unidad_medida_estimado,
-			tiempo_estimado = v_parametros.tiempo_estimado
+			tiempo_estimado = v_parametros.tiempo_estimado,
+			id_tipo_mant = v_parametros.id_tipo_mant
 			where id_mant_predef=v_parametros.id_mant_predef;
                
 			--Definicion de la respuesta

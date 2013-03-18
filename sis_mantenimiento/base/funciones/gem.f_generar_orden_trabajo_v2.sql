@@ -54,6 +54,7 @@ DECLARE
     v_i integer;
     v_id_uni_cons integer;
     v_id_mant_predef integer;
+    v_id_tipo_mant	integer;
     
 			    
 BEGIN
@@ -153,8 +154,8 @@ BEGIN
          
          
            select
-           un.id_uni_cons,un.codigo,        un.nombre,         un.tipo_unicons, un.id_localizacion
-           into v_uni_cons,    v_codigo_uni_cons,v_nombre_uni_cons, v_tipo_planta_estacio   , v_id_localizacion
+           un.id_uni_cons,un.codigo,        un.nombre,         un.tipo_unicons, un.id_localizacion, un.id_tipo_mant
+           into v_uni_cons,    v_codigo_uni_cons,v_nombre_uni_cons, v_tipo_planta_estacio   , v_id_localizacion, v_id_tipo_mant
            from gem.tuni_cons un 
            where un.id_uni_cons = v_id_uni_cons;
          
@@ -251,7 +252,8 @@ BEGIN
                               --  periodicidad,
                                 cat_estado,
                                 id_localizacion,
-                                fecha_emision
+                                fecha_emision,
+                                id_tipo_mant
                               ) 
                               VALUES (
                                 p_id_usuario,
@@ -265,7 +267,8 @@ BEGIN
                                -- v_periodicidad,
                                 'generado',
                                 v_id_localizacion,
-                                now()::date
+                                now()::date,
+                                v_id_tipo_mant
                                
                               )RETURNING id_orden_trabajo   into v_id_orden_trabajo;
                             

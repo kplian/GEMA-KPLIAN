@@ -56,12 +56,15 @@ BEGIN
 						getieq.nombre as desc_tipo_equipo,
 						gemapr.id_unidad_medida_estimado,
 						gemapr.tiempo_estimado,
-						unimed.descripcion as desc_unidad_medida_estimado	
+						unimed.descripcion as desc_unidad_medida_estimado,
+						gemapr.id_tipo_mant,
+						(tman.codigo||'' - ''||tman.nombre)::varchar as desc_tipo_mant
 						from gem.tmant_predef gemapr
 						inner join segu.tusuario usu1 on usu1.id_usuario = gemapr.id_usuario_reg
 						left join segu.tusuario usu2 on usu2.id_usuario = gemapr.id_usuario_mod
 						inner join gem.ttipo_equipo getieq on getieq.id_tipo_equipo = gemapr.id_tipo_equipo
 						left join param.tunidad_medida unimed on unimed.id_unidad_medida = gemapr.id_unidad_medida_estimado
+						left join gem.ttipo_mant tman on tman.id_tipo_mant = gemapr.id_tipo_mant
 				        where  ';
 			
 			--Definicion de la respuesta
@@ -90,6 +93,7 @@ BEGIN
 						left join segu.tusuario usu2 on usu2.id_usuario = gemapr.id_usuario_mod
 						inner join gem.ttipo_equipo getieq on getieq.id_tipo_equipo = gemapr.id_tipo_equipo
 						left join param.tunidad_medida unimed on unimed.id_unidad_medida = gemapr.id_unidad_medida_estimado
+						left join gem.ttipo_mant tman on tman.id_tipo_mant = gemapr.id_tipo_mant
 					    where ';
 			
 			--Definicion de la respuesta		    
@@ -126,12 +130,15 @@ BEGIN
 						getieq.nombre as desc_tipo_equipo,
 						gemapr.id_unidad_medida_estimado,
 						gemapr.tiempo_estimado,
-						unimed.descripcion as desc_unidad_medida_estimado	
+						unimed.descripcion as desc_unidad_medida_estimado,
+						gemapr.id_tipo_mant,
+						(tman.codigo||'' - ''||tman.nombre)::varchar as desc_tipo_mant	
 						from gem.tmant_predef gemapr
 						inner join segu.tusuario usu1 on usu1.id_usuario = gemapr.id_usuario_reg
 						left join segu.tusuario usu2 on usu2.id_usuario = gemapr.id_usuario_mod
 						inner join gem.ttipo_equipo getieq on getieq.id_tipo_equipo = gemapr.id_tipo_equipo
 						left join param.tunidad_medida unimed on unimed.id_unidad_medida = gemapr.id_unidad_medida_estimado
+						left join gem.ttipo_mant tman on tman.id_tipo_mant = gemapr.id_tipo_mant
 				        where gemapr.id_tipo_equipo in (select id_tipo_equipo
 				        								from gem.tuni_cons
 				        								where id_uni_cons = ' || v_parametros.id_uni_cons || ') and ';
@@ -162,6 +169,7 @@ BEGIN
 						left join segu.tusuario usu2 on usu2.id_usuario = gemapr.id_usuario_mod
 						inner join gem.ttipo_equipo getieq on getieq.id_tipo_equipo = gemapr.id_tipo_equipo
 						left join param.tunidad_medida unimed on unimed.id_unidad_medida = gemapr.id_unidad_medida_estimado
+						left join gem.ttipo_mant tman on tman.id_tipo_mant = gemapr.id_tipo_mant
 					    where gemapr.id_tipo_equipo in (select id_tipo_equipo
 				        								from gem.tuni_cons
 				        								where id_uni_cons = ' || v_parametros.id_uni_cons || ') and ';

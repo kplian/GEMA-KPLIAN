@@ -582,3 +582,9 @@ alter table gem.tuni_cons_item
 add constraint fk_tuni_cons_item__id_proveedor foreign key (id_proveedor)
 references param.tproveedor (id_proveedor);
 /***********************************F-DEP-RCM-GEM-124-18/02/2013*****************************************/
+
+/***********************************I-DEP-RCM-GEM-132-19/02/2013*****************************************/
+alter table gem.tmant_predef
+add constraint fk_tmant_predef__id_tipo_mant foreign key(id_tipo_mant)
+references gem.ttipo_mant(id_tipo_mant);
+/***********************************F-DEP-RCM-GEM-132-19/02/2013*****************************************/

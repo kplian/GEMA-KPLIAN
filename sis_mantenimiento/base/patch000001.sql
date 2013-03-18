@@ -1234,3 +1234,8 @@ unique(id_equipo_variable, fecha_medicion, hora);
 ALTER TABLE gem.trecurso
   ADD COLUMN concepto VARCHAR(50);
 /***********************************F-SCP-RCM-GEM-124-10/03/2013*****************************************/
+
+/***********************************I-SCP-RCM-GEM-132-19/03/2013*****************************************/
+alter table gem.tmant_predef 
+add column id_tipo_mant integer;
+/***********************************F-SCP-RCM-GEM-132-19/03/2013*****************************************/
