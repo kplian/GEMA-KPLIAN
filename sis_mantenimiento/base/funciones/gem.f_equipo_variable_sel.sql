@@ -176,7 +176,7 @@ BEGIN
          	
     		--Sentencia de la consulta
 			v_consulta:='select distinct
-						tva.id_tipo_variable
+						tva.id_tipo_variable,
                         tva.nombre as nombre_tipo_variable,
                         um.codigo as codigo_unidad_medida,
                         um.id_unidad_medida,

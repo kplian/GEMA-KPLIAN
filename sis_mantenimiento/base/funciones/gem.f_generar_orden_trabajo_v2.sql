@@ -1,5 +1,3 @@
---------------- SQL ---------------
-
 CREATE OR REPLACE FUNCTION gem.f_generar_orden_trabajo_v2 (
   p_id_usuario integer,
   p_id_uni_cons_mant_predef integer,
@@ -247,10 +245,9 @@ BEGIN
                                 estado_reg,
                                 id_uni_cons_mant_predef,
                                 id_uni_cons,
-                              
                                 id_unidad_medida, -- periodicidad
                                 fecha_plan_ini,
-                              --  fecha_plan_fin,
+                                --fecha_plan_fin,
                               --  periodicidad,
                                 cat_estado,
                                 id_localizacion,
@@ -263,8 +260,8 @@ BEGIN
                                 v_id_uni_cons_mant_predef,
                                 v_id_uni_cons,
                                 v_id_unidad_medida_periodicidad,
-                             --   g_registros.fecha_ini,
-                                v_fecha_fin,
+                                g_registros.fecha_ini,
+                                --v_fecha_fin,
                                -- v_periodicidad,
                                 'generado',
                                 v_id_localizacion,
