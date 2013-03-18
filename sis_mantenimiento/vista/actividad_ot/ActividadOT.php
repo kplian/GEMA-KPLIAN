@@ -250,7 +250,7 @@ Phx.vista.actividad=Ext.extend(Phx.gridInterfaz,{
 		this.bnew = false;
 		this.bdel = false;
 		if(config.nombreVista == "registrarOT") {
-			if(config.cat_estado == "Borrador") {
+			if(config.cat_estado == "Borrador"||config.cat_estado == "generado") {
 				this.bnew = true;
 				this.bdel = true;
 			}
