@@ -11,6 +11,7 @@ header("content-type: text/javascript; charset=UTF-8");
 ?>
 <script>
 Phx.vista.OrdenTrabajo=Ext.extend(Phx.gridInterfaz,{
+	
 	constructor:function(config) {
 		this.maestro=config.maestro;
 		Phx.vista.OrdenTrabajo.superclass.constructor.call(this,config);
@@ -870,6 +871,21 @@ Phx.vista.OrdenTrabajo=Ext.extend(Phx.gridInterfaz,{
 		},
 		{
 			config:{
+				name: 'descripcion_progresiva',
+				fieldLabel: 'Descripción Equipo/Progresiva',
+				allowBlank: false,
+				anchor: '100%',
+				gwidth: 100,
+				maxLength:1000
+			},
+			type:'TextArea',
+			filters:{pfiltro:'geoott.descripcion_progresiva',type:'string'},
+			id_grupo:0,
+			grid:true,
+			form:true
+		},
+		{
+			config:{
 				name: 'estado_reg',
 				fieldLabel: 'Estado Reg.',
 				gwidth: 100,
@@ -990,7 +1006,8 @@ Phx.vista.OrdenTrabajo=Ext.extend(Phx.gridInterfaz,{
 		'hora_eje_inicio',
 		'hora_eje_fin',
 		'descripcion_causa',
-		'prevension'
+		'prevension',
+		'descripcion_progresiva'
 	],
 	sortInfo:{
 		field: 'id_orden_trabajo',

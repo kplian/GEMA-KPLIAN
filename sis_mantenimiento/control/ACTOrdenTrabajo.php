@@ -97,7 +97,7 @@ class ACTOrdenTrabajo extends ACTbase{
 		$dataSource->putParameter('nOit', $datosOT[0]['num_oit']);
 		$dataSource->putParameter('tipoOit', $datosOT[0]['tipo_mant']);
 		$dataSource->putParameter('tipoMant', $datosOT[0]['cat_tipo']);
-		$dataSource->putParameter('especialidad', $datosOT[0]['especialidad']);
+		$dataSource->putParameter('especialidad', $datosOT[0]['especialidades']);
 		$dataSource->putParameter('observacion', $datosOT[0]['observacion']);
 		$dataSource->putParameter('descripcion', $datosOT[0]['descripcion']);
 		$dataSource->putParameter('fechaPlanIni', $datosOT[0]['fecha_plan_ini']);
@@ -117,6 +117,7 @@ class ACTOrdenTrabajo extends ACTbase{
 		$dataSource->putParameter('horaEjeInicio', $datosOT[0]['hora_eje_inicio']);
 		$dataSource->putParameter('horaEjeFin', $datosOT[0]['hora_eje_fin']);
 		$dataSource->putParameter('codigo', $datosOT[0]['codigo']);
+		$dataSource->putParameter('descripcion_progresiva', $datosOT[0]['descripcion_progresiva']);
 		
 		
 		$this->objParam->addParametroConsulta('filtro', ' 0 = 0');

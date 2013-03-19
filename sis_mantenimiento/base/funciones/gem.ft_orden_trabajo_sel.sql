@@ -100,7 +100,7 @@ BEGIN
 						fun.desc_funcionario1 as desc_person,
 						fun1.desc_funcionario1 as desc_person1,
 						(unicons.codigo || '' - '' ||unicons.nombre)::varchar as equipo,
-						tipman.nombre as tipo_mant,
+						(tipman.codigo||'' - ''||tipman.nombre)::varchar as tipo_mant,
 						unimed.descripcion as desc_unidad_medida,
                         geoott.id_localizacion,
                         local.nombre as nombre_localizacion,
@@ -120,7 +120,8 @@ BEGIN
         	    		geoott.hora_eje_fin,
 						unicons.codigo,
 						geoott.descripcion_causa,
-						geoott.prevension
+						geoott.prevension,
+						geoott.descripcion_progresiva
 						from gem.torden_trabajo geoott
 						inner join segu.tusuario usu1 on usu1.id_usuario = geoott.id_usuario_reg
 						left join segu.tusuario usu2 on usu2.id_usuario = geoott.id_usuario_mod

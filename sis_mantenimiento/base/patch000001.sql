@@ -1239,3 +1239,8 @@ ALTER TABLE gem.trecurso
 alter table gem.tmant_predef 
 add column id_tipo_mant integer;
 /***********************************F-SCP-RCM-GEM-132-19/03/2013*****************************************/
+
+/***********************************I-SCP-RCM-GEM-133-19/03/2013*****************************************/
+alter table gem.torden_trabajo 
+add column descripcion_progresiva varchar(500);
+/***********************************F-SCP-RCM-GEM-133-19/03/2013*****************************************/

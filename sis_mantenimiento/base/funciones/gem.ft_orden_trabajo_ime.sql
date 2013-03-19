@@ -95,7 +95,8 @@ BEGIN
             hora_eje_inicio,
             hora_eje_fin,
             descripcion_causa,
-            prevension
+            prevension,
+            descripcion_progresiva
           	) values(
 			'activo',
 			v_parametros.fecha_plan_ini,
@@ -137,7 +138,8 @@ BEGIN
             v_parametros.hora_eje_inicio,
             v_parametros.hora_eje_fin,
             v_parametros.descripcion_causa,
-            v_parametros.prevension
+            v_parametros.prevension,
+            v_parametros.descripcion_progresiva
 			)RETURNING id_orden_trabajo into v_id_orden_trabajo;
                
 			--Definicion de la respuesta
@@ -197,7 +199,8 @@ BEGIN
             hora_eje_inicio = v_parametros.hora_eje_inicio,
             hora_eje_fin = v_parametros.hora_eje_fin,
             descripcion_causa = v_parametros.descripcion_causa,
-            prevension = v_parametros.prevension
+            prevension = v_parametros.prevension,
+            descripcion_progresiva = v_parametros.descripcion_progresiva
 			where id_orden_trabajo=v_parametros.id_orden_trabajo;
             
 			--Definicion de la respuesta
