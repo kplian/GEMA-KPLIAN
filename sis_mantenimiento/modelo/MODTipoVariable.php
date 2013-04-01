@@ -107,6 +107,26 @@ class MODTipoVariable extends MODbase{
 		//Devuelve la respuesta
 		return $this->respuesta;
 	}
+
+	function listarVariablesEquipo(){
+		//Definicion de variables para ejecucion del procedimientp
+		$this->procedimiento='gem.f_tipo_variable_sel';
+		$this->transaccion='GEM_TODVAR_SEL';
+		$this->tipo_procedimiento='SEL';//tipo de transaccion
+		
+		$this->setParametro('id_tipo_equipo','id_tipo_equipo','int4');
+				
+		//Definicion de la lista del resultado del query
+		$this->captura('id','varchar');
+		$this->captura('nombre','varchar');
+		
+		//Ejecuta la instruccion
+		$this->armarConsulta();
+		$this->ejecutarConsulta();
+		
+		//Devuelve la respuesta
+		return $this->respuesta;
+	}
 			
 }
 ?>

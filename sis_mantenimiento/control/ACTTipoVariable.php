@@ -38,6 +38,24 @@ class ACTTipoVariable extends ACTbase{
 		$this->res=$this->objFunc->eliminarTipoVariable();
 		$this->res->imprimirRespuesta($this->res->generarJson());
 	}
+	
+	function listarVariablesEquipo(){
+		$this->objParam->defecto('ordenacion','id_tipo_variable');
+		$this->objParam->defecto('dir_ordenacion','asc');
+
+		if($this->objParam->getParametro('id_tipo_equipo')!=''){
+			$this->objParam->addFiltro("ucons.id_tipo_equipo = ".$this->objParam->getParametro('id_tipo_equipo'));	
+		}
+		
+		if($this->objParam->getParametro('tipoReporte')=='excel_grid' || $this->objParam->getParametro('tipoReporte')=='pdf_grid'){
+			$this->objReporte = new Reporte($this->objParam, $this);
+			$this->res = $this->objReporte->generarReporteListado('MODTipoVariable','listarVariablesEquipo');
+		} else{
+			$this->objFunc=$this->create('MODTipoVariable');	
+			$this->res=$this->objFunc->listarVariablesEquipo();
+		}
+		$this->res->imprimirRespuesta($this->res->generarJson());
+	}
 			
 }
 

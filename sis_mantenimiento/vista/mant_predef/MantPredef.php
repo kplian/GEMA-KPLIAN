@@ -154,7 +154,7 @@ Phx.vista.MantPredef=Ext.extend(Phx.gridInterfaz,{
 		{
 			config:{
 				name: 'id_tipo_mant',
-				fieldLabel: 'Tipo de OIT',
+				fieldLabel: 'Tipo de Mantenimiento',
 				allowBlank: false,
 				emptyText:'Tipo de mantenimiento...',
 				store:new Ext.data.JsonStore(

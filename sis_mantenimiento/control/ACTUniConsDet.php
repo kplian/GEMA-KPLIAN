@@ -52,6 +52,52 @@ class ACTUniConsDet extends ACTbase{
 		}
 		$this->res->imprimirRespuesta($this->res->generarJson());
 	}
+	
+	function listarColumnasFichaTec(){
+		$this->objParam->defecto('ordenacion','id_uni_cons_det');
+		$this->objParam->defecto('dir_ordenacion','asc');
+		
+		if($this->objParam->getParametro('id_tipo_equipo')!=''){
+			$this->objParam->addFiltro("ucons.id_tipo_equipo = ".$this->objParam->getParametro('id_tipo_equipo'));	
+		}
+		
+		if($this->objParam->getParametro('tipoReporte')=='excel_grid' || $this->objParam->getParametro('tipoReporte')=='pdf_grid'){
+			$this->objReporte = new Reporte($this->objParam, $this);
+			$this->res = $this->objReporte->generarReporteListado('MODUniConsDet','listarColumnasFichaTec');
+		} else{
+			$this->objFunc=$this->create('MODUniConsDet');	
+			$this->res=$this->objFunc->listarColumnasFichaTec();
+		}
+		$this->res->imprimirRespuesta($this->res->generarJson());
+	}
+
+	function listarColumnasFichaTecVar(){
+		$this->objParam->defecto('ordenacion','id_uni_cons_det');
+
+		$this->objParam->defecto('dir_ordenacion','asc');
+		if($this->objParam->getParametro('tipoReporte')=='excel_grid' || $this->objParam->getParametro('tipoReporte')=='pdf_grid'){
+			$this->objReporte = new Reporte($this->objParam, $this);
+			$this->res = $this->objReporte->generarReporteListado('MODUniConsDet','listarColumnasFichaTecVar');
+		} else{
+			$this->objFunc=$this->create('MODUniConsDet');	
+			$this->res=$this->objFunc->listarColumnasFichaTecVar();
+		}
+		$this->res->imprimirRespuesta($this->res->generarJson());
+	}
+
+	function listarFichaTecnicaVariables(){
+		$this->objParam->defecto('ordenacion','id_uni_cons_det');
+
+		$this->objParam->defecto('dir_ordenacion','asc');
+		if($this->objParam->getParametro('tipoReporte')=='excel_grid' || $this->objParam->getParametro('tipoReporte')=='pdf_grid'){
+			$this->objReporte = new Reporte($this->objParam, $this);
+			$this->res = $this->objReporte->generarReporteListado('MODUniConsDet','listarFichaTecnicaVariables');
+		} else{
+			$this->objFunc=$this->create('MODUniConsDet');	
+			$this->res=$this->objFunc->listarFichaTecnicaVariables();
+		}
+		$this->res->imprimirRespuesta($this->res->generarJson());
+	}
 			
 }
 

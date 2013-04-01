@@ -1244,3 +1244,16 @@ add column id_tipo_mant integer;
 alter table gem.torden_trabajo 
 add column descripcion_progresiva varchar(500);
 /***********************************F-SCP-RCM-GEM-133-19/03/2013*****************************************/
+
+/***********************************I-SCP-RCM-GEM-134-22/03/2013*****************************************/
+CREATE TABLE gem.ttipo_equipo_col (  
+  id_tipo_equipo_col serial NOT NULL,
+  id_tipo_equipo integer NOT NULL,
+  tipo_col varchar(20),
+  id varchar(50),
+  orden integer,
+  CONSTRAINT pk_ttipo_equipo_col___id_tipo_equipo_col PRIMARY KEY (id_tipo_equipo_col)
+) INHERITS (pxp.tbase)
+WITH OIDS;
+ALTER TABLE gem.ttipo_equipo_col OWNER TO postgres;
+/***********************************F-SCP-RCM-GEM-134-22/03/2013*****************************************/

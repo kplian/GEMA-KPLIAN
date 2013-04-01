@@ -23,12 +23,12 @@ FECHA:
 
 DECLARE
 
-	v_consulta varchar;
+  v_consulta varchar;
     v_consulta1 varchar;
     v_consulta2 varchar;
-	v_parametros record;
-	v_nombre_funcion text;
-	v_resp varchar;
+  v_parametros record;
+  v_nombre_funcion text;
+  v_resp varchar;
     g_registros record;
     g_registros2 record;
     v_cod varchar;
@@ -367,29 +367,29 @@ end;
      
      begin
         
-        	if (pxp.f_existe_parametro(p_tabla,'id_localizacion')) then
-        		--Obtencion de los ids de localizacion
-	            WITH RECURSIVE t(id,id_fk,nombre,n) AS (
-	                SELECT l.id_localizacion,l.id_localizacion_fk, l.nombre,1
-	                FROM gem.tlocalizacion l
-	                WHERE l.id_localizacion = v_parametros.id_localizacion
-	                UNION ALL
-	                SELECT l.id_localizacion,l.id_localizacion_fk, l.nombre,n+1
-	                FROM gem.tlocalizacion l, t
-	                WHERE l.id_localizacion_fk = t.id
-	            )
-	            SELECT (pxp.list(id::text))::varchar
-	            INTO v_ids
-	            FROM t;
-	            
-	            v_cond = ' ucons.id_localizacion in ('||v_ids||')';
-        	elsif (pxp.f_existe_parametro(p_tabla,'id_uni_cons')) then
-        		v_cond = ' ucons.id_uni_cons = ' || v_parametros.id_uni_cons;
-        	else
-        		raise exception 'Localizacion/Equipo indefinido';
-        	end if; 
+          if (pxp.f_existe_parametro(p_tabla,'id_localizacion')) then
+            --Obtencion de los ids de localizacion
+              WITH RECURSIVE t(id,id_fk,nombre,n) AS (
+                  SELECT l.id_localizacion,l.id_localizacion_fk, l.nombre,1
+                  FROM gem.tlocalizacion l
+                  WHERE l.id_localizacion = v_parametros.id_localizacion
+                  UNION ALL
+                  SELECT l.id_localizacion,l.id_localizacion_fk, l.nombre,n+1
+                  FROM gem.tlocalizacion l, t
+                  WHERE l.id_localizacion_fk = t.id
+              )
+              SELECT (pxp.list(id::text))::varchar
+              INTO v_ids
+              FROM t;
+              
+              v_cond = ' ucons.id_localizacion in ('||v_ids||')';
+          elsif (pxp.f_existe_parametro(p_tabla,'id_uni_cons')) then
+            v_cond = ' ucons.id_uni_cons = ' || v_parametros.id_uni_cons;
+          else
+            raise exception 'Localizacion/Equipo indefinido';
+          end if; 
             
-			create temp table tt_uni_cons_med(
+      create temp table tt_uni_cons_med(
               nombre varchar,
               total numeric,
               unidad_medida varchar,
@@ -397,9 +397,9 @@ end;
             ) on commit drop;
             
         
-			--Sentencia de la consulta de conteo de registros
-			v_consulta:='insert into tt_uni_cons_med
-            			select
+      --Sentencia de la consulta de conteo de registros
+      v_consulta:='insert into tt_uni_cons_med
+                  select
                         tvar.nombre,sum(eqmed.medicion) as total,umed.codigo as unidad_medida, umed.descripcion
                         from gem.tuni_cons ucons
                         inner join gem.tequipo_variable eqvar
@@ -414,8 +414,8 @@ end;
                         and ' || v_cond || '
                         and eqmed.fecha_medicion between ''' || v_parametros.fecha_desde || ''' and ''' || v_parametros.fecha_hasta || '''
                         group by tvar.nombre,umed.codigo, umed.descripcion';
-			
-			            raise notice '%', v_consulta;
+      
+                  raise notice '%', v_consulta;
                         
             execute(v_consulta);
             
@@ -430,17 +430,17 @@ end;
             where upper(trim(nombre)) = 'COMBUSTIBLE';
             
             if v_kilometraje >=0 and v_combustible>=0 then
-            	v_rend = round(v_kilometraje / v_combustible,2);
+              v_rend = round(v_kilometraje / v_combustible,2);
                 insert into tt_uni_cons_med(
-            	nombre, total,unidad_medida,descripcion
+              nombre, total,unidad_medida,descripcion
                 ) values(
                 'Rendimiento', v_rend, 'Km/Lts', 'Kilometros por Litro'
                 );
             end if;
             
             v_consulta = 'select * from tt_uni_cons_med';
-			--Devuelve la respuesta
-			return v_consulta;
+      --Devuelve la respuesta
+      return v_consulta;
 
 end;
 
@@ -456,29 +456,29 @@ elsif(p_transaccion='GEM_LOMECO_CONT')then
 begin
         
          if (pxp.f_existe_parametro(p_tabla,'id_localizacion')) then
-        		--Obtencion de los ids de localizacion
-	            WITH RECURSIVE t(id,id_fk,nombre,n) AS (
-	                SELECT l.id_localizacion,l.id_localizacion_fk, l.nombre,1
-	                FROM gem.tlocalizacion l
-	                WHERE l.id_localizacion = v_parametros.id_localizacion
-	                UNION ALL
-	                SELECT l.id_localizacion,l.id_localizacion_fk, l.nombre,n+1
-	                FROM gem.tlocalizacion l, t
-	                WHERE l.id_localizacion_fk = t.id
-	            )
-	            SELECT (pxp.list(id::text))::varchar
-	            INTO v_ids
-	            FROM t;
-	            
-	            v_cond = ' ucons.id_localizacion in ('||v_ids||')';
-        	elsif (pxp.f_existe_parametro(p_tabla,'id_uni_cons')) then
-        		v_cond = ' ucons.id_uni_cons = ' || v_parametros.id_uni_cons;
-        	else
-        		raise exception 'Localizacion/Equipo indefinido';
-        	end if; 
+            --Obtencion de los ids de localizacion
+              WITH RECURSIVE t(id,id_fk,nombre,n) AS (
+                  SELECT l.id_localizacion,l.id_localizacion_fk, l.nombre,1
+                  FROM gem.tlocalizacion l
+                  WHERE l.id_localizacion = v_parametros.id_localizacion
+                  UNION ALL
+                  SELECT l.id_localizacion,l.id_localizacion_fk, l.nombre,n+1
+                  FROM gem.tlocalizacion l, t
+                  WHERE l.id_localizacion_fk = t.id
+              )
+              SELECT (pxp.list(id::text))::varchar
+              INTO v_ids
+              FROM t;
+              
+              v_cond = ' ucons.id_localizacion in ('||v_ids||')';
+          elsif (pxp.f_existe_parametro(p_tabla,'id_uni_cons')) then
+            v_cond = ' ucons.id_uni_cons = ' || v_parametros.id_uni_cons;
+          else
+            raise exception 'Localizacion/Equipo indefinido';
+          end if; 
             
-			--Sentencia de la consulta de conteo de registros
-			v_consulta:='select count(*)
+      --Sentencia de la consulta de conteo de registros
+      v_consulta:='select count(*)
                         from (select
                         tvar.nombre,sum(eqmed.medicion) as total,umed.codigo as unidad_medida, umed.descripcion
                         from gem.tuni_cons ucons
@@ -497,14 +497,14 @@ begin
 
             raise notice 'AA%', v_consulta;
 
-			--Devuelve la respuesta
-			return v_consulta;
+      --Devuelve la respuesta
+      return v_consulta;
 
-		end;
+    end;
         
     /*********************************
     #TRANSACCION: 'GEM_EQMECO_SEL'
-    #DESCRIPCION: coonsulta dinamica a las mediciones del equipo indicado
+    #DESCRIPCION: coonsulta dinamica a las mediciones del consolidado
     #AUTOR: rcm
     #FECHA: 11/03/2013
     ***********************************/
@@ -518,7 +518,7 @@ begin
           -------------------------------------------------------
           --Columnsa fijas
           v_consulta = 'create temp table tt_mediciones_equipo_'||p_id_usuario||'(
-          				id_uni_cons integer,
+                  id_uni_cons integer,
                         id_mediciones_mes serial,
                         fecha date,
                         hora time,
@@ -552,25 +552,25 @@ begin
               v_cod= 'col_'||g_registros.id_tipo_variable;
               
             --Verifica si existe la columna de rendimiento
-			if upper(trim(g_registros.nombre_tipo_variable)) = 'RENDIMIENTO' then
-            	v_col_rend = v_cod;
+      if upper(trim(g_registros.nombre_tipo_variable)) = 'RENDIMIENTO (KM/LT)' then
+              v_col_rend = v_cod;
             elsif upper(trim(g_registros.nombre_tipo_variable)) = 'KILOMETRAJE' then
-            	v_col_kil = v_cod;
+              v_col_kil = v_cod;
             elsif upper(trim(g_registros.nombre_tipo_variable)) = 'COMBUSTIBLE' then
-            	v_col_comb = v_cod;
+              v_col_comb = v_cod;
             end if;
      
               --semana 1
               v_cod2=v_cod||'_time';
               v_consulta =v_consulta||', '||v_cod||' varchar';
               
-            	v_consulta =v_consulta||', '||v_cod||'_key integer';
+              v_consulta =v_consulta||', '||v_cod||'_key integer';
 
               
            if upper(trim(g_registros.nombre_tipo_variable)) = 'RENDIMIENTO' then
-           		v_columnas = v_columnas || ',med.' ||v_cod||',rend_key';
+              v_columnas = v_columnas || ',med.' ||v_cod||',rend_key';
            else
-           		v_columnas = v_columnas || ',med.' ||v_cod||',med.'||v_cod||'_key';
+              v_columnas = v_columnas || ',med.' ||v_cod||',med.'||v_cod||'_key';
            end if;
             
     
@@ -586,12 +586,12 @@ begin
            execute(v_consulta);
            
             --Verifica si existe la columna Rendimiento para aumentar en la consulta
-			if v_col_rend != '' and v_col_kil != '' and v_col_comb != '' then
-           		v_aux1 = 'round(med.'||v_col_kil ||'::numeric/med.'||v_col_comb || '::numeric,2)::varchar as '||v_col_rend;
+      if v_col_rend != '' and v_col_kil != '' and v_col_comb != '' then
+              v_aux1 = 'round(med.'||v_col_kil ||'::numeric/med.'||v_col_comb || '::numeric,2)::varchar as '||v_col_rend;
                 v_columnas = replace(v_columnas,'med.'||v_col_rend,v_aux1);
                 v_columnas = replace(v_columnas,'rend_key',v_col_rend||'_key');
 --                raise exception 'REND: %',v_columnas;
-			end if;
+      end if;
 
        
             ----------------------------------------------
@@ -601,8 +601,8 @@ begin
           -- 2) FOR consulta las fechas de la tabla equipo medicion filtrados por uni_cons,
 -- raise exception 'paciencia';
 
-		--Se obtiene la fecha, hora, observacion por equipo para llenar todas las mediciones de una hora y fecha en una fila
-		v_aux= 'select DISTINCT ucons.id_uni_cons, em.fecha_medicion, em.hora,
+    --Se obtiene la fecha, hora, observacion por equipo para llenar todas las mediciones de una hora y fecha en una fila
+    v_aux= 'select DISTINCT ucons.id_uni_cons, em.fecha_medicion, em.hora,
                 coalesce(em.observaciones,'''') as observaciones
                 from gem.tequipo_medicion em
                 inner join gem.tequipo_variable ev
@@ -616,20 +616,20 @@ begin
                 and em.fecha_medicion between '''|| v_parametros.fecha_ini||''' and '''|| v_parametros.fecha_fin||'''
                 order by em.fecha_medicion';
 
-		FOR g_registros in execute(v_aux) LOOP
+    FOR g_registros in execute(v_aux) LOOP
             --2.0) (atributos) arma las columnas de las columnas fijas
 
-			v_consulta1= 'INSERT into tt_mediciones_equipo_'||p_id_usuario||' (
-            			id_uni_cons,
+      v_consulta1= 'INSERT into tt_mediciones_equipo_'||p_id_usuario||' (
+                  id_uni_cons,
                         fecha,
                         hora,
                         observaciones ';
 
-			  -- (valores) arma los valores de las columnas fijas
+        -- (valores) arma los valores de las columnas fijas
              v_consulta2= ') values('||g_registros.id_uni_cons||','''||g_registros.fecha_medicion||''','''||g_registros.hora||''','''||g_registros.observaciones||'''';
 
             --2.1) FOR consulta los registros de la tabla equipo medicion agrupados por fecha y uni_cons,
-			FOR g_registros2 in (select tva.id_tipo_variable,
+      FOR g_registros2 in (select tva.id_tipo_variable,
                                  em.id_equipo_medicion,
                                  em.medicion,
                                  em.hora
@@ -655,7 +655,7 @@ begin
                     v_consulta2=v_consulta2||','||quote_literal(g_registros2.medicion)||','||g_registros2.id_equipo_medicion;
                 end if;
                       
-			END LOOP;
+      END LOOP;
 
             -- 2.2) finaliza la cadena de insercion
             v_consulta1 = v_consulta1||v_consulta2|| ') ';
@@ -663,16 +663,16 @@ begin
             -- 2.3) inserta los datos en la tabla temporal
     --        raise notice 'INSERCION %',v_consulta1;
    
-     		execute(v_consulta1);
+        execute(v_consulta1);
         
-		END LOOP;
+    END LOOP;
     
      -- 3) consulta de la tabla temporal
     if(p_transaccion='GEM_EQMECO_SEL') then
     --ucons.codigo || '' -> '' || ucons.nombre as equipo'||v_columnas||'
---            			ucons.codigo || '' -> '' || ucons.nombre as equipo, med.*
+--                  ucons.codigo || '' -> '' || ucons.nombre as equipo, med.*
 --        v_consulta:='select ucons.codigo || '' -> '' || ucons.nombre as equipo, med.*
-       	v_consulta:='select '||v_columnas||'
+        v_consulta:='select '||v_columnas||'
                     from tt_mediciones_equipo_'||p_id_usuario||' med
                     inner join gem.tuni_cons ucons on ucons.id_uni_cons = med.id_uni_cons
                     where '||v_parametros.filtro;
@@ -681,9 +681,9 @@ begin
         v_parametros.dir_ordenacion || ' limit ' || v_parametros.cantidad || ' offset ' || v_parametros.puntero;
     else
         v_consulta:='select count (id_mediciones_mes)
-        			from tt_mediciones_equipo_'||p_id_usuario||' med
+              from tt_mediciones_equipo_'||p_id_usuario||' med
                     inner join gem.tuni_cons ucons on ucons.id_uni_cons = med.id_uni_cons
-        			where '||v_parametros.filtro;
+              where '||v_parametros.filtro;
     end if; 
 
     --Devuelve la respuesta
@@ -693,20 +693,20 @@ begin
        
 end;
 
-	else
+  else
 
-		raise exception 'Transaccion inexistente';
+    raise exception 'Transaccion inexistente';
 
-	end if;
+  end if;
 
 EXCEPTION
 
-	WHEN OTHERS THEN
-		v_resp='';
-		v_resp = pxp.f_agrega_clave(v_resp,'mensaje',SQLERRM);
-		v_resp = pxp.f_agrega_clave(v_resp,'codigo_error',SQLSTATE);
-		v_resp = pxp.f_agrega_clave(v_resp,'procedimientos',v_nombre_funcion);
-		raise exception '%',v_resp;
+  WHEN OTHERS THEN
+    v_resp='';
+    v_resp = pxp.f_agrega_clave(v_resp,'mensaje',SQLERRM);
+    v_resp = pxp.f_agrega_clave(v_resp,'codigo_error',SQLSTATE);
+    v_resp = pxp.f_agrega_clave(v_resp,'procedimientos',v_nombre_funcion);
+    raise exception '%',v_resp;
 END;
 $body$
 LANGUAGE 'plpgsql'

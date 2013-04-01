@@ -860,3 +860,8 @@ select pxp.f_add_catalog('GEM','tuni_cons__tipo_unicons','Estacion');
 select pxp.f_add_catalog('GEM','tuni_cons__tipo_unicons','Planta');
 select pxp.f_add_catalog('GEM','tuni_cons__tipo_unicons','Vehiculo');
 /***********************************F-DAT-RCM-GEM-120-07/03/2013****************************************/
+
+/***********************************I-DAT-RCM-GEM-134-22/03/2013****************************************/
+select pxp.f_add_catalog('GEM','ttipo_equipo_col__tipo_col','Ficha Tecnica');
+select pxp.f_add_catalog('GEM','ttipo_equipo_col__tipo_col','Variables');
+/***********************************F-DAT-RCM-GEM-134-22/03/2013****************************************/

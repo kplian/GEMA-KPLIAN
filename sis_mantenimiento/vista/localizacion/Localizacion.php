@@ -25,6 +25,8 @@ header("content-type: text/javascript; charset=UTF-8");
 			this.crearWindowAddEquipo();
 			//Creación de ventana para generación y visualización del calendario
 			this.crearWindowCalendario();
+			//Creación de ventana para generación de reporte ficha técnica más variables
+			this.crearWindowRepFichaTecVar();
 			//Quita la opcion de dmover marcador al cerrar la ventana
 			this.window.on('hide', function() {
 				Phx.CP.getPagina(this.idContenedor + '-east').marker.setDraggable(false)
@@ -345,14 +347,13 @@ header("content-type: text/javascript; charset=UTF-8");
 			var data = node.attributes;
 			Phx.CP.log(node);
 			if (data) {
-				Phx.CP.loadWindows('../../../sis_mantenimiento/vista/equipo_medicion/EquipoMedicionDinamicoLoc.php', 'Detalle Consolidación de Mediciones: ' + node.text, {
+				Phx.CP.loadWindows('../../../sis_mantenimiento/vista/equipo_medicion/EquipoMedicionDinamicoLoc.php', 'Detalle Consolidado de Mediciones: ' + node.text, {
 					modal: true,
 					width: '95%',
 					height: '95%'
 				}, data, this.idContenedor, 'EquipoMedicionDinamicoLoc')
 			}
 		},
-
 		winmodal: false,
 
 		Atributos: [{
@@ -689,12 +690,10 @@ header("content-type: text/javascript; charset=UTF-8");
 			width: '50%',
 			cls: 'mapaLocalizacion'
 		},
-
 		sortInfo: {
 			field: 'id_localizacion',
 			direction: 'ASC'
 		},
-
 		bdel: true,
 		bsave: false,
 		rootVisible: true,
@@ -1105,6 +1104,12 @@ header("content-type: text/javascript; charset=UTF-8");
 				handler: this.onBtnDetConsolMed,
 				scope: this
 			});
+			this.ctxMenu.addMenuItem({
+				id: 'mni-detFichaTecVar-' + this.idContenedor,
+				text: 'Reporte Ficha Técnica Variables',
+				handler: this.onBtnFichaTecVar,
+				scope: this
+			});
 			//Sincronización de usuarios
 			this.ctxMenu.add('-');
 			this.ctxMenu.addMenuItem({
@@ -1343,7 +1348,7 @@ header("content-type: text/javascript; charset=UTF-8");
 					 id:'btn-verCalGen-' + this.idContenedor,
 					 text: 'Ver el  Calendario',
 					 disabled: true,
-					 tooltip: '<b>Ver el calendario</b><br/>Genera el Caledario para todos los equipos de manera recursiva',
+					 tooltip: '<b>Ver el calendario</b><br/>Visualiza el Caledario generado de los Equipos seleccionados de forma recursiva',
 					 handler:this.onBtnVerCalGen, scope: this
 					 },
 					 {
@@ -1573,7 +1578,127 @@ header("content-type: text/javascript; charset=UTF-8");
 			  height:'50%',	//altura de la ventana hijo
 			  //width:'50%',		//ancho de la ventana hjo
 			  cls:'UniConsGral'
+		},
+		crearWindowRepFichaTecVar: function() {
+			this.formFTV = new Ext.form.FormPanel({
+				//baseCls: 'x-plain',
+				bodyStyle: 'padding:10 20px 10;',
+				autoDestroy: true,
+				border: false,
+				layout: 'form',
+				autoScroll: true,
+				defaults: {
+					xtype: 'textfield'
+				},
+
+				items: [/*{
+				 xtype: 'datefield',
+				 name: 'fecha_ini',
+				 fieldLabel: 'Inicia',
+				 format:'d-m-Y',
+				 allowBlank: false,
+				 allowBlank: false
+				 },*/
+				{
+					xtype: 'combo',
+					name: 'id_tipo_equipo',
+					fieldLabel: 'Tipo de Equipo',
+					allowBlank: false,
+   				    emptyText:'Seleccione un Tipo de Equipo...',
+   				    store: new Ext.data.JsonStore({
+					url: '../../sis_mantenimiento/control/TipoEquipo/listarTipoEquipo',
+					id: 'id_tipo_equipo',
+					root: 'datos',
+					sortInfo:{
+						field: 'codigo',
+						direction: 'ASC'
+					},
+					totalProperty: 'total',
+					fields: ['id_tipo_equipo','codigo','nombre','descripcion'],
+					// turn on remote sorting
+					remoteSort: true,
+					baseParams:{par_filtro:'codigo#nombre#descripcion'}
+					}),
+					hiddenName: 'id_tipo_equipo',
+					valueField: 'id_tipo_equipo',
+	       			displayField: 'nombre',
+	       			triggerAction: 'all',
+           			lazyRender:true,
+       				mode:'remote',
+       				pageSize:10,
+       				queryDelay:200,
+       				anchor:'100%',
+       				minChars:2,
+       				tpl:'<tpl for="."><div class="x-combo-list-item"><p>{nombre}</p><p>{codigo}</p> </div></tpl>'
+				}
+				
+				
+				]
+			});
+
+			//var dateFechaIni =this.formUCCL.getForm().findField('fecha_ini');
+			var intIdTipoEquipo = this.formFTV.getForm().findField('id_tipo_equipo');
+
+			this.wFTV = new Ext.Window({
+				title: 'Parámetro de generación del reporte',
+				collapsible: true,
+				maximizable: true,
+				autoDestroy: true,
+				width: 400,
+				height: 150,
+				layout: 'fit',
+				buttonAlign: 'center',
+				items: this.formFTV,
+				modal: true,
+				closeAction: 'hide',
+				buttons: [{
+					text: 'Generar',
+					handler: this.onRepFichaTecVar,
+					scope: this
+
+				}, {
+					text: 'Cancelar',
+					handler: function() {
+						this.wFTV.hide()
+					},
+					scope: this
+				}]
+			});
+
+		},
+		onRepFichaTecVar: function() {
+			var nodo = this.sm.getSelectedNode();
+			var data = nodo.attributes;
+			if (this.formFTV.getForm().isValid()) {
+				Phx.CP.loadingShow();
+
+				var tiponodo = nodo.attributes.tipo_nodo;
+				//var dateFechaIni =this.formUCCL.getForm().findField('fecha_ini');
+				var intIdTipoEquipo = this.formFTV.getForm().findField('id_tipo_equipo');
+
+				if (tiponodo == 'uni_cons_f' || tiponodo == 'uni_cons' || tiponodo == 'rama') {
+					var id_nodo = nodo.attributes.id_uni_cons;
+				} else {
+					id_nodo = nodo.attributes.id_localizacion;
+				}
+				
+				data.id_localizacion = id_nodo;
+				data.id_tipo_equipo = intIdTipoEquipo.getValue();
+				
+				Phx.CP.loadWindows('../../../sis_mantenimiento/vista/uni_cons_det/EquipoFichaTecnicaVariables.php', 'Ficha Técnica - Variables: ', {
+					width : 800,
+					height : 400
+				}, data, this.idContenedor, 'EquipoFichaTecnicaVariables')
+				
+				this.wFTV.hide();
 		}
-	})
+	},
+	onBtnFichaTecVar: function() {
+			var nodo = this.sm.getSelectedNode();
+			if (nodo) {
+				this.wFTV.show()
+			}
+		}
+})
 </script>
 
