@@ -196,7 +196,10 @@ Phx.vista.LocalizacionUsuario=Ext.extend(Phx.gridInterfaz,{
 		this.maestro=m;						
 		this.store.baseParams={id_localizacion:this.maestro.id_localizacion};
 		this.load({params:{start:0, limit:50}});			
-	}
+	},
+    codReporte:'S/C',
+	codSistema:'GEM',
+	pdfOrientacion:'L'
 
 })
 </script>

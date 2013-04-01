@@ -198,9 +198,11 @@ Phx.vista.MantPredefDet=Ext.extend(Phx.gridInterfaz,{
 	},
 	bdel:true,
 	bsave:false,
-	fwidht: 450
-	}
-)
+	fwidht: 450,
+    codReporte:'S/C',
+	codSistema:'GEM',
+	pdfOrientacion:'L'
+})
 </script>
 		
 		

@@ -303,9 +303,11 @@ Phx.vista.AnalisisPorque=Ext.extend(Phx.gridInterfaz,{
           //width:'50%',
           height:'50%',
           cls:'AnalisisPorqueSol'
-    }]
-}
-)
+    }],
+    codReporte:'S/C',
+	codSistema:'GEM',
+	pdfOrientacion:'L'
+})
 </script>
 		
 		

@@ -393,12 +393,14 @@ Phx.vista.EquipoMedicionDinamico=Ext.extend(Phx.gridInterfaz,{
 		  //height:'50%',	//altura de la ventana hijo
 		  width:'50%',		//ancho de la ventana hjo
 		  cls:'IndicadoresMediciones'
-	} 
+	},
+    codReporte:'S/C',
+	codSistema:'GEM',
+	pdfOrientacion:'L' 
 	    
 	
 		
-}
-)
+})
 </script>
 		
 		

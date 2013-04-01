@@ -243,7 +243,10 @@ Phx.vista.FuncionarioHonorario=Ext.extend(Phx.gridInterfaz,{
 		this.maestro=m;						
 		this.store.baseParams={id_funcionario:this.maestro.id_funcionario};
 		this.load({params:{start:0, limit:50}});			
-	}
+	},
+    codReporte:'S/C',
+	codSistema:'GEM',
+	pdfOrientacion:'L'
 })
 </script>
 		

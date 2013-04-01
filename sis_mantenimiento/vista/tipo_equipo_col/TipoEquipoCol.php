@@ -312,7 +312,10 @@ Phx.vista.TipoEquipoCol=Ext.extend(Phx.gridInterfaz,{
         
         this.dsFichTec.on('exception', this.conexionFailure)
         this.dsVar.on('exception', this.conexionFailure)
-	}
+	},
+    codReporte:'S/C',
+	codSistema:'GEM',
+	pdfOrientacion:'L'
 })
 </script>
 		

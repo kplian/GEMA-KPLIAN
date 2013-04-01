@@ -162,10 +162,11 @@ Phx.vista.UniConsDocumentoTec=Ext.extend(Phx.gridInterfaz,{
 	fwidth: 450,
 	bnew: true,
 	bdel: true,
-	bedit: true
-  }
-  
-)
+	bedit: true,
+    codReporte:'S/C',
+	codSistema:'GEM',
+	pdfOrientacion:'L'
+})
 </script>
 		
 		

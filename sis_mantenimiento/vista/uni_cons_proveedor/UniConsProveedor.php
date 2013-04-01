@@ -195,9 +195,11 @@ Phx.vista.UniConsProveedor=Ext.extend(Phx.gridInterfaz,{
 		direction: 'ASC'
 	},
 	bdel:true,
-	bsave:false
-}
-)
+	bsave:false,
+    codReporte:'S/C',
+	codSistema:'GEM',
+	pdfOrientacion:'L'
+})
 </script>
 		
 		

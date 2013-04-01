@@ -201,9 +201,11 @@ Phx.vista.OrdenTrabajoSolInsumo=Ext.extend(Phx.gridInterfaz,{
 		this.maestro=m;						
 		this.store.baseParams={id_orden_trabajo_sol:this.maestro.id_orden_trabajo_sol};
 		this.load({params:{start:0, limit:50}});			
-	}
-}
-)
+	},
+    codReporte:'S/C',
+	codSistema:'GEM',
+	pdfOrientacion:'L'
+})
 </script>
 		
 		

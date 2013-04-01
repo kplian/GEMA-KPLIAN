@@ -270,9 +270,11 @@ Phx.vista.DiagramaDecisionAccion=Ext.extend(Phx.arbInterfaz,{
         else{
             this.getBoton('act').disable();
         }			
-	}
-}
-)
+	},
+    codReporte:'S/C',
+	codSistema:'GEM',
+	pdfOrientacion:'L'
+})
 </script>
 		
 		

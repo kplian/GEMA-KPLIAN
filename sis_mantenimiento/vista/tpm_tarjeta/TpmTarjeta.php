@@ -246,9 +246,11 @@ Phx.vista.TpmTarjeta=Ext.extend(Phx.gridInterfaz,{
         title:'Detalles', 
         height : '50%',
         cls:'TpmTarjetaDet'    
-    }
-}
-)
+    },
+    codReporte:'S/C',
+	codSistema:'GEM',
+	pdfOrientacion:'L'
+})
 </script>
 		
 		

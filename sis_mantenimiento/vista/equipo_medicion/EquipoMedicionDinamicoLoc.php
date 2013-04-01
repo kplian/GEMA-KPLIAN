@@ -442,7 +442,10 @@ Phx.vista.EquipoMedicionDinamicoLoc=Ext.extend(Phx.gridInterfaz,{
 			  title:'Atributos del Equipo', 
 			  height:200,
 			  cls:'UniConsDet'
-		 }
+		 },
+    codReporte:'S/C',
+	codSistema:'GEM',
+	pdfOrientacion:'L'
 		
 })
 </script>

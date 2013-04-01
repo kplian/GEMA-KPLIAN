@@ -265,9 +265,11 @@ Phx.vista.IncidenteEquipo=Ext.extend(Phx.gridInterfaz,{
 		direction: 'ASC'
 	},
 	bdel:true,
-	bsave:true
-	}
-)
+	bsave:true,
+    codReporte:'S/C',
+	codSistema:'GEM',
+	pdfOrientacion:'L'
+})
 </script>
 		
 		

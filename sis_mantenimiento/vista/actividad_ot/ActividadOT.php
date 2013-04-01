@@ -331,7 +331,10 @@ Phx.vista.actividad=Ext.extend(Phx.gridInterfaz,{
 		//llamada procedimiento clace padre
 		Phx.vista.actividad.superclass.preparaMenu.call(this,tb)
 	}
-  }
+  },
+	codReporte:'S/C',
+	codSistema:'GEM',
+	pdfOrientacion:'L'
 )
 </script>
 		

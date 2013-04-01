@@ -222,7 +222,10 @@ Phx.vista.FallaEventoExterno=Ext.extend(Phx.gridInterfaz,{
 	bdel:true,
 	bsave:false,
 	fwidth: 450,
-	fheight: 300
+	fheight: 300,
+    codReporte:'S/C',
+	codSistema:'GEM',
+	pdfOrientacion:'L'
 	
 	/*,
 	loadValoresIniciales:function()

@@ -197,10 +197,11 @@ Phx.vista.EquipoMedicionConsol=Ext.extend(Phx.gridInterfaz,{
 	successReloadGrid:function(rec,con,res){
 
 		
-	}
-}
-
-)
+	},
+    codReporte:'S/C',
+	codSistema:'GEM',
+	pdfOrientacion:'L'
+})
 </script>
 		
 		

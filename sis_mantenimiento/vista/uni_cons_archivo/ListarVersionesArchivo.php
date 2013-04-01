@@ -270,6 +270,9 @@ Phx.vista.ListarVersionesArchivo=Ext.extend(Phx.gridInterfaz,{
          this.grid.getBottomToolbar().disable(); 
          this.store.removeAll();            
        }
-    }         
+    },
+    codReporte:'S/C',
+	codSistema:'GEM',
+	pdfOrientacion:'L'         
 })
 </script>

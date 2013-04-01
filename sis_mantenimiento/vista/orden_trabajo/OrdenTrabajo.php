@@ -1150,7 +1150,10 @@ Phx.vista.OrdenTrabajo=Ext.extend(Phx.gridInterfaz,{
 	onButtonEdit: function() {
 		Phx.vista.OrdenTrabajo.superclass.onButtonEdit.call(this);
 		//this.getComponente('id_uni_cons').enable();
-	}
+	},
+    codReporte:'S/C',
+	codSistema:'GEM',
+	pdfOrientacion:'L'
 })
 </script>
 		

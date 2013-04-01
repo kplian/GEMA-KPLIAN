@@ -199,9 +199,11 @@ Phx.vista.ModoFalla=Ext.extend(Phx.gridInterfaz,{
         this.maestro=m;                     
         this.store.baseParams={id_funcion_falla:this.maestro.id_funcion_falla};
         this.load({params:{start:0, limit:50}});            
-    }
-}
-)
+    },
+    codReporte:'S/C',
+	codSistema:'GEM',
+	pdfOrientacion:'L'
+})
 </script>
 		
 		

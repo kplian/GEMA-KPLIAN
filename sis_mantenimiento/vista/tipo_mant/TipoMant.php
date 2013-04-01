@@ -192,9 +192,11 @@ Phx.vista.TipoMant=Ext.extend(Phx.gridInterfaz,{
 	bdel:true,
 	bsave:false,
 	fwidth: 450,
-	fheight: 230
-	}
-)
+	fheight: 230,
+    codReporte:'S/C',
+	codSistema:'GEM',
+	pdfOrientacion:'L'
+})
 </script>
 		
 		

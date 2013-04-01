@@ -735,9 +735,11 @@ Phx.vista.recurso=Ext.extend(Phx.gridInterfaz,{
      		this.getComponente('codigo').setVisible(false);
      		this.getComponente('existencias').setVisible(false);
      	}
-    }
-  }
-)
+    },
+    codReporte:'S/C',
+	codSistema:'GEM',
+	pdfOrientacion:'L'
+})
 </script>
 		
 		

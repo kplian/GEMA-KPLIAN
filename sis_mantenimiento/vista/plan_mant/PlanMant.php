@@ -395,9 +395,11 @@ Phx.vista.PlanMant=Ext.extend(Phx.gridInterfaz,{
 		var tb = Phx.vista.PlanMant.superclass.liberaMenu.call(this);
 		this.getBoton('btnReporte').setDisabled(true);
 		return tb;
-	}
-}
-)
+	},
+    codReporte:'S/C',
+	codSistema:'GEM',
+	pdfOrientacion:'L'
+})
 </script>
 		
 		

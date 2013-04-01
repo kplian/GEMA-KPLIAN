@@ -311,7 +311,9 @@ Phx.vista.Documento=Ext.extend(Phx.gridInterfaz,{
           width:400,
           height:300,
           cls:'ListarVersiones'
-    }
-}
-)
+    },
+    codReporte:'S/C',
+	codSistema:'GEM',
+	pdfOrientacion:'L'
+})
 </script>

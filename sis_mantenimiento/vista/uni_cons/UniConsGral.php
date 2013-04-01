@@ -588,7 +588,10 @@ Phx.vista.UniConsGral=Ext.extend(Phx.gridInterfaz,{
 		  title:'Atributos del Equipo', 
 		  width:400,
 		  cls:'UniConsDet'
-		 }
+		 },
+    codReporte:'S/C',
+	codSistema:'GEM',
+	pdfOrientacion:'L'
 })
 </script>
 		

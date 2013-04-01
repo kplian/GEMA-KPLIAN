@@ -211,7 +211,10 @@ Phx.vista.FFuncion=Ext.extend(Phx.gridInterfaz,{
 		var tb = Phx.vista.FFuncion.superclass.liberaMenu.call(this);
 		this.getBoton('btnFallaFuncion').setDisabled(true);
 		return tb;
-	}
+	},
+    codReporte:'S/C',
+	codSistema:'GEM',
+	pdfOrientacion:'L'
 })
 </script>
 		

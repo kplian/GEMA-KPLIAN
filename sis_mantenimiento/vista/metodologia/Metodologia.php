@@ -162,7 +162,8 @@ Phx.vista.Metodologia=Ext.extend(Phx.gridInterfaz,{
 	bdel:true,
 	bsave:false,
 	fwidth:450,
-	fheight:190
+	fheight:190,
+	codSistema:'GEM'
 	}
 )
 </script>

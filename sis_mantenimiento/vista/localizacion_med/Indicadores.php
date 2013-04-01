@@ -129,6 +129,9 @@ Phx.vista.IndicadoresGraf=Ext.extend(Phx.gridInterfaz,{
    		 this.store.removeAll(); 
     	   
        }
-      }
+      },
+    codReporte:'S/C',
+	codSistema:'GEM',
+	pdfOrientacion:'L'
 })
 </script>

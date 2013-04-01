@@ -388,9 +388,11 @@ Phx.vista.UniConsArchivo=Ext.extend(Phx.gridInterfaz,{
           height:'40%', 
           width:400,
           cls:'ListarVersionesArchivo'
-    }
-}
-)
+    },
+    codReporte:'S/C',
+	codSistema:'GEM',
+	pdfOrientacion:'L'
+})
 </script>
 		
 		

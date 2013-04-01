@@ -185,26 +185,29 @@ Phx.vista.TipoEquipo=Ext.extend(Phx.gridInterfaz,{
 	bsave:false,
 	fwidth: 400,
 	fheight: 250,
-	
-		tabsouth:[
-	    {
-		  url:'../../../sis_mantenimiento/vista/tipo_variable/TipoVariable.php',
-		  title:'Variables Tipo', 
-		  height:'50%',
-		   cls:'TipoVariable'
-		 },
-	
-	    {
-		  url:'../../../sis_mantenimiento/vista/falla_evento/FallaEvento.php',
-		  title:'Fallas/Eventos Conocidas', 
-		  //width:'50%',
-		  height:'50%',
-		  cls:'FallaEvento'
-		 }]	 
-	
-	}
-	
-)
+	tabsouth:[{
+	  url:'../../../sis_mantenimiento/vista/tipo_variable/TipoVariable.php',
+	  title:'Variables Tipo', 
+	  height:'50%',
+	   cls:'TipoVariable'
+	 }, {
+		url:'../../../sis_mantenimiento/vista/falla_evento/FallaEvento.php',
+		title:'Fallas/Eventos Conocidas', 
+		//width:'50%',
+		height:'50%',
+		cls:'FallaEvento'
+	 }, {
+	 	url:'../../../sis_mantenimiento/vista/tipo_equipo_col/TipoEquipoCol.php',
+	  	title:'Columna Reportes', 
+	  	//width:'50%',
+	  	height:'50%',
+	  	cls:'TipoEquipoCol'
+	 }
+	],
+	codReporte:'S/C',
+	codSistema:'GEM',
+	pdfOrientacion:'L'
+})
 </script>
 		
 		

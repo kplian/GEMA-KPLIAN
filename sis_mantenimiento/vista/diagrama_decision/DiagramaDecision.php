@@ -229,7 +229,10 @@ Phx.vista.DiagramaDecision=Ext.extend(Phx.gridInterfaz,{
 		  height:'50%',	//altura de la ventana hijo
 		  //width:'50%',		//ancho de la ventana hjo
 		  cls:'DiagramaDecisionAccion'
-	}
+	},
+    codReporte:'S/C',
+	codSistema:'GEM',
+	pdfOrientacion:'L'
 })
 </script>
 		

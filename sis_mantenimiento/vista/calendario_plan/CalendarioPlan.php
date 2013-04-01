@@ -611,9 +611,10 @@ Phx.vista.CalendarioPlan = Ext.extend(Phx.baseInterfaz,{
 	
         	
         	
-        }
-	
-	
+        },
+    codReporte:'S/C',
+	codSistema:'GEM',
+	pdfOrientacion:'L'
 	
 })
 	

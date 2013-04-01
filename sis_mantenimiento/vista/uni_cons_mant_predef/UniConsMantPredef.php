@@ -355,9 +355,11 @@ Phx.vista.UniConsMantPredef=Ext.extend(Phx.gridInterfaz,{
 			cmbUniMed.setRawValue(record.data.desc_unidad_medida_estimado);
 			txtFrec.setValue(record.data.tiempo_estimado);
 		},this);
-	}
-}
-)
+	},
+    codReporte:'S/C',
+	codSistema:'GEM',
+	pdfOrientacion:'L'
+})
 </script>
 		
 		

@@ -142,7 +142,10 @@ Phx.vista.FuncionarioGem = {
 		this.mostrarComponente(this.getComponente('horario2'));
 		this.mostrarComponente(this.getComponente('horario3'));
 		Phx.vista.FuncionarioGem.superclass.onButtonNew.call(this);
-	}
+	},
+    codReporte:'S/C',
+	codSistema:'GEM',
+	pdfOrientacion:'L'
 
 };
 </script>

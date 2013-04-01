@@ -282,7 +282,10 @@ Phx.vista.UniConsDet=Ext.extend(Phx.gridInterfaz,{
        }
 
 
-	}
+	},
+    codReporte:'S/C',
+	codSistema:'GEM',
+	pdfOrientacion:'L'
 })
 </script>
 		
