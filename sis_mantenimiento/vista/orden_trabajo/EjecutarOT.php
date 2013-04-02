@@ -86,12 +86,17 @@ Phx.vista.EjecutarOT = {
 		}
 		
 		function btncloseOT(){
-			var rec=this.sm.getSelected();
+			/*var rec=this.sm.getSelected();
 			var data = rec.data;
 			if(rec){
 				this.wUC.show()	
-			}
-			
+			}*/
+			this.getComponente('descripcion_causa').allowBlank=false;
+			this.getComponente('comentarios').allowBlank=false;
+			this.getComponente('prevension').allowBlank=false;
+			this.getComponente('accidentes').allowBlank=false;
+			this.getComponente('reclamos').allowBlank=false;
+			this.onButtonEdit();
 		}
 		
 		function closeOT() {
@@ -163,7 +168,7 @@ Phx.vista.EjecutarOT = {
 		}
 	},
 	onButtonEdit: function() {
-		Phx.vista.RegistrarOT.superclass.onButtonEdit.call(this);
+		Phx.vista.EjecutarOT.superclass.onButtonEdit.call(this);
 		this.handleForm();
 	},
 	onBtnCancelarOT: function() {
@@ -318,6 +323,26 @@ Phx.vista.EjecutarOT = {
 				this.wUC.hide();
 				this.reload();
 			}
+		},
+		successSave: function(resp) {
+			//Llamada para cerrar la OT
+			Phx.CP.loadingShow();
+			var rec=this.sm.getSelected();
+			Ext.Ajax.request({
+				url:'../../sis_mantenimiento/control/OrdenTrabajo/procesarOT',
+				params: {
+					'id_orden_trabajo': rec.data.id_orden_trabajo,
+					'cat_estado_anterior': rec.data.cat_estado,
+					'cat_estado': 'Cerrado'
+				},
+				success: function(){
+					Phx.CP.loadingHide();
+					this.reload();
+				},
+				failure: this.conexionFailure,
+				timeout: this.timeout,
+				scope: this
+			});			
 		} 
 };
 </script>

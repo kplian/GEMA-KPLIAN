@@ -27,6 +27,7 @@ DECLARE
 	v_nombre_funcion        text;
 	v_mensaje_error         text;
 	v_id_tipo_equipo_col	integer;
+	v_id                 varchar;
 			    
 BEGIN
 
@@ -43,6 +44,13 @@ BEGIN
 	if(p_transaccion='GM_TEQCOL_INS')then
 					
         begin
+          
+          if v_parametros.tipo_col = 'Variables' then
+              v_id = v_parametros.id;
+          else
+              v_id = v_parametros.id_ficha;
+          end if;
+          
         	--Sentencia de la insercion
         	insert into gem.ttipo_equipo_col(
 			estado_reg,
@@ -56,7 +64,7 @@ BEGIN
 			orden
           	) values(
 			'activo',
-			v_parametros.id,
+			v_id,
 			v_parametros.id_tipo_equipo,
 			v_parametros.tipo_col,
 			p_id_usuario,

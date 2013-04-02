@@ -1256,4 +1256,9 @@ CREATE TABLE gem.ttipo_equipo_col (
 ) INHERITS (pxp.tbase)
 WITH OIDS;
 ALTER TABLE gem.ttipo_equipo_col OWNER TO postgres;
+
+alter table gem.ttipo_variable
+add column formula varchar(200);
+alter table gem.ttipo_variable
+add column calculo varchar(15);
 /***********************************F-SCP-RCM-GEM-134-22/03/2013*****************************************/

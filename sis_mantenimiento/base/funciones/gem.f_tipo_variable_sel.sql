@@ -1,3 +1,11 @@
+CREATE OR REPLACE FUNCTION gem.f_tipo_variable_sel (
+  p_administrador integer,
+  p_id_usuario integer,
+  p_tabla varchar,
+  p_transaccion varchar
+)
+RETURNS varchar AS
+$body$
 /**************************************************************************
  SISTEMA:   SISTEMA DE GESTION DE MANTENIMIENTO
  FUNCION:     gem.f_tipo_variable_sel
@@ -121,13 +129,13 @@ BEGIN
             
       begin
         
-            IF (not pxp.f_existe_parametro(p_tabla,'id_tipo_equipo')  or v_parametros.id_tipo_equipo is null) THEN
+            IF (not pxp.f_existe_parametro(p_tabla,'id_tipo_equipo')) THEN
                    raise exception 'El tipo de Equipo no ha sido definido';
             END IF;
 
         --Sentencia de la consulta
       v_consulta:='select
-                        distinct tvar.id_tipo_variable::::varchar as id, tvar.nombre
+                        distinct tvar.id_tipo_variable::varchar as id, tvar.nombre
                         from gem.tequipo_variable evar
                         inner join gem.ttipo_variable tvar
                         on tvar.id_tipo_variable = evar.id_tipo_variable
@@ -191,3 +199,9 @@ EXCEPTION
       v_resp = pxp.f_agrega_clave(v_resp,'procedimientos',v_nombre_funcion);
       raise exception '%',v_resp;
 END;
+$body$
+LANGUAGE 'plpgsql'
+VOLATILE
+CALLED ON NULL INPUT
+SECURITY INVOKER
+COST 100;

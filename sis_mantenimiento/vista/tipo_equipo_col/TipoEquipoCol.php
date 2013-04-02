@@ -68,7 +68,7 @@ Phx.vista.TipoEquipoCol=Ext.extend(Phx.gridInterfaz,{
 						cod_subsistema:'GEM',
 						catalogo_tipo:'ttipo_equipo_col__tipo_col'
 				},
-				renderer:function (value, p, record){return String.format('{0}', record.data['desc_nombre']);}
+				renderer:function (value, p, record){return String.format('{0}', record.data['tipo_col']);}
 			},
 			type: 'ComboRec',
 			id_grupo: 0,
@@ -79,7 +79,7 @@ Phx.vista.TipoEquipoCol=Ext.extend(Phx.gridInterfaz,{
 		{
 			config:{
 				name: 'id',
-				fieldLabel: 'Columna',
+				fieldLabel: 'Variables',
 				allowBlank: false,
 				emptyText:'Elija una columna...',
 				valueField: 'id',
@@ -110,7 +110,8 @@ Phx.vista.TipoEquipoCol=Ext.extend(Phx.gridInterfaz,{
 				anchor: '100%',
 				gwidth:220,
 				minChars:2,
-				renderer:function (value, p, record){return String.format('{0}', record.data['desc_nombre']);}
+				renderer:function (value, p, record){return String.format('{0}', record.data['desc_id']);},
+				disabled:true
 			},
 			type:'ComboBox',
 			id_grupo:0,
@@ -119,9 +120,51 @@ Phx.vista.TipoEquipoCol=Ext.extend(Phx.gridInterfaz,{
 		},
 		{
 			config:{
+				name: 'id_ficha',
+				fieldLabel: 'Ficha Técnica',
+				allowBlank: false,
+				emptyText:'Elija una columna...',
+				valueField: 'id',
+				store: new Ext.data.JsonStore({
+					url: '../../sis_mantenimiento/control/UniConsDet/listarColumnasFichaTec',
+					id: 'id',
+					root:'datos',
+					sortInfo:{
+						field:'nombre',
+						direction:'ASC'
+					},
+					totalProperty:'total',
+					fields: ['id','nombre'],
+					// turn on remote sorting
+					remoteSort: true,
+					baseParams:{par_filtro:'nombre'}
+				}),
+				displayField: 'nombre',
+				gdisplayField:'desc_nombre',
+				//hiddenName: 'id_administrador',
+				forceSelection:true,
+				typeAhead: false,
+    			triggerAction: 'all',
+    			lazyRender:true,
+				mode:'remote',
+				pageSize:20,
+				queryDelay:500,
+				anchor: '100%',
+				gwidth:220,
+				minChars:2,
+				renderer:function (value, p, record){return String.format('{0}', record.data['desc_id']);},
+				disabled:true
+			},
+			type:'ComboBox',
+			id_grupo:0,
+			grid:false,
+			form:true
+		},
+		{
+			config:{
 				name: 'orden',
 				fieldLabel: 'Orden',
-				allowBlank: true,
+				allowBlank: false,
 				anchor: '80%',
 				gwidth: 100,
 				maxLength:50
@@ -130,6 +173,7 @@ Phx.vista.TipoEquipoCol=Ext.extend(Phx.gridInterfaz,{
 			filters:{pfiltro:'teqcol.orden',type:'numeric'},
 			id_grupo:1,
 			grid:true,
+			egrid:true,
 			form:true
 		},
 		{
@@ -228,7 +272,8 @@ Phx.vista.TipoEquipoCol=Ext.extend(Phx.gridInterfaz,{
 		{name:'fecha_mod', type: 'date',dateFormat:'Y-m-d H:i:s.u'},
 		{name:'usr_reg', type: 'string'},
 		{name:'usr_mod', type: 'string'},
-		'orden'
+		'orden',
+		'desc_id'
 		
 	],
 	sortInfo:{
@@ -240,7 +285,6 @@ Phx.vista.TipoEquipoCol=Ext.extend(Phx.gridInterfaz,{
 	loadValoresIniciales:function(){
 		Phx.vista.TipoEquipoCol.superclass.loadValoresIniciales.call(this);
 		this.getComponente('id_tipo_equipo').setValue(this.maestro.id_tipo_equipo);
-		console.log('loadValores',this.maestro.id_tipo_equipo)
 		this.getComponente('id').store.baseParams={id_tipo_equipo: this.maestro.id_tipo_equipo};		
 	},
 	onReloadPage:function(m){
@@ -249,7 +293,6 @@ Phx.vista.TipoEquipoCol=Ext.extend(Phx.gridInterfaz,{
         if(m.id != 'id'){
 	    	this.store.baseParams={id_tipo_equipo:this.maestro.id_tipo_equipo};
 			this.load({params:{start:0, limit:50}});
-			console.log('onReload',this.maestro.id_tipo_equipo)
 			this.getComponente('id').store.baseParams={id_tipo_equipo: this.maestro.id_tipo_equipo};
        	}
 		else{
@@ -258,49 +301,24 @@ Phx.vista.TipoEquipoCol=Ext.extend(Phx.gridInterfaz,{
    		 	this.store.removeAll(); 
        	}
 	},
-	dsVar: new Ext.data.JsonStore({
-					url: '../../sis_mantenimiento/control/TipoVariable/listarVariablesEquipo',
-					id: 'id',
-					root:'datos',
-					sortInfo:{
-						field:'nombre',
-						direction:'ASC'
-					},
-					totalProperty:'total',
-					fields: ['id','nombre'],
-					// turn on remote sorting
-					remoteSort: true,
-					baseParams:{par_filtro:'nombre'}
-	}),
-	dsFichTec: new Ext.data.JsonStore({
-					url: '../../sis_mantenimiento/control/UniConsDet/listarColumnasFichaTec',
-					id: 'id',
-					root:'datos',
-					sortInfo:{
-						field:'nombre',
-						direction:'ASC'
-					},
-					totalProperty:'total',
-					fields: ['id','nombre'],
-					// turn on remote sorting
-					remoteSort: true,
-					baseParams:{par_filtro:'nombre'}
-	}),
-	
+
 	definicionEventos: function(){
 		//Definición de eventos
 		this.getComponente('catalogo').on('select', function(e, data, index) {
 			var cmbTipCol=this.getComponente('catalogo');
 			var cmbId=this.getComponente('id');
+			var cmbIdFicha=this.getComponente('id_ficha');
 			
 			if(cmbTipCol.getValue()=='Ficha Tecnica'){
-				alert('Se cambió el ds de Ficha Técnica')
-				//cmbId.store=this.dsFichTec;
-				cmbId.store.setUrl('../../sis_mantenimiento/control/TipoVariable/listarVariablesEquipo');
+				cmbId.disable();
+				cmbIdFicha.enable();
+				cmbId.allowBlank=true;
+				cmbIdFicha.allowBlank=false;
 			} else if(cmbTipCol.getValue()=='Variables'){
-				alert('Se cambió el ds de Variables')
-				//cmbId.store=this.dsVar;
-				cmbId.store.setUrl('../../sis_mantenimiento/control/UniConsDet/listarColumnasFichaTec');
+				cmbId.enable();
+				cmbIdFicha.disable();
+				cmbId.allowBlank=false;
+				cmbIdFicha.allowBlank=true;
 			}
 			
 			cmbId.setValue('');
@@ -309,13 +327,12 @@ Phx.vista.TipoEquipoCol=Ext.extend(Phx.gridInterfaz,{
 			//cmbId.store.load({params:{start:0,limit:50,id_tipo_equipo:this.maestro.id_tipo_equipo}});
 
         },this);
-        
-        this.dsFichTec.on('exception', this.conexionFailure)
-        this.dsVar.on('exception', this.conexionFailure)
+
 	},
     codReporte:'S/C',
 	codSistema:'GEM',
-	pdfOrientacion:'L'
+	pdfOrientacion:'L',
+	bedit:false
 })
 </script>
 		

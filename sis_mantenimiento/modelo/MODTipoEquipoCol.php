@@ -32,6 +32,7 @@ class MODTipoEquipoCol extends MODbase{
 		$this->captura('usr_reg','varchar');
 		$this->captura('usr_mod','varchar');
 		$this->captura('orden','int4');
+		$this->captura('desc_id','varchar');
 		
 		//Ejecuta la instruccion
 		$this->armarConsulta();
@@ -53,6 +54,7 @@ class MODTipoEquipoCol extends MODbase{
 		$this->setParametro('id_tipo_equipo','id_tipo_equipo','int4');
 		$this->setParametro('tipo_col','tipo_col','varchar');
 		$this->setParametro('orden','orden','int4');
+		$this->setParametro('id_ficha','id_ficha','varchar');
 
 		//Ejecuta la instruccion
 		$this->armarConsulta();

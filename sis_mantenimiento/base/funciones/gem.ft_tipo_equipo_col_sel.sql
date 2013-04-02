@@ -52,7 +52,11 @@ BEGIN
 						teqcol.fecha_mod,
 						usu1.cuenta as usr_reg,
 						usu2.cuenta as usr_mod,
-						teqcol.orden	
+						teqcol.orden,
+						case teqcol.tipo_col
+						 when ''Variables'' then (select nombre from gem.ttipo_variable where id_tipo_variable = teqcol.id::integer)
+						 else teqcol.id
+						end as desc_id	
 						from gem.ttipo_equipo_col teqcol
 						inner join segu.tusuario usu1 on usu1.id_usuario = teqcol.id_usuario_reg
 						left join segu.tusuario usu2 on usu2.id_usuario = teqcol.id_usuario_mod

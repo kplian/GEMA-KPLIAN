@@ -588,3 +588,9 @@ alter table gem.tmant_predef
 add constraint fk_tmant_predef__id_tipo_mant foreign key(id_tipo_mant)
 references gem.ttipo_mant(id_tipo_mant);
 /***********************************F-DEP-RCM-GEM-132-19/02/2013*****************************************/
+
+/***********************************I-DEP-RCM-GEM-134-22/03/2013*****************************************/
+alter table gem.ttipo_equipo_col
+add constraint fk_ttipo_equipo_col__id_tipo_equipo foreign key (id_tipo_equipo)
+references gem.ttipo_equipo (id_tipo_equipo);
+/***********************************F-DEP-RCM-GEM-134-22/03/2013*****************************************/
