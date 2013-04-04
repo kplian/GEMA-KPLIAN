@@ -96,22 +96,12 @@ Class RAnualMedicionIndicadores extends Report {
         
         $this->writeDetalles($this->getDataSource(), $pdf);
         
-        $pdf->SetFillColor(175,238,238, true);
-        $pdf->setXY($x+5,$y+$height);
-        $pdf->Cell(45, $height*2, '', '1', 0, 'C', true, '', 1, false, 'T', 'C');
-        $pdf->Cell(5, $height*2, '', '0', 0, 'C', false, '', 1, false, 'T', 'C');
-        $pdf->Cell(45, $height*2, '', '1', 0, 'C', true, '', 1, false, 'T', 'C');
-        $pdf->setXY($x+5,$y+$height*4);
+								$pdf->setXY($x+5,$y+$height*4);
         $pdf->SetFillColor(0,0,255, true);
         $pdf->Cell(45, $height*1, '', '1', 0, 'C', true, '', 1, false, 'T', 'C');
         $pdf->Cell(5, $height*1, '', '0', 0, 'C', false, '', 1, false, 'T', 'C');
         $pdf->Cell(45, $height*1, '', '1', 0, 'C', true, '', 1, false, 'T', 'C');
-        
-        $pdf->setXY($x+5,$y+$height*7);
-        $pdf->SetFillColor(175,238,238, true);
-        $pdf->Cell(45, $height*2, '', '1', 0, 'C', true, '', 1, false, 'T', 'C');
-        $pdf->Cell(5, $height*2, '', '0', 0, 'C', false, '', 1, false, 'T', 'C');
-        $pdf->Cell(45, $height*2, '', '1', 0, 'C', true, '', 1, false, 'T', 'C');
+       	
         $pdf->setXY($x+5,$y+$height*10);        
         $pdf->SetFillColor(0,0,255, true);
         $pdf->Cell(45, $height*1, '', '1', 0, 'C', true, '', 1, false, 'T', 'C');
@@ -132,16 +122,6 @@ Class RAnualMedicionIndicadores extends Report {
             $confiabilidad = 0;
         }
         
-        $pdf->Cell(5, $height*2, 'D=', '0', 0, 'C', false, '', 1, false, 'T', 'C');
-        $pdf->Cell(35, $height, 'Horas Totales Año - Hrs MNP - Hrs MPP', 'B', 0, 'C', false, '', 1, false, 'T', 'C');
-        $pdf->Cell(5, $height*2, 'x100', '0', 0, 'C', false, '', 1, false, 'T', 'C');
-        $pdf->Cell(5, $height*2, '', '0', 0, 'C', false, '', 1, false, 'T', 'C');        
-        $pdf->Cell(10, $height*2, 'TMEF=', '0', 0, 'C', false, '', 1, false, 'T', 'C');
-        $pdf->Cell(35, $height, 'Horas Totales Año - Hrs MNP', 'B', 0, 'C', false, '', 1, false, 'T', 'C');
-        $pdf->setXY($x+5,$y+$height*2);
-        $pdf->Cell(45, $height, 'Horas Totales Año', '0', 0, 'C', false, '', 1, false, 'T', 'C');
-        $pdf->Cell(5, $height*2, '', '0', 0, 'C', false, '', 1, false, 'T', 'C');        
-        $pdf->Cell(45, $height, 'Número de paros', '0', 0, 'C', false, '', 1, false, 'T', 'C');
         $pdf->setXY($x+5,$y+$height*4);
         $pdf->setTextColor(255,255,255);  
         $pdf->Cell(45, $height*1, "Disponibilidad(%) = $disponibilidad", '1', 0, 'C', true, '', 1, false, 'T', 'C');
@@ -150,17 +130,7 @@ Class RAnualMedicionIndicadores extends Report {
         
         $pdf->setXY($x+5,$y+$height*7);
         //CALCULANDO DATOS
-        $pdf->setTextColor(0,0,0);
-        $pdf->Cell(5, $height*2, 'C=', '0', 0, 'C', false, '', 1, false, 'T', 'C');
-        $pdf->Cell(30, $height, 'TMEF', 'B', 0, 'C', false, '', 1, false, 'T', 'C');
-        $pdf->Cell(10, $height*2, 'x100', '0', 0, 'C', false, '', 1, false, 'T', 'C');
-        $pdf->Cell(5, $height*2, '', '0', 0, 'C', false, '', 1, false, 'T', 'C');        
-        $pdf->Cell(10, $height*2, 'TMPR=', '0', 0, 'C', false, '', 1, false, 'T', 'C');
-        $pdf->Cell(35, $height, 'Cantidad de horas en MNP', 'B', 0, 'C', false, '', 1, false, 'T', 'C');
-        $pdf->setXY($x+5,$y+$height*8);
-        $pdf->Cell(45, $height, 'TMEF + TMPR', '0', 0, 'C', false, '', 1, false, 'T', 'C');
-        $pdf->Cell(5, $height*2, '', '0', 0, 'C', false, '', 1, false, 'T', 'C');        
-        $pdf->Cell(45, $height, 'Número de paros', '0', 0, 'C', false, '', 1, false, 'T', 'C');
+        
         $pdf->setXY($x+5,$y+$height*10);
         $pdf->setTextColor(255,255,255);          
         $pdf->Cell(45, $height*1, "Confiabilidad(%) = $confiabilidad", '1', 0, 'C', true, '', 1, false, 'T', 'C');
