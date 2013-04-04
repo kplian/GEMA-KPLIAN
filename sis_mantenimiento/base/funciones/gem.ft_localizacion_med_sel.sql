@@ -133,7 +133,7 @@ BEGIN
 						to_char(locmed.fecha_med,''Month'')as mes_literal,
                         to_char(locmed.fecha_med,''mm'')as mes,
 						to_char(locmed.fecha_med,''YY'')as anio,
-						to_char(locmed.fecha_med,''dd-Month-YYYY'') as fecha_med,
+						replace(to_char(locmed.fecha_med,''dd-Month-YYYY''),'' '','''') as fecha_med,
 						locmed.tiempo_mpp_hrs,
 						to_char(locmed.fecha_reg,''dd-mm-YYYY'') as fecha_reg,
 						to_char(locmed.fecha_mod,''dd-mm-YYYY'') as fecha_mod	
