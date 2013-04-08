@@ -10,7 +10,7 @@ $body$
  PXP - KPLIAN
 ***************************************************************************
  SCRIPT: 		gem.f_formula_indicadores_sel
- DESCRIPCIÓN: 	
+ DESCRIPCION: 	
  AUTOR: 		RCM
  FECHA:			19/12/2012
  COMENTARIOS:	
@@ -23,10 +23,10 @@ $body$
 
 ***************************************************************************/
 --------------------------
--- CUERPO DE LA FUNCIÓN --
+-- CUERPO DE LA FUNCION --
 --------------------------
 
--- PARÁMETROS FIJOS
+-- PARAMETROS FIJOS
 /*
 pm_id_usuario                               integer (si)
 pm_ip_origen                                varchar(40) (si)
@@ -68,7 +68,7 @@ BEGIN
 	v_nombre_funcion = 'gem.f_formula_indicadores_sel';
 	v_parametros = pxp.f_get_record(p_tabla);
 
-	--Algoritmo de cálculo de los indicadores (General para cualquiera de las dos transacciones)
+	--Algoritmo de calculo de los indicadores (General para cualquiera de las dos transacciones)
 	--1. Validaciones
 		--1.1 Verificacion de existencia de la localizacion
 		if not exists(select 1 from gem.tlocalizacion
@@ -132,24 +132,25 @@ BEGIN
 			v_disp = (v_horas_tot - v_rec.tot_mnp - v_rec.tot_mpp) / v_horas_tot * 100;
 			--TMEF
 			if v_rec.tot_paros = 0 then
-				v_tmef = -1;
+				v_tmef = 0;
 				v_tmef_obs = 'Valor no valido: la cantidad de paros en este periodo es cero (division por cero)';
 			else
 				v_tmef = (v_horas_tot - v_rec.tot_mnp) / v_rec.tot_paros;
 			end if;
 			--TMPR
 			if v_rec.tot_paros = 0 then
-				v_tmpr = -1;
+				v_tmpr = 0;
 				v_tmpr_obs = 'Valor no valido: la cantidad de paros en este periodo es cero (division por cero)';
 			else
 				v_tmpr = v_rec.tot_mnp / v_rec.tot_paros;
 			end if;
 			--Confiabilidad
-			if v_tmef + v_tmpr = 0 then
-				v_conf=-1;
-				v_conf_obs='Valor no valido: TMEF y TMPR suman cero (division por cero)';
+			if v_horas_tot = 0 then
+				v_conf=0;
+				v_conf_obs='El tiempo total es cero)';
 			else
-				v_conf = (v_tmef/v_tmef + v_tmpr) * 100;
+				--v_conf = (v_tmef/v_tmef + v_tmpr) * 100;
+				v_conf = ((v_horas_tot - v_rec.tot_mnp)/v_horas_tot)*100;
 			end if;
 			
 		end loop;

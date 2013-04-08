@@ -179,7 +179,7 @@ Class RMedicionIndicadores extends Report {
         $pdf->Ln();
         
         $this->writeDetalles($this->getDataSource(), $pdf);
-        
+        /*
         $pdf->SetFillColor(175,238,238, true);
         $pdf->setXY($x+10,$y+$height);
         $pdf->Cell(45, $height*2, '', '1', 0, 'C', true, '', 1, false, 'T', 'C');
@@ -190,13 +190,15 @@ Class RMedicionIndicadores extends Report {
         $pdf->Cell(45, $height*1, '', '1', 0, 'C', true, '', 1, false, 'T', 'C');
         $pdf->Cell(5, $height*1, '', '0', 0, 'C', false, '', 1, false, 'T', 'C');
         $pdf->Cell(45, $height*1, '', '1', 0, 'C', true, '', 1, false, 'T', 'C');
-        
+        */
+        /*
         $pdf->setXY($x+10,$y+$height*7);
         $pdf->SetFillColor(175,238,238, true);
         $pdf->Cell(45, $height*2, '', '1', 0, 'C', true, '', 1, false, 'T', 'C');
         $pdf->Cell(5, $height*2, '', '0', 0, 'C', false, '', 1, false, 'T', 'C');
         $pdf->Cell(45, $height*2, '', '1', 0, 'C', true, '', 1, false, 'T', 'C');
-        $pdf->setXY($x+10,$y+$height*10);        
+        */
+								$pdf->setXY($x+10,$y+$height*10);        
         $pdf->SetFillColor(0,0,255, true);
         $pdf->Cell(45, $height*1, '', '1', 0, 'C', true, '', 1, false, 'T', 'C');
         $pdf->Cell(5, $height*1, '', '0', 0, 'C', false, '', 1, false, 'T', 'C');
@@ -215,7 +217,7 @@ Class RMedicionIndicadores extends Report {
             $tmpr = 0;
             $confiabilidad = 0;
         }
-        
+        /*
         $pdf->Cell(5, $height*2, 'D=', '0', 0, 'C', false, '', 1, false, 'T', 'C');
         $pdf->Cell(35, $height, 'Horas Totales Mes - Hrs MNP - Hrs MPP', 'B', 0, 'C', false, '', 1, false, 'T', 'C');
         $pdf->Cell(5, $height*2, 'x100', '0', 0, 'C', false, '', 1, false, 'T', 'C');
@@ -226,7 +228,8 @@ Class RMedicionIndicadores extends Report {
         $pdf->Cell(45, $height, 'Horas Totales Mes', '0', 0, 'C', false, '', 1, false, 'T', 'C');
         $pdf->Cell(5, $height*2, '', '0', 0, 'C', false, '', 1, false, 'T', 'C');        
         $pdf->Cell(45, $height, 'Número de paros', '0', 0, 'C', false, '', 1, false, 'T', 'C');
-        $pdf->setXY($x+10,$y+$height*4);
+        */ 
+								$pdf->setXY($x+10,$y+$height*4);
         $pdf->setTextColor(255,255,255);  
         $pdf->Cell(45, $height*1, "Disponibilidad(%) = $disponibilidad", '1', 0, 'C', true, '', 1, false, 'T', 'C');
         $pdf->Cell(5, $height*1, '', '0', 0, 'C', false, '', 1, false, 'T', 'C');
@@ -234,6 +237,7 @@ Class RMedicionIndicadores extends Report {
         
         $pdf->setXY($x+10,$y+$height*7);
         //CALCULANDO DATOS
+        /*
         $pdf->setTextColor(0,0,0);
         $pdf->Cell(5, $height*2, 'C=', '0', 0, 'C', false, '', 1, false, 'T', 'C');
         $pdf->Cell(30, $height, 'TMEF', 'B', 0, 'C', false, '', 1, false, 'T', 'C');
@@ -245,8 +249,9 @@ Class RMedicionIndicadores extends Report {
         $pdf->Cell(45, $height, 'TMEF + TMPR', '0', 0, 'C', false, '', 1, false, 'T', 'C');
         $pdf->Cell(5, $height*2, '', '0', 0, 'C', false, '', 1, false, 'T', 'C');        
         $pdf->Cell(45, $height, 'Número de paros', '0', 0, 'C', false, '', 1, false, 'T', 'C');
-        $pdf->setXY($x+10,$y+$height*10);
-        $pdf->setTextColor(255,255,255);          
+        */ 
+								$pdf->setXY($x+10,$y+$height*10);
+								$pdf->setTextColor(255,255,255);          
         $pdf->Cell(45, $height*1, "Confiabilidad(%) = $confiabilidad", '1', 0, 'C', true, '', 1, false, 'T', 'C');
         $pdf->Cell(5, $height*1, '', '0', 0, 'C', false, '', 1, false, 'T', 'C');        
         $pdf->Cell(45, $height*1, "TMPR(Horas) = $tmpr", '1', 0, 'C', true, '', 1, false, 'T', 'C');        
@@ -262,7 +267,7 @@ Class RMedicionIndicadores extends Report {
         $pdf->Output($fileName, 'F');
     }
     
-    function writeDetalles (DataSource $dataSource, TCPDF $pdf) {
+    function writeDetalles (DataSource $dataSource, TCPDF $pdf) {    	
         $widthMarginLeft = 1;
         $width0 = 13;
         $width1 = 15;
@@ -278,13 +283,14 @@ Class RMedicionIndicadores extends Report {
         
         $dataset = $dataSource->getDataSet();
         
-        for ($i=1; $i < $this->numDias+1; $i++) { 
+        for ($i=1; $i < $this->numDias+1; $i++) {        	 
             $pdf->setTextColor(0,0,0);
             $pdf->Cell($width1, $height, "$i-$this->mesLiteral-$this->anio", 1, 0, 'C', false, '', 1, false, 'T', 'C');
             $row=current($dataset); 
             //var_dump($row['fecha_med']);
-            //var_dump(str_pad($i, 2, '0',STR_PAD_LEFT)."-$this->mesLiteral -$this->anio");           
-            if($row['fecha_med']==str_pad($i, 2, '0',STR_PAD_LEFT)."-$this->mesLiteral -$this->anio"){
+            //var_dump(str_pad($i, 2, '0',STR_PAD_LEFT)."-$this->mesLiteral-$this->anio");           
+            if($row['fecha_med']==str_pad($i, 2, '0',STR_PAD_LEFT)."-$this->mesLiteral-$this->anio"){
+            	
                 //var_dump($row['fecha_med']);
                 $mayor=max(array($row['num_paros'],$row['tiempo_op_hrs'],$row['tiempo_standby_hrs'],$row['tiempo_mnp_hrs'],$row['tiempo_mpp_hrs']));
                 $this->maximo=($this->maximo<$mayor)?$mayor:$this->maximo;
@@ -447,7 +453,7 @@ Class RMedicionIndicadores extends Report {
         
         $dataset = $dataSource->getDataSet();
         $yOrigen=$y;
-        for ($i=0; $i < $numLineas; $i++) {
+        for ($i=1; $i <= $numLineas; $i++) {
             $row=current($dataset);
             $cantidadY=substr($row['fecha_med'], 0,2);
             if($cantidadY==str_pad($i, 2, '0',STR_PAD_LEFT)){
@@ -459,15 +465,15 @@ Class RMedicionIndicadores extends Report {
                 $pdf->Line($xMPP,$yMPP,$xMPP+$widthCelda,$yOrigen-($heightCelda*$row['tiempo_mpp_hrs'])+0.3,$green);
                 next($dataset);  
                 $xNumParos=$xNumParos+$widthCelda;
-                $yNumParos=$yNumParos-($heightCelda*$row['num_paros']);                
+                $yNumParos=$yOrigen-($heightCelda*$row['num_paros'])-0.3;                
                 $xOperativo=$xOperativo+$widthCelda;
-                $yOperativo=$yOperativo-($heightCelda*$row['tiempo_op_hrs']);
+                $yOperativo=$yOrigen-($heightCelda*$row['tiempo_op_hrs'])-0.15;
                 $xStandBy=$xStandBy+$widthCelda;
-                $yStandBy=$yStandBy-($heightCelda*$row['tiempo_standby_hrs']);
+                $yStandBy=$yOrigen-($heightCelda*$row['tiempo_standby_hrs']);
                 $xMNP=$xMNP+$widthCelda;
-                $yMNP=$yMNP-($heightCelda*$row['tiempo_mnp_hrs']);
+                $yMNP=$yOrigen-($heightCelda*$row['tiempo_mnp_hrs'])+0.15;
                 $xMPP=$xMPP+$widthCelda;
-                $yMPP=$yMPP-($heightCelda*$row['tiempo_mpp_hrs']);
+                $yMPP=$yOrigen-($heightCelda*$row['tiempo_mpp_hrs'])+0.3;
             }else{
                 $pdf->Line($xNumParos,$yNumParos,$xNumParos+$widthCelda,$yOrigen-0.30,$blue);
                 $pdf->Line($xOperativo,$yOperativo,$xOperativo+$widthCelda,$yOrigen-0.15,$magent);
