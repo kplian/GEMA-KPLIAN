@@ -112,9 +112,16 @@ Class RAnualMedicionIndicadores extends Report {
         //CALCULANDO DATOS
         if($this->dias!==0){        
             $disponibilidad = round((($this->dias*24) - $this->totalTiempoMnpHrs - $this->totalTiempoMppHrs)*100/($this->dias*24),2);
-            $tmef = (($this->dias*24)-$this->totalTiempoMnpHrs)/$this->totalNumParos;            
-            $tmpr = $this->totalTiempoMnpHrs/$this->totalNumParos;
-            $confiabilidad = round(($tmef*100)/($tmef+$tmpr),2);
+			if($this->totalNumParos==0){
+				$tmef = (($this->dias*24)-$this->totalTiempoMnpHrs)/1;            
+	            $tmpr = $this->totalTiempoMnpHrs/1;
+	            $confiabilidad = round(($tmef*100)/($tmef+$tmpr),2);
+			} else{
+				$tmef = (($this->dias*24)-$this->totalTiempoMnpHrs)/$this->totalNumParos;            
+	            $tmpr = $this->totalTiempoMnpHrs/$this->totalNumParos;
+	            $confiabilidad = round(($tmef*100)/($tmef+$tmpr),2);	
+			}
+            
         }else {
             $disponibilidad = 0;
             $tmef = 0;
@@ -176,9 +183,16 @@ Class RAnualMedicionIndicadores extends Report {
             if($row['mes']==$i){
                 //calculo de indicadores
                 $disponibilidad = (($row['dias']*24) - $row['tiempo_mnp_hrs'] - $row['tiempo_mpp_hrs'])*100/($row['dias']*24);
-                $tmef = (($row['dias']*24)-$row['tiempo_mnp_hrs']/$row['num_paros']);            
-                $tmpr = $row['tiempo_mnp_hrs']/$row['num_paros'];
-                $confiabilidad = ($tmef*100)/($tmef+$tmpr);
+				if($row['num_paros']==0){
+					$tmef = (($row['dias']*24)-$row['tiempo_mnp_hrs']/1);            
+	                $tmpr = $row['tiempo_mnp_hrs']/1;
+	                $confiabilidad = ($tmef*100)/($tmef+$tmpr);
+				} else{
+					$tmef = (($row['dias']*24)-$row['tiempo_mnp_hrs']/$row['num_paros']);            
+	                $tmpr = $row['tiempo_mnp_hrs']/$row['num_paros'];
+	                $confiabilidad = ($tmef*100)/($tmef+$tmpr);	
+				}
+                
                 
                 $mayor=max(array($row['num_paros'],$row['tiempo_op_hrs'],$row['tiempo_standby_hrs'],$row['tiempo_mnp_hrs'],$row['tiempo_mpp_hrs']));
                 $this->maximo=($this->maximo<$mayor)?$mayor:$this->maximo;
@@ -488,9 +502,16 @@ Class RAnualMedicionIndicadores extends Report {
             $row=current($dataset);            
             if($row['mes']==$i){
                 $disponibilidad = (($row['dias']*24) - $row['tiempo_mnp_hrs'] - $row['tiempo_mpp_hrs'])*100/($row['dias']*24);
-                $tmef = (($row['dias']*24)-$row['tiempo_mnp_hrs']/$row['num_paros']);            
-                $tmpr = $row['tiempo_mnp_hrs']/$row['num_paros'];
-                $confiabilidad = ($tmef*100)/($tmef+$tmpr);
+				if($row['num_paros']==0){
+					$tmef = (($row['dias']*24)-$row['tiempo_mnp_hrs']/1);            
+	                $tmpr = $row['tiempo_mnp_hrs']/1;
+	                $confiabilidad = ($tmef*100)/($tmef+$tmpr);
+				} else{
+					$tmef = (($row['dias']*24)-$row['tiempo_mnp_hrs']/$row['num_paros']);            
+	                $tmpr = $row['tiempo_mnp_hrs']/$row['num_paros'];
+	                $confiabilidad = ($tmef*100)/($tmef+$tmpr);	
+				}
+                
                   
                 $pdf->Line($xDisponibilidad,$yDisponibilidad,$xDisponibilidad+$widthCelda,$yOrigen-($heightCelda*$disponibilidad)-0.15,$blue);
                 $pdf->Line($xConfiabilidad,$yConfiabilidad,$xConfiabilidad+$widthCelda,$yOrigen-($heightCelda*$confiabilidad)-0.3,$red);

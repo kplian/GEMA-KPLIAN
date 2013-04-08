@@ -208,9 +208,16 @@ Class RMedicionIndicadores extends Report {
         //CALCULANDO DATOS
         if($this->dias!==0){        
             $disponibilidad = (($this->dias*24) - $this->totalTiempoMnpHrs - $this->totalTiempoMppHrs)*100/($this->dias*24);
-            $tmef = (($this->dias*24)-$this->totalTiempoMnpHrs)/$this->totalNumParos;            
-            $tmpr = $this->totalTiempoMnpHrs/$this->totalNumParos;
-            $confiabilidad = ($tmef*100)/($tmef+$tmpr);
+			if($this->totalNumParos==0){
+				$tmef = (($this->dias*24)-$this->totalTiempoMnpHrs)/1;
+				$tmpr = $this->totalTiempoMnpHrs;
+            	$confiabilidad = ($tmef*100)/($tmef+$tmpr);
+			} else{
+				$tmef = (($this->dias*24)-$this->totalTiempoMnpHrs)/$this->totalNumParos;
+				$tmpr = $this->totalTiempoMnpHrs/$this->totalNumParos;
+            	$confiabilidad = ($tmef*100)/($tmef+$tmpr);	
+			}         
+            
         }else {
             $disponibilidad = 0;
             $tmef = 0;
