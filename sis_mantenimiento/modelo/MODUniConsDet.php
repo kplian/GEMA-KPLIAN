@@ -154,6 +154,7 @@ class MODUniConsDet extends MODbase{
 		
 		$this->setParametro('id_localizacion','id_localizacion','int4');
 		$this->setParametro('id_tipo_equipo','id_tipo_equipo','int4');
+		$this->setParametro('id_uni_cons','id_uni_cons','int4');
 				
 		//Definicion de la lista del resultado del query
 		$this->captura('id','varchar');

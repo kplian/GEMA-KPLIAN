@@ -45,6 +45,8 @@ DECLARE
     v_mtto numeric;
     v_kil numeric;
     v_tot numeric;
+    v_con1 varchar;
+    v_con2 varchar;
           
 BEGIN
 
@@ -178,13 +180,27 @@ BEGIN
   elsif(p_transaccion in ('GM_FICVAR_SEL','GM_FICVAR_CONT'))then
             
       begin
-        
+          --raise exception 'id_loc: %, id_ucons: %',v_parametros.id_localizacion,v_parametros.id_uni_cons;
           --Verifica el filtro para ubicar los equipos a considerar
             if (pxp.f_existe_parametro(p_tabla,'id_localizacion')) then
-                v_ids = gem.f_get_id_localizaciones(v_parametros.id_localizacion);
-                v_cond = ' ucons.id_localizacion in ('||v_ids||')';
+              if v_parametros.id_localizacion <> -1 then
+                    v_ids = gem.f_get_id_localizaciones(v_parametros.id_localizacion);
+                    v_cond = ' ucons.id_localizacion in ('||v_ids||')';
+                else
+                  if pxp.f_existe_parametro(p_tabla,'id_uni_cons') then
+                        if v_parametros.id_uni_cons<>-1 then
+                            v_cond = ' ucons.id_uni_cons = ' || v_parametros.id_uni_cons;
+                        end if;
+                    else
+                      raise exception 'Localizacion/Equipo indefinido';
+                    end if;
+                end if;
             elsif (pxp.f_existe_parametro(p_tabla,'id_uni_cons')) then
-                v_cond = ' ucons.id_uni_cons = ' || v_parametros.id_uni_cons;
+              if v_parametros.id_uni_cons<>-1 then
+                  v_cond = ' ucons.id_uni_cons = ' || v_parametros.id_uni_cons;
+                else
+                    raise exception 'Localizacion/Equipo indefinido';
+                end if;
             else
                 raise exception 'Localizacion/Equipo indefinido';
             end if;
@@ -197,9 +213,8 @@ BEGIN
         v_consulta = 'create temp table tt_reporte_ficha_var_'||p_id_usuario||'(
                         id_reporte serial,
                         id_uni_cons integer';
-              
-            --Aumenta las columnas de las variables de medición        
-            for v_rec in execute('select
+
+        v_con1 = 'select
                                   distinct tvar.id_tipo_variable::varchar as id, tvar.nombre
                                   from gem.tequipo_variable evar
                                   inner join gem.ttipo_variable tvar
@@ -213,18 +228,23 @@ BEGIN
                                   where ucons.id_tipo_equipo = ' || v_parametros.id_tipo_equipo ||'
                                   and evar.estado_reg = ''activo''
                                   and ucons.estado_reg = ''activo''
-                                  and ucons.tipo_nodo = ''raiz''
-                                  and ucons.id_localizacion in ('|| v_ids ||')
-                                  and evar.tipo in (''numeric'',''formula'')') loop
+                                  and ucons.tipo_nodo = ''raiz''';
+
+      if v_ids is not null then
+              v_con1= v_con1||' and ucons.id_localizacion in ('|| v_ids ||')';
+            end if;
+            v_con1 = v_con1 || ' and evar.tipo in (''numeric'',''formula'')';
+
+            --Aumenta las columnas de las variables de medición        
+            for v_rec in execute(v_con1) loop
                             
                 v_cod = 'col_'||v_rec.id;
                 v_consulta = v_consulta||', '||v_cod||'_key varchar';
                 v_consulta = v_consulta||', '||v_cod||' varchar';
                   
             end loop;
-              
-            --Aumenta las columnas de la ficha técnica            
-            for v_rec in execute('select
+            
+            v_con1='select
                                   distinct lower(trim(udet.nombre)) as id, udet.nombre 
                                   from gem.tuni_cons_det udet
                                   inner join gem.tuni_cons ucons
@@ -235,8 +255,14 @@ BEGIN
                                   and tecol.id = lower(trim(udet.nombre))
                                   where ucons.id_tipo_equipo = ' || v_parametros.id_tipo_equipo || '
                                   and ucons.estado_reg = ''activo''
-                                  and ucons.tipo_nodo = ''raiz''
-                                  and ucons.id_localizacion in ('|| v_ids ||')') loop
+                                  and ucons.tipo_nodo = ''raiz''';
+                                  
+      if v_ids is not null then
+              v_con1= v_con1||' and ucons.id_localizacion in ('|| v_ids ||')';
+            end if;
+            
+            --Aumenta las columnas de la ficha técnica            
+            for v_rec in execute(v_con1) loop
 
                 v_cod = 'col_'||v_rec.id;
                 v_consulta = v_consulta||', '||v_cod||'_key varchar';
@@ -262,9 +288,13 @@ BEGIN
                           on ucons.id_uni_cons = evar.id_uni_cons
                           inner join gem.tequipo_medicion emed
                           on emed.id_equipo_variable = evar.id_equipo_variable
-                          where ucons.id_tipo_equipo = '||v_parametros.id_tipo_equipo||'
-                          and ucons.id_localizacion in ('|| v_ids ||')
-                          and emed.fecha_medicion between '''|| v_parametros.fecha_ini||''' and '''|| v_parametros.fecha_fin||'''';
+                          where ucons.id_tipo_equipo = '||v_parametros.id_tipo_equipo;
+                          
+            if v_ids is not null then
+              v_consulta = v_consulta||' and ucons.id_localizacion in ('|| v_ids ||')';
+            end if;
+            
+      v_consulta = v_consulta || ' and emed.fecha_medicion between '''|| v_parametros.fecha_ini||''' and '''|| v_parametros.fecha_fin||'''';
                           
             for v_rec in execute(v_consulta) loop
                 v_consulta1= 'INSERT into tt_reporte_ficha_var_'||p_id_usuario||' (
@@ -274,7 +304,7 @@ BEGIN
                 v_consulta2= ') values('||v_rec.id_uni_cons;
              
              
-        for v_rec1 in (select tva.id_tipo_variable,
+            for v_rec1 in (select tva.id_tipo_variable,
                                  sum(em.medicion) as medicion
                                  from gem.tequipo_medicion em
                                  inner join gem.tequipo_variable ev
@@ -373,10 +403,14 @@ BEGIN
                           on tecol.id_tipo_equipo = ' || v_parametros.id_tipo_equipo ||'
                           and tecol.tipo_col = ''Ficha Tecnica''
                           and tecol.id = lower(trim(udet.nombre))
-                          where ucons.id_tipo_equipo = '||v_parametros.id_tipo_equipo||'
-                          and ucons.id_localizacion in ('|| v_ids ||')
-                          order by udet.nombre';
+                          where ucons.id_tipo_equipo = '||v_parametros.id_tipo_equipo;
                           
+            if v_ids is not null then
+              v_consulta = v_consulta||' and ucons.id_localizacion in ('|| v_ids ||')';
+            end if;
+                          
+      v_consulta = v_consulta || ' order by udet.nombre';
+
       for v_rec in execute(v_consulta) loop
                 /*v_consulta1= 'INSERT into tt_reporte_ficha_var_'||p_id_usuario||' (
                             id_uni_cons';
@@ -421,9 +455,14 @@ BEGIN
                               where ucons.id_tipo_equipo = ' || v_parametros.id_tipo_equipo ||'
                               and evar.estado_reg = ''activo''
                               and ucons.estado_reg = ''activo''
-                              and ucons.tipo_nodo = ''raiz''
-                              and ucons.id_localizacion in ('|| v_ids ||')
-                              and evar.tipo in (''numeric'',''formula'')';
+                              and ucons.tipo_nodo = ''raiz''';
+                              
+                if v_ids is not null then
+                v_consulta = v_consulta||' and ucons.id_localizacion in ('|| v_ids ||')';
+              end if;
+
+        v_consulta = v_consulta || ' and evar.tipo in (''numeric'',''formula'')';
+                              
                               
                 v_consulta = v_consulta || ' union
                               select
@@ -437,11 +476,16 @@ BEGIN
                               and tecol.id = lower(trim(udet.nombre))
                               where ucons.id_tipo_equipo = ' || v_parametros.id_tipo_equipo || '
                               and ucons.estado_reg = ''activo''
-                              and ucons.tipo_nodo = ''raiz''
-                              and ucons.id_localizacion in ('|| v_ids ||')) FF order by FF.orden ';
+                              and ucons.tipo_nodo = ''raiz''';
+                              
+                if v_ids is not null then
+                v_consulta = v_consulta||' and ucons.id_localizacion in ('|| v_ids ||')';
+              end if;
+                              
+                v_consulta = v_consulta ||') FF order by FF.orden ';
                               
                 --v_consulta1 = 'select b.codigo||'' - '' ||b.nombre as equipo,a.id_reporte,a.id_uni_cons';
-                v_consulta1 = 'select b.codigo as equipo,a.id_reporte,a.id_uni_cons';
+                v_consulta1 = 'select b.codigo as equipo,a.id_reporte,a.id_uni_cons,c.nombre as desc_localizacion';
                 for v_rec in execute(v_consulta) loop
                   v_cod = 'col_'||v_rec.id;
                   v_consulta1 = v_consulta1||', a.'||v_cod||'_key';
@@ -450,7 +494,9 @@ BEGIN
 
               v_consulta1 = v_consulta1 || ' from tt_reporte_ficha_var_'||p_id_usuario ||' a
                                               inner join gem.tuni_cons b
-                                              on b.id_uni_cons = a.id_uni_cons';
+                                              on b.id_uni_cons = a.id_uni_cons
+                                              inner join gem.tlocalizacion c
+                                              on c.id_localizacion = b.id_localizacion';
                                               
                 --raise exception 'FFFF, %',v_consulta1;
             else 
@@ -532,10 +578,24 @@ BEGIN
         
           --Verifica el filtro para ubicar los equipos a considerar
             if (pxp.f_existe_parametro(p_tabla,'id_localizacion')) then
-                v_ids = gem.f_get_id_localizaciones(v_parametros.id_localizacion);
-                v_cond = ' ucons.id_localizacion in ('||v_ids||')';
+              if v_parametros.id_localizacion <> -1 then
+                    v_ids = gem.f_get_id_localizaciones(v_parametros.id_localizacion);
+                    v_cond = ' ucons.id_localizacion in ('||v_ids||')';
+                else
+                  if pxp.f_existe_parametro(p_tabla,'id_uni_cons') then
+                        if v_parametros.id_uni_cons<>-1 then
+                            v_cond = ' ucons.id_uni_cons = ' || v_parametros.id_uni_cons;
+                        end if;
+                    else
+                      raise exception 'Localizacion/Equipo indefinido';
+                    end if;
+                end if;
             elsif (pxp.f_existe_parametro(p_tabla,'id_uni_cons')) then
-                v_cond = ' ucons.id_uni_cons = ' || v_parametros.id_uni_cons;
+              if v_parametros.id_uni_cons<>-1 then
+                  v_cond = ' ucons.id_uni_cons = ' || v_parametros.id_uni_cons;
+                else
+                    raise exception 'Localizacion/Equipo indefinido';
+                end if;
             else
                 raise exception 'Localizacion/Equipo indefinido';
             end if;
@@ -556,9 +616,13 @@ BEGIN
                           where ucons.id_tipo_equipo = ' || v_parametros.id_tipo_equipo ||'
                           and evar.estado_reg = ''activo''
                           and ucons.estado_reg = ''activo''
-                          and ucons.tipo_nodo = ''raiz''
-                          and ucons.id_localizacion in ('|| v_ids ||')
-                          and evar.tipo in (''numeric'',''formula'')';
+                          and ucons.tipo_nodo = ''raiz''';
+            if v_ids is not null then
+              v_consulta = v_consulta||' and ucons.id_localizacion in ('|| v_ids ||')';
+            end if;
+            
+            v_consulta = v_consulta || ' and evar.tipo in (''numeric'',''formula'')';
+                          
                           
       v_consulta = v_consulta || ' union
                     select
@@ -572,9 +636,13 @@ BEGIN
                           and tecol.id = lower(trim(udet.nombre))
                           where ucons.id_tipo_equipo = ' || v_parametros.id_tipo_equipo || '
                           and ucons.estado_reg = ''activo''
-                          and ucons.tipo_nodo = ''raiz''
-                          and ucons.id_localizacion in ('|| v_ids ||')) FF order by FF.orden ';
-                          
+                          and ucons.tipo_nodo = ''raiz''';
+      
+          if v_ids is not null then
+              v_consulta = v_consulta||' and ucons.id_localizacion in ('|| v_ids ||')) FF order by FF.orden ';
+            else
+              v_consulta = v_consulta||') FF order by FF.orden ';
+            end if;
             raise notice 'DDD:%', v_consulta;
                           
       return v_consulta;
@@ -594,10 +662,24 @@ BEGIN
         
           --Verifica el filtro para ubicar los equipos a considerar
             if (pxp.f_existe_parametro(p_tabla,'id_localizacion')) then
-                v_ids = gem.f_get_id_localizaciones(v_parametros.id_localizacion);
-                v_cond = ' ucons.id_localizacion in ('||v_ids||')';
+              if v_parametros.id_localizacion <> -1 then
+                    v_ids = gem.f_get_id_localizaciones(v_parametros.id_localizacion);
+                    v_cond = ' ucons.id_localizacion in ('||v_ids||')';
+                else
+                  if pxp.f_existe_parametro(p_tabla,'id_uni_cons') then
+                        if v_parametros.id_uni_cons<>-1 then
+                            v_cond = ' ucons.id_uni_cons = ' || v_parametros.id_uni_cons;
+                        end if;
+                    else
+                      raise exception 'Localizacion/Equipo indefinido';
+                    end if;
+                end if;
             elsif (pxp.f_existe_parametro(p_tabla,'id_uni_cons')) then
-                v_cond = ' ucons.id_uni_cons = ' || v_parametros.id_uni_cons;
+              if v_parametros.id_uni_cons<>-1 then
+                  v_cond = ' ucons.id_uni_cons = ' || v_parametros.id_uni_cons;
+                else
+                    raise exception 'Localizacion/Equipo indefinido';
+                end if;
             else
                 raise exception 'Localizacion/Equipo indefinido';
             end if;
@@ -615,9 +697,12 @@ BEGIN
                           where ucons.id_tipo_equipo = ' || v_parametros.id_tipo_equipo || '
                           and evar.estado_reg = ''activo''
                           and ucons.estado_reg = ''activo''
-                          and ucons.tipo_nodo = ''raiz''
-                          and ucons.id_localizacion in ('|| v_ids ||')
-                          and evar.tipo in (''numeric'',''formula'')';
+                          and ucons.tipo_nodo = ''raiz''';
+            if v_ids is not null then
+              v_consulta = v_consulta||' and ucons.id_localizacion in ('|| v_ids ||')';
+            end if;
+            
+            v_consulta = v_consulta || ' and evar.tipo in (''numeric'',''formula'')';
                           
       v_consulta = v_consulta || ' union
                     select
@@ -627,8 +712,13 @@ BEGIN
                           on ucons.id_uni_cons = udet.id_uni_cons
                           where ucons.id_tipo_equipo = ' || v_parametros.id_tipo_equipo || '
                           and ucons.estado_reg = ''activo''
-                          and ucons.tipo_nodo = ''raiz''
-                          and ucons.id_localizacion in ('|| v_ids ||')) FF';
+                          and ucons.tipo_nodo = ''raiz''';
+          if v_ids is not null then
+              v_consulta = v_consulta||' and ucons.id_localizacion in ('|| v_ids ||')) FF';
+            else
+              v_consulta = v_consulta||') FF';
+            end if;
+
 
       --Devuelve la respuesta
       return v_consulta;

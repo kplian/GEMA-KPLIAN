@@ -36,7 +36,7 @@ BEGIN
    
     if v_id_tipo_variable is null then
       --Inserta
-        INSERT INTO gem.ttipo_variable ("id_usuario_reg", "fecha_reg", "estado_reg", "id_tipo_equipo", "id_unidad_medida", "nombre", "descripcion", "observaciones", "calculo", "formula")
+        INSERT INTO gem.ttipo_variable ("id_usuario_reg", "fecha_reg", "estado_reg", "id_tipo_equipo", "id_unidad_medida", "nombre", "descripcion", "observaciones", "calculo", "numeric")
     VALUES (1, E'2012-12-20 14:14:05.024', E'activo',  v_id_tipo_equipo, 9, E'Kilometraje', NULL, NULL, NULL, NULL) returning id_tipo_variable into v_id_tipo_variable;
     end if;
         
@@ -55,7 +55,7 @@ BEGIN
    
     if v_id_tipo_variable is null then
       --Inserta
-        INSERT INTO gem.ttipo_variable ("id_usuario_reg", "fecha_reg", "estado_reg", "id_tipo_equipo", "id_unidad_medida", "nombre", "descripcion", "observaciones", "calculo", "formula")
+        INSERT INTO gem.ttipo_variable ("id_usuario_reg", "fecha_reg", "estado_reg", "id_tipo_equipo", "id_unidad_medida", "nombre", "descripcion", "observaciones", "calculo", "numeric")
     VALUES (1, E'2012-12-20 14:14:05.024', E'activo',  v_id_tipo_equipo, 9, E'Recorrido', NULL, NULL, NULL, NULL) returning id_tipo_variable into v_id_tipo_variable;
     end if;
     
@@ -73,7 +73,7 @@ BEGIN
    
     if v_id_tipo_variable is null then
       --Inserta
-        INSERT INTO gem.ttipo_variable ("id_usuario_reg", "fecha_reg", "estado_reg", "id_tipo_equipo", "id_unidad_medida", "nombre", "descripcion", "observaciones", "calculo", "formula")
+        INSERT INTO gem.ttipo_variable ("id_usuario_reg", "fecha_reg", "estado_reg", "id_tipo_equipo", "id_unidad_medida", "nombre", "descripcion", "observaciones", "calculo", "numeric")
     VALUES (1, E'2012-12-20 14:14:05.024', E'activo',  v_id_tipo_equipo, 9, E'Consumo Combustible (Lts)', NULL, NULL, NULL, NULL) returning id_tipo_variable into v_id_tipo_variable;
     end if;
     
@@ -91,7 +91,7 @@ BEGIN
    
     if v_id_tipo_variable is null then
       --Inserta
-        INSERT INTO gem.ttipo_variable ("id_usuario_reg", "fecha_reg", "estado_reg", "id_tipo_equipo", "id_unidad_medida", "nombre", "descripcion", "observaciones", "calculo", "formula")
+        INSERT INTO gem.ttipo_variable ("id_usuario_reg", "fecha_reg", "estado_reg", "id_tipo_equipo", "id_unidad_medida", "nombre", "descripcion", "observaciones", "calculo", "numeric")
     VALUES (1, E'2012-12-20 14:14:05.024', E'activo',  v_id_tipo_equipo, 9, E'Costo Combustible (Bs)', NULL, NULL, NULL, NULL) returning id_tipo_variable into v_id_tipo_variable;
     end if;
     
@@ -109,7 +109,7 @@ BEGIN
    
     if v_id_tipo_variable is null then
       --Inserta
-        INSERT INTO gem.ttipo_variable ("id_usuario_reg", "fecha_reg", "estado_reg", "id_tipo_equipo", "id_unidad_medida", "nombre", "descripcion", "observaciones", "calculo", "formula")
+        INSERT INTO gem.ttipo_variable ("id_usuario_reg", "fecha_reg", "estado_reg", "id_tipo_equipo", "id_unidad_medida", "nombre", "descripcion", "observaciones", "calculo", "numeric")
     VALUES (1, E'2012-12-20 14:14:05.024', E'activo',  v_id_tipo_equipo, 9, E'Costo Parchado (Bs)', NULL, NULL, NULL, NULL) returning id_tipo_variable into v_id_tipo_variable;
     end if;
     
@@ -127,7 +127,7 @@ BEGIN
    
     if v_id_tipo_variable is null then
       --Inserta
-        INSERT INTO gem.ttipo_variable ("id_usuario_reg", "fecha_reg", "estado_reg", "id_tipo_equipo", "id_unidad_medida", "nombre", "descripcion", "observaciones", "calculo", "formula")
+        INSERT INTO gem.ttipo_variable ("id_usuario_reg", "fecha_reg", "estado_reg", "id_tipo_equipo", "id_unidad_medida", "nombre", "descripcion", "observaciones", "calculo", "numeric")
     VALUES (1, E'2012-12-20 14:14:05.024', E'activo',  v_id_tipo_equipo, 9, E'Costo Lubricantes (Bs)', NULL, NULL, NULL, NULL) returning id_tipo_variable into v_id_tipo_variable;
     end if;
     
@@ -145,7 +145,7 @@ BEGIN
    
     if v_id_tipo_variable is null then
       --Inserta
-        INSERT INTO gem.ttipo_variable ("id_usuario_reg", "fecha_reg", "estado_reg", "id_tipo_equipo", "id_unidad_medida", "nombre", "descripcion", "observaciones", "calculo", "formula")
+        INSERT INTO gem.ttipo_variable ("id_usuario_reg", "fecha_reg", "estado_reg", "id_tipo_equipo", "id_unidad_medida", "nombre", "descripcion", "observaciones", "calculo", "numeric")
     VALUES (1, E'2012-12-20 14:14:05.024', E'activo',  v_id_tipo_equipo, 9, E'Costo Lavado (Bs)', NULL, NULL, NULL, NULL) returning id_tipo_variable into v_id_tipo_variable;
     end if;
     
@@ -163,7 +163,7 @@ BEGIN
    
     if v_id_tipo_variable is null then
       --Inserta
-        INSERT INTO gem.ttipo_variable ("id_usuario_reg", "fecha_reg", "estado_reg", "id_tipo_equipo", "id_unidad_medida", "nombre", "descripcion", "observaciones", "calculo", "formula")
+        INSERT INTO gem.ttipo_variable ("id_usuario_reg", "fecha_reg", "estado_reg", "id_tipo_equipo", "id_unidad_medida", "nombre", "descripcion", "observaciones", "calculo", "numeric")
     VALUES (1, E'2012-12-20 14:14:05.024', E'activo',  v_id_tipo_equipo, 9, E'Costo Batería (Bs)', NULL, NULL, NULL, NULL) returning id_tipo_variable into v_id_tipo_variable;
     end if;
     
@@ -181,7 +181,7 @@ BEGIN
    
     if v_id_tipo_variable is null then
       --Inserta
-        INSERT INTO gem.ttipo_variable ("id_usuario_reg", "fecha_reg", "estado_reg", "id_tipo_equipo", "id_unidad_medida", "nombre", "descripcion", "observaciones", "calculo", "formula")
+        INSERT INTO gem.ttipo_variable ("id_usuario_reg", "fecha_reg", "estado_reg", "id_tipo_equipo", "id_unidad_medida", "nombre", "descripcion", "observaciones", "calculo", "numeric")
     VALUES (1, E'2012-12-20 14:14:05.024', E'activo',  v_id_tipo_equipo, 9, E'Costo Neumatico (Bs)', NULL, NULL, NULL, NULL) returning id_tipo_variable into v_id_tipo_variable;
     end if;
     
@@ -199,7 +199,7 @@ BEGIN
    
     if v_id_tipo_variable is null then
       --Inserta
-        INSERT INTO gem.ttipo_variable ("id_usuario_reg", "fecha_reg", "estado_reg", "id_tipo_equipo", "id_unidad_medida", "nombre", "descripcion", "observaciones", "calculo", "formula")
+        INSERT INTO gem.ttipo_variable ("id_usuario_reg", "fecha_reg", "estado_reg", "id_tipo_equipo", "id_unidad_medida", "nombre", "descripcion", "observaciones", "calculo", "numeric")
     VALUES (1, E'2012-12-20 14:14:05.024', E'activo',  v_id_tipo_equipo, 9, E'Costo Mtto.(Bs)', NULL, NULL, NULL, NULL) returning id_tipo_variable into v_id_tipo_variable;
     end if;
     

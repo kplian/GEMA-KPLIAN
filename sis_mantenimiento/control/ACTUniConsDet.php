@@ -73,7 +73,6 @@ class ACTUniConsDet extends ACTbase{
 
 	function listarColumnasFichaTecVar(){
 		$this->objParam->defecto('ordenacion','id_uni_cons_det');
-
 		$this->objParam->defecto('dir_ordenacion','asc');
 		if($this->objParam->getParametro('tipoReporte')=='excel_grid' || $this->objParam->getParametro('tipoReporte')=='pdf_grid'){
 			$this->objReporte = new Reporte($this->objParam, $this);
@@ -90,7 +89,9 @@ class ACTUniConsDet extends ACTbase{
 
 		$this->objParam->defecto('dir_ordenacion','asc');
 		if($this->objParam->getParametro('tipoReporte')=='excel_grid' || $this->objParam->getParametro('tipoReporte')=='pdf_grid'){
+			//var_dump($this->objParam);exit;
 			$this->objReporte = new Reporte($this->objParam, $this);
+			$this->objReporte->getReporte()->setMaestroHeader(1);
 			$this->res = $this->objReporte->generarReporteListado('MODUniConsDet','listarFichaTecnicaVariables');
 		} else{
 			$this->objFunc=$this->create('MODUniConsDet');	

@@ -95,7 +95,7 @@ Phx.vista.TipoEquipoCol=Ext.extend(Phx.gridInterfaz,{
 					fields: ['id','nombre'],
 					// turn on remote sorting
 					remoteSort: true,
-					baseParams:{par_filtro:'nombre'}
+					baseParams:{par_filtro:'tvar.nombre'}
 				}),
 				displayField: 'nombre',
 				gdisplayField:'desc_nombre',
@@ -124,7 +124,7 @@ Phx.vista.TipoEquipoCol=Ext.extend(Phx.gridInterfaz,{
 				fieldLabel: 'Ficha Técnica',
 				allowBlank: false,
 				emptyText:'Elija una columna...',
-				valueField: 'id',
+				valueField: 'id_ficha',
 				store: new Ext.data.JsonStore({
 					url: '../../sis_mantenimiento/control/UniConsDet/listarColumnasFichaTec',
 					id: 'id',
@@ -137,7 +137,7 @@ Phx.vista.TipoEquipoCol=Ext.extend(Phx.gridInterfaz,{
 					fields: ['id','nombre'],
 					// turn on remote sorting
 					remoteSort: true,
-					baseParams:{par_filtro:'nombre'}
+					baseParams:{par_filtro:'udet.nombre'}
 				}),
 				displayField: 'nombre',
 				gdisplayField:'desc_nombre',

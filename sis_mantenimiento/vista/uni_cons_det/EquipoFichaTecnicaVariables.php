@@ -34,7 +34,8 @@ Phx.vista.EquipoFichaTecnicaVariables=Ext.extend(Phx.gridInterfaz,{
 		this.storeAtributos.load({params:{
 			                              "sort":"id",
 			                              "dir":"ASC",
-			                              'id_localizacion': config.id_localizacion,
+			                              id_localizacion: config.id_localizacion,
+			                              id_uni_cons: config.id_uni_cons,
 			                              id_tipo_equipo: this.config.id_tipo_equipo,
 			                              //'id_uni_cons':config.id_uni_cons,
 			                               start:0, 
@@ -60,6 +61,7 @@ Phx.vista.EquipoFichaTecnicaVariables=Ext.extend(Phx.gridInterfaz,{
 		this.fields.push('id_uni_cons');
 		this.fields.push({name:'fecha', type: 'date', dateFormat:'Y-m-d'});
 		this.fields.push('equipo');
+		this.fields.push('desc_localizacion');
 		
 		if(res){
 			this.Atributos[0]={
@@ -86,9 +88,24 @@ Phx.vista.EquipoFichaTecnicaVariables=Ext.extend(Phx.gridInterfaz,{
 								grid:true,
 								form:false 
 						};
+						
+			this.Atributos[2]={
+			//configuracion del componente
+								config:{
+										name: 'desc_localizacion',
+										fieldLabel: 'Localizacion',
+										allowBlank: false,
+										anchor: '100%',
+										gwidth:250
+								},
+								type:'TextField',
+								//filters:{pfiltro:'fecha',type:'date'},
+								grid:true,
+								form:false 
+						};
 			
 									
-			var recText = 'equipo#varchar@'+this.id_store +'#integer@id_uni_cons#integer';			
+			var recText = 'equipo#varchar@'+this.id_store +'#integer@id_uni_cons#integer@desc_localizacion#varchar';			
 			
 			for (var i=0;i<rec.length;i++){
 				var configDef={};
@@ -129,9 +146,12 @@ Phx.vista.EquipoFichaTecnicaVariables=Ext.extend(Phx.gridInterfaz,{
 			
 			Phx.CP.loadingHide();
 			Phx.vista.EquipoFichaTecnicaVariables.superclass.constructor.call(this,this.config);
-			this.argumentExtraSubmit={'id_localizacion':this.config.id_localizacion,
-			'id_tipo_equipo':this.config.id_tipo_equipo,
-			'datos':recText};
+			this.argumentExtraSubmit={
+				'id_localizacion':this.config.id_localizacion,
+				'id_tipo_equipo':this.config.id_tipo_equipo,
+				'datos':recText,
+				'id_uni_cons':this.config.id_uni_cons
+			};
 		    
 		//Agrega eventos a los componentes creados
 		this.cmb_caract.on('select',function (combo, record, index){
@@ -191,9 +211,14 @@ Phx.vista.EquipoFichaTecnicaVariables=Ext.extend(Phx.gridInterfaz,{
 			this.dateFechaIni.setValue(fechaini);
 			this.dateFechaFin.setValue(fechaActual);
 			
-			this.store.baseParams={'id_localizacion':this.config.id_localizacion,
-			'id_tipo_equipo':this.config.id_tipo_equipo,
-			'datos':recText,fecha_ini:this.dateFechaIni.getValue().dateFormat('d/m/Y'),fecha_fin:this.dateFechaFin.getValue().dateFormat('d/m/Y') };			               
+			this.store.baseParams={
+				'id_localizacion':this.config.id_localizacion,
+				'id_tipo_equipo':this.config.id_tipo_equipo,
+				'datos':recText,
+				fecha_ini:this.dateFechaIni.getValue().dateFormat('d/m/Y'),
+				fecha_fin:this.dateFechaFin.getValue().dateFormat('d/m/Y'),
+				id_uni_cons:this.config.id_uni_cons
+			};			               
 		
             this.load();
 		}
@@ -287,7 +312,11 @@ Phx.vista.EquipoFichaTecnicaVariables=Ext.extend(Phx.gridInterfaz,{
 		this.maestro=m;	
 		console.log('reoad',this.maestro)
 		this.limit = this.cmbLimit.getValue();					
-		this.store.baseParams={id_localizacion:this.maestro.id_localizacion,id_tipo_equipo:this.maestro.id_tipo_equipo};
+		this.store.baseParams={
+			id_localizacion:this.maestro.id_localizacion,
+			id_tipo_equipo:this.maestro.id_tipo_equipo,
+			id_uni_cons:this.maestro.id_uni_cons
+		};
 		this.load({params:{start:0, limit:this.limit}});			
 	},
 	dateFechaIni:new Ext.form.DateField({

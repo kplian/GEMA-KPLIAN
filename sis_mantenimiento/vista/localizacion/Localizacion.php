@@ -1675,16 +1675,18 @@ header("content-type: text/javascript; charset=UTF-8");
 				var tiponodo = nodo.attributes.tipo_nodo;
 				//var dateFechaIni =this.formUCCL.getForm().findField('fecha_ini');
 				var intIdTipoEquipo = this.formFTV.getForm().findField('id_tipo_equipo');
-
 				if (tiponodo == 'uni_cons_f' || tiponodo == 'uni_cons' || tiponodo == 'rama') {
 					var id_nodo = nodo.attributes.id_uni_cons;
+					data.id_uni_cons = id_nodo;
+					data.id_localizacion='-1';
 				} else {
 					id_nodo = nodo.attributes.id_localizacion;
+					data.id_localizacion = id_nodo;
+					data.id_uni_cons='-1';
 				}
-				
-				data.id_localizacion = id_nodo;
+				//data.id_localizacion = id_nodo;
 				data.id_tipo_equipo = intIdTipoEquipo.getValue();
-				
+				console.log(data)
 				Phx.CP.loadWindows('../../../sis_mantenimiento/vista/uni_cons_det/EquipoFichaTecnicaVariables.php', 'Ficha Técnica - Variables: ', {
 					width : 800,
 					height : 400
