@@ -1,4 +1,4 @@
-CREATE FUNCTION gem.f_get_id_localizaciones (
+CREATE OR REPLACE FUNCTION gem.f_get_id_localizaciones (
   p_id_localizacion  integer,
   p_padres_hijos varchar = 'hijos'
 )
