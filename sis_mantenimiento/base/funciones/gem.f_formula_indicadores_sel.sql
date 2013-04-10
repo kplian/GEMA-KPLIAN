@@ -133,14 +133,14 @@ BEGIN
 			--TMEF
 			if v_rec.tot_paros = 0 then
 				v_tmef = 0;
-				v_tmef_obs = 'Valor no valido: la cantidad de paros en este periodo es cero (division por cero)';
+				v_tmef_obs = 'No hubieron paros por falla en este período';
 			else
 				v_tmef = (v_horas_tot - v_rec.tot_mnp) / v_rec.tot_paros;
 			end if;
 			--TMPR
 			if v_rec.tot_paros = 0 then
 				v_tmpr = 0;
-				v_tmpr_obs = 'Valor no valido: la cantidad de paros en este periodo es cero (division por cero)';
+				v_tmpr_obs = 'No hubieron paros por falla en este período';
 			else
 				v_tmpr = v_rec.tot_mnp / v_rec.tot_paros;
 			end if;
