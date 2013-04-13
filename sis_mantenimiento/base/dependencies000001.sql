@@ -594,3 +594,13 @@ alter table gem.ttipo_equipo_col
 add constraint fk_ttipo_equipo_col__id_tipo_equipo foreign key (id_tipo_equipo)
 references gem.ttipo_equipo (id_tipo_equipo);
 /***********************************F-DEP-RCM-GEM-134-22/03/2013*****************************************/
+
+/***********************************I-DEP-RCM-GEM-135-14/04/2013*****************************************/
+alter table gem.tinstruc_seg_det
+add constraint fk_tinstruc_seg_det__id_instruc_seg foreign key (id_instruc_seg)
+references gem.tinstruc_seg (id_instruc_seg);
+
+alter table gem.torden_trabajo
+add constraint fk_torden_trabajo__id_cuenta foreign key (id_cuenta)
+references gem.tcuenta (id_cuenta);
+/***********************************F-DEP-RCM-GEM-135-14/04/2013*****************************************/

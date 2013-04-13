@@ -121,7 +121,9 @@ BEGIN
 						unicons.codigo,
 						geoott.descripcion_causa,
 						geoott.prevension,
-						geoott.descripcion_progresiva
+						geoott.descripcion_progresiva,
+						geoott.id_cuenta,
+						cue.nro_cuenta ||'' - ''||cue.nombre_cuenta as desc_cuenta
 						from gem.torden_trabajo geoott
 						inner join segu.tusuario usu1 on usu1.id_usuario = geoott.id_usuario_reg
 						left join segu.tusuario usu2 on usu2.id_usuario = geoott.id_usuario_mod
@@ -134,6 +136,7 @@ BEGIN
                         left join gem.tlocalizacion local on local.id_localizacion = geoott.id_localizacion
 						left join param.tunidad_medida unimed on unimed.id_unidad_medida = geoott.id_unidad_medida
                         left join gem.tcentro_costo cencost on cencost.id_centro_costo = geoott.id_centro_costo
+            left join gem.tcuenta cue on cue.id_cuenta = geoott.id_cuenta
 				        where geoott.estado_reg = ''activo'' and ';
 			
 			--Definicion de la respuesta
@@ -187,6 +190,7 @@ raise notice '%',v_consulta;
                         left join gem.tlocalizacion local on local.id_localizacion = geoott.id_localizacion
 						left join param.tunidad_medida unimed on unimed.id_unidad_medida = geoott.id_unidad_medida
                         left join gem.tcentro_costo cencost on cencost.id_centro_costo = geoott.id_centro_costo
+                        left join gem.tcuenta cue on cue.id_cuenta = geoott.id_cuenta
 					    where geoott.estado_reg = ''activo'' and ';
 			
             

@@ -1262,3 +1262,35 @@ add column formula varchar(200);
 alter table gem.ttipo_variable
 add column calculo varchar(15);
 /***********************************F-SCP-RCM-GEM-134-22/03/2013*****************************************/
+
+/***********************************I-SCP-RCM-GEM-135-14/04/2013*****************************************/
+CREATE TABLE gem.tinstruc_seg_det (
+  id_instruc_seg_det  SERIAL NOT NULL,
+  id_instruc_seg integer not null,
+  nro integer,
+  descripcion varchar(1000),
+  CONSTRAINT pk_tinstruc_seg_det__id_instruc_seg_det PRIMARY KEY (id_instruc_seg_det)
+) INHERITS (pxp.tbase)
+WITH (
+  OIDS=TRUE
+);
+ALTER TABLE gem.tinstruc_seg_det OWNER TO postgres;
+
+CREATE TABLE gem.tcuenta (
+  id_cuenta SERIAL, 
+  id_cuenta_padre INTEGER, 
+  nro_cuenta VARCHAR(20), 
+  nombre_cuenta VARCHAR(100), 
+  nivel_cuenta INTEGER, 
+  CONSTRAINT pk_tcuenta__id_cuenta PRIMARY KEY(id_cuenta)
+) INHERITS (pxp.tbase)
+WITHOUT OIDS;
+
+ALTER TABLE gem.tcuenta OWNER TO postgres;
+
+alter table gem.tdiagrama_decision_accion
+alter column tipo type varchar(25); 
+
+alter table gem.torden_trabajo
+add column id_cuenta integer;
+/***********************************F-SCP-RCM-GEM-135-14/04/2013*****************************************/

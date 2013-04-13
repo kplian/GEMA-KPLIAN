@@ -431,13 +431,13 @@ Phx.vista.LocalizacionMed=Ext.extend(Phx.gridInterfaz,{
 			}
 			]
 		}],
-	east:{
+	/*east:{
 		  url:'../../../sis_mantenimiento/vista/equipo_medicion/IndicadoresMediciones.php',
 		  title:'Indicadores', 
 		  //height:'50%',	//altura de la ventana hijo
 		  width:'50%',		//ancho de la ventana hjo
 		  cls:'IndicadoresMediciones'
-	},
+	},*/
 	/*south:{
 		  url:'../../../sis_mantenimiento/vista/localizacion_med/Indicadores.php',
 		  title:'Indicadores', 
@@ -507,7 +507,7 @@ Phx.vista.LocalizacionMed=Ext.extend(Phx.gridInterfaz,{
 	updateDays: function(){
 		var totalMillis = this.dteFechaFin.getValue().getTime() - this.dteFechaIni.getValue().getTime();
 		var dias = totalMillis/(1000*60*60*24);
-		this.intDiasMes.setValue(parseInt(dias));
+		this.intDiasMes.setValue(parseInt(dias)+1);
 	},
 	onButtonAct: function(){
 		if(this.dteFechaIni.isValid() && this.dteFechaFin.isValid())

@@ -165,7 +165,14 @@ Phx.vista.InstrucSeg=Ext.extend(Phx.gridInterfaz,{
 	fheight: 230,
     codReporte:'S/C',
 	codSistema:'GEM',
-	pdfOrientacion:'L'
+	pdfOrientacion:'L',
+	south:{
+		  url:'../../../sis_mantenimiento/vista/instruc_seg_det/InstrucSegDet.php',
+		  title:'Detalle Instrucciones de Seguridad', 
+		  height:'50%',	//altura de la ventana hijo
+		  //width:'50%',		//ancho de la ventana hjo
+		  cls:'InstrucSegDet'
+	}
 })
 </script>
 		

@@ -371,10 +371,53 @@ Phx.vista.OrdenTrabajo=Ext.extend(Phx.gridInterfaz,{
 		},
 		{
 			config:{
+				name: 'id_cuenta',
+				fieldLabel: 'Cuenta Contable',
+				allowBlank: true,
+				emptyText:'Elija una Cuenta...',
+				store:new Ext.data.JsonStore(
+				{
+					url: '../../sis_mantenimiento/control/Cuenta/listarCuenta',
+					id: 'id_cuenta',
+					root:'datos',
+					sortInfo:{
+						field:'nro_cuenta',
+						direction:'ASC'
+					},
+					totalProperty:'total',
+					fields: ['id_cuenta','nro_cuenta','nombre_cuenta'],
+					remoteSort: true,
+					baseParams:{par_filtro:'cta.nombre_cuenta#cta.nro_cuenta'}
+				}),
+				tpl:'<tpl for="."><div class="x-combo-list-item"><p>Nro.Cuenta: {nro_cuenta}</p><p>Nombre Cuenta: {nombre_cuenta}</p></div></tpl>',
+				valueField: 'id_cuenta',
+				hiddenValue: 'id_cuenta',
+				displayField: 'nombre_cuenta',
+				gdisplayField:'desc_cuenta',
+				forceSelection:true,
+				typeAhead: false,
+    			triggerAction: 'all',
+    			lazyRender:true,
+				mode:'remote',
+				pageSize:20,
+				queryDelay:500,
+				anchor: '100%',
+				gwidth: 350,
+				minChars:2,
+				renderer:function (value, p, record){return String.format('{0}', record.data['desc_cuenta']);}
+			},
+			type:'ComboBox',
+			filters:{pfiltro:'cue.nro_cuenta#cue.nombre_cuenta',type:'string'},
+			id_grupo:0,
+			grid:true,
+			form:true
+		},
+		{
+			config:{
 				name: 'id_centro_costo',
-				fieldLabel: 'Cuenta',
+				fieldLabel: 'Centro de Costo',
 				allowBlank: false,
-				emptyText:'Seleccione Cuenta...',
+				emptyText:'Seleccione Centro de Costo...',
 				store:new Ext.data.JsonStore(
 				{
 					url: '../../sis_mantenimiento/control/CentroCosto/listarCentroCosto',
@@ -884,6 +927,7 @@ Phx.vista.OrdenTrabajo=Ext.extend(Phx.gridInterfaz,{
 			grid:true,
 			form:true
 		},
+		
 		{
 			config:{
 				name: 'estado_reg',
@@ -1007,7 +1051,9 @@ Phx.vista.OrdenTrabajo=Ext.extend(Phx.gridInterfaz,{
 		'hora_eje_fin',
 		'descripcion_causa',
 		'prevension',
-		'descripcion_progresiva'
+		'descripcion_progresiva',
+		'id_cuenta',
+		'desc_cuenta'
 	],
 	sortInfo:{
 		field: 'id_orden_trabajo',

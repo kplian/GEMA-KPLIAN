@@ -198,24 +198,34 @@ Class RMedicionIndicadores extends Report {
         $pdf->Cell(5, $height*2, '', '0', 0, 'C', false, '', 1, false, 'T', 'C');
         $pdf->Cell(45, $height*2, '', '1', 0, 'C', true, '', 1, false, 'T', 'C');
         */
-								$pdf->setXY($x+10,$y+$height*10);        
+		$pdf->setXY($x+10,$y+$height*10);        
         $pdf->SetFillColor(0,0,255, true);
-        $pdf->Cell(45, $height*1, '', '1', 0, 'C', true, '', 1, false, 'T', 'C');
+        //$pdf->Cell(45, $height*1, '', '1', 0, 'C', true, '', 1, false, 'T', 'C');
         $pdf->Cell(5, $height*1, '', '0', 0, 'C', false, '', 1, false, 'T', 'C');
-        $pdf->Cell(45, $height*1, '', '1', 0, 'C', true, '', 1, false, 'T', 'C');        
+        //$pdf->Cell(45, $height*1, '', '1', 0, 'C', true, '', 1, false, 'T', 'C');        
         
         $pdf->setXY($x+10,$y+$height);
         //CALCULANDO DATOS
         if($this->dias!==0){        
-            $disponibilidad = (($this->dias*24) - $this->totalTiempoMnpHrs - $this->totalTiempoMppHrs)*100/($this->dias*24);
+            $disponibilidad = round((($this->dias*24) - $this->totalTiempoMnpHrs - $this->totalTiempoMppHrs)*100/($this->dias*24),2);
 			if($this->totalNumParos==0){
-				$tmef = (($this->dias*24)-$this->totalTiempoMnpHrs)/1;
-				$tmpr = $this->totalTiempoMnpHrs;
-            	$confiabilidad = ($tmef*100)/($tmef+$tmpr);
+				$tmef = 0;
+				$tmpr = 0;
+				if($tmef+$tmpr==0){
+					$confiabilidad = 100;
+				} else{
+					$confiabilidad = round(($tmef*100)/($tmef+$tmpr),2);	
+				}
+            	
 			} else{
-				$tmef = (($this->dias*24)-$this->totalTiempoMnpHrs)/$this->totalNumParos;
-				$tmpr = $this->totalTiempoMnpHrs/$this->totalNumParos;
-            	$confiabilidad = ($tmef*100)/($tmef+$tmpr);	
+				$tmef = round((($this->dias*24)-$this->totalTiempoMnpHrs)/$this->totalNumParos,2);
+				$tmpr = round($this->totalTiempoMnpHrs/$this->totalNumParos,2);
+            	$confiabilidad = round(($tmef*100)/($tmef+$tmpr),2);	
+				if($tmef+$tmpr==0){
+					$confiabilidad = 100;
+				} else{
+					$confiabilidad = round(($tmef*100)/($tmef+$tmpr),2);	
+				}
 			}         
             
         }else {
@@ -236,7 +246,7 @@ Class RMedicionIndicadores extends Report {
         $pdf->Cell(5, $height*2, '', '0', 0, 'C', false, '', 1, false, 'T', 'C');        
         $pdf->Cell(45, $height, 'Número de paros', '0', 0, 'C', false, '', 1, false, 'T', 'C');
         */ 
-								$pdf->setXY($x+10,$y+$height*4);
+		$pdf->setXY($x+10,$y+10);//+$height*4);
         $pdf->setTextColor(255,255,255);  
         $pdf->Cell(45, $height*1, "Disponibilidad(%) = $disponibilidad", '1', 0, 'C', true, '', 1, false, 'T', 'C');
         $pdf->Cell(5, $height*1, '', '0', 0, 'C', false, '', 1, false, 'T', 'C');
@@ -257,7 +267,7 @@ Class RMedicionIndicadores extends Report {
         $pdf->Cell(5, $height*2, '', '0', 0, 'C', false, '', 1, false, 'T', 'C');        
         $pdf->Cell(45, $height, 'Número de paros', '0', 0, 'C', false, '', 1, false, 'T', 'C');
         */ 
-								$pdf->setXY($x+10,$y+$height*10);
+								$pdf->setXY($x+10,$y+20);//$height*10);
 								$pdf->setTextColor(255,255,255);          
         $pdf->Cell(45, $height*1, "Confiabilidad(%) = $confiabilidad", '1', 0, 'C', true, '', 1, false, 'T', 'C');
         $pdf->Cell(5, $height*1, '', '0', 0, 'C', false, '', 1, false, 'T', 'C');        
@@ -266,7 +276,8 @@ Class RMedicionIndicadores extends Report {
         $pdf->Ln();
         
         $pdf->setTextColor(0,0,0);
-        $this->dibujarEjeCartesiano($x+10,$y+$height*12, $this->maximo, $this->numDias,'Comportamiento del Sistema '.$this->getDataSource()->getParameter('codigo'),
+        //$this->dibujarEjeCartesiano($x+10,$y+$height*12, $this->maximo, $this->numDias,'Comportamiento del Sistema '.$this->getDataSource()->getParameter('codigo'),
+        $this->dibujarEjeCartesiano($x+10,$y+32, $this->maximo, $this->numDias,'Comportamiento del Sistema '.$this->getDataSource()->getParameter('codigo'),
                                     strtoupper($this->mesLiteral),$this->anio,$pdf);
                 
         $this->dibujarLineas($this->puntoOrigenX, $this->puntoOrigenY, $this->widthCelda, $this->heightCelda,$this->numDias, $this->getDataSource(), $pdf);

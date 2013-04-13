@@ -14,7 +14,7 @@ class MODFuncionario extends MODbase{
 	
 	function listarFuncionario(){
 		//Definicion de variables para ejecucion del procedimiento
-		$this->procedimiento='orga.ft_funcionario_sel';// nombre procedimiento almacenado
+		$this->procedimiento='gem.ft_funcionario_sel';// nombre procedimiento almacenado
 		$this->transaccion='RH_FUNCIO_SEL';//nombre de la transaccion
 		$this->tipo_procedimiento='SEL';//tipo de transaccion
 		
@@ -42,6 +42,9 @@ class MODFuncionario extends MODbase{
 		$this->captura('celular1','varchar');
 		$this->captura('correo','varchar');
 		$this->captura('telefono_ofi','varchar');
+		$this->captura('horario1','numeric');
+		$this->captura('horario2','numeric');
+		$this->captura('horario3','numeric');
 
 		
 		//Ejecuta la funcion

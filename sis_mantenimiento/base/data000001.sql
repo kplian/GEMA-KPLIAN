@@ -865,3 +865,32 @@ select pxp.f_add_catalog('GEM','tuni_cons__tipo_unicons','Vehiculo');
 select pxp.f_add_catalog('GEM','ttipo_equipo_col__tipo_col','Ficha Tecnica');
 select pxp.f_add_catalog('GEM','ttipo_equipo_col__tipo_col','Variables');
 /***********************************F-DAT-RCM-GEM-134-22/03/2013****************************************/
+
+/***********************************I-DAT-RCM-GEM-135-14/04/2013****************************************/
+select pxp.f_add_catalog('GEM','tdiagrama_decision_accion','Fallo Oculto');
+select pxp.f_add_catalog('GEM','tdiagrama_decision_accion','Seg. o Medio Ambiente');
+select pxp.f_add_catalog('GEM','tdiagrama_decision_accion','Operacionales');
+select pxp.f_add_catalog('GEM','tdiagrama_decision_accion','No Operacionales');
+  
+select pxp.f_insert_tgui ('Plan de Cuentas', 'Cuentas', 'GEM.1.11', 'si', 1, 'sis_mantenimiento/vista/cuenta/Cuenta.php', 10, '', 'Cuenta', 'GEM');
+select pxp.f_insert_testructura_gui ('GEM.1.11', 'GEM.1');
+
+
+select pxp.f_insert_tfuncion ('gem.ft_cuenta_ime', 'Funcion para tabla', 'GEM');
+select pxp.f_insert_tfuncion ('gem.ft_cuenta_sel', 'Funcion para tabla', 'GEM');
+
+select pxp.f_insert_tprocedimiento ('GEM_CTA_INS', 'Insercion de registros', 'si', '', '', 'gem.ft_cuenta_ime');
+select pxp.f_insert_tprocedimiento ('GEM_CTA_MOD', 'Modificacion de registros', 'si', '', '', 'gem.ft_cuenta_ime');
+select pxp.f_insert_tprocedimiento ('GEM_CTA_ELI', 'Eliminacion de registros', 'si', '', '', 'gem.ft_cuenta_ime');
+select pxp.f_insert_tprocedimiento ('GEM_CTA_SEL', 'Consulta de datos', 'si', '', '', 'gem.ft_cuenta_sel');
+select pxp.f_insert_tprocedimiento ('GEM_CTA_CONT', 'Conteo de registros', 'si', '', '', 'gem.ft_cuenta_sel');
+select pxp.f_insert_tprocedimiento ('GEM_CTA_ARB_SEL', 'Consulta de datos', 'si', '', '', 'gem.ft_cuenta_sel');
+
+select pxp.f_insert_tprocedimiento_gui ('GEM_CTA_SEL', 'GEM.1.11', 'no');
+select pxp.f_insert_tprocedimiento_gui ('GEM_CTA_INS', 'GEM.1.11', 'no');
+select pxp.f_insert_tprocedimiento_gui ('GEM_CTA_MOD', 'GEM.1.11', 'no');
+select pxp.f_insert_tprocedimiento_gui ('GEM_CTA_ELI', 'GEM.1.11', 'no');
+select pxp.f_insert_tprocedimiento_gui ('GEM_CTA_ARB_SEL', 'GEM.1.11', 'no');
+
+/***********************************F-DAT-RCM-GEM-135-14/04/2013****************************************/
+

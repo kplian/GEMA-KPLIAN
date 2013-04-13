@@ -75,6 +75,8 @@ class MODOrdenTrabajo extends MODbase{
 		$this->captura('descripcion_causa','varchar');
 		$this->captura('prevension','varchar');
 		$this->captura('descripcion_progresiva','varchar');
+		$this->captura('id_cuenta','int4');
+		$this->captura('desc_cuenta','text');
 		
 		//Ejecuta la instruccion
 		$this->armarConsulta();
@@ -131,6 +133,7 @@ class MODOrdenTrabajo extends MODbase{
 		$this->setParametro('descripcion_causa', 'descripcion_causa', 'varchar');
 		$this->setParametro('prevension', 'prevension', 'varchar');
 		$this->setParametro('descripcion_progresiva', 'descripcion_progresiva', 'varchar');
+		$this->setParametro('id_cuenta','id_cuenta','int4');
 		
 		//Ejecuta la instruccion
 		$this->armarConsulta();
