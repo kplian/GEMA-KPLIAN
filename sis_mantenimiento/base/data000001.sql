@@ -894,3 +894,11 @@ select pxp.f_insert_tprocedimiento_gui ('GEM_CTA_ARB_SEL', 'GEM.1.11', 'no');
 
 /***********************************F-DAT-RCM-GEM-135-14/04/2013****************************************/
 
+/***********************************F-DAT-RAC-GEM-00-26/04/2013****************************************/
+
+--inserta disparador de alarma
+
+INSERT INTO param.tgenerador_alarma ("id_usuario_reg", "id_usuario_mod", "fecha_reg", "fecha_mod", "estado_reg", "funcion")
+VALUES (1, NULL, E'2013-04-26 06:38:08.055', NULL, E'activo', E'gem.f_verifica_alarma_gem');
+
+/***********************************F-DAT-RAC-GEM-00-26/04/2013****************************************/
