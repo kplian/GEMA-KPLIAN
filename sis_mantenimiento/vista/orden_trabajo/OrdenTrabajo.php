@@ -318,30 +318,40 @@ Phx.vista.OrdenTrabajo=Ext.extend(Phx.gridInterfaz,{
 			form:true,
 	       	dateFormat:'d-m-Y'
 		},
-		/*{
+		{
 			config:{
 				name:'tiempo',
 				fieldLabel:'Tiempo Transcurrido',
 				renderer:function(value,p,record){
-					var tiempo;
-					if(record.data['fecha_emision']==''){
-						tiempo='';
-					} else if(record.data['fecha_eje_fin']==''){
-						//Compara con la fecha del servidor
-						tiempo= Math.floor(record.data['fecha_server'].getDate() - record.data['fecha_emision'].getDate() / (1000 * 60 * 60 * 24)) ;
+					var tiempo,totalMillis,dias;
+					
+					if(record.data['fecha_emision']==null){
+						dias='';
+					} else if(record.data['fecha_eje_fin']==null){
+						//Compara con la hora del servidor
+						totalMillis = record.data['fecha_server'].getTime() - record.data['fecha_emision'].getTime();
+						dias = 1 + (totalMillis/(1000*60*60*24));
 					} else{
-						console.log(record.data['fecha_eje_fin'].getDate() - record.data['fecha_emision'].getDate())
 						//Compara con la fecha de finalización de ejecución
-						tiempo=Math.floor(record.data['fecha_eje_fin'].getDate() - record.data['fecha_emision'].getDate() / (1000 * 60 * 60 * 24)) ;
+						totalMillis = record.data['fecha_eje_fin'].getTime() - record.data['fecha_emision'].getTime();
+						dias = 1 + (totalMillis/(1000*60*60*24));
 					}
-					//console.log(record.data['fecha_eje_fin'],record.data['fecha_emision']);
-					return String.format('{0}', tiempo);  
+					
+					if(dias>30&&dias<60){
+						formato = '<b><font color="yellow">{0}</font></b>'
+					} else if(dias>=60){
+						formato = '<b><font color="red">{0}</font></b>'
+					} else{
+						formato = '<b><font color="green">{0}</font></b>'
+					}
+
+					return String.format(formato, dias);  
 				}
 			},
 			type:'Field',
 			grid:true,
 			form:false
-		},*/
+		},
 		{			
 			config:{
 				name: 'id_localizacion',
