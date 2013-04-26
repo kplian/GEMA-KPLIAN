@@ -219,6 +219,53 @@ class MODLocalizacionMed extends MODbase{
         
         //Devuelve la respuesta
         return $this->respuesta;
-    }		
+    }
+
+	function datosIndicadoresGraf(){
+		//Definicion de variables para ejecucion del procedimientp
+		$this->procedimiento='gem.ft_calculo_indicadores_graf_sel';
+		
+		if($this->objParam->getParametro('tipo_indicador')=='costos'){
+			$this->transaccion='GM_GRACOS_SEL';
+		} else if($this->objParam->getParametro('tipo_indicador')=='ejecucion'){
+			$this->transaccion='GM_GRAEJM_SEL';
+		} else{ 
+			//Por defecto es el de Tipos de Mantenimiento
+			$this->transaccion='GM_GRATMA_SEL';
+		}
+		
+		$this->tipo_procedimiento='SEL';//tipo de transaccion
+		$this->count=false;
+		
+		//Parametros
+		$this->setParametro('id_localizacion','id_localizacion','int4');
+		$this->setParametro('id_uni_cons','id_uni_cons','int4');
+		$this->setParametro('mes_ini','mes_ini','int4');
+		$this->setParametro('mes_fin','mes_fin','int4');
+		$this->setParametro('gestion_ini','gestion_ini','int4');
+		$this->setParametro('gestion_fin','gestion_fin','int4');
+		
+		//Definicion de la lista del resultado del query
+		if($this->objParam->getParametro('tipo_indicador')=='costos'){
+			$this->captura('tipo','text');
+			$this->captura('total','numeric');
+		} else if($this->objParam->getParametro('tipo_indicador')=='ejecucion'){
+			$this->captura('tipo','text');
+			$this->captura('total_pla','numeric');
+			$this->captura('total_eje','numeric');
+		} else{ 
+			//Por defecto es el de Tipos de Mantenimiento
+			$this->captura('tipo','varchar');
+			$this->captura('total','bigint');
+		}
+		
+		//Ejecuta la instruccion
+		$this->armarConsulta();
+		//echo $this->consulta;exit;
+		$this->ejecutarConsulta();
+		//echo $this->consulta;exit;
+		//Devuelve la respuesta
+		return $this->respuesta;
+	}		
 }
 ?>

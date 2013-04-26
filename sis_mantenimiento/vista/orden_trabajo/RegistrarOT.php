@@ -56,7 +56,7 @@ Phx.vista.RegistrarOT = {
 			var data = rec.data;
 			var global = this;
 			Ext.Msg.confirm('Confirmación',
-				'¿Está seguro de marcar esta Orden de Trabajo como pendiente de ejecución?', 
+				'¿Está seguro de Emitir esta Orden de Trabajo?', 
 				function(btn) {
 					if (btn == "yes") {
 						Ext.Ajax.request({

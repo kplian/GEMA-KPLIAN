@@ -27,6 +27,8 @@ header("content-type: text/javascript; charset=UTF-8");
 			this.crearWindowCalendario();
 			//Creación de ventana para generación de reporte ficha técnica más variables
 			this.crearWindowRepFichaTecVar();
+			//Creación de ventana para gráficos de indicadores
+			this.crearWindowGrafInd();
 			//Quita la opcion de dmover marcador al cerrar la ventana
 			this.window.on('hide', function() {
 				Phx.CP.getPagina(this.idContenedor + '-east').marker.setDraggable(false)
@@ -149,7 +151,56 @@ header("content-type: text/javascript; charset=UTF-8");
 			}
 
 		},
+		onGrafInd: function(){
+			var nodo = this.sm.getSelectedNode();
+			var id_loc=undefined;
+			var id_ucons=undefined;
+			if (this.formGrafInd.getForm().isValid()) {
+				Phx.CP.loadingShow();
+				
+				//Obtención del ID con el que se generará el reporte
+				var tiponodo = nodo.attributes.tipo_nodo;
+				if (tiponodo == 'uni_cons_f' || tiponodo == 'uni_cons' || tiponodo == 'rama') {
+					id_ucons = nodo.attributes.id_uni_cons;
+				} else {
+					id_loc = nodo.attributes.id_localizacion;
+				}
+				//console.log(nodo)
+				//Obtención de los valores del formulario
+				var tipoInd = this.formGrafInd.getForm().findField('tipo'); 
+				var mesIni = this.formGrafInd.getForm().findField('mes_ini');
+				var mesFin = this.formGrafInd.getForm().findField('mes_fin');
+				var gestionIni = this.formGrafInd.getForm().findField('gestion_ini');
+				var gestionFin = this.formGrafInd.getForm().findField('gestion_fin');
+				var observaciones = this.formGrafInd.getForm().findField('observaciones');
 
+				//Llamada asíncrona al control
+				var parametros = {
+					tipo_indicador: tipoInd.getValue(),
+					id_localizacion: id_loc,
+					id_uni_cons: id_ucons,
+					mes_ini: mesIni.getValue(),
+					mes_fin: mesFin.getValue(),
+					gestion_ini: gestionIni.getValue(),
+					gestion_fin: gestionFin.getValue(),
+					observaciones: observaciones.getValue(),
+					codigo: nodo.attributes.codigo,
+					nombre:nodo.attributes.nombre,
+					padre:nodo.parentNode.attributes.nombre
+				};
+				//console.log(parametros);
+				Ext.Ajax.request({
+					url: '../../sis_mantenimiento/control/LocalizacionMed/datosIndicadoresGraf',
+					params: parametros,
+					//success: this.successGrafInd,
+					success: this.successExport,
+					argument: parametros,
+					failure: this.conexionFailure,
+					timeout: this.timeout,
+					scope: this
+				});
+			}
+		},
 		onCalGenConfirmado: function(parametros) {
 			Phx.CP.loadingShow();
 			Ext.Ajax.request({
@@ -214,6 +265,17 @@ header("content-type: text/javascript; charset=UTF-8");
 				var nodo = this.sm.getSelectedNode();
 				nodo.reload();
 			}
+		},
+		
+		successGrafInd: function(resp) {
+			Phx.CP.loadingHide();
+			var reg = Ext.util.JSON.decode(Ext.util.Format.trim(resp.responseText));
+			/*if (reg.ROOT.error) {
+				alert("ERROR no esperado")
+			} else {*/
+				this.wGrafInd.hide();
+				alert('Datos cargados')
+			//}
 		},
 
 		onBtnAddEquipo: function() {
@@ -304,6 +366,12 @@ header("content-type: text/javascript; charset=UTF-8");
                     height : 400
                 }, data, this.idContenedor, 'GenerarReporteAnualIndicadores')
             }
+        },
+        onBtnGrafInd: function(){
+        	var nodo = this.sm.getSelectedNode();
+			if (nodo) {
+				this.wGrafInd.show()
+			}
         },
 
 		onBtnTPMPorquePorque : function() {
@@ -755,6 +823,7 @@ header("content-type: text/javascript; charset=UTF-8");
 				this.menuLoc.disable();
 				this.ctxMenu.items.get('mni-repInd-' + this.idContenedor).disable();
 				this.ctxMenu.items.get('mni-repAnualInd-' + this.idContenedor).disable();
+				this.ctxMenu.items.get('mni-grafInd-' + this.idContenedor).disable();
 				//TARJETAS TPM
 				this.menuLoc.disable();
 				this.ctxMenu.items.get('mni-tarTPM-' + this.idContenedor).disable();
@@ -833,6 +902,7 @@ header("content-type: text/javascript; charset=UTF-8");
 				this.menuLoc.disable();
 				this.ctxMenu.items.get('mni-repInd-' + this.idContenedor).disable();
 				this.ctxMenu.items.get('mni-repAnualInd-' + this.idContenedor).disable();
+				this.ctxMenu.items.get('mni-grafInd-' + this.idContenedor).enable();
 				//TARJETAS TPM
 				this.menuLoc.disable();
 				this.ctxMenu.items.get('mni-tarTPM-' + this.idContenedor).disable();
@@ -915,6 +985,7 @@ header("content-type: text/javascript; charset=UTF-8");
 				this.menuLoc.enable();
 				this.ctxMenu.items.get('mni-repInd-' + this.idContenedor).enable();
 				this.ctxMenu.items.get('mni-repAnualInd-' + this.idContenedor).enable();
+				this.ctxMenu.items.get('mni-grafInd-' + this.idContenedor).enable();
 				//TARJETAS TPM
 				this.menuLoc.enable();
 				this.ctxMenu.items.get('mni-tarTPM-' + this.idContenedor).enable();
@@ -1080,6 +1151,13 @@ header("content-type: text/javascript; charset=UTF-8");
                 id: 'mni-repAnualInd-'+this.idContenedor,
                 text : 'Reporte Anual Indicadores',
                 handler : this.onBtnRepAnualInd,
+                scope : this
+            });
+            
+            this.ctxMenu.addMenuItem({
+                id: 'mni-grafInd-'+this.idContenedor,
+                text : 'Gráficos de Indicadores',
+                handler : this.onBtnGrafInd,
                 scope : this
             });
             
@@ -1517,7 +1595,147 @@ header("content-type: text/javascript; charset=UTF-8");
 					scope: this
 				}]
 			});
+		},
+		
+		crearWindowGrafInd: function(){
+			this.formGrafInd = new Ext.form.FormPanel({
+				bodyStyle: 'padding:10 20px 10;',
+				autoDestroy: true,
+				border: false,
+				layout: 'form',
+				autoScroll: true,
+				defaults: {
+					xtype: 'numberfield'
+				},
+				items: [
+				{
+					xtype:'combo',
+					name:'tipo',
+					fieldLabel:'Tipo Indicador',
+					mode:'local',
+					store: new Ext.data.ArrayStore({
+						id:0,
+						fields: ['tipo_indicador','desc_tipo_indicador'],
+						data: [
+							['tipo_mant','Tipos de Mantenimiento'],
+							['costos','Costos de Mantenimiento'],
+							['ejecucion','Ejecución de Mantenimiento']
+						]
+					}),
+					valueField:'tipo_indicador',
+					displayField:'desc_tipo_indicador',
+					triggerAction: 'all',
+					value:'tipo_mant'
+				},
+				{
+					xtype:'combo',
+					name:'mes_ini',
+					fieldLabel:'Mes Inicio',
+					mode:'local',
+					store: new Ext.data.ArrayStore({
+						id:0,
+						fields: ['mes','desc_mes'],
+						data: [
+							['1','Enero'],['2','Febrero'],['3','Marzo'],['4','Abril'],['5','Mayo'],['6','Junio'],['7','Julio'],['8','Agosto'],['9','Septiembre'],['10','Octubre'],['11','Noviembre'],['12','Diciembre']
+						]
+					}),
+					valueField:'mes',
+					displayField:'desc_mes',
+					triggerAction: 'all',
+					value:'1',
+					allowBlank: false
+				},
+				{
+					xtype:'combo',
+					name:'gestion_ini',
+					fieldLabel:'Gestión Inicio',
+					mode:'local',
+					store: new Ext.data.ArrayStore({
+						id:0,
+						fields: ['mes','desc_mes'],
+						data: [
+							['2010','2010'],['2011','2011'],['2012','2012'],['2013','2013'],['2014','2014'],['2015','2015'],['2016','2016'],['2017','2017'],['2018','2018'],['2019','2019'],['2020','2020'],['2021','2021'],['2022','2022'],['2023','2023'],['2024','2024'],['2025','2025']
+						]
+					}),
+					valueField:'mes',
+					displayField:'desc_mes',
+					triggerAction: 'all',
+					value:'2013',
+					allowBlank: false
+				},
+				{
+					xtype:'combo',
+					name:'mes_fin',
+					fieldLabel:'Mes Fin',
+					mode:'local',
+					store: new Ext.data.ArrayStore({
+						id:0,
+						fields: ['mes','desc_mes'],
+						data: [
+							['1','Enero'],['2','Febrero'],['3','Marzo'],['4','Abril'],['5','Mayo'],['6','Junio'],['7','Julio'],['8','Agosto'],['9','Septiembre'],['10','Octubre'],['11','Noviembre'],['12','Diciembre']
+						]
+					}),
+					valueField:'mes',
+					displayField:'desc_mes',
+					triggerAction: 'all',
+					value:'1',
+					allowBlank: false
+				},
+				{
+					xtype:'combo',
+					name:'gestion_fin',
+					fieldLabel:'Gestión Fin',
+					mode:'local',
+					store: new Ext.data.ArrayStore({
+						id:0,
+						fields: ['mes','desc_mes'],
+						data: [
+							['2010','2010'],['2011','2011'],['2012','2012'],['2013','2013'],['2014','2014'],['2015','2015'],['2016','2016'],['2017','2017'],['2018','2018'],['2019','2019'],['2020','2020'],['2021','2021'],['2022','2022'],['2023','2023'],['2024','2024'],['2025','2025']
+						]
+					}),
+					valueField:'mes',
+					displayField:'desc_mes',
+					triggerAction: 'all',
+					value:'2013',
+					allowBlank: false
+				},
+				{
+					xtype:'textarea',
+					name:'observaciones',
+					fieldLabel:'Obervaciones',
+					width:'100%',
+					maxLength:1000	
+				}]
+			});
 
+			//var dateFechaIni =this.formUCCL.getForm().findField('fecha_ini');
+			var dateFechaFin = this.formGrafInd.getForm().findField('fecha_fin');
+
+			this.wGrafInd = new Ext.Window({
+				title: 'Gráficos Indicadores',
+				collapsible: true,
+				maximizable: true,
+				autoDestroy: true,
+				width: 400,
+				height: 350,
+				layout: 'fit',
+				buttonAlign: 'center',
+				items: this.formGrafInd,
+				modal: true,
+				closeAction: 'hide',
+				buttons: [{
+					text: 'Guardar',
+					handler: this.onGrafInd,
+					scope: this
+
+				}, {
+					text: 'Cancelar',
+					handler: function() {
+						this.wGrafInd.hide()
+					},
+					scope: this
+				}]
+			});
 		},
 
 		onBtnRCMAnalisis: function() {

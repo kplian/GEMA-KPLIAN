@@ -431,13 +431,13 @@ Phx.vista.LocalizacionMed=Ext.extend(Phx.gridInterfaz,{
 			}
 			]
 		}],
-	/*east:{
+	east:{
 		  url:'../../../sis_mantenimiento/vista/equipo_medicion/IndicadoresMediciones.php',
 		  title:'Indicadores', 
 		  //height:'50%',	//altura de la ventana hijo
 		  width:'50%',		//ancho de la ventana hjo
 		  cls:'IndicadoresMediciones'
-	},*/
+	},
 	/*south:{
 		  url:'../../../sis_mantenimiento/vista/localizacion_med/Indicadores.php',
 		  title:'Indicadores', 

@@ -110,8 +110,7 @@ Phx.vista.IndicadoresGraf=Ext.extend(Phx.gridInterfaz,{
 	bedit:false,
 	bnew: false,
 	bexcel:false,
-	loadValoresIniciales:function()
-	{
+	loadValoresIniciales:function(){
 		Phx.vista.FallaEvento.superclass.loadValoresIniciales.call(this);
 		this.getComponente('id_localizacion').setValue(this.maestro.id_localizacion);		
 	},
@@ -132,6 +131,37 @@ Phx.vista.IndicadoresGraf=Ext.extend(Phx.gridInterfaz,{
       },
     codReporte:'S/C',
 	codSistema:'GEM',
-	pdfOrientacion:'L'
+	pdfOrientacion:'L',
+	onLoadReady: function(a){
+		/*Ext.Ajax.request({
+				url: '../../sis_mantenimiento/control/LocalizacionMed/graficarIndicadores',
+				params: {
+					start:0,
+					limit:50,
+					id_localizacion:this.maestro.id_localizacion,
+					num_dias: this.maestro.num_dias,
+					fecha_ini: this.maestro.fecha_ini,
+					fecha_fin: this.maestro.fecha_fin
+				},
+				success: this.successGrafInd,
+				failure: this.conexionFailure,
+				timeout: this.timeout,
+				scope: this
+			});*/
+	},
+	successGrafInd: function(x,y){
+		var objRes = Ext.util.JSON.decode(Ext.util.Format.trim(x.responseText));
+		console.log(objRes)
+        var nomArch=objRes.nombre_archivo;
+        alert(nomArch);
+		
+		
+	},
+	east:{
+			url: '../../../sis_mantenimiento/vista/localizacion_med/IndicadoresGrafRes.php',
+			title: 'Ubicación',
+			width: '50%' ,
+			cls: 'IndicadoresGrafRes'
+	}
 })
 </script>

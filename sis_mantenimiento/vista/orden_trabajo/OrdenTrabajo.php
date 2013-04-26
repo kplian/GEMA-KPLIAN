@@ -276,7 +276,7 @@ Phx.vista.OrdenTrabajo=Ext.extend(Phx.gridInterfaz,{
 		{
 			config:{
 				name: 'fecha_emision',
-				fieldLabel: 'Emisión',
+				fieldLabel: 'Fecha Emisión',
 				allowBlank: true,
 				gwidth: 85,
 				renderer:function (value,p,record){return value?value.dateFormat('d/m/Y'):''}
@@ -287,6 +287,61 @@ Phx.vista.OrdenTrabajo=Ext.extend(Phx.gridInterfaz,{
 			grid:true,
 			form:false
 		},
+		{
+			config:{
+				name: 'fecha_eje_ini',
+				fieldLabel: 'Inicio Ejecución',
+				allowBlank: true,
+				gwidth: 100,
+				format: 'd/m/Y',
+   				renderer:function (value,p,record){return value?value.dateFormat('d/m/Y'):''}
+			},
+			type:'DateField',
+			filters:{pfiltro:'geoott.fecha_eje_ini',type:'date'},
+			id_grupo:1,
+			grid:true,
+			form:true
+		},
+		{
+			config:{
+				name: 'fecha_eje_fin',
+				fieldLabel: 'Fin Ejecución',
+				allowBlank: true,
+				gwidth: 100,
+   				format:'d/m/Y',
+   				renderer:function (value,p,record){return value?value.dateFormat('d/m/Y'):''}
+			},
+			type:'DateField',
+			filters:{pfiltro:'geoott.fecha_eje_fin',type:'date'},
+			id_grupo:1,
+			grid:true,
+			form:true,
+	       	dateFormat:'d-m-Y'
+		},
+		/*{
+			config:{
+				name:'tiempo',
+				fieldLabel:'Tiempo Transcurrido',
+				renderer:function(value,p,record){
+					var tiempo;
+					if(record.data['fecha_emision']==''){
+						tiempo='';
+					} else if(record.data['fecha_eje_fin']==''){
+						//Compara con la fecha del servidor
+						tiempo= Math.floor(record.data['fecha_server'].getDate() - record.data['fecha_emision'].getDate() / (1000 * 60 * 60 * 24)) ;
+					} else{
+						console.log(record.data['fecha_eje_fin'].getDate() - record.data['fecha_emision'].getDate())
+						//Compara con la fecha de finalización de ejecución
+						tiempo=Math.floor(record.data['fecha_eje_fin'].getDate() - record.data['fecha_emision'].getDate() / (1000 * 60 * 60 * 24)) ;
+					}
+					//console.log(record.data['fecha_eje_fin'],record.data['fecha_emision']);
+					return String.format('{0}', tiempo);  
+				}
+			},
+			type:'Field',
+			grid:true,
+			form:false
+		},*/
 		{			
 			config:{
 				name: 'id_localizacion',
@@ -697,21 +752,6 @@ Phx.vista.OrdenTrabajo=Ext.extend(Phx.gridInterfaz,{
 	   			grid:true,
 	   			form:true
 	   	},
-	   	{
-			config:{
-				name: 'fecha_eje_ini',
-				fieldLabel: 'Ejec.Inicio',
-				allowBlank: true,
-				gwidth: 100,
-				format: 'd/m/Y',
-   				renderer:function (value,p,record){return value?value.dateFormat('d/m/Y'):''}
-			},
-			type:'DateField',
-			filters:{pfiltro:'geoott.fecha_eje_ini',type:'date'},
-			id_grupo:1,
-			grid:true,
-			form:true
-		},
 		{
 			config:{
 				name: 'hora_eje_inicio',
@@ -723,22 +763,6 @@ Phx.vista.OrdenTrabajo=Ext.extend(Phx.gridInterfaz,{
 			id_grupo: 1,
 			grid:true,
 			form:true
-		},
-		{
-			config:{
-				name: 'fecha_eje_fin',
-				fieldLabel: 'Ejec.Fin',
-				allowBlank: true,
-				gwidth: 100,
-   				format:'d/m/Y',
-   				renderer:function (value,p,record){return value?value.dateFormat('d/m/Y'):''}
-			},
-			type:'DateField',
-			filters:{pfiltro:'geoott.fecha_eje_fin',type:'date'},
-			id_grupo:1,
-			grid:true,
-			form:true,
-	       	dateFormat:'d-m-Y'
 		},
 		{
 			config:{
@@ -1053,7 +1077,8 @@ Phx.vista.OrdenTrabajo=Ext.extend(Phx.gridInterfaz,{
 		'prevension',
 		'descripcion_progresiva',
 		'id_cuenta',
-		'desc_cuenta'
+		'desc_cuenta',
+		{name:'fecha_server', type: 'date', dateFormat:'Y-m-d'}
 	],
 	sortInfo:{
 		field: 'id_orden_trabajo',

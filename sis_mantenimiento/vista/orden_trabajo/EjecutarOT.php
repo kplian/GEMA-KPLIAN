@@ -14,6 +14,7 @@ Phx.vista.EjecutarOT = {
 	requireclase:'Phx.vista.OrdenTrabajo',
 	nombreVista:'ejecutarOT',
 	title:'Registrar Orden Trabajo',
+	swCerrar:false,
 	bedit: true,
 	constructor: function(config) {
 		Phx.vista.EjecutarOT.superclass.constructor.call(this,config);
@@ -65,7 +66,7 @@ Phx.vista.EjecutarOT = {
 			var data = rec.data;
 			var global = this;
 			Ext.Msg.confirm('Confirmación',
-				'¿Está seguro de iniciar la ejecución de esta Orden de Trabajo?', 
+				'¿Está seguro de Abrir esta Orden de Trabajo?', 
 				function(btn) {
 					if (btn == "yes") {
 						Ext.Ajax.request({
@@ -91,6 +92,8 @@ Phx.vista.EjecutarOT = {
 			if(rec){
 				this.wUC.show()	
 			}*/
+			//Enciende la bandera de cierre de la OT
+			this.swCerrar=true;
 			this.getComponente('descripcion_causa').allowBlank=false;
 			this.getComponente('comentarios').allowBlank=false;
 			this.getComponente('prevension').allowBlank=false;
@@ -325,24 +328,28 @@ Phx.vista.EjecutarOT = {
 			}
 		},
 		successSave: function(resp) {
+			Phx.vista.EjecutarOT.superclass.successSave.call(this,resp);
 			//Llamada para cerrar la OT
-			Phx.CP.loadingShow();
-			var rec=this.sm.getSelected();
-			Ext.Ajax.request({
-				url:'../../sis_mantenimiento/control/OrdenTrabajo/procesarOT',
-				params: {
-					'id_orden_trabajo': rec.data.id_orden_trabajo,
-					'cat_estado_anterior': rec.data.cat_estado,
-					'cat_estado': 'Cerrado'
-				},
-				success: function(){
-					Phx.CP.loadingHide();
-					this.reload();
-				},
-				failure: this.conexionFailure,
-				timeout: this.timeout,
-				scope: this
-			});			
+			if(this.swCerrar){
+				this.swCerrar=false;
+				Phx.CP.loadingShow();
+				var rec=this.sm.getSelected();
+				Ext.Ajax.request({
+					url:'../../sis_mantenimiento/control/OrdenTrabajo/procesarOT',
+					params: {
+						'id_orden_trabajo': rec.data.id_orden_trabajo,
+						'cat_estado_anterior': rec.data.cat_estado,
+						'cat_estado': 'Cerrado'
+					},
+					success: function(){
+						Phx.CP.loadingHide();
+						this.reload();
+					},
+					failure: this.conexionFailure,
+					timeout: this.timeout,
+					scope: this
+				});
+			}
 		} 
 };
 </script>
