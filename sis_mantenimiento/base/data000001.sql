@@ -898,3 +898,10 @@ select pxp.f_insert_tprocedimiento_gui ('GEM_CTA_ARB_SEL', 'GEM.1.11', 'no');
 INSERT INTO gem.tparametro ("id_usuario_reg", "id_usuario_mod", "fecha_reg", "fecha_mod", "estado_reg", "id_parametro", "tipo_proceso", "valor")
 VALUES (1, NULL, E'2013-04-26 21:37:37', E'2013-04-26 21:37:37', E'activo', 1, NULL, E'no_abrir');
 /***********************************F-DAT-RCM-GEM-136-29/04/2013****************************************/
+
+/***********************************F-DAT-RAC-GEM-00-26/04/2013****************************************/
+--inserta disparador de alarma
+INSERT INTO param.tgenerador_alarma ("id_usuario_reg", "id_usuario_mod", "fecha_reg", "fecha_mod", "estado_reg", "funcion")
+VALUES (1, NULL, E'2013-04-26 06:38:08.055', NULL, E'activo', E'gem.f_verifica_alarma_gem');
+/***********************************F-DAT-RAC-GEM-00-26/04/2013****************************************/
+
