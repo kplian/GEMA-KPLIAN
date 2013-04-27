@@ -1294,3 +1294,15 @@ alter column tipo type varchar(25);
 alter table gem.torden_trabajo
 add column id_cuenta integer;
 /***********************************F-SCP-RCM-GEM-135-14/04/2013*****************************************/
+
+/***********************************I-SCP-RCM-GEM-136-26/04/2013*****************************************/
+CREATE TABLE gem.tparametro (
+  id_parametro SERIAL, 
+  tipo_proceso varchar, 
+  valor VARCHAR(50), 
+  CONSTRAINT pk_tparametro__id_parametro PRIMARY KEY(id_parametro)
+) INHERITS (pxp.tbase)
+WITHOUT OIDS;
+
+ALTER TABLE gem.tparametro OWNER TO postgres;
+/***********************************F-SCP-RCM-GEM-136-26/04/2013*****************************************/

@@ -304,13 +304,19 @@ BEGIN
                         --raise exception 'error: %',v_num_oit;
                 end if;
                 
+                --Verifica el parámetro para saltar el estado de Apertura (estado Pendiente)
+                if gem.f_verifica_parametro('abrir_ot','no_abrir') then
+                    v_parametros.cat_estado = 'Abierto';
+                end if;
+
+                --Actualiza el estado
                 update gem.torden_trabajo set
                 cat_estado = v_parametros.cat_estado,
                 id_usuario_mod = p_id_usuario,
-                fecha_mod = now(),
+                fecha_mod = v_fecha,
                 mensaje_estado = v_mensaje_estado,
                 fecha_emision = v_fecha
-                where id_orden_trabajo = v_parametros.id_orden_trabajo;
+                where id_orden_trabajo = v_parametros.id_orden_trabajo;  
                 
       elsif v_parametros.cat_estado = 'Cerrado' then
               if not exists(select 1 from gem.trecurso rec
@@ -320,13 +326,27 @@ BEGIN
                   raise exception 'Para Cerrar la OIT previamente debe registrar los Recursos utilizados.';
                 end if;
                 
-                update gem.torden_trabajo set
-                cat_estado = v_parametros.cat_estado,
-                id_usuario_mod = p_id_usuario,
-                fecha_mod = now(),
-                mensaje_estado = v_mensaje_estado,
-                fecha_eje_fin = now()
-                where id_orden_trabajo = v_parametros.id_orden_trabajo;
+                --Verifica el parámetro para saltar el estado de Apertura (estado Pendiente) para habilitar el registro manual de la fecha de inicio y fin d ejecución
+                if gem.f_verifica_parametro('abrir_ot','no_abrir') then
+                    update gem.torden_trabajo set
+                    cat_estado = v_parametros.cat_estado,
+                    id_usuario_mod = p_id_usuario,
+                    fecha_mod = now(),
+                    mensaje_estado = v_mensaje_estado,
+                    fecha_eje_ini = v_parametros.fecha_eje_ini,
+                    fecha_eje_fin = v_parametros.fecha_eje_fin
+                    where id_orden_trabajo = v_parametros.id_orden_trabajo;
+                else
+                    update gem.torden_trabajo set
+                    cat_estado = v_parametros.cat_estado,
+                    id_usuario_mod = p_id_usuario,
+                    fecha_mod = now(),
+                    mensaje_estado = v_mensaje_estado,
+                    fecha_eje_fin = now()
+                    where id_orden_trabajo = v_parametros.id_orden_trabajo;  
+                end if;
+                
+                
                 
             elsif v_parametros.cat_estado = 'Abierto' then
               update gem.torden_trabajo set

@@ -271,6 +271,8 @@ class MODOrdenTrabajo extends MODbase{
 		$this->setParametro('id_orden_trabajo','id_orden_trabajo','int4');
 		$this->setParametro('cat_estado','cat_estado','varchar');
 		$this->setParametro('mensaje_estado', 'mensaje_estado', 'varchar');
+		$this->setParametro('fecha_eje_ini', 'fecha_eje_ini', 'date');
+		$this->setParametro('fecha_eje_fin', 'fecha_eje_fin', 'date');
 		
 		$this->armarConsulta();
 		//echo $this->consulta;exit;

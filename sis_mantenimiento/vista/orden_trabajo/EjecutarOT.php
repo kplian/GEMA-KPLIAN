@@ -99,6 +99,9 @@ Phx.vista.EjecutarOT = {
 			this.getComponente('prevension').allowBlank=false;
 			this.getComponente('accidentes').allowBlank=false;
 			this.getComponente('reclamos').allowBlank=false;
+			this.getComponente('fecha_eje_ini').allowBlank=false;
+			this.getComponente('fecha_eje_fin').allowBlank=false;
+			
 			this.onButtonEdit();
 		}
 		
@@ -339,7 +342,9 @@ Phx.vista.EjecutarOT = {
 					params: {
 						'id_orden_trabajo': rec.data.id_orden_trabajo,
 						'cat_estado_anterior': rec.data.cat_estado,
-						'cat_estado': 'Cerrado'
+						'cat_estado': 'Cerrado',
+						fecha_eje_ini:this.getComponente('fecha_eje_ini').getValue(),
+						fecha_eje_fin:this.getComponente('fecha_eje_fin').getValue()
 					},
 					success: function(){
 						Phx.CP.loadingHide();
