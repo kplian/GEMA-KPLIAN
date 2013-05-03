@@ -10,8 +10,15 @@ class ACTRecurso extends ACTbase {
 			
 	function listarRecursoActividad() {
 		$this->objParam->defecto('ordenacion','id_recurso');
-
 		$this->objParam->defecto('dir_ordenacion','asc');
+		
+		if($this->objParam->getParametro('id_actividad')!='') {
+			$this->objParam->addFiltro("rec.id_actividad = ".$this->objParam->getParametro('id_actividad'));	
+		}
+		if($this->objParam->getParametro('id_orden_trabajo')!='') {
+			$this->objParam->addFiltro("rec.id_orden_trabajo = ".$this->objParam->getParametro('id_orden_trabajo'));	
+		}
+		
 		if($this->objParam->getParametro('tipoReporte')=='excel_grid' || $this->objParam->getParametro('tipoReporte')=='pdf_grid'){
 			$this->objReporte = new Reporte($this->objParam, $this);
 			$this->res = $this->objReporte->generarReporteListado('MODRecurso','listarRecursoActividad');

@@ -13,12 +13,24 @@ header("content-type: text/javascript; charset=UTF-8");
 
 Phx.vista.recurso=Ext.extend(Phx.gridInterfaz,{
 	constructor: function(config) {
+		//console.log(config)
+		this.maestro = config
 		modificarRecursos = false;
-		if(config.nombreVista == "ejecutarOT" || config.nombreVista == "registrarOT") {
-			if(config.estadoOT == "Borrador" || config.estadoOT == "Abierto") {
-				modificarRecursos = true;
+		if(config.callView=='actividad'){
+			if(config.nombreVista == "ejecutarOT" || config.nombreVista == "registrarOT") {
+				if(config.estadoOT == "Borrador" || config.estadoOT == "Abierto") {
+					modificarRecursos = true;
+				}
+			}	
+		} else{
+			if(config.nombreVista == "ejecutarOT" || config.nombreVista == "registrarOT") {
+				if(config.cat_estado == "Borrador" || config.cat_estado == "Abierto") {
+					modificarRecursos = true;
+				}
 			}
+			
 		}
+		
 		this.bnew = modificarRecursos;
 		this.bdel = modificarRecursos;
 		this.bedit = modificarRecursos;
@@ -26,9 +38,22 @@ Phx.vista.recurso=Ext.extend(Phx.gridInterfaz,{
 		
 		Phx.vista.recurso.superclass.constructor.call(this,config);
 		this.init();
-		this.grid.getTopToolbar().disable();
-   		this.grid.getBottomToolbar().disable();
-   		this.store.removeAll();
+		this.load({
+			params: {
+				start: 0,
+				limit: 50,
+				id_orden_trabajo: this.maestro.id_orden_trabajo
+			}
+		});
+		if(config.callView=='actividad'){
+			this.grid.getTopToolbar().disable();
+	   		this.grid.getBottomToolbar().disable();
+	   		this.store.removeAll();
+		} else{
+			//this.getComponente('id_orden_trabajo').setValue(this.maestro.id_orden_trabajo);
+			this.Atributos[2].valorInicial=this.maestro.id_orden_trabajo;
+		}
+		
    		
    		//listener to combo box 
    		this.getComponente('recurso').on('select', this.onRecursoSelect,this);
@@ -54,6 +79,15 @@ Phx.vista.recurso=Ext.extend(Phx.gridInterfaz,{
 		},
 		{
 			config: {
+					labelSeparator: '',
+					inputType: 'hidden',
+					name: 'id_orden_trabajo'
+			},
+			type: 'Field',
+			form: true 
+		},
+		{
+			config: {
 				name: 'recurso',
 				fieldLabel: 'Recurso',
 				allowBlank: false,
@@ -66,9 +100,10 @@ Phx.vista.recurso=Ext.extend(Phx.gridInterfaz,{
 						['item','Repuestos y Materiales'], 
 						['funcionario','Funcionario'],
 						['especialidad','Especialidad'],
-						['servicio','Servicio'],
+						['servicios_ott','Servicios OTT'],
 						['hotel','Hotel'],
-						['alimentacion','Alimentación']
+						['alimentacion','Alimentación'],
+						['servicio','Otros Servicios']
 					]
 				}),
 			    anchor: '100%',
@@ -411,7 +446,7 @@ Phx.vista.recurso=Ext.extend(Phx.gridInterfaz,{
 				maxLength: 100,
 				hidden: true
 			},
-			type: 'TextField',
+			type: 'NumberField',
 			filters: {
 				pfiltro: 'rec.costo',
 				type: 'numeric'},
@@ -475,7 +510,7 @@ Phx.vista.recurso=Ext.extend(Phx.gridInterfaz,{
 				maxLength: 100,
 				hidden: true
 			},
-			type: 'TextField',
+			type: 'NumberField',
 			filters: {
 				pfiltro: 'rec.cantidad',
 				type: 'numeric'},
@@ -518,6 +553,7 @@ Phx.vista.recurso=Ext.extend(Phx.gridInterfaz,{
 		{name: 'fecha_mod', type: 'timestamp'},
 		{name: 'estado_reg', type: 'string'},
 		{name: 'id_actividad', type: 'numeric'},
+		{name: 'id_orden_trabajo', type: 'numeric'},
 		{name: 'id_item', type: 'numeric'},
 		{name: 'nombre_item', type: 'varchar'},
 		{name: 'id_funcionario', type: 'numeric'},
@@ -550,9 +586,19 @@ Phx.vista.recurso=Ext.extend(Phx.gridInterfaz,{
 	fwidth: 410,
 	onReloadPage:function(m) {
 		this.maestro=m;
-		this.Atributos[1].valorInicial=this.maestro.id_actividad;
+		if(this.maestro.viewCall=='actividad'){
+			this.Atributos[1].valorInicial=this.maestro.id_actividad;	
+		} else{
+			this.Atributos[2].valorInicial=this.maestro.id_orden_trabajo;
+		}
+		
 		if(m.id != 'id') {
-			this.store.baseParams={id_actividad:this.maestro.id_actividad};
+			if(this.maestro.viewCall=='actividad'){
+				this.store.baseParams={id_actividad:this.maestro.id_actividad};
+			} else{
+				this.store.baseParams={id_orden_trabajo:this.maestro.id_orden_trabajo};
+			}
+			
 			this.load({params:{start:0, limit:50}})
 	    }
 	    else {
@@ -577,6 +623,9 @@ Phx.vista.recurso=Ext.extend(Phx.gridInterfaz,{
 	  		this.getComponente('recurso').setValue('servicio');
 	  		this.onRecursoSelect(this.getComponente('recurso'));
 	  	} else if(data.recurso == 'hotel'||data.recurso=='alimentacion') {
+	  		this.getComponente('recurso').setValue('recurso');
+	  		this.onRecursoSelect(this.getComponente('recurso'));
+	  	} else if(data.recurso == 'servicios_ott') {
 	  		this.getComponente('recurso').setValue('recurso');
 	  		this.onRecursoSelect(this.getComponente('recurso'));
 	  	}
@@ -704,6 +753,35 @@ Phx.vista.recurso=Ext.extend(Phx.gridInterfaz,{
      		this.getComponente('id_moneda').setVisible(true);
      		this.getComponente('costo').setVisible(true);
      		this.getComponente('codigo').setVisible(false);
+     		this.getComponente('existencias').setVisible(false);
+     		
+     		this.getComponente('id_item').reset();
+     		this.getComponente('id_funcionario').reset();
+     		this.getComponente('id_especialidad').reset();
+     		this.getComponente('id_servicio').reset();
+     		this.getComponente('hh_normal').reset();
+     		this.getComponente('hh_extras').reset();
+     		this.getComponente('hh_ext_mov').reset();
+     		this.getComponente('id_unidad_medida').reset();
+     		this.getComponente('cantidad').reset();
+     		this.getComponente('id_moneda').reset();
+     		this.getComponente('costo').reset();
+     		this.getComponente('codigo').reset();
+     		this.getComponente('existencias').reset();
+     		
+     	} else if(e.value=='servicios_ott'){
+     		this.getComponente('id_item').setVisible(false);
+     		this.getComponente('id_funcionario').setVisible(false);
+     		this.getComponente('id_especialidad').setVisible(false);
+     		this.getComponente('id_servicio').setVisible(false);
+     		this.getComponente('hh_normal').setVisible(false);
+     		this.getComponente('hh_extras').setVisible(false);
+     		this.getComponente('hh_ext_mov').setVisible(false);
+     		this.getComponente('id_unidad_medida').setVisible(false);
+     		this.getComponente('cantidad').setVisible(false);
+     		this.getComponente('id_moneda').setVisible(true);
+     		this.getComponente('costo').setVisible(true);
+     		this.getComponente('codigo').setVisible(true);
      		this.getComponente('existencias').setVisible(false);
      		
      		this.getComponente('id_item').reset();

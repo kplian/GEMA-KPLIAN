@@ -70,7 +70,8 @@ BEGIN
                     rec.hh_ext_mov,
                     rec.codigo,
                     rec.existencias,
-                    rec.concepto
+                    rec.concepto,
+                    rec.id_orden_trabajo
                     from gem.trecurso rec
                     inner join segu.tusuario usu1 on usu1.id_usuario = rec.id_usuario_reg
                     left join segu.tusuario usu2 on usu2.id_usuario = rec.id_usuario_mod
@@ -81,7 +82,7 @@ BEGIN
                     left join segu.tpersona pers on func.id_persona = pers.id_persona
                     left join param.tmoneda mon on rec.id_moneda = mon.id_moneda
                     left join param.tunidad_medida unimed on rec.id_unidad_medida = unimed.id_unidad_medida
-                    where rec.id_actividad = ' || v_parametros.id_actividad || ' and ';
+                    where ';
 			
 			--Definicion de la respuesta
 			v_consulta:=v_consulta||v_parametros.filtro;
@@ -115,7 +116,7 @@ BEGIN
                     left join segu.tpersona pers on func.id_persona = pers.id_persona
                     left join param.tmoneda mon on rec.id_moneda = mon.id_moneda
                     left join param.tunidad_medida unimed on rec.id_unidad_medida = unimed.id_unidad_medida
-                    where rec.id_actividad = ' || v_parametros.id_actividad || ' and ';
+                    where ';
 			
 			--Definicion de la respuesta		    
 			v_consulta:=v_consulta||v_parametros.filtro;
@@ -165,7 +166,8 @@ BEGIN
                 rec.hh_extras,
                 rec.hh_ext_mov,
                 rec.codigo,
-                rec.existencias
+                rec.existencias,
+                rec.id_orden_trabajo
                 from gem.trecurso rec
                 inner join gem.tactividad acti on rec.id_actividad = acti.id_actividad
                 inner join segu.tusuario usu1 on usu1.id_usuario = rec.id_usuario_reg

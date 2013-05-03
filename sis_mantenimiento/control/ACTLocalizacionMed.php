@@ -11,10 +11,10 @@ require_once(dirname(__FILE__).'/../reportes/RMedicion_Indicadores.php');
 require_once(dirname(__FILE__).'/../reportes/RAnualMedicion_Indicadores.php');
 require_once(dirname(__FILE__).'/../reportes/RGraficoIndicadores.php');
 require_once(dirname(__FILE__).'/../reportes/pxpReport/DataSource.php');
-require_once(dirname(__FILE__).'/../../lib/jpgraph-3.5.0b1/src/jpgraph.php');
-require_once(dirname(__FILE__).'/../../lib/jpgraph-3.5.0b1/src/jpgraph_bar.php');
-require_once(dirname(__FILE__).'/../../lib/jpgraph-3.5.0b1/src/jpgraph_pie.php');
-require_once(dirname(__FILE__).'/../../lib/jpgraph-3.5.0b1/src/jpgraph_pie3d.php');
+require_once(dirname(__FILE__).'/../../lib/jpgraph/src/jpgraph.php');
+require_once(dirname(__FILE__).'/../../lib/jpgraph/src/jpgraph_bar.php');
+require_once(dirname(__FILE__).'/../../lib/jpgraph/src/jpgraph_pie.php');
+require_once(dirname(__FILE__).'/../../lib/jpgraph/src/jpgraph_pie3d.php');
 
 
 class ACTLocalizacionMed extends ACTbase{

@@ -114,6 +114,11 @@ Phx.vista.RegistrarOT = {
 	  		this.getBoton('btnUncheck').setDisabled(false);
 	  		this.getBoton('del').setDisabled(true);
 	  	}
+	  	//Deshabilitación de botón de recursos
+	  	this.getBoton('btnRecursos').setDisabled(true);
+	  	//Habilitación de botón de costos
+	  	this.getBoton('btnCostoOIT').setDisabled(false);
+
   		return tb;
 	},
 	liberaMenu: function() {
@@ -121,6 +126,8 @@ Phx.vista.RegistrarOT = {
 		this.getBoton('btnCancelarOT').setDisabled(true);
 		this.getBoton('btnCheck').setDisabled(true);
 	  	this.getBoton('btnUncheck').setDisabled(true);
+	  	this.getBoton('btnRecursos').setDisabled(true);
+	  	this.getBoton('btnCostoOIT').setDisabled(true);
 		return tb;
 	},
 	handleForm: function(source) {

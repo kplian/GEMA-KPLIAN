@@ -42,6 +42,16 @@ Phx.vista.OrdenTrabajo=Ext.extend(Phx.gridInterfaz,{
 			}
 		);
 		
+		this.addButton('btnRecursos',
+			{
+				text: 'Recursos',
+				iconCls: 'bchecklist',
+				disabled: true,
+				handler: loadRecursos,
+				tooltip: '<b>Recursos</b><br/>Recursos utilizados en la ejecución de la OIT'
+			}
+		);
+		
 		this.addButton('reporteOT',{
 			text:'Report OIT',
 			iconCls: 'bpdf32',
@@ -76,6 +86,22 @@ Phx.vista.OrdenTrabajo=Ext.extend(Phx.gridInterfaz,{
 			);
 		}
 		
+		function loadRecursos() {
+			var rec=this.sm.getSelected();
+			rec.data.nombreVista = this.nombreVista;
+			rec.data.callView='oit';
+			Phx.CP.loadWindows('../../../sis_mantenimiento/vista/recurso/Recurso.php',
+					'Recursos',
+					{
+						width:1000,
+						height:'80%'
+				    },
+				    rec.data,
+				    this.idContenedor,
+				    'recurso'
+			);
+		}
+		
 		function costoOIT() {
 			var rec=this.sm.getSelected();
 			Phx.CP.loadWindows('../../../sis_mantenimiento/vista/orden_trabajo/OrdenTrabajoCosto.php',
@@ -99,6 +125,10 @@ Phx.vista.OrdenTrabajo=Ext.extend(Phx.gridInterfaz,{
 				tooltip: '<b>Costo OIT</b><br/>Detalle de los costos de la OIT'
 			}
 		);
+		
+		//Ocultar componentes que no se utilizarán
+		this.ocultarComponente(this.getComponente('acumulado'));
+		this.ocultarComponente(this.getComponente('nota_tecnico_equipo'));
 	},
 	fheight:'80%',
 	fwidth:'80%',
@@ -877,19 +907,25 @@ Phx.vista.OrdenTrabajo=Ext.extend(Phx.gridInterfaz,{
 			form:true
 		},
 		{
-			config:{
+			config: {
 				name: 'ubicacion_tecnica',
-				fieldLabel: 'Ubicación Técnica',
-				allowBlank: true,
+				fieldLabel: '¿Produjo Paro?',
 				anchor: '100%',
-				gwidth: 200,
-				maxLength:1500
+				tinit: true,
+				allowBlank: true,
+				origen: 'CATALOGO',
+				gdisplayField: 'ubicacion_tecnica',
+				gwidth: 100,
+				baseParams:{
+						cod_subsistema:'PARAM',
+						catalogo_tipo:'tgral__bandera'
+				}
 			},
-			type:'TextArea',
+			type: 'ComboRec',
+			id_grupo: 1,
 			filters:{pfiltro:'geoott.ubicacion_tecnica',type:'string'},
-			id_grupo:1,
-			grid:true,
-			form:true
+			grid: true,
+			form: true
 		},
 		{
 			config:{
@@ -904,7 +940,7 @@ Phx.vista.OrdenTrabajo=Ext.extend(Phx.gridInterfaz,{
 			type:'NumberField',
 			filters:{pfiltro:'geoott.acumulado',type:'numeric'},
 			id_grupo:1,
-			grid:true,
+			grid:false,
 			form:true
 		},
 		{
@@ -919,7 +955,7 @@ Phx.vista.OrdenTrabajo=Ext.extend(Phx.gridInterfaz,{
 		{
 			config:{
 				name: 'nota_tecnico_loc',
-				fieldLabel: 'Nota Técnico Localización',
+				fieldLabel: 'Descripción Paro',
 				allowBlank: true,
 				anchor: '100%',
 				gwidth: 100,
@@ -943,7 +979,7 @@ Phx.vista.OrdenTrabajo=Ext.extend(Phx.gridInterfaz,{
 			type:'TextArea',
 			filters:{pfiltro:'geoott.nota_tecnico_equipo',type:'string'},
 			id_grupo:1,
-			grid:true,
+			grid:false,
 			form:true
 		},
 		{
@@ -1130,6 +1166,7 @@ Phx.vista.OrdenTrabajo=Ext.extend(Phx.gridInterfaz,{
 		var tb = Phx.vista.OrdenTrabajo.superclass.preparaMenu.call(this);
 	  	var data = this.getSelectedData();
 	  	this.getBoton('btnActividad').setDisabled(false);
+	  	this.getBoton('btnRecursos').setDisabled(false);
 	  	this.getBoton('reporteOT').setDisabled(false);
   		return tb;
 	},
@@ -1137,6 +1174,7 @@ Phx.vista.OrdenTrabajo=Ext.extend(Phx.gridInterfaz,{
 		var tb = Phx.vista.OrdenTrabajo.superclass.liberaMenu.call(this);
 		this.getBoton('reporteOT').setDisabled(true);
 		this.getBoton('btnActividad').setDisabled(true);
+		this.getBoton('btnRecursos').setDisabled(true);
 		return tb;
 	},
 	crearMensajeEstadoForm: function() {

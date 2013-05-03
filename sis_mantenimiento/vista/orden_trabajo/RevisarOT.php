@@ -106,10 +106,14 @@ Phx.vista.RevisarOT = {
 	  	if(data.cat_estado == 'Cerrado') {
 	  		this.getBoton('btnFinalizar').setDisabled(false);
 	  		this.getBoton('btnReabrir').setDisabled(false);
+	  		this.getBoton('btnRecursos').setDisabled(false);
 	  	} else if(data.cat_estado == 'Revisado') {
 	  		this.getBoton('btnFinalizar').setDisabled(true);
 	  		this.getBoton('btnReabrir').setDisabled(true);
+	  		this.getBoton('btnRecursos').setDisabled(false);
 	  	}
+	  	//Habilitación de botón de costos
+	  	this.getBoton('btnCostoOIT').setDisabled(false);
   		return tb;
 	},
 	liberaMenu:function() {
@@ -117,6 +121,8 @@ Phx.vista.RevisarOT = {
 		this.getBoton('btnCancelarOT').setDisabled(true);
 		this.getBoton('btnFinalizar').setDisabled(true);
 	  	this.getBoton('btnReabrir').setDisabled(true);
+	  	this.getBoton('btnRecursos').setDisabled(true);
+	  	this.getBoton('btnCostoOIT').setDisabled(true);
 		return tb;
 	},
 	onBtnCancelarOT: function() {

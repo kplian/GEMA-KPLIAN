@@ -43,7 +43,7 @@ BEGIN
 					
         begin
         	v_recurso=null;
-        	if v_parametros.recurso in ('hotel','alimentacion') then
+        	if v_parametros.recurso in ('hotel','alimentacion','servicios_ott') then
         		v_recurso = v_parametros.recurso;
         	end if;
         	--Sentencia de la insercion
@@ -54,7 +54,7 @@ BEGIN
             fecha_mod,
             estado_reg,
             id_item,
-			id_funcionario,
+			     id_funcionario,
             id_especialidad,
             id_servicio,
             id_tarea,
@@ -69,7 +69,8 @@ BEGIN
             hh_ext_mov,
             codigo,
             existencias,
-            concepto
+            concepto,
+            id_orden_trabajo
           	) values(
             p_id_usuario,
             null,
@@ -92,7 +93,8 @@ BEGIN
             v_parametros.hh_ext_mov,
             v_parametros.codigo,
             v_parametros.existencias,
-            v_recurso
+            v_recurso,
+            v_parametros.id_orden_trabajo
             )RETURNING id_recurso into v_id_recurso;
             
 			--Definicion de la respuesta
@@ -137,7 +139,8 @@ BEGIN
               hh_ext_mov = v_parametros.hh_ext_mov,
               codigo = v_parametros.codigo,
               existencias = v_parametros.existencias,
-              concepto = v_recurso
+              concepto = v_recurso,
+              id_orden_trabajo = v_parametros.id_orden_trabajo
             where id_recurso = v_parametros.id_recurso;
             
 			--Definicion de la respuesta

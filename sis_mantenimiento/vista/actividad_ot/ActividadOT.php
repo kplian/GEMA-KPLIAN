@@ -268,7 +268,8 @@ Phx.vista.actividad=Ext.extend(Phx.gridInterfaz,{
 				cls:'recurso',
 				params: {
 					nombreVista: config.nombreVista,
-					estadoOT: config.cat_estado
+					estadoOT: config.cat_estado,
+					callView: 'actividad'
 				}
 			};
 		}

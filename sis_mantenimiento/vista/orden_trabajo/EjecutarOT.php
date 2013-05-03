@@ -141,6 +141,7 @@ Phx.vista.EjecutarOT = {
 	  		this.getBoton('btnEjecucionPendienteOT').setDisabled(true);
 	  		this.getBoton('btnAbrir').setDisabled(false);
 	  		this.getBoton('btnCerrar').setDisabled(true);
+	  		this.getBoton('btnRecursos').setDisabled(true);
 	  		
 	  	} else if(data.cat_estado == 'Abierto') {
 	  		this.getBoton('btnEjecucionPendienteOT').setDisabled(false);
@@ -148,6 +149,7 @@ Phx.vista.EjecutarOT = {
 	  		this.getBoton('btnEjecucionPendienteOT').setTooltip('<b>Pausar Ejecución</b>');
 	  		this.getBoton('btnAbrir').setDisabled(true);
 	  		this.getBoton('btnCerrar').setDisabled(false);
+	  		this.getBoton('btnRecursos').setDisabled(false);
 	  	} else if(data.cat_estado == 'EjecucionPendiente') {
 	  		this.getBoton('btnEjecucionPendienteOT').setDisabled(false);
 	  		this.getBoton('btnEjecucionPendienteOT').setIconClass('bplay');
@@ -155,6 +157,8 @@ Phx.vista.EjecutarOT = {
 	  		this.getBoton('btnAbrir').setDisabled(true);
 	  		this.getBoton('btnCerrar').setDisabled(false);
 	  	}
+	  	//Habilitación de botón de costos
+	  	this.getBoton('btnCostoOIT').setDisabled(false);
   		return tb;
 	},
 	liberaMenu:function() {
@@ -163,6 +167,8 @@ Phx.vista.EjecutarOT = {
 		this.getBoton('btnCancelarOT').setDisabled(true);
 		this.getBoton('btnAbrir').setDisabled(true);
 	  	this.getBoton('btnCerrar').setDisabled(true);
+	  	this.getBoton('btnRecursos').setDisabled(true);
+	  	this.getBoton('btnCostoOIT').setDisabled(true);
 		return tb;
 	},
 	handleForm: function() {
