@@ -305,6 +305,21 @@ Phx.vista.OrdenTrabajo=Ext.extend(Phx.gridInterfaz,{
 		},
 		{
 			config:{
+				name: 'observacion',
+				fieldLabel: 'Descripción Detallada Servicio',
+				allowBlank: true,
+				width: '100%',
+				gwidth: 300,
+				maxLength:5000
+			},
+			type:'TextArea',
+			filters:{pfiltro:'geoott.observacion',type:'string'},
+			id_grupo:0,
+			grid:true,
+			form:true
+		},
+		{
+			config:{
 				name: 'fecha_emision',
 				fieldLabel: 'Fecha Emisión',
 				allowBlank: true,
@@ -642,21 +657,7 @@ Phx.vista.OrdenTrabajo=Ext.extend(Phx.gridInterfaz,{
 			grid:true,
 			form:true
 		},
-		{
-			config:{
-				name: 'observacion',
-				fieldLabel: 'Observación y/o Falla',
-				allowBlank: true,
-				width: '100%',
-				gwidth: 300,
-				maxLength:5000
-			},
-			type:'TextArea',
-			filters:{pfiltro:'geoott.observacion',type:'string'},
-			id_grupo:0,
-			grid:true,
-			form:true
-		},
+		
 		
 	   	{
 	   		config:{

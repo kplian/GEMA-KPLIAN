@@ -78,6 +78,7 @@ class MODOrdenTrabajo extends MODbase{
 		$this->captura('id_cuenta','int4');
 		$this->captura('desc_cuenta','text');
 		$this->captura('fecha_server','date');
+		$this->captura('cuenta','varchar');
 		
 		//Ejecuta la instruccion
 		$this->armarConsulta();

@@ -92,7 +92,8 @@ class ACTOrdenTrabajo extends ACTbase{
 		$dataSource->putParameter('sectorSolicitante', $datosOT[0]['nombre_localizacion']);
 		$dataSource->putParameter('prioridad', $datosOT[0]['cat_prior']);
 		$dataSource->putParameter('sector', $datosOT[0]['descripcion_lugar']);
-		$dataSource->putParameter('cuenta', $datosOT[0]['codigo_centro_costo']);
+		$dataSource->putParameter('centro_costo', $datosOT[0]['codigo_centro_costo']);
+		$dataSource->putParameter('cuenta', $datosOT[0]['cuenta']);
 		$dataSource->putParameter('equipo', $datosOT[0]['equipo']);
 		$dataSource->putParameter('nOit', $datosOT[0]['num_oit']);
 		$dataSource->putParameter('tipoOit', $datosOT[0]['tipo_mant']);

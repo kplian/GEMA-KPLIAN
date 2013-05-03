@@ -124,7 +124,8 @@ BEGIN
 						geoott.descripcion_progresiva,
 						geoott.id_cuenta,
 						cue.nro_cuenta ||'' - ''||cue.nombre_cuenta as desc_cuenta,
-						now()::date as fecha_server
+						now()::date as fecha_server,
+						cue.nro_cuenta as cuenta
 						from gem.torden_trabajo geoott
 						inner join segu.tusuario usu1 on usu1.id_usuario = geoott.id_usuario_reg
 						left join segu.tusuario usu2 on usu2.id_usuario = geoott.id_usuario_mod
