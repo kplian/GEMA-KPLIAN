@@ -85,6 +85,8 @@ class ACTOrdenTrabajo extends ACTbase{
 		$resultOT = $this->objFunc->listarOrdenTrabajo($this->objParam);
 		$datosOT = $resultOT->getDatos();
 		
+		//var_dump($datosOT);exit;
+		
 		//calculo dias reales trabajados
 		$diasReales = $this->getDaysBetweenDates($datosOT[0]['fecha_eje_ini'], $datosOT[0]['fecha_eje_fin']);
 		$dataSource->putParameter('fechaEmision', $datosOT[0]['fecha_emision']);
@@ -119,6 +121,8 @@ class ACTOrdenTrabajo extends ACTbase{
 		$dataSource->putParameter('horaEjeFin', $datosOT[0]['hora_eje_fin']);
 		$dataSource->putParameter('codigo', $datosOT[0]['codigo']);
 		$dataSource->putParameter('descripcion_progresiva', $datosOT[0]['descripcion_progresiva']);
+		$dataSource->putParameter('ubicacion_tecnica', $datosOT[0]['ubicacion_tecnica']);
+		$dataSource->putParameter('nota_tecnico_loc', $datosOT[0]['nota_tecnico_loc']);
 		
 		
 		$this->objParam->addParametroConsulta('filtro', ' 0 = 0');

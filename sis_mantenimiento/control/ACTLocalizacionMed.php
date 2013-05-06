@@ -260,18 +260,34 @@ class ACTLocalizacionMed extends ACTbase{
 		} else{
 			$this->objFunc=$this->create('MODLocalizacionMed');
 			$this->res=$this->objFunc->datosIndicadoresGraf();
+			//var_dump($this->res->datos);
+			
+			
+			try{
+				//Verificacion de datos para la graficacion
+				$this->verificaDatosGrafico($this->objParam->getParametro('tipo_indicador'));
+				//Creación del gráfico
+				$grafName=$this->graficarDatosIndicadoresGraf();
+	
+				//Creación del Reporte en formato PDF
+				$mensajeExito=$this->generarReporteDatosIndicadoresGraf($grafName,$this->tituloRep,$this->tituloDet);
+									
+				//Respuesta
+				$this->res = $mensajeExito;
+				
+			} catch(Exception $e){
+				$mensajeExito = new Mensaje();
+				$mensajeExito->setMensaje('ERROR','Reporte.php','Reporte no generado, no existen datos en el periodo seleccionado','No existen datos para el calculo y graficacion de los datos, no existen datos en el periodo seleccionado','control');
+				
+				//Respuesta
+				$this->res = $mensajeExito;
+			}
 
-			//Creación del gráfico
-			$grafName=$this->graficarDatosIndicadoresGraf();
-
-			//Creación del Reporte en formato PDF
-			$mensajeExito=$this->generarReporteDatosIndicadoresGraf($grafName,$this->tituloRep,$this->tituloDet);
-								
-			//Respuesta
-			$this->res = $mensajeExito;
 		}
 		$this->res->imprimirRespuesta($this->res->generarJson());
 	}
+	
+	
 	
 	/*
 	 * Autor: RCM
@@ -287,6 +303,8 @@ class ACTLocalizacionMed extends ACTbase{
 			$graphName='localizacion_med_graficos_costos'.$_SESSION["ss_id_usuario"].'_'.$time[0].'.jpeg';
 			$rutaComp.=$graphName;
 			$rutaCorta.=$graphName;
+			
+			
 			
 			//Generación del gráfico
 			$data=array();
@@ -480,6 +498,30 @@ class ACTLocalizacionMed extends ACTbase{
 		
 		//Devuelve el mensaje de éxito
 		return $mensajeExito;
+	}
+
+	private function verificaDatosGrafico($pTipoInd){
+		if($pTipoInd=='costos'){
+			//Verifica si los datos son mayores a cero
+			if(count($this->res->datos)<=0){
+				throw new Exception("No existen datos para graficar", 1);
+			} else{
+				$tot=0;
+				foreach ($this->res->datos as $value) {
+					$tot+=$value['total'];
+				}
+				if($tot<=0){
+					throw new Exception("No existen datos para graficar", 1);
+				}
+			}	
+		} else{
+			//Verifica si los datos son mayores a cero
+			if(count($this->res->datos)<=0){
+				throw new Exception("No existen datos para graficar", 1);
+			}
+		}
+		
+		return;	
 	}
 }
 ?>

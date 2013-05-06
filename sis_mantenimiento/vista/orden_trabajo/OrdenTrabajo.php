@@ -956,13 +956,15 @@ Phx.vista.OrdenTrabajo=Ext.extend(Phx.gridInterfaz,{
 		{
 			config:{
 				name: 'nota_tecnico_loc',
-				fieldLabel: 'Descripción Paro',
+				fieldLabel: 'Horas Paro',
 				allowBlank: true,
+				allowDecimals:true,
+				decimalPrecision:6,
 				anchor: '100%',
 				gwidth: 100,
 				maxLength:1000
 			},
-			type:'TextArea',
+			type:'NumberField',
 			filters:{pfiltro:'geoott.nota_tecnico_loc',type:'string'},
 			id_grupo:1,
 			grid:true,
