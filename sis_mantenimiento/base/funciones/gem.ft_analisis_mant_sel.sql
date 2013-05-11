@@ -62,13 +62,16 @@ BEGIN
 						usu1.cuenta as usr_reg,
 						usu2.cuenta as usr_mod,
 						getima.nombre as desc_tipo_mant,
-						fun.desc_funcionario1 as desc_person	
+						fun.desc_funcionario1 as desc_person,
+						geanma.id_funcionario_prep,
+						fun1.desc_funcionario1 as preparado_por	
 						from gem.tanalisis_mant geanma
 						inner join segu.tusuario usu1 on usu1.id_usuario = geanma.id_usuario_reg
 						left join segu.tusuario usu2 on usu2.id_usuario = geanma.id_usuario_mod
 						inner join gem.ttipo_mant getima on getima.id_tipo_mant = geanma.id_tipo_mant
 						inner join orga.vfuncionario fun on fun.id_funcionario = geanma.id_funcionario_rev
-				        where geanma.id_uni_cons='||v_parametros.id_uni_cons|| ' and ';
+						inner join orga.vfuncionario fun1 on fun1.id_funcionario = geanma.id_funcionario_prep
+				    where geanma.id_uni_cons='||v_parametros.id_uni_cons|| ' and ';
 			
 			--Definicion de la respuesta
 			v_consulta:=v_consulta||v_parametros.filtro;
@@ -96,7 +99,8 @@ BEGIN
 						left join segu.tusuario usu2 on usu2.id_usuario = geanma.id_usuario_mod
 						inner join gem.ttipo_mant getima on getima.id_tipo_mant = geanma.id_tipo_mant
 						inner join orga.vfuncionario fun on fun.id_funcionario = geanma.id_funcionario_rev
-				        where geanma.id_uni_cons='||v_parametros.id_uni_cons|| ' and ';
+						inner join orga.vfuncionario fun1 on fun1.id_funcionario = geanma.id_funcionario_prep
+				    where geanma.id_uni_cons='||v_parametros.id_uni_cons|| ' and ';
 			
 			--Definicion de la respuesta		    
 			v_consulta:=v_consulta||v_parametros.filtro;
@@ -115,21 +119,24 @@ BEGIN
     elsif(p_transaccion='GEM_GEANMA_REP')then
     	begin
         	v_consulta:='select
-                        anamant.id_analisis_mant as revision,
+                        anamant.id_analisis_mant,
                         anamant.id_uni_cons,
+                        loc.nombre as localizacion,
+                        sis.codigo as tag,
                         sis.nombre as nombre_sis,
                         sub.nombre as nombre_sub,
-                        anamant.id_tipo_mant,
-                        anamant.id_funcionario_rev,
-                        fun.desc_funcionario1,
+                        fun1.desc_funcionario1 as preparado_por,
+                        fun.desc_funcionario1 as revisado_por,
                         anamant.fecha_emision,
                         anamant.fecha_rev,
                         anamant.descripcion	
                         from gem.tanalisis_mant anamant
                         inner join orga.vfuncionario fun on fun.id_funcionario=anamant.id_funcionario_rev
+                        inner join orga.vfuncionario fun1 on fun1.id_funcionario=anamant.id_funcionario_prep
                         inner join gem.tuni_cons_comp comp on comp.id_uni_cons_hijo=anamant.id_uni_cons
                         inner join gem.tuni_cons sis on sis.id_uni_cons=comp.id_uni_cons_padre
                         inner join gem.tuni_cons sub on sub.id_uni_cons=anamant.id_uni_cons
+                        inner join gem.tlocalizacion loc on loc.id_localizacion = sis.id_localizacion
                         where anamant.id_analisis_mant='||v_parametros.id_analisis_mant||' and ';
                         
                         v_consulta:=v_consulta||v_parametros.filtro;

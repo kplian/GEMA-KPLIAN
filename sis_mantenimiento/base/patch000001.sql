@@ -1311,3 +1311,11 @@ ALTER TABLE gem.tparametro OWNER TO postgres;
 ALTER TABLE gem.trecurso
 ADD COLUMN id_orden_trabajo integer;
 /***********************************F-SCP-RCM-GEM-137-03/05/2013*****************************************/
+
+/***********************************I-SCP-RCM-GEM-138-11/05/2013*****************************************/
+alter table gem.tdocumento
+add tipo_doc varchar(20);
+
+alter table gem.tanalisis_mant
+add column id_funcionario_prep integer;
+/***********************************F-SCP-RCM-GEM-138-11/05/2013*****************************************/

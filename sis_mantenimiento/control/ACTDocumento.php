@@ -11,13 +11,17 @@ class ACTDocumento extends ACTbase{
             
     function listarDocumento(){
         $this->objParam->defecto('ordenacion','id_documento');
-
         $this->objParam->defecto('dir_ordenacion','asc');
+		
+		if($this->objParam->getParametro('tipo_doc')!=''){
+			$this->objParam->addFiltro("gedocu.tipo_doc = ''".$this->objParam->getParametro('tipo_doc')."''");
+		}
+		
         if($this->objParam->getParametro('tipoReporte')=='excel_grid' || $this->objParam->getParametro('tipoReporte')=='pdf_grid'){
             $this->objReporte = new Reporte($this->objParam, $this);
             $this->res = $this->objReporte->generarReporteListado('MODDocumento','listarDocumento');
         } else{
-            $this->objFunc=$this->create('MODDocumento');    
+            $this->objFunc=$this->create('MODDocumento');
             $this->res=$this->objFunc->listarDocumento();
         }
         $this->res->imprimirRespuesta($this->res->generarJson());

@@ -456,7 +456,8 @@ Phx.vista.OrdenTrabajo=Ext.extend(Phx.gridInterfaz,{
 				baseParams:{
 						cod_subsistema:'GEM',
 						catalogo_tipo:'torden_trabajo_cat_prior'
-				}
+				},
+				renderer:function (value, p, record){return String.format('{0}', record.data['cat_prior']);}
 			},
 			type: 'ComboRec',
 			id_grupo: 0,
@@ -589,7 +590,8 @@ Phx.vista.OrdenTrabajo=Ext.extend(Phx.gridInterfaz,{
 				baseParams: {
 						cod_subsistema:'GEM',
 						catalogo_tipo:'torden_trabajo_cat_tipo'
-				}
+				},
+				renderer:function (value, p, record){return String.format('{0}', record.data['cat_tipo']);}
 			},
 			type: 'Field',
 			id_grupo: 0,
@@ -920,7 +922,8 @@ Phx.vista.OrdenTrabajo=Ext.extend(Phx.gridInterfaz,{
 				baseParams:{
 						cod_subsistema:'PARAM',
 						catalogo_tipo:'tgral__bandera'
-				}
+				},
+				renderer:function (value, p, record){return String.format('{0}', record.data['ubicacion_tecnica']);}
 			},
 			type: 'ComboRec',
 			id_grupo: 1,

@@ -25,7 +25,7 @@ Phx.vista.Documento=Ext.extend(Phx.gridInterfaz,{
                 iconCls : 'bupload1',
                 disabled : true,
                 handler : SubirArchivo,
-                tooltip : '<b>Archivos</b><br/>Archivos subidos'
+                tooltip : '<b>Subir Archivos</b><br/>Opción para subir archivos'
         });
 
         function SubirArchivo()
@@ -54,6 +54,28 @@ Phx.vista.Documento=Ext.extend(Phx.gridInterfaz,{
             type:'Field',
             form:true 
         },
+        {
+			config: {
+				name: 'tipo_doc',
+				fieldLabel: 'Tipo Documento',
+				anchor: '100%',
+				tinit: false,
+				allowBlank: false,
+				origen: 'CATALOGO',
+				gdisplayField: 'descripcion',
+				gwidth: 200,
+				baseParams:{
+						cod_subsistema:'GEM',
+						catalogo_tipo:'tdocumento__tipo_doc'
+				},
+				renderer:function (value, p, record){return String.format('{0}', record.data['tipo_doc']);}
+			},
+			type: 'ComboRec',
+			id_grupo: 0,
+			filters:{pfiltro:'gedocu.tipo_doc',type:'string'},
+			grid: true,
+			form: true
+		},
         {
             config:{
                 name: 'codigo',
@@ -117,7 +139,7 @@ Phx.vista.Documento=Ext.extend(Phx.gridInterfaz,{
                 gwidth: 300,
                 maxLength:1000
             },
-            type:'TextField',
+            type:'TextArea',
             filters:{pfiltro:'gedocu.resumen',type:'string'},
             id_grupo:1,
             grid:true,
@@ -127,7 +149,7 @@ Phx.vista.Documento=Ext.extend(Phx.gridInterfaz,{
             config:{
                 name: 'nombre_archivo',
                 fieldLabel: 'Nombre Archivo',
-                allowBlank: true,
+                allowBlank: false,
                 anchor: '100%',
                 gwidth: 120,
                 maxLength:100
@@ -284,6 +306,7 @@ Phx.vista.Documento=Ext.extend(Phx.gridInterfaz,{
         {name:'id_usuario_mod', type: 'numeric'},
         {name:'usr_reg', type: 'string'},
         {name:'usr_mod', type: 'string'},
+        {name:'tipo_doc', type: 'string'}
         
     ],
     sortInfo:{

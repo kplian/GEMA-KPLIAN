@@ -64,9 +64,9 @@ Phx.vista.Tarea=Ext.extend(Phx.gridInterfaz,{
 		{
 			config:{
    				name:'id_uni_cons_hijo',
-   				fieldLabel:'Equipo Hijo',
-   				allowBlank:true,
-   				emptyText:'Equipos Hijos..',
+   				fieldLabel:'Subsistema',
+   				allowBlank:false,
+   				emptyText:'Subsistema...',
    				store: new Ext.data.JsonStore({
 					url: '../../sis_mantenimiento/control/UniCons/listarUniConsHijo',
 					id: 'id_uni_cons_hijo',
@@ -194,154 +194,224 @@ Phx.vista.Tarea=Ext.extend(Phx.gridInterfaz,{
    			form:true
 		},
 		{
-			config:{
+			config: {
 				name: 'col_h',
-				fieldLabel: 'Col h',
-				allowBlank: true,
-				anchor: '100%',
+				fieldLabel: 'H',
+				anchor: '30%',
+				tinit: false,
+				allowBlank: false,
+				origen: 'CATALOGO',
+				gdisplayField: 'descripcion',
 				gwidth: 100,
-				maxLength:2
+				baseParams:{
+						cod_subsistema:'GEM',
+						catalogo_tipo:'ttarea__sn'
+				},
+				renderer:function (value, p, record){return String.format('{0}', record.data['col_h']);}
 			},
-			type:'TextField',
+			type: 'ComboRec',
+			id_grupo: 0,
 			filters:{pfiltro:'tare.col_h',type:'string'},
-			id_grupo:1,
-			grid:true,
-			form:true
+			grid: true,
+			form: true
 		},
 		{
-			config:{
+			config: {
 				name: 'col_s',
-				fieldLabel: 'Col s',
-				allowBlank: true,
-				anchor: '100%',
+				fieldLabel: 'S',
+				anchor: '30%',
+				tinit: false,
+				allowBlank: false,
+				origen: 'CATALOGO',
+				gdisplayField: 'descripcion',
 				gwidth: 100,
-				maxLength:2
+				baseParams:{
+						cod_subsistema:'GEM',
+						catalogo_tipo:'ttarea__sn'
+				},
+				renderer:function (value, p, record){return String.format('{0}', record.data['col_s']);}
 			},
-			type:'TextField',
+			type: 'ComboRec',
+			id_grupo: 0,
 			filters:{pfiltro:'tare.col_s',type:'string'},
-			id_grupo:1,
-			grid:true,
-			form:true
+			grid: true,
+			form: true
 		},
 		{
-			config:{
+			config: {
 				name: 'col_o',
-				fieldLabel: 'Col o',
-				allowBlank: true,
-				anchor: '100%',
+				fieldLabel: 'O',
+				anchor: '30%',
+				tinit: false,
+				allowBlank: false,
+				origen: 'CATALOGO',
+				gdisplayField: 'descripcion',
 				gwidth: 100,
-				maxLength:2
+				baseParams:{
+						cod_subsistema:'GEM',
+						catalogo_tipo:'ttarea__sn'
+				},
+				renderer:function (value, p, record){return String.format('{0}', record.data['col_o']);}
 			},
-			type:'TextField',
+			type: 'ComboRec',
+			id_grupo: 0,
 			filters:{pfiltro:'tare.col_o',type:'string'},
-			id_grupo:1,
-			grid:true,
-			form:true
+			grid: true,
+			form: true
 		},
 		{
-			config:{
+			config: {
 				name: 'col_n',
-				fieldLabel: 'Col n',
-				allowBlank: true,
-				anchor: '100%',
+				fieldLabel: 'N',
+				anchor: '30%',
+				tinit: false,
+				allowBlank: false,
+				origen: 'CATALOGO',
+				gdisplayField: 'descripcion',
 				gwidth: 100,
-				maxLength:2
+				baseParams:{
+						cod_subsistema:'GEM',
+						catalogo_tipo:'ttarea__sn'
+				},
+				renderer:function (value, p, record){return String.format('{0}', record.data['col_n']);}
 			},
-			type:'TextField',
+			type: 'ComboRec',
+			id_grupo: 0,
 			filters:{pfiltro:'tare.col_n',type:'string'},
-			id_grupo:1,
-			grid:true,
-			form:true
+			grid: true,
+			form: true
 		},
 		{
-			config:{
+			config: {
 				name: 'col_hson1',
-				fieldLabel: 'Col hson1',
-				allowBlank: true,
-				anchor: '100%',
+				fieldLabel: 'HSON1',
+				anchor: '30%',
+				tinit: false,
+				allowBlank: false,
+				origen: 'CATALOGO',
+				gdisplayField: 'descripcion',
 				gwidth: 100,
-				maxLength:2
+				baseParams:{
+						cod_subsistema:'GEM',
+						catalogo_tipo:'ttarea__sn'
+				},
+				renderer:function (value, p, record){return String.format('{0}', record.data['col_hson1']);}
 			},
-			type:'TextField',
+			type: 'ComboRec',
+			id_grupo: 0,
 			filters:{pfiltro:'tare.col_hson1',type:'string'},
-			id_grupo:1,
-			grid:true,
-			form:true
+			grid: true,
+			form: true
 		},
 		{
-			config:{
+			config: {
 				name: 'col_hson2',
-				fieldLabel: 'Col hson2',
-				allowBlank: true,
-				anchor: '100%',
+				fieldLabel: 'HSON2',
+				anchor: '30%',
+				tinit: false,
+				allowBlank: false,
+				origen: 'CATALOGO',
+				gdisplayField: 'descripcion',
 				gwidth: 100,
-				maxLength:2
+				baseParams:{
+						cod_subsistema:'GEM',
+						catalogo_tipo:'ttarea__sn'
+				},
+				renderer:function (value, p, record){return String.format('{0}', record.data['col_hson2']);}
 			},
-			type:'TextField',
+			type: 'ComboRec',
+			id_grupo: 0,
 			filters:{pfiltro:'tare.col_hson2',type:'string'},
-			id_grupo:1,
-			grid:true,
-			form:true
+			grid: true,
+			form: true
 		},
 		{
-			config:{
+			config: {
 				name: 'col_hson3',
-				fieldLabel: 'Col hson3',
-				allowBlank: true,
-				anchor: '100%',
+				fieldLabel: 'HSON3',
+				anchor: '30%',
+				tinit: false,
+				allowBlank: false,
+				origen: 'CATALOGO',
+				gdisplayField: 'descripcion',
 				gwidth: 100,
-				maxLength:2
+				baseParams:{
+						cod_subsistema:'GEM',
+						catalogo_tipo:'ttarea__sn'
+				},
+				renderer:function (value, p, record){return String.format('{0}', record.data['col_hson3']);}
 			},
-			type:'TextField',
+			type: 'ComboRec',
+			id_grupo: 0,
 			filters:{pfiltro:'tare.col_hson3',type:'string'},
-			id_grupo:1,
-			grid:true,
-			form:true
+			grid: true,
+			form: true
 		},
 		{
-			config:{
+			config: {
 				name: 'col_h4',
-				fieldLabel: 'Col h4',
-				allowBlank: true,
-				anchor: '100%',
+				fieldLabel: 'H4',
+				anchor: '30%',
+				tinit: false,
+				allowBlank: false,
+				origen: 'CATALOGO',
+				gdisplayField: 'descripcion',
 				gwidth: 100,
-				maxLength:2
+				baseParams:{
+						cod_subsistema:'GEM',
+						catalogo_tipo:'ttarea__sn'
+				},
+				renderer:function (value, p, record){return String.format('{0}', record.data['col_h4']);}
 			},
-			type:'TextField',
+			type: 'ComboRec',
+			id_grupo: 0,
 			filters:{pfiltro:'tare.col_h4',type:'string'},
-			id_grupo:1,
-			grid:true,
-			form:true
+			grid: true,
+			form: true
 		},
 		{
-			config:{
+			config: {
 				name: 'col_h5',
-				fieldLabel: 'Col h5',
-				allowBlank: true,
-				anchor: '100%',
+				fieldLabel: 'H5',
+				anchor: '30%',
+				tinit: false,
+				allowBlank: false,
+				origen: 'CATALOGO',
+				gdisplayField: 'descripcion',
 				gwidth: 100,
-				maxLength:2
+				baseParams:{
+						cod_subsistema:'GEM',
+						catalogo_tipo:'ttarea__sn'
+				},
+				renderer:function (value, p, record){return String.format('{0}', record.data['col_h5']);}
 			},
-			type:'TextField',
+			type: 'ComboRec',
+			id_grupo: 0,
 			filters:{pfiltro:'tare.col_h5',type:'string'},
-			id_grupo:1,
-			grid:true,
-			form:true
+			grid: true,
+			form: true
 		},
 		{
-			config:{
+			config: {
 				name: 'col_s4',
-				fieldLabel: 'Col s4',
-				allowBlank: true,
-				anchor: '100%',
+				fieldLabel: 'S4',
+				anchor: '30%',
+				tinit: false,
+				allowBlank: false,
+				origen: 'CATALOGO',
+				gdisplayField: 'descripcion',
 				gwidth: 100,
-				maxLength:2
+				baseParams:{
+						cod_subsistema:'GEM',
+						catalogo_tipo:'ttarea__sn'
+				},
+				renderer:function (value, p, record){return String.format('{0}', record.data['col_s4']);}
 			},
-			type:'TextField',
+			type: 'ComboRec',
+			id_grupo: 0,
 			filters:{pfiltro:'tare.col_s4',type:'string'},
-			id_grupo:1,
-			grid:true,
-			form:true
+			grid: true,
+			form: true
 		},
 		{
 			config:{

@@ -157,12 +157,12 @@ Class RAnalisisMant extends Report {
         $pdf->setTextColor(0,0,0);
         $pdf->Cell($width1, $height, 'Preparado por:', 'B', 0, 'L', false, '', 0, false, 'T', 'C');
         $pdf->setTextColor(51,51,153);
-        $pdf->Cell($width3-5, $height, $this->getDataSource()->getParameter('func_preparo'), 'B', 0, 'C', false, '', 0, false, 'T', 'C');        
+        $pdf->Cell($width3-5, $height, $this->getDataSource()->getParameter('preparado_por'), 'B', 0, 'C', false, '', 0, false, 'T', 'C');        
         $pdf->setXY($x,$y+$height);
         $pdf->setTextColor(0,0,0);   
         $pdf->Cell($width1, $height, 'Revisado por:', 'T', 0, 'L', false, '', 0, false, 'T', 'C');
         $pdf->setTextColor(51,51,153);
-        $pdf->Cell($width3-5, $height, $this->getDataSource()->getParameter('func_reviso'), 'T', 0, 'C', false, '', 0, false, 'T', 'C');
+        $pdf->Cell($width3-5, $height, $this->getDataSource()->getParameter('revisado_por'), 'T', 0, 'C', false, '', 0, false, 'T', 'C');
         $pdf->setXY($x+$width1+$width3-5,$y);
         $pdf->setTextColor(0,0,0);
         $pdf->Cell($width1+5, $height, 'Fecha:', 1, 0, 'L', false, '', 0, false, 'T', 'C');
@@ -180,6 +180,7 @@ Class RAnalisisMant extends Report {
         
         $colCount = 0;
         $pdf->SetFontSize(6.5);
+		//var_dump($dataset);
         foreach($dataset as $row) {
             
             //Tabla
@@ -237,6 +238,7 @@ Class RAnalisisMant extends Report {
         $x=$pdf->getX();
         $y=$pdf->getY();
         $distance=0;        
+		//var_dump($dataSource->getDataset());
         foreach($dataSource->getDataset() as $row) {
             $pdf->setXY($x,$y+($distance*$height*10));
             $pdf->Cell($width*8, $height*10, $row['descripcion'], 1, 0, 'C', false, '', 0, false, 'T', 'C');

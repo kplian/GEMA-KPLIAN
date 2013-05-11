@@ -55,7 +55,8 @@ BEGIN
 			id_usuario_reg,
 			fecha_reg,
 			id_usuario_mod,
-			fecha_mod
+			fecha_mod,
+			id_funcionario_prep
           	) values(
 			v_parametros.id_uni_cons,
 			v_parametros.id_tipo_mant,
@@ -67,7 +68,8 @@ BEGIN
 			p_id_usuario,
 			now(),
 			null,
-			null
+			null,
+			v_parametros.id_funcionario_prep
 			)RETURNING id_analisis_mant into v_id_analisis_mant;
                
 			--Definicion de la respuesta
@@ -98,7 +100,8 @@ BEGIN
 			descripcion = v_parametros.descripcion,
 			fecha_rev = v_parametros.fecha_rev,
 			id_usuario_mod = p_id_usuario,
-			fecha_mod = now()
+			fecha_mod = now(),
+			id_funcionario_prep = v_parametros.id_funcionario_prep
 			where id_analisis_mant=v_parametros.id_analisis_mant;
                
 			--Definicion de la respuesta

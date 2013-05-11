@@ -905,3 +905,13 @@ INSERT INTO param.tgenerador_alarma ("id_usuario_reg", "id_usuario_mod", "fecha_
 VALUES (1, NULL, E'2013-04-26 06:38:08.055', NULL, E'activo', E'gem.f_verifica_alarma_gem');
 /***********************************F-DAT-RAC-GEM-00-26/04/2013****************************************/
 
+/***********************************I-DAT-RCM-GEM-137-12/05/2013****************************************/
+select pxp.f_add_catalog('GEM','tdocumento__tipo_doc','manual');
+select pxp.f_add_catalog('GEM','tdocumento__tipo_doc','procedimiento');
+select pxp.f_add_catalog('GEM','tdocumento__tipo_doc','instructivo');
+select pxp.f_add_catalog('GEM','tdocumento__tipo_doc','plan');
+select pxp.f_add_catalog('GEM','tdocumento__tipo_doc','registro');
+
+select pxp.f_add_catalog('GEM','ttarea__sn','S');
+select pxp.f_add_catalog('GEM','ttarea__sn','N');
+/***********************************F-DAT-RCM-GEM-137-12/05/2013****************************************/

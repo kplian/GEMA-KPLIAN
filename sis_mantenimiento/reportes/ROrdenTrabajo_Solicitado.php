@@ -103,6 +103,7 @@ Class ROrdenTrabajoSolicitado extends Report {
         $pdf->SetMargins(PDF_MARGIN_LEFT, 40, PDF_MARGIN_RIGHT);
         $pdf->SetHeaderMargin(10);
         $pdf->SetFooterMargin(PDF_MARGIN_FOOTER);
+		
         
         //set auto page breaks
         $pdf->SetAutoPageBreak(TRUE, PDF_MARGIN_BOTTOM);
@@ -120,51 +121,87 @@ Class ROrdenTrabajoSolicitado extends Report {
         $width2 = 30;
         $width3 = 30;
         $width4 = 75;
+		//var_dump($this->getDataSource()->getParameters());exit;
         $dataset = $this->getDataSource()->getDataset();
+        $aux=$this->getDataSource()->getParameters();
+		//var_dump($aux['insumDataSource']->getDataset());exit;
+		$datasetInsum=$aux['insumDataSource']->getDataset();
+		//var_dump($datasetInsum);exit;
         $gray = array('width' => 0.25, 'cap' => 'butt', 'join' => 'miter', 'dash' => 0, 'color' => array(169, 169, 169));        
         $pdf->setLineStyle($gray);
         $pdf->SetFontSize(7.5);
-        $pdf->SetFont('', 'B');
-        $pdf->setTextColor(0,0,0);        
-        $pdf->setFillColor(220,220,220,true);
+        $pdf->SetFont('', '');
+        //$pdf->setTextColor(0,0,0);
+        $pdf->setTextColor(255,255,255);        
+        //$pdf->setFillColor(220,220,220,true);
+		$pdf->SetFillColor(51,51,153, true);
+		$pdf->Cell($width2-10, $height, 'Solicitado por:', 1, 0, 'L', true, '', 0, true, 'T', 'C');
+		$pdf->setTextColor(0,0,0);
+		$pdf->Cell($width2+50, $height, $dataset[0]['desc_solicitante'], 1, 0, 'L', false, '', 0, false, 'T', 'C');
+		$pdf->setTextColor(255,255,255);
+		$pdf->Cell($width1, $height, 'Cargo:', 1, 0, 'L', true, '', 0, true, 'T', 'C');
+		$pdf->setTextColor(0,0,0);
+		$pdf->Cell($width1+50, $height, $dataset[0]['nombre_cargo'], 1, 0, 'L', false, 'L', 0, false, 'T', 'C');
+		$pdf->Ln();
+
+		$pdf->setTextColor(255,255,255);
         $pdf->Cell($width2, $height, 'Fecha de Envio', 1, 0, 'C', true, '', 0, false, 'T', 'C');
-        $pdf->Cell($width2, $height, 'Solicitado por:', 1, 0, 'L', true, '', 0, false, 'T', 'C');
-        $pdf->Cell($width1, $height, 'Cargo', 1, 0, 'L', true, '', 0, false, 'T', 'C');
         $pdf->Cell($width2, $height, 'Fecha requerida', 1, 0, 'C', true, '', 0, false, 'T', 'C');
-        $pdf->Cell($width2, $height, 'Sector', 1, 0, 'C', true, '', 0, false, 'T', 'C');
-        $pdf->Cell($width2, $height, ' EQUIPO Nº /PROG/TAG ', 1, 0, 'C', true, '', 1, false, 'T', 'C');
-        $pdf->Cell($width1, $height, 'ECB', 1, 0, 'C', true, '', 0, false, 'T', 'C');
+        $pdf->Cell($width2+40, $height, 'Sector', 1, 0, 'C', true, '', 0, false, 'T', 'C');
+        $pdf->Cell($width2+25, $height, ' EQUIPO Nº /PROG/TAG ', 1, 0, 'C', true, '', 1, false, 'T', 'C');
         $pdf->Ln();
         //var_dump($dataset);
+        
+        $pdf->setTextColor(0,0,0);
         $pdf->Cell($width2, $height, $dataset[0]['fecha'], 1, 0, 'C', false, '', 0, false, 'T', 'C');
-        $pdf->Cell($width2, $height, $dataset[0]['desc_solicitante'], 1, 0, 'L', false, '', 0, false, 'T', 'C');
-        $pdf->Cell($width1, $height, $dataset[0]['nombre_cargo'], 1, 0, 'L', false, 'L', 0, false, 'T', 'C');
         $pdf->Cell($width2, $height, $dataset[0]['fecha_requerida'], 1, 0, 'C', false, '', 0, false, 'T', 'C');
-        $pdf->Cell($width2, $height, $dataset[0]['desc_localizacion'], 1, 0, 'C', false, '', 1, false, 'T', 'C');
-        $pdf->Cell($width2, $height, $dataset[0]['desc_equipo'], 1, 0, 'C', false, '', 1, false, 'T', 'C');
-        $pdf->Cell($width1, $height, $dataset[0]['ecb'], 1, 1, 'C', false, '', 0, false, 'T', 'C');
+        $pdf->Cell($width2+40, $height, $dataset[0]['desc_localizacion'], 1, 0, 'C', false, '', 1, false, 'T', 'C');
+        $pdf->Cell($width2+25, $height, $dataset[0]['desc_equipo'], 1, 0, 'C', false, '', 1, false, 'T', 'C');
         $pdf->Ln();
+		$pdf->setTextColor(255,255,255);
         $pdf->Cell($width2+$width1, $height, 'OBSERVACIÓN:', 1, 1, 'L', true, '', 0, false, 'T', 'C');
+		$pdf->setTextColor(0,0,0);
         $pdf->MultiCell(185,$height*3,$dataset[0]['observacion'],1,'J',false);
         $pdf->Ln($height);
+		$pdf->setTextColor(255,255,255);
         $pdf->Cell($width2*2+$width1, $height, 'DESCRIPCIÓN PUNTUAL DE LO QUE SE DESEA OBTENER:', 1, 0, 'C', true, '', 0, false, 'T', 'C');
+		$pdf->setTextColor(0,0,0);
         $pdf->Cell($width2, $height, '', 0, 0, 'L', false, '', 0, false, 'T', 'C');
+		$pdf->setTextColor(255,255,255);
         $pdf->Cell($width2*2+$width1, $height, 'CROQUIS ACTUAL', 1, 0, 'C', true, '', 0, false, 'T', 'C');
         $pdf->Ln();
         $x=$pdf->getX();
         $y=$pdf->getY();
+		$pdf->setTextColor(0,0,0);
         $pdf->MultiCell($width2*3+$width1,$height*9,$dataset[0]['descripcion'],1,'J',false,0);
-        $pdf->MultiCell($width2*2+$width1,$height*15,'',1,'J',false,0);        
-        $pdf->setXY($x,$y+$height*9);
+        $pdf->MultiCell($width2*2+$width1,$height*9,'',1,'J',false,0);
+		$pdf->Ln();
+		//$pdf->Ln();
+        //$pdf->setXY($x,$y+$height*9);
         
-        $pdf->Cell($width2*3+$width1, $height, 'CANTIDAD REQUERIDA', 1, 0, 'C', true, '', 0, false, 'T', 'C');
+		$pdf->setTextColor(255,255,255);
+        $pdf->Cell(185, $height, 'INSUMOS - CANTIDAD REQUERIDA', 1, 0, 'C', true, '', 0, false, 'T', 'C');
         $pdf->setXY($x,$y+$height*10);
-        $pdf->Cell($width2*2, $height, 'DESCRIPCIÓN', 1, 0, 'C', true, '', 0, false, 'T', 'C');
-        $pdf->Cell($width1, $height, 'UNIDAD', 1, 0, 'C', false, '', 0, false, 'T', 'C');
-        $pdf->Cell($width2, $height, 'CANTIDAD', 1, 0, 'L', false, '', 0, false, 'T', 'C');
-        $pdf->Ln($height*6);
+        $pdf->Cell(127.5, $height, 'DESCRIPCIÓN', 1, 0, 'C', true, '', 0, false, 'T', 'C');
+        $pdf->Cell($width1+10, $height, 'UNIDAD', 1, 0, 'C', true, '', 0, false, 'T', 'C');
+        $pdf->Cell($width2, $height, 'CANTIDAD', 1, 0, 'C', true, '', 0, false, 'T', 'C');
+		$pdf->Ln();
+		//Detalle insumos
+		//var_dump($dataset);exit;
+		$pdf->setTextColor(0,0,0);
+		foreach($datasetInsum as $datarow) {
+			//var_dump($datarow);exit;
+			$pdf->Cell(127.5, $height, $txt = $datarow['descripcion'], $border = 1, $ln = 0, $align = 'L', $fill = false, $link = '', $stretch = 0, $ignore_min_height = false, $calign = 'T', $valign = 'M');
+			$pdf->Cell($width1+10, $height, $txt = $datarow['unidad_medida'], $border = 1, $ln = 0, $align = 'C', $fill = false, $link = '', $stretch = 0, $ignore_min_height = false, $calign = 'T', $valign = 'M');
+			$pdf->Cell($width2, $height, $txt = $datarow['cant_insum'], $border = 1, $ln = 1, $align = 'R', $fill = false, $link = '', $stretch = 0, $ignore_min_height = false, $calign = 'T', $valign = 'M');
+		}
+		
+        //$pdf->Ln($height*6);
+        $pdf->Ln();
         $checkBoxSi;
         $checkBoxNo;
+		$pdf->setTextColor(255,255,255);
+		//var_dump($dataset[0]['inspeccion_lugar']);
         if($dataset[0]['inspeccion_lugar']=='si'){
             $checkBoxSi='<input type="checkbox" name="boxLugarSi" value="1" checked="checked">';
             $checkBoxNo='<input type="checkbox" name="boxLugarNo" value="1">';    
@@ -174,10 +211,12 @@ Class ROrdenTrabajoSolicitado extends Report {
         }
         $pdf->Cell($width2*3+$width1, $height, '        ¿Se inspeccionó en el lugar?           SI              NO', 1, 0, 'L', true, '', 0, false, 'T', 'C');
         //var_dump($dataset);
+        $pdf->setTextColor(0,0,0);
         $pdf->writeHTMLCell(5,5,$pdf->getX()-51,$pdf->getY()+1,"$checkBoxSi");        
         $pdf->writeHTMLCell(5,5,$pdf->getX()+ 9,$pdf->getY(),"$checkBoxNo");
         $x=$pdf->getX();
         $y=$pdf->getY();
+		$pdf->setTextColor(255,255,255);
         $pdf->setXY($x+32,$y-1);
         $pdf->Cell($width2*2+$width1, $height, '        ¿Se MARCO el lugar exacto?      SI              NO', 1, 0, 'L', true, '', 0, false, 'T', 'C');
         if($dataset[0]['inspeccion_exacto']=='si'){
@@ -187,29 +226,36 @@ Class ROrdenTrabajoSolicitado extends Report {
             $checkBoxSi='<input type="checkbox" name="boxExacSi" value="1">';
             $checkBoxNo='<input type="checkbox" name="boxExacNo" value="1" checked="checked">';
         }
+		$pdf->setTextColor(0,0,0);
         $pdf->writeHTMLCell(5,5,$pdf->getX()-25,$pdf->getY()+1,"$checkBoxSi");        
         $pdf->writeHTMLCell(5,5,$pdf->getX()+ 9,$pdf->getY(),"$checkBoxNo");
         $pdf->Ln($height*2);
-        $pdf->setFillColor(50,135,215);
+        //$pdf->setFillColor(50,135,215);
+        $pdf->SetFillColor(51,51,153, true);
         
+		$pdf->setTextColor(255,255,255);
         $pdf->Cell($width2*2+$width1, $height, '¿Priorización SOLICITANTE?', 1, 0, 'C', true, '', 0, false, 'T', 'C');
         $pdf->Cell($width2*3+$width1, $height, 'Clase-Importancia del equipo:', 1, 1, 'C', true, '', 0, false, 'T', 'C');
         $pdf->Cell($width2*2+$width1, $height*8, '', 1, 0, 'C', false, '', 0, false, 'T', 'C');
         $x=$pdf->getX();
         $y=$pdf->getY();
         $pdf->SetFontSize(7);
+		$pdf->SetTextColor(0,0,0);
         $text = "Clase A-Equipo cuya parada interrumpe el servicio, llevando a la facturación cesante.\nClase B-Equipo que participa del servicio pero que su parada por algún tiempo no interrumpe la producción.\nClase C-Equipo que no participa del servicio."; 
         $pdf->MultiCell($width2*3+$width1,$height*3,$text,1,'',false,0);
         $pdf->setXY($x,$y+$height*3);
         $pdf->SetFontSize(7.5);
+        $pdf->SetTextColor(255,255,255);
         $pdf->Cell($width2*3+$width1, $height, 'PRIORIDAD', 1, 0, 'C', true, '', 0, false, 'T', 'C');
         $pdf->setXY($x,$y+$height*4);
         $pdf->SetFontSize(7);
+		$pdf->SetTextColor(0,0,0);
         $text = "Prioridad 1 - Emergencia - Mantenimiento que debe ser realizado inmediatamente después de detectada su necesidad.\nPrioridad 2 - Necesaria - Mantenimiento que puede ser postergado por algunos días pero que su ejecucion no debe superar un mes.\nPrioridad 3 - Deseable - Mantenimiento que puede ser postergado por algunas semanas (recomendable 4 ó 5) pero no debe ser omitido.";
         $pdf->MultiCell($width2*3+$width1,$height*4,$text,1,'',false,0);
         //prioridades
         $pdf->setXY($x-$width2*2-$width1,$y);
         $pdf->Ln($height);
+        $pdf->SetTextColor(255,255,255);
         $pdf->Cell(29.5, $height, '', 0, 0, 'C', false, '', 0, false, 'T', 'C');
         $pdf->Cell(16, $height, 'Clase', 0, 0, 'C', true, '', 0, false, 'T', 'C');
         $pdf->Cell(16, $height, 'Clase', 0, 0, 'C', true, '', 0, false, 'T', 'C');
@@ -221,6 +267,7 @@ Class ROrdenTrabajoSolicitado extends Report {
         //primera fila
         $xFilas=$pdf->getX();
         $yFilas=$pdf->getY();
+        $pdf->SetTextColor(0,0,0);
         $pdf->Cell(13.5, $height, '', 0, 0, 'C', false, '', 0, false, 'T', 'C');
         $pdf->Cell(16, $height, 'Prioridad 1', 0, 0, 'C', true, '', 0, false, 'T', 'C');
         $pdf->setFillColor(255,0,0);
@@ -350,29 +397,44 @@ Class ROrdenTrabajoSolicitado extends Report {
         $pdf->setFillColor($colorUno,$colorDos,$colorTres);
         $pdf->Cell(16, $height, $dataset[0]['prioridad'], 1, 1, 'C', true, '', 0, false, 'T', 'C');
         $pdf->Ln();
-        $pdf->setFillColor(102,102,51);
+        //$pdf->setFillColor(102,102,51);
+		$pdf->SetFillColor(51,51,153, true);
+		$pdf->SetTextColor(255,255,255);
         $pdf->Cell($width2*5+$width1*2, $height, 'MANTENIMIENTO', 1, 1, 'C', true, '', 0, false, 'T', 'C');
-        $pdf->setFillColor(220,220,220);
+        //$pdf->setFillColor(220,220,220);
+        $pdf->SetFillColor(51,51,153, true);
         $pdf->Cell($width2*2+$width1, $height, 'OBSERVACIONES JEFE DE MANTENIMIENTO', 1, 0, 'C', true, '', 0, false, 'T', 'C');
         $pdf->Cell($width2*3+$width1, $height, 'OBSERVACIONES RESPONSABLE: '.$dataset[0]['desc_responsable'], 1, 1, 'C', true, '', 0, false, 'T', 'C');
         $pdf->Ln();
         $pdf->Cell($width2+16, $height, 'El trabajo debe ser atendido por:', 1, 0, 'R', true, '', 1, false, 'T', 'C');
-        $pdf->Cell(32, $height, $dataset[0]['nombre_uo'], 1, 0, 'C', false, '', 0, false, 'T', 'C');
+		$pdf->SetTextColor(0,0,0);
+        //$pdf->Cell(32, $height, $dataset[0]['nombre_uo'], 1, 0, 'C', false, '', 0, false, 'T', 'C');
+		$pdf->MultiCell(32,$height,$dataset[0]['nombre_uo'],0,'L',false,0);
         $pdf->Cell(16, $height, '', 0, 0, 'C', false, '', 0, false, 'T', 'C');
+		$pdf->SetTextColor(255,255,255);
         $pdf->Cell($width2+16, $height, 'FECHA DE ENTREGA TENTATIVA OIT', 1, 0, 'R', true, '', 1, false, 'T', 'C');
+		$pdf->SetTextColor(0,0,0);
         $pdf->Cell(32, $height, $dataset[0]['fecha_estimada'], 1, 1, 'C', false, '', 0, false, 'T', 'C');
         $pdf->Ln();
+		$pdf->SetTextColor(255,255,255);
         $pdf->Cell($width2+16, $height, 'RESPONSABLE ELABORACIÓN OIT/OTT:', 1, 0, 'R', true, '', 1, false, 'T', 'C');
-        $pdf->Cell(32, $height, $dataset[0]['desc_responsable'], 1, 0, 'C', false, '', 0, false, 'T', 'C');
+		$pdf->SetTextColor(0,0,0);
+        //$pdf->Cell(32, $height, $dataset[0]['desc_responsable'], 1, 0, 'C', false, '', 0, false, 'T', 'C');
+        $pdf->MultiCell(32,$height,$dataset[0]['desc_responsable'],0,'L',false,0);
         $pdf->Cell(16, $height, '', 0, 0, 'C', false, '', 0, false, 'T', 'C');
+		$pdf->SetTextColor(255,255,255);
         $pdf->Cell($width2+16, $height, 'FECHA DE ENTREGA REAL OIT', 1, 0, 'R', true, '', 1, false, 'T', 'C');
+		$pdf->SetTextColor(0,0,0);
         $pdf->Cell(32, $height, $dataset[0]['fecha_real'], 1, 1, 'C', false, '', 0, false, 'T', 'C');
         $pdf->Ln();
+		$pdf->SetTextColor(255,255,255);
         $pdf->Cell($width2+16, $height, 'FECHA DE RECEPCIÓN', 1, 0, 'R', true, '', 1, false, 'T', 'C');
+		$pdf->SetTextColor(0,0,0);
         $pdf->Cell(32, $height, $dataset[0]['fecha_recepcion'], 1, 0, 'C', false, '', 0, false, 'T', 'C');
         $pdf->Cell(16, $height, '', 0, 0, 'C', false, '', 0, false, 'T', 'C');
+		$pdf->SetTextColor(255,255,255);
         $pdf->Cell($width2+16, $height, 'LE CORRESPONDE OIT/OTT Nº:', 1, 0, 'R', true, '', 1, false, 'T', 'C');
-        $pdf->Cell(32, $height, $dataset[0]['codigo_uo'], 1, 1, 'C', false, '', 0, false, 'T', 'C');
+        $pdf->Cell(32, $height, '', 1, 1, 'C', false, '', 0, false, 'T', 'C');
         $pdf->Ln();
         $checkBoxAlta;
         $checkBoxMedia;
@@ -423,10 +485,12 @@ Class ROrdenTrabajoSolicitado extends Report {
         $pdf->Ln();
         $pdf->MultiCell($width2*2+$width1,$height*2,$dataset[0]['nota'],0,'L',false,0);
         $pdf->Ln($height*3);
-        $pdf->MultiCell($width2*4,$height,'SEÑOR '.$dataset[0]['desc_solicitante']." FAVOR IMPRIMIR, HACER FIRMAR CON EL JEFE DE MANTENIMIENTO Y ARCHIVAR JUNTO A OIT/OTT GENERADA",0,'C',true,0);
+		$pdf->setTextColor(0,0,0);
+        $pdf->MultiCell($width2*4,$height,'SEÑOR '. strtoupper($dataset[0]['desc_solicitante']).", FAVOR IMPRIMIR, HACER FIRMAR CON EL JEFE DE MANTENIMIENTO Y ARCHIVAR JUNTO A OIT/OTT GENERADA",0,'C',false,0);
         $pdf->Cell($width1, $height, '', 0, 0, 'R',false, '', 1, false, 'T', 'C');
         $pdf->setXY($pdf->getX(),$pdf->getY()+$height);
-        $pdf->Cell($width2+$width1, $height, 'FIRMA JMOC', 'T', 0, 'C',false, '', 1, false, 'T', 'C');
+		$pdf->setTextColor(0,0,0);
+        $pdf->Cell($width2+$width1, $height, 'FIRMA', 'T', 0, 'C',false, '', 1, false, 'T', 'C');
         $pdf->Output($fileName, 'F');
     }
     

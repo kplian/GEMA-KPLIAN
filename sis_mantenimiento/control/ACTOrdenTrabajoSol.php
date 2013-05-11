@@ -28,7 +28,8 @@ class ACTOrdenTrabajoSol extends ACTbase{
 	}
 				
 	function insertarOrdenTrabajoSol(){
-		$this->objFunc=$this->create('MODOrdenTrabajoSol');	
+		$this->objFunc=$this->create('MODOrdenTrabajoSol');
+		//var_dump($this->objParam);
 		if($this->objParam->insertar('id_orden_trabajo_sol')){
 			$this->res=$this->objFunc->insertarOrdenTrabajoSol($this->objParam);			
 		} else{			
@@ -57,12 +58,21 @@ class ACTOrdenTrabajoSol extends ACTbase{
         $this->objParam->defecto('cantidad','1000');
         $this->objFunc=$this->create('MODOrdenTrabajoSol');
         $this->res=$this->objFunc->listarOrdenTrabajoRep($this->objParam);
-
-        
         $dataSource->setDataSet($this->res->getDatos());
+		
+		//Insumos
+		$this->objParam->addParametroConsulta('filtro', ' 0 = 0');
+		$this->objParam->addParametroConsulta('ordenacion', 'otsoin.id_orden_trabajo_sol_insumo');
+		$modInsum = $this->create('MODOrdenTrabajoSolInsumo');
+		$resultInsum = $modInsum->listarOrdenTrabajoSolInsumo();
+		$insumDataSource = new DataSource();
+		$insumDataSource->setDataset($resultInsum->getDatos());
+		$dataSource->putParameter('insumDataSource', $insumDataSource);
+		//
+		
+		//var_dump($dataSource);exit;
 		        
         $reporte = new ROrdenTrabajoSolicitado();
-		
         $reporte->setDataSource($dataSource);
         $nombreArchivo = 'ReporteOrdenTrabajoSolicitado.pdf';
         $reportWriter = new ReportWriter($reporte, dirname(__FILE__).'/../../reportes_generados/'.$nombreArchivo);

@@ -38,6 +38,7 @@ class MODDocumento extends MODbase{
         $this->captura('id_usuario_mod','int4');
         $this->captura('usr_reg','varchar');
         $this->captura('usr_mod','varchar');
+		$this->captura('tipo_doc','varchar');
         
         //Ejecuta la instruccion
         $this->armarConsulta();
@@ -62,6 +63,7 @@ class MODDocumento extends MODbase{
         $this->setParametro('palabras_clave','palabras_clave','varchar');
         $this->setParametro('estado_reg','estado_reg','varchar');
         $this->setParametro('id_documento_padre','id_documento_padre','int4');
+		$this->setParametro('tipo_doc','tipo_doc','varchar');
 
         //Ejecuta la instruccion
         $this->armarConsulta();
@@ -87,6 +89,7 @@ class MODDocumento extends MODbase{
         $this->setParametro('palabras_clave','palabras_clave','varchar');
         $this->setParametro('estado_reg','estado_reg','varchar');
         $this->setParametro('id_documento_padre','id_documento_padre','int4');
+		$this->setParametro('tipo_doc','tipo_doc','varchar');
 
         //Ejecuta la instruccion
         $this->armarConsulta();
@@ -181,6 +184,7 @@ class MODDocumento extends MODbase{
         $this->captura('id_usuario_mod','int4');
         $this->captura('usr_reg','varchar');
         $this->captura('usr_mod','varchar');
+		$this->captura('tipo_doc','varchar');
         
         //Ejecuta la instruccion
         $this->armarConsulta();

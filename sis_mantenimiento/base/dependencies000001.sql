@@ -609,4 +609,8 @@ references gem.tcuenta (id_cuenta);
 alter table gem.trecurso
 add constraint fk_trecurso__id_orden_trabajo foreign key (id_orden_trabajo)
 references gem.torden_trabajo (id_orden_trabajo);
+
+alter table gem.tanalisis_mant
+add constraint fk_tanalisis_mant__id_funcionario_prep foreign key (id_funcionario_prep)
+references orga.tfuncionario (id_funcionario);
 /***********************************F-DEP-RCM-GEM-137-03/05/2013*****************************************/

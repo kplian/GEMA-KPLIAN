@@ -116,7 +116,7 @@ Phx.vista.OrdenTrabajoSol=Ext.extend(Phx.gridInterfaz,{
 			config:{
 				name: 'fecha_requerida',
 				fieldLabel: 'Fecha Requerida',
-				allowBlank: true,
+				allowBlank: false,
 				gwidth: 100,
 				format: 'd/m/Y',
 				renderer:function (value,p,record){return value?value.dateFormat('d/m/Y'):''}
@@ -242,7 +242,7 @@ Phx.vista.OrdenTrabajoSol=Ext.extend(Phx.gridInterfaz,{
 			config:{
 				name: 'descripcion',
 				fieldLabel: 'Descripción',
-				allowBlank: true,
+				allowBlank: false,
 				anchor: '100%',
 				gwidth: 100,
 				maxLength:1000

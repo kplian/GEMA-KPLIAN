@@ -58,7 +58,8 @@ BEGIN
 			fecha_reg,
 			id_usuario_reg,
 			fecha_mod,
-			id_usuario_mod
+			id_usuario_mod,
+			tipo_doc
           	) values(
 			v_parametros.nombre,
 			v_parametros.codigo,
@@ -69,7 +70,8 @@ BEGIN
 			now(),
 			p_id_usuario,
 			null,
-			null
+			null,
+			v_parametros.tipo_doc
 			)RETURNING id_documento into v_id_documento;
                
 			--Definicion de la respuesta
@@ -99,7 +101,8 @@ BEGIN
 			nombre_archivo = v_parametros.nombre_archivo,
 			palabras_clave = v_parametros.palabras_clave,
 			fecha_mod = now(),
-			id_usuario_mod = p_id_usuario
+			id_usuario_mod = p_id_usuario,
+			tipo_doc = v_parameteos.tipo_doc
 			where id_documento=v_parametros.id_documento;
                
 			--Definicion de la respuesta
