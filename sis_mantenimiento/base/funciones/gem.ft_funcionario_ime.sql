@@ -108,7 +108,7 @@ BEGIN
              	insert into gem.tfuncionario_honorario(
              	id_funcionario, costo_hora, id_tipo_horario, estado_reg, id_usuario_reg, id_moneda
              	) values(
-             	v_id_funcionario, v_parametros.horario2, 4, 'activo', par_id_usuario, v_id_moneda
+             	v_id_funcionario, v_parametros.horario2, 6, 'activo', par_id_usuario, v_id_moneda
              	);
              end if;
              
@@ -116,8 +116,15 @@ BEGIN
              	insert into gem.tfuncionario_honorario(
              	id_funcionario, costo_hora, id_tipo_horario, estado_reg, id_usuario_reg, id_moneda
              	) values(
-             	v_id_funcionario, v_parametros.horario3, 5, 'activo', par_id_usuario, v_id_moneda
+             	v_id_funcionario, v_parametros.horario3, 4, 'activo', par_id_usuario, v_id_moneda
              	);
+             end if;
+             if coalesce(v_parametros.horario4,0) > 0 then
+              insert into gem.tfuncionario_honorario(
+              id_funcionario, costo_hora, id_tipo_horario, estado_reg, id_usuario_reg, id_moneda
+              ) values(
+              v_id_funcionario, v_parametros.horario4, 5, 'activo', par_id_usuario, v_id_moneda
+              );
              end if;
                       
                v_resp = pxp.f_agrega_clave(v_resp,'mensaje','funcionario '||v_parametros.codigo ||' insertado con exito ');

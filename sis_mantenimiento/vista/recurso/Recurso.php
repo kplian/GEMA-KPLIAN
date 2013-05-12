@@ -310,7 +310,7 @@ Phx.vista.recurso=Ext.extend(Phx.gridInterfaz,{
 				maxLength: 100,
 				hidden: true
 			},
-			type: 'TextField',
+			type: 'NumberField',
 			filters: {
 				pfiltro: 'rec.hh_normal',
 				type: 'numeric'},
@@ -321,14 +321,14 @@ Phx.vista.recurso=Ext.extend(Phx.gridInterfaz,{
 		{
 			config: {
 				name: 'hh_extras',
-				fieldLabel: 'HH Extras',
+				fieldLabel: 'HH Extra',
 				allowBlank: true,
 				width: '100%',
 				gwidth: 100,
 				maxLength: 100,
 				hidden: true
 			},
-			type: 'TextField',
+			type: 'NumberField',
 			filters: {
 				pfiltro: 'rec.hh_extras',
 				type: 'numeric'},
@@ -339,16 +339,34 @@ Phx.vista.recurso=Ext.extend(Phx.gridInterfaz,{
 		{
 			config: {
 				name: 'hh_ext_mov',
-				fieldLabel: 'HH Ext. Mov.',
+				fieldLabel: 'HH Nocturno',
 				allowBlank: true,
 				width: '100%',
 				gwidth: 100,
 				maxLength: 100,
 				hidden: true
 			},
-			type: 'TextField',
+			type: 'NumberField',
 			filters: {
 				pfiltro: 'rec.hh_ext_mov',
+				type: 'numeric'},
+			id_grupo: 0,
+			grid: true,
+			form: true
+		},
+		{
+			config: {
+				name: 'hh_fer_dom',
+				fieldLabel: 'HH Fer. y Dom.',
+				allowBlank: true,
+				width: '100%',
+				gwidth: 100,
+				maxLength: 100,
+				hidden: true
+			},
+			type: 'NumberField',
+			filters: {
+				pfiltro: 'rec.hh_fer_dom',
 				type: 'numeric'},
 			id_grupo: 0,
 			grid: true,
@@ -571,12 +589,13 @@ Phx.vista.recurso=Ext.extend(Phx.gridInterfaz,{
 		{name: 'observaciones', type: 'varchar'},
 		{name: 'id_unidad_medida', type: 'int4'},
 		{name: 'codigo_unidad_medida', type: 'varchar'},
-		{name: 'hh_normal', type: 'int4'},
-		{name: 'hh_extras', type: 'int4'},
-		{name: 'hh_ext_mov', type: 'int4'},
+		{name: 'hh_normal', type: 'numeric'},
+		{name: 'hh_extras', type: 'numeric'},
+		{name: 'hh_ext_mov', type: 'numeric'},
 		{name: 'codigo', type: 'varchar'},
 		{name: 'existencias', type: 'varchar'},
-		{name: 'recurso', type: 'varchar'}
+		{name: 'recurso', type: 'varchar'},
+		{name: 'hh_fer_dom', type: 'numeric'}
 	],
 	sortInfo:{
 		field: 'id_recurso',
@@ -650,12 +669,14 @@ Phx.vista.recurso=Ext.extend(Phx.gridInterfaz,{
      		this.getComponente('hh_normal').setVisible(false);
      		this.getComponente('hh_extras').setVisible(false);
      		this.getComponente('hh_ext_mov').setVisible(false);
+     		this.getComponente('hh_fer_dom').setVisible(false);
      		this.getComponente('id_funcionario').reset();
      		this.getComponente('id_especialidad').reset();
      		this.getComponente('id_servicio').reset();
      		this.getComponente('hh_normal').reset();
      		this.getComponente('hh_extras').reset();
      		this.getComponente('hh_ext_mov').reset();
+     		this.getComponente('hh_fer_dom').reset();
      	}
      	else if(e.value == 'funcionario') {
      		
@@ -663,6 +684,7 @@ Phx.vista.recurso=Ext.extend(Phx.gridInterfaz,{
      		this.getComponente('hh_normal').setVisible(true);
      		this.getComponente('hh_extras').setVisible(true);
      		this.getComponente('hh_ext_mov').setVisible(true);
+     		this.getComponente('hh_fer_dom').setVisible(true);
      		
      		this.getComponente('id_item').setVisible(false);
      		this.getComponente('id_especialidad').setVisible(false);
@@ -692,6 +714,7 @@ Phx.vista.recurso=Ext.extend(Phx.gridInterfaz,{
      		this.getComponente('hh_normal').setVisible(false);
      		this.getComponente('hh_extras').setVisible(false);
      		this.getComponente('hh_ext_mov').setVisible(false);
+     		this.getComponente('hh_fer_dom').setVisible(false);
      		this.getComponente('id_unidad_medida').setVisible(false);
      		this.getComponente('cantidad').setVisible(false);
      		this.getComponente('id_moneda').setVisible(false);
@@ -705,6 +728,7 @@ Phx.vista.recurso=Ext.extend(Phx.gridInterfaz,{
      		this.getComponente('hh_normal').reset();
      		this.getComponente('hh_extras').reset();
      		this.getComponente('hh_ext_mov').reset();
+     		this.getComponente('hh_fer_dom').reset();
      		this.getComponente('id_unidad_medida').reset();
      		this.getComponente('cantidad').reset();
      		this.getComponente('id_moneda').reset();
@@ -721,6 +745,7 @@ Phx.vista.recurso=Ext.extend(Phx.gridInterfaz,{
      		this.getComponente('hh_normal').setVisible(false);
      		this.getComponente('hh_extras').setVisible(false);
      		this.getComponente('hh_ext_mov').setVisible(false);
+     		this.getComponente('hh_fer_dom').setVisible(false);
      		this.getComponente('id_unidad_medida').setVisible(false);
      		this.getComponente('cantidad').setVisible(false);
      		this.getComponente('id_moneda').setVisible(true);
@@ -734,6 +759,7 @@ Phx.vista.recurso=Ext.extend(Phx.gridInterfaz,{
      		this.getComponente('hh_normal').reset();
      		this.getComponente('hh_extras').reset();
      		this.getComponente('hh_ext_mov').reset();
+     		this.getComponente('hh_fer_dom').reset();
      		this.getComponente('id_unidad_medida').reset();
      		this.getComponente('cantidad').reset();
      		this.getComponente('id_moneda').reset();
@@ -748,6 +774,7 @@ Phx.vista.recurso=Ext.extend(Phx.gridInterfaz,{
      		this.getComponente('hh_normal').setVisible(false);
      		this.getComponente('hh_extras').setVisible(false);
      		this.getComponente('hh_ext_mov').setVisible(false);
+     		this.getComponente('hh_fer_dom').setVisible(false);
      		this.getComponente('id_unidad_medida').setVisible(false);
      		this.getComponente('cantidad').setVisible(false);
      		this.getComponente('id_moneda').setVisible(true);
@@ -762,6 +789,7 @@ Phx.vista.recurso=Ext.extend(Phx.gridInterfaz,{
      		this.getComponente('hh_normal').reset();
      		this.getComponente('hh_extras').reset();
      		this.getComponente('hh_ext_mov').reset();
+     		this.getComponente('hh_fer_dom').reset();
      		this.getComponente('id_unidad_medida').reset();
      		this.getComponente('cantidad').reset();
      		this.getComponente('id_moneda').reset();
@@ -777,6 +805,7 @@ Phx.vista.recurso=Ext.extend(Phx.gridInterfaz,{
      		this.getComponente('hh_normal').setVisible(false);
      		this.getComponente('hh_extras').setVisible(false);
      		this.getComponente('hh_ext_mov').setVisible(false);
+     		this.getComponente('hh_fer_dom').setVisible(false);
      		this.getComponente('id_unidad_medida').setVisible(false);
      		this.getComponente('cantidad').setVisible(false);
      		this.getComponente('id_moneda').setVisible(true);
@@ -791,6 +820,7 @@ Phx.vista.recurso=Ext.extend(Phx.gridInterfaz,{
      		this.getComponente('hh_normal').reset();
      		this.getComponente('hh_extras').reset();
      		this.getComponente('hh_ext_mov').reset();
+     		this.getComponente('hh_fer_dom').reset();
      		this.getComponente('id_unidad_medida').reset();
      		this.getComponente('cantidad').reset();
      		this.getComponente('id_moneda').reset();
@@ -806,6 +836,7 @@ Phx.vista.recurso=Ext.extend(Phx.gridInterfaz,{
      		this.getComponente('hh_normal').setVisible(false);
      		this.getComponente('hh_extras').setVisible(false);
      		this.getComponente('hh_ext_mov').setVisible(false);
+     		this.getComponente('hh_fer_dom').setVisible(false);
      		this.getComponente('id_unidad_medida').setVisible(false);
      		this.getComponente('cantidad').setVisible(false);
      		this.getComponente('id_moneda').setVisible(false);
