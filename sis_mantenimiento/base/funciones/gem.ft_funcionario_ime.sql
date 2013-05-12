@@ -59,7 +59,8 @@ BEGIN
                end if;
 
                INSERT INTO orga.tfuncionario(
-		               codigo, id_persona,
+		               codigo,
+		               id_persona,
 		               estado_reg,
 		               fecha_reg,
 		               id_usuario_reg,
@@ -72,7 +73,7 @@ BEGIN
                       v_parametros.id_persona, 
                       'activo',now()::date, 
                       par_id_usuario,
-                      v_parametros.id_persona,
+                      v_parametros.email_empresa,
                       v_parametros.interno,
                       v_parametros.fecha_ingreso,
                       v_parametros.telefono_ofi)
