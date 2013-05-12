@@ -507,5 +507,29 @@ class ACTUniCons extends ACTbase{
 		}
 		$this->res->imprimirRespuesta($this->res->generarJson());
 	}
+	
+	/*
+	 * Author: RCM
+	 * Date: 14-05-2013
+	 * Description: listado del inventario de equipos
+	 */		
+	function listarUniConsInvent(){
+		$this->objParam->defecto('ordenacion','locp4.nombre,locp3.nombre,locp2.nombre,locp1.nombre,teq.nombre');
+		
+		if($this->objParam->getParametro('nombre_caract')!=null&&$this->objParam->getParametro('valor_caract')!=null){
+			$aux="eqgral.id_uni_cons in (select id_uni_cons from gem.tuni_cons_det ucdet where upper(ucdet.nombre) = ''".$this->objParam->getParametro('nombre_caract')."'' and ucdet.valor ilike ''%".$this->objParam->getParametro('valor_caract')."%'')";
+			$this->objParam->addFiltro($aux);
+		}
+		
+		$this->objParam->defecto('dir_ordenacion','asc');
+		if($this->objParam->getParametro('tipoReporte')=='excel_grid' || $this->objParam->getParametro('tipoReporte')=='pdf_grid'){
+			$this->objReporte = new Reporte($this->objParam, $this);
+			$this->res = $this->objReporte->generarReporteListado('MODUniCons','listarUniConsInvent');
+		} else{
+			$this->objFunc=$this->create('MODUniCons');	
+			$this->res=$this->objFunc->listarUniConsInvent();
+		}
+		$this->res->imprimirRespuesta($this->res->generarJson());
+	}
 }
 ?>

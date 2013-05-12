@@ -530,6 +530,41 @@ class MODUniCons extends MODbase{
 		return $this->respuesta;
 	}
 	
+	function listarUniConsInvent(){
+		//Definicion de variables para ejecucion del procedimientp
+		$this->procedimiento='gem.f_uni_cons_sel';
+		$this->transaccion='GEM_INVEQU_SEL';
+		$this->tipo_procedimiento='SEL';//tipo de transaccion
+		
+		//Envío de parámetros
+		$this->setParametro('id_localizacion','id_localizacion','int4');
+		$this->setParametro('tipo_nodo','tipo_nodo','varchar');
+		$this->setParametro('id_uni_cons','id_uni_cons','int4');
+				
+		//Definicion de la lista del resultado del query
+		$this->captura('codigo','varchar');
+		$this->captura('nombre','varchar');
+		$this->captura('tipo_equipo','varchar');
+		$this->captura('unidad','varchar');
+		$this->captura('lugar','varchar');
+		$this->captura('est_pla','varchar');
+		$this->captura('localiz','varchar');
+		$this->captura('id_usuario_reg','int4');
+		$this->captura('fecha_reg','timestamp');
+		$this->captura('id_usuario_mod','int4');
+		$this->captura('fecha_mod','timestamp');
+		$this->captura('usr_reg','varchar');
+		$this->captura('usr_mod','varchar');
+
+		//Ejecuta la instruccion
+		$this->armarConsulta();
+		//echo $this->consulta;exit;
+		$this->ejecutarConsulta();
+		
+		//Devuelve la respuesta
+		return $this->respuesta;
+	}
+	
 	
 	
 }
