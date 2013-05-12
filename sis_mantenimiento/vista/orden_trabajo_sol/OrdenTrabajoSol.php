@@ -19,6 +19,9 @@ Phx.vista.OrdenTrabajoSol=Ext.extend(Phx.gridInterfaz,{
 		this.init();
 		this.load({params:{start:0, limit:50}});
 		
+		//Oculta el grupo de los insumos que ya es obsoleto
+		this.ocultarGrupo(1);
+		
 		this.addButton('btn-fin',
 			{
 				text: 'Solicitar OT',
@@ -280,7 +283,7 @@ Phx.vista.OrdenTrabajoSol=Ext.extend(Phx.gridInterfaz,{
 			config: {
 				name: 'id_unidad_medida_req',
 				fieldLabel: 'Unidad Medida',
-				allowBlank: false,
+				allowBlank: true,
 				origen: 'UNIDADMEDIDA',
 				gdisplayField: 'desc_unidad_medida',
 				gwidth: 200,
@@ -290,7 +293,7 @@ Phx.vista.OrdenTrabajoSol=Ext.extend(Phx.gridInterfaz,{
 			type: 'ComboRec',
 			id_grupo: 1,
 			filters:{pfiltro:'gemapr.tipo',type:'string'},
-			grid: true,
+			grid: false,
 			form: true
 		},
 		{
@@ -405,7 +408,7 @@ Phx.vista.OrdenTrabajoSol=Ext.extend(Phx.gridInterfaz,{
 			type:'TextArea',
 			filters:{pfiltro:'solord.descripcion_req',type:'string'},
 			id_grupo:1,
-			grid:true,
+			grid:false,
 			form:true
 		},
 		
@@ -460,7 +463,7 @@ Phx.vista.OrdenTrabajoSol=Ext.extend(Phx.gridInterfaz,{
 			type:'NumberField',
 			filters:{pfiltro:'solord.cantidad_req',type:'numeric'},
 			id_grupo:1,
-			grid:true,
+			grid:false,
 			form:true
 		},
 		{

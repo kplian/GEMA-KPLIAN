@@ -144,6 +144,27 @@ Phx.vista.AnalisisMant=Ext.extend(Phx.gridInterfaz,{
 		},
 		{
 	   		config:{
+	       		    name:'id_funcionario_prep',
+	   				origen:'FUNCIONARIO',
+	   				tinit:true,
+	   				fieldLabel:'Funcionario Prep.',
+	   				gdisplayField:'desc_person',//mapea al store del grid
+	   			    gwidth:200,
+	   			    anchor:'100%',
+		   			renderer:function (value, p, record){return String.format('{0}', record.data['preparado_por']);}
+	       	     },
+	   			type:'ComboRec',
+	   			id_grupo:0,
+	   			filters:{	
+			        pfiltro:'fun1.desc_funcionario1',
+					type:'string'
+				},
+	   		   
+	   			grid:true,
+	   			form:true
+	   	},
+		{
+	   		config:{
 	       		    name:'id_funcionario_rev',
 	   				origen:'FUNCIONARIO',
 	   				tinit:true,
@@ -261,8 +282,8 @@ Phx.vista.AnalisisMant=Ext.extend(Phx.gridInterfaz,{
 		{name:'usr_reg', type: 'string'},
 		{name:'usr_mod', type: 'string'},
 		{name:'desc_tipo_mant', type: 'string'},
-		{name:'desc_person', type: 'string'}
-		
+		{name:'desc_person', type: 'string'},
+		{name:'preparado_por', type: 'string'}
 	],
 	sortInfo:{
 		field: 'id_analisis_mant',

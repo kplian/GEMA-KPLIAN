@@ -42,23 +42,6 @@ Phx.vista.OrdenTrabajoSolInsumo=Ext.extend(Phx.gridInterfaz,{
 			form:true 
 		},
 		{
-			config: {
-				name: 'id_unidad_medida',
-				fieldLabel: 'Unidad Medida',
-				allowBlank: false,
-				origen: 'UNIDADMEDIDA',
-				gdisplayField: 'unidad_medida',
-				gwidth: 200,
-				renderer:function(value, p, record){return String.format('{0}', record.data['unidad_medida']);},
-				anchor: '100%'
-			},
-			type: 'ComboRec',
-			id_grupo: 1,
-			filters:{pfiltro:'otsoin.descripcion',type:'string'},
-			grid: true,
-			form: true
-		},
-		{
 			config:{
 				name: 'descripcion',
 				fieldLabel: 'Descripción',
@@ -87,6 +70,24 @@ Phx.vista.OrdenTrabajoSolInsumo=Ext.extend(Phx.gridInterfaz,{
 			id_grupo:1,
 			grid:true,
 			form:true
+		},
+		{
+			config: {
+				name: 'id_unidad_medida',
+				fieldLabel: 'Unidad Medida',
+				allowBlank: false,
+				origen: 'UNIDADMEDIDA',
+				gdisplayField: 'unidad_medida',
+				gwidth: 200,
+				renderer:function(value, p, record){return String.format('{0}', record.data['unidad_medida']);},
+				anchor: '100%',
+				tipo:''
+			},
+			type: 'ComboRec',
+			id_grupo: 1,
+			filters:{pfiltro:'otsoin.descripcion',type:'string'},
+			grid: true,
+			form: true
 		},
 		{
 			config:{

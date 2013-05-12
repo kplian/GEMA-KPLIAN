@@ -38,7 +38,7 @@ class MODAnalisisMant extends MODbase{
 		$this->captura('usr_mod','varchar');
 		$this->captura('desc_tipo_mant','varchar');
 		$this->captura('desc_person','text');
-		$this->captura('id_funcionario_prep','int4');
+		$this->captura('id_usuario_prep','int4');
 		$this->captura('preparado_por','text');
 		
 		//Ejecuta la instruccion
@@ -63,6 +63,7 @@ class MODAnalisisMant extends MODbase{
 		$this->setParametro('fecha_emision','fecha_emision','date');
 		$this->setParametro('descripcion','descripcion','varchar');
 		$this->setParametro('fecha_rev','fecha_rev','date');
+		$this->setParametro('id_funcionario_prep','id_funcionario_prep','int4');
 
 		//Ejecuta la instruccion
 		$this->armarConsulta();
@@ -87,6 +88,7 @@ class MODAnalisisMant extends MODbase{
 		$this->setParametro('fecha_emision','fecha_emision','date');
 		$this->setParametro('descripcion','descripcion','varchar');
 		$this->setParametro('fecha_rev','fecha_rev','date');
+		$this->setParametro('id_funcionario_prep','id_funcionario_prep','int4');
 
 		//Ejecuta la instruccion
 		$this->armarConsulta();

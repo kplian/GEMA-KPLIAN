@@ -21,6 +21,8 @@ Phx.vista.FuncionFalla=Ext.extend(Phx.gridInterfaz,{
 		this.init();
 		this.load({params:{start:0, limit:50,id_funcion:this.id_funcion}})
         this.loadValoresIniciales();
+        this.ocultarComponente(this.getComponente('modo_falla'));
+        this.ocultarComponente(this.getComponente('efecto_falla'));
 	},
 	
 	loadValoresIniciales:function()
@@ -103,7 +105,7 @@ Phx.vista.FuncionFalla=Ext.extend(Phx.gridInterfaz,{
 			type:'TextField',
 			filters:{pfiltro:'gefall.modo_falla',type:'string'},
 			id_grupo:1,
-			grid:true,
+			grid:false,
 			form:true
 		},
 		{
@@ -118,7 +120,7 @@ Phx.vista.FuncionFalla=Ext.extend(Phx.gridInterfaz,{
 			type:'TextField',
 			filters:{pfiltro:'gefall.efecto_falla',type:'string'},
 			id_grupo:1,
-			grid:true,
+			grid:false,
 			form:true
 		},
 		{

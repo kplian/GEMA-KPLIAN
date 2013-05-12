@@ -96,8 +96,8 @@ BEGIN
 			where id_mant_predef_det=v_parametros.id_mant_predef_det;
                
 			--Definicion de la respuesta
-            v_resp = f_agrega_clave(v_resp,'mensaje','Detalle Mantenimiento Predefinido modificado(a)'); 
-            v_resp = f_agrega_clave(v_resp,'id_mant_predef_det',v_parametros.id_mant_predef_det::varchar);
+            v_resp = pxp.f_agrega_clave(v_resp,'mensaje','Detalle Mantenimiento Predefinido modificado(a)'); 
+            v_resp = pxp.f_agrega_clave(v_resp,'id_mant_predef_det',v_parametros.id_mant_predef_det::varchar);
                
             --Devuelve la respuesta
             return v_resp;

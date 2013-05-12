@@ -61,7 +61,7 @@ class ACTOrdenTrabajoSol extends ACTbase{
         $dataSource->setDataSet($this->res->getDatos());
 		
 		//Insumos
-		$this->objParam->addParametroConsulta('filtro', ' 0 = 0');
+		$this->objParam->addParametroConsulta('filtro', 'otsoin.id_orden_trabajo_sol = '.$this->objParam->getParametro('id_orden_trabajo_sol'));
 		$this->objParam->addParametroConsulta('ordenacion', 'otsoin.id_orden_trabajo_sol_insumo');
 		$modInsum = $this->create('MODOrdenTrabajoSolInsumo');
 		$resultInsum = $modInsum->listarOrdenTrabajoSolInsumo();
