@@ -30,7 +30,7 @@ insert into segu.tsubsistema(codigo,nombre,prefijo,nombre_carpeta) values
 select pxp.f_insert_tgui ('GESTIÓN DE MANTENIMIENTO - PLANTAS Y ESTACIONES', '', 'GEM', 'si', 1, '', 1, '../../../lib/imagenes/gema32x32.png', '', 'GEM');
 select pxp.f_insert_tgui ('Catálogos', 'Catálogos varios', 'GEM.1', 'si', 1, '', 2, '', '', 'GEM');
 select pxp.f_insert_tgui ('Equipos, Planificación y Seguimiento', 'Datos detallados de los equipos y Planificación del Mantenimiento', 'GEM.2', 'si', 2, '', 2, '', '', 'GEM');
-select pxp.f_insert_tgui ('Documentación', 'Archivos, Procedimientos , Instructivos, etc.', 'GEM.3', 'si', 3, '', 2, '', '', 'GEM');
+select pxp.f_insert_tgui ('Lista Maestra de Documentos', 'Archivos, Procedimientos , Instructivos, etc.', 'GEM.3', 'si', 3, '', 2, '', '', 'GEM');
 select pxp.f_insert_tgui ('Proveedores', 'Registro de Proveedores', 'GEM.1.1', 'si', 1, 'sis_parametros/vista/proveedor/Proveedor.php', 3, '', 'proveedor', 'GEM');
 select pxp.f_insert_tgui ('Metodologías', 'Registro de Metodologías', 'GEM.1.2', 'si', 3, 'sis_mantenimiento/vista/metodologia/Metodologia.php', 2, '', 'Metodologia', 'GEM');
 select pxp.f_insert_tgui ('Tipos de Equipos', 'Registro de Tipos de Equipos', 'GEM.1.3', 'si', 3, 'sis_mantenimiento/vista/tipo_equipo/TipoEquipo.php', 3, '', 'TipoEquipo', 'GEM');
@@ -46,12 +46,23 @@ select pxp.f_insert_tgui ('Plantilla de Equipos', 'Registro Plantilla de Equipos
 select pxp.f_insert_tgui ('Mantenimientos Predefinidos', 'Registro de Mantenimientos predefinidos', 'GEM.2.3', 'si', 3, 'sis_mantenimiento/vista/mant_predef/MantPredef.php', 3, '', 'MantPredef', 'GEM');
 select pxp.f_insert_tgui ('Eventos/Incidentes por Equipo', 'Registro de Eventos/Incidentes por equipo', 'GEM.2.6', 'no', 6, 'sis_mantenimiento/vista/equipo_evento/EquipoEvento.php', 3, '', 'EquipoEvento', 'GEM');
 select pxp.f_insert_tgui ('Procedimientos, Instructivos ...', 'Registro de Procedimientos, Instructivos, etc.', 'GEM.3.1', 'si', 1, 'sis_mantenimiento/vista/documento/Documento.php', 3, '', 'Documento', 'GEM');
+select pxp.f_insert_tgui ('Manuales', 'Registro de Manuales', 'GEM.3.2', 'si', 2, 'sis_mantenimiento/vista/documento/Manual.php', 3, '', 'Manual', 'GEM');
+select pxp.f_insert_tgui ('Procedimientos', 'Registro de Procedimientos', 'GEM.3.3', 'si', 2, 'sis_mantenimiento/vista/documento/Procedimiento.php', 3, '', 'Procedimiento', 'GEM');
+select pxp.f_insert_tgui ('Instructivos', 'Registro de Instructivos', 'GEM.3.4', 'si', 2, 'sis_mantenimiento/vista/documento/Instructivo.php', 3, '', 'Instructivo', 'GEM');
+select pxp.f_insert_tgui ('Planes', 'Registro de Planes', 'GEM.3.5', 'si', 2, 'sis_mantenimiento/vista/documento/Plan.php', 3, '', 'Plan', 'GEM');
+select pxp.f_insert_tgui ('Registros', 'Registros', 'GEM.3.6', 'si', 2, 'sis_mantenimiento/vista/documento/Registro.php', 3, '', 'Registro', 'GEM');
+select pxp.f_insert_tgui ('Formularios', 'Registro de Formularios', 'GEM.3.7', 'si', 2, 'sis_mantenimiento/vista/documento/Formulario.php', 3, '', 'Formulario', 'GEM');
+
 select pxp.f_insert_tgui ('Fallas/Eventos Equipos...', 'Registro de Fallas/Eventos Equipos', 'GEM.3.11', 'si', 5, 'sis_mantenimiento/vista/falla_evento/FallaEventoExterno.php', 3, '', 'FallaEventoExterno', 'GEM');
 select pxp.f_insert_tgui ('Ordenes de Trabajo', 'Ordenes de Trabajo', 'GEM.2.7', 'si', 1, '', 3, '', '', 'GEM');
 select pxp.f_insert_tgui ('Emisión - Orden Trabajo', 'Emisión de Ordenes de Trabajo', 'GEM.2.7.1', 'si', 1, 'sis_mantenimiento/vista/orden_trabajo/RegistrarOT.php', 4, '', 'RegistrarOT', 'GEM');
 select pxp.f_insert_tgui ('Ejecución - Orden Trabajo', 'Registro de Ordenes de Trabajo', 'GEM.2.7.2', 'si', 1, 'sis_mantenimiento/vista/orden_trabajo/EjecutarOT.php', 4, '', 'EjecutarOT', 'GEM');
 select pxp.f_insert_tgui ('Revisión - Orden Trabajo', 'Registro de Ordenes de Trabajo', 'GEM.2.7.3', 'si', 1, 'sis_mantenimiento/vista/orden_trabajo/RevisarOT.php', 4, '', 'RevisarOT', 'GEM');
+select pxp.f_insert_tgui ('TPM', 'Formularios TPM', 'GEM.4', 'si', 1, '', 2, '', '', 'GEM');
+select pxp.f_insert_tgui ('Formularios TPM', 'Registro de Formularios TPM', 'GEM.4.1', 'si', 2, 'sis_mantenimiento/vista/documento/FormularioTPM.php', 3, '', 'FormularioTPM', 'GEM');
+
 select pxp.f_insert_testructura_gui ('GEM', 'SISTEMA');
+select pxp.f_insert_testructura_gui ('GEM.4', 'GEM');
 select pxp.f_insert_testructura_gui ('GEM.3', 'GEM');
 select pxp.f_insert_testructura_gui ('GEM.2', 'GEM');
 select pxp.f_insert_testructura_gui ('GEM.1', 'GEM');
@@ -72,6 +83,12 @@ select pxp.f_insert_testructura_gui ('GEM.2.3', 'GEM.2');
 select pxp.f_insert_testructura_gui ('GEM.2.2', 'GEM.2');
 select pxp.f_insert_testructura_gui ('GEM.2.1', 'GEM.2');
 select pxp.f_insert_testructura_gui ('GEM.3.1', 'GEM.3');
+select pxp.f_insert_testructura_gui ('GEM.3.2', 'GEM.3');
+select pxp.f_insert_testructura_gui ('GEM.3.3', 'GEM.3');
+select pxp.f_insert_testructura_gui ('GEM.3.4', 'GEM.3');
+select pxp.f_insert_testructura_gui ('GEM.3.5', 'GEM.3');
+select pxp.f_insert_testructura_gui ('GEM.3.6', 'GEM.3');
+select pxp.f_insert_testructura_gui ('GEM.3.7', 'GEM.3');
 select pxp.f_insert_testructura_gui ('GEM.2.7.3', 'GEM.2.7');
 select pxp.f_insert_testructura_gui ('GEM.2.7.2', 'GEM.2.7');
 select pxp.f_insert_testructura_gui ('GEM.2.7.1', 'GEM.2.7');

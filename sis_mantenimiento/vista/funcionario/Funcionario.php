@@ -57,7 +57,7 @@ Phx.vista.FuncionarioGem = {
        	{
 	       	config:{
 	       			name: 'horario1',
-	       			fieldLabel: "Horario Normal (Bs./Hora)",
+	       			fieldLabel: "HH Normal (Bs./Hora)",
 	       			gwidth: 120,
 	       			allowBlank:false,	
 	       			anchor:'50%',
@@ -73,7 +73,7 @@ Phx.vista.FuncionarioGem = {
        	{
 	       	config:{
 	       			name: 'horario2',
-	       			fieldLabel: "Horario Extra1 (Bs./Hora)",
+	       			fieldLabel: "HH Extra (Bs./Hora)",
 	       			gwidth: 120,
 	       			allowBlank:true,	
 	       			anchor:'50%',
@@ -88,11 +88,26 @@ Phx.vista.FuncionarioGem = {
        	{
 	       	config:{
 	       			name: 'horario3',
-	       			fieldLabel: "Horario Extra2 (Bs./Hora)",
+	       			fieldLabel: "HH Nocturno (Bs./Hora)",
 	       			gwidth: 120,
 	       			allowBlank:true,	
 	       			anchor:'50%',
 	       			hiddenName:'horario3'
+	       		},
+	       		type:'NumberField',
+	       		filters:{type:'numeric'},
+	       		id_grupo:0,
+	       		grid:true,
+	       		form:true
+	     },
+	     {
+	       	config:{
+	       			name: 'horario4',
+	       			fieldLabel: "HH Fer. y Dom. (Bs./Hora)",
+	       			gwidth: 120,
+	       			allowBlank:true,	
+	       			anchor:'50%',
+	       			hiddenName:'horario4'
 	       		},
 	       		type:'NumberField',
 	       		filters:{type:'numeric'},
@@ -132,6 +147,7 @@ Phx.vista.FuncionarioGem = {
 		this.ocultarComponente(this.getComponente('horario1'));
 		this.ocultarComponente(this.getComponente('horario2'));
 		this.ocultarComponente(this.getComponente('horario3'));
+		this.ocultarComponente(this.getComponente('horario4'));
 		Phx.vista.FuncionarioGem.superclass.onButtonEdit.call(this);
 		
 	},
@@ -141,6 +157,7 @@ Phx.vista.FuncionarioGem = {
 		this.mostrarComponente(this.getComponente('horario1'));
 		this.mostrarComponente(this.getComponente('horario2'));
 		this.mostrarComponente(this.getComponente('horario3'));
+		this.mostrarComponente(this.getComponente('horario4'));
 		Phx.vista.FuncionarioGem.superclass.onButtonNew.call(this);
 	},
     codReporte:'S/C',

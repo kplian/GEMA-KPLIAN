@@ -70,7 +70,8 @@ BEGIN
             codigo,
             existencias,
             concepto,
-            id_orden_trabajo
+            id_orden_trabajo,
+            hh_fer_dom
           	) values(
             p_id_usuario,
             null,
@@ -94,7 +95,8 @@ BEGIN
             v_parametros.codigo,
             v_parametros.existencias,
             v_recurso,
-            v_parametros.id_orden_trabajo
+            v_parametros.id_orden_trabajo,
+            v_parametros.hh_fer_dom
             )RETURNING id_recurso into v_id_recurso;
             
 			--Definicion de la respuesta
@@ -125,7 +127,7 @@ BEGIN
               id_usuario_mod = p_id_usuario,
               fecha_mod = now(),
               id_item = v_parametros.id_item,
-		      id_funcionario = v_parametros.id_funcionario,
+		          id_funcionario = v_parametros.id_funcionario,
               id_especialidad = v_parametros.id_especialidad,
               id_servicio = v_parametros.id_servicio,
               id_actividad = v_parametros.id_actividad,
@@ -140,7 +142,8 @@ BEGIN
               codigo = v_parametros.codigo,
               existencias = v_parametros.existencias,
               concepto = v_recurso,
-              id_orden_trabajo = v_parametros.id_orden_trabajo
+              id_orden_trabajo = v_parametros.id_orden_trabajo,
+              hh_fer_dom = v_parametros.hh_fer_dom
             where id_recurso = v_parametros.id_recurso;
             
 			--Definicion de la respuesta

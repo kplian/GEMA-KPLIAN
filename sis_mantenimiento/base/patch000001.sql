@@ -1319,3 +1319,13 @@ add tipo_doc varchar(20);
 alter table gem.tanalisis_mant
 add column id_funcionario_prep integer;
 /***********************************F-SCP-RCM-GEM-138-11/05/2013*****************************************/
+
+/***********************************I-SCP-RCM-GEM-138-14/05/2013*****************************************/
+alter table gem.trecurso
+add column hh_fer_dom numeric(18,2);
+
+ALTER TABLE gem.trecurso ALTER COLUMN hh_normal TYPE NUMERIC(18,2);
+ALTER TABLE gem.trecurso ALTER COLUMN hh_extras TYPE NUMERIC(18,2);
+ALTER TABLE gem.trecurso ALTER COLUMN hh_ext_mov TYPE NUMERIC(18,2);
+
+/***********************************F-SCP-RCM-GEM-138-14/05/2013*****************************************/

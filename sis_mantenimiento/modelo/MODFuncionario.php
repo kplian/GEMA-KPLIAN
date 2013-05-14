@@ -77,6 +77,7 @@ class MODFuncionario extends MODbase{
 		$this->setParametro('horario1','horario1','numeric');
 		$this->setParametro('horario2','horario2','numeric');
 		$this->setParametro('horario3','horario3','numeric');
+		$this->setParametro('horario4','horario4','numeric');
 		
 		
 		//Ejecuta la instruccion
@@ -110,7 +111,7 @@ class MODFuncionario extends MODbase{
 		$this->setParametro('horario1','horario1','numeric');
 		$this->setParametro('horario2','horario2','numeric');
 		$this->setParametro('horario3','horario3','numeric');
-	
+		$this->setParametro('horario4','horario4','numeric');
 	
 	
 		//Ejecuta la instruccion

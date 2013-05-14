@@ -367,6 +367,17 @@ header("content-type: text/javascript; charset=UTF-8");
                 }, data, this.idContenedor, 'GenerarReporteAnualIndicadores')
             }
         },
+        onBtnRepInvent: function(){
+            var node = this.sm.getSelectedNode();
+            var data = node.attributes;
+            if (data){
+                Phx.CP.loadWindows('../../../sis_mantenimiento/vista/uni_cons/UniConsInvent.php', 'Inventario Equipos' + node.text, {
+                    modal : true,
+                    width : 900,
+                    height : 400
+                }, data, this.idContenedor, 'UniConsInvent')
+            }
+        },
         onBtnGrafInd: function(){
         	var nodo = this.sm.getSelectedNode();
 			if (nodo) {
@@ -752,12 +763,12 @@ header("content-type: text/javascript; charset=UTF-8");
 			name: 'usr_mod',
 			type: 'string'
 		},'tipo_numeracion'],
-		/*east: {
+		east: {
 			url: '../../../sis_mantenimiento/vista/localizacion/mapaLocalizacion.php',
 			title: 'Ubicación',
 			width: '50%',
 			cls: 'mapaLocalizacion'
-		},*/
+		},
 		sortInfo: {
 			field: 'id_localizacion',
 			direction: 'ASC'
@@ -823,6 +834,7 @@ header("content-type: text/javascript; charset=UTF-8");
 				this.menuLoc.disable();
 				this.ctxMenu.items.get('mni-repInd-' + this.idContenedor).disable();
 				this.ctxMenu.items.get('mni-repAnualInd-' + this.idContenedor).disable();
+				this.ctxMenu.items.get('mni-repInvent-' + this.idContenedor).disable();
 				this.ctxMenu.items.get('mni-grafInd-' + this.idContenedor).disable();
 				//TARJETAS TPM
 				this.menuLoc.disable();
@@ -902,6 +914,7 @@ header("content-type: text/javascript; charset=UTF-8");
 				this.menuLoc.disable();
 				this.ctxMenu.items.get('mni-repInd-' + this.idContenedor).disable();
 				this.ctxMenu.items.get('mni-repAnualInd-' + this.idContenedor).disable();
+				this.ctxMenu.items.get('mni-repInvent-' + this.idContenedor).disable();
 				this.ctxMenu.items.get('mni-grafInd-' + this.idContenedor).enable();
 				//TARJETAS TPM
 				this.menuLoc.disable();
@@ -985,6 +998,7 @@ header("content-type: text/javascript; charset=UTF-8");
 				this.menuLoc.enable();
 				this.ctxMenu.items.get('mni-repInd-' + this.idContenedor).enable();
 				this.ctxMenu.items.get('mni-repAnualInd-' + this.idContenedor).enable();
+				this.ctxMenu.items.get('mni-repInvent-' + this.idContenedor).enable();
 				this.ctxMenu.items.get('mni-grafInd-' + this.idContenedor).enable();
 				//TARJETAS TPM
 				this.menuLoc.enable();
@@ -1152,6 +1166,13 @@ header("content-type: text/javascript; charset=UTF-8");
                 text : 'Reporte Anual Indicadores',
                 handler : this.onBtnRepAnualInd,
                 scope : this
+            });
+            
+            this.ctxMenu.addMenuItem({
+                id: 'mni-repInvent-'+this.idContenedor,
+                text: 'Reporte Inventario de Equipos',
+                handler: this.onBtnRepInvent,
+                scope: this
             });
             
             this.ctxMenu.addMenuItem({

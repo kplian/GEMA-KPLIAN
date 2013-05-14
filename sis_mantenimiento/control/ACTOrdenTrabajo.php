@@ -126,7 +126,7 @@ class ACTOrdenTrabajo extends ACTbase{
 		
 		
 		$this->objParam->addParametroConsulta('filtro', ' 0 = 0');
-		$this->objParam->addParametroConsulta('ordenacion', 'acti.id_actividad');
+		$this->objParam->addParametroConsulta('ordenacion', 'id_recurso');
 		$modActividad = $this->create('MODActividadOT');
 		$resultActividad = $modActividad->listarActividadOT();
 		$actividadesDataSource = new DataSource();
