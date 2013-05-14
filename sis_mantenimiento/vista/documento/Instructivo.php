@@ -18,8 +18,6 @@ Phx.vista.Instructivo = {
 		Phx.vista.Instructivo.superclass.constructor.call(this,config);
 		this.init();
 		this.load({params:{start:0,limit:50,tipo_doc:this.tipo_doc}});
-		this.getComponente('tipo_doc').allowBlank=true;
-		this.ocultarComponente(this.getComponente('tipo_doc'));
 	},
 	agregarArgsExtraSubmit: function(){
 		//Inicializa el objeto de los argumentos extra

@@ -38,6 +38,8 @@ class MODAnalisisMant extends MODbase{
 		$this->captura('usr_mod','varchar');
 		$this->captura('desc_tipo_mant','varchar');
 		$this->captura('desc_person','text');
+		$this->captura('id_funcionario_prep','int4');
+		$this->captura('preparado_por','text');
 		
 		//Ejecuta la instruccion
 		$this->armarConsulta();

@@ -54,7 +54,7 @@ Phx.vista.Documento=Ext.extend(Phx.gridInterfaz,{
             type:'Field',
             form:true 
         },
-        {
+        /*{
 			config: {
 				name: 'tipo_doc',
 				fieldLabel: 'Tipo Documento',
@@ -75,7 +75,7 @@ Phx.vista.Documento=Ext.extend(Phx.gridInterfaz,{
 			filters:{pfiltro:'gedocu.tipo_doc',type:'string'},
 			grid: true,
 			form: true
-		},
+		},*/
         {
             config:{
                 name: 'codigo',
