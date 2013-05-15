@@ -440,9 +440,11 @@ Phx.vista.gridCalendario=Ext.extend(Phx.gridInterfaz,{
 		        id_localizacion:(this.tipo_nodo=='uni_cons'||this.tipo_nodo=='rama')?undefined:this.id_localizacion,
 		        id_uni_cons:this.id_uni_cons,
 				datos:recText};			               
-				                   
-				                   
-			this.load({params:{start:0, limit:50},callback:function(){Phx.CP.loadingHide();this.wUCCL.hide();},scope:this});
+			
+			this.wCP2.hide();	
+			this.wUCCL.hide();                   
+			Phx.CP.loadingHide();                   
+			this.load({params:{start:0, limit:50},scope:this});
 			
 			
 		}

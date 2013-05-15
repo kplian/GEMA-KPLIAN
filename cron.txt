@@ -1,0 +1,1 @@
+5 * * * *  wget -q -O /dev/null http://localhost/web_mantenimiento/sis_parametros/control/ActionDisparaAlarmas.php  

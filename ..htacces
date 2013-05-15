@@ -1,0 +1,60 @@
+## Seguridad extra para PHP  
+#php_flag safe_mode on  
+#php_flag expose_php off  
+#php_flag display_errors off  
+  
+   
+RewriteEngine On  
+   
+Options +FollowSymLinks  
+# Evitar escaneos y cualquier intento de manipulación malintencionada  
+# de la URL. Con esta regla es imposible lanzar ataques de inyección (SQL, XSS, etc)  
+RewriteCond %{HTTP_USER_AGENT} ^$ [OR]  
+RewriteCond %{HTTP_USER_AGENT} ^(-|\.|') [OR]  
+RewriteCond %{HTTP_USER_AGENT} ^(.*)(<|>|%3C|%3E)(.*) [NC,OR]  
+RewriteCond %{HTTP_USER_AGENT} ^(java|curl|wget)(.*) [NC,OR]  
+RewriteCond %{HTTP_USER_AGENT} ^(.*)(libwww-perl|libwwwperl|snoopy|curl|wget|winhttp|python|nikto|scan|clshttp|archiver|loader|email|harvest|fetch|extract|grab|miner|suck|reaper|leach)(.*) [NC,OR]  
+   
+RewriteCond %{REQUEST_URI} ^(/,|/;|/<|/>|/'|/`|/%2C|/%3C|/%3E|/%27|/////) [NC,OR]  
+RewriteCond %{HTTP_REFERER} ^(.*)(%00|%08|%09|%0A|%0B|%0C|%0D|%0E|%0F|%2C|<|>|'|%3C|%3E|%26%23|%27|%60)(.*) [NC,OR]  
+RewriteCond %{QUERY_STRING} ^(.*)(%00|%08|%09|%0A|%0B|%0C|%0D|%0E|%0F|%2C|%3C|%3E|%27|%26%23|%60)(.*) [NC,OR]  
+RewriteCond %{QUERY_STRING} ^(.*)('|-|<|>|,|/|\\|\.a|\.c|\.t|\.d|\.p|\.i|\.e|\.j)(.*) [NC,OR]  
+RewriteCond %{HTTP_COOKIE} ^(.*)(<|>|'|%3C|%3E|%27)(.*) [NC]  
+   
+RewriteRule ^(.*)$ error.php [NC]  
+## No permitir acceso al .htaccess  
+##order allow,deny  
+##deny from all  
+   
+## Evitar que se liste el contenido de los directorios  
+##Options All -Indexes  
+   
+## Lo mismo que lo anterior  
+IndexIgnore *  
+   
+## Denegar el acceso a robots dañinos, browsers offline, etc  
+RewriteBase /  
+RewriteCond %{HTTP_USER_AGENT} ^Anarchie [OR]  
+RewriteCond %{HTTP_USER_AGENT} ^ASPSeek [OR]  
+RewriteCond %{HTTP_USER_AGENT} ^attach [OR]  
+RewriteCond %{HTTP_USER_AGENT} ^autoemailspider [OR]  
+RewriteCond %{HTTP_USER_AGENT} ^Xaldon\ WebSpider [OR]  
+RewriteCond %{HTTP_USER_AGENT} ^Xenu [OR]  
+RewriteCond %{HTTP_USER_AGENT} ^Zeus.*Webster [OR]  
+RewriteCond %{HTTP_USER_AGENT} ^Zeus  
+##redireccionar a los robots a otra web  
+RewriteRule ^.*$ http://www.otraweb.com [R,L]  
+   
+# Protegerse contra los ataques DOS limitando el tamaño de subida de archivos  
+#LimitRequestBody 10240000  
+
+# INICIO comprimir contenido est�tico
+AddOutputFilterByType DEFLATE text/html text/plain text/xml application/xml application/xhtml+xml text/javascript text/css application/x-javascript
+BrowserMatch ^Mozilla/4 gzip-only-text/html
+BrowserMatch ^Mozilla/4.0[678] no-gzip
+BrowserMatch bMSIE !no-gzip !gzip-only-text/html
+# INICIO comprimir contenido est�tico
+
+# No escaneos
+ServerSignature Off
+
