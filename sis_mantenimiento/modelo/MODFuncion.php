@@ -98,6 +98,30 @@ class MODFuncion extends MODbase{
 		//Devuelve la respuesta
 		return $this->respuesta;
 	}
+	
+	function listarReporteAnalisisRCM(){
+		//Definicion de variables para ejecucion del procedimientp
+		$this->procedimiento='gem.ft_funcion_analisis_sel';
+		$this->transaccion='GEM_REPANA_SEL';
+		$this->tipo_procedimiento='SEL';//tipo de transaccion
+		
+		//Definicion de la lista del resultado del query
+		$this->captura('fun_orden','varchar');
+		$this->captura('fun_descripcion','varchar');
+		$this->captura('ffall_orden','varchar');
+		$this->captura('ffall_falla','varchar');
+		$this->captura('mfall_orden','varchar');
+		$this->captura('modo_falla','varchar');
+		$this->captura('efecto_falla','varchar');
+		
+		//Ejecuta la instruccion
+		$this->armarConsulta();
+		//echo $this->consulta;exit;
+		$this->ejecutarConsulta();
+		
+		//Devuelve la respuesta
+		return $this->respuesta;
+	}
 			
 }
 ?>

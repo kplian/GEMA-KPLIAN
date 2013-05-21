@@ -39,6 +39,8 @@ class MODDocumento extends MODbase{
         $this->captura('usr_reg','varchar');
         $this->captura('usr_mod','varchar');
 		$this->captura('tipo_doc','varchar');
+		$this->captura('revision','varchar');
+		$this->captura('fecha_autoriz','date');
         
         //Ejecuta la instruccion
         $this->armarConsulta();
@@ -64,6 +66,8 @@ class MODDocumento extends MODbase{
         $this->setParametro('estado_reg','estado_reg','varchar');
         $this->setParametro('id_documento_padre','id_documento_padre','int4');
 		$this->setParametro('tipo_doc','tipo_doc','varchar');
+		$this->setParametro('revision','revision','varchar');
+		$this->setParametro('fecha_autoriz','fecha_autoriz','date');
 
         //Ejecuta la instruccion
         $this->armarConsulta();
@@ -90,6 +94,8 @@ class MODDocumento extends MODbase{
         $this->setParametro('estado_reg','estado_reg','varchar');
         $this->setParametro('id_documento_padre','id_documento_padre','int4');
 		$this->setParametro('tipo_doc','tipo_doc','varchar');
+		$this->setParametro('revision','revision','varchar');
+		$this->setParametro('fecha_autoriz','fecha_autoriz','date');
 
         //Ejecuta la instruccion
         $this->armarConsulta();
@@ -127,7 +133,7 @@ class MODDocumento extends MODbase{
         //Define los parametros para la funcion 
         $this->setParametro('id_documento','id_documento','integer');   
         $this->setParametro('extension','extension','varchar');
-        $this->setParametro('archivo','archivo','bytea',false,'',false,array('doc','pdf','docx'));
+        $this->setParametro('archivo','archivo','bytea',false,'',false,array('doc','pdf','docx','jpeg','jpg','bmp','gif','avi','mp3'));
                 
         
         //Ejecuta la instruccion
@@ -148,7 +154,7 @@ class MODDocumento extends MODbase{
         //Define los parametros para la funcion 
         $this->setParametro('id_documento','id_documento','integer');   
         $this->setParametro('extension','extension','varchar');
-        $this->setParametro('archivo','archivo','bytea',false,'',false,array('doc','pdf','docx'));
+        $this->setParametro('archivo','archivo','bytea',false,'',false,array('doc','pdf','docx','jpeg','jpg','bmp','gif','avi','mp3'));
                         
         //Ejecuta la instruccion
         $this->armarConsulta();

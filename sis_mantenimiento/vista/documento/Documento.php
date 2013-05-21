@@ -204,6 +204,37 @@ Phx.vista.Documento=Ext.extend(Phx.gridInterfaz,{
             id_grupo:1,
             grid:true,
             form:false
+        },
+        {
+            config:{
+                name: 'revision',
+                fieldLabel: 'Revisión',
+                allowBlank: true,
+                anchor: '100%',
+                gwidth: 70,
+                maxLength:10
+            },
+            type:'TextField',
+            filters:{pfiltro:'gedocu.revision',type:'string'},
+            id_grupo:1,
+            grid:true,
+            form:true
+        },
+        {
+            config:{
+                name: 'fecha_autoriz',
+                fieldLabel: 'Fecha de Autorización',
+                allowBlank: true,
+                anchor: '80%',
+                gwidth: 109,
+                renderer:function (value,p,record){return value?value.dateFormat('d/m/Y'):''},
+                format:'Y-m-d'
+            },
+            type:'DateField',
+            filters:{pfiltro:'gedocu.fecha_autoriz',type:'date'},
+            id_grupo:1,
+            grid:true,
+            form:true
         },      
         {
             config:{
@@ -281,7 +312,8 @@ Phx.vista.Documento=Ext.extend(Phx.gridInterfaz,{
             id_grupo:1,
             grid:true,
             form:false
-        }
+        },
+        
     ],
     title:'Documentos',
     ActSave:'../../sis_mantenimiento/control/Documento/insertarDocumento',
@@ -306,7 +338,8 @@ Phx.vista.Documento=Ext.extend(Phx.gridInterfaz,{
         {name:'id_usuario_mod', type: 'numeric'},
         {name:'usr_reg', type: 'string'},
         {name:'usr_mod', type: 'string'},
-        {name:'tipo_doc', type: 'string'}
+        {name:'tipo_doc', type: 'string'},
+        {name:'fecha_autoriz', type: 'date'}
         
     ],
     sortInfo:{

@@ -45,6 +45,7 @@ class MODFuncionario extends MODbase{
 		$this->captura('horario1','numeric');
 		$this->captura('horario2','numeric');
 		$this->captura('horario3','numeric');
+		$this->captura('horario4','numeric');
 
 		
 		//Ejecuta la funcion
@@ -135,6 +136,37 @@ class MODFuncionario extends MODbase{
 				
 		$this->ejecutarConsulta();
 		return $this->respuesta;
+	}
+	
+	function listarFuncionarioUo(){
+		$this->procedimiento='gem.ft_estructura_uo_sel';
+		$this->transaccion='GEM_FUNUO_SEL';
+		$this->tipo_procedimiento='SEL';
+		
+		$this->setParametro('id_uo','id_uo','integer');
+		$this->setParametro('fecha','fecha','date');
+					
+		//defino varialbes que se captran como retornod e la funcion
+		$this->captura('id_uo_funcionario','integer');
+		$this->captura('desc_funcionario1','text');
+		$this->captura('codigo','varchar');
+		$this->captura('nombre_cargo','varchar');
+		$this->captura('ci','varchar');
+		$this->captura('fecha_ingreso','date');
+		$this->captura('email_ingreso','varchar');
+		$this->captura('telefono_ofi','varchar');
+		$this->captura('interno','varchar');
+		$this->captura('telefono','text');
+		$this->captura('celular','text');
+		$this->captura('correo','varchar');
+		$this->captura('horario1','numeric');
+		$this->captura('horario2','numeric');
+		$this->captura('horario3','numeric');
+		$this->captura('horario4','numeric');
+		
+		$this->armarConsulta();
+		$this->ejecutarConsulta();
+		return $this->respuesta;	
 	}
 	
 }

@@ -54,7 +54,8 @@ BEGIN
 			fecha_reg,
 			id_usuario_reg,
 			fecha_mod,
-			id_usuario_mod
+			id_usuario_mod,
+			falla
           	) values(
 			v_parametros.id_funcion,
 			v_parametros.id_falla_evento,
@@ -65,7 +66,8 @@ BEGIN
 			now(),
 			p_id_usuario,
 			null,
-			null
+			null,
+			v_parametros.falla
 			)RETURNING id_funcion_falla into v_id_funcion_falla;
                
 			--Definicion de la respuesta
@@ -95,7 +97,8 @@ BEGIN
 			orden = v_parametros.orden,
 			efecto_falla = v_parametros.efecto_falla,
 			fecha_mod = now(),
-			id_usuario_mod = p_id_usuario
+			id_usuario_mod = p_id_usuario,
+			falla = v_parametros.falla
 			where id_funcion_falla=v_parametros.id_funcion_falla;
                
 			--Definicion de la respuesta

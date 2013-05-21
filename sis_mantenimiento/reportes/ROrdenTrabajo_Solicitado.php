@@ -91,7 +91,7 @@ require_once dirname(__FILE__).'/pxpReport/Report.php';
 Class ROrdenTrabajoSolicitado extends Report {
 
     function write($fileName) {
-        $pdf = new CustomReport('P', PDF_UNIT, "LEGAL", true, 'UTF-8', false);
+        $pdf = new CustomReport('P', PDF_UNIT, "LETTER", true, 'UTF-8', false);
         $pdf->setDataSource($this->getDataSource());
         // set document information
         $pdf->SetCreator(PDF_CREATOR);

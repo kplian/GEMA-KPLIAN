@@ -59,7 +59,9 @@ BEGIN
 			id_usuario_reg,
 			fecha_mod,
 			id_usuario_mod,
-			tipo_doc
+			tipo_doc,
+			revision,
+			fecha_autoriz
           	) values(
 			v_parametros.nombre,
 			v_parametros.codigo,
@@ -71,7 +73,9 @@ BEGIN
 			p_id_usuario,
 			null,
 			null,
-			v_parametros.tipo_doc
+			v_parametros.tipo_doc,
+      v_parametros.revision,
+      v_parametros.fecha_autoriz
 			)RETURNING id_documento into v_id_documento;
                
 			--Definicion de la respuesta
@@ -102,7 +106,9 @@ BEGIN
 			palabras_clave = v_parametros.palabras_clave,
 			fecha_mod = now(),
 			id_usuario_mod = p_id_usuario,
-			tipo_doc = v_parameteos.tipo_doc
+			tipo_doc = v_parameteos.tipo_doc,
+			revision = v_parametros.revision,
+			fecha_autoriz = v_parametros.fecha_autoriz
 			where id_documento=v_parametros.id_documento;
                
 			--Definicion de la respuesta

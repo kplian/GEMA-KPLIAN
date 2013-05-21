@@ -70,16 +70,19 @@ class ACTAnalisisMant extends ACTbase{
         
         //get funcion_analisis
         //Reset all extra params:
-        $this->objParam->addParametroConsulta('ordenacion', 'id_funcion');
+        $this->objParam->addParametroConsulta('amant.id_analisis_mant', $idAnalisisMant);
+        $this->objParam->addParametroConsulta('ordenacion', 'fun.orden, ffall.orden, mfall.orden');
         $this->objParam->addParametroConsulta('cantidad', 1000);
         $this->objParam->addParametroConsulta('puntero', 0);
-        $this->objParam->addParametro('id_analisis_mant', $idAnalisisMant);
+		$this->objParam->addParametro('id_analisis_mant', $idAnalisisMant);
+        
                 
         $modFuncion = $this->create('MODFuncion');
-        $resultFuncion = $modFuncion->listarFuncion();        
+        $resultFuncion = $modFuncion->listarReporteAnalisisRCM();        
         $datosResultFuncion = $resultFuncion->getDatos();
+		//var_dump($datosResultFuncion);exit;
         
-        for ($i=0; $i <count($datosResultFuncion) ; $i++) {             
+        /*for ($i=0; $i <count($datosResultFuncion) ; $i++) {             
         
             $idFuncion = $datosResultFuncion[$i]['id_funcion'];
             
@@ -92,6 +95,7 @@ class ACTAnalisisMant extends ACTbase{
             $resultFuncionFalla = $modFuncionFalla->listarFuncionFalla(); 
             
             $datosResultFuncionFalla=$resultFuncionFalla->getDatos();
+			//var_dump($datosResultFuncionFalla);exit;
             for ($j=0; $j < count($datosResultFuncionFalla) ; $j++) {
                                  
                 $idFuncionFalla = $datosResultFuncionFalla[$j]['id_funcion_falla'];
@@ -115,7 +119,7 @@ class ACTAnalisisMant extends ACTbase{
                 
             $datosResultFuncion[$i]['dataset']=$funcionFallaDataSource;
                            
-        }
+        }*/
         $resultFuncion->setDatos($datosResultFuncion);
        
         $funcionDataSource = new DataSource();        

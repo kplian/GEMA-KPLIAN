@@ -23,6 +23,7 @@ Phx.vista.FuncionFalla=Ext.extend(Phx.gridInterfaz,{
         this.loadValoresIniciales();
         this.ocultarComponente(this.getComponente('modo_falla'));
         this.ocultarComponente(this.getComponente('efecto_falla'));
+        this.ocultarComponente(this.getComponente('id_falla_evento'));
 	},
 	
 	loadValoresIniciales:function()
@@ -55,7 +56,7 @@ Phx.vista.FuncionFalla=Ext.extend(Phx.gridInterfaz,{
 			config:{
 				name: 'id_falla_evento',
 				fieldLabel: 'Falla',
-				allowBlank: false,
+				allowBlank: true,
 				emptyText:'Elija una falla...',
 				store:new Ext.data.JsonStore({
 					url: '../../sis_mantenimiento/control/FallaEvento/listarFallaEvento',
@@ -90,6 +91,21 @@ Phx.vista.FuncionFalla=Ext.extend(Phx.gridInterfaz,{
 			type:'ComboBox',
 			filters:{pfiltro:'gefaev.nombre',type:'string'},
 			id_grupo:0,
+			grid:false,
+			form:true
+		},
+		{
+			config:{
+				name: 'falla',
+				fieldLabel: 'Falla',
+				allowBlank: true,
+				anchor: '100%',
+				gwidth: 100,
+				maxLength:100
+			},
+			type:'TextField',
+			filters:{pfiltro:'gefall.falla',type:'string'},
+			id_grupo:1,
 			grid:true,
 			form:true
 		},
@@ -132,8 +148,8 @@ Phx.vista.FuncionFalla=Ext.extend(Phx.gridInterfaz,{
 				gwidth: 100,
 				maxLength:4
 			},
-			type:'NumberField',
-			filters:{pfiltro:'gefall.orden',type:'numeric'},
+			type:'TextField',
+			filters:{pfiltro:'gefall.orden',type:'string'},
 			id_grupo:1,
 			grid:true,
 			form:true
@@ -224,7 +240,7 @@ Phx.vista.FuncionFalla=Ext.extend(Phx.gridInterfaz,{
 		{name:'id_funcion', type: 'numeric'},
 		{name:'id_falla_evento', type: 'numeric'},
 		{name:'modo_falla', type: 'string'},
-		{name:'orden', type: 'numeric'},
+		{name:'orden', type: 'string'},
 		{name:'efecto_falla', type: 'string'},
 		{name:'estado_reg', type: 'string'},
 		{name:'fecha_reg', type: 'date', dateFormat:'Y-m-d H:i:s.u'},
@@ -233,7 +249,8 @@ Phx.vista.FuncionFalla=Ext.extend(Phx.gridInterfaz,{
 		{name:'id_usuario_mod', type: 'numeric'},
 		{name:'usr_reg', type: 'string'},
 		{name:'usr_mod', type: 'string'},
-		{name:'desc_falla_evento', type: 'string'}
+		{name:'desc_falla_evento', type: 'string'},
+		'falla'
 	],
 	sortInfo:{
 		field: 'id_funcion_falla',

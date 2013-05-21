@@ -1329,3 +1329,16 @@ ALTER TABLE gem.trecurso ALTER COLUMN hh_extras TYPE NUMERIC(18,2);
 ALTER TABLE gem.trecurso ALTER COLUMN hh_ext_mov TYPE NUMERIC(18,2);
 
 /***********************************F-SCP-RCM-GEM-138-14/05/2013*****************************************/
+
+/***********************************I-SCP-RCM-GEM-0-17/05/2013*****************************************/
+alter table gem.tdocumento
+add column revision varchar(10);
+alter table gem.tdocumento
+add column fecha_autoriz date;
+ALTER TABLE gem.tfuncion_falla
+  ALTER COLUMN orden TYPE VARCHAR(15);
+ALTER TABLE gem.tfuncion_falla
+  ADD COLUMN falla VARCHAR(100);
+ALTER TABLE gem.tfuncion_falla
+  ALTER COLUMN id_falla_evento DROP NOT NULL;
+/***********************************F-SCP-RCM-GEM-0-17/05/2013*****************************************/

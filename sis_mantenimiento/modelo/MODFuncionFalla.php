@@ -25,7 +25,7 @@ class MODFuncionFalla extends MODbase{
 		$this->captura('id_funcion','int4');
 		$this->captura('id_falla_evento','int4');
 		$this->captura('modo_falla','varchar');
-		$this->captura('orden','int4');
+		$this->captura('orden','varchar');
 		$this->captura('efecto_falla','varchar');
 		$this->captura('estado_reg','varchar');
 		$this->captura('fecha_reg','timestamp');
@@ -35,6 +35,7 @@ class MODFuncionFalla extends MODbase{
 		$this->captura('usr_reg','varchar');
 		$this->captura('usr_mod','varchar');
 		$this->captura('desc_falla_evento','varchar');
+		$this->captura('falla','varchar');
 		
 		//Ejecuta la instruccion
 		$this->armarConsulta();
@@ -54,9 +55,10 @@ class MODFuncionFalla extends MODbase{
 		$this->setParametro('id_funcion','id_funcion','int4');
 		$this->setParametro('id_falla_evento','id_falla_evento','int4');
 		$this->setParametro('modo_falla','modo_falla','varchar');
-		$this->setParametro('orden','orden','int4');
+		$this->setParametro('orden','orden','varchar');
 		$this->setParametro('efecto_falla','efecto_falla','varchar');
 		$this->setParametro('estado_reg','estado_reg','varchar');
+		$this->setParametro('falla','falla','varchar');
 
 		//Ejecuta la instruccion
 		$this->armarConsulta();
@@ -77,9 +79,10 @@ class MODFuncionFalla extends MODbase{
 		$this->setParametro('id_funcion','id_funcion','int4');
 		$this->setParametro('id_falla_evento','id_falla_evento','int4');
 		$this->setParametro('modo_falla','modo_falla','varchar');
-		$this->setParametro('orden','orden','int4');
+		$this->setParametro('orden','orden','varchar');
 		$this->setParametro('efecto_falla','efecto_falla','varchar');
 		$this->setParametro('estado_reg','estado_reg','varchar');
+		$this->setParametro('falla','falla','varchar');
 
 		//Ejecuta la instruccion
 		$this->armarConsulta();

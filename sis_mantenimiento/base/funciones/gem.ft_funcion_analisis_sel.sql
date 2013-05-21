@@ -29,6 +29,14 @@ DECLARE
 	v_parametros  		record;
 	v_nombre_funcion   	text;
 	v_resp				varchar;
+	v_id_funcion integer;
+  v_id_funcion_falla integer;
+  v_id_modo_falla integer;
+  v_fun_orden integer;
+  v_fun_descripcion varchar;
+  v_ffall_orden varchar;
+  v_ffall_falla varchar;
+  v_rec record;
 			    
 BEGIN
 
@@ -96,6 +104,90 @@ BEGIN
 			return v_consulta;
 
 		end;
+		
+	 /*********************************    
+  #TRANSACCION:  'GEM_REPANA_SEL'
+  #DESCRIPCION: Consulta de datos
+  #AUTOR:   admin 
+  #FECHA:   30-09-2012 21:41:09
+  ***********************************/
+
+  elsif(p_transaccion='GEM_REPANA_SEL')then
+            
+      begin
+        
+        --Creación de tabla temporal
+        create temp table tt_ana_mant(
+          fun_orden integer,
+          fun_descripcion varchar,
+          ffall_orden varchar,
+          ffall_falla varchar,
+          mfall_orden integer,
+          modo_falla varchar,
+          efecto_falla varchar
+        ) on commit drop;
+        
+        --Sentencia de la consulta
+        v_consulta:='select
+                  fun.id_funcion, coalesce(ffall.id_funcion_falla,-1) as id_funcion_falla,
+                  coalesce(mfall.id_modo_falla,-1) as id_modo_falla,
+                  fun.orden as fun_orden,
+                  fun.descripcion as fun_descripcion,
+                  ffall.orden as ffall_orden,
+                  ffall.falla as ffall_falla,
+                  mfall.orden as mfall_orden,
+                  mfall.modo_falla,
+                  mfall.efecto_falla 
+                  from gem.tanalisis_mant amant
+                  left join gem.tfuncion fun
+                  on fun.id_analisis_mant = amant.id_analisis_mant
+                  left join gem.tfuncion_falla ffall
+                  on ffall.id_funcion = fun.id_funcion
+                  left join gem.tmodo_falla mfall
+                  on mfall.id_funcion_falla = ffall.id_funcion_falla
+                  where ';
+      
+      --Definicion de la respuesta
+      v_consulta:=v_consulta||v_parametros.filtro;
+      v_consulta:=v_consulta||' order by ' ||v_parametros.ordenacion|| ' ' || v_parametros.dir_ordenacion || ' limit ' || v_parametros.cantidad || ' offset ' || v_parametros.puntero;
+      
+      v_id_funcion=0;
+      v_id_funcion_falla=0;
+      v_id_modo_falla=0;
+      
+      for v_rec in execute(v_consulta) loop
+          if v_id_funcion <> v_rec.id_funcion then
+            v_fun_orden = v_rec.fun_orden;
+            v_fun_descripcion = v_rec.fun_descripcion;
+            v_id_funcion = v_rec.id_funcion;
+          else
+              v_fun_orden = '';
+              v_fun_descripcion = '';
+          end if;
+          
+          if v_id_funcion_falla <> v_rec.id_funcion_falla then
+            v_ffall_orden = v_rec.ffall_orden;
+            v_ffall_falla = v_rec.ffall_falla;
+            v_id_funcion_falla = v_rec.id_funcion_falla;
+          else
+              v_ffall_orden = '';
+              v_ffall_falla = '';
+          end if;
+          
+          insert into tt_ana_mant values(
+          v_fun_orden, v_fun_descripcion,v_ffall_orden, v_ffall_falla,
+          v_rec.mfall_orden, v_rec.modo_falla, v_rec.efecto_falla
+          );
+          
+      end loop;
+      
+      v_consulta = 'select * from tt_ana_mant';
+      
+
+      --Devuelve la respuesta
+      return v_consulta;
+            
+    end;
 					
 	else
 					     
