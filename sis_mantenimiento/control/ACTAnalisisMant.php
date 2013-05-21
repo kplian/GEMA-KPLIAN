@@ -70,7 +70,7 @@ class ACTAnalisisMant extends ACTbase{
         
         //get funcion_analisis
         //Reset all extra params:
-        $this->objParam->addParametroConsulta('amant.id_analisis_mant', $idAnalisisMant);
+        $this->objParam->addParametroConsulta('id_analisis_mant', $idAnalisisMant);
         $this->objParam->addParametroConsulta('ordenacion', 'fun.orden, ffall.orden, mfall.orden');
         $this->objParam->addParametroConsulta('cantidad', 1000);
         $this->objParam->addParametroConsulta('puntero', 0);

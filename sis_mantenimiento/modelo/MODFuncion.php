@@ -105,6 +105,8 @@ class MODFuncion extends MODbase{
 		$this->transaccion='GEM_REPANA_SEL';
 		$this->tipo_procedimiento='SEL';//tipo de transaccion
 		
+		$this->setParametro('id_analisis_mant','id_analisis_mant','int4');
+		
 		//Definicion de la lista del resultado del query
 		$this->captura('fun_orden','varchar');
 		$this->captura('fun_descripcion','varchar');
