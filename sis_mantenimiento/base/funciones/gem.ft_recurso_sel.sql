@@ -1,3 +1,11 @@
+CREATE OR REPLACE FUNCTION gem.ft_recurso_sel (
+  p_administrador integer,
+  p_id_usuario integer,
+  p_tabla varchar,
+  p_transaccion varchar
+)
+RETURNS varchar AS
+$body$
 /**************************************************************************
  SISTEMA:   SISTEMA DE GESTION DE MANTENIMIENTO
  FUNCION:     gem.ft_recurso_sel
@@ -304,3 +312,9 @@ EXCEPTION
       v_resp = pxp.f_agrega_clave(v_resp,'procedimientos',v_nombre_funcion);
       raise exception '%',v_resp;
 END;
+$body$
+LANGUAGE 'plpgsql'
+VOLATILE
+CALLED ON NULL INPUT
+SECURITY INVOKER
+COST 100;
