@@ -601,3 +601,26 @@ alter table gem.tanalisis_mant
 add constraint fk_tanalisis_mant__id_funcionario_prep foreign key (id_funcionario_prep)
 references orga.tfuncionario (id_funcionario);
 /***********************************F-DEP-RCM-GEM-137-03/05/2013*****************************************/
+
+/***********************************I-DEP-RCM-GEM-0-24/05/2013*****************************************/
+alter table gem.tanalisis_mant
+add constraint fk_tanalisis_mant__id_uni_cons_hijo
+foreign key (id_uni_cons_hijo) references gem.tuni_cons (id_uni_cons);
+alter table gem.tplan_mant
+add constraint fk_tplan_mant__id_uni_cons_hijo
+foreign key (id_uni_cons_hijo) references gem.tuni_cons (id_uni_cons);
+
+alter table gem.tanalisis_mant
+add constraint fk_tanalisis_mant__id_persona_prep
+foreign key (id_persona_prep) references segu.tpersona (id_persona);
+alter table gem.tanalisis_mant
+add constraint fk_tanalisis_mant__id_persona_rev
+foreign key (id_persona_rev) references segu.tpersona (id_persona);
+
+alter table gem.tplan_mant
+add constraint fk_tplan_mant__id_persona
+foreign key (id_persona) references segu.tpersona (id_persona);
+alter table gem.tplan_mant
+add constraint fk_tplan_mant__id_persona_rev
+foreign key (id_persona_rev) references segu.tpersona (id_persona);
+/***********************************F-DEP-RCM-GEM-0-24/05/2013*****************************************/

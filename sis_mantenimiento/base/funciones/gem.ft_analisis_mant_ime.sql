@@ -47,7 +47,7 @@ BEGIN
         	insert into gem.tanalisis_mant(
 			id_uni_cons,
 			id_tipo_mant,
-			id_funcionario_rev,
+			id_persona_rev,
 			estado_reg,
 			fecha_emision,
 			descripcion,
@@ -56,11 +56,13 @@ BEGIN
 			fecha_reg,
 			id_usuario_mod,
 			fecha_mod,
-			id_funcionario_prep
+			id_persona_prep,
+			id_uni_cons_hijo,
+			id_uo
           	) values(
 			v_parametros.id_uni_cons,
 			v_parametros.id_tipo_mant,
-			v_parametros.id_funcionario_rev,
+			v_parametros.id_persona_rev,
 			'activo',
 			v_parametros.fecha_emision,
 			v_parametros.descripcion,
@@ -69,7 +71,9 @@ BEGIN
 			now(),
 			null,
 			null,
-			v_parametros.id_funcionario_prep
+			v_parametros.id_persona_prep,
+			v_parametros.id_uni_cons_hijo,
+			v_parametros.id_uo
 			)RETURNING id_analisis_mant into v_id_analisis_mant;
                
 			--Definicion de la respuesta
@@ -95,13 +99,15 @@ BEGIN
 			update gem.tanalisis_mant set
 			id_uni_cons = v_parametros.id_uni_cons,
 			id_tipo_mant = v_parametros.id_tipo_mant,
-			id_funcionario_rev = v_parametros.id_funcionario_rev,
+			id_persona_rev = v_parametros.id_persona_rev,
 			fecha_emision = v_parametros.fecha_emision,
 			descripcion = v_parametros.descripcion,
 			fecha_rev = v_parametros.fecha_rev,
 			id_usuario_mod = p_id_usuario,
 			fecha_mod = now(),
-			id_funcionario_prep = v_parametros.id_funcionario_prep
+			id_persona_prep = v_parametros.id_persona_prep,
+			id_uni_cons_hijo = v_parametros.id_uni_cons_hijo,
+			id_uo = v_parametros.id_uo
 			where id_analisis_mant=v_parametros.id_analisis_mant;
                
 			--Definicion de la respuesta

@@ -17,6 +17,23 @@ Phx.vista.Tarea=Ext.extend(Phx.gridInterfaz,{
 		Phx.vista.Tarea.superclass.constructor.call(this,config);
 		this.init();		
         this.grid.getTopToolbar().disable();
+        
+        //Oculta el componente
+        this.ocultarComponente(this.getComponente('id_falla_evento'));
+        this.ocultarComponente(this.getComponente('id_uni_cons_hijo'));
+        
+        //Definición de eventos
+        this.getComponente('id_funcion').on('blur',function(combo){
+        	this.getComponente('id_funcion_falla').store.baseParams={id_funcion:combo.value};
+        	this.getComponente('id_funcion_falla').setValue('');
+        	this.getComponente('id_funcion_falla').modificado=true;
+        },this);
+        
+        this.getComponente('id_funcion_falla').on('blur',function(combo){
+        	this.getComponente('id_modo_falla').store.baseParams={id_funcion_falla:combo.value};
+        	this.getComponente('id_modo_falla').setValue('');
+        	this.getComponente('id_modo_falla').modificado=true;
+        },this);
 	},
 			
 	Atributos:[
@@ -32,32 +49,18 @@ Phx.vista.Tarea=Ext.extend(Phx.gridInterfaz,{
 		{
 			config:{
 				name: 'id_plan_mant',
-				fieldLabel: 'id_plan_mant',
-				inputType:'hidden',
-				disabled: true,
-				anchor: '80%',
-				gwidth: 100,
-				maxLength:4
+				inputType:'hidden'
 			},
-			type:'NumberField',
-			filters:{pfiltro:'tare.id_plan_mant',type:'numeric'},
-			id_grupo:1,
+			type:'Field',
 			grid:false,
 			form:true
 		},
 		{
 			config:{
 				name: 'id_uni_cons',
-				fieldLabel: 'id_uni_cons',
-				inputType:'hidden',
-				disabled:true,
-				anchor: '100%',
-				gwidth: 100,
-				maxLength:4
+				inputType:'hidden'
 			},
-			type:'NumberField',
-			filters:{pfiltro:'tare.id_uni_cons',type:'numeric'},
-			id_grupo:1,
+			type:'Field',
 			grid:false,
 			form:true
 		},
@@ -65,7 +68,7 @@ Phx.vista.Tarea=Ext.extend(Phx.gridInterfaz,{
 			config:{
    				name:'id_uni_cons_hijo',
    				fieldLabel:'Subsistema',
-   				allowBlank:false,
+   				allowBlank:true,
    				emptyText:'Subsistema...',
    				store: new Ext.data.JsonStore({
 					url: '../../sis_mantenimiento/control/UniCons/listarUniConsHijo',
@@ -100,6 +103,94 @@ Phx.vista.Tarea=Ext.extend(Phx.gridInterfaz,{
    			id_grupo:0,
    			filters:{
    		        pfiltro:'nombre',
+                type:'string'
+   			},
+   			grid:false,
+   			form:true
+	    },
+	    {
+			config:{
+   				name:'id_funcion',
+   				fieldLabel:'Función',
+   				allowBlank:false,
+   				emptyText:'Seleccione una Función...',
+   				store: new Ext.data.JsonStore({
+					url: '../../sis_mantenimiento/control/Funcion/listarFuncion',
+					id: 'id_funcion',
+					root: 'datos',
+					sortInfo:{
+						field: 'orden',
+						direction: 'ASC'
+					},
+					totalProperty: 'total',
+					fields: ['id_funcion','orden','descripcion'],
+					remoteSort: true,	    					
+					baseParams:{par_filtro:'orden#descripcion',id_uni_cons:this.id_uni_cons}
+				}),
+   				valueField: 'id_funcion',
+   				displayField: 'descripcion',
+   				gdisplayField: 'desc_funcion',
+   				hiddenName: 'id_funcion',
+   				forceSelection:false,
+   				typeAhead: false,
+       			triggerAction: 'all',
+       			lazyRender:true,
+   				mode:'remote',
+   				pageSize:10,
+   				queryDelay:1000,
+   				anchor: '100%',
+   				minChars:2,
+       			enableMultiSelect:true,   			
+   				renderer:function(value, p, record){return String.format('{0}', record.data['desc_funcion']);}
+	       	},
+   			type:'ComboBox',
+   			id_grupo:0,
+   			filters:{
+   		        pfiltro:'descripcion',
+                type:'string'
+   			},
+   			grid:true,
+   			form:true
+	    },
+	    {
+			config:{
+   				name:'id_funcion_falla',
+   				fieldLabel:'Falla',
+   				allowBlank:false,
+   				emptyText:'Seleccione una Falla...',
+   				store: new Ext.data.JsonStore({
+					url: '../../sis_mantenimiento/control/FuncionFalla/listarFuncionFalla',
+					id: 'id_funcion_falla',
+					root: 'datos',
+					sortInfo:{
+						field: 'orden',
+						direction: 'ASC'
+					},
+					totalProperty: 'total',
+					fields: ['id_funcion_falla','orden','falla'],
+					remoteSort: true,	    					
+					baseParams:{par_filtro:'orden#falla'}
+				}),
+   				valueField: 'id_funcion_falla',
+   				displayField: 'falla',
+   				gdisplayField: 'desc_funcion_falla',
+   				hiddenName: 'id_funcion_falla',
+   				forceSelection:false,
+   				typeAhead: false,
+       			triggerAction: 'all',
+       			lazyRender:true,
+   				mode:'remote',
+   				pageSize:10,
+   				queryDelay:1000,
+   				anchor: '100%',
+   				minChars:2,
+       			enableMultiSelect:true,   			
+   				renderer:function(value, p, record){return String.format('{0}', record.data['desc_funcion_falla']);}
+	       	},
+   			type:'ComboBox',
+   			id_grupo:0,
+   			filters:{
+   		        pfiltro:'falla',
                 type:'string'
    			},
    			grid:true,
@@ -146,13 +237,13 @@ Phx.vista.Tarea=Ext.extend(Phx.gridInterfaz,{
    				pfiltro:'nombre',
    				type:'string'
    			},
-   			grid:true,
+   			grid:false,
    			form:true
 	    },
 		{
 			config:{
 				name: 'id_modo_falla',
-				fieldLabel: 'Modo falla',
+				fieldLabel: 'Modo/Efecto Falla',
 				allowBlank: false,
 				emptyText:'Modo de falla...',
 				store: new Ext.data.JsonStore({
@@ -199,7 +290,7 @@ Phx.vista.Tarea=Ext.extend(Phx.gridInterfaz,{
 				fieldLabel: 'H',
 				anchor: '30%',
 				tinit: false,
-				allowBlank: false,
+				allowBlank: true,
 				origen: 'CATALOGO',
 				gdisplayField: 'descripcion',
 				gwidth: 100,
@@ -221,7 +312,7 @@ Phx.vista.Tarea=Ext.extend(Phx.gridInterfaz,{
 				fieldLabel: 'S',
 				anchor: '30%',
 				tinit: false,
-				allowBlank: false,
+				allowBlank: true,
 				origen: 'CATALOGO',
 				gdisplayField: 'descripcion',
 				gwidth: 100,
@@ -243,7 +334,7 @@ Phx.vista.Tarea=Ext.extend(Phx.gridInterfaz,{
 				fieldLabel: 'O',
 				anchor: '30%',
 				tinit: false,
-				allowBlank: false,
+				allowBlank: true,
 				origen: 'CATALOGO',
 				gdisplayField: 'descripcion',
 				gwidth: 100,
@@ -265,7 +356,7 @@ Phx.vista.Tarea=Ext.extend(Phx.gridInterfaz,{
 				fieldLabel: 'N',
 				anchor: '30%',
 				tinit: false,
-				allowBlank: false,
+				allowBlank: true,
 				origen: 'CATALOGO',
 				gdisplayField: 'descripcion',
 				gwidth: 100,
@@ -287,7 +378,7 @@ Phx.vista.Tarea=Ext.extend(Phx.gridInterfaz,{
 				fieldLabel: 'HSON1',
 				anchor: '30%',
 				tinit: false,
-				allowBlank: false,
+				allowBlank: true,
 				origen: 'CATALOGO',
 				gdisplayField: 'descripcion',
 				gwidth: 100,
@@ -309,7 +400,7 @@ Phx.vista.Tarea=Ext.extend(Phx.gridInterfaz,{
 				fieldLabel: 'HSON2',
 				anchor: '30%',
 				tinit: false,
-				allowBlank: false,
+				allowBlank: true,
 				origen: 'CATALOGO',
 				gdisplayField: 'descripcion',
 				gwidth: 100,
@@ -331,7 +422,7 @@ Phx.vista.Tarea=Ext.extend(Phx.gridInterfaz,{
 				fieldLabel: 'HSON3',
 				anchor: '30%',
 				tinit: false,
-				allowBlank: false,
+				allowBlank: true,
 				origen: 'CATALOGO',
 				gdisplayField: 'descripcion',
 				gwidth: 100,
@@ -353,7 +444,7 @@ Phx.vista.Tarea=Ext.extend(Phx.gridInterfaz,{
 				fieldLabel: 'H4',
 				anchor: '30%',
 				tinit: false,
-				allowBlank: false,
+				allowBlank: true,
 				origen: 'CATALOGO',
 				gdisplayField: 'descripcion',
 				gwidth: 100,
@@ -375,7 +466,7 @@ Phx.vista.Tarea=Ext.extend(Phx.gridInterfaz,{
 				fieldLabel: 'H5',
 				anchor: '30%',
 				tinit: false,
-				allowBlank: false,
+				allowBlank: true,
 				origen: 'CATALOGO',
 				gdisplayField: 'descripcion',
 				gwidth: 100,
@@ -397,7 +488,7 @@ Phx.vista.Tarea=Ext.extend(Phx.gridInterfaz,{
 				fieldLabel: 'S4',
 				anchor: '30%',
 				tinit: false,
-				allowBlank: false,
+				allowBlank: true,
 				origen: 'CATALOGO',
 				gdisplayField: 'descripcion',
 				gwidth: 100,
@@ -416,13 +507,13 @@ Phx.vista.Tarea=Ext.extend(Phx.gridInterfaz,{
 		{
 			config:{
 				name: 'tareas',
-				fieldLabel: 'Tareas',
-				allowBlank: true,
+				fieldLabel: 'Tareas de Mantenimiento',
+				allowBlank: false,
 				anchor: '100%',
 				gwidth: 100,
 				maxLength:1000
 			},
-			type:'TextField',
+			type:'TextArea',
 			filters:{pfiltro:'tare.tareas',type:'string'},
 			id_grupo:1,
 			grid:true,
@@ -431,7 +522,7 @@ Phx.vista.Tarea=Ext.extend(Phx.gridInterfaz,{
 		{
 			config:{
 				name: 'frecuencia',
-				fieldLabel: 'Frecuencia',
+				fieldLabel: 'Frecuencia Inicial',
 				allowBlank: false,
 				anchor: '100%',
 				gwidth: 100,
@@ -444,53 +535,31 @@ Phx.vista.Tarea=Ext.extend(Phx.gridInterfaz,{
 			form:true
 		},
 		{
-			config:{
-				name: 'id_unidad_medida',
-				fieldLabel: 'Unidad de medida',
-				allowBlank: false,
-				emptyText:'Unidad de medida...',
-				store: new Ext.data.JsonStore({
-					url: '../../sis_parametros/control/UnidadMedida/listarUnidadMedida',
-					id: 'id_unidad_medida',
-					root: 'datos',
-					sortInfo:{
-						field: 'codigo',
-						direction: 'ASC'
-					},
-					totalProperty: 'total',
-					fields: ['id_unidad_medida','codigo','descripcion'],
-					remoteSort: true,
-					baseParams:{par_filtro:'codigo#descripcion'}
-	    		}),	    				
-				valueField: 'id_unidad_medida',
-   				displayField: 'codigo',
-   				gdisplayField: 'descripcion',
-   				hiddenName: 'id_unidad_medida',
-   				forceSelection:true,
-   				typeAhead: true,
-       			triggerAction: 'all',
-       			lazyRender:true,
-   				mode:'remote',
-   				pageSize:10,
-   				queryDelay:1000,
-   				anchor: '100%',
-   				minChars:2,
-       			enableMultiSelect:true,   			
-   				renderer:function(value, p, record){return String.format('{0}', record.data['codigo']);}
-			},
-			type:'ComboBox',
-   			id_grupo:0,
-   			filters:{   pfiltro:'codigo',
-   						type:'string'
-   					},
-   			grid:true,
-   			form:true
-		},
+	   		config:{
+	       		    name:'id_unidad_medida',
+	   				origen:'UNIDADMEDIDA',
+	   				tinit:false,
+	   				fieldLabel:'Unidad Medida',
+	   				gdisplayField:'desc_unidad_medida',
+	   				anchor: '100%',
+	   			    gwidth: 70,
+		   			renderer:function (value, p, record){return String.format('{0}', record.data['codigo']);},
+		   			allowBlank:false
+	       	     },
+	   			type:'ComboRec',
+	   			id_grupo:0,
+	   			filters:{	
+			        pfiltro:'codigo',
+					type:'string'
+				},
+	   			grid:true,
+	   			form:true
+	   	},
 		{
 	       	config:{
 	       		name:'id_especialidad',
-   				fieldLabel:'Especialidad',
-   				allowBlank:false,
+   				fieldLabel:'Realizado por',
+   				allowBlank:true,
    				emptyText:'Especialidad...',
    				store: new Ext.data.JsonStore({
 					url: '../../sis_organigrama/control/Especialidad/listarEspecialidad',
@@ -647,7 +716,11 @@ Phx.vista.Tarea=Ext.extend(Phx.gridInterfaz,{
 		{name:'fecha_mod', type: 'timestamp'},
 		{name:'id_usuario_mod', type: 'numeric'},
 		{name:'usr_reg', type: 'string'},
-		{name:'usr_mod', type: 'string'}
+		{name:'usr_mod', type: 'string'},
+		{name:'id_funcion_falla', type: 'numeric'},
+		{name:'desc_funcion_falla', type: 'string'},
+		{name:'id_funcion', type: 'numeric'},
+		{name:'desc_funcion', type: 'string'}
 	],
 	sortInfo:{
 		field: 'id_tarea',

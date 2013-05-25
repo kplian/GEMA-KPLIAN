@@ -66,7 +66,7 @@ BEGIN
 						inner join segu.tusuario usu1 on usu1.id_usuario = gefall.id_usuario_reg
 						left join segu.tusuario usu2 on usu2.id_usuario = gefall.id_usuario_mod
 						left join gem.tfalla_evento gefaev on gefaev.id_falla_evento = gefall.id_falla_evento
-				        where gefall.id_funcion='||v_parametros.id_funcion||' and ';
+				    where ';
 			
 			--Definicion de la respuesta
 			v_consulta:=v_consulta||v_parametros.filtro;
@@ -93,7 +93,7 @@ BEGIN
 						inner join segu.tusuario usu1 on usu1.id_usuario = gefall.id_usuario_reg
 						left join segu.tusuario usu2 on usu2.id_usuario = gefall.id_usuario_mod
 						left join gem.tfalla_evento gefaev on gefaev.id_falla_evento = gefall.id_falla_evento
-				        where gefall.id_funcion='||v_parametros.id_funcion||' and ';
+				    where ';
 			
 			--Definicion de la respuesta		    
 			v_consulta:=v_consulta||v_parametros.filtro;

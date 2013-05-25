@@ -59,6 +59,7 @@ class ACTOrdenTrabajoSol extends ACTbase{
         $this->objFunc=$this->create('MODOrdenTrabajoSol');
         $this->res=$this->objFunc->listarOrdenTrabajoRep($this->objParam);
         $dataSource->setDataSet($this->res->getDatos());
+		//var_dump($this->res->getDatos());exit;
 		
 		//Insumos
 		$this->objParam->addParametroConsulta('filtro', 'otsoin.id_orden_trabajo_sol = '.$this->objParam->getParametro('id_orden_trabajo_sol'));
@@ -68,9 +69,23 @@ class ACTOrdenTrabajoSol extends ACTbase{
 		$insumDataSource = new DataSource();
 		$insumDataSource->setDataset($resultInsum->getDatos());
 		$dataSource->putParameter('insumDataSource', $insumDataSource);
-		//
 		
-		//var_dump($dataSource);exit;
+		//Imagen de la Solicitud de OIT
+		$this->objParam->addParametroConsulta('cantidad', 1);
+		$this->objParam->addParametroConsulta('puntero', 0);
+		$this->objParam->addParametroConsulta('ordenacion', 'id_orden_trabajo_sol');
+		$this->objParam->addParametroConsulta('dir_ordenacion', 'asc');
+		$this->objParam->addParametroConsulta('filtro', " solord.extension in (''bmp'',''jpg'',''gif'',''png'',''jpeg'')");
+		$this->objParam->addParametro('id_orden_trabajo_sol', $this->objParam->getParametro('id_orden_trabajo_sol'));
+		$this->objFunc = $this->create('MODOrdenTrabajoSol');
+		$resultArchivo = $this->objFunc->listarOrdenTrabajoSolArchivo();
+		
+		$imagenData = $resultArchivo->getDatos();
+		if(count($imagenData) > 0) {
+			$dataSource->putParameter('imagePath', '../../../archivos_uni_cons/'.$imagenData[0]['id_orden_trabajo_sol'].'.'.$imagenData[0]['extension']);
+		}
+		
+		//var_dump($imagenData);exit;
 		        
         $reporte = new ROrdenTrabajoSolicitado();
         $reporte->setDataSource($dataSource);
@@ -84,6 +99,12 @@ class ACTOrdenTrabajoSol extends ACTbase{
         $mensajeExito->setArchivoGenerado($nombreArchivo);
         $this->res = $mensajeExito;
         $this->res->imprimirRespuesta($this->res->generarJson());        
+    }
+
+	function subirArchivo(){
+        $this->objFunc=$this->create('MODOrdenTrabajoSol');
+        $this->res=$this->objFunc->subirArchivo();
+        $this->res->imprimirRespuesta($this->res->generarJson());
     }
 			
 }

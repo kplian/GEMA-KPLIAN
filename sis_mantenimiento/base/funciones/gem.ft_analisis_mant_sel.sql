@@ -50,7 +50,7 @@ BEGIN
 						geanma.id_analisis_mant,
 						geanma.id_uni_cons,
 						geanma.id_tipo_mant,
-						geanma.id_funcionario_rev,
+						geanma.id_persona_rev,
 						geanma.estado_reg,
 						geanma.fecha_emision,
 						geanma.descripcion,
@@ -62,15 +62,21 @@ BEGIN
 						usu1.cuenta as usr_reg,
 						usu2.cuenta as usr_mod,
 						getima.nombre as desc_tipo_mant,
-						fun.desc_funcionario1 as desc_person,
-						geanma.id_funcionario_prep,
-						fun1.desc_funcionario1 as preparado_por	
+						per.nombre_completo1 as desc_person,
+						geanma.id_persona_prep,
+						per1.nombre_completo1 as preparado_por,
+						geanma.id_uni_cons_hijo,
+						uch.nombre as desc_uni_cons_hijo,
+						geanma.id_uo,
+						uo.nombre_unidad	
 						from gem.tanalisis_mant geanma
 						inner join segu.tusuario usu1 on usu1.id_usuario = geanma.id_usuario_reg
 						left join segu.tusuario usu2 on usu2.id_usuario = geanma.id_usuario_mod
 						inner join gem.ttipo_mant getima on getima.id_tipo_mant = geanma.id_tipo_mant
-						inner join orga.vfuncionario fun on fun.id_funcionario = geanma.id_funcionario_rev
-						inner join orga.vfuncionario fun1 on fun1.id_funcionario = geanma.id_funcionario_prep
+						inner join segu.vpersona per on per.id_persona = geanma.id_persona_rev
+						left join segu.vpersona per1 on per1.id_persona = geanma.id_persona_prep
+						left join gem.tuni_cons uch on uch.id_uni_cons = geanma.id_uni_cons_hijo
+						left join orga.tuo uo on uo.id_uo = geanma.id_uo 
 				    where geanma.id_uni_cons='||v_parametros.id_uni_cons|| ' and ';
 			
 			--Definicion de la respuesta
@@ -98,8 +104,10 @@ BEGIN
 						inner join segu.tusuario usu1 on usu1.id_usuario = geanma.id_usuario_reg
 						left join segu.tusuario usu2 on usu2.id_usuario = geanma.id_usuario_mod
 						inner join gem.ttipo_mant getima on getima.id_tipo_mant = geanma.id_tipo_mant
-						inner join orga.vfuncionario fun on fun.id_funcionario = geanma.id_funcionario_rev
-						inner join orga.vfuncionario fun1 on fun1.id_funcionario = geanma.id_funcionario_prep
+						inner join segu.vpersona per on per.id_persona = geanma.id_persona_rev
+						inner join segu.vpersona per1 on per1.id_persona = geanma.id_persona_prep
+						left join gem.tuni_cons uch on uch.id_uni_cons = geanma.id_uni_cons_hijo
+						left join orga.tuo uo on uo.id_uo = geanma.id_uo
 				    where geanma.id_uni_cons='||v_parametros.id_uni_cons|| ' and ';
 			
 			--Definicion de la respuesta		    
@@ -119,24 +127,35 @@ BEGIN
     elsif(p_transaccion='GEM_GEANMA_REP')then
     	begin
         	v_consulta:='select
-                        anamant.id_analisis_mant,
-                        anamant.id_uni_cons,
-                        loc.nombre as localizacion,
-                        sis.codigo as tag,
-                        sis.nombre as nombre_sis,
-                        sub.nombre as nombre_sub,
-                        fun1.desc_funcionario1 as preparado_por,
-                        fun.desc_funcionario1 as revisado_por,
-                        anamant.fecha_emision,
-                        anamant.fecha_rev,
-                        anamant.descripcion	
+        	             case coalesce(anamant.id_uni_cons_hijo,0)
+        	                 when 0 then locp.nombre 
+        	                 else locp.nombre  
+        	             end as localizacion,
+                       sis.codigo as tag,
+                       case coalesce(anamant.id_uni_cons_hijo,0)
+                            when 0 then loc.nombre 
+                            else sis.nombre
+                        end as nombre_sis,
+                        case coalesce(anamant.id_uni_cons_hijo,0)
+                            when 0 then sis.nombre
+                            else ssis.nombre 
+                        end as nombre_sub,
+                        case coalesce(anamant.id_uo,0)
+                            when 0 then per1.nombre_completo1
+                            else uo.nombre_unidad
+                        end as preparado_por,
+                        per.nombre_completo1 as revisado_por,
+                        to_char(anamant.fecha_emision,''dd/mm/yyyy'') as fecha_emision,
+                        to_char(anamant.fecha_rev,''dd/mm/yyyy'') as fecha_rev,
+                        anamant.descripcion
                         from gem.tanalisis_mant anamant
-                        inner join orga.vfuncionario fun on fun.id_funcionario=anamant.id_funcionario_rev
-                        inner join orga.vfuncionario fun1 on fun1.id_funcionario=anamant.id_funcionario_prep
-                        inner join gem.tuni_cons_comp comp on comp.id_uni_cons_hijo=anamant.id_uni_cons
-                        inner join gem.tuni_cons sis on sis.id_uni_cons=comp.id_uni_cons_padre
-                        inner join gem.tuni_cons sub on sub.id_uni_cons=anamant.id_uni_cons
+                        inner join segu.vpersona per on per.id_persona=anamant.id_persona_rev
+                        left join segu.vpersona per1 on per1.id_persona=anamant.id_persona_prep
+                        inner join gem.tuni_cons sis on sis.id_uni_cons = anamant.id_uni_cons
+                        left join gem.tuni_cons ssis on ssis.id_uni_cons = anamant.id_uni_cons_hijo
                         inner join gem.tlocalizacion loc on loc.id_localizacion = sis.id_localizacion
+                        inner join gem.tlocalizacion locp on locp.id_localizacion = loc.id_localizacion_fk
+                        left join orga.tuo uo on uo.id_uo = anamant.id_uo
                         where anamant.id_analisis_mant='||v_parametros.id_analisis_mant||' and ';
                         
                         v_consulta:=v_consulta||v_parametros.filtro;

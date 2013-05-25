@@ -1341,4 +1341,42 @@ ALTER TABLE gem.tfuncion_falla
   ADD COLUMN falla VARCHAR(100);
 ALTER TABLE gem.tfuncion_falla
   ALTER COLUMN id_falla_evento DROP NOT NULL;
+alter table gem.tplan_mant
+add column fecha_emision date;
 /***********************************F-SCP-RCM-GEM-0-17/05/2013*****************************************/
+
+/***********************************I-SCP-RCM-GEM-0-22/05/2013*****************************************/
+ALTER TABLE gem.ttarea
+  ALTER COLUMN id_uni_cons_hijo DROP NOT NULL;
+/***********************************F-SCP-RCM-GEM-0-22/05/2013*****************************************/
+
+/***********************************I-SCP-RCM-GEM-0-24/05/2013*****************************************/
+alter table gem.tanalisis_mant
+add column id_uni_cons_hijo integer;
+alter table gem.tplan_mant
+add column id_uni_cons_hijo integer;
+ALTER TABLE gem.tanalisis_mant
+  RENAME COLUMN id_funcionario_rev TO id_persona_rev;
+ALTER TABLE gem.tanalisis_mant
+  RENAME COLUMN id_funcionario_prep TO id_persona_prep;
+ALTER TABLE gem.tanalisis_mant
+  DROP CONSTRAINT fk_tanalisis_mant__id_empleado_rev RESTRICT;
+ALTER TABLE gem.tanalisis_mant
+  DROP CONSTRAINT fk_tanalisis_mant__id_funcionario_prep RESTRICT;
+alter table gem.tanalisis_mant
+add column id_uo integer;
+ALTER TABLE gem.tplan_mant
+  RENAME COLUMN id_funcionario TO id_persona;
+ALTER TABLE gem.tplan_mant
+  RENAME COLUMN id_funcionario_rev TO id_persona_rev;
+ALTER TABLE gem.tplan_mant
+  DROP CONSTRAINT fk_tplan_mant__id_funcionario RESTRICT;
+ALTER TABLE gem.tplan_mant
+  DROP CONSTRAINT fk_tplan_mant__id_funcionario_rev RESTRICT;
+alter table gem.tplan_mant
+add column id_uo integer;
+alter table gem.torden_trabajo_sol
+add column archivo bytea;
+alter table gem.torden_trabajo_sol
+add column extension varchar(10);
+/***********************************F-SCP-RCM-GEM-0-24/05/2013*****************************************/

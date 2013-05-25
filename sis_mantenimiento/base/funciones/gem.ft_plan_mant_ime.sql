@@ -48,8 +48,8 @@ BEGIN
         begin
         	--Sentencia de la insercion
         	insert into gem.tplan_mant(
-			id_funcionario,
-			id_funcionario_rev,
+			id_persona,
+			id_persona_rev,
 			id_tipo_mant,
 			id_uni_cons,
 			descripcion,
@@ -58,10 +58,13 @@ BEGIN
 			id_usuario_reg,
 			fecha_reg,
 			fecha_mod,
-			id_usuario_mod
+			id_usuario_mod,
+			id_uni_cons_hijo,
+			id_uo,
+			fecha_emision
           	) values(
-			v_parametros.id_funcionario,
-			v_parametros.id_funcionario_rev,
+			v_parametros.id_persona,
+			v_parametros.id_persona_rev,
 			v_parametros.id_tipo_mant,
 			v_parametros.id_uni_cons,
 			v_parametros.descripcion,
@@ -70,7 +73,10 @@ BEGIN
 			p_id_usuario,
 			now(),
 			null,
-			null
+			null,
+			v_parametros.id_uni_cons_hijo,
+			v_parametros.id_uo,
+			v_parametros.fecha_emision
 			)RETURNING id_plan_mant into v_id_plan_mant;
                
 			--Definicion de la respuesta
@@ -94,14 +100,17 @@ BEGIN
 		begin
 			--Sentencia de la modificacion
 			update gem.tplan_mant set
-			id_funcionario = v_parametros.id_funcionario,
-			id_funcionario_rev = v_parametros.id_funcionario_rev,
+			id_persona = v_parametros.id_persona,
+			id_persona_rev = v_parametros.id_persona_rev,
 			id_tipo_mant = v_parametros.id_tipo_mant,
 			id_uni_cons = v_parametros.id_uni_cons,
 			descripcion = v_parametros.descripcion,
 			fecha = v_parametros.fecha,
 			fecha_mod = now(),
-			id_usuario_mod = p_id_usuario
+			id_usuario_mod = p_id_usuario,
+			id_uni_cons_hijo = v_parametros.id_uni_cons_hijo,
+			id_uo = v_parametros.id_uo,
+			fecha_emision = v_parametros.fecha_emision
 			where id_plan_mant=v_parametros.id_plan_mant;
                
 			--Definicion de la respuesta

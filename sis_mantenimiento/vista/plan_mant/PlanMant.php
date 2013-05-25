@@ -13,17 +13,37 @@ header("content-type: text/javascript; charset=UTF-8");
 Phx.vista.PlanMant=Ext.extend(Phx.gridInterfaz,{
     
 	constructor:function(config){
-		this.maestro=config.maestro;
+		this.maestro=config;
 		Phx.vista.PlanMant.superclass.constructor.call(this,config);
 		this.addButton('btnReporte',{
-            text :'Reporte Plan RCM',
-            iconCls : 'bpdf32',
+            text:'Reporte Plan RCM',
+            iconCls: 'bpdf32',
             disabled: true,
-            handler : this.onButtonReportePlanRCM,
-            tooltip : '<b>Plan RCM</b><br/>Reporte Plan RCM'
+            handler: this.onButtonReportePlanRCM,
+            tooltip: '<b>Plan RCM</b><br/>Reporte Plan RCM'
         });
 		this.init();
 		this.load({params:{start:0, limit:50, id_uni_cons:this.id_uni_cons}});
+		
+		//Define el store para obtener los subsistemas
+        this.getComponente('id_uni_cons_hijo').store.baseParams={par_filtro:'nombre#codigo',id_uni_cons:this.maestro.id_uni_cons,tipo:'tuc'}
+        
+        //Eventos
+        this.getComponente('preparado_por').on('blur',function(a){
+        	if(a.value=='Organigrama'){
+        		this.getComponente('id_uo').enable();
+        		this.getComponente('id_persona').disable();
+        		this.getComponente('id_uo').allowBlank=false;
+        		this.getComponente('id_persona').allowBlank=true;
+        		this.getComponente('id_persona').setValue('');
+        	} else{
+        		this.getComponente('id_uo').disable();
+        		this.getComponente('id_persona').enable();
+        		this.getComponente('id_uo').allowBlank=true;
+        		this.getComponente('id_persona').allowBlank=false;
+        		this.getComponente('id_uo').setValue('');
+        	}
+        },this);
 	},
 				
 	Atributos:[
@@ -39,28 +59,26 @@ Phx.vista.PlanMant=Ext.extend(Phx.gridInterfaz,{
 		},
 		{
 			config:{
-				name: 'id_funcionario',
-				fieldLabel: 'Funcionario',
-				allowBlank: false,
-				emptyText:'Funcionario...',
+   				name:'id_uni_cons_hijo',
+   				fieldLabel:'Subsistema',
+   				allowBlank:true,
+   				emptyText:'Subsistema...',
    				store: new Ext.data.JsonStore({
-					url: '../../sis_organigrama/control/Funcionario/listarFuncionario',
-					id: 'id_funcionario',
+					url: '../../sis_mantenimiento/control/UniCons/listarUniConsHijo',
+					id: 'id_uni_cons_hijo',
 					root: 'datos',
 					sortInfo:{
-						field: 'desc_person',
+						field: 'prioridad',
 						direction: 'ASC'
 					},
 					totalProperty: 'total',
-					fields: ['id_funcionario','desc_person'],
-					remoteSort: true,
-					baseParams:{par_filtro:'person.nombre_completo1'}
+					fields: ['id_uni_cons_hijo','nombre','codigo'],
+					remoteSort: true
 				}),
-				valueField: 'id_funcionario',
-   				displayField: 'desc_person',
-   				gdisplayField:'nombre_funcionario',//dibuja el campo extra de la consulta al hacer un inner join con orra tabla
-   				tpl:'<tpl for="."><div class="x-combo-list-item"><p>{desc_person}</p> </div></tpl>',
-   				hiddenName: 'id_funcionario',
+   				valueField: 'id_uni_cons_hijo',
+   				displayField: 'nombre',
+   				gdisplayField: 'codigo',
+   				hiddenName: 'id_uni_cons_hijo',
    				forceSelection:true,
    				typeAhead: true,
        			triggerAction: 'all',
@@ -69,88 +87,98 @@ Phx.vista.PlanMant=Ext.extend(Phx.gridInterfaz,{
    				pageSize:10,
    				queryDelay:1000,
    				anchor: '100%',
-   				gwidth:100,
-   				minChars:2,   				
-   				renderer:function (value, p, record){return String.format('{0}', record.data['desc_person']);}								
-			},
+   				minChars:2,
+       			enableMultiSelect:true,   			
+   				renderer:function(value, p, record){return String.format('{0}', record.data['desc_uni_cons_hijo']);}
+	       	},
    			type:'ComboBox',
-   			id_grupo:0, 		   
-   			grid:false,
-   			form:true
-		},
-		{
-			config:{
-				name: 'nombre_funcionario',
-				fieldLabel: 'Funcionario',
-				anchor: '100%',
-				gwidth: 100
-			},
-			type:'TextField',
-			id_grupo:1,
-			filters:{    
-                pfiltro:'vper.nombre_completo1',
+   			id_grupo:0,
+   			filters:{
+   		        pfiltro:'nombre',
                 type:'string'
-            },
-			grid:true,
-			form:false
-		},
-		{
-			config:{
-				name: 'id_funcionario_rev',
-				fieldLabel: 'Funcionario rev',
+   			},
+   			grid:true,
+   			form:true
+	    },
+	    {
+			config: {
+				name: 'preparado_por',
+				fieldLabel: 'Quien Prepara',
+				anchor: '100%',
+				tinit: false,
 				allowBlank: false,
-				emptyText:'Funcionario rev...',
-   				store: new Ext.data.JsonStore({
-					url: '../../sis_organigrama/control/Funcionario/listarFuncionario',
-					id: 'id_funcionario',
-					root: 'datos',
-					sortInfo:{
-						field: 'desc_person',
-						direction: 'ASC'
-					},
-					totalProperty: 'total',
-					fields: ['id_funcionario','desc_person'],
-					remoteSort: true,
-					baseParams:{par_filtro:'person.nombre_completo1'}
-				}),
-				valueField: 'id_funcionario',
-   				displayField: 'desc_person',
-   				gdisplayField:'nombre_funcionario_rev',
-   				tpl:'<tpl for="."><div class="x-combo-list-item"><p>{desc_person}</p> </div></tpl>',
-   				hiddenName: 'id_funcionario',
-   				forceSelection:true,
-   				typeAhead: true,
-       			triggerAction: 'all',
-       			lazyRender:true,
-   				mode:'remote',
-   				pageSize:10,
-   				queryDelay:1000,
-   				anchor: '100%',
-   				gwidth:100,
-   				minChars:2,   				
-   				renderer:function (value, p, record){return String.format('{0}', record.data['desc_person']);}
+				origen: 'CATALOGO',
+				gdisplayField: 'descripcion',
+				gwidth: 200,
+				hiddenName: 'preparado_por',
+				baseParams:{
+						cod_subsistema:'GEM',
+						catalogo_tipo:'tanalisis_mant__preparado_por'
+					}
 			},
-   			type:'ComboBox',
-   			id_grupo:0,  		   
-   			grid:false,
-   			form:true
+			type: 'ComboRec',
+			id_grupo: 0,
+			grid: false,
+			form: true
 		},
 		{
-			config:{
-				name: 'nombre_funcionario_rev',
-				fieldLabel: 'Funcionario revisor',
+			config: {
+				name: 'id_uo',
+				fieldLabel: 'Preparado por UO',
+				allowBlank: false,
+				origen: 'UO',
+				gdisplayField: 'nombre_unidad',
+				gwidth: 200,
+				renderer:function(value, p, record){return String.format('{0}', record.data['nombre_unidad']);},
 				anchor: '100%',
-				gwidth: 100
+				disabled:true,
+				hiddenName:'id_uo'
 			},
-			type:'TextField',
-			id_grupo:1,
-			filters:{    
-                pfiltro:'vperev.nombre_completo1',
-                type:'string'
-            },
-			grid:true,
-			form:false
+			type: 'ComboRec',
+			id_grupo: 2,
+			filters:{pfiltro:'gemapr.tipo',type:'string'},
+			grid: true,
+			form: true
 		},
+		{
+	   		config:{
+	       		    name:'id_persona',
+	   				origen:'PERSONA',
+	   				fieldLabel: 'Preparado por Persona',
+	   				tinit:true,
+	   				gdisplayField:'nombre_funcionario',//mapea al store del grid
+	   			    gwidth:200,
+	   			    anchor:'100%',
+		   			renderer:function (value, p, record){return String.format('{0}', record.data['nombre_funcionario']);},
+		   			disabled: true,
+		   			hiddenName:'id_persona'
+	       	     },
+	   			type:'ComboRec',
+	   			id_grupo:0,
+	   			grid:true,
+	   			form:true
+	   	},
+		{
+	   		config:{
+	       		    name:'id_persona_rev',
+	   				origen:'PERSONA',
+	   				tinit:true,
+	   				allowBlank:false,
+	   				fieldLabel:'Revisado por',
+	   				gdisplayField:'nombre_funcionario_rev',//mapea al store del grid
+	   			    gwidth:200,
+	   			    anchor:'100%',
+		   			renderer:function (value, p, record){return String.format('{0}', record.data['nombre_funcionario_rev']);}
+	       	     },
+	   			type:'ComboRec',
+	   			id_grupo:0,
+	   			filters:{	
+			        pfiltro:'per.nombre_completo1',
+					type:'string'
+				},
+	   			grid:true,
+	   			form:true
+	   	},
 		{
 			config:{
 				name: 'id_tipo_mant',
@@ -219,13 +247,13 @@ Phx.vista.PlanMant=Ext.extend(Phx.gridInterfaz,{
 		{
 			config:{
 				name: 'descripcion',
-				fieldLabel: 'Descripcion',
+				fieldLabel: 'Descripción',
 				allowBlank: true,
 				anchor: '100%',
 				gwidth: 100,
 				maxLength:500
 			},
-			type:'TextField',
+			type:'TextArea',
 			filters:{pfiltro:'plama.descripcion',type:'string'},
 			id_grupo:1,
 			grid:true,
@@ -233,8 +261,23 @@ Phx.vista.PlanMant=Ext.extend(Phx.gridInterfaz,{
 		},
 		{
 			config:{
+				name: 'fecha_emision',
+				fieldLabel: 'Fecha de Emisión',
+				allowBlank: true,
+				//gwidth: 100,
+				//renderer:function (value,p,record){return value?value.dateFormat('d/m/Y h:i:s'):''}
+				format:'Y/m/d'
+			},
+			type:'DateField',
+			filters:{pfiltro:'plama.fecha_emision',type:'date'},
+			id_grupo:1,
+			grid:true,
+			form:true
+		},
+		{
+			config:{
 				name: 'fecha',
-				fieldLabel: 'Fecha',
+				fieldLabel: 'Fecha de Revisión',
 				allowBlank: true,
 				//gwidth: 100,
 				//renderer:function (value,p,record){return value?value.dateFormat('d/m/Y h:i:s'):''}
@@ -337,12 +380,12 @@ Phx.vista.PlanMant=Ext.extend(Phx.gridInterfaz,{
 	
 	fields: [
 		{name:'id_plan_mant', type: 'numeric'},
-		{name:'id_funcionario', type: 'numeric'},
-		{name:'nombre_funcionario',type:'string'},
-		{name:'id_funcionario_rev', type: 'numeric'},		
-		{name:'nombre_funcionario_rev',type:'string'},		
+		{name:'id_persona', type: 'numeric'},
+		{name:'id_persona_rev', type: 'numeric'},		
 		{name:'id_tipo_mant', type: 'numeric'},
 		{name:'tipo_mant', type: 'string'},
+		{name:'nombre_funcionario', type: 'string'},
+		{name:'nombre_funcionario_rev', type: 'string'},
 		{name:'id_uni_cons', type: 'numeric'},
 		{name:'descripcion', type: 'string'},
 		{name:'fecha', type: 'timestamp'},
@@ -352,7 +395,12 @@ Phx.vista.PlanMant=Ext.extend(Phx.gridInterfaz,{
 		{name:'fecha_mod', type: 'timestamp'},
 		{name:'id_usuario_mod', type: 'numeric'},
 		{name:'usr_reg', type: 'string'},
-		{name:'usr_mod', type: 'string'}		
+		{name:'usr_mod', type: 'string'},
+		{name:'id_uni_cons_hijo', type: 'numeric'},
+		{name:'desc_uni_cons_hijo', type: 'string'},
+		'id_uo',
+		'nombre_unidad',
+		{name:'fecha_emision', type: 'date'},	
 	],
 	sortInfo:{
 		field: 'id_plan_mant',
@@ -398,8 +446,27 @@ Phx.vista.PlanMant=Ext.extend(Phx.gridInterfaz,{
 	},
     codReporte:'S/C',
 	codSistema:'GEM',
-	pdfOrientacion:'L'
+	pdfOrientacion:'L',
+	onButtonEdit: function(){
+		Phx.vista.PlanMant.superclass.onButtonEdit.call(this);
+		var data = this.getSelectedData();
+		console.log(data.id_uo)
+		if(data.id_uo!=''&&data.id_uo!=null){
+			this.getComponente('preparado_por').setValue('Organigrama');
+			this.getComponente('id_uo').enable();
+    		this.getComponente('id_persona').disable();
+    		this.getComponente('id_uo').allowBlank=false;
+    		this.getComponente('id_persona').allowBlank=true;
+    		this.getComponente('id_persona').setRawValue('');
+		} else{
+			this.getComponente('preparado_por').setValue('Persona');
+			this.getComponente('id_uo').disable();
+    		this.getComponente('id_persona').enable();
+    		this.getComponente('id_uo').allowBlank=true;
+    		this.getComponente('id_persona').allowBlank=false;
+    		this.getComponente('id_uo').setRawValue('');
+		}
+		
+	}
 })
 </script>
-		
-		

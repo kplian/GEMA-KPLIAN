@@ -22,9 +22,9 @@ class MODPlanMant extends MODbase{
 		$this->setParametro('id_uni_cons','id_uni_cons','int4');
 		//Definicion de la lista del resultado del query
 		$this->captura('id_plan_mant','int4');
-		$this->captura('id_funcionario','int4');
+		$this->captura('id_persona','int4');
 		$this->captura('nombre_funcionario','text');	
-		$this->captura('id_funcionario_rev','int4');
+		$this->captura('id_persona_rev','int4');
 		$this->captura('nombre_funcionario_rev','text');
 		$this->captura('id_tipo_mant','int4');
         $this->captura('tipo_mant','varchar');
@@ -38,6 +38,11 @@ class MODPlanMant extends MODbase{
 		$this->captura('id_usuario_mod','int4');
 		$this->captura('usr_reg','varchar');
 		$this->captura('usr_mod','varchar');
+		$this->captura('id_uni_cons_hijo','int4');
+		$this->captura('desc_uni_cons_hijo','varchar');
+		$this->captura('id_uo','int4');
+		$this->captura('nombre_unidad','varchar');
+		$this->captura('fecha_emision','date');
 		
 		//Ejecuta la instruccion
 		$this->armarConsulta();
@@ -54,13 +59,16 @@ class MODPlanMant extends MODbase{
 		$this->tipo_procedimiento='IME';
 				
 		//Define los parametros para la funcion
-		$this->setParametro('id_funcionario','id_funcionario','int4');
-		$this->setParametro('id_funcionario_rev','id_funcionario_rev','int4');
+		$this->setParametro('id_persona','id_persona','int4');
+		$this->setParametro('id_persona_rev','id_persona_rev','int4');
 		$this->setParametro('id_tipo_mant','id_tipo_mant','int4');
 		$this->setParametro('id_uni_cons','id_uni_cons','int4');
 		$this->setParametro('descripcion','descripcion','varchar');
 		$this->setParametro('fecha','fecha','timestamp');
 		$this->setParametro('estado_reg','estado_reg','varchar');
+		$this->setParametro('id_uni_cons_hijo','id_uni_cons_hijo','int4');
+		$this->setParametro('id_uo','id_uo','int4');
+		$this->setParametro('fecha_emision','fecha_emision','date');
 
 		//Ejecuta la instruccion
 		$this->armarConsulta();
@@ -78,13 +86,16 @@ class MODPlanMant extends MODbase{
 				
 		//Define los parametros para la funcion
 		$this->setParametro('id_plan_mant','id_plan_mant','int4');
-		$this->setParametro('id_funcionario','id_funcionario','int4');
-		$this->setParametro('id_funcionario_rev','id_funcionario_rev','int4');
+		$this->setParametro('id_persona','id_persona','int4');
+		$this->setParametro('id_persona_rev','id_persona_rev','int4');
 		$this->setParametro('id_tipo_mant','id_tipo_mant','int4');
 		$this->setParametro('id_uni_cons','id_uni_cons','int4');
 		$this->setParametro('descripcion','descripcion','varchar');
 		$this->setParametro('fecha','fecha','timestamp');
 		$this->setParametro('estado_reg','estado_reg','varchar');
+		$this->setParametro('id_uni_cons_hijo','id_uni_cons_hijo','int4');
+		$this->setParametro('id_uo','id_uo','int4');
+		$this->setParametro('fecha_emision','fecha_emision','date');
 
 		//Ejecuta la instruccion
 		$this->armarConsulta();
@@ -122,19 +133,19 @@ class MODPlanMant extends MODbase{
         //Define los parametros para la funcion
         $this->setParametro('id_plan_mant','id_plan_mant','int4');
         
-        $this->captura('id_plan_mant','int4');
-        $this->captura('fecha_reg','text');
-        $this->captura('fecha_mod','text');
         $this->captura('localizacion','varchar');
-        $this->captura('nombre_sistema','varchar');
-        $this->captura('nombre_subsistema','varchar');
         $this->captura('tag','varchar');
-        $this->captura('nombre_preparador','text');
-        $this->captura('nombre_revisor','text');
-        $this->captura('fecha_preparado','text');
+        $this->captura('nombre_sis','varchar');
+        $this->captura('nombre_sub','varchar');
+        $this->captura('preparado_por','varchar');      
+        $this->captura('revisado_por','text');
+        $this->captura('fecha_emision','text');
+        $this->captura('fecha_rev','text');
+        $this->captura('descripcion','varchar');
         
         //Ejecuta la instruccion 
         $this->armarConsulta();
+		//echo $this->consulta;exit;
         $this->ejecutarConsulta();
         
         //Devuelve la respuesta

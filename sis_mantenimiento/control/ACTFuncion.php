@@ -11,8 +11,12 @@ class ACTFuncion extends ACTbase{
 			
 	function listarFuncion(){
 		$this->objParam->defecto('ordenacion','id_funcion');
-
 		$this->objParam->defecto('dir_ordenacion','asc');
+		
+		if($this->objParam->getParametro('id_analisis_mant')!=''){
+			$this->objParam->addFiltro("gefunc.id_analisis_mant = ".$this->objParam->getParametro('id_analisis_mant'));
+		}
+		
 		if($this->objParam->getParametro('tipoReporte')=='excel_grid' || $this->objParam->getParametro('tipoReporte')=='pdf_grid'){
 			$this->objReporte = new Reporte($this->objParam, $this);
 			$this->res = $this->objReporte->generarReporteListado('MODFuncion','listarFuncion');

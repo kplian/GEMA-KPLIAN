@@ -89,7 +89,7 @@ require_once dirname(__FILE__).'/pxpReport/Report.php';
 		$this->Ln($line_width);
     }
 	
-	public function MultiRow($pArray,$pWidth,$pAlign) {
+	public function MultiRow($pArray,$pWidth,$pAlign,$pTotalFilas,$pFila) {
 		// MultiCell($w, $h, $txt, $border=0, $align='J', $fill=0, $ln=1, $x='', $y='', $reseth=true, $stretch=0)
 	
 		$page_start = $this->getPage();
@@ -106,13 +106,31 @@ require_once dirname(__FILE__).'/pxpReport/Report.php';
 		
 		//ALto de las columnas
 		$alto=3*$nb;
-		$i=0;
+		$j=0;
+		
+
 		foreach ($pArray as $value) {
 			if($i>0){
 				$this->setXY($x,$y);
 			}
-			$this->MultiCell($pWidth[$i], $alto, $value, 1, $pAlign[$i], 0, 2, '', '', true, 0);
-			$i++;
+			
+			//Verificación de borde
+			if($pFila==$pTotalFilas){
+				if($value==''){
+					$borde='LRB';
+				} else{
+					$borde='LRTB';
+				}
+			} else{
+				if($value==''){
+					$borde='LR';
+				} else{
+					$borde='LRT';
+				}
+			}
+			
+			$this->MultiCell($pWidth[$j], $alto, $value, $borde, $pAlign[$j], 0, 2, '', '', true, 0);
+			$j++;
 			$x=$this->getX();
 		}
 		$this->Ln(0);
@@ -151,14 +169,16 @@ Class RAnalisisMant extends Report {
         $width2 = 20;
         $width3 = 40;
         $width4 = 100;
+		
+		$pdf->SetXY(PDF_MARGIN_LEFT, 30);
         
         $pdf->SetFontSize(7.5);
         $pdf->SetFont('', 'B');
         $pdf->setTextColor(0,0,0);
-        $pdf->Cell($width2, $height, 'Localizacion:', '', 0, 'L', false, '', 0, false, 'T', 'C');
+        $pdf->Cell($width2, $height, 'Localizacion:', 'L', 0, 'L', false, '', 0, false, 'T', 'C');
         $pdf->SetFont('', 'B');
         $pdf->setTextColor(51,51,153);
-        $pdf->Cell($width4, $height, $this->getDataSource()->getParameter('localizacion'), '', 0, 'L', false, '', 0, false, 'T', 'C');        
+        $pdf->Cell($width4+130, $height, $this->getDataSource()->getParameter('localizacion'), 'R', 0, 'L', false, '', 0, false, 'T', 'C');        
         $pdf->Ln();
         $pdf->setTextColor(0,0,0);
         $x=$pdf->getX();
@@ -176,7 +196,7 @@ Class RAnalisisMant extends Report {
         $pdf->setXY($x+$width3+35,$y);
         $pdf->SetFont('', 'B');
         $pdf->setTextColor(0,0,0);
-        $pdf->Cell($width2/2, $height*2, 'TAG:', 1, 0, 'L', false, '', 0, false, 'T', 'C');
+        $pdf->Cell($width2/2-2, $height*2, 'TAG:', 1, 0, 'L', false, '', 0, false, 'T', 'C');
         $pdf->setTextColor(51,51,153);
         $pdf->Cell($width3, $height*2, $this->getDataSource()->getParameter('tag'), 1, 0, 'L', false, '', 0, false, 'T', 'C');
         $x=$pdf->getX();
@@ -196,12 +216,12 @@ Class RAnalisisMant extends Report {
         $pdf->setTextColor(0,0,0);
         $pdf->Cell($width1+5, $height, 'Fecha:', 1, 0, 'L', false, '', 0, false, 'T', 'C');
         $pdf->setTextColor(51,51,153);
-        $pdf->Cell($width2+5, $height, $this->getDataSource()->getParameter('fecha_emision'), 1, 0, 'C', false, '', 0, false, 'T', 'C');
+        $pdf->Cell($width2+7, $height, $this->getDataSource()->getParameter('fecha_emision'), 1, 0, 'C', false, '', 0, false, 'T', 'C');
         $pdf->setXY($x+$width1+$width3+25,$y+$height);
         $pdf->setTextColor(0,0,0);        
         $pdf->Cell($width1+5, $height, 'Fecha:', 1, 0, 'L', false, '', 0, false, 'T', 'C');
         $pdf->setTextColor(51,51,153);
-        $pdf->Cell($width2+5, $height, $this->getDataSource()->getParameter('fecha_rev'), 1, 0, 'C', false, '', 0, false, 'T', 'C');
+        $pdf->Cell($width2+7, $height, $this->getDataSource()->getParameter('fecha_rev'), 1, 0, 'C', false, '', 0, false, 'T', 'C');
         
         $dataset = $this->getDataSource()->getDataset();
                 
@@ -258,12 +278,12 @@ Class RAnalisisMant extends Report {
         $pdf->setTextColor(255,255,255);
         
         $pdf->Cell($width, $height, '', 1, 0, 'C', true, '', 0, false, 'T', 'C');
-		$pdf->Cell($width*10, $height, 'FUNCION', 1, 0, 'C', true, '', 0, false, 'T', 'C');
+		$pdf->Cell($width*14, $height, 'FUNCION', 1, 0, 'C', true, '', 0, false, 'T', 'C');
+		$pdf->Cell($width+3, $height, '', 1, 0, 'C', true, '', 0, false, 'T', 'C');
+        $pdf->Cell($width*8, $height, 'FALLA FUNCIONAL', 1, 0, 'C', true, '', 0, false, 'T', 'C');
 		$pdf->Cell($width, $height, '', 1, 0, 'C', true, '', 0, false, 'T', 'C');
-        $pdf->Cell($width*10, $height, 'FALLA FUNCIONAL', 1, 0, 'C', true, '', 0, false, 'T', 'C');
-		$pdf->Cell($width, $height, '', 1, 0, 'C', true, '', 0, false, 'T', 'C');
-        $pdf->Cell($width*14, $height, 'MODOS DE FALLA (Causa de la falla)', 1, 0, 'C', true, '', 0, false, 'T', 'C');
-        $pdf->Cell($width*13, $height, 'EFECTOS DE FALLA (Que sucede cuando falla)', 1, 0, 'C', true, '', 1, false, 'T', 'C');
+        $pdf->Cell($width*12, $height, 'MODOS DE FALLA (Causa de la falla)', 1, 0, 'C', true, '', 0, false, 'T', 'C');
+        $pdf->Cell($width*12+2, $height, 'EFECTOS DE FALLA (Que sucede cuando falla)', 1, 0, 'C', true, '', 1, false, 'T', 'C');
         $pdf->Ln();
         $pdf->setTextColor(0,0,0);
         $pdf->SetFontSize(6.5);
@@ -278,10 +298,13 @@ Class RAnalisisMant extends Report {
 		
 		//PARTE 2
 		$aux=0;
-		$anchos=array($width,$width*10,$width,$width*10,$width,$width*14,$width*13);
+		$anchos=array($width,$width*14,$width+3,$width*8,$width,$width*12,$width*12+2);
 		$aligns=array('C','L','C','L','C','L','L');
+		$tot=count($dataSource->getDataset())-1;
+		$fila=0;
 		foreach($dataSource->getDataset() as $row) {
-			$pdf->MultiRow($row,$anchos,$aligns);
+			$pdf->MultiRow($row,$anchos,$aligns,$tot,$fila);
+			$fila++;
 		}
 		
 		

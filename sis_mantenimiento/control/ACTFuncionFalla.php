@@ -11,8 +11,12 @@ class ACTFuncionFalla extends ACTbase{
 			
 	function listarFuncionFalla(){
 		$this->objParam->defecto('ordenacion','id_funcion_falla');
-
 		$this->objParam->defecto('dir_ordenacion','asc');
+		
+		if($this->objParam->getParametro('id_funcion')!=''){
+			$this->objParam->addFiltro("gefall.id_funcion = ".$this->objParam->getParametro('id_funcion'));
+		}
+		
 		if($this->objParam->getParametro('tipoReporte')=='excel_grid' || $this->objParam->getParametro('tipoReporte')=='pdf_grid'){
 			$this->objReporte = new Reporte($this->objParam, $this);
 			$this->res = $this->objReporte->generarReporteListado('MODFuncionFalla','listarFuncionFalla');

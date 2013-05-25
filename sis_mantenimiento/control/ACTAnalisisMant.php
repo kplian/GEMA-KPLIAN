@@ -54,6 +54,7 @@ class ACTAnalisisMant extends ACTbase{
         $this->objFunc = $this->create('MODAnalisisMant');        
         $resultAnalisisMant = $this->objFunc->reporteAnalisisMant();
         $datosAnalisisMant = $resultAnalisisMant->getDatos();
+		//var_dump($datosAnalisisMant);exit;
         //armamos el array parametros y metemos ahi los data sets de las otras tablas
         
         $dataSource->putParameter('revision', $datosAnalisisMant[0]['revision']);

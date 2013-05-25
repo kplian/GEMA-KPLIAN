@@ -45,28 +45,28 @@ BEGIN
     	begin
     		--Sentencia de la consulta
 			v_consulta:='select
-            			tare.id_tarea,
+            tare.id_tarea,
 						tare.id_plan_mant,
 						tare.id_uni_cons,
 						tare.id_uni_cons_hijo,
-                        unicons.nombre as nombre_uni_cons_hijo,
+            unicons.nombre as nombre_uni_cons_hijo,
 						tare.id_modo_falla,
-                        mod.modo_falla,
+            mod.modo_falla,
 						tare.id_unidad_medida,
-                        uni.codigo,
+            uni.codigo,
 						tare.tareas,
 						tare.col_hson3,
 						tare.col_h4,
 						tare.col_h,
 						tare.id_falla_evento,
-                        fal.nombre as nombre_evento,
+            fal.nombre as nombre_evento,
 						tare.col_h5,
 						tare.col_n,
 						tare.col_hson2,
 						tare.estado_reg,
 						tare.frecuencia,
 						tare.id_especialidad,
-                        esp.nombre as nombre_especialidad,
+            esp.nombre as nombre_especialidad,
 						tare.col_o,
 						tare.col_s,
 						tare.col_s4,
@@ -76,16 +76,22 @@ BEGIN
 						tare.fecha_mod,
 						tare.id_usuario_mod,
 						usu1.cuenta as usr_reg,
-						usu2.cuenta as usr_mod	
+						usu2.cuenta as usr_mod,
+						ffall.id_funcion_falla,
+						ffall.falla as desc_funcion_falla,
+						fun.id_funcion,
+						fun.descripcion as desc_funcion
 						from gem.ttarea tare
 						inner join segu.tusuario usu1 on usu1.id_usuario = tare.id_usuario_reg
-                        inner join gem.tmodo_falla mod on mod.id_modo_falla=tare.id_modo_falla
-                        left join gem.tuni_cons unicons on unicons.id_uni_cons=tare.id_uni_cons_hijo
-                        left join gem.tfalla_evento fal on fal.id_falla_evento=tare.id_falla_evento
-                        left join orga.tespecialidad esp on esp.id_especialidad=tare.id_especialidad
-                        inner join param.tunidad_medida uni on uni.id_unidad_medida=tare.id_unidad_medida
+            inner join gem.tmodo_falla mod on mod.id_modo_falla=tare.id_modo_falla
+            left join gem.tuni_cons unicons on unicons.id_uni_cons=tare.id_uni_cons_hijo
+            left join gem.tfalla_evento fal on fal.id_falla_evento=tare.id_falla_evento
+            left join orga.tespecialidad esp on esp.id_especialidad=tare.id_especialidad
+            inner join param.tunidad_medida uni on uni.id_unidad_medida=tare.id_unidad_medida
 						left join segu.tusuario usu2 on usu2.id_usuario = tare.id_usuario_mod
-				        where id_plan_mant='||v_parametros.id_plan_mant||' and ';
+						inner join gem.tfuncion_falla ffall on ffall.id_funcion_falla = mod.id_funcion_falla
+						inner join gem.tfuncion fun on fun.id_funcion = ffall.id_funcion
+				    where tare.id_plan_mant='||v_parametros.id_plan_mant||' and ';
 			
 			--Definicion de la respuesta
 			v_consulta:=v_consulta||v_parametros.filtro;
@@ -133,28 +139,28 @@ BEGIN
     	begin
     		--Sentencia de la consulta
 			v_consulta:='select
-            			tare.id_tarea,
-                        fun.id_funcion,
-                        funfall.id_funcion_falla,
-						tare.id_modo_falla,
-						tare.tareas,
-						tare.col_hson3,
-						tare.col_h4,
-						tare.col_h,
-						tare.col_h5,
-						tare.col_n,
-						tare.col_hson2,
-						tare.frecuencia,
-						tare.id_especialidad,
-                        esp.nombre as nombre_especialidad,
-						tare.col_o,
-						tare.col_s,
-						tare.col_s4,
-						tare.col_hson1
-						from gem.ttarea tare
-						left join orga.tespecialidad esp on esp.id_especialidad=tare.id_especialidad
-                        inner join gem.tfuncion fun on fun.id_analisis_mant=tare.id_plan_mant
-                        inner join gem.tfuncion_falla funfall on funfall.id_funcion=fun.id_funcion
+                  fun.orden as funcion,
+                  funfall.orden as funncion_falla,
+                  mfall.orden as modo_falla,
+                  tare.col_h,
+                  tare.col_s,
+                  tare.col_o,
+                  tare.col_n,
+                  tare.col_hson1,
+                  tare.col_hson2,
+                  tare.col_hson3,
+                  tare.col_h4,
+                  tare.col_h5,
+                  tare.col_s4,
+                  tare.tareas,
+                  tare.frecuencia::varchar || '' '' || umed.codigo as frecuencia,
+                  esp.nombre as nombre_especialidad
+                  from gem.ttarea tare
+                  inner join gem.tmodo_falla mfall on mfall.id_modo_falla = tare.id_modo_falla
+                  left join orga.tespecialidad esp on esp.id_especialidad=tare.id_especialidad
+                  inner join gem.tfuncion_falla funfall on funfall.id_funcion_falla=mfall.id_funcion_falla
+                  inner join gem.tfuncion fun on fun.id_funcion=funfall.id_funcion
+                  inner join param.tunidad_medida umed on umed.id_unidad_medida = tare.id_unidad_medida
 				        where tare.id_plan_mant='||v_parametros.id_plan_mant||' and ';
 			
 			--Definicion de la respuesta

@@ -943,3 +943,8 @@ select pxp.f_add_catalog('GEM','ttarea__sn','N');
 select pxp.f_insert_tgui ('Organigrama', 'Registro de Organigrama', 'GEM.1.12', 'si', 8, 'sis_mantenimiento/vista/funcionario/EstructuraUoGem.php', 3, '', 'EstructuraUoGem', 'GEM');
 select pxp.f_insert_testructura_gui ('GEM.1.12', 'GEM.1');
 /***********************************F-DAT-RCM-GEM-20/05/2013****************************************/
+
+/***********************************I-DAT-RCM-GEM-0-24/05/2013****************************************/
+select pxp.f_add_catalog('GEM','tanalisis_mant__preparado_por','Organigrama');
+select pxp.f_add_catalog('GEM','tanalisis_mant__preparado_por','Persona');
+/***********************************F-DAT-RCM-GEM-0-24/05/2013****************************************/

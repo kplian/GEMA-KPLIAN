@@ -58,6 +58,8 @@ class MODOrdenTrabajoSol extends MODbase{
 		$this->captura('desc_unidad_medida','varchar');
 		$this->captura('desc_uo','text');
 		$this->captura('nro_sol','varchar');
+		//$this->captura('nombre','varchar');
+		$this->captura('extension','varchar');
 		
 		//Ejecuta la instruccion
 		$this->armarConsulta();
@@ -233,10 +235,54 @@ class MODOrdenTrabajoSol extends MODbase{
 		$this->captura('nro_sol','varchar');
         //Ejecuta la instruccion
         $this->armarConsulta();
+		//echo $this->consulta;exit;
         $this->ejecutarConsulta();
         
         //Devuelve la respuesta
         return $this->respuesta;
-    }		
+    }
+
+	function subirArchivo(){
+        $this->procedimiento='gem.ft_orden_trabajo_sol_ime';
+        $this->transaccion='GEM_UPLFIL_MOD';
+        $this->tipo_procedimiento='IME';
+        
+        $ext = pathinfo($this->arregloFiles['archivo']['name']);
+        $this->arreglo['extension']= $ext['extension'];
+        
+        //Define los parametros para la funcion 
+        $this->setParametro('id_orden_trabajo_sol','id_orden_trabajo_sol','integer');   
+        $this->setParametro('extension','extension','varchar');
+        $this->setParametro('archivo','archivo','bytea',false,'',false,array('doc','pdf','docx','jpg','jpeg','bmp','gif','png'));
+                
+        
+        //Ejecuta la instruccion
+        $this->armarConsulta();
+                
+        $this->ejecutarConsulta();
+        return $this->respuesta;
+    }
+	
+	function listarOrdenTrabajoSolArchivo(){
+		//Definicion de variables para ejecucion del procedimientp
+		$this->procedimiento='gem.ft_orden_trabajo_sol_sel';
+		$this->transaccion='GM_OTSOAR_REP';
+		$this->tipo_procedimiento='SEL';//tipo de transaccion
+		
+		$this->setParametro('id_orden_trabajo_sol','id_orden_trabajo_sol','integer');
+				
+		//Definicion de la lista del resultado del query
+		$this->captura('id_orden_trabajo_sol','int4');
+		$this->captura('archivo','bytea','id_orden_trabajo_sol','extension','archivo','../../../archivos_uni_cons/');
+		$this->captura('extension','varchar');
+		
+		//Ejecuta la instruccion
+		$this->armarConsulta();
+		//echo $this->consulta;exit;
+		$this->ejecutarConsulta();
+		
+		//Devuelve la respuesta
+		return $this->respuesta;
+	}		
 }
 ?>

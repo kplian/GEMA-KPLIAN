@@ -82,7 +82,9 @@ BEGIN
 						funres.desc_funcionario1 as desc_responsable,
 						unimed.descripcion as desc_unidad_medida,
 						uniorg.codigo || '' - '' || uniorg.nombre_unidad as desc_uo,
-						solord.nro_sol 
+						solord.nro_sol,
+						--solord.archivo,
+						solord.extension 
 						from gem.torden_trabajo_sol solord
 						inner join segu.tusuario usu1 on usu1.id_usuario = solord.id_usuario_reg
 						left join segu.tusuario usu2 on usu2.id_usuario = solord.id_usuario_mod
@@ -154,7 +156,7 @@ BEGIN
 						uniorg.codigo as codigo_uo,
                         uniorg.nombre_unidad as nombre_uo,
                         uniorg.nombre_cargo as nombre_cargo,
-                        solord.nro_sol 
+                        solord.nro_sol
 						from gem.torden_trabajo_sol solord
 						inner join segu.tusuario usu1 on usu1.id_usuario = solord.id_usuario_reg
 						left join segu.tusuario usu2 on usu2.id_usuario = solord.id_usuario_mod
@@ -205,6 +207,33 @@ BEGIN
 			return v_consulta;
 
 		end;
+		
+	/*********************************    
+  #TRANSACCION:  'GM_OTSOAR_REP'
+  #DESCRIPCION: Consulta de datos
+  #AUTOR:       RCM
+  #FECHA:     28/05/2013
+  ***********************************/
+
+  elsif(p_transaccion='GM_OTSOAR_REP')then
+            
+      begin
+        --Sentencia de la consulta
+      v_consulta:='select
+            solord.id_orden_trabajo_sol,
+            solord.archivo,
+            solord.extension 
+            from gem.torden_trabajo_sol solord
+            where solord.id_orden_trabajo_sol='||v_parametros.id_orden_trabajo_sol||' and ';
+      
+      --Definicion de la respuesta
+      v_consulta:=v_consulta||v_parametros.filtro;
+      v_consulta:=v_consulta||' order by ' ||v_parametros.ordenacion|| ' ' || v_parametros.dir_ordenacion || ' limit ' || v_parametros.cantidad || ' offset ' || v_parametros.puntero;
+
+      --Devuelve la respuesta
+      return v_consulta;
+            
+    end;
 					
 	else
 					     

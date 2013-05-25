@@ -57,14 +57,18 @@ class ACTPlanMant extends ACTbase{
                 
         
         //armamos el array parametros y metemos ahi los data sets de las otras tablas
-        $dataSource->putParameter('id_plan_mant', $datosPlanMant[0]['id_plan_mant']);
         $dataSource->putParameter('localizacion', $datosPlanMant[0]['localizacion']);
-        $dataSource->putParameter('nombre_sistema', $datosPlanMant[0]['nombre_sistema']);
-        $dataSource->putParameter('nombre_subsistema', $datosPlanMant[0]['nombre_subsistema']);
+        $dataSource->putParameter('nombre_sis', $datosPlanMant[0]['nombre_sis']);
+        $dataSource->putParameter('nombre_sub', $datosPlanMant[0]['nombre_sub']);
         $dataSource->putParameter('tag', $datosPlanMant[0]['tag']);
-        $dataSource->putParameter('nombre_preparador', $datosPlanMant[0]['nombre_preparador']);
-        $dataSource->putParameter('nombre_revisor', $datosPlanMant[0]['nombre_revisor']);
-        $dataSource->putParameter('fecha_preparado', $datosPlanMant[0]['fecha_preparado']);
+        $dataSource->putParameter('preparado_por', $datosPlanMant[0]['preparado_por']);
+        $dataSource->putParameter('revisado_por', $datosPlanMant[0]['revisado_por']);
+		$dataSource->putParameter('fecha_emi', $datosPlanMant[0]['fecha_emision']);
+        $dataSource->putParameter('fecha_rev', $datosPlanMant[0]['fecha_rev']);
+		$dataSource->putParameter('descripcion', $datosPlanMant[0]['descripcion']);
+		$dataSource->putParameter('codigo', 'GMAN-RG-SM-010');
+		$dataSource->putParameter('revision', '1');
+		$dataSource->putParameter('fecha_emision', '29/06/2012');
         if($datosPlanMant[0]['fecha_mod'] != null) {
             $dataSource->putParameter('fechaEmision', $datosPlanMant[0]['fecha_mod']);
         } else {
@@ -73,7 +77,7 @@ class ACTPlanMant extends ACTbase{
         
         //get detalle
         //Reset all extra params:
-        $this->objParam->defecto('ordenacion', 'id_tarea');
+        $this->objParam->addParametroConsulta('ordenacion', 'fun.orden,funfall.orden,mfall.orden');
         $this->objParam->defecto('cantidad', 1000);
         $this->objParam->defecto('puntero', 0);
         $this->objParam->addParametro('id_plan_mant', $idPlanMant );

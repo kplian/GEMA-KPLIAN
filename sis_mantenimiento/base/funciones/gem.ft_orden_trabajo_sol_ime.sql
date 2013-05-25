@@ -244,6 +244,25 @@ BEGIN
             return v_resp;
             
 		end;
+
+  /*********************************    
+  #TRANSACCION:  'GM_UPLFIL_MOD'
+  #DESCRIPCION: Insercion de registros
+  #AUTOR:   RCM
+  #FECHA:   2013
+  ***********************************/		
+  elsif(p_transaccion='GEM_UPLFIL_MOD')then
+      begin
+          update gem.torden_trabajo_sol set
+            archivo=v_parametros.archivo,
+            extension=v_parametros.extension
+            where id_orden_trabajo_sol = v_parametros.id_orden_trabajo_sol;
+            
+             v_resp = pxp.f_agrega_clave(v_resp,'mensaje','Archivo modificado con exito '||v_parametros.id_orden_trabajo_sol); 
+             v_resp = pxp.f_agrega_clave(v_resp,'id_orden_trabajo_sol',v_parametros.id_orden_trabajo_sol::varchar);
+             
+             return v_resp;
+        end;
          
 	else
      

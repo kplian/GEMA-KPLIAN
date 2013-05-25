@@ -53,6 +53,10 @@ class MODTarea extends MODbase{
 		$this->captura('id_usuario_mod','int4');
 		$this->captura('usr_reg','varchar');
 		$this->captura('usr_mod','varchar');
+		$this->captura('id_funcion_falla','int4');
+		$this->captura('desc_funcion_falla','varchar');
+		$this->captura('id_funcion','int4');
+		$this->captura('desc_funcion','varchar');
 		
 		//Ejecuta la instruccion
 		$this->armarConsulta();
@@ -163,27 +167,26 @@ class MODTarea extends MODbase{
         $this->setParametro('id_plan_mant','id_plan_mant','int4');
         
         //Define lista de resultado de la query
-        $this->captura('id_tarea','int4');
-        $this->captura('id_funcion','int4');
-        $this->captura('id_funcion_falla','int4');
-        $this->captura('id_modo_falla','int4');
-        $this->captura('tareas','varchar');
-        $this->captura('col_hson3','varchar');
-        $this->captura('col_h4','varchar');
+		$this->captura('funcion','integer');
+		$this->captura('funcion_falla','varchar');
+		$this->captura('modo_falla','integer');
         $this->captura('col_h','varchar');
+		$this->captura('col_s','varchar');
+		$this->captura('col_o','varchar');
+		$this->captura('col_n','varchar');
+		$this->captura('col_hson1','varchar');
+		$this->captura('col_hson2','varchar');
+		$this->captura('col_hson3','varchar');
+		$this->captura('col_h4','varchar');
         $this->captura('col_h5','varchar');
-        $this->captura('col_n','varchar');
-        $this->captura('col_hson2','varchar');
-        $this->captura('frecuencia','numeric');
-        $this->captura('id_especialidad','int4');
+		$this->captura('col_s4','varchar');
+        $this->captura('tareas','varchar');
+        $this->captura('frecuencia','text');
         $this->captura('nombre_especialidad','varchar');
-        $this->captura('col_o','varchar');
-        $this->captura('col_s','varchar');
-        $this->captura('col_s4','varchar');
-        $this->captura('col_hson1','varchar');
-        
+
         //Ejecuta la instruccion
         $this->armarConsulta();
+		//echo $this->consulta;exit;
         $this->ejecutarConsulta();
 
         //Devuelve la respuesta

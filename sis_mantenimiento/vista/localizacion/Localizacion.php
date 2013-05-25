@@ -688,7 +688,7 @@ header("content-type: text/javascript; charset=UTF-8");
 		ActDel: '../../sis_mantenimiento/control/Localizacion/eliminarLocalizacion',
 		ActList: '../../sis_mantenimiento/control/Localizacion/listarLocalizacionArb',
 		id_store: 'id_localizacion',
-		textRoot: 'YPFB Logística',
+		textRoot: 'Raíz',
 		id_nodo: 'id_localizacion',
 		id_nodo_p: 'id_localizacion_fk',
 		fwidth: 450,

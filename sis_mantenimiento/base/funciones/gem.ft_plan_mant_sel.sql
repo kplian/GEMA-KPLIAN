@@ -46,12 +46,12 @@ BEGIN
     		--Sentencia de la consulta
 			v_consulta:='select
 						plama.id_plan_mant,
-						plama.id_funcionario,
-                        vper.nombre_completo1 as nombre_funcionario,
-						plama.id_funcionario_rev,
-                        vperev.nombre_completo1 as nombre_funcionario_rev,
+						plama.id_persona,
+            per.nombre_completo1 as nombre_funcionario,
+						plama.id_persona_rev,
+            per1.nombre_completo1 as nombre_funcionario_rev,
 						plama.id_tipo_mant,
-                        tip.nombre as tipo_mant,
+            tip.nombre as tipo_mant,
 						plama.id_uni_cons,
 						plama.descripcion,                       
 						plama.fecha,
@@ -61,16 +61,21 @@ BEGIN
 						plama.fecha_mod,
 						plama.id_usuario_mod,
 						usu1.cuenta as usr_reg,
-						usu2.cuenta as usr_mod	
+						usu2.cuenta as usr_mod,
+            plama.id_uni_cons_hijo,
+            uch.nombre as desc_uni_cons_hijo,
+            plama.id_uo,
+            uo.nombre_unidad,
+            plama.fecha_emision
 						from gem.tplan_mant plama
 						inner join segu.tusuario usu1 on usu1.id_usuario = plama.id_usuario_reg
-                        inner join orga.tfuncionario fun on fun.id_funcionario=plama.id_funcionario
-                        inner join segu.vpersona vper on vper.id_persona=fun.id_persona
-                        inner join orga.tfuncionario funrev on funrev.id_funcionario=plama.id_funcionario_rev                          
-                        inner join segu.vpersona vperev on vperev.id_persona=funrev.id_persona
+            left join segu.vpersona per on per.id_persona=plama.id_persona
+            inner join segu.vpersona per1 on per1.id_persona=plama.id_persona_rev                          
 						inner join gem.ttipo_mant tip on tip.id_tipo_mant=plama.id_tipo_mant
-                        left join segu.tusuario usu2 on usu2.id_usuario = plama.id_usuario_mod
-				        where  plama.id_uni_cons='||v_parametros.id_uni_cons||' and ';
+            left join segu.tusuario usu2 on usu2.id_usuario = plama.id_usuario_mod
+            left join gem.tuni_cons uch on uch.id_uni_cons = plama.id_uni_cons_hijo
+            left join orga.tuo uo on uo.id_uo = plama.id_uo
+				    where  plama.id_uni_cons='||v_parametros.id_uni_cons||' and ';
 			
 			--Definicion de la respuesta
 			v_consulta:=v_consulta||v_parametros.filtro;
@@ -96,10 +101,10 @@ BEGIN
 					    from gem.tplan_mant plama
 					    inner join segu.tusuario usu1 on usu1.id_usuario = plama.id_usuario_reg
 						left join segu.tusuario usu2 on usu2.id_usuario = plama.id_usuario_mod
-						inner join orga.tfuncionario fun on fun.id_funcionario=plama.id_funcionario
-						inner join segu.vpersona vper on vper.id_persona=fun.id_persona
-						inner join orga.tfuncionario funrev on funrev.id_funcionario=plama.id_funcionario_rev
-						inner join segu.vpersona vperev on vperev.id_persona=funrev.id_persona
+						left join segu.vpersona per on per.id_persona=plama.id_persona
+						inner join segu.vpersona per1 on per1.id_persona=plama.id_persona_rev
+						left join gem.tuni_cons uch on uch.id_uni_cons = plama.id_uni_cons_hijo
+						left join orga.tuo uo on uo.id_uo = plama.id_uo
 						where  plama.id_uni_cons='||v_parametros.id_uni_cons||' and ';
 			
 			--Definicion de la respuesta		    
@@ -122,26 +127,36 @@ BEGIN
     	begin
     		--Sentencia de la consulta
 			v_consulta:='select
-						plama.id_plan_mant,
-						to_char(plama.fecha_reg,''dd/MM/YYYY'') as fecha_reg,
-						to_char(plama.fecha_mod,''dd/MM/YYYY'') as fecha_mod,
-                        loc.codigo as localizacion,  
-                        sis.nombre as nombre_sistema,                        						
-						sub.nombre as nombre_subsistema,
-                        sub.codigo as tag,
-                        vper.nombre_completo1 as nombre_preparador,
-                        vperev.nombre_completo1 as nombre_revisor,
-						to_char(plama.fecha,''dd/MM/YYYY'') as fecha_preparado
+			             case coalesce(plama.id_uni_cons_hijo,0)
+                           when 0 then locp.nombre 
+                           else locp.nombre  
+                       end as localizacion,
+                       sis.codigo as tag,
+                       case coalesce(plama.id_uni_cons_hijo,0)
+                            when 0 then loc.nombre 
+                            else sis.nombre
+                        end as nombre_sis,
+                        case coalesce(plama.id_uni_cons_hijo,0)
+                            when 0 then sis.nombre
+                            else ssis.nombre 
+                        end as nombre_sub,
+                        case coalesce(plama.id_uo,0)
+                            when 0 then per1.nombre_completo1
+                            else uo.nombre_unidad
+                        end as preparado_por,
+                        per.nombre_completo1 as revisado_por,
+                        to_char(plama.fecha_emision,''dd/mm/yyyy'') as fecha_emision,
+                        to_char(plama.fecha,''dd/mm/yyyy'') as fecha,
+                        plama.descripcion
 						from gem.tplan_mant plama
-                        inner join gem.tuni_cons sub on sub.id_uni_cons=plama.id_uni_cons
-                        inner join gem.tuni_cons_comp comp on comp.id_uni_cons_hijo=plama.id_uni_cons
-                        inner join gem.tuni_cons sis on sis.id_uni_cons=comp.id_uni_cons_padre
-						inner join orga.tfuncionario fun on fun.id_funcionario=plama.id_funcionario
-                        inner join segu.vpersona vper on vper.id_persona=fun.id_persona
-                        inner join orga.tfuncionario funrev on funrev.id_funcionario=plama.id_funcionario_rev                          
-                        inner join segu.vpersona vperev on vperev.id_persona=funrev.id_persona
-                        inner join gem.tlocalizacion loc on loc.id_localizacion=sis.id_localizacion
-						where  plama.id_plan_mant='||v_parametros.id_plan_mant||' and ';
+						left join segu.vpersona per on per.id_persona=plama.id_persona
+            inner join segu.vpersona per1 on per1.id_persona=plama.id_persona_rev
+            inner join gem.tuni_cons sis on sis.id_uni_cons = plama.id_uni_cons
+            left join gem.tuni_cons ssis on ssis.id_uni_cons = plama.id_uni_cons_hijo
+            inner join gem.tlocalizacion loc on loc.id_localizacion = sis.id_localizacion
+            inner join gem.tlocalizacion locp on locp.id_localizacion = loc.id_localizacion_fk
+            left join orga.tuo uo on uo.id_uo = plama.id_uo
+						where  plama.id_plan_mant ='||v_parametros.id_plan_mant||' and ';
 			
 			--Definicion de la respuesta
 			v_consulta:=v_consulta||v_parametros.filtro;

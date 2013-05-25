@@ -106,7 +106,7 @@ BEGIN
 			palabras_clave = v_parametros.palabras_clave,
 			fecha_mod = now(),
 			id_usuario_mod = p_id_usuario,
-			tipo_doc = v_parameteos.tipo_doc,
+			tipo_doc = v_parametros.tipo_doc,
 			revision = v_parametros.revision,
 			fecha_autoriz = v_parametros.fecha_autoriz
 			where id_documento=v_parametros.id_documento;

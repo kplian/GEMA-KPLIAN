@@ -25,7 +25,7 @@ class MODAnalisisMant extends MODbase{
 		$this->captura('id_analisis_mant','int4');
 		$this->captura('id_uni_cons','int4');
 		$this->captura('id_tipo_mant','int4');
-		$this->captura('id_funcionario_rev','int4');
+		$this->captura('id_persona_rev','int4');
 		$this->captura('estado_reg','varchar');
 		$this->captura('fecha_emision','date');
 		$this->captura('descripcion','varchar');
@@ -40,6 +40,10 @@ class MODAnalisisMant extends MODbase{
 		$this->captura('desc_person','text');
 		$this->captura('id_usuario_prep','int4');
 		$this->captura('preparado_por','text');
+		$this->captura('id_uni_cons_hijo','int4');
+		$this->captura('desc_uni_cons_hijo','varchar');
+		$this->captura('id_uo','int4');
+		$this->captura('nombre_unidad','varchar');
 		
 		//Ejecuta la instruccion
 		$this->armarConsulta();
@@ -58,12 +62,14 @@ class MODAnalisisMant extends MODbase{
 		//Define los parametros para la funcion
 		$this->setParametro('id_uni_cons','id_uni_cons','int4');
 		$this->setParametro('id_tipo_mant','id_tipo_mant','int4');
-		$this->setParametro('id_funcionario_rev','id_funcionario_rev','int4');
+		$this->setParametro('id_persona_rev','id_persona_rev','int4');
 		$this->setParametro('estado_reg','estado_reg','varchar');
 		$this->setParametro('fecha_emision','fecha_emision','date');
 		$this->setParametro('descripcion','descripcion','varchar');
 		$this->setParametro('fecha_rev','fecha_rev','date');
-		$this->setParametro('id_funcionario_prep','id_funcionario_prep','int4');
+		$this->setParametro('id_persona_prep','id_persona_prep','int4');
+		$this->setParametro('id_uni_cons_hijo','id_uni_cons_hijo','int4');
+		$this->setParametro('id_uo','id_uo','int4');
 
 		//Ejecuta la instruccion
 		$this->armarConsulta();
@@ -83,12 +89,14 @@ class MODAnalisisMant extends MODbase{
 		$this->setParametro('id_analisis_mant','id_analisis_mant','int4');
 		$this->setParametro('id_uni_cons','id_uni_cons','int4');
 		$this->setParametro('id_tipo_mant','id_tipo_mant','int4');
-		$this->setParametro('id_funcionario_rev','id_funcionario_rev','int4');
+		$this->setParametro('id_persona_rev','id_persona_rev','int4');
 		$this->setParametro('estado_reg','estado_reg','varchar');
 		$this->setParametro('fecha_emision','fecha_emision','date');
 		$this->setParametro('descripcion','descripcion','varchar');
 		$this->setParametro('fecha_rev','fecha_rev','date');
-		$this->setParametro('id_funcionario_prep','id_funcionario_prep','int4');
+		$this->setParametro('id_persona_prep','id_persona_prep','int4');
+		$this->setParametro('id_uni_cons_hijo','id_uni_cons_hijo','int4');
+		$this->setParametro('id_uo','id_uo','int4');
 
 		//Ejecuta la instruccion
 		$this->armarConsulta();
@@ -123,16 +131,14 @@ class MODAnalisisMant extends MODbase{
         
         $this->setParametro('id_analisis_mant','id_analisis_mant','int4');
         
-        $this->captura('id_analisis_mant','int4');
-        $this->captura('id_uni_cons','int4');
         $this->captura('localizacion','varchar');
         $this->captura('tag','varchar');
         $this->captura('nombre_sis','varchar');
         $this->captura('nombre_sub','varchar');
-        $this->captura('preparado_por','text');      
+        $this->captura('preparado_por','varchar');      
         $this->captura('revisado_por','text');
-        $this->captura('fecha_emision','date');
-        $this->captura('fecha_rev','date');
+        $this->captura('fecha_emision','text');
+        $this->captura('fecha_rev','text');
         $this->captura('descripcion','varchar');
         
         $this->armarConsulta();

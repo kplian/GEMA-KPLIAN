@@ -13,7 +13,8 @@ header("content-type: text/javascript; charset=UTF-8");
 Phx.vista.AnalisisMant=Ext.extend(Phx.gridInterfaz,{
 
 	constructor:function(config){
-		this.maestro=config.maestro;
+		this.maestro=config;
+		console.log(this.maestro);
     	//llama al constructor de la clase padre
 		Phx.vista.AnalisisMant.superclass.constructor.call(this,config);		
         this.addButton('btnReporte',{
@@ -26,6 +27,26 @@ Phx.vista.AnalisisMant=Ext.extend(Phx.gridInterfaz,{
 		this.init();
 		this.load({params:{start:0, limit:50,id_uni_cons:this.id_uni_cons}})
         this.loadValoresIniciales();
+        
+        //Define el store para obtener los subsistemas
+        this.getComponente('id_uni_cons_hijo').store.baseParams={par_filtro:'nombre#codigo',id_uni_cons:this.maestro.id_uni_cons,tipo:'tuc'}
+        
+        //Eventos
+        this.getComponente('preparado_por').on('blur',function(a){
+        	if(a.value=='Organigrama'){
+        		this.getComponente('id_uo').enable();
+        		this.getComponente('id_persona_prep').disable();
+        		this.getComponente('id_uo').allowBlank=false;
+        		this.getComponente('id_persona_prep').allowBlank=true;
+        		this.getComponente('id_persona_prep').setValue('');
+        	} else{
+        		this.getComponente('id_uo').disable();
+        		this.getComponente('id_persona_prep').enable();
+        		this.getComponente('id_uo').allowBlank=true;
+        		this.getComponente('id_persona_prep').allowBlank=false;
+        		this.getComponente('id_uo').setValue('');
+        	}
+        },this);
 	},
 	
 	loadValoresIniciales:function()
@@ -55,6 +76,49 @@ Phx.vista.AnalisisMant=Ext.extend(Phx.gridInterfaz,{
 			type:'Field',
 			form:true 
 		},
+		{
+			config:{
+   				name:'id_uni_cons_hijo',
+   				fieldLabel:'Subsistema',
+   				allowBlank:true,
+   				emptyText:'Subsistema...',
+   				store: new Ext.data.JsonStore({
+					url: '../../sis_mantenimiento/control/UniCons/listarUniConsHijo',
+					id: 'id_uni_cons_hijo',
+					root: 'datos',
+					sortInfo:{
+						field: 'prioridad',
+						direction: 'ASC'
+					},
+					totalProperty: 'total',
+					fields: ['id_uni_cons_hijo','nombre','codigo'],
+					remoteSort: true
+				}),
+   				valueField: 'id_uni_cons_hijo',
+   				displayField: 'nombre',
+   				gdisplayField: 'codigo',
+   				hiddenName: 'id_uni_cons_hijo',
+   				forceSelection:true,
+   				typeAhead: true,
+       			triggerAction: 'all',
+       			lazyRender:true,
+   				mode:'remote',
+   				pageSize:10,
+   				queryDelay:1000,
+   				anchor: '100%',
+   				minChars:2,
+       			enableMultiSelect:true,   			
+   				renderer:function(value, p, record){return String.format('{0}', record.data['desc_uni_cons_hijo']);}
+	       	},
+   			type:'ComboBox',
+   			id_grupo:0,
+   			filters:{
+   		        pfiltro:'nombre',
+                type:'string'
+   			},
+   			grid:true,
+   			form:true
+	    },
 		{
 			config:{
 				name: 'id_tipo_mant',
@@ -131,7 +195,7 @@ Phx.vista.AnalisisMant=Ext.extend(Phx.gridInterfaz,{
 			config:{
 				name: 'descripcion',
 				fieldLabel: 'Descripción',
-				allowBlank: true,
+				allowBlank: false,
 				anchor: '100%',
 				gwidth: 100,
 				maxLength:100
@@ -143,20 +207,62 @@ Phx.vista.AnalisisMant=Ext.extend(Phx.gridInterfaz,{
 			form:true
 		},
 		{
+			config: {
+				name: 'preparado_por',
+				fieldLabel: 'Quien Prepara',
+				anchor: '100%',
+				tinit: false,
+				allowBlank: false,
+				origen: 'CATALOGO',
+				gdisplayField: 'descripcion',
+				gwidth: 200,
+				hiddenName: 'preparado_por',
+				baseParams:{
+						cod_subsistema:'GEM',
+						catalogo_tipo:'tanalisis_mant__preparado_por'
+					}
+			},
+			type: 'ComboRec',
+			id_grupo: 0,
+			grid: false,
+			form: true
+		},
+		{
+			config: {
+				name: 'id_uo',
+				fieldLabel: 'Preparado por UO',
+				allowBlank: false,
+				origen: 'UO',
+				gdisplayField: 'nombre_unidad',
+				gwidth: 200,
+				renderer:function(value, p, record){return String.format('{0}', record.data['nombre_unidad']);},
+				anchor: '100%',
+				disabled:true,
+				hiddenName:'id_uo'
+			},
+			type: 'ComboRec',
+			id_grupo: 2,
+			filters:{pfiltro:'gemapr.tipo',type:'string'},
+			grid: true,
+			form: true
+		},
+		{
 	   		config:{
-	       		    name:'id_funcionario_prep',
-	   				origen:'FUNCIONARIO',
+	       		    name:'id_persona_prep',
+	   				origen:'PERSONA',
+	   				fieldLabel: 'Preparado por Persona',
 	   				tinit:true,
-	   				fieldLabel:'Funcionario Prep.',
 	   				gdisplayField:'desc_person',//mapea al store del grid
 	   			    gwidth:200,
 	   			    anchor:'100%',
-		   			renderer:function (value, p, record){return String.format('{0}', record.data['preparado_por']);}
+		   			renderer:function (value, p, record){return String.format('{0}', record.data['preparado_por']);},
+		   			disabled: true,
+		   			hiddenName:'id_persona_prep'
 	       	     },
 	   			type:'ComboRec',
 	   			id_grupo:0,
 	   			filters:{	
-			        pfiltro:'fun1.desc_funcionario1',
+			        pfiltro:'per1.nombre_completo1',
 					type:'string'
 				},
 	   		   
@@ -165,10 +271,11 @@ Phx.vista.AnalisisMant=Ext.extend(Phx.gridInterfaz,{
 	   	},
 		{
 	   		config:{
-	       		    name:'id_funcionario_rev',
-	   				origen:'FUNCIONARIO',
+	       		    name:'id_persona_rev',
+	   				origen:'PERSONA',
 	   				tinit:true,
-	   				fieldLabel:'Funcionario Rev.',
+	   				allowBlank:false,
+	   				fieldLabel:'Revisado por',
 	   				gdisplayField:'desc_person',//mapea al store del grid
 	   			    gwidth:200,
 	   			    anchor:'100%',
@@ -177,7 +284,7 @@ Phx.vista.AnalisisMant=Ext.extend(Phx.gridInterfaz,{
 	   			type:'ComboRec',
 	   			id_grupo:0,
 	   			filters:{	
-			        pfiltro:'fun.desc_funcionario1',
+			        pfiltro:'per.nombre_completo1',
 					type:'string'
 				},
 	   		   
@@ -270,7 +377,7 @@ Phx.vista.AnalisisMant=Ext.extend(Phx.gridInterfaz,{
 		{name:'id_analisis_mant', type: 'numeric'},
 		{name:'id_uni_cons', type: 'numeric'},
 		{name:'id_tipo_mant', type: 'numeric'},
-		{name:'id_funcionario_rev', type: 'numeric'},
+		{name:'id_persona_rev', type: 'numeric'},
 		{name:'estado_reg', type: 'string'},
 		{name:'fecha_emision', type: 'date', dateFormat:'Y-m-d'},
 		{name:'descripcion', type: 'string'},
@@ -283,7 +390,12 @@ Phx.vista.AnalisisMant=Ext.extend(Phx.gridInterfaz,{
 		{name:'usr_mod', type: 'string'},
 		{name:'desc_tipo_mant', type: 'string'},
 		{name:'desc_person', type: 'string'},
-		{name:'preparado_por', type: 'string'}
+		{name:'preparado_por', type: 'string'},
+		{name:'id_uni_cons_hijo', type: 'numeric'},
+		{name:'desc_uni_cons_hijo', type: 'string'},
+		'id_uo',
+		'nombre_unidad',
+		'id_persona_prep'
 	],
 	sortInfo:{
 		field: 'id_analisis_mant',
@@ -334,7 +446,28 @@ Phx.vista.AnalisisMant=Ext.extend(Phx.gridInterfaz,{
 	},
 	codReporte:'S/C',
 	codSistema:'GEM',
-	pdfOrientacion:'L'
+	pdfOrientacion:'L',
+	onButtonEdit: function(){
+		Phx.vista.AnalisisMant.superclass.onButtonEdit.call(this);
+		var data = this.getSelectedData();
+		console.log(data.id_uo)
+		if(data.id_uo!=''&&data.id_uo!=null){
+			this.getComponente('preparado_por').setValue('Organigrama');
+			this.getComponente('id_uo').enable();
+    		this.getComponente('id_persona_prep').disable();
+    		this.getComponente('id_uo').allowBlank=false;
+    		this.getComponente('id_persona_prep').allowBlank=true;
+    		this.getComponente('id_persona_prep').setRawValue('');
+		} else{
+			this.getComponente('preparado_por').setValue('Persona');
+			this.getComponente('id_uo').disable();
+    		this.getComponente('id_persona_prep').enable();
+    		this.getComponente('id_uo').allowBlank=true;
+    		this.getComponente('id_persona_prep').allowBlank=false;
+    		this.getComponente('id_uo').setRawValue('');
+		}
+		
+	}
 })
 </script>
 		

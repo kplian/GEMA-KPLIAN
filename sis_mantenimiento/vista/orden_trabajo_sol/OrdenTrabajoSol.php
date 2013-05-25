@@ -57,6 +57,24 @@ Phx.vista.OrdenTrabajoSol=Ext.extend(Phx.gridInterfaz,{
             },
             tooltip: '<b>Reporte OIT</b><br/>Generar el reporte de la Orden de Trabajo Solicitada.'
         });
+        
+        this.addButton('btn-subirFoto',{
+        	text:'Subir Foto',
+        	iconCls: 'baddphoto',
+        	disabled:true,
+        	handler: function(){
+        		var rec=this.sm.getSelected();
+        		Phx.CP.loadWindows('../../../sis_mantenimiento/vista/orden_trabajo_sol/SubirArchivoOTSol.php',
+				'Subir foto',
+				{
+					modal:true,
+					width:400,
+					height:150
+			    },rec.data,this.idContenedor,'SubirArchivoOTSol')
+        	},
+        	tooltip: '<b>Subir Foto</b><br/>Permite subir foto con detalles de la falla',
+        	scope:this
+        	});
 	},
 			
 	Atributos:[
@@ -795,12 +813,14 @@ Phx.vista.OrdenTrabajoSol=Ext.extend(Phx.gridInterfaz,{
 	  	var data = this.getSelectedData();
 	  	this.getBoton('btn-fin').setDisabled(false);
 	  	this.getBoton('btn-reporte').setDisabled(false);
+	  	this.getBoton('btn-subirFoto').enable();
   		return tb;
 	},
 	liberaMenu: function() {
 		var tb = Phx.vista.OrdenTrabajoSol.superclass.liberaMenu.call(this);
 		this.getBoton('btn-fin').setDisabled(true);
 		this.getBoton('btn-reporte').setDisabled(true);
+		this.getBoton('btn-subirFoto').disable();
 		return tb;
 	},
 	south:{

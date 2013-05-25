@@ -18,41 +18,42 @@ require_once dirname(__FILE__).'/pxpReport/Report.php';
         $x = $this->GetX();
         $y = $this->GetY();
         $this->SetXY($x, $y);
-        $this->Cell(42, $height, '', 1, 0, 'C', false, '', 0, false, 'T', 'C');
+        $this->Cell(40, $height, '', 1, 0, 'C', false, '', 0, false, 'T', 'C');
         $this->Image(dirname(__FILE__).'/logo-ypfb-logistica.png', 16, 12, 36);
         
         $x = $this->GetX();
         $y = $this->GetY();
         $this->SetFontSize(14);
-        $this->SetFont('','B');       
-        $this->Cell(166,$height, 'PLAN DE MANTENIMIENTO RCM',1,0,'C',false,'',0,false,'T','C');
+        $this->SetFont('','B');        
+        $this->Cell(170, $height/2, 'REGISTRO', 1, 2, 'C', false, '', 0, false, 'T', 'C');        
+        $this->Cell(170,$height/2, 'PLAN DE MANTENIMIENTO RCM',1,0,'C',false,'',0,false,'T','C');
         
-        $this->setXY($x+166,$y);
+        $this->setXY($x+170,$y);
         $this->SetFont('','');
-        $this->Cell(42, $height, '', 1, 0, 'C', false, '', 0, false, 'T', 'C');
+        $this->Cell(40, $height, '', 1, 0, 'C', false, '', 0, false, 'T', 'C');
         
         
         $this->SetFontSize(7);
         
         $width1 = 17;
         $width2 = 23;
-        $this->SetXY($x+166, $y);
+        $this->SetXY($x+170, $y);
         $this->setCellPaddings(2);
-        $this->Cell($width1, $height/4, 'Código:', "B", 0, '', false, '', 0, false, 'T', 'C');
+        $this->Cell($width1, $height/4, 'Codigo:', "B", 0, '', false, '', 0, false, 'T', 'C');
         $this->SetFont('','B');
         $this->Cell($width2, $height/4, $this->dataSource->getParameter('codigo'), "B", 0, 'C', false, '', 0, false, 'T', 'C');
         
         $this->SetFont('','');
         $y += 5;
-        $this->SetXY($x+166, $y);
+        $this->SetXY($x+170, $y);
         $this->setCellPaddings(2);
         $this->Cell($width1, $height/4, 'Revisión:', "B", 0, '', false, '', 0, false, 'T', 'C');
         $this->SetFont('','B');
-        $this->Cell($width2, $height/4, $this->dataSource->getParameter('id_plan_mant'), "B", 0, 'C', false, '', 0, false, 'T', 'C');
+        $this->Cell($width2, $height/4, '1', "B", 0, 'C', false, '', 0, false, 'T', 'C');
         
         $this->SetFont('','');
         $y += 5;
-        $this->SetXY($x+166, $y);
+        $this->SetXY($x+170, $y);
         $this->setCellPaddings(2);
         $this->Cell($width1, $height/4, 'Fecha Emisión:', "B", 0, '', false, '', 0, false, 'T', 'C');
         $this->SetFont('','B');
@@ -60,12 +61,11 @@ require_once dirname(__FILE__).'/pxpReport/Report.php';
         
         $this->SetFont('','');
         $y += 5;
-        $this->SetXY($x+166, $y);
+        $this->SetXY($x+170, $y);
         $this->setCellPaddings(2);
         $this->Cell($width1, $height/4, 'Página:', "B", 0, '', false, '', 0, false, 'T', 'C');
         $this->SetFont('','B');
         $this->Cell($width2, $height/4,  '                  '.$this->getAliasNumPage().' de '.$this->getAliasNbPages(), "B", 0, 'C', false, '', 0, false, 'T', 'C');
-        
     }
     
     public function Footer() {
@@ -122,19 +122,21 @@ Class RPlan_Mant extends Report {
         $width3 = 40;
         $width4 = 100;
         
+		$pdf->SetXY(PDF_MARGIN_LEFT, 30);
+		
         $pdf->SetFontSize(7.5);
         $pdf->SetFont('', 'B');
         $pdf->setTextColor(0,0,0);
-        $pdf->Cell($width2, $height, 'Localizacion:', 0, 0, 'L', false, '', 0, false, 'T', 'C');
+        $pdf->Cell($width2, $height, 'Localizacion:', 'L', 0, 'L', false, '', 0, false, 'T', 'C');
         $pdf->SetFont('', 'B');
         $pdf->setTextColor(51,51,153);
-        $pdf->Cell($width4, $height, $this->getDataSource()->getParameter('localizacion'), 'B', 0, 'L', false, '', 0, false, 'T', 'C');        
+        $pdf->Cell($width4+130, $height, $this->getDataSource()->getParameter('localizacion'), 'R', 0, 'L', false, '', 0, false, 'T', 'C');        
         $pdf->Ln();
         $pdf->setTextColor(0,0,0);
         $pdf->Cell($width1*3, $height, 'Sistema:', 1, 0, 'L', false, '', 0, false, 'T', 'C');
         $pdf->SetFont('', 'B');
         $pdf->setTextColor(51,51,153);
-        $pdf->Cell($width1*5, $height, $this->getDataSource()->getParameter('nombre_sistema'), 1, 0, 'C', false, '', 1, false, 'T', 'C');
+        $pdf->Cell($width1*5, $height, $this->getDataSource()->getParameter('nombre_sis'), 1, 0, 'C', false, '', 1, false, 'T', 'C');
         $pdf->setTextColor(0,0,0);
         $pdf->Cell($width1*2, $height*2, 'TAG:', 1, 0, 'L', false, '', 0, false, 'T', 'C');
         $pdf->setTextColor(51,51,153);
@@ -142,28 +144,28 @@ Class RPlan_Mant extends Report {
         $pdf->setTextColor(0,0,0);
         $pdf->Cell($width1*3, $height, 'Preparado por:', 'T', 0, 'L', false, '', 0, false, 'T', 'C');
         $pdf->setTextColor(51,51,153);
-        $pdf->Cell($width3+36, $height, $this->getDataSource()->getParameter('nombre_preparador'), 'T', 0, 'C', false, '', 1, false, 'T', 'C');
+        $pdf->Cell($width3+36, $height, $this->getDataSource()->getParameter('preparado_por'), 'T', 0, 'C', false, '', 1, false, 'T', 'C');
         $pdf->setTextColor(0,0,0);
         $pdf->Cell($width1*3, $height, 'Fecha:', 1, 0, 'L', false, '', 0, false, 'T', 'C');
         $pdf->setTextColor(51,51,153);
-        $pdf->Cell($width1*7, $height, $this->getDataSource()->getParameter('fecha_preparado'), 1, 0, 'C', false, '', 1, false, 'T', 'C');
+        $pdf->Cell($width1*7, $height, $this->getDataSource()->getParameter('fecha_emi'), 1, 0, 'C', false, '', 1, false, 'T', 'C');
         $pdf->Ln();
         $pdf->setTextColor(0,0,0);
         $pdf->Cell($width1*3, $height, 'Subsistema:', 1, 0, 'L', false, '', 1, false, 'T', 'C');
         $pdf->SetFont('', 'B');
         $pdf->setTextColor(51,51,153);
-        $pdf->Cell($width1*5, $height, $this->getDataSource()->getParameter('nombre_subsistema'), 1, 0, 'C', false, '', 1, false, 'T', 'C');
+        $pdf->Cell($width1*5, $height, $this->getDataSource()->getParameter('nombre_sub'), 1, 0, 'C', false, '', 1, false, 'T', 'C');
         $x=$pdf->getX();
         $y=$pdf->getY();
         $pdf->setXY($x+$width1*8,$y);
         $pdf->setTextColor(0,0,0);
         $pdf->Cell($width1*3, $height, 'Revisado por:', 'T', 0, 'L', false, '', 0, false, 'T', 'C');
         $pdf->setTextColor(51,51,153);
-        $pdf->Cell($width3+36, $height, $this->getDataSource()->getParameter('nombre_revisor'), 'T', 0, 'C', false, '', 1, false, 'T', 'C');
+        $pdf->Cell($width3+36, $height, $this->getDataSource()->getParameter('revisado_por'), 'T', 0, 'C', false, '', 1, false, 'T', 'C');
         $pdf->setTextColor(0,0,0);
         $pdf->Cell($width1*3, $height, 'Fecha:', 1, 0, 'L', false, '', 0, false, 'T', 'C');
         $pdf->setTextColor(51,51,153);
-        $pdf->Cell($width1*7, $height, $this->getDataSource()->getParameter('fecha_revisado'), 1, 0, 'C', false, '', 1, false, 'T', 'C');
+        $pdf->Cell($width1*7, $height, $this->getDataSource()->getParameter('fecha_rev'), 1, 0, 'C', false, '', 1, false, 'T', 'C');
         
         
         $dataset = $this->getDataSource()->getDataset();
@@ -204,8 +206,8 @@ Class RPlan_Mant extends Report {
         
         $x = $pdf->getX();
         $y = $pdf->getY();        
-        $pdf->Cell($width*3, $height, 'Referencia de informacion', 1, 0, 'C', true, '', 1, false, 'T', 'C');
-        $pdf->Cell($width*4, $height, 'Evaluacion de secuencias', 1, 0, 'C', true, '', 1, false, 'T', 'C');
+        $pdf->Cell($width*3, $height, 'Referencia de información', 1, 0, 'C', true, '', 1, false, 'T', 'C');
+        $pdf->Cell($width*4, $height, 'Evaluación de secuencias', 1, 0, 'C', true, '', 1, false, 'T', 'C');
         $pdf->Cell($width, $height*2, 'H1 S1 O1 N1', 1, 0, 'C', true, '', 1, false, 'T', 'C');
         $pdf->Cell($width, $height*2, 'H2 S2 O2 N2', 1, 0, 'C', true, '', 1, false, 'T', 'C');
         $pdf->Cell($width, $height*2, 'H3 S3 O3 N3', 1, 0, 'C', true, '', 1, false, 'T', 'C');
@@ -233,9 +235,9 @@ Class RPlan_Mant extends Report {
         $pdf->setTextColor(0,0,0);
         $pdf->SetFontSize(6.5);
         foreach($dataSource->getDataset() as $row) {
-            $pdf->Cell($width, $height, $row['id_funcion'], 1, 0, 'C', false, '', 0, false, 'T', 'C');
-            $pdf->Cell($width, $height, $row['id_funcion_falla'], 1, 0, 'L', false, '', 1, false, 'T', 'C');
-            $pdf->Cell($width, $height, $row['id_modo_falla'], 1, 0, 'L', false, '', 1, false, 'T', 'C');
+            $pdf->Cell($width, $height, $row['funcion'], 1, 0, 'C', false, '', 0, false, 'T', 'C');
+            $pdf->Cell($width, $height, $row['funcion_falla'], 1, 0, 'L', false, '', 1, false, 'T', 'C');
+            $pdf->Cell($width, $height, $row['modo_falla'], 1, 0, 'L', false, '', 1, false, 'T', 'C');
             $pdf->Cell($width, $height, $row['col_h'], 1, 0, 'L', false, '', 1, false, 'T', 'C');
             $pdf->Cell($width, $height, $row['col_s'], 1, 0, 'C', false, '', 0, false, 'T', 'C');
             $pdf->Cell($width, $height, $row['col_o'], 1, 0, 'C', false, '', 0, false, 'T', 'C');
