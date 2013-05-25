@@ -52,11 +52,18 @@ DECLARE
     v_cod boolean;
     
     v_id_usuarios_tmp integer[];
+	v_horas_dia integer;
    
 BEGIN
 
     v_nombre_funcion = 'gem.f_uni_cons_ime';
     v_parametros = pxp.f_get_record(p_tabla);
+
+	if not pxp.f_existe_parametro(p_tabla,'horas_dia') then
+		v_horas_dia = 24;
+	else
+		v_horas_dia = v_parametros.horas_dia;
+	end if;
     
     /*********************************    
  	#TRANSACCION:  'GEM_TUC_INS'
@@ -170,7 +177,7 @@ BEGIN
                 v_parametros.otros_datos_tec,
                 v_parametros.funcion,
                 v_parametros.punto_recepcion_despacho,
-                v_parametros.horas_dia
+                v_horas_dia
 			)RETURNING id_uni_cons into v_id_uni_cons;
                 
 			-- si no es un nodo base registramo la relacion con el padre
@@ -1093,7 +1100,7 @@ BEGIN
 			herramientas_especiales = v_parametros.herramientas_especiales,
 			nombre = v_parametros.nombre,
 			funcion = v_parametros.funcion,
-			horas_dia = v_parametros.horas_dia,
+			horas_dia = v_horas_dia,
 			tipo_unicons = v_parametros.tipo_unicons,
 			id_usuario_mod = p_id_usuario,
 			fecha_mod = now()
