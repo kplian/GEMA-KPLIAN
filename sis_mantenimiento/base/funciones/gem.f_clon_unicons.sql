@@ -1,5 +1,3 @@
---------------- SQL ---------------
-
 CREATE OR REPLACE FUNCTION gem.f_clon_unicons (
   v_id_orig integer,
   v_id_cop integer,
@@ -11,23 +9,23 @@ $body$
  SISTEMA ENDESIS - SISTEMA DE ...
 ***************************************************************************
  SCRIPT: 		gem.f_clon_unicons
- DESCRIPCI√ìN: 	
+ DESCRIPCI”N: 	
  AUTOR: 		Rensi Arteaga Copari
  FECHA:			09 11 2012
  COMENTARIOS:	
 ***************************************************************************
  HISTORIA DE MODIFICACIONES:
 
- DESCRIPCI√ìN:
+ DESCRIPCI”N:
  AUTOR:       
  FECHA:      
 
 ***************************************************************************/
 --------------------------
--- CUERPO DE LA FUNCI√ìN --
+-- CUERPO DE LA FUNCI”N --
 --------------------------
 
--- PAR√ÅMETROS FIJOS
+-- PAR¡METROS FIJOS
 /*
 pm_id_usuario                               integer (si))
 pm_ip_origen                                varchar(40) (si)
@@ -210,7 +208,7 @@ BEGIN
 			SELECT 
             	amant.id_analisis_mant,
             	amant.id_tipo_mant,
-                amant.id_funcionario_rev,
+                amant.id_persona_rev,
                 amant.fecha_emision,
                 amant.fecha_rev,
                 amant.descripcion
@@ -224,7 +222,7 @@ BEGIN
                 estado_reg,
                 id_uni_cons,
                 id_tipo_mant,
-                id_funcionario_rev,
+                id_persona_rev,
                 fecha_emision,
                 fecha_rev,
                 descripcion
@@ -234,7 +232,7 @@ BEGIN
                 'activo',
                 v_id_cop,
                 g_registros.id_tipo_mant,
-                g_registros.id_funcionario_rev,
+                g_registros.id_persona_rev,
                 g_registros.fecha_emision,
                 g_registros.fecha_rev,
                 g_registros.descripcion
@@ -339,8 +337,8 @@ BEGIN
 			SELECT 
             	pmant.id_plan_mant,
             	pmant.id_tipo_mant,
-                pmant.id_funcionario,
-                pmant.id_funcionario_rev,
+                pmant.id_persona,
+                pmant.id_persona_rev,
                 pmant.fecha,
                 pmant.descripcion
 			FROM gem.tplan_mant pmant
@@ -353,8 +351,8 @@ BEGIN
                 estado_reg,
                 id_uni_cons,
                 id_tipo_mant,
-                id_funcionario,
-                id_funcionario_rev,
+                id_persona,
+                id_persona_rev,
                 fecha,
                 descripcion
             ) VALUES (
@@ -363,8 +361,8 @@ BEGIN
                 'activo',
                 v_id_cop,
                 g_registros.id_tipo_mant,
-                g_registros.id_funcionario,
-                g_registros.id_funcionario_rev,
+                g_registros.id_persona,
+                g_registros.id_persona_rev,
                 g_registros.fecha,
                 g_registros.descripcion
             ) RETURNING id_plan_mant INTO v_id_copia_2;
