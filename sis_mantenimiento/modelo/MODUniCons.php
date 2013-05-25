@@ -151,6 +151,7 @@ class MODUniCons extends MODbase{
 		$this->setParametro('otros_datos_tec','otros_datos_tec','varchar');
 		$this->setParametro('funcion','funcion','varchar');
 		$this->setParametro('punto_recepcion_despacho','punto_recepcion_despacho','varchar');
+		$this->setParametro('horas_dia','horas_dia','int4');
 
 		//Ejecuta la instruccion
 		$this->armarConsulta();
@@ -180,6 +181,7 @@ class MODUniCons extends MODbase{
 		$this->setParametro('otros_datos_tec','otros_datos_tec','varchar');
 		$this->setParametro('funcion','funcion','varchar');
 		$this->setParametro('punto_recepcion_despacho','punto_recepcion_despacho','varchar');
+		$this->setParametro('horas_dia','horas_dia','int4');
 		
 		//Ejecuta la instruccion
 		$this->armarConsulta();
