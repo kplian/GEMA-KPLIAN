@@ -35,8 +35,7 @@ class ACTLocalizacion extends ACTbase{
 		$id_localizacion=$this->objParam->getParametro('id_localizacion');
 		$tipo_nodo=$this->objParam->getParametro('tipo_nodo');
 		
-		echo 'fff:'.$tipo_nodo;exit;
-		
+	
 		if($tipo_nodo != 'uni_cons' && $tipo_nodo != 'uni_cons_f'){
 			
 					if($node=='id'){
