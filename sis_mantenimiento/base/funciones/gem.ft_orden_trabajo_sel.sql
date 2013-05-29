@@ -127,7 +127,7 @@ BEGIN
 						now()::date as fecha_server,
 						cue.nro_cuenta as cuenta,
 						geoott.id_mant_predef,
-						coalesce(mpre.codigo,'''') || '' - '' || coalesce(mpre.descripcion,'''')  as desc_mant_predef
+						coalesce(mpre.codigo,'''') || '' - '' || coalesce(mpre.nombre,'''')  as desc_mant_predef
 						from gem.torden_trabajo geoott
 						inner join segu.tusuario usu1 on usu1.id_usuario = geoott.id_usuario_reg
 						left join segu.tusuario usu2 on usu2.id_usuario = geoott.id_usuario_mod
