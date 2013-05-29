@@ -547,7 +547,7 @@ Phx.vista.UniConsGral=Ext.extend(Phx.gridInterfaz,{
 	},
     onButtonUpload: function(){
        var rec=this.sm.getSelected();
-       if(data){
+       if(rec.data){
            Phx.CP.loadWindows('../../../sis_mantenimiento/vista/uni_cons_archivo/UniConsArchivo.php',
                                'Archivos de Unidades Constructoras',
                                {
@@ -570,6 +570,19 @@ Phx.vista.UniConsGral=Ext.extend(Phx.gridInterfaz,{
           },
           rec.data,this.idContenedor,'UniConsItem');
       }  
+    },
+    onBtnDocTecnica: function() {
+    	var rec=this.sm.getSelected();
+            if(rec.data) {
+            	Phx.CP.loadWindows('../../../sis_mantenimiento/vista/uni_cons_doc_tec/UniConsDocumentoTec.php',
+                    'Documentacion Técnica',
+                    {
+                        modal:true,
+                        width:700,
+                        height:500
+                    },
+                    rec.data,this.idContenedor,'UniConsDocumentoTec')
+            }
     },
     onBtnOT: function(){
       var rec=this.sm.getSelected();
