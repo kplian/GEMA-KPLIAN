@@ -624,3 +624,9 @@ alter table gem.tplan_mant
 add constraint fk_tplan_mant__id_persona_rev
 foreign key (id_persona_rev) references segu.tpersona (id_persona);
 /***********************************F-DEP-RCM-GEM-0-24/05/2013*****************************************/
+
+/***********************************I-DEP-RCM-GEM-141-29/05/2013*****************************************/
+alter table gem.torden_trabajo
+add constraint fk_torden_trabajo__id_mant_predef
+foreign key (id_mant_predef) references gem.tmant_predef (id_mant_predef);
+/***********************************F-DEP-RCM-GEM-141-29/05/2013*****************************************/

@@ -76,34 +76,35 @@ BEGIN
             tuc.codigo,
             tuc.id_tipo_equipo,
             tuc.id_localizacion,
-                        case when   tuc.tipo_nodo = ''raiz'' then tuc.tipo_nodo||''_''||tuc.estado
-                           else     tuc.tipo_nodo
-                        end as tipo_nodo,
-                        ucc.id_uni_cons_comp,
-                        ucc.id_uni_cons_padre,
-                        ucc.opcional,
-                        ucc.cantidad,
+            case when   tuc.tipo_nodo = ''raiz'' then tuc.tipo_nodo||''_''||tuc.estado
+               else     tuc.tipo_nodo
+            end as tipo_nodo,
+            ucc.id_uni_cons_comp,
+            ucc.id_uni_cons_padre,
+            ucc.opcional,
+            ucc.cantidad,
             tuc.id_usuario_reg,
             tuc.fecha_reg,
             tuc.fecha_mod,
             tuc.id_usuario_mod,                                                
             usu1.cuenta as usr_reg,
             usu2.cuenta as usr_mod,
-                        eq.nombre as nombre_tipo_equipo,
-                        (tuc.nombre||''-[''||tuc.codigo||'']'')::varchar as text,
-                        tuc.incluir_calgen,
-                        (COALESCE(tuc.id_localizacion,0)||''_''||tuc.id_uni_cons)::varchar as id_uni_loc,
-                        tuc.herramientas_especiales,
-                        tuc.otros_datos_tec,
-                        tuc.funcion,
-                        tuc.punto_recepcion_despacho,
-                        tuc.horas_dia
+            eq.nombre as nombre_tipo_equipo,
+            (tuc.nombre||''-[''||tuc.codigo||'']'')::varchar as text,
+            tuc.incluir_calgen,
+            (COALESCE(tuc.id_localizacion,0)||''_''||tuc.id_uni_cons)::varchar as id_uni_loc,
+            tuc.herramientas_especiales,
+            tuc.otros_datos_tec,
+            tuc.funcion,
+            tuc.punto_recepcion_despacho,
+            tuc.horas_dia,
+            tuc.ficha_tecnica
             from gem.tuni_cons tuc
-                        '||v_join||' join gem.tuni_cons_comp ucc on ucc.id_uni_cons_hijo = tuc.id_uni_cons  and ucc.estado_reg=''activo'' 
+            '||v_join||' join gem.tuni_cons_comp ucc on ucc.id_uni_cons_hijo = tuc.id_uni_cons  and ucc.estado_reg=''activo'' 
             inner join segu.tusuario usu1 on usu1.id_usuario = tuc.id_usuario_reg
             left join segu.tusuario usu2 on usu2.id_usuario = tuc.id_usuario_mod
-                        left join gem.ttipo_equipo eq on eq.id_tipo_equipo= tuc.id_tipo_equipo
-                where  '||v_condicion|| '  and '||v_filtro;
+            left join gem.ttipo_equipo eq on eq.id_tipo_equipo= tuc.id_tipo_equipo
+            where  '||v_condicion|| '  and '||v_filtro;
       
       --Definicion de la respuesta
       v_consulta:=v_consulta||' order by tuc.id_uni_cons';
@@ -400,7 +401,12 @@ BEGIN
                           left join gem.ttipo_equipo teq on tuc.id_tipo_equipo = teq.id_tipo_equipo
                           left join gem.tlocalizacion loc on tuc.id_localizacion = loc.id_localizacion
                           where tcc.estado_reg = ''activo''
-                          and tcc.id_uni_cons_padre = '|| v_parametros.id_uni_cons_padre;
+                          and tcc.id_uni_cons_padre = '|| v_parametros.id_uni_cons_padre || ' and ';
+                          
+              --Definicion de la respuesta        
+      		v_consulta:=v_consulta||v_parametros.filtro;
+                          
+              raise notice '%',v_consulta;
 
             --Devuelve la respuesta
             return v_consulta;
@@ -508,8 +514,9 @@ BEGIN
         elsif(p_transaccion='GEM_EQGRAL_SEL')then
              
              begin
+             
 --             raise exception '%,%',v_parametros.tipo_nodo,v_parametros.id_uni_cons;
-              if v_parametros.tipo_nodo in ('uni_cons','uni_cons_f') then
+              if v_parametros.tipo_nodo in ('uni_cons','uni_cons_f','rama') then
                 --equipo
                 v_consulta:=' select * from (
                           select
@@ -679,7 +686,7 @@ BEGIN
 
         begin
         
-          if v_parametros.tipo_nodo in ('uni_cons','uni_cons_f') then
+          if v_parametros.tipo_nodo in ('uni_cons','uni_cons_f','rama') then
             --unicons
             v_consulta:=' select count(id_uni_cons)
                        from (

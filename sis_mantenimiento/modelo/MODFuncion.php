@@ -124,6 +124,35 @@ class MODFuncion extends MODbase{
 		//Devuelve la respuesta
 		return $this->respuesta;
 	}
+	
+	function listarFuncionEquipo(){
+		//Definicion de variables para ejecucion del procedimientp
+		$this->procedimiento='gem.ft_funcion_analisis_sel';
+		$this->transaccion='GEM_EQFUNC_SEL';
+		$this->tipo_procedimiento='SEL';//tipo de transaccion
+		
+		$this->setParametro('id_uni_cons','id_uni_cons','int4');
+		$this->setParametro('id_uni_cons_hijo','id_uni_cons_hijo','int4');
+		//Definicion de la lista del resultado del query
+		$this->captura('id_funcion','int4');
+		$this->captura('id_analisis_mant','int4');
+		$this->captura('descripcion','varchar');
+		$this->captura('orden','int4');
+		$this->captura('estado_reg','varchar');
+		$this->captura('id_usuario_reg','int4');
+		$this->captura('fecha_reg','timestamp');
+		$this->captura('fecha_mod','timestamp');
+		$this->captura('id_usuario_mod','int4');
+		$this->captura('usr_reg','varchar');
+		$this->captura('usr_mod','varchar');
+		
+		//Ejecuta la instruccion
+		$this->armarConsulta();
+		$this->ejecutarConsulta();
+		
+		//Devuelve la respuesta
+		return $this->respuesta;
+	}
 			
 }
 ?>

@@ -102,7 +102,8 @@ BEGIN
                 tuc.herramientas_especiales,
                 tuc.otros_datos_tec,
                 tuc.funcion,
-                tuc.punto_recepcion_despacho
+                tuc.punto_recepcion_despacho,
+                tuc.ficha_tecnica
 			from gem.tuni_cons tuc 
             inner join gem.tuni_cons_comp ucc  on ucc.id_uni_cons_hijo = tuc.id_uni_cons 
             where   ucc.id_uni_cons_padre = v_id_orig and tuc.estado_reg='activo'
@@ -136,7 +137,8 @@ BEGIN
                 herramientas_especiales,
                 otros_datos_tec,
                 funcion,
-                punto_recepcion_despacho
+                punto_recepcion_despacho,
+                ficha_tecnica
                 ) values(
                 'activo',
                'registrado',
@@ -151,7 +153,8 @@ BEGIN
                 g_registros.herramientas_especiales,
                 g_registros.otros_datos_tec,
                 g_registros.funcion,
-                g_registros.punto_recepcion_despacho
+                g_registros.punto_recepcion_despacho,
+                g_registros.ficha_tecnica
                 )RETURNING id_uni_cons into v_id_uni_cons;
             
    

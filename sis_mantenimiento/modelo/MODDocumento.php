@@ -135,7 +135,6 @@ class MODDocumento extends MODbase{
         $this->setParametro('extension','extension','varchar');
         $this->setParametro('archivo','archivo','bytea',false,'',false,array('doc','pdf','docx','jpeg','jpg','bmp','gif','avi','mp3','xls','xlsx','dwg'));
                 
-        
         //Ejecuta la instruccion
         $this->armarConsulta();
                 

@@ -56,6 +56,7 @@ class MODUniCons extends MODbase{
 		$this->captura('funcion','varchar');
 		$this->captura('punto_recepcion_despacho','varchar');
 		$this->captura('horas_dia','int4');
+		$this->captura('ficha_tecnica','varchar');
 		
 		
 		//Ejecuta la instruccion
@@ -152,6 +153,7 @@ class MODUniCons extends MODbase{
 		$this->setParametro('funcion','funcion','varchar');
 		$this->setParametro('punto_recepcion_despacho','punto_recepcion_despacho','varchar');
 		$this->setParametro('horas_dia','horas_dia','int4');
+		$this->setParametro('ficha_tecnica','ficha_tecnica','varchar');
 
 		//Ejecuta la instruccion
 		$this->armarConsulta();
@@ -181,7 +183,7 @@ class MODUniCons extends MODbase{
 		$this->setParametro('otros_datos_tec','otros_datos_tec','varchar');
 		$this->setParametro('funcion','funcion','varchar');
 		$this->setParametro('punto_recepcion_despacho','punto_recepcion_despacho','varchar');
-		$this->setParametro('horas_dia','horas_dia','int4');
+		$this->setParametro('ficha_tecnica','ficha_tecnica','varchar');
 		
 		//Ejecuta la instruccion
 		$this->armarConsulta();
@@ -372,6 +374,7 @@ class MODUniCons extends MODbase{
 		$this->captura('nombre_tipo_equipo','varchar');
 		
 		$this->armarConsulta();
+		//echo $this->consulta;exit;
 		$this->ejecutarConsulta();
 		
 		return $this->respuesta;

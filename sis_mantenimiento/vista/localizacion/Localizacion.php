@@ -508,7 +508,7 @@ header("content-type: text/javascript; charset=UTF-8");
 			config: {
 				name: 'ubicacion',
 				fieldLabel: 'Ubicación',
-				allowBlank: false,
+				allowBlank: true,
 				anchor: '100%',
 				gwidth: 100,
 				maxLength: 500

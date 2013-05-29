@@ -309,6 +309,28 @@ Phx.vista.UniCons=Ext.extend(Phx.arbInterfaz,{
 			form:true
 		},
 		{
+			config: {
+				name: 'ficha_tecnica',
+				fieldLabel: 'Ficha Técnica?',
+				anchor: '50%',
+				tinit: false,
+				allowBlank: true,
+				origen: 'CATALOGO',
+				gdisplayField: 'descripcion',
+				gwidth: 100,
+				baseParams:{
+						cod_subsistema:'PARAM',
+						catalogo_tipo:'tgral__bandera'
+				},
+				renderer:function (value, p, record){return String.format('{0}', record.data['ficha_tecnica']);}
+			},
+			type: 'ComboRec',
+			id_grupo: 0,
+			filters:{pfiltro:'ficha_tecnica',type:'string'},
+			grid: true,
+			form: true
+		},
+		{
 			config:{
 				name: 'estado_reg',
 				fieldLabel: 'Estado Reg.',

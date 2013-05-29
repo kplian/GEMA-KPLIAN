@@ -28,6 +28,10 @@ Phx.vista.OrdenTrabajo=Ext.extend(Phx.gridInterfaz,{
        this.getComponente('id_uni_cons').on('select', function(e, data, index) {
         	this.getComponente('id_localizacion').setValue(data.data.id_localizacion);
         	this.getComponente('id_localizacion').setRawValue(data.data.desc_localizacion);
+        	this.getComponente('id_mant_predef').store.baseParams.id_uni_cons=e.value;
+        	this.getComponente('id_mant_predef').modificado=true;
+        	this.getComponente('id_mant_predef').setValue('');
+        	console.log(e);
         },this);
        
         this.crearMensajeEstadoForm();
@@ -314,6 +318,49 @@ Phx.vista.OrdenTrabajo=Ext.extend(Phx.gridInterfaz,{
 			},
 			type:'TextArea',
 			filters:{pfiltro:'geoott.observacion',type:'string'},
+			id_grupo:0,
+			grid:true,
+			form:true
+		},
+		{
+			config:{
+				name: 'id_mant_predef',
+				fieldLabel: 'Mantenimiento',
+				allowBlank: false,
+				emptyText:'Elija un mantenimiento...',
+				store:new Ext.data.JsonStore({
+					url: '../../sis_mantenimiento/control/MantPredef/listarMantPredefUC',
+					id: 'id_mant_predef',
+					root:'datos',
+					sortInfo:{
+						field:'gemapr.nombre',
+						direction:'ASC'
+					},
+					totalProperty:'total',
+					fields: ['id_mant_predef','nombre','codigo','descripcion','desc_tipo_equipo','id_unidad_medida_estimado','tiempo_estimado','desc_unidad_medida_estimado'],
+					// turn on remote sorting
+					remoteSort: true,
+					baseParams:{par_filtro:'gemapr.nombre#gemapr.codigo'}
+				}),
+				valueField: 'id_mant_predef',
+				displayField: 'nombre',
+				gdisplayField:'desc_mant_predef',
+				//hiddenName: 'id_administrador',
+				forceSelection:true,
+				typeAhead: false,
+    			triggerAction: 'all',
+    			lazyRender:true,
+				mode:'remote',
+				pageSize:20,
+				queryDelay:500,
+				anchor: '100%',
+				gwidth:220,
+				minChars:2,
+				renderer:function (value, p, record){return String.format('{0}', record.data['desc_mant_predef']);}, 
+				tpl:'<tpl for="."><div class="x-combo-list-item"><p>Código: <span style="color:#1406DD">{codigo}</span></p><p>Mantenimiento: <span style="color:#1406DD">{nombre}</span></p><p>Tipo Equipo: <span style="color:#1406DD">{desc_tipo_equipo}</span></p></div></tpl>',
+			},
+			type:'ComboBox',
+			filters:{pfiltro:'gemapr.nombre',type:'string'},
 			id_grupo:0,
 			grid:true,
 			form:true
@@ -1130,7 +1177,9 @@ Phx.vista.OrdenTrabajo=Ext.extend(Phx.gridInterfaz,{
 		'descripcion_progresiva',
 		'id_cuenta',
 		'desc_cuenta',
-		{name:'fecha_server', type: 'date', dateFormat:'Y-m-d'}
+		{name:'fecha_server', type: 'date', dateFormat:'Y-m-d'},
+		'id_mant_predef',
+		'desc_mant_predef'
 	],
 	sortInfo:{
 		field: 'id_orden_trabajo',

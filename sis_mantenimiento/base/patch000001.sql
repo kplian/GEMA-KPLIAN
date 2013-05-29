@@ -1380,3 +1380,13 @@ add column archivo bytea;
 alter table gem.torden_trabajo_sol
 add column extension varchar(10);
 /***********************************F-SCP-RCM-GEM-0-24/05/2013*****************************************/
+
+/***********************************I-SCP-RCM-GEM-141-29/05/2013*****************************************/
+alter table gem.torden_trabajo
+add column id_mant_predef integer;
+/***********************************F-SCP-RCM-GEM-141-29/05/2013*****************************************/
+
+/***********************************I-SCP-RCM-GEM-141-30/05/2013*****************************************/
+alter table gem.tuni_cons
+add column ficha_tecnica varchar(2) default 'Si';
+/***********************************F-SCP-RCM-GEM-141-30/05/2013*****************************************/

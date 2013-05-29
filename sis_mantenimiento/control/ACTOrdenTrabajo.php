@@ -147,6 +147,16 @@ class ACTOrdenTrabajo extends ACTbase{
 		$funcionariosDataSource->setDataset($resultFuncionarios->getDatos());
 		$dataSource->putParameter('funcionariosDataSource', $funcionariosDataSource);
 		
+		//Mantenimientos predefinidos
+		$this->objParam->addParametroConsulta('filtro', ' id_mant_predef_det = '.$datosOT[0]['id_mant_predef'] );
+		$this->objParam->addParametroConsulta('ordenacion', 'id_mant_predef_det');
+		$modMantPredef = $this->create('MODMantPredefDet');
+		$resultMantPredef = $modMantPredef->listarMantPredefDetOT();
+		$mantPredefDataSource = new DataSource();
+		$mantPredefDataSource->setDataset($resultMantPredef->getDatos());
+		$dataSource->putParameter('mantPredefDataSource', $mantPredefDataSource);
+		//var_dump($resultMantPredef->getDatos());exit;
+		
 		
 		$reporte = new ROrdenTrabajo();
 		$reporte->setDataSource($dataSource);

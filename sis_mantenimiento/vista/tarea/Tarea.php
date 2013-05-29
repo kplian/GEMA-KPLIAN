@@ -115,7 +115,7 @@ Phx.vista.Tarea=Ext.extend(Phx.gridInterfaz,{
    				allowBlank:false,
    				emptyText:'Seleccione una Función...',
    				store: new Ext.data.JsonStore({
-					url: '../../sis_mantenimiento/control/Funcion/listarFuncion',
+					url: '../../sis_mantenimiento/control/Funcion/listarFuncionEquipo',
 					id: 'id_funcion',
 					root: 'datos',
 					sortInfo:{
@@ -731,9 +731,11 @@ Phx.vista.Tarea=Ext.extend(Phx.gridInterfaz,{
 	
 	onReloadPage:function(m){       
 		this.maestro=m;
+		console.log(this.maestro)
 		this.Atributos[1].valorInicial=this.maestro.id_plan_mant;
 		this.Atributos[2].valorInicial=this.maestro.id_uni_cons;
 		this.getComponente('id_uni_cons_hijo').store.baseParams.id_uni_cons = this.maestro.id_uni_cons;
+		this.getComponente('id_funcion').store.baseParams = {id_uni_cons:this.maestro.id_uni_cons, id_uni_cons_hijo: this.maestro.id_uni_cons_hijo};
 		if(m.id != 'id'){
 		this.store.baseParams={id_plan_mant:this.maestro.id_plan_mant};
 		this.load({params:{start:0, limit:50}})

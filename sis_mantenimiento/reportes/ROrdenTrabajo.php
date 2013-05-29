@@ -84,6 +84,53 @@ require_once dirname(__FILE__).'/pxpReport/Report.php';
 		$this->Cell($ancho, 0, "Fecha impresión: ".$fecha_rep, '', 0, 'L');
 		$this->Ln($line_width);
 	}
+
+	public function MultiRow($pArray,$pWidth,$pAlign,$pTotalFilas,$pFila) {
+		// MultiCell($w, $h, $txt, $border=0, $align='J', $fill=0, $ln=1, $x='', $y='', $reseth=true, $stretch=0)
+	
+		$page_start = $this->getPage();
+		$y_start = $this->GetY();
+		$i=0;
+		$x=$this->getX();
+		$y=$this->getY();
+		foreach ($pArray as $value) {
+			//$this->MultiCell(40, 0, $value, 1, 'R', 1, 2, '', '', true, 0);
+			$nb=max($nb,$this->getNumLines($value,$pWidth[$i]));
+			$i++;
+			
+		}
+		
+		//ALto de las columnas
+		$alto=3*$nb;
+		$j=0;
+		
+
+		foreach ($pArray as $value) {
+			if($i>0){
+				$this->setXY($x,$y);
+			}
+			
+			//Verificación de borde
+			if($pFila==$pTotalFilas){
+				if($value==''){
+					$borde='LRB';
+				} else{
+					$borde='LRTB';
+				}
+			} else{
+				if($value==''){
+					$borde='LR';
+				} else{
+					$borde='LRT';
+				}
+			}
+			
+			$this->MultiCell($pWidth[$j], $alto, $value, $borde, $pAlign[$j], 0, 2, '', '', true, 0);
+			$j++;
+			$x=$this->getX();
+		}
+		$this->Ln(0);
+	}
 }
 
 Class ROrdenTrabajo extends Report {
@@ -472,6 +519,37 @@ Class ROrdenTrabajo extends Report {
 		$pdf->MultiCell($w = $wTercio, $h = $hMedium, $txt = $dataSource->getParameter('reclamos'), $border = 1, $align = 'C', $fill = false, $ln = 0, $x = '',$y = '', $reseth = true, $stretch = 0, $ishtml = false, $autopadding = true, $maxh = $hMedium, $valign = 'T', $fitcell = true);
 		$pdf->MultiCell($w = $wTercio - 1, $h = $hMedium, $txt = $dataSource->getParameter('otros'), $border = 1, $align = 'C', $fill = false, $ln = 1, $x = '',$y = '', $reseth = true, $stretch = 0, $ishtml = false, $autopadding = true, $maxh = $hMedium, $valign = 'T', $fitcell = true);
 		
+		//Mantenimientos predefinidos
+		//Titulos
+		if(count($dataSource->getParameter('mantPredefDataSource')->getDataset())>0){
+			$pdf->AddPage();
+			$pdf->setTextColor(255,255,255);
+			$pdf->SetFont('','B');
+			$pdf->SetFontSize(14);
+			$pdf->Cell($w = 185, $h = $hGlobal, $txt = 'DETALLE DEL  MANTENIMIENTO A REALIZAR', $border = 1, $ln = 1, $align = 'C', $fill = true, $link = '', $stretch = 0, $ignore_min_height = false, $calign = 'T', $valign = 'M');
+			$pdf->setTextColor(255,255,255);
+			$pdf->SetFont('','');
+			$pdf->SetFontSize(10);
+			//$pdf->MultiCell($w = 10, $h = $hMedium, $txt = 'NRO.', $border = 1, $align = 'C', $fill = true, $ln = 0, $x = '',$y = '', $reseth = true, $stretch = 0, $ishtml = false, $autopadding = true, $maxh = $hMedium, $valign = 'M', $fitcell = false);
+			$pdf->MultiCell($w = 100, $h = $hMedium, $txt = 'DESCRIPCIÓN', $border = 1, $align = 'C', $fill = true, $ln = 0, $x = '',$y = '', $reseth = true, $stretch = 0, $ishtml = false, $autopadding = true, $maxh = $hMedium, $valign = 'M', $fitcell = false);
+			$pdf->MultiCell($w = 85, $h = $hMedium, $txt = 'OBSERVACIONES', $border = 1, $align = 'C', $fill = true, $ln = 1, $x = '',$y = '', $reseth = true, $stretch = 0, $ishtml = false, $autopadding = true, $maxh = $hMedium, $valign = 'M', $fitcell = false);
+		}
+		
+		//Valores
+		$pdf->setTextColor(0,0,0);
+		$pdf->SetFontSize(8);
+		$anchos=array(100,85);
+		$aligns=array('L','L');
+		$tot=count($dataSource->getParameter('mantPredefDataSource')->getDataset())-1;
+		$fila=0;
+		//var_dump($dataSource->getParameter('mantPredefDataSource')->getDataset());exit;
+		$data=$dataSource->getParameter('mantPredefDataSource')->getDataset();
+		
+		foreach($dataSource->getParameter('mantPredefDataSource')->getDataset() as $datarow) {
+			$pdf->MultiRow($datarow,$anchos,$aligns,$tot,$fila);
+			$fila++;
+		}
+
 		$pdf->Output($fileName, 'F');
 	}
 }
