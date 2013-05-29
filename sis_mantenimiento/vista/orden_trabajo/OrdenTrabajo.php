@@ -31,7 +31,6 @@ Phx.vista.OrdenTrabajo=Ext.extend(Phx.gridInterfaz,{
         	this.getComponente('id_mant_predef').store.baseParams.id_uni_cons=e.value;
         	this.getComponente('id_mant_predef').modificado=true;
         	this.getComponente('id_mant_predef').setValue('');
-        	console.log(e);
         },this);
        
         this.crearMensajeEstadoForm();
@@ -219,7 +218,7 @@ Phx.vista.OrdenTrabajo=Ext.extend(Phx.gridInterfaz,{
 			config:{
 				name: 'id_tipo_mant',
 				fieldLabel: 'Tipo de OIT',
-				allowBlank: false,
+				allowBlank: true,
 				emptyText:'Tipo de mantenimiento...',
 				store:new Ext.data.JsonStore(
 				{
@@ -326,7 +325,7 @@ Phx.vista.OrdenTrabajo=Ext.extend(Phx.gridInterfaz,{
 			config:{
 				name: 'id_mant_predef',
 				fieldLabel: 'Mantenimiento',
-				allowBlank: false,
+				allowBlank: true,
 				emptyText:'Elija un mantenimiento...',
 				store:new Ext.data.JsonStore({
 					url: '../../sis_mantenimiento/control/MantPredef/listarMantPredefUC',
@@ -1323,7 +1322,9 @@ Phx.vista.OrdenTrabajo=Ext.extend(Phx.gridInterfaz,{
 	},
 	onButtonEdit: function() {
 		Phx.vista.OrdenTrabajo.superclass.onButtonEdit.call(this);
-		//this.getComponente('id_uni_cons').enable();
+		var rec=this.sm.getSelected();
+		this.getComponente('id_mant_predef').store.baseParams.id_uni_cons=rec.data.id_uni_cons;
+    	this.getComponente('id_mant_predef').modificado=true;
 	},
     codReporte:'S/C',
 	codSistema:'GEM',
