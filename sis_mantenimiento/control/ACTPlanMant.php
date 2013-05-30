@@ -80,7 +80,7 @@ class ACTPlanMant extends ACTbase{
         $this->objParam->addParametroConsulta('ordenacion', 'fun.orden,funfall.orden,mfall.orden');
         $this->objParam->defecto('cantidad', 1000);
         $this->objParam->defecto('puntero', 0);
-        $this->objParam->addParametro('id_plan_mant', $idPlanMant );
+        $this->objParam->addParametro('id_plan_mant', $idPlanMant);
         
         $modTarea = $this->create('MODTarea');
         $resultTarea = $modTarea->reporteTarea();

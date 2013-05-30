@@ -300,26 +300,28 @@ Class RUniCons_FichaTecnica extends Report {
 		$height = 4;
 		$pdf->SetFillColor(51,51,153, true);
 		$pdf->setTextColor(255,255,255);
-		$pdf->Cell(185, $height, $dataSource->getParameter('nombreUniConsHijo'), 1, 0, 'C', true, '', 0, false, 'T', 'C');
-		$pdf->Ln();
-		$height = 3;
-		$pdf->SetFontSize(6.5);
-		foreach($dataSource->getDataset() as $row) {
-			
-			//Tabla
-			$widthColVariable = 30;
-			$widthColValor = 50;
-			$widthSeparator = 15;
-			$pdf->setTextColor(0,0,0);
-			if($colCount == 0) {
-				$pdf->Cell(10, $height, '', 0, 0, 'C', false, '', 0, false, 'T', 'C');
-				$this->writePair($pdf, $row['nombre'], $widthColVariable, $row['valor'], $widthColValor, 0, $height);
-				$pdf->Cell($widthSeparator, $height, '', 0, 0, 'C', false, '', 0, false, 'T', 'C');
-				$colCount++;
-			} else {
-				$this->writePair($pdf, $row['nombre'], $widthColVariable, $row['valor'], $widthColValor, 0, $height);
-				$pdf->Ln();	
-				$colCount = 0;			
+		if($dataSource->getParameter('ficha_tecnica')=='Si'){
+			$pdf->Cell(185, $height, $dataSource->getParameter('nombreUniConsHijo'), 1, 0, 'C', true, '', 0, false, 'T', 'C');
+			$pdf->Ln();
+			$height = 3;
+			$pdf->SetFontSize(6.5);
+		
+			foreach($dataSource->getDataset() as $row) {
+				//Tabla
+				$widthColVariable = 30;
+				$widthColValor = 50;
+				$widthSeparator = 15;
+				$pdf->setTextColor(0,0,0);
+				if($colCount == 0) {
+					$pdf->Cell(10, $height, '', 0, 0, 'C', false, '', 0, false, 'T', 'C');
+					$this->writePair($pdf, $row['nombre'], $widthColVariable, $row['valor'], $widthColValor, 0, $height);
+					$pdf->Cell($widthSeparator, $height, '', 0, 0, 'C', false, '', 0, false, 'T', 'C');
+					$colCount++;
+				} else {
+					$this->writePair($pdf, $row['nombre'], $widthColVariable, $row['valor'], $widthColValor, 0, $height);
+					$pdf->Ln();	
+					$colCount = 0;			
+				}
 			}
 		}
 	}

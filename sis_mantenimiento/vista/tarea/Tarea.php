@@ -186,7 +186,8 @@ Phx.vista.Tarea=Ext.extend(Phx.gridInterfaz,{
    				anchor: '100%',
    				minChars:2,
        			enableMultiSelect:true,   			
-   				renderer:function(value, p, record){return String.format('{0}', record.data['desc_funcion_falla']);}
+   				renderer:function(value, p, record){return String.format('{0}', record.data['desc_funcion_falla']);},
+   				tpl:'<tpl for="."><div class="x-combo-list-item"><p>Orden: {orden}</p><p>Falla: {falla}</p></div></tpl>'
 	       	},
    			type:'ComboBox',
    			id_grupo:0,
@@ -256,9 +257,9 @@ Phx.vista.Tarea=Ext.extend(Phx.gridInterfaz,{
 						direction: 'ASC'
 					},
 					totalProperty: 'total',
-					fields: ['id_modo_falla','modo_falla','efecto_falla'],
+					fields: ['id_modo_falla','modo_falla','efecto_falla','orden'],
 					remoteSort: true,
-					baseParams:{par_filtro:'modo_falla#efecto_falla'}
+					baseParams:{par_filtro:'orden#modo_falla#efecto_falla'}
 	    		}),	    				
 				valueField: 'id_modo_falla',
    				displayField: 'modo_falla',
@@ -274,7 +275,8 @@ Phx.vista.Tarea=Ext.extend(Phx.gridInterfaz,{
    				anchor: '100%',
    				minChars:2,
        			enableMultiSelect:true,   			
-   				renderer:function(value, p, record){return String.format('{0}', record.data['modo_falla']);}
+   				renderer:function(value, p, record){return String.format('{0}', record.data['modo_falla']);},
+   				tpl:'<tpl for="."><div class="x-combo-list-item"><p>Orden: {orden}</p><p>Modo Falla: {modo_falla}</p><p>Efecto Falla: {efecto_falla}</p></div></tpl>'
 			},
 			type:'ComboBox',
    			id_grupo:0,

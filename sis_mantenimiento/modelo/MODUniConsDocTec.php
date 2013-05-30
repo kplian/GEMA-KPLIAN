@@ -33,6 +33,7 @@ class MODUniConsDocTec extends MODbase {
 		$this->captura('observaciones','varchar');
 		
 		$this->armarConsulta();
+		//echo $this->consulta;exit;
 		$this->ejecutarConsulta();
 		return $this->respuesta;
 	}

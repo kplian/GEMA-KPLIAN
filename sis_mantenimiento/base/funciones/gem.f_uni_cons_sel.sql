@@ -307,8 +307,10 @@ BEGIN
                 uni.id_uni_cons as id_uni_cons_hijo
         from gem.tuni_cons uni
               inner join gem.tuni_cons_comp unicomp on unicomp.id_uni_cons_hijo=uni.id_uni_cons
-              where unicomp.id_uni_cons_padre='||v_parametros.id_uni_cons||' and unicomp.estado_reg=''activo'' and uni.tipo_nodo=''rama'' ';
-                --Definicion de la respuesta
+              where unicomp.id_uni_cons_padre='||v_parametros.id_uni_cons||' and unicomp.estado_reg=''activo'' and uni.tipo_nodo=''rama'' and ';
+              
+         v_consulta = v_consulta || v_parametros.filtro;
+                
       v_consulta:=v_consulta||' order by uni.nombre';
 
       --Devuelve la respuesta
@@ -343,7 +345,8 @@ BEGIN
                         tuc.herramientas_especiales,
                         tuc.otros_datos_tec,
                         tuc.funcion,
-                        tuc.punto_recepcion_despacho
+                        tuc.punto_recepcion_despacho,
+                        tuc.ficha_tecnica
                       from gem.tuni_cons tuc
                       left join gem.ttipo_equipo teq on tuc.id_tipo_equipo = teq.id_tipo_equipo
                       left join gem.tlocalizacion loc on tuc.id_localizacion = loc.id_localizacion
@@ -395,7 +398,8 @@ BEGIN
                               loc.nombre as nombre_localizacion,
                               loc.ubicacion as ubicacion,
                               teq.codigo as codigo_tipo_equipo,
-                              teq.nombre as nombre_tipo_equipo
+                              teq.nombre as nombre_tipo_equipo,
+                              tuc.ficha_tecnica
                           from gem.tuni_cons tuc
                           inner join gem.tuni_cons_comp tcc on tuc.id_uni_cons = tcc.id_uni_cons_hijo
                           left join gem.ttipo_equipo teq on tuc.id_tipo_equipo = teq.id_tipo_equipo

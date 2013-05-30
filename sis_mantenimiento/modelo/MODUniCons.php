@@ -343,6 +343,7 @@ class MODUniCons extends MODbase{
 		$this->captura('otros_datos_tec','varchar');
 		$this->captura('funcion','varchar');
 		$this->captura('punto_recepcion_despacho','varchar');
+		$this->captura('ficha_tecnica','varchar');
 		
 		$this->armarConsulta();
 		$this->ejecutarConsulta();
@@ -372,6 +373,7 @@ class MODUniCons extends MODbase{
 		$this->captura('ubicacion','varchar');
 		$this->captura('codigo_tipo_equipo','varchar');
 		$this->captura('nombre_tipo_equipo','varchar');
+		$this->captura('ficha_tecnica','varchar');
 		
 		$this->armarConsulta();
 		//echo $this->consulta;exit;

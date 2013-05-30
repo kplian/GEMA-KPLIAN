@@ -355,6 +355,7 @@ class ACTUniCons extends ACTbase{
 		$this->objFunc = $this->create('MODUniCons');
 		$resultUniCons = $this->objFunc->obtenerUniCons($this->objParam);
 		$datosUniCons = $resultUniCons->getDatos();
+		//var_dump($datosUniCons);exit;
 		//armamos el array parametros y metemos ahi los data sets de las otras tablas
 		$dataSource->putParameter('nombre', $datosUniCons[0]['nombre']);
 		$dataSource->putParameter('codigo', $datosUniCons[0]['codigo']);
@@ -401,25 +402,14 @@ class ACTUniCons extends ACTbase{
 		$repuestoDataSource->setDataSet($resultRepuestos->getDatos());
 		$dataSource->putParameter('repuestoDataSource', $repuestoDataSource);
 		
-		//get Provedores
-		
-		$this->objParam->addParametroConsulta('ordenacion', 'item.nombre');
-		$this->objParam->addParametro('id_uni_cons', $idUniCons);
-		$modUniConsProveedor = $this->create('MODUniConsItem');
-		$resultProveedor = $modUniConsProveedor->listarItemProveedor($this->objParam);
-		$proveedorDataSource = new DataSource();
-		$proveedorDataSource->setDataSet($resultProveedor->getDatos());
-		$dataSource->putParameter('proveedorDataSource', $proveedorDataSource);
-		
-		
 		//get hijos
 		$this->objParam->addParametroConsulta('ordenacion', 'id_uni_cons');
 		$this->objParam->addParametro('id_uni_cons_padre', $idUniCons);
-		$this->objParam->addFiltro(" ficha_tecnica = ''Si''");
+		//$this->objParam->addFiltro(" ficha_tecnica = ''Si''");
 		$this->objFunc = $this->create('MODUniCons');
 		$resultHijos = $this->objFunc->listarUniConsHijos($this->objParam);
 		$arrayHijos = array();
-		var_dump($resultHijos->getDatos());exit;
+		//var_dump($resultHijos->getDatos());exit;
 		
 		foreach($resultHijos->getDatos() as $rowHijo) {
 			$dataSourceHijo = new DataSource();
@@ -428,12 +418,26 @@ class ACTUniCons extends ACTbase{
 			$modUniConsDetalle = $this->create('MODUniConsDet');
 			$resultDetalleHijo = $modUniConsDetalle->listarUniConsDet($this->objParam);
 			$dataSourceHijo->putParameter('nombreUniConsHijo', $rowHijo['nombre']);
+			$dataSourceHijo->putParameter('ficha_tecnica', $rowHijo['ficha_tecnica']);
 			//var_dump($resultDetalleHijo->getDatos());exit;
 			$dataSourceHijo->setDataset($resultDetalleHijo->getDatos());
+			//var_dump($dataSourceHijo);exit;
 			$arrayHijos[] = $dataSourceHijo;
+			//var_dump($arrayHijos);exit;
 		}
+		//var_dump($arrayHijos);exit;
 		$dataSource->putParameter('arrayHijos', $arrayHijos);
+
+		//get Provedores
 		
+		$this->objParam->addParametroConsulta('ordenacion', 'item.nombre');
+		$this->objParam->addFiltro('id_uni_cons = '. $idUniCons);
+		$modUniConsProveedor = $this->create('MODUniConsItem');
+		$resultProveedor = $modUniConsProveedor->listarItemProveedor($this->objParam);
+		$proveedorDataSource = new DataSource();
+		$proveedorDataSource->setDataSet($resultProveedor->getDatos());
+		$dataSource->putParameter('proveedorDataSource', $proveedorDataSource);
+
 		//Documentacion técnica
 		$this->objParam->addParametroConsulta('ordenacion', 'id_documento_tec');
 		$this->objParam->addParametro('id_uni_cons', $idUniCons);

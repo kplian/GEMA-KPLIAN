@@ -77,7 +77,7 @@ Phx.vista.PlanMant=Ext.extend(Phx.gridInterfaz,{
 				}),
    				valueField: 'id_uni_cons_hijo',
    				displayField: 'nombre',
-   				gdisplayField: 'codigo',
+   				gdisplayField: 'desc_uni_cons_hijo',
    				hiddenName: 'id_uni_cons_hijo',
    				forceSelection:true,
    				typeAhead: true,
@@ -200,7 +200,7 @@ Phx.vista.PlanMant=Ext.extend(Phx.gridInterfaz,{
 				}),
 				valueField: 'id_tipo_mant',
    				displayField: 'nombre',
-   				gdisplayField:'nombre',
+   				gdisplayField:'tipo_mant',
    				hiddenName: 'id_tipo_mant',
    				forceSelection:true,
    				typeAhead: true,
@@ -212,7 +212,7 @@ Phx.vista.PlanMant=Ext.extend(Phx.gridInterfaz,{
    				anchor: '100%',
    				gwidth:100,
    				minChars:2,   				   			   
-   				renderer:function (value, p, record){return String.format('{0}', record.data['nombre']);}
+   				renderer:function (value, p, record){return String.format('{0}', record.data['tipo_mant']);}
 			},
    			type:'ComboBox',
    			id_grupo:0,
@@ -450,7 +450,6 @@ Phx.vista.PlanMant=Ext.extend(Phx.gridInterfaz,{
 	onButtonEdit: function(){
 		Phx.vista.PlanMant.superclass.onButtonEdit.call(this);
 		var data = this.getSelectedData();
-		console.log(data.id_uo)
 		if(data.id_uo!=''&&data.id_uo!=null){
 			this.getComponente('preparado_por').setValue('Organigrama');
 			this.getComponente('id_uo').enable();

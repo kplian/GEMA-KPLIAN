@@ -79,12 +79,12 @@ BEGIN
             ucdet.fecha_mod,
             usu1.cuenta as usr_reg,
             usu2.cuenta as usr_mod,
-                        um.codigo as codigo_unidad_medida 
+            um.codigo as codigo_unidad_medida 
             from gem.tuni_cons_det ucdet
             inner join segu.tusuario usu1 on usu1.id_usuario = ucdet.id_usuario_reg
-                        left join param.tunidad_medida um on  um.id_unidad_medida = ucdet.id_unidad_medida
+            left join param.tunidad_medida um on  um.id_unidad_medida = ucdet.id_unidad_medida
             left join segu.tusuario usu2 on usu2.id_usuario = ucdet.id_usuario_mod
-                where ucdet.estado_reg = ''activo''  AND ucdet.id_uni_cons ='|| v_parametros.id_uni_cons||' AND ';
+            where ucdet.estado_reg = ''activo''  AND ucdet.id_uni_cons ='|| v_parametros.id_uni_cons||' AND ';
       
       --Definicion de la respuesta
       v_consulta:=v_consulta||v_parametros.filtro;

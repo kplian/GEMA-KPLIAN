@@ -141,10 +141,10 @@ BEGIN
                             else ssis.nombre 
                         end as nombre_sub,
                         case coalesce(plama.id_uo,0)
-                            when 0 then per1.nombre_completo1
+                            when 0 then per.nombre_completo1
                             else uo.nombre_unidad
                         end as preparado_por,
-                        per.nombre_completo1 as revisado_por,
+                        per1.nombre_completo1 as revisado_por,
                         to_char(plama.fecha_emision,''dd/mm/yyyy'') as fecha_emision,
                         to_char(plama.fecha,''dd/mm/yyyy'') as fecha,
                         plama.descripcion
