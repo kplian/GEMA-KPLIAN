@@ -419,6 +419,7 @@ class ACTUniCons extends ACTbase{
 		$this->objFunc = $this->create('MODUniCons');
 		$resultHijos = $this->objFunc->listarUniConsHijos($this->objParam);
 		$arrayHijos = array();
+		var_dump($resultHijos->getDatos());exit;
 		
 		foreach($resultHijos->getDatos() as $rowHijo) {
 			$dataSourceHijo = new DataSource();
@@ -427,6 +428,7 @@ class ACTUniCons extends ACTbase{
 			$modUniConsDetalle = $this->create('MODUniConsDet');
 			$resultDetalleHijo = $modUniConsDetalle->listarUniConsDet($this->objParam);
 			$dataSourceHijo->putParameter('nombreUniConsHijo', $rowHijo['nombre']);
+			//var_dump($resultDetalleHijo->getDatos());exit;
 			$dataSourceHijo->setDataset($resultDetalleHijo->getDatos());
 			$arrayHijos[] = $dataSourceHijo;
 		}

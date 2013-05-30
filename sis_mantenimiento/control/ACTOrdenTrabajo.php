@@ -123,6 +123,7 @@ class ACTOrdenTrabajo extends ACTbase{
 		$dataSource->putParameter('descripcion_progresiva', $datosOT[0]['descripcion_progresiva']);
 		$dataSource->putParameter('ubicacion_tecnica', $datosOT[0]['ubicacion_tecnica']);
 		$dataSource->putParameter('nota_tecnico_loc', $datosOT[0]['nota_tecnico_loc']);
+		$dataSource->putParameter('desc_mant_predef', $datosOT[0]['desc_mant_predef']);
 		
 		
 		$this->objParam->addParametroConsulta('filtro', ' 0 = 0');

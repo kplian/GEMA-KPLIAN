@@ -105,7 +105,9 @@ BEGIN
     		--Sentencia de la consulta
 			v_consulta:='select
 						gedetm.nombre,
-						gedetm.descripcion	
+						gedetm.descripcion,
+						''   ''::varchar as medida,
+						''(  )''::varchar as ejec	
 						from gem.tmant_predef_det gedetm
 				        where ';
 			

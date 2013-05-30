@@ -85,7 +85,7 @@ require_once dirname(__FILE__).'/pxpReport/Report.php';
 		$this->Ln($line_width);
 	}
 
-	public function MultiRow($pArray,$pWidth,$pAlign,$pTotalFilas,$pFila) {
+	public function MultiRowA($pArray,$pWidth,$pAlign,$pTotalFilas,$pFila) {
 		// MultiCell($w, $h, $txt, $border=0, $align='J', $fill=0, $ln=1, $x='', $y='', $reseth=true, $stretch=0)
 	
 		$page_start = $this->getPage();
@@ -130,6 +130,77 @@ require_once dirname(__FILE__).'/pxpReport/Report.php';
 			$x=$this->getX();
 		}
 		$this->Ln(0);
+	}
+	
+	public function array_unshift_assoc(&$arr, $key, $val)
+	{
+	    $arr = array_reverse($arr, true);
+	    $arr[$key] = $val;
+	    return array_reverse($arr, true);
+	} 
+	
+	public function MultiRow($pMatriz,$pWidth,$pAlign,$pVisible=array(),$pConNumeracion=1) {
+		// MultiCell($w, $h, $txt, $border=0, $align='J', $fill=0, $ln=1, $x='', $y='', $reseth=true, $stretch=0)
+		$page_start = $this->getPage();
+		$y_start = $this->GetY();
+		
+		
+		
+		//Obtiene el total de filas 
+		$totalFilas=count($pMatriz)-1;
+		//var_dump($pMatriz);exit;
+		//echo $totalFilas;exit;
+		$fila=0;
+		
+		foreach ($pMatriz as $row) {
+			//Obtiene el alto máximo de la celda de toda la fila
+			$i=0;
+			$nb=0;
+			
+			$x=$this->getX();
+			$y=$this->getY();
+			//var_dump($this->array_unshift_assoc($fila,'nro',$fila));exit;
+			foreach ($row as $value) {
+				$nb=max($nb,$this->getNumLines($value,$pWidth[$i]));
+				$i++;
+			}
+			//Define el alto máximo
+			$alto=3*$nb;
+			$j=0;
+			$tmp=$fila+1;
+			$row=$this->array_unshift_assoc($row,'nro',$tmp);
+			//Dibuja la fila
+			foreach ($row as $value) {
+				if($i>0){
+					$this->setXY($x,$y);
+				}
+				
+				//Verificación de borde
+				if($fila==$totalFilas){
+					if($value==''){
+						$borde='LRB';
+					} else{
+						$borde='LRTB';
+					}
+				} else{
+					if($value==''){
+						$borde='LR';
+					} else{
+						$borde='LRT';
+					}
+				}
+				// MultiCell($w, $h, $txt, $border=0, $align='J', $fill=0, $ln=1, $x='', $y='', $reseth=true, $stretch=0)
+				$this->MultiCell($pWidth[$j], $alto, $value, $borde, $pAlign[$j], 0, 0, '', '', true, 0);
+				$j++;
+				$x=$this->getX();
+				//$this->Ln();	
+			}
+			$this->Ln();
+			$fila++;
+		}
+		
+		
+		
 	}
 }
 
@@ -525,30 +596,36 @@ Class ROrdenTrabajo extends Report {
 			$pdf->AddPage();
 			$pdf->setTextColor(255,255,255);
 			$pdf->SetFont('','B');
+			$pdf->Cell($w = 20, $h = 5, $txt = 'TAG:', $border = 1, $ln = 0, $align = 'C', $fill = true, $link = '', $stretch = 0, $ignore_min_height = false, $calign = 'T', $valign = 'M');
+			$pdf->setTextColor(0,0,0);
+			$pdf->Cell($w = 50, $h = 5, $txt = $dataSource->getParameter('codigo'), $border = 1, $ln = 0, $align = 'C', $fill = false, $link = '', $stretch = 0, $ignore_min_height = false, $calign = 'T', $valign = 'M');
+			$pdf->setTextColor(255,255,255);
+			$pdf->Cell($w = 50, $h = 5, $txt = 'TIPO DE MANTENIMIENTO:', $border = 1, $ln = 0, $align = 'C', $fill = true, $link = '', $stretch = 0, $ignore_min_height = false, $calign = 'T', $valign = 'M');
+			$pdf->setTextColor(0,0,0);
+			$pdf->Cell($w = 65, $h = 5, $txt = $dataSource->getParameter('desc_mant_predef'), $border = 1, $ln = 1, $align = 'C', $fill = false, $link = '', $stretch = 0, $ignore_min_height = false, $calign = 'T', $valign = 'M');
 			$pdf->SetFontSize(14);
+			$pdf->setTextColor(255,255,255);
 			$pdf->Cell($w = 185, $h = $hGlobal, $txt = 'DETALLE DEL  MANTENIMIENTO A REALIZAR', $border = 1, $ln = 1, $align = 'C', $fill = true, $link = '', $stretch = 0, $ignore_min_height = false, $calign = 'T', $valign = 'M');
 			$pdf->setTextColor(255,255,255);
 			$pdf->SetFont('','');
 			$pdf->SetFontSize(10);
-			//$pdf->MultiCell($w = 10, $h = $hMedium, $txt = 'NRO.', $border = 1, $align = 'C', $fill = true, $ln = 0, $x = '',$y = '', $reseth = true, $stretch = 0, $ishtml = false, $autopadding = true, $maxh = $hMedium, $valign = 'M', $fitcell = false);
-			$pdf->MultiCell($w = 100, $h = $hMedium, $txt = 'DESCRIPCIÓN', $border = 1, $align = 'C', $fill = true, $ln = 0, $x = '',$y = '', $reseth = true, $stretch = 0, $ishtml = false, $autopadding = true, $maxh = $hMedium, $valign = 'M', $fitcell = false);
-			$pdf->MultiCell($w = 85, $h = $hMedium, $txt = 'OBSERVACIONES', $border = 1, $align = 'C', $fill = true, $ln = 1, $x = '',$y = '', $reseth = true, $stretch = 0, $ishtml = false, $autopadding = true, $maxh = $hMedium, $valign = 'M', $fitcell = false);
+			$pdf->Cell($w = 10, $h = $hGlobal, $txt = 'NRO.', $border = 1, $ln = 0, $align = 'C', $fill = true, $link = '', $stretch = 0, $ignore_min_height = false, $calign = 'T', $valign = 'M');
+			$pdf->Cell($w = 40, $h = $hGlobal, $txt = 'SERVICIO', $border = 1, $ln = 0, $align = 'C', $fill = true, $link = '', $stretch = 0, $ignore_min_height = false, $calign = 'T', $valign = 'M');
+			$pdf->Cell($w = 95, $h = $hGlobal, $txt = 'DESCRIPCIÓN', $border = 1, $ln = 0, $align = 'C', $fill = true, $link = '', $stretch = 0, $ignore_min_height = false, $calign = 'T', $valign = 'M');
+			$pdf->Cell($w = 30, $h = $hGlobal, $txt = 'MEDIDAS', $border = 1, $ln = 0, $align = 'C', $fill = true, $link = '', $stretch = 0, $ignore_min_height = false, $calign = 'T', $valign = 'M');
+			$pdf->Cell($w = 10, $h = $hGlobal, $txt = 'EJEC.', $border = 1, $ln = 1, $align = 'C', $fill = true, $link = '', $stretch = 0, $ignore_min_height = false, $calign = 'T', $valign = 'M');
 		}
 		
 		//Valores
 		$pdf->setTextColor(0,0,0);
 		$pdf->SetFontSize(8);
-		$anchos=array(100,85);
-		$aligns=array('L','L');
+		$anchos=array(10,40,95,30,10);
+		$aligns=array('C','L','L','L','C');
 		$tot=count($dataSource->getParameter('mantPredefDataSource')->getDataset())-1;
 		$fila=0;
 		//var_dump($dataSource->getParameter('mantPredefDataSource')->getDataset());exit;
 		$data=$dataSource->getParameter('mantPredefDataSource')->getDataset();
-		
-		foreach($dataSource->getParameter('mantPredefDataSource')->getDataset() as $datarow) {
-			$pdf->MultiRow($datarow,$anchos,$aligns,$tot,$fila);
-			$fila++;
-		}
+		$pdf->MultiRow($dataSource->getParameter('mantPredefDataSource')->getDataset(),$anchos,$aligns);
 
 		$pdf->Output($fileName, 'F');
 	}

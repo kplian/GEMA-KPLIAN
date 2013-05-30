@@ -111,6 +111,8 @@ class MODMantPredefDet extends MODbase{
 		//Definicion de la lista del resultado del query
 		$this->captura('nombre','varchar');
 		$this->captura('descripcion','varchar');
+		$this->captura('medidas','varchar');
+		$this->captura('ejec','varchar');
 		
 		//Ejecuta la instruccion
 		$this->armarConsulta();

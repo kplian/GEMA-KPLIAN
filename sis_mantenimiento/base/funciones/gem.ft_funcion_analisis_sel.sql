@@ -35,6 +35,7 @@ DECLARE
   v_ffall_orden varchar;
   v_ffall_falla varchar;
   v_rec record;
+  v_cond varchar;
           
 BEGIN
 

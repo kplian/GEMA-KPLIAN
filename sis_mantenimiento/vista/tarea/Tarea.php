@@ -141,7 +141,8 @@ Phx.vista.Tarea=Ext.extend(Phx.gridInterfaz,{
    				anchor: '100%',
    				minChars:2,
        			enableMultiSelect:true,   			
-   				renderer:function(value, p, record){return String.format('{0}', record.data['desc_funcion']);}
+   				renderer:function(value, p, record){return String.format('{0}', record.data['desc_funcion']);},
+   				tpl:'<tpl for="."><div class="x-combo-list-item"><p>Orden: {orden}</p><p>Función: {descripcion}</p></div></tpl>'
 	       	},
    			type:'ComboBox',
    			id_grupo:0,
