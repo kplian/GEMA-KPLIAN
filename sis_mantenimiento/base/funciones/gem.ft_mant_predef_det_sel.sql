@@ -56,7 +56,7 @@ BEGIN
 						from gem.tmant_predef_det gedetm
 						inner join segu.tusuario usu1 on usu1.id_usuario = gedetm.id_usuario_reg
 						left join segu.tusuario usu2 on usu2.id_usuario = gedetm.id_usuario_mod
-				        where  ';
+				        where ';
 			
 			--Definicion de la respuesta
 			v_consulta:=v_consulta||v_parametros.filtro;
@@ -90,6 +90,32 @@ BEGIN
 			--Devuelve la respuesta
 			return v_consulta;
 
+		end;
+		
+	/*********************************    
+ 	#TRANSACCION:  'GEM_GEMPOT_SEL'
+ 	#DESCRIPCION:	Consulta de datos
+ 	#AUTOR:		rcm
+ 	#FECHA:		30/05/2013
+	***********************************/
+
+	elsif(p_transaccion='GEM_GEMPOT_SEL')then
+     				
+    	begin
+    		--Sentencia de la consulta
+			v_consulta:='select
+						gedetm.nombre,
+						gedetm.descripcion	
+						from gem.tmant_predef_det gedetm
+				        where ';
+			
+			--Definicion de la respuesta
+			v_consulta:=v_consulta||v_parametros.filtro;
+			v_consulta:=v_consulta||' order by ' ||v_parametros.ordenacion|| ' ' || v_parametros.dir_ordenacion || ' limit ' || v_parametros.cantidad || ' offset ' || v_parametros.puntero;
+
+			--Devuelve la respuesta
+			return v_consulta;
+						
 		end;
 					
 	else

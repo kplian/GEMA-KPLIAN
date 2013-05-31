@@ -79,6 +79,8 @@ class MODOrdenTrabajo extends MODbase{
 		$this->captura('desc_cuenta','text');
 		$this->captura('fecha_server','date');
 		$this->captura('cuenta','varchar');
+		$this->captura('id_mant_predef','int4');
+		$this->captura('desc_mant_predef','text');
 		
 		//Ejecuta la instruccion
 		$this->armarConsulta();
@@ -136,6 +138,7 @@ class MODOrdenTrabajo extends MODbase{
 		$this->setParametro('prevension', 'prevension', 'varchar');
 		$this->setParametro('descripcion_progresiva', 'descripcion_progresiva', 'varchar');
 		$this->setParametro('id_cuenta','id_cuenta','int4');
+		$this->setParametro('id_mant_predef','id_mant_predef','int4');
 		
 		//Ejecuta la instruccion
 		$this->armarConsulta();
@@ -192,6 +195,7 @@ class MODOrdenTrabajo extends MODbase{
 		$this->setParametro('prevension', 'prevension', 'varchar');
 		$this->setParametro('descripcion_progresiva', 'descripcion_progresiva', 'varchar');
 		$this->setParametro('id_cuenta','id_cuenta','int4');
+		$this->setParametro('id_mant_predef','id_mant_predef','int4');
 
 		//Ejecuta la instruccion
 		$this->armarConsulta();

@@ -42,6 +42,20 @@ class ACTFuncion extends ACTbase{
 		$this->res=$this->objFunc->eliminarFuncion();
 		$this->res->imprimirRespuesta($this->res->generarJson());
 	}
+	
+	function listarFuncionEquipo(){
+		$this->objParam->defecto('ordenacion','id_funcion');
+		$this->objParam->defecto('dir_ordenacion','asc');
+
+		if($this->objParam->getParametro('tipoReporte')=='excel_grid' || $this->objParam->getParametro('tipoReporte')=='pdf_grid'){
+			$this->objReporte = new Reporte($this->objParam, $this);
+			$this->res = $this->objReporte->generarReporteListado('MODFuncion','listarFuncionEquipo');
+		} else{
+			$this->objFunc=$this->create('MODFuncion');	
+			$this->res=$this->objFunc->listarFuncionEquipo();
+		}
+		$this->res->imprimirRespuesta($this->res->generarJson());
+	}
 			
 }
 

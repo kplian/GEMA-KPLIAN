@@ -159,7 +159,8 @@ BEGIN
                 otros_datos_tec,
                 funcion,
                 punto_recepcion_despacho,
-                horas_dia
+                horas_dia,
+                ficha_tecnica
 			) values(
                 'activo',
                 v_estado,
@@ -177,7 +178,8 @@ BEGIN
                 v_parametros.otros_datos_tec,
                 v_parametros.funcion,
                 v_parametros.punto_recepcion_despacho,
-                v_horas_dia
+                v_horas_dia,
+                v_parametros.ficha_tecnica
 			)RETURNING id_uni_cons into v_id_uni_cons;
                 
 			-- si no es un nodo base registramo la relacion con el padre
@@ -285,7 +287,8 @@ BEGIN
             herramientas_especiales = v_parametros.herramientas_especiales,
             otros_datos_tec = v_parametros.otros_datos_tec,
             funcion = v_parametros.funcion,
-            punto_recepcion_despacho = v_parametros.punto_recepcion_despacho
+            punto_recepcion_despacho = v_parametros.punto_recepcion_despacho,
+            ficha_tecnica = v_parametros.ficha_tecnica
 			where id_uni_cons=v_parametros.id_uni_cons;
                
 			--Definicion de la respuesta
@@ -459,7 +462,8 @@ BEGIN
                     tuc.herramientas_especiales,
                     tuc.otros_datos_tec,
                     tuc.funcion,
-                    tuc.punto_recepcion_despacho
+                    tuc.punto_recepcion_despacho,
+                    tuc.ficha_tecnica
                 from gem.tuni_cons tuc 
                 where tuc.id_uni_cons = v_parametros.id_uni_cons  
                 and tuc.estado_reg='activo'
@@ -500,7 +504,8 @@ BEGIN
                             herramientas_especiales,
                             otros_datos_tec,
                             funcion,
-                            punto_recepcion_despacho
+                            punto_recepcion_despacho,
+                            ficha_tecnica
                         ) values (
                         	'activo',
                        		'registrado',
@@ -517,7 +522,8 @@ BEGIN
                             g_registros.herramientas_especiales,
                             g_registros.otros_datos_tec,
                             g_registros.funcion,
-                            g_registros.punto_recepcion_despacho
+                            g_registros.punto_recepcion_despacho,
+                            g_registros.ficha_tecnica
                         ) RETURNING id_uni_cons into v_id_uni_cons;
                         
                         

@@ -35,6 +35,7 @@ class MODMantPredefDet extends MODbase{
 		
 		//Ejecuta la instruccion
 		$this->armarConsulta();
+		//echo $this->consulta;exit;
 		$this->ejecutarConsulta();
 		
 		//Devuelve la respuesta
@@ -97,6 +98,25 @@ class MODMantPredefDet extends MODbase{
 		$this->armarConsulta();
 		$this->ejecutarConsulta();
 
+		//Devuelve la respuesta
+		return $this->respuesta;
+	}
+	
+	function listarMantPredefDetOT(){
+		//Definicion de variables para ejecucion del procedimientp
+		$this->procedimiento='gem.ft_mant_predef_det_sel';
+		$this->transaccion='GEM_GEMPOT_SEL';
+		$this->tipo_procedimiento='SEL';//tipo de transaccion
+				
+		//Definicion de la lista del resultado del query
+		$this->captura('nombre','varchar');
+		$this->captura('descripcion','varchar');
+		
+		//Ejecuta la instruccion
+		$this->armarConsulta();
+		//echo $this->consulta;exit;
+		$this->ejecutarConsulta();
+		
 		//Devuelve la respuesta
 		return $this->respuesta;
 	}
