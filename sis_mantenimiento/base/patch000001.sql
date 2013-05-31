@@ -1361,8 +1361,8 @@ ALTER TABLE gem.tanalisis_mant
   RENAME COLUMN id_funcionario_prep TO id_persona_prep;
 ALTER TABLE gem.tanalisis_mant
   DROP CONSTRAINT fk_tanalisis_mant__id_empleado_rev RESTRICT;
-ALTER TABLE gem.tanalisis_mant
-  DROP CONSTRAINT fk_tanalisis_mant__id_funcionario_prep RESTRICT;
+--ALTER TABLE gem.tanalisis_mant
+--  DROP CONSTRAINT fk_tanalisis_mant__id_funcionario_prep RESTRICT;
 alter table gem.tanalisis_mant
 add column id_uo integer;
 ALTER TABLE gem.tplan_mant
