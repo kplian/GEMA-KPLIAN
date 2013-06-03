@@ -275,10 +275,10 @@ Class RUniCons_FichaTecnica extends Report {
 		$pdf->SetXY($xContinue, $yContinue);
 		//Detalle de la unidad constructiva
 		$pdf->SetFontSize(7.5);
-		$pdf->SetFont('', 'B');
+		$pdf->SetFont('', '');
 		$pdf->SetFillColor(51,51,153, true);
 		$pdf->setTextColor(255,255,255);
-		$pdf->Cell(0, $height, 'IDENTIFICACIÓN', 0, 0, 'C', true, '', 0, true, 'T', 'C');
+		$pdf->Cell(185, $height, 'IDENTIFICACIÓN', 0, 0, 'C', true, '', 0, true, 'T', 'C');
 		$pdf->Ln();
 		$height=3;
 		// end title
@@ -365,8 +365,8 @@ Class RUniCons_FichaTecnica extends Report {
 			$pdf->Cell($pairSeparatorWidth, $height, '', 0, 0, 'C', false, '', 0, false, 'T', 'C');
 		}
 		
-		$pdf->SetFont('', 'B');
-		$pdf->setTextColor(51,51,153);
+		$pdf->SetFont('', '');
+		$pdf->setTextColor(0,0,0);//$pdf->setTextColor(51,51,153);
 		
 		if($value1=='TAG'){
 			$pdf->setTextColor(255,255,255);
