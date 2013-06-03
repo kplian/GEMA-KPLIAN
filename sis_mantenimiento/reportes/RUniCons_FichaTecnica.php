@@ -89,6 +89,72 @@ require_once dirname(__FILE__).'/pxpReport/Report.php';
 		$this->Cell($ancho, 0, "Fecha impresión: ".$fecha_rep, '', 0, 'L');
 		$this->Ln($line_width);
 	}
+	
+	public function MultiRow($pMatriz,$pWidth,$pAlign,$pVisible=array(),$pConNumeracion=1) {
+		// MultiCell($w, $h, $txt, $border=0, $align='J', $fill=0, $ln=1, $x='', $y='', $reseth=true, $stretch=0)
+		$page_start = $this->getPage();
+		$y_start = $this->GetY();
+		
+		//Obtiene el total de filas 
+		$totalFilas=count($pMatriz)-1;
+		$fila=0;
+		
+		foreach ($pMatriz as $row) {
+			//Obtiene el alto máximo de la celda de toda la fila
+			$i=0;
+			$nb=0;
+			
+			$x=$this->getX();
+			$y=$this->getY();
+			//var_dump($this->array_unshift_assoc($fila,'nro',$fila));exit;
+			foreach ($row as $value) {
+				$nb=max($nb,$this->getNumLines($value,$pWidth[$i]));
+				$i++;
+			}
+			//Define el alto máximo
+			$alto=3*$nb;
+			$j=0;
+			$tmp=$fila+1;
+			if($pConNumeracion){
+				$row=$this->array_unshift_assoc($row,'nro',$tmp);	
+			}
+			
+			//Dibuja la fila
+			foreach ($row as $value) {
+				if($i>0){
+					$this->setXY($x,$y);
+				}
+				
+				//Verificación de borde
+				if($fila==$totalFilas){
+					if($value==''){
+						$borde='LRB';
+					} else{
+						$borde='LRTB';
+					}
+				} else{
+					if($value==''){
+						$borde='LR';
+					} else{
+						$borde='LRT';
+					}
+				}
+				// MultiCell($w, $h, $txt, $border=0, $align='J', $fill=0, $ln=1, $x='', $y='', $reseth=true, $stretch=0)
+				$this->MultiCell($pWidth[$j], $alto, $value, $borde, $pAlign[$j], 0, 0, '', '', true, 0);
+				$j++;
+				$x=$this->getX();
+				//$this->Ln();	
+			}
+			$this->Ln();
+			$fila++;
+		}
+	}
+
+	public function array_unshift_assoc(&$arr, $key, $val){
+	    $arr = array_reverse($arr, true);
+	    $arr[$key] = $val;
+	    return array_reverse($arr, true);
+	}
 }
 
 Class RUniCons_FichaTecnica extends Report {
@@ -212,7 +278,7 @@ Class RUniCons_FichaTecnica extends Report {
 		$pdf->SetFont('', 'B');
 		$pdf->SetFillColor(51,51,153, true);
 		$pdf->setTextColor(255,255,255);
-		$pdf->Cell(0, $height, 'IDENTIFICACIÓN:', 0, 0, 'L', true, '', 0, true, 'T', 'C');
+		$pdf->Cell(0, $height, 'IDENTIFICACIÓN', 0, 0, 'C', true, '', 0, true, 'T', 'C');
 		$pdf->Ln();
 		$height=3;
 		// end title
@@ -262,21 +328,27 @@ Class RUniCons_FichaTecnica extends Report {
 		$wHalf = 90;
 		
 		$pdf->SetFontSize(7.5);
-		$pdf->SetFont('', 'B');
-		$pdf->setTextColor(234,0,0);
-		$pdf->Cell($w = $wHalf, $h = $height, $txt = 'OBSERVACIONES', $border = 0, $ln = 0, $align = 'L', $fill = false, $link = '', $stretch = 0, $ignore_min_height = false, $calign = 'T', $valign = 'M');
-		$pdf->Cell($w = 5, $h = $height, $txt = '', $border = 0, $ln = 0, $align = 'C', $fill = false, $link = '', $stretch = 0, $ignore_min_height = false, $calign = 'T', $valign = 'M');
-		$pdf->Cell($w = $wHalf, $h = $height, $txt = 'OTROS DATOS TÉCNICOS', $border = 0, $ln = 1, $align = 'L', $fill = false, $link = '', $stretch = 0, $ignore_min_height = false, $calign = 'T', $valign = 'M');
+		$pdf->SetFont('', '');
+		//$pdf->setTextColor(234,0,0);
+		$pdf->setTextColor(255,255,255);
+		$pdf->Cell(185, $height, 'OBSERVACIONES', 1, 1, 'C', true, '', 0, false, 'T', 'C');
+		$pdf->setTextColor(0,0,0);
+		$pdf->MultiCell(185, $hMedium, $this->getDataSource()->getParameter('herramientasEspeciales'), 1, 'L', 0, 1, '', '', true, 0);
+		//$pdf->Cell($w = 5, $h = $height, $txt = '', $border = 0, $ln = 0, $align = 'C', $fill = false, $link = '', $stretch = 0, $ignore_min_height = false, $calign = 'T', $valign = 'M');
+		$pdf->setTextColor(255,255,255);
+		$pdf->Cell(185, $height, 'OTROS DATOS TÉCNICOS', 1, 1, 'C', true, '', 0, false, 'T', 'C');
+		$pdf->setTextColor(0,0,0);
+		$pdf->MultiCell(185, $hMedium, $this->getDataSource()->getParameter('otrosDatosTecnicos'), 1, 'L', 0, 1, '', '', true, 0);
 		
 		$pdf->SetFontSize(6.5);
 		$pdf->SetFont('', '');
 		$pdf->setTextColor(0,0,0);
 		//echo $this->getDataSource()->getParameter('otrosDatosTecnicos');exit;
 		//$pdf->MultiCell($w = $wHalf, $h = $hMedium, $txt = $this->getDataSource()->getParameter('herramientasEspeciales'), $border = 0, $align = 'L', $fill = false, $ln = 0, $x = '',$y = '', $reseth = true, $stretch = 0, $ishtml = false, $autopadding = true, $maxh = $hMedium, $valign = 'T', $fitcell = false);
-		$pdf->MultiCell($wHalf, $hMedium, $this->getDataSource()->getParameter('herramientasEspeciales'), 0, 'L', 0, 0, '', '', true, 0);
+		
 		$pdf->MultiCell($w = 5, $h = $hMedium, $txt = '', $border = 0, $align = 'L', $fill = false, $ln = 0, $x = '',$y = '', $reseth = true, $stretch = 0, $ishtml = false, $autopadding = true, $maxh = $hMedium, $valign = 'T', $fitcell = false);
 		//$pdf->MultiCell($w = $wHalf, $h = $hMedium, $txt = $this->getDataSource()->getParameter('otrosDatosTecnicos'), $border = 1, $align = 'L', $fill = false, $ln = 1, $x = '',$y = '', $reseth = true, $stretch = 1, $ishtml = false, $autopadding = true, $maxh = $hMedium, $valign = 'T', $fitcell = false);
-		$pdf->MultiCell($wHalf, $hMedium, $this->getDataSource()->getParameter('otrosDatosTecnicos'), 0, 'L', 0, 1, '', '', true, 0);
+		
 		
 		/*$pdf->Ln();
 		$pdf->Cell($w = 30, $h = $height, $txt = 'Observaciones', $border = 0, $ln = 0, $align = 'L', $fill = false, $link = '', $stretch = 0, $ignore_min_height = false, $calign = 'T', $valign = 'M');
@@ -295,17 +367,26 @@ Class RUniCons_FichaTecnica extends Report {
 		
 		$pdf->SetFont('', 'B');
 		$pdf->setTextColor(51,51,153);
-		$pdf->Cell($widthVal2, $height, $value2, 1, 0, 'C', false, '', 0, false, 'T', 'C');
+		
+		if($value1=='TAG'){
+			$pdf->setTextColor(255,255,255);
+			$pdf->Cell($widthVal2, $height, $value2, 1, 0, 'C', true, '', 0, false, 'T', 'C');
+			$pdf->setTextColor(0,0,0);
+		} else{
+			$pdf->Cell($widthVal2, $height, $value2, 1, 0, 'C', false, '', 0, false, 'T', 'C');	
+		}
+		
 	}
 	
 	function writeHijoUniCons(DataSource $dataSource, TCPDF $pdf) {
-		$pdf->Ln();
-		$pdf->SetFontSize(7.5);
-		$pdf->SetFont('', '');
-		$height = 4;
-		$pdf->SetFillColor(51,51,153, true);
-		$pdf->setTextColor(255,255,255);
+		
 		if($dataSource->getParameter('ficha_tecnica')=='Si'){
+			$pdf->Ln();
+			$pdf->SetFontSize(7.5);
+			$pdf->SetFont('', '');
+			$height = 4;
+			$pdf->SetFillColor(51,51,153, true);
+			$pdf->setTextColor(255,255,255);
 			$pdf->Cell(185, $height, $dataSource->getParameter('nombreUniConsHijo'), 1, 0, 'C', true, '', 0, false, 'T', 'C');
 			$pdf->Ln();
 			$height = 3;
@@ -404,7 +485,7 @@ Class RUniCons_FichaTecnica extends Report {
 		$height = 3;
 		$pdf->SetFontSize(5.5);
 		
-		foreach($dataSource->getDataset() as $row) {
+		/*foreach($dataSource->getDataset() as $row) {
 			if ($widthMarginLeft > 0) {
 				$pdf->Cell($widthMarginLeft, $height, '', 0, 0, 'C', false, '', 0, false, 'T', 'C');
 			}
@@ -416,7 +497,11 @@ Class RUniCons_FichaTecnica extends Report {
 			$pdf->Cell($widthTelefono, $height, $row['telefono1'], 1, 0, 'C', false, '', 0, false, 'T', 'C');
 			$pdf->Cell($widthEmail, $height, $row['email1'], 1, 0, 'C', false, '', 0, false, 'T', 'C');
 			$pdf->Ln();
-		}
+		}*/
+		
+		$anchos=array($widthDescripcion,$widthParte,$widthProveedor,$widthContacto,$widthDireccion,$widthTelefono,$widthEmail);
+		$aligns=array('L','L','L','L','L','L','L');
+		$pdf->MultiRow($dataSource->getDataset(),$anchos,$aligns,0,0);
 	}
 
 	function writeDocumentacionTecnica(DataSource $dataSource, TCPDF $pdf) {

@@ -116,7 +116,10 @@ BEGIN
     		--Sentencia de la consulta
 			v_consulta:='select
 						item.nombre, item.codigo, prov.desc_proveedor,
-						per.nombre || '' ''|| per.apellido_paterno||'' ''||per.apellido_materno as contacto,
+						case coalesce(prov.id_persona,0)
+							when 0 then coalesce(per1.nombre,'''') || '' ''|| coalesce(per1.apellido_paterno,'''')||'' ''||coalesce(per1.apellido_materno,'''')
+							else coalesce(per.nombre,'''') || '' ''|| coalesce(per.apellido_paterno,'''')||'' ''||coalesce(per.apellido_materno,'''') 
+						end as contacto,
 						inst.direccion,inst.telefono1, inst.email1
 						from gem.tuni_cons_item uitem
 						inner join alm.titem item
@@ -127,6 +130,8 @@ BEGIN
 						on per.id_persona = prov.id_persona
 						left join param.tinstitucion inst
 						on inst.id_institucion = prov.id_institucion
+						left join segu.tpersona per1
+						on per1.id_persona = inst.id_persona
 				        where ';
 			
 			--Definicion de la respuesta
