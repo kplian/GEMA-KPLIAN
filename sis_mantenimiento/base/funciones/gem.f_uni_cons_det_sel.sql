@@ -42,7 +42,11 @@ DECLARE
     v_lav numeric;
     v_bat numeric;
     v_neu numeric;
-    v_mtto numeric;
+    v_mtto1 numeric;
+    v_mtto2 numeric;
+    v_mtto3 numeric;
+    v_mtto4 numeric;
+    v_mtto5 numeric;
     v_kil numeric;
     v_tot numeric;
     v_con1 varchar;
@@ -230,9 +234,10 @@ BEGIN
                                   and ucons.estado_reg = ''activo''
                                   and ucons.tipo_nodo = ''raiz''';
 
-      if v_ids is not null then
+      		if v_ids is not null then
               v_con1= v_con1||' and ucons.id_localizacion in ('|| v_ids ||')';
             end if;
+            
             v_con1 = v_con1 || ' and evar.tipo in (''numeric'',''formula'')';
 
             --Aumenta las columnas de las variables de medición        
@@ -257,7 +262,7 @@ BEGIN
                                   and ucons.estado_reg = ''activo''
                                   and ucons.tipo_nodo = ''raiz''';
                                   
-      if v_ids is not null then
+      		if v_ids is not null then
               v_con1= v_con1||' and ucons.id_localizacion in ('|| v_ids ||')';
             end if;
             
@@ -294,8 +299,8 @@ BEGIN
               v_consulta = v_consulta||' and ucons.id_localizacion in ('|| v_ids ||')';
             end if;
             
-      v_consulta = v_consulta || ' and emed.fecha_medicion between '''|| v_parametros.fecha_ini||''' and '''|| v_parametros.fecha_fin||'''';
-                          
+      		v_consulta = v_consulta || ' and emed.fecha_medicion between '''|| v_parametros.fecha_ini||''' and '''|| v_parametros.fecha_fin||'''';
+      		
             for v_rec in execute(v_consulta) loop
                 v_consulta1= 'INSERT into tt_reporte_ficha_var_'||p_id_usuario||' (
                             id_uni_cons';
@@ -317,7 +322,7 @@ BEGIN
                                  where ev.estado_reg = 'activo'
                                  and ev.tipo='numeric'
                                  and ev.id_uni_cons = v_rec.id_uni_cons
-                                 --and em.fecha_medicion = v_rec.fecha_medicion
+                                 and em.fecha_medicion between v_parametros.fecha_ini and v_parametros.fecha_fin
                                  group by  tva.id_tipo_variable) loop
                                  
                   v_cod = 'col_'||v_rec1.id_tipo_variable;
@@ -350,34 +355,44 @@ BEGIN
                 ) loop
                                                      raise notice 'FFFF: %, %',v_rec1.nombre,v_rec.id_uni_cons;
                   v_tot=0;
-          if upper(trim(v_rec1.nombre))=upper('Rendimiento (Km/Lt)') then
-                      v_kil = gem.f_get_valor_variable_medicion(v_parametros.id_tipo_equipo,'Kilometraje',v_rec.id_uni_cons,v_parametros.fecha_ini,v_parametros.fecha_fin);
-                        v_comb = gem.f_get_valor_variable_medicion(v_parametros.id_tipo_equipo,'Consumo Combustible',v_rec.id_uni_cons,v_parametros.fecha_ini,v_parametros.fecha_fin);
+          			if upper(trim(v_rec1.nombre))=upper('Rendimiento(Km/Lt)') then
+                      	v_kil = gem.f_get_valor_variable_medicion(v_parametros.id_tipo_equipo,'Kilometraje del mes',v_rec.id_uni_cons,v_parametros.fecha_ini,v_parametros.fecha_fin);
+                        v_comb = gem.f_get_valor_variable_medicion(v_parametros.id_tipo_equipo,'Consumo comb.(Lts)',v_rec.id_uni_cons,v_parametros.fecha_ini,v_parametros.fecha_fin);
                         v_tot=-1;
                         if v_comb!=0 then
                           v_tot=round(v_kil/v_comb,2);
                         end if;
                     elsif upper(trim(v_rec1.nombre))=upper('Costo Total (Bs)') then
-                      v_ccomb = gem.f_get_valor_variable_medicion(v_parametros.id_tipo_equipo,'Costo Comb (Bs)',v_rec.id_uni_cons,v_parametros.fecha_ini,v_parametros.fecha_fin);
+                      	v_ccomb = gem.f_get_valor_variable_medicion(v_parametros.id_tipo_equipo,'Costo Comb.(Bs.)',v_rec.id_uni_cons,v_parametros.fecha_ini,v_parametros.fecha_fin);
                         v_parch = gem.f_get_valor_variable_medicion(v_parametros.id_tipo_equipo,'Costo Parchado (Bs)',v_rec.id_uni_cons,v_parametros.fecha_ini,v_parametros.fecha_fin);
                         v_lub = gem.f_get_valor_variable_medicion(v_parametros.id_tipo_equipo,'Costo Lubricantes (Bs)',v_rec.id_uni_cons,v_parametros.fecha_ini,v_parametros.fecha_fin);
                         v_lav = gem.f_get_valor_variable_medicion(v_parametros.id_tipo_equipo,'Costo Lavado (Bs)',v_rec.id_uni_cons,v_parametros.fecha_ini,v_parametros.fecha_fin);
                         v_bat = gem.f_get_valor_variable_medicion(v_parametros.id_tipo_equipo,'Costo Batería (Bs)',v_rec.id_uni_cons,v_parametros.fecha_ini,v_parametros.fecha_fin);
                         v_neu = gem.f_get_valor_variable_medicion(v_parametros.id_tipo_equipo,'Costo Neumatico (Bs)',v_rec.id_uni_cons,v_parametros.fecha_ini,v_parametros.fecha_fin);
-                        v_mtto = gem.f_get_valor_variable_medicion(v_parametros.id_tipo_equipo,'Costo Mtto.(Bs)',v_rec.id_uni_cons,v_parametros.fecha_ini,v_parametros.fecha_fin);
-                        v_tot=v_ccomb+v_parch+v_lub+v_lav+v_bat+v_neu+v_mtto;
+                        v_mtto1 = gem.f_get_valor_variable_medicion(v_parametros.id_tipo_equipo,'Costo Mtto1.(Bs)',v_rec.id_uni_cons,v_parametros.fecha_ini,v_parametros.fecha_fin);
+                        v_mtto2 = gem.f_get_valor_variable_medicion(v_parametros.id_tipo_equipo,'Costo Mtto2.(Bs)',v_rec.id_uni_cons,v_parametros.fecha_ini,v_parametros.fecha_fin);
+                        v_mtto3 = gem.f_get_valor_variable_medicion(v_parametros.id_tipo_equipo,'Costo Mtto3.(Bs)',v_rec.id_uni_cons,v_parametros.fecha_ini,v_parametros.fecha_fin);
+                        v_mtto4 = gem.f_get_valor_variable_medicion(v_parametros.id_tipo_equipo,'Costo Mtto4.(Bs)',v_rec.id_uni_cons,v_parametros.fecha_ini,v_parametros.fecha_fin);
+                        v_mtto5 = gem.f_get_valor_variable_medicion(v_parametros.id_tipo_equipo,'Costo Mtto5.(Bs.)',v_rec.id_uni_cons,v_parametros.fecha_ini,v_parametros.fecha_fin);
+                        v_tot=v_ccomb+v_parch+v_lub+v_lav+v_bat+v_neu+v_mtto1+v_mtto2+v_mtto3+v_mtto4+v_mtto5;
+                        
+                        --raise exception '% % % % % % % % % % %',v_ccomb,v_parch,v_lub,v_lav,v_bat,v_neu,v_mtto1,v_mtto2,v_mtto3,v_mtto4,v_mtto5;
                     elsif upper(trim(v_rec1.nombre))=upper('Factor Costo (Bs/Km)') then
-                      v_kil = gem.f_get_valor_variable_medicion(v_parametros.id_tipo_equipo,'Kilometraje',v_rec.id_uni_cons,v_parametros.fecha_ini,v_parametros.fecha_fin);
-                        v_ccomb = gem.f_get_valor_variable_medicion(v_parametros.id_tipo_equipo,'Costo Comb (Bs)',v_rec.id_uni_cons,v_parametros.fecha_ini,v_parametros.fecha_fin);
+                      	v_kil = gem.f_get_valor_variable_medicion(v_parametros.id_tipo_equipo,'Kilometraje del mes',v_rec.id_uni_cons,v_parametros.fecha_ini,v_parametros.fecha_fin);
+                        v_ccomb = gem.f_get_valor_variable_medicion(v_parametros.id_tipo_equipo,'Costo Comb.(Bs.)',v_rec.id_uni_cons,v_parametros.fecha_ini,v_parametros.fecha_fin);
                         v_parch = gem.f_get_valor_variable_medicion(v_parametros.id_tipo_equipo,'Costo Parchado (Bs)',v_rec.id_uni_cons,v_parametros.fecha_ini,v_parametros.fecha_fin);
                         v_lub = gem.f_get_valor_variable_medicion(v_parametros.id_tipo_equipo,'Costo Lubricantes (Bs)',v_rec.id_uni_cons,v_parametros.fecha_ini,v_parametros.fecha_fin);
                         v_lav = gem.f_get_valor_variable_medicion(v_parametros.id_tipo_equipo,'Costo Lavado (Bs)',v_rec.id_uni_cons,v_parametros.fecha_ini,v_parametros.fecha_fin);
                         v_bat = gem.f_get_valor_variable_medicion(v_parametros.id_tipo_equipo,'Costo Batería (Bs)',v_rec.id_uni_cons,v_parametros.fecha_ini,v_parametros.fecha_fin);
                         v_neu = gem.f_get_valor_variable_medicion(v_parametros.id_tipo_equipo,'Costo Neumatico (Bs)',v_rec.id_uni_cons,v_parametros.fecha_ini,v_parametros.fecha_fin);
-                        v_mtto = gem.f_get_valor_variable_medicion(v_parametros.id_tipo_equipo,'Costo Mtto.(Bs)',v_rec.id_uni_cons,v_parametros.fecha_ini,v_parametros.fecha_fin);
+                        v_mtto1 = gem.f_get_valor_variable_medicion(v_parametros.id_tipo_equipo,'Costo Mtto1.(Bs)',v_rec.id_uni_cons,v_parametros.fecha_ini,v_parametros.fecha_fin);
+                        v_mtto2 = gem.f_get_valor_variable_medicion(v_parametros.id_tipo_equipo,'Costo Mtto2.(Bs)',v_rec.id_uni_cons,v_parametros.fecha_ini,v_parametros.fecha_fin);
+                        v_mtto3 = gem.f_get_valor_variable_medicion(v_parametros.id_tipo_equipo,'Costo Mtto3.(Bs)',v_rec.id_uni_cons,v_parametros.fecha_ini,v_parametros.fecha_fin);
+                        v_mtto4 = gem.f_get_valor_variable_medicion(v_parametros.id_tipo_equipo,'Costo Mtto4.(Bs)',v_rec.id_uni_cons,v_parametros.fecha_ini,v_parametros.fecha_fin);
+                        v_mtto5 = gem.f_get_valor_variable_medicion(v_parametros.id_tipo_equipo,'Costo Mtto5.(Bs.)',v_rec.id_uni_cons,v_parametros.fecha_ini,v_parametros.fecha_fin);
                         v_tot=-1;
                         if v_kil!=0 then
-                          v_tot=round((v_ccomb+v_parch+v_lub+v_lav+v_bat+v_neu+v_mtto)/v_kil,2);
+                          v_tot=round((v_ccomb+v_parch+v_lub+v_lav+v_bat+v_neu+v_mtto1+v_mtto2+v_mtto3+v_mtto4+v_mtto5)/v_kil,2);
                         end if;
                     end if;
                     

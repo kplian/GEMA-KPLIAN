@@ -122,7 +122,7 @@ Phx.vista.EquipoMedicionDinamico=Ext.extend(Phx.gridInterfaz,{
 			for (var i=0;i<rec.length;i++){
 				var configDef={};
 				
-			var codigo_col = 'col_'+rec[i].data.key;
+				var codigo_col = 'col_'+rec[i].data.key;
 				
 				this.fields.push(codigo_col);
 				this.fields.push(codigo_col+'_key');

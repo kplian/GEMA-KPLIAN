@@ -168,39 +168,39 @@ BEGIN
   #FECHA:     14/03/2013
   ***********************************/
 
-  elsif(p_transaccion='GEM_VARLOC_SEL')then
+	elsif(p_transaccion='GEM_VARLOC_SEL')then
             
-      begin
-        --Obtiene los ids de  las localizaciones hijos
-          v_ids = gem.f_get_id_localizaciones(v_parametros.id_localizacion);
-          
-        --Sentencia de la consulta
-      v_consulta:='select distinct
-            tva.id_tipo_variable,
-                        tva.nombre as nombre_tipo_variable,
-                        um.codigo as codigo_unidad_medida,
-                        um.id_unidad_medida,
-                        tva.id_tipo_variable as key,
-                        eqv.tipo
-            from gem.tequipo_variable eqv
-            inner join gem.ttipo_variable tva on tva.id_tipo_variable = eqv.id_tipo_variable
-                        inner join segu.tusuario usu1 on usu1.id_usuario = eqv.id_usuario_reg
-                        inner join param.tunidad_medida um on  um.id_unidad_medida = tva.id_unidad_medida
-            left join segu.tusuario usu2 on usu2.id_usuario = eqv.id_usuario_mod
-            inner join gem.tuni_cons ucons on ucons.id_uni_cons = eqv.id_uni_cons
-                where eqv.estado_reg = ''activo''
-                and ucons.estado_reg = ''activo''
-                and ucons.tipo_nodo = ''raiz''
-                and ucons.id_localizacion in ('|| v_ids||')
-                and eqv.tipo = ''numeric''
-                and ';
-      
-      --Definicion de la respuesta
-      v_consulta:=v_consulta||v_parametros.filtro;
-      v_consulta:=v_consulta||' order by ' ||v_parametros.ordenacion|| ' ' || v_parametros.dir_ordenacion || ' limit ' || v_parametros.cantidad || ' offset ' || v_parametros.puntero;
-
-      --Devuelve la respuesta
-      return v_consulta;
+		begin
+			--Obtiene los ids de  las localizaciones hijos
+		      v_ids = gem.f_get_id_localizaciones(v_parametros.id_localizacion);
+		      
+		    --Sentencia de la consulta
+		  	v_consulta:='select distinct
+		        		tva.id_tipo_variable,
+		                tva.nombre as nombre_tipo_variable,
+		                um.codigo as codigo_unidad_medida,
+		                um.id_unidad_medida,
+		                tva.id_tipo_variable as key,
+		                eqv.tipo
+				        from gem.tequipo_variable eqv
+				        inner join gem.ttipo_variable tva on tva.id_tipo_variable = eqv.id_tipo_variable
+		                inner join segu.tusuario usu1 on usu1.id_usuario = eqv.id_usuario_reg
+		                inner join param.tunidad_medida um on  um.id_unidad_medida = tva.id_unidad_medida
+				        left join segu.tusuario usu2 on usu2.id_usuario = eqv.id_usuario_mod
+				        inner join gem.tuni_cons ucons on ucons.id_uni_cons = eqv.id_uni_cons
+			            where eqv.estado_reg = ''activo''
+			            and ucons.estado_reg = ''activo''
+			            and ucons.tipo_nodo = ''raiz''
+			            and ucons.id_localizacion in ('|| v_ids||')
+			            and eqv.tipo = ''numeric''
+			            and ';
+		  
+			  --Definicion de la respuesta
+			  v_consulta:=v_consulta||v_parametros.filtro;
+			  v_consulta:=v_consulta||' order by ' ||v_parametros.ordenacion|| ' ' || v_parametros.dir_ordenacion || ' limit ' || v_parametros.cantidad || ' offset ' || v_parametros.puntero;
+			
+			  --Devuelve la respuesta
+			  return v_consulta;
             
     end;
 

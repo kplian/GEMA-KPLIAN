@@ -186,17 +186,17 @@ Phx.vista.EquipoFichaTecnicaVariables=Ext.extend(Phx.gridInterfaz,{
 		    this.tbar.add('Hasta: ',this.dateFechaFin);
 		    this.tbar.add('Limite: ',this.cmbLimit);
 		    //Agrega los botones a la barra de herramientas
-			this.tbar.add(this.cmb_caract);
-			this.tbar.add(this.txt_caract);
+			//this.tbar.add(this.cmb_caract);
+			//this.tbar.add(this.txt_caract);
 		    
 		
-		    this.addButton('btnGrafica',{
+		    /*this.addButton('btnGrafica',{
             text : 'Graficar',
             iconCls : 'bgraph',
             disabled : false,
             handler : this.onButtonGrafica,
             tooltip : '<b>Gráfica</b><br/><b>Genera gráfica (La ordenación de los resultados afecta la gráfica)</b>'
-             });
+             });*/
         
 		
 			this.init();
