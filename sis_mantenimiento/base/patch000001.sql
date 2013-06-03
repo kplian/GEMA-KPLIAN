@@ -1359,20 +1359,13 @@ ALTER TABLE gem.tanalisis_mant
   RENAME COLUMN id_funcionario_rev TO id_persona_rev;
 ALTER TABLE gem.tanalisis_mant
   RENAME COLUMN id_funcionario_prep TO id_persona_prep;
-ALTER TABLE gem.tanalisis_mant
-  DROP CONSTRAINT fk_tanalisis_mant__id_empleado_rev RESTRICT;
---ALTER TABLE gem.tanalisis_mant
---  DROP CONSTRAINT fk_tanalisis_mant__id_funcionario_prep RESTRICT;
+
 alter table gem.tanalisis_mant
 add column id_uo integer;
 ALTER TABLE gem.tplan_mant
   RENAME COLUMN id_funcionario TO id_persona;
 ALTER TABLE gem.tplan_mant
   RENAME COLUMN id_funcionario_rev TO id_persona_rev;
-ALTER TABLE gem.tplan_mant
-  DROP CONSTRAINT fk_tplan_mant__id_funcionario RESTRICT;
-ALTER TABLE gem.tplan_mant
-  DROP CONSTRAINT fk_tplan_mant__id_funcionario_rev RESTRICT;
 alter table gem.tplan_mant
 add column id_uo integer;
 alter table gem.torden_trabajo_sol
@@ -1390,3 +1383,27 @@ add column id_mant_predef integer;
 alter table gem.tuni_cons
 add column ficha_tecnica varchar(2) default 'Si';
 /***********************************F-SCP-RCM-GEM-141-30/05/2013*****************************************/
+
+/***********************************I-SCP-RCM-GEM-143-04/06/2013*****************************************/
+create table gem.tpresupuesto(
+	id_presupuesto integer,
+	codigo varchar(30),
+	nombre varchar(100)
+) INHERITS (pxp.tbase)
+WITH OIDS;
+ALTER TABLE gem.tpresupuesto OWNER TO postgres;
+
+create table gem.tpresupuesto_loc(
+	id_presupuesto_loc integer,
+	id_presupuesto integer,
+	id_localizacion integer,
+	mes integer,
+	monto_prog numeric(18,2),
+	monto_techo numeric(18,2),
+	porcen_prog_techo numeric(18,2),
+	monto_presup numeric(18,2),
+	monto_ejec numeric(18,2)
+) INHERITS (pxp.tbase)
+WITH OIDS;
+ALTER TABLE gem.tpresupuesto_loc OWNER TO postgres;
+/***********************************F-SCP-RCM-GEM-143-04/06/2013*****************************************/
