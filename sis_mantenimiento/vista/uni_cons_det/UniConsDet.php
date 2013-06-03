@@ -52,7 +52,7 @@ Phx.vista.UniConsDet=Ext.extend(Phx.gridInterfaz,{
 				gwidth: 100,
 				maxLength:8
 			},
-			type:'TextField',
+			type:'NumberField',
 			filters:{pfiltro:'ucdet.codigo',type:'string'},
 			id_grupo:1,
 			grid:true,

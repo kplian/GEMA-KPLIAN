@@ -27,7 +27,7 @@ class MODUniConsDet extends MODbase{
 		$this->captura('id_uni_cons_det','int4');
 		$this->captura('id_unidad_medida','int4');
 		$this->captura('id_uni_cons','int4');
-		$this->captura('codigo','varchar');
+		$this->captura('codigo','numeric');
 		$this->captura('nombre','varchar');
 		$this->captura('descripcion','varchar');
 		$this->captura('valor','varchar');

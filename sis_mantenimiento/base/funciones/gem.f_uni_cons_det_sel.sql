@@ -68,7 +68,7 @@ BEGIN
             ucdet.id_uni_cons_det,
             ucdet.id_unidad_medida,
             ucdet.id_uni_cons,
-            ucdet.codigo,
+            ucdet.codigo::numeric,
             ucdet.nombre,
             ucdet.descripcion,
             ucdet.valor,
