@@ -346,11 +346,13 @@ BEGIN
                         tuc.otros_datos_tec,
                         tuc.funcion,
                         tuc.punto_recepcion_despacho,
-                        tuc.ficha_tecnica
+                        tuc.ficha_tecnica,
+                        loc1.nombre as loc_padre
                       from gem.tuni_cons tuc
                       left join gem.ttipo_equipo teq on tuc.id_tipo_equipo = teq.id_tipo_equipo
                       left join gem.tlocalizacion loc on tuc.id_localizacion = loc.id_localizacion
                       left join gem.tuni_cons_comp tcc on tuc.id_uni_cons = tcc.id_uni_cons_hijo
+                      left join gem.tlocalizacion loc1 on loc1.id_localizacion = loc.id_localizacion_fk
                       where tuc.id_uni_cons = '|| v_parametros.id_uni_cons;
 
         --Devuelve la respuesta

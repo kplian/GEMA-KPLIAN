@@ -359,11 +359,12 @@ class ACTUniCons extends ACTbase{
 		//armamos el array parametros y metemos ahi los data sets de las otras tablas
 		$dataSource->putParameter('nombre', $datosUniCons[0]['nombre']);
 		$dataSource->putParameter('codigo', $datosUniCons[0]['codigo']);
-		$dataSource->putParameter('localizacion', $datosUniCons[0]['nombre_localizacion']);
+		$dataSource->putParameter('localizacion', $datosUniCons[0]['loc_padre']);
 		$dataSource->putParameter('funcion', $datosUniCons[0]['funcion']);
 		$dataSource->putParameter('puntoRecepcionDespacho', $datosUniCons[0]['punto_recepcion_despacho']);
 		$dataSource->putParameter('herramientasEspeciales', $datosUniCons[0]['herramientas_especiales']);
 		$dataSource->putParameter('otrosDatosTecnicos', $datosUniCons[0]['otros_datos_tec']);
+		$dataSource->putParameter('punto', $datosUniCons[0]['nombre_localizacion']);
 		if($datosUniCons[0]['fecha_mod'] != null) {
 			$dataSource->putParameter('fechaEmision', $datosUniCons[0]['fecha_mod']);
 		} else {
@@ -389,7 +390,7 @@ class ACTUniCons extends ACTbase{
 			$resultRaiz = $this->objFunc->obtenerUniCons($this->objParam);
 			$datosRaiz = $resultRaiz->getDatos();
 		}
-		$dataSource->putParameter('punto', $datosRaiz[0]['nombre']);
+		//$dataSource->putParameter('punto', $datosRaiz[0]['nombre']);
 		
 		//get repuestos
 		//Reset all extra params:
