@@ -283,7 +283,7 @@ Phx.vista.UniConsGral=Ext.extend(Phx.gridInterfaz,{
 		{
 			config:{
 				name: 'herramientas_especiales',
-				fieldLabel: 'Herramientas Especiales',
+				fieldLabel: 'Observaciones',
 				allowBlank: true,
 				anchor: '100%',
 				gwidth: 100,
