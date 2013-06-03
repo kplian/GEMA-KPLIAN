@@ -12,7 +12,7 @@ header("content-type: text/javascript; charset=UTF-8");
 Phx.vista.Instructivo = {
 	require:'../../../sis_mantenimiento/vista/documento/Documento.php',
 	requireclase:'Phx.vista.Documento',
-	title:'Registro de Instructivos',
+	title:'Instructivos',
 	tipo_doc: 'instructivo',
 	constructor: function(config) {
 		Phx.vista.Instructivo.superclass.constructor.call(this,config);

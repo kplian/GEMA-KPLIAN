@@ -157,6 +157,41 @@ Phx.vista.OrdenTrabajo=Ext.extend(Phx.gridInterfaz,{
 		},
 		{
 			config:{
+				name: 'cat_estado',
+				fieldLabel: 'Estado',
+				gwidth: 60,
+				hidden: true,
+				renderer: function (value,p,record,otro, otro2) {
+					var result;
+					if(value == "Borrador") {
+						result = "<div style='text-align:center'><img src = '../../../lib/imagenes/ball_red.png' align='center' width='18' height='18' title='Borrador'/></div>";
+					} else if(value == 'generado') {
+						result = "<div style='text-align:center'><img src = '../../../lib/imagenes/ball_red_generated.png' align='center' width='18' height='18' title='Generado'/></div>";
+					} else if(value == 'Pendiente') {
+						result = "<div style='text-align:center'><img src = '../../../lib/imagenes/ball_red_pending.png' align='center' width='18' height='18' title='Pendiente'/></div>";
+					} else if(value == 'Abierto') {
+						result = "<div style='text-align:center'><img src = '../../../lib/imagenes/ball_yellow.png' align='center' width='18' height='18' title='Abierto'/></div>";
+					} else if(value == 'EjecucionPendiente') {
+						result = "<div style='text-align:center'><img src = '../../../lib/imagenes/ball_yellow_pause.png' align='center' width='18' height='18' title='Ejecucion Pendiente'/></div>";
+					} else if(value == 'Cerrado') {
+						result = "<div style='text-align:center'><img src = '../../../lib/imagenes/ball_yellow_pending.png' align='center' width='18' height='18' title='Cerrado'/></div>";
+					} else if(value == 'Revisado') {
+						result = "<div style='text-align:center'><img src = '../../../lib/imagenes/ball_green.png' align='center' width='18' height='18' title='Revisado'/></div>";
+					} else if(value == "Cancelado") {
+						result = "<div style='text-align:center'><img src = '../../../lib/imagenes/ball_close.png' align='center' width='18' height='18' title='Cancelado'/></div>";
+					}
+					return result;
+				}
+			},
+			valorInicial: 'Borrador',
+			type: 'TextField',
+			filters:{pfiltro:'geoott.cat_estado',type:'string'},
+			id_grupo: 0,
+			grid: true,
+			form: true
+		},
+		{
+			config:{
 				name: 'num_oit',
 				fieldLabel: 'Nº OIT',
 				allowBlank: false,
@@ -167,49 +202,6 @@ Phx.vista.OrdenTrabajo=Ext.extend(Phx.gridInterfaz,{
 			},
 			type:'TextField',
 			filters:{pfiltro:'geoott.num_oit',type:'string'},
-			id_grupo:0,
-			grid:true,
-			form:true
-		},
-		{
-			config:{
-				name: 'id_uni_cons',
-				fieldLabel: 'Equipo',
-				allowBlank: false,
-				emptyText:'Elija un equipo...',
-				store:new Ext.data.JsonStore(
-				{
-					url: '../../sis_mantenimiento/control/UniCons/listarUniConsPlano',
-					id: 'id_uni_cons',
-					root:'datos',
-					sortInfo:{
-						field:'nombre',
-						direction:'ASC'
-					},
-					totalProperty:'total',
-					fields: ['id_uni_cons','codigo','nombre','nombre_tipo_equipo','padres_loc', 'id_localizacion','desc_localizacion'],
-					remoteSort: true,
-					baseParams:{par_filtro:'tuc.nombre#tuc.codigo#eq.nombre'}
-				}),
-				tpl:'<tpl for="."><div class="x-combo-list-item"><p>Nombre: {nombre}</p><p>Código: {codigo}</p><p>Tipo Equipo: {nombre_tipo_equipo}</p><p>Localización: {padres_loc}</p></div></tpl>',
-				valueField: 'id_uni_cons',
-				hiddenValue: 'id_uni_cons',
-				displayField: 'codigo',
-				gdisplayField:'equipo',
-				forceSelection:true,
-				typeAhead: false,
-    			triggerAction: 'all',
-    			lazyRender:true,
-				mode:'remote',
-				pageSize:20,
-				queryDelay:500,
-				anchor: '100%',
-				gwidth: 350,
-				minChars:2,
-				renderer:function (value, p, record){return String.format('{0}', record.data['equipo']);}
-			},
-			type:'ComboBox',
-			filters:{pfiltro:'unicons.nombre#unicons.codigo',type:'string'},
 			id_grupo:0,
 			grid:true,
 			form:true
@@ -258,38 +250,178 @@ Phx.vista.OrdenTrabajo=Ext.extend(Phx.gridInterfaz,{
 		},
 		{
 			config:{
-				name: 'cat_estado',
-				fieldLabel: 'Estado',
-				gwidth: 60,
-				hidden: true,
-				renderer: function (value,p,record,otro, otro2) {
-					var result;
-					if(value == "Borrador") {
-						result = "<div style='text-align:center'><img src = '../../../lib/imagenes/ball_red.png' align='center' width='18' height='18' title='Borrador'/></div>";
-					} else if(value == 'generado') {
-						result = "<div style='text-align:center'><img src = '../../../lib/imagenes/ball_red_generated.png' align='center' width='18' height='18' title='Generado'/></div>";
-					} else if(value == 'Pendiente') {
-						result = "<div style='text-align:center'><img src = '../../../lib/imagenes/ball_red_pending.png' align='center' width='18' height='18' title='Pendiente'/></div>";
-					} else if(value == 'Abierto') {
-						result = "<div style='text-align:center'><img src = '../../../lib/imagenes/ball_yellow.png' align='center' width='18' height='18' title='Abierto'/></div>";
-					} else if(value == 'EjecucionPendiente') {
-						result = "<div style='text-align:center'><img src = '../../../lib/imagenes/ball_yellow_pause.png' align='center' width='18' height='18' title='Ejecucion Pendiente'/></div>";
-					} else if(value == 'Cerrado') {
-						result = "<div style='text-align:center'><img src = '../../../lib/imagenes/ball_yellow_pending.png' align='center' width='18' height='18' title='Cerrado'/></div>";
-					} else if(value == 'Revisado') {
-						result = "<div style='text-align:center'><img src = '../../../lib/imagenes/ball_green.png' align='center' width='18' height='18' title='Revisado'/></div>";
-					} else if(value == "Cancelado") {
-						result = "<div style='text-align:center'><img src = '../../../lib/imagenes/ball_close.png' align='center' width='18' height='18' title='Cancelado'/></div>";
-					}
-					return result;
-				}
+				name: 'id_uni_cons',
+				fieldLabel: 'Equipo',
+				allowBlank: false,
+				emptyText:'Elija un equipo...',
+				store:new Ext.data.JsonStore(
+				{
+					url: '../../sis_mantenimiento/control/UniCons/listarUniConsPlano',
+					id: 'id_uni_cons',
+					root:'datos',
+					sortInfo:{
+						field:'nombre',
+						direction:'ASC'
+					},
+					totalProperty:'total',
+					fields: ['id_uni_cons','codigo','nombre','nombre_tipo_equipo','padres_loc', 'id_localizacion','desc_localizacion'],
+					remoteSort: true,
+					baseParams:{par_filtro:'tuc.nombre#tuc.codigo#eq.nombre'}
+				}),
+				tpl:'<tpl for="."><div class="x-combo-list-item"><p>Nombre: {nombre}</p><p>Código: {codigo}</p><p>Tipo Equipo: {nombre_tipo_equipo}</p><p>Localización: {padres_loc}</p></div></tpl>',
+				valueField: 'id_uni_cons',
+				hiddenValue: 'id_uni_cons',
+				displayField: 'codigo',
+				gdisplayField:'equipo',
+				forceSelection:true,
+				typeAhead: false,
+    			triggerAction: 'all',
+    			lazyRender:true,
+				mode:'remote',
+				pageSize:20,
+				queryDelay:500,
+				anchor: '100%',
+				gwidth: 350,
+				minChars:2,
+				renderer:function (value, p, record){return String.format('{0}', record.data['equipo']);}
 			},
-			valorInicial: 'Borrador',
-			type: 'TextField',
-			filters:{pfiltro:'geoott.cat_estado',type:'string'},
-			id_grupo: 0,
-			grid: true,
-			form: true
+			type:'ComboBox',
+			filters:{pfiltro:'unicons.nombre#unicons.codigo',type:'string'},
+			id_grupo:0,
+			grid:true,
+			form:true
+		},
+		{			
+			config:{
+				name: 'id_localizacion',
+				fieldLabel: 'Localización',
+				allowBlank: true,
+				emptyText:'Solicitante Sector...',
+				store:new Ext.data.JsonStore(
+				{
+					url: '../../sis_mantenimiento/control/Localizacion/listarLocalizacion',
+					id: 'id_localizacion',
+					root:'datos',
+					sortInfo:{
+						field:'nombre',
+						direction:'ASC'
+					},
+					totalProperty:'total',
+					fields: ['id_localizacion','codigo','nombre'],
+					// turn on remote sorting
+					remoteSort: true,
+					baseParams:{par_filtro:'nombre#codigo'}
+				}),
+				tpl:'<tpl for="."><div class="x-combo-list-item"><p>Nombre: {nombre}</p><p>Código: {codigo}</p></div></tpl>',
+				valueField: 'id_localizacion',
+				hiddenValue: 'id_localizacion',
+				displayField: 'nombre',
+				gdisplayField: 'nombre_localizacion',
+				forceSelection:true,
+				typeAhead: false,
+    			triggerAction: 'all',
+    			lazyRender:true,
+				mode:'remote',
+				pageSize:20,
+				queryDelay:500,
+				anchor: '100%',
+				gwidth:220,
+				minChars:2,
+				renderer:function (value, p, record){return String.format('{0}', record.data['nombre_localizacion']);},
+				autoSelect:true,
+				disabled:true
+			},
+			type:'ComboBox',
+			filters:{pfiltro:'local.nombre',type:'string'},
+			id_grupo:0,
+			grid:true,
+			form:true
+		},
+		{
+			config:{
+				name: 'id_centro_costo',
+				fieldLabel: 'Centro de Costo',
+				allowBlank: false,
+				emptyText:'Seleccione Centro de Costo...',
+				store:new Ext.data.JsonStore(
+				{
+					url: '../../sis_mantenimiento/control/CentroCosto/listarCentroCosto',
+					id: 'id_centro_costo',
+					root:'datos',
+					sortInfo:{
+						field:'codigo',
+						direction:'ASC'
+					},
+					totalProperty:'total',
+					fields: ['id_centro_costo','codigo', 'descripcion'],
+					// turn on remote sorting
+					remoteSort: true,
+					baseParams:{par_filtro:'codigo'}
+				}),
+				tpl:'<tpl for="."><div class="x-combo-list-item"><p>Cuenta: {codigo}</p><p>Desc.: {descripcion}</p></div></tpl>',
+				valueField: 'id_centro_costo',
+				displayField: 'codigo',
+				gdisplayField:'codigo_centro_costo',
+				forceSelection:true,
+				typeAhead: false,
+    			triggerAction: 'all',
+    			lazyRender:true,
+				mode:'remote',
+				pageSize:20,
+				queryDelay:500,
+				anchor: '100%',
+				gwidth: 100,
+				minChars:2,
+				renderer:function (value, p, record){return String.format('{0}', record.data['codigo_centro_costo']);}
+			},
+			type:'ComboBox',
+			filters:{pfiltro:'cencost.codigo',type:'string'},
+			id_grupo:0,
+			grid:true,
+			form:true
+		},
+		{
+			config:{
+				name: 'id_cuenta',
+				fieldLabel: 'Cuenta Contable',
+				allowBlank: true,
+				emptyText:'Elija una Cuenta...',
+				store:new Ext.data.JsonStore(
+				{
+					url: '../../sis_mantenimiento/control/Cuenta/listarCuenta',
+					id: 'id_cuenta',
+					root:'datos',
+					sortInfo:{
+						field:'nro_cuenta',
+						direction:'ASC'
+					},
+					totalProperty:'total',
+					fields: ['id_cuenta','nro_cuenta','nombre_cuenta'],
+					remoteSort: true,
+					baseParams:{par_filtro:'cta.nombre_cuenta#cta.nro_cuenta'}
+				}),
+				tpl:'<tpl for="."><div class="x-combo-list-item"><p>Nro.Cuenta: {nro_cuenta}</p><p>Nombre Cuenta: {nombre_cuenta}</p></div></tpl>',
+				valueField: 'id_cuenta',
+				hiddenValue: 'id_cuenta',
+				displayField: 'nombre_cuenta',
+				gdisplayField:'desc_cuenta',
+				forceSelection:true,
+				typeAhead: false,
+    			triggerAction: 'all',
+    			lazyRender:true,
+				mode:'remote',
+				pageSize:20,
+				queryDelay:500,
+				anchor: '100%',
+				gwidth: 350,
+				minChars:2,
+				renderer:function (value, p, record){return String.format('{0}', record.data['desc_cuenta']);}
+			},
+			type:'ComboBox',
+			filters:{pfiltro:'cue.nro_cuenta#cue.nombre_cuenta',type:'string'},
+			id_grupo:0,
+			grid:true,
+			form:true
 		},
 		{
 			config:{
@@ -443,52 +575,7 @@ Phx.vista.OrdenTrabajo=Ext.extend(Phx.gridInterfaz,{
 			grid:true,
 			form:false
 		},
-		{			
-			config:{
-				name: 'id_localizacion',
-				fieldLabel: 'Localización',
-				allowBlank: true,
-				emptyText:'Solicitante Sector...',
-				store:new Ext.data.JsonStore(
-				{
-					url: '../../sis_mantenimiento/control/Localizacion/listarLocalizacion',
-					id: 'id_localizacion',
-					root:'datos',
-					sortInfo:{
-						field:'nombre',
-						direction:'ASC'
-					},
-					totalProperty:'total',
-					fields: ['id_localizacion','codigo','nombre'],
-					// turn on remote sorting
-					remoteSort: true,
-					baseParams:{par_filtro:'nombre#codigo'}
-				}),
-				tpl:'<tpl for="."><div class="x-combo-list-item"><p>Nombre: {nombre}</p><p>Código: {codigo}</p></div></tpl>',
-				valueField: 'id_localizacion',
-				hiddenValue: 'id_localizacion',
-				displayField: 'nombre',
-				gdisplayField: 'nombre_localizacion',
-				forceSelection:true,
-				typeAhead: false,
-    			triggerAction: 'all',
-    			lazyRender:true,
-				mode:'remote',
-				pageSize:20,
-				queryDelay:500,
-				anchor: '100%',
-				gwidth:220,
-				minChars:2,
-				renderer:function (value, p, record){return String.format('{0}', record.data['nombre_localizacion']);},
-				autoSelect:true,
-				disabled:true
-			},
-			type:'ComboBox',
-			filters:{pfiltro:'local.nombre',type:'string'},
-			id_grupo:0,
-			grid:true,
-			form:true
-		},
+		
 		{
 			config: {
 				name: 'cat_prior',
@@ -526,92 +613,8 @@ Phx.vista.OrdenTrabajo=Ext.extend(Phx.gridInterfaz,{
 			grid:true,
 			form:true
 		},
-		{
-			config:{
-				name: 'id_cuenta',
-				fieldLabel: 'Cuenta Contable',
-				allowBlank: true,
-				emptyText:'Elija una Cuenta...',
-				store:new Ext.data.JsonStore(
-				{
-					url: '../../sis_mantenimiento/control/Cuenta/listarCuenta',
-					id: 'id_cuenta',
-					root:'datos',
-					sortInfo:{
-						field:'nro_cuenta',
-						direction:'ASC'
-					},
-					totalProperty:'total',
-					fields: ['id_cuenta','nro_cuenta','nombre_cuenta'],
-					remoteSort: true,
-					baseParams:{par_filtro:'cta.nombre_cuenta#cta.nro_cuenta'}
-				}),
-				tpl:'<tpl for="."><div class="x-combo-list-item"><p>Nro.Cuenta: {nro_cuenta}</p><p>Nombre Cuenta: {nombre_cuenta}</p></div></tpl>',
-				valueField: 'id_cuenta',
-				hiddenValue: 'id_cuenta',
-				displayField: 'nombre_cuenta',
-				gdisplayField:'desc_cuenta',
-				forceSelection:true,
-				typeAhead: false,
-    			triggerAction: 'all',
-    			lazyRender:true,
-				mode:'remote',
-				pageSize:20,
-				queryDelay:500,
-				anchor: '100%',
-				gwidth: 350,
-				minChars:2,
-				renderer:function (value, p, record){return String.format('{0}', record.data['desc_cuenta']);}
-			},
-			type:'ComboBox',
-			filters:{pfiltro:'cue.nro_cuenta#cue.nombre_cuenta',type:'string'},
-			id_grupo:0,
-			grid:true,
-			form:true
-		},
-		{
-			config:{
-				name: 'id_centro_costo',
-				fieldLabel: 'Centro de Costo',
-				allowBlank: false,
-				emptyText:'Seleccione Centro de Costo...',
-				store:new Ext.data.JsonStore(
-				{
-					url: '../../sis_mantenimiento/control/CentroCosto/listarCentroCosto',
-					id: 'id_centro_costo',
-					root:'datos',
-					sortInfo:{
-						field:'codigo',
-						direction:'ASC'
-					},
-					totalProperty:'total',
-					fields: ['id_centro_costo','codigo', 'descripcion'],
-					// turn on remote sorting
-					remoteSort: true,
-					baseParams:{par_filtro:'codigo'}
-				}),
-				tpl:'<tpl for="."><div class="x-combo-list-item"><p>Cuenta: {codigo}</p><p>Desc.: {descripcion}</p></div></tpl>',
-				valueField: 'id_centro_costo',
-				displayField: 'codigo',
-				gdisplayField:'codigo_centro_costo',
-				forceSelection:true,
-				typeAhead: false,
-    			triggerAction: 'all',
-    			lazyRender:true,
-				mode:'remote',
-				pageSize:20,
-				queryDelay:500,
-				anchor: '100%',
-				gwidth: 100,
-				minChars:2,
-				renderer:function (value, p, record){return String.format('{0}', record.data['codigo_centro_costo']);}
-			},
-			type:'ComboBox',
-			filters:{pfiltro:'cencost.codigo',type:'string'},
-			id_grupo:0,
-			grid:true,
-			form:true
-		},
+		
+		
 		{
 			config:{
 					labelSeparator:'',

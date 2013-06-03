@@ -763,12 +763,12 @@ header("content-type: text/javascript; charset=UTF-8");
 			name: 'usr_mod',
 			type: 'string'
 		},'tipo_numeracion'],
-		east: {
+		/*east: {
 			url: '../../../sis_mantenimiento/vista/localizacion/mapaLocalizacion.php',
 			title: 'Ubicación',
 			width: '50%',
 			cls: 'mapaLocalizacion'
-		},
+		},*/
 		sortInfo: {
 			field: 'id_localizacion',
 			direction: 'ASC'

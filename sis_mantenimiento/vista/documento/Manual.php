@@ -12,7 +12,7 @@ header("content-type: text/javascript; charset=UTF-8");
 Phx.vista.Manual = {
 	require:'../../../sis_mantenimiento/vista/documento/Documento.php',
 	requireclase:'Phx.vista.Documento',
-	title:'Registro de Manuales',
+	title:'Manuales',
 	tipo_doc: 'manual',
 	constructor: function(config) {
 		Phx.vista.Manual.superclass.constructor.call(this,config);

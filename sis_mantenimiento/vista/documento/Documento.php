@@ -39,7 +39,19 @@ Phx.vista.Documento=Ext.extend(Phx.gridInterfaz,{
                 width:450,
                 height:150
             },rec.data,this.idContenedor,'SubirDocumento')
-        }  
+        };
+        
+        this.ocultarColumna(3);
+        this.ocultarColumna(4);    
+        this.ocultarColumna(5);
+        this.ocultarColumna(6);
+        this.ocultarColumna(7);
+        this.ocultarColumna(8);
+        /*this.ocultarColumna(11);
+        this.ocultarColumna(12);
+        this.ocultarColumna(13);
+        this.ocultarColumna(14);
+        this.ocultarColumna(15);*/
         
     },
             
@@ -76,6 +88,21 @@ Phx.vista.Documento=Ext.extend(Phx.gridInterfaz,{
 			grid: true,
 			form: true
 		},*/
+		{
+            config:{
+                name: 'nombre',
+                fieldLabel: 'Nombre',
+                allowBlank: false,
+                anchor: '100%',
+                gwidth: 200,
+                maxLength:150
+            },
+            type:'TextField',
+            filters:{pfiltro:'gedocu.nombre',type:'string'},
+            id_grupo:1,
+            grid:true,
+            form:true
+        },
         {
             config:{
                 name: 'codigo',
@@ -91,21 +118,7 @@ Phx.vista.Documento=Ext.extend(Phx.gridInterfaz,{
             grid:true,
             form:true
         },
-        {
-            config:{
-                name: 'nombre',
-                fieldLabel: 'Nombre',
-                allowBlank: false,
-                anchor: '100%',
-                gwidth: 130,
-                maxLength:150
-            },
-            type:'TextField',
-            filters:{pfiltro:'gedocu.nombre',type:'string'},
-            id_grupo:1,
-            grid:true,
-            form:true
-        },
+        
         {
             config:{
                 fieldLabel: "Link",
@@ -368,8 +381,8 @@ Phx.vista.Documento=Ext.extend(Phx.gridInterfaz,{
           height:300,
           cls:'ListarVersiones'
     },
-    codReporte:'S/C',
+    codReporte:'GMAN-RG-SM-OO1',
 	codSistema:'GEM',
-	pdfOrientacion:'L'
+	pdfOrientacion:'P'
 })
 </script>

@@ -12,7 +12,7 @@ header("content-type: text/javascript; charset=UTF-8");
 Phx.vista.Plan = {
 	require:'../../../sis_mantenimiento/vista/documento/Documento.php',
 	requireclase:'Phx.vista.Documento',
-	title:'Registro de Planes',
+	title:'Planes',
 	tipo_doc: 'plan',
 	constructor: function(config) {
 		Phx.vista.Plan.superclass.constructor.call(this,config);

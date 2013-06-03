@@ -12,7 +12,7 @@ header("content-type: text/javascript; charset=UTF-8");
 Phx.vista.Procedimiento = {
 	require:'../../../sis_mantenimiento/vista/documento/Documento.php',
 	requireclase:'Phx.vista.Documento',
-	title:'Registro de Procedimientos',
+	title:'Procedimientos',
 	tipo_doc: 'procedimiento',
 	constructor: function(config) {
 		Phx.vista.Procedimiento.superclass.constructor.call(this,config);

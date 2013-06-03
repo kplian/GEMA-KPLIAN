@@ -142,7 +142,11 @@ BEGIN
                         left join gem.tcentro_costo cencost on cencost.id_centro_costo = geoott.id_centro_costo
             			left join gem.tcuenta cue on cue.id_cuenta = geoott.id_cuenta
             			left join gem.tmant_predef mpre on mpre.id_mant_predef = geoott.id_mant_predef
-				        where geoott.estado_reg = ''activo'' and ';
+				        where geoott.estado_reg = ''activo''
+				        and unicons.tipo = ''uc''
+				        and unicons.estado_reg = ''activo''
+                		and unicons.tipo_nodo = ''raiz''
+                		and (unicons.estado=''aprobado'' or unicons.estado=''registrado'') and ';
 			
 			--Definicion de la respuesta
 			v_consulta:=v_consulta|| v_filtro || v_parametros.filtro;
@@ -197,7 +201,11 @@ raise notice '%',v_consulta;
                         left join gem.tcentro_costo cencost on cencost.id_centro_costo = geoott.id_centro_costo
                         left join gem.tcuenta cue on cue.id_cuenta = geoott.id_cuenta
                         left join gem.tmant_predef mpre on mpre.id_mant_predef = geoott.id_mant_predef
-					    where geoott.estado_reg = ''activo'' and ';
+					    where geoott.estado_reg = ''activo''
+					    and unicons.tipo = ''uc''
+				        and unicons.estado_reg = ''activo''
+                		and unicons.tipo_nodo = ''raiz''
+                		and (unicons.estado=''aprobado'' or unicons.estado=''registrado'') and ';
 			
             
 			--Definicion de la respuesta		    
