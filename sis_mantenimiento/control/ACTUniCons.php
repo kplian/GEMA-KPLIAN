@@ -413,7 +413,7 @@ class ACTUniCons extends ACTbase{
 		$r=0;
 		foreach($resultHijos->getDatos() as $rowHijo) {
 			$dataSourceHijo = new DataSource();
-			$this->objParam->addParametroConsulta('ordenacion', 'codigo, id_uni_cons_det');
+			$this->objParam->addParametroConsulta('ordenacion', '4, id_uni_cons_det');
 			$this->objParam->addParametro('id_uni_cons', $rowHijo['id_uni_cons']);
 			$modUniConsDetalle = $this->create('MODUniConsDet');
 			$resultDetalleHijo = $modUniConsDetalle->listarUniConsDet($this->objParam);
