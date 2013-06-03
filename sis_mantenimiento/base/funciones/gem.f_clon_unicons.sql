@@ -9,23 +9,23 @@ $body$
  SISTEMA ENDESIS - SISTEMA DE ...
 ***************************************************************************
  SCRIPT: 		gem.f_clon_unicons
- DESCRIPCIÓN: 	
+ DESCRIPCIï¿½N: 	
  AUTOR: 		Rensi Arteaga Copari
  FECHA:			09 11 2012
  COMENTARIOS:	
 ***************************************************************************
  HISTORIA DE MODIFICACIONES:
 
- DESCRIPCIÓN:
+ DESCRIPCIï¿½N:
  AUTOR:       
  FECHA:      
 
 ***************************************************************************/
 --------------------------
--- CUERPO DE LA FUNCIÓN --
+-- CUERPO DE LA FUNCIï¿½N --
 --------------------------
 
--- PARÁMETROS FIJOS
+-- PARï¿½METROS FIJOS
 /*
 pm_id_usuario                               integer (si))
 pm_ip_origen                                varchar(40) (si)
@@ -91,6 +91,7 @@ BEGIN
 			from gem.tuni_cons_det ucd 
             where ucd.id_uni_cons = v_id_orig  
             and ucd.estado_reg = 'activo'
+            order by ucd.id_uni_cons_det
 		) LOOP
         	INSERT INTO gem.tuni_cons_det (
 				id_usuario_reg,

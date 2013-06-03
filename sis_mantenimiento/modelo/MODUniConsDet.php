@@ -18,9 +18,12 @@ class MODUniConsDet extends MODbase{
 		$this->procedimiento='gem.f_uni_cons_det_sel';
 		$this->transaccion='GM_UCDET_SEL';
 		$this->tipo_procedimiento='SEL';//tipo de transaccion
+		
+		
+		$this->setParametro('id_uni_cons','id_uni_cons','int4');
 				
 		//Definicion de la lista del resultado del query
-		$this->setParametro('id_uni_cons','id_uni_cons','int4');
+		
 		$this->captura('id_uni_cons_det','int4');
 		$this->captura('id_unidad_medida','int4');
 		$this->captura('id_uni_cons','int4');

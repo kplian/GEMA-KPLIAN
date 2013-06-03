@@ -410,20 +410,23 @@ class ACTUniCons extends ACTbase{
 		$resultHijos = $this->objFunc->listarUniConsHijos($this->objParam);
 		$arrayHijos = array();
 		//var_dump($resultHijos->getDatos());exit;
-		
+		$r=0;
 		foreach($resultHijos->getDatos() as $rowHijo) {
 			$dataSourceHijo = new DataSource();
-			$this->objParam->addParametroConsulta('ordenacion', 'id_uni_cons_det');
+			$this->objParam->addParametroConsulta('ordenacion', 'codigo, id_uni_cons_det');
 			$this->objParam->addParametro('id_uni_cons', $rowHijo['id_uni_cons']);
 			$modUniConsDetalle = $this->create('MODUniConsDet');
 			$resultDetalleHijo = $modUniConsDetalle->listarUniConsDet($this->objParam);
 			$dataSourceHijo->putParameter('nombreUniConsHijo', $rowHijo['nombre']);
 			$dataSourceHijo->putParameter('ficha_tecnica', $rowHijo['ficha_tecnica']);
-			//var_dump($resultDetalleHijo->getDatos());exit;
+			if($r==0){
+				//var_dump($resultDetalleHijo->getDatos());exit;
+			}
 			$dataSourceHijo->setDataset($resultDetalleHijo->getDatos());
 			//var_dump($dataSourceHijo);exit;
 			$arrayHijos[] = $dataSourceHijo;
 			//var_dump($arrayHijos);exit;
+			$r++;
 		}
 		//var_dump($arrayHijos);exit;
 		$dataSource->putParameter('arrayHijos', $arrayHijos);
