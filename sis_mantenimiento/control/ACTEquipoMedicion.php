@@ -24,7 +24,7 @@ class ACTEquipoMedicion extends ACTbase{
 	}
 	
 	function listarEquipoMedicionDinamico(){
-		//$this->objParam->defecto('ordenacion','fecha');
+		//$this->objParam->defecto('ordenacion','id_equipo_medicion');
 
 		//$this->objParam->defecto('dir_ordenacion','asc');
 		

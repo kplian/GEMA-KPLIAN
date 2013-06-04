@@ -95,7 +95,7 @@ Phx.vista.TipoEquipoCol=Ext.extend(Phx.gridInterfaz,{
 					fields: ['id','nombre'],
 					// turn on remote sorting
 					remoteSort: true,
-					baseParams:{par_filtro:'tvar.nombre'}
+					baseParams:{par_filtro:'nombre'}
 				}),
 				displayField: 'nombre',
 				gdisplayField:'desc_nombre',
@@ -114,6 +114,7 @@ Phx.vista.TipoEquipoCol=Ext.extend(Phx.gridInterfaz,{
 				disabled:true
 			},
 			type:'ComboBox',
+			filters:{pfiltro:'tvar.nombre',type:'string'},
 			id_grupo:0,
 			grid:true,
 			form:true

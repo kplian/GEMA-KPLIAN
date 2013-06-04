@@ -210,23 +210,24 @@ observaciones varchar
         
          
           FOR g_registros in (select
-eqv.id_equipo_variable,
-eqv.estado_reg,
-eqv.valor_max,
-eqv.id_uni_cons,
-eqv.obs,
-eqv.valor_min,
-eqv.id_tipo_variable,
-eqv.id_usuario_reg,
-eqv.fecha_reg,
-eqv.id_usuario_mod,
-eqv.fecha_mod,
-tva.nombre as nombre_tipo_variable
-                       
-from gem.tequipo_variable eqv
-inner join gem.ttipo_variable tva on tva.id_tipo_variable = eqv.id_tipo_variable
-                       
-where eqv.estado_reg = 'activo' and eqv.tipo='numeric' AND eqv.id_uni_cons = v_parametros.id_uni_cons) LOOP
+                            eqv.id_equipo_variable,
+                            eqv.estado_reg,
+                            eqv.valor_max,
+                            eqv.id_uni_cons,
+                            eqv.obs,
+                            eqv.valor_min,
+                            eqv.id_tipo_variable,
+                            eqv.id_usuario_reg,
+                            eqv.fecha_reg,
+                            eqv.id_usuario_mod,
+                            eqv.fecha_mod,
+                            tva.nombre as nombre_tipo_variable
+                            from gem.tequipo_variable eqv
+                            inner join gem.ttipo_variable tva on tva.id_tipo_variable = eqv.id_tipo_variable
+                            where eqv.estado_reg = 'activo'
+                            and eqv.tipo='numeric'
+                            and eqv.id_uni_cons = v_parametros.id_uni_cons
+                            order by eqv.id_equipo_variable) LOOP
             
             v_cod= 'col_'||g_registros.id_equipo_variable;
    
