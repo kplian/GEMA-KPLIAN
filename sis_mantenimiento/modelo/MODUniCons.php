@@ -345,6 +345,7 @@ class MODUniCons extends MODbase{
 		$this->captura('funcion','varchar');
 		$this->captura('punto_recepcion_despacho','varchar');
 		$this->captura('ficha_tecnica','varchar');
+		$this->captura('loc_padre','varchar');
 		
 		$this->armarConsulta();
 		$this->ejecutarConsulta();

@@ -115,7 +115,12 @@ BEGIN
     	begin
     		--Sentencia de la consulta
 			v_consulta:='select
-						item.nombre, item.codigo, prov.desc_proveedor,
+						item.nombre,
+						case coalesce(item.codigo_fabrica,'''')
+							when '''' then item.codigo
+							else item.codigo_fabrica
+						end as codigo,
+						prov.desc_proveedor,
 						case coalesce(prov.id_persona,0)
 							when 0 then coalesce(per1.nombre,'''') || '' ''|| coalesce(per1.apellido_paterno,'''')||'' ''||coalesce(per1.apellido_materno,'''')
 							else coalesce(per.nombre,'''') || '' ''|| coalesce(per.apellido_paterno,'''')||'' ''||coalesce(per.apellido_materno,'''') 
