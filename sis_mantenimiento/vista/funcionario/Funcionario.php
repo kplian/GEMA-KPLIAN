@@ -65,7 +65,6 @@ Phx.vista.FuncionarioGem = {
 	       			
 	       		},
 	       		type:'NumberField',
-	       		filters:{type:'numeric'},
 	       		id_grupo:0,
 	       		grid:true,
 	       		form:true
@@ -80,7 +79,6 @@ Phx.vista.FuncionarioGem = {
 	       			hiddenName:'horario2'
 	       		},
 	       		type:'NumberField',
-	       		filters:{type:'numeric'},
 	       		id_grupo:0,
 	       		grid:true,
 	       		form:true
@@ -95,7 +93,6 @@ Phx.vista.FuncionarioGem = {
 	       			hiddenName:'horario3'
 	       		},
 	       		type:'NumberField',
-	       		filters:{type:'numeric'},
 	       		id_grupo:0,
 	       		grid:true,
 	       		form:true
@@ -110,7 +107,6 @@ Phx.vista.FuncionarioGem = {
 	       			hiddenName:'horario4'
 	       		},
 	       		type:'NumberField',
-	       		filters:{type:'numeric'},
 	       		id_grupo:0,
 	       		grid:true,
 	       		form:true

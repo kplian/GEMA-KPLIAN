@@ -62,7 +62,7 @@ Phx.vista.LocalizacionUsuario=Ext.extend(Phx.gridInterfaz,{
 				tinit: false,
 				allowBlank: false,
 				origen: 'CATALOGO',
-				gdisplayField: 'descripcion',
+				gdisplayField: 'tipo',
 				gwidth: 200,
 				baseParams:{
 						cod_subsistema:'GEM',

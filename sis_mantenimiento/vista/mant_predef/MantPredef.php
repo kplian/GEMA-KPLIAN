@@ -188,7 +188,7 @@ Phx.vista.MantPredef=Ext.extend(Phx.gridInterfaz,{
 				renderer:function (value, p, record){return String.format('{0}', record.data['desc_tipo_mant']);}
 			},
 			type:'ComboBox',
-			filters:{pfiltro:'tipman.nombre',type:'string'},
+			filters:{pfiltro:'tman.nombre',type:'string'},
 			id_grupo:0,
 			grid:true,
 			form:true
