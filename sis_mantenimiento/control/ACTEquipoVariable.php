@@ -72,7 +72,7 @@ class ACTEquipoVariable extends ACTbase{
 	
 	function listarColumnasEquipoVariableLoc(){
 		//var_dump($this->objParam);exit;
-		$this->objParam->defecto('ordenacion','id_equipo_variable');
+		$this->objParam->defecto('ordenacion','tva.orden');
 		$this->objParam->defecto('dir_ordenacion','asc');
 		$this->objFunc=$this->create('MODEquipoVariable');	
 		$this->res=$this->objFunc->listarColumnasEquipoVariableLoc();

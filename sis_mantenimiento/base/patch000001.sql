@@ -1407,3 +1407,8 @@ create table gem.tpresupuesto_loc(
 WITH OIDS;
 ALTER TABLE gem.tpresupuesto_loc OWNER TO postgres;
 /***********************************F-SCP-RCM-GEM-143-04/06/2013*****************************************/
+
+/***********************************I-SCP-RCM-GEM-143-07/06/2013*****************************************/
+alter table gem.ttipo_variable
+add column orden integer;
+/***********************************F-SCP-RCM-GEM-143-07/06/2013*****************************************/

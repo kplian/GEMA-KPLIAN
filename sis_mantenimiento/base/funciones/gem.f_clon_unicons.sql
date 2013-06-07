@@ -128,6 +128,7 @@ BEGIN
 			from gem.tequipo_variable ev
 			where ev.id_uni_cons = v_id_orig  
 			and ev.estado_reg = 'activo'
+			order by ev.id_equipo_variable
 		) LOOP
         	INSERT INTO gem.tequipo_variable (
                 id_usuario_reg,

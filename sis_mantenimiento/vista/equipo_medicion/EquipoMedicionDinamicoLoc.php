@@ -38,6 +38,7 @@ Phx.vista.EquipoMedicionDinamicoLoc=Ext.extend(Phx.gridInterfaz,{
 				                              "sort":"id_tipo_variable",
 				                              "dir":"ASC",
 				                              'id_localizacion': config.id_localizacion,
+				                              id_uni_cons: config.id_uni_cons,
 				                              //'id_uni_cons':config.id_uni_cons,
 				                               start:0, 
 				                               limit:500
@@ -176,8 +177,9 @@ Phx.vista.EquipoMedicionDinamicoLoc=Ext.extend(Phx.gridInterfaz,{
 			
 			Phx.CP.loadingHide();
 			Phx.vista.EquipoMedicionDinamicoLoc.superclass.constructor.call(this,this.config);
-			this.argumentExtraSubmit={'id_localizacion':this.config.id_localizacion,
-			//'id_uni_cons':this.config.id_uni_cons,
+			this.argumentExtraSubmit={
+				'id_localizacion':this.config.id_localizacion,
+				'id_uni_cons':this.config.id_uni_cons,
 			'datos':recText};
 		    
 			
@@ -243,8 +245,9 @@ Phx.vista.EquipoMedicionDinamicoLoc=Ext.extend(Phx.gridInterfaz,{
 			this.dateFechaIni.setValue(fechaini);
 			this.dateFechaFin.setValue(fechaActual);
 			
-			this.store.baseParams={'id_localizacion':this.config.id_localizacion,
-			//'id_uni_cons':this.config.id_uni_cons,
+			this.store.baseParams={
+				'id_localizacion':this.config.id_localizacion,
+				'id_uni_cons':this.config.id_uni_cons,
 			'datos':recText,fecha_ini:this.dateFechaIni.getValue().dateFormat('d/m/Y'),fecha_fin:this.dateFechaFin.getValue().dateFormat('d/m/Y') };			               
 		
             this.load();
@@ -365,8 +368,9 @@ Phx.vista.EquipoMedicionDinamicoLoc=Ext.extend(Phx.gridInterfaz,{
 	{
 		this.maestro=m;	
 		this.limit = this.cmbLimit.getValue();					
-		this.store.baseParams={id_localizacion:this.maestro.id_localizacion
-			//,id_uni_cons:this.maestro.id_uni_cons
+		this.store.baseParams={
+			id_localizacion:this.maestro.id_localizacion,
+			id_uni_cons:this.maestro.id_uni_cons
 			};
 		this.load({params:{start:0, limit:this.limit}});			
 	},

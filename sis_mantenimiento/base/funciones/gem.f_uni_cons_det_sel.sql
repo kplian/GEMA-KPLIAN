@@ -187,10 +187,11 @@ BEGIN
           --raise exception 'id_loc: %, id_ucons: %',v_parametros.id_localizacion,v_parametros.id_uni_cons;
           --Verifica el filtro para ubicar los equipos a considerar
             if (pxp.f_existe_parametro(p_tabla,'id_localizacion')) then
-              if v_parametros.id_localizacion <> -1 then
+              	if v_parametros.id_localizacion <> -1 then
                     v_ids = gem.f_get_id_localizaciones(v_parametros.id_localizacion);
                     v_cond = ' ucons.id_localizacion in ('||v_ids||')';
                 else
+
                   if pxp.f_existe_parametro(p_tabla,'id_uni_cons') then
                         if v_parametros.id_uni_cons<>-1 then
                             v_cond = ' ucons.id_uni_cons = ' || v_parametros.id_uni_cons;
@@ -234,10 +235,7 @@ BEGIN
                                   and ucons.estado_reg = ''activo''
                                   and ucons.tipo_nodo = ''raiz''';
 
-      		if v_ids is not null then
-              v_con1= v_con1||' and ucons.id_localizacion in ('|| v_ids ||')';
-            end if;
-            
+            v_con1= v_con1 || ' and ' || v_cond;            
             v_con1 = v_con1 || ' and evar.tipo in (''numeric'',''formula'')';
 
             --Aumenta las columnas de las variables de medición        
@@ -261,10 +259,8 @@ BEGIN
                                   where ucons.id_tipo_equipo = ' || v_parametros.id_tipo_equipo || '
                                   and ucons.estado_reg = ''activo''
                                   and ucons.tipo_nodo = ''raiz''';
-                                  
-      		if v_ids is not null then
-              v_con1= v_con1||' and ucons.id_localizacion in ('|| v_ids ||')';
-            end if;
+
+            v_con1 = v_con1 || ' and ' || v_cond;
             
             --Aumenta las columnas de la ficha técnica            
             for v_rec in execute(v_con1) loop
@@ -293,11 +289,13 @@ BEGIN
                           on ucons.id_uni_cons = evar.id_uni_cons
                           inner join gem.tequipo_medicion emed
                           on emed.id_equipo_variable = evar.id_equipo_variable
-                          where ucons.id_tipo_equipo = '||v_parametros.id_tipo_equipo;
-                          
-            if v_ids is not null then
-              v_consulta = v_consulta||' and ucons.id_localizacion in ('|| v_ids ||')';
-            end if;
+                          where ucons.tipo = ''uc''
+			              and ucons.estado_reg = ''activo''
+			              and ucons.tipo_nodo = ''raiz''
+			              and (ucons.estado=''aprobado'' or ucons.estado=''registrado'')
+			              and ucons.id_tipo_equipo = '||v_parametros.id_tipo_equipo;
+
+            v_consulta = v_consulta || ' and ' || v_cond;
             
       		v_consulta = v_consulta || ' and emed.fecha_medicion between '''|| v_parametros.fecha_ini||''' and '''|| v_parametros.fecha_fin||'''';
       		
@@ -420,9 +418,7 @@ BEGIN
                           and tecol.id = lower(trim(udet.nombre))
                           where ucons.id_tipo_equipo = '||v_parametros.id_tipo_equipo;
                           
-            if v_ids is not null then
-              v_consulta = v_consulta||' and ucons.id_localizacion in ('|| v_ids ||')';
-            end if;
+            v_consulta = v_consulta || ' and ' || v_cond;
                           
       v_consulta = v_consulta || ' order by udet.nombre';
 
@@ -471,10 +467,8 @@ BEGIN
                               and evar.estado_reg = ''activo''
                               and ucons.estado_reg = ''activo''
                               and ucons.tipo_nodo = ''raiz''';
-                              
-                if v_ids is not null then
-                v_consulta = v_consulta||' and ucons.id_localizacion in ('|| v_ids ||')';
-              end if;
+
+                v_consulta = v_consulta || ' and ' ||v_cond;
 
         v_consulta = v_consulta || ' and evar.tipo in (''numeric'',''formula'')';
                               
@@ -493,9 +487,7 @@ BEGIN
                               and ucons.estado_reg = ''activo''
                               and ucons.tipo_nodo = ''raiz''';
                               
-                if v_ids is not null then
-                v_consulta = v_consulta||' and ucons.id_localizacion in ('|| v_ids ||')';
-              end if;
+                v_consulta = v_consulta || ' and ' || v_cond;
                               
                 v_consulta = v_consulta ||') FF order by FF.orden ';
                               
@@ -632,9 +624,8 @@ BEGIN
                           and evar.estado_reg = ''activo''
                           and ucons.estado_reg = ''activo''
                           and ucons.tipo_nodo = ''raiz''';
-            if v_ids is not null then
-              v_consulta = v_consulta||' and ucons.id_localizacion in ('|| v_ids ||')';
-            end if;
+
+            v_consulta = v_consulta || ' and ' || v_cond;
             
             v_consulta = v_consulta || ' and evar.tipo in (''numeric'',''formula'')';
                           
@@ -653,11 +644,7 @@ BEGIN
                           and ucons.estado_reg = ''activo''
                           and ucons.tipo_nodo = ''raiz''';
       
-          if v_ids is not null then
-              v_consulta = v_consulta||' and ucons.id_localizacion in ('|| v_ids ||')) FF order by FF.orden ';
-            else
-              v_consulta = v_consulta||') FF order by FF.orden ';
-            end if;
+          v_consulta = v_consulta || ' and ' || v_cond || ') FF order by FF.orden ';
             raise notice 'DDD:%', v_consulta;
                           
       return v_consulta;
@@ -713,9 +700,8 @@ BEGIN
                           and evar.estado_reg = ''activo''
                           and ucons.estado_reg = ''activo''
                           and ucons.tipo_nodo = ''raiz''';
-            if v_ids is not null then
-              v_consulta = v_consulta||' and ucons.id_localizacion in ('|| v_ids ||')';
-            end if;
+
+            v_consulta = v_consulta || ' and ' || v_cond;
             
             v_consulta = v_consulta || ' and evar.tipo in (''numeric'',''formula'')';
                           
@@ -728,12 +714,8 @@ BEGIN
                           where ucons.id_tipo_equipo = ' || v_parametros.id_tipo_equipo || '
                           and ucons.estado_reg = ''activo''
                           and ucons.tipo_nodo = ''raiz''';
-          if v_ids is not null then
-              v_consulta = v_consulta||' and ucons.id_localizacion in ('|| v_ids ||')) FF';
-            else
-              v_consulta = v_consulta||') FF';
-            end if;
 
+            v_consulta = v_consulta || ' and ' || v_cond || ' ) FF';
 
       --Devuelve la respuesta
       return v_consulta;
