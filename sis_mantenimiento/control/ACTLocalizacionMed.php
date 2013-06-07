@@ -32,12 +32,13 @@ class ACTLocalizacionMed extends ACTbase{
 		/*if($this->objParam->getParametro('id_localizacion')!=''){
 			$this->objParam->addParametro('id_localizacion',$id_localizacion);
 		}*/
+		$this->objParam->addFiltro(" (locmed.fecha_med between ''".$this->objParam->getParametro('fecha_ini')."'' and ''".$this->objParam->getParametro('fecha_fin')."'') ");
 		
 		if($this->objParam->getParametro('tipoReporte')=='excel_grid' || $this->objParam->getParametro('tipoReporte')=='pdf_grid'){
-			$this->objReporte = new Reporte($this->objParam);
+			$this->objReporte = new Reporte($this->objParam,$this);
 			$this->res = $this->objReporte->generarReporteListado('MODLocalizacionMed','listarLocalizacionMed');
 		} else{
-			$this->objParam->addFiltro(" (locmed.fecha_med between ''".$this->objParam->getParametro('fecha_ini')."'' and ''".$this->objParam->getParametro('fecha_fin')."'') ");
+			
 			$this->objFunc=$this->create('MODLocalizacionMed');
 			$this->res=$this->objFunc->listarLocalizacionMed();
 		}
