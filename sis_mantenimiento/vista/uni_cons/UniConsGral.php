@@ -169,7 +169,11 @@ Phx.vista.UniConsGral=Ext.extend(Phx.gridInterfaz,{
 				}
 			},
 			type:'Checkbox',
-			filters:{pfiltro:'eqgral.incluir_calgen',type:'boolean'},
+			filters:{	
+	       		         type: 'list',
+	       		         pfiltro: 'eqgral.incluir_calgen',
+	       		         options: ['true', 'false']
+	       		 	},
 			id_grupo:1,
 			grid:true,
 			form:true
@@ -217,7 +221,7 @@ Phx.vista.UniConsGral=Ext.extend(Phx.gridInterfaz,{
 				}
 			},
 			type:'Field',
-			filters:{pfiltro:'eqgral.desc_tipo_equipo',type:'string'},
+			filters:{pfiltro:'nombre',type:'string'},
 			id_grupo:1,
 			grid:true,
 			form:false
@@ -368,7 +372,7 @@ Phx.vista.UniConsGral=Ext.extend(Phx.gridInterfaz,{
 				}
 			},
 			type:'NumberField',
-			filters:{pfiltro:'eqgral.desc_plantilla',type:'string'},
+			filters:{pfiltro:'nombre',type:'string'},
 			id_grupo:1,
 			grid:true,
 			form:false
@@ -416,7 +420,7 @@ Phx.vista.UniConsGral=Ext.extend(Phx.gridInterfaz,{
 				maxLength:4
 			},
 			type:'NumberField',
-			filters:{pfiltro:'usu1.cuenta',type:'string'},
+			filters:{pfiltro:'usr_reg',type:'string'},
 			id_grupo:1,
 			grid:true,
 			form:false
@@ -432,7 +436,7 @@ Phx.vista.UniConsGral=Ext.extend(Phx.gridInterfaz,{
 				renderer:function (value,p,record){return value?value.dateFormat('d/m/Y H:i:s'):''}
 			},
 			type:'DateField',
-			filters:{pfiltro:'equipo.fecha_reg',type:'date'},
+			filters:{pfiltro:'fecha_reg',type:'date'},
 			id_grupo:1,
 			grid:true,
 			form:false
@@ -447,7 +451,7 @@ Phx.vista.UniConsGral=Ext.extend(Phx.gridInterfaz,{
 				maxLength:4
 			},
 			type:'NumberField',
-			filters:{pfiltro:'usu2.cuenta',type:'string'},
+			filters:{pfiltro:'usr_mod',type:'string'},
 			id_grupo:1,
 			grid:true,
 			form:false
@@ -463,7 +467,7 @@ Phx.vista.UniConsGral=Ext.extend(Phx.gridInterfaz,{
 						renderer:function (value,p,record){return value?value.dateFormat('d/m/Y H:i:s'):''}
 			},
 			type:'DateField',
-			filters:{pfiltro:'equipo.fecha_mod',type:'date'},
+			filters:{pfiltro:'fecha_mod',type:'date'},
 			id_grupo:1,
 			grid:true,
 			form:false

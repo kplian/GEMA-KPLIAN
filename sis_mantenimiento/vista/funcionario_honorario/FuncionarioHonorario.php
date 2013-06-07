@@ -69,7 +69,7 @@ Phx.vista.FuncionarioHonorario=Ext.extend(Phx.gridInterfaz,{
 				renderer:function (value, p, record){return String.format('{0}', record.data['desc_tipo_horario']);}
 			},
 			type:'ComboBox',
-			filters:{pfiltro:'gefuho.nombre',type:'string'},
+			filters:{pfiltro:'tiphor.nombre',type:'string'},
 			id_grupo:0,
 			grid:true,
 			form:true

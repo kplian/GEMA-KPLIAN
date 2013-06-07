@@ -123,7 +123,7 @@ Phx.vista.TpmTarjeta=Ext.extend(Phx.gridInterfaz,{
                 anchor: '100%',
                 allowBlank: false,
                 origen: 'CATALOGO',
-                gdisplayField: 'descripcion',
+                gdisplayField: 'tipo',
                 gwidth: 80,
                 baseParams:{
                         cod_subsistema:'GEM',
