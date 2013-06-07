@@ -114,7 +114,7 @@ Phx.vista.TipoVariable=Ext.extend(Phx.gridInterfaz,{
 		{
 			config:{
 				name: 'descripcion',
-				fieldLabel: 'Descripcion',
+				fieldLabel: 'Descripción',
 				allowBlank: true,
 				width: '100%',
 				gwidth: 100,
@@ -140,6 +140,22 @@ Phx.vista.TipoVariable=Ext.extend(Phx.gridInterfaz,{
 			id_grupo:1,
 			grid:true,
 			form:true
+		},
+		{
+			config:{
+				name: 'orden',
+				fieldLabel: 'Orden',
+				allowBlank: true,
+				width: '30%',
+				gwidth: 70,
+				maxLength:50
+			},
+			type:'NumberField',
+			filters:{pfiltro:'tva.orden',type:'numeric'},
+			id_grupo:1,
+			grid:true,
+			form:true,
+			egrid:true
 		},
 		{
 			config:{
@@ -237,14 +253,15 @@ Phx.vista.TipoVariable=Ext.extend(Phx.gridInterfaz,{
 		{name:'usr_reg', type: 'string'},
 		{name:'usr_mod', type: 'string'},
 		{name:'codigo_unidad_medida', type: 'string'},
-		{name:'observaciones', type: 'string'}
+		{name:'observaciones', type: 'string'},
+		{name:'orden', type: 'numeric'}
 	],
 	sortInfo:{
 		field: 'id_tipo_variable',
 		direction: 'ASC'
 	},
 	bdel:true,
-	bsave:false,
+	bsave:true,
 	fwidth: 400,
 	
 	loadValoresIniciales:function()

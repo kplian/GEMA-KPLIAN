@@ -25,9 +25,10 @@ DECLARE
 
   v_consulta        varchar;
   v_parametros      record;
-  v_nombre_funcion    text;
-  v_resp        varchar;
-  v_ids       varchar;
+  v_nombre_funcion  text;
+  v_resp        	varchar;
+  v_ids       		varchar;
+  v_cond 			varchar;
           
 BEGIN
 
@@ -172,7 +173,31 @@ BEGIN
             
 		begin
 			--Obtiene los ids de  las localizaciones hijos
-		      v_ids = gem.f_get_id_localizaciones(v_parametros.id_localizacion);
+		    --Verifica el filtro para ubicar los equipos a considerar
+--            raise exception 'id_loc: %, id_ucons: %',v_parametros.id_localizacion,v_parametros.id_uni_cons;
+            if (pxp.f_existe_parametro(p_tabla,'id_localizacion')) then
+              	if v_parametros.id_localizacion <> -1 then
+                    v_ids = gem.f_get_id_localizaciones(v_parametros.id_localizacion);
+                    v_cond = ' ucons.id_localizacion in ('||v_ids||')';
+                else
+
+                  if pxp.f_existe_parametro(p_tabla,'id_uni_cons') then
+                        if v_parametros.id_uni_cons<>-1 then
+                            v_cond = ' ucons.id_uni_cons = ' || v_parametros.id_uni_cons;
+                        end if;
+                    else
+                      raise exception 'Localizacion/Equipo indefinido';
+                    end if;
+                end if;
+            elsif (pxp.f_existe_parametro(p_tabla,'id_uni_cons')) then
+              if v_parametros.id_uni_cons<>-1 then
+                  v_cond = ' ucons.id_uni_cons = ' || v_parametros.id_uni_cons;
+                else
+                    raise exception 'Localizacion/Equipo indefinido';
+                end if;
+            else
+                raise exception 'Localizacion/Equipo indefinido';
+            end if;
 		      
 		    --Sentencia de la consulta
 		  	v_consulta:='select distinct
@@ -181,7 +206,8 @@ BEGIN
 		                um.codigo as codigo_unidad_medida,
 		                um.id_unidad_medida,
 		                tva.id_tipo_variable as key,
-		                eqv.tipo
+		                eqv.tipo,
+                        tva.orden
 				        from gem.tequipo_variable eqv
 				        inner join gem.ttipo_variable tva on tva.id_tipo_variable = eqv.id_tipo_variable
 		                inner join segu.tusuario usu1 on usu1.id_usuario = eqv.id_usuario_reg
@@ -191,13 +217,15 @@ BEGIN
 			            where eqv.estado_reg = ''activo''
 			            and ucons.estado_reg = ''activo''
 			            and ucons.tipo_nodo = ''raiz''
-			            and ucons.id_localizacion in ('|| v_ids||')
-			            and eqv.tipo = ''numeric''
+			            and ' || v_cond || '
+			            and eqv.tipo in (''numeric'',''formula'')
 			            and ';
 		  
 			  --Definicion de la respuesta
 			  v_consulta:=v_consulta||v_parametros.filtro;
-			  v_consulta:=v_consulta||' order by ' ||v_parametros.ordenacion|| ' ' || v_parametros.dir_ordenacion || ' limit ' || v_parametros.cantidad || ' offset ' || v_parametros.puntero;
+			  v_consulta:=v_consulta||' order by tva.orden' || ' limit ' || v_parametros.cantidad || ' offset ' || v_parametros.puntero;
+              
+              raise notice '%',v_consulta;
 			
 			  --Devuelve la respuesta
 			  return v_consulta;
@@ -215,8 +243,30 @@ BEGIN
 
     begin
         
-          --Obtiene los ids de  las localizaciones hijos
-          v_ids = gem.f_get_id_localizaciones(v_parametros.id_localizacion);
+         --Verifica el filtro para ubicar los equipos a considerar
+            if (pxp.f_existe_parametro(p_tabla,'id_localizacion')) then
+              	if v_parametros.id_localizacion <> -1 then
+                    v_ids = gem.f_get_id_localizaciones(v_parametros.id_localizacion);
+                    v_cond = ' ucons.id_localizacion in ('||v_ids||')';
+                else
+
+                  if pxp.f_existe_parametro(p_tabla,'id_uni_cons') then
+                        if v_parametros.id_uni_cons<>-1 then
+                            v_cond = ' ucons.id_uni_cons = ' || v_parametros.id_uni_cons;
+                        end if;
+                    else
+                      raise exception 'Localizacion/Equipo indefinido';
+                    end if;
+                end if;
+            elsif (pxp.f_existe_parametro(p_tabla,'id_uni_cons')) then
+              if v_parametros.id_uni_cons<>-1 then
+                  v_cond = ' ucons.id_uni_cons = ' || v_parametros.id_uni_cons;
+                else
+                    raise exception 'Localizacion/Equipo indefinido';
+                end if;
+            else
+                raise exception 'Localizacion/Equipo indefinido';
+            end if;
             
       --Sentencia de la consulta de conteo de registros
       v_consulta:='select count(eqv.id_equipo_variable)
@@ -229,7 +279,7 @@ BEGIN
                 where  eqv.estado_reg = ''activo''
                 and ucons.estado_reg = ''activo''
                 and ucons.tipo_nodo = ''raiz''
-                and ucons.id_localizacion in ('|| v_ids||')
+                and ' || v_cond || '
                 and eqv.tipo = ''numeric''
                 and ';
       

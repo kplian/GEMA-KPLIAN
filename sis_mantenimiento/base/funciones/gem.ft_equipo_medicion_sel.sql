@@ -45,6 +45,8 @@ DECLARE
     v_col_kil varchar;
     v_col_comb varchar;
     v_aux1 varchar;
+    v_tot numeric;
+    v_tot1 numeric;
 
 BEGIN
 
@@ -359,91 +361,147 @@ return v_consulta;
 end;
     
     /*********************************
-#TRANSACCION: 'GEM_LOMECO_SEL'
-#DESCRIPCION: Mediciones consolidades por Localización
-#AUTOR: rcm
-#FECHA: 14/02/2013
-***********************************/
-    elsif(p_transaccion='GEM_LOMECO_SEL')then
+	#TRANSACCION: 'GEM_LOMECO_SEL'
+	#DESCRIPCION: Mediciones consolidades por Localización
+	#AUTOR: rcm
+	#FECHA: 14/02/2013
+	***********************************/
+	elsif(p_transaccion='GEM_LOMECO_SEL')then
      
-     begin
+		begin
         
-          if (pxp.f_existe_parametro(p_tabla,'id_localizacion')) then
-            --Obtencion de los ids de localizacion
-              WITH RECURSIVE t(id,id_fk,nombre,n) AS (
-                  SELECT l.id_localizacion,l.id_localizacion_fk, l.nombre,1
-                  FROM gem.tlocalizacion l
-                  WHERE l.id_localizacion = v_parametros.id_localizacion
-                  UNION ALL
-                  SELECT l.id_localizacion,l.id_localizacion_fk, l.nombre,n+1
-                  FROM gem.tlocalizacion l, t
-                  WHERE l.id_localizacion_fk = t.id
-              )
-              SELECT (pxp.list(id::text))::varchar
-              INTO v_ids
-              FROM t;
-              
-              v_cond = ' ucons.id_localizacion in ('||v_ids||')';
-          elsif (pxp.f_existe_parametro(p_tabla,'id_uni_cons')) then
-            v_cond = ' ucons.id_uni_cons = ' || v_parametros.id_uni_cons;
-          else
-            raise exception 'Localizacion/Equipo indefinido';
-          end if; 
+        	--1.Obtención de los IDs para obtención de los equipos
+        	if (pxp.f_existe_parametro(p_tabla,'id_localizacion')) then
+            	if v_parametros.id_localizacion <> -1 then
+                    v_ids = gem.f_get_id_localizaciones(v_parametros.id_localizacion);
+                    v_cond = ' ucons.id_localizacion in ('||v_ids||')';
+                else
+                 	if pxp.f_existe_parametro(p_tabla,'id_uni_cons') then
+                        if v_parametros.id_uni_cons<>-1 then
+                        	v_cond = ' ucons.id_uni_cons = ' || v_parametros.id_uni_cons;
+                        end if;
+                    else
+                    	 raise exception 'Localizacion/Equipo indefinido';
+                    end if;
+                end if;
+            elsif (pxp.f_existe_parametro(p_tabla,'id_uni_cons')) then
+              if v_parametros.id_uni_cons<>-1 then
+                  v_cond = ' ucons.id_uni_cons = ' || v_parametros.id_uni_cons;
+                else
+                    raise exception 'Localizacion/Equipo indefinido';
+                end if;
+            else
+                raise exception 'Localizacion/Equipo indefinido';
+            end if; 
             
-      create temp table tt_uni_cons_med(
-              nombre varchar,
-              total numeric,
-              unidad_medida varchar,
-              descripcion varchar
-            ) on commit drop;
+            --2.Creación de tabla temporal para almacenar las mediciones
+			create temp table tt_uni_cons_med(
+	        	nombre varchar,
+	            total numeric,
+	            unidad_medida varchar,
+	            descripcion varchar,
+	            orden integer
+	        ) on commit drop;
             
         
-      --Sentencia de la consulta de conteo de registros
-      v_consulta:='insert into tt_uni_cons_med
-                  select
-                        tvar.nombre,sum(eqmed.medicion) as total,umed.codigo as unidad_medida, umed.descripcion
-                        from gem.tuni_cons ucons
-                        inner join gem.tequipo_variable eqvar
-                        on eqvar.id_uni_cons = ucons.id_uni_cons
-                        inner join gem.tequipo_medicion eqmed
-                        on eqmed.id_equipo_variable = eqvar.id_equipo_variable
-                        inner join gem.ttipo_variable tvar
-                        on tvar.id_tipo_variable = eqvar.id_tipo_variable
-                        inner join param.tunidad_medida umed
-                        on umed.id_unidad_medida = tvar.id_unidad_medida
-                        where ucons.tipo = ''uc'' and ucons.tipo_nodo = ''raiz'' and ucons.estado_reg = ''activo''
-                        and ' || v_cond || '
-                        and eqmed.fecha_medicion between ''' || v_parametros.fecha_desde || ''' and ''' || v_parametros.fecha_hasta || '''
-                        group by tvar.nombre,umed.codigo, umed.descripcion';
+      		--3.Sentencia de la consulta de conteo de registros
+      		v_consulta:='insert into tt_uni_cons_med
+							select
+			                tvar.nombre,sum(eqmed.medicion) as total,umed.codigo as unidad_medida, umed.descripcion, tvar.orden
+			                from gem.tuni_cons ucons
+			                inner join gem.tequipo_variable eqvar
+			                on eqvar.id_uni_cons = ucons.id_uni_cons
+			                inner join gem.tequipo_medicion eqmed
+			                on eqmed.id_equipo_variable = eqvar.id_equipo_variable
+			                inner join gem.ttipo_variable tvar
+			                on tvar.id_tipo_variable = eqvar.id_tipo_variable
+			                inner join param.tunidad_medida umed
+			                on umed.id_unidad_medida = tvar.id_unidad_medida
+			                where ucons.tipo = ''uc'' and ucons.tipo_nodo = ''raiz'' and ucons.estado_reg = ''activo''
+			                and ' || v_cond || '
+			                and eqvar.tipo = ''numeric''
+			                and eqmed.fecha_medicion between ''' || v_parametros.fecha_desde || ''' and ''' || v_parametros.fecha_hasta || '''
+			                group by tvar.nombre,umed.codigo, umed.descripcion,tvar.orden';
       
                   raise notice '%', v_consulta;
                         
             execute(v_consulta);
             
-            select
-            coalesce(total,-1) into v_kilometraje
-            from tt_uni_cons_med
-            where upper(trim(nombre)) = 'KILOMETRAJE';
-            
-            select
-            coalesce(total,-1) into v_combustible
-            from tt_uni_cons_med
-            where upper(trim(nombre)) = 'COMBUSTIBLE';
-            
-            if v_kilometraje >=0 and v_combustible>=0 then
-              v_rend = round(v_kilometraje / v_combustible,2);
-                insert into tt_uni_cons_med(
-              nombre, total,unidad_medida,descripcion
-                ) values(
-                'Rendimiento', v_rend, 'Km/Lts', 'Kilometros por Litro'
-                );
-            end if;
-            
-            v_consulta = 'select * from tt_uni_cons_med';
-      --Devuelve la respuesta
-      return v_consulta;
+            --Verifica si alguno de los equipos tienen fórmulas
+            v_consulta = 'select
+			                distinct tvar.nombre as nombre, tvar.orden
+			                from gem.tuni_cons ucons
+			                inner join gem.tequipo_variable eqvar
+			                on eqvar.id_uni_cons = ucons.id_uni_cons
+			                inner join gem.ttipo_variable tvar
+			                on tvar.id_tipo_variable = eqvar.id_tipo_variable
+			                inner join param.tunidad_medida umed
+			                on umed.id_unidad_medida = tvar.id_unidad_medida
+			                where ucons.tipo = ''uc'' and ucons.tipo_nodo = ''raiz'' and ucons.estado_reg = ''activo''
+			                and ' || v_cond || '
+			                and eqvar.tipo = ''formula''
+			                group by tvar.nombre, tvar.orden';
+			                
+			for g_registros in execute(v_consulta) loop
+				if g_registros.nombre = 'Costo Total (Bs)' then
+					--Se obtiene la suma de todos los costos
+					select coalesce(sum(total),0)
+					into v_tot
+					from tt_uni_cons_med
+					where nombre in ('Costo Comb.(Bs.)','Costo Parchado (Bs)','Costo Lubricantes (Bs)','Costo Lavado (Bs)','Costo Batería (Bs)','Costo Neumatico (Bs)','Costo Mtto1.(Bs)','Costo Mtto2.(Bs)','Costo Mtto3.(Bs)','Costo Mtto4.(Bs)','Costo Mtto5.(Bs.)');
+					--Inserción del cálculo de la fórmula
+					insert into tt_uni_cons_med(nombre, total,unidad_medida,descripcion,orden) values(g_registros.nombre, round(v_tot,2), 'Bs.', 'Bolivianos',g_registros.orden);
 
-end;
+				elsif  g_registros.nombre = 'Rendimiento(Km/Lt)' then
+					select coalesce(sum(total),0)
+					into v_tot
+					from tt_uni_cons_med
+					where nombre in ('Kilometraje del mes');
+					select coalesce(sum(total),0)
+					into v_tot1
+					from tt_uni_cons_med
+					where nombre in ('Consumo comb.(Lts)');
+					
+					if v_tot1 > 0 then
+						v_tot=v_tot/v_tot1;
+					else
+						v_tot=0;
+					end if;
+					
+					--Inserción del cálculo de la fórmula
+					insert into tt_uni_cons_med(nombre, total,unidad_medida,descripcion,orden) values(g_registros.nombre, round(v_tot,2), 'Km/Lt', 'Kilómetros por Litro',g_registros.orden);
+				
+				elsif g_registros.nombre = 'Factor Costo (Bs/Km)' then
+					--Se obtiene la suma de todos los costos
+					select coalesce(sum(total),0)
+					into v_tot
+					from tt_uni_cons_med
+					where nombre in ('Costo Comb.(Bs.)','Costo Parchado (Bs)','Costo Lubricantes (Bs)','Costo Lavado (Bs)','Costo Batería (Bs)','Costo Neumatico (Bs)','Costo Mtto1.(Bs)','Costo Mtto2.(Bs)','Costo Mtto3.(Bs)','Costo Mtto4.(Bs)','Costo Mtto5.(Bs)');
+					select coalesce(sum(total),0)
+					into v_tot1
+					from tt_uni_cons_med
+					where nombre in ('Kilometraje del mes');
+					
+					if v_tot1 > 0 then
+						v_tot=v_tot/v_tot1;
+					else
+						v_tot=0;
+					end if;
+					
+					--Inserción del cálculo de la fórmula
+					insert into tt_uni_cons_med(nombre, total,unidad_medida,descripcion,orden) values(g_registros.nombre, round(v_tot,2), 'Bs/Km', 'Bolivianos por Kilómetro',g_registros.orden);
+				
+				end if;
+			end loop;
+            
+		v_consulta = 'select nombre, total, unidad_medida, descripcion
+        				from tt_uni_cons_med
+                        order by orden';
+
+	    --Devuelve la respuesta
+    	return v_consulta;
+
+	end;
 
 /*********************************
 #TRANSACCION: 'GEM_LOMECO_CONT'
@@ -457,26 +515,28 @@ elsif(p_transaccion='GEM_LOMECO_CONT')then
 begin
         
          if (pxp.f_existe_parametro(p_tabla,'id_localizacion')) then
-            --Obtencion de los ids de localizacion
-              WITH RECURSIVE t(id,id_fk,nombre,n) AS (
-                  SELECT l.id_localizacion,l.id_localizacion_fk, l.nombre,1
-                  FROM gem.tlocalizacion l
-                  WHERE l.id_localizacion = v_parametros.id_localizacion
-                  UNION ALL
-                  SELECT l.id_localizacion,l.id_localizacion_fk, l.nombre,n+1
-                  FROM gem.tlocalizacion l, t
-                  WHERE l.id_localizacion_fk = t.id
-              )
-              SELECT (pxp.list(id::text))::varchar
-              INTO v_ids
-              FROM t;
-              
-              v_cond = ' ucons.id_localizacion in ('||v_ids||')';
-          elsif (pxp.f_existe_parametro(p_tabla,'id_uni_cons')) then
-            v_cond = ' ucons.id_uni_cons = ' || v_parametros.id_uni_cons;
-          else
-            raise exception 'Localizacion/Equipo indefinido';
-          end if; 
+              	if v_parametros.id_localizacion <> -1 then
+                    v_ids = gem.f_get_id_localizaciones(v_parametros.id_localizacion);
+                    v_cond = ' ucons.id_localizacion in ('||v_ids||')';
+                else
+
+                  if pxp.f_existe_parametro(p_tabla,'id_uni_cons') then
+                        if v_parametros.id_uni_cons<>-1 then
+                            v_cond = ' ucons.id_uni_cons = ' || v_parametros.id_uni_cons;
+                        end if;
+                    else
+                      raise exception 'Localizacion/Equipo indefinido';
+                    end if;
+                end if;
+            elsif (pxp.f_existe_parametro(p_tabla,'id_uni_cons')) then
+              if v_parametros.id_uni_cons<>-1 then
+                  v_cond = ' ucons.id_uni_cons = ' || v_parametros.id_uni_cons;
+                else
+                    raise exception 'Localizacion/Equipo indefinido';
+                end if;
+            else
+                raise exception 'Localizacion/Equipo indefinido';
+            end if;
             
       --Sentencia de la consulta de conteo de registros
       v_consulta:='select count(*)
@@ -525,35 +585,57 @@ begin
                         hora time,
                         observaciones varchar
                         ';
+			-------------------------------------------------------
+	        -- (2) OBTENCION DE LOS IDS PARA OBTENER LOS EQUIPOS
+	        -------------------------------------------------------
+         if (pxp.f_existe_parametro(p_tabla,'id_localizacion')) then
+              	if v_parametros.id_localizacion <> -1 then
+                    v_ids = gem.f_get_id_localizaciones(v_parametros.id_localizacion);
+                    v_cond = ' ucons.id_localizacion in ('||v_ids||')';
+                else
 
-         --Obtiene los ids de  las localizaciones hijos para filtrar por todos los equipos de una localización
-         v_ids = gem.f_get_id_localizaciones(v_parametros.id_localizacion);
+                  if pxp.f_existe_parametro(p_tabla,'id_uni_cons') then
+                        if v_parametros.id_uni_cons<>-1 then
+                            v_cond = ' ucons.id_uni_cons = ' || v_parametros.id_uni_cons;
+                        end if;
+                    else
+                      raise exception 'Localizacion/Equipo indefinido';
+                    end if;
+                end if;
+            elsif (pxp.f_existe_parametro(p_tabla,'id_uni_cons')) then
+              if v_parametros.id_uni_cons<>-1 then
+                  v_cond = ' ucons.id_uni_cons = ' || v_parametros.id_uni_cons;
+                else
+                    raise exception 'Localizacion/Equipo indefinido';
+                end if;
+            else
+                raise exception 'Localizacion/Equipo indefinido';
+            end if;
          
          --Obtiene todas las columnas de todos los equipos de la localización
          v_aux = 'select distinct
                   tva.id_tipo_variable,
-                  tva.nombre as nombre_tipo_variable
+                  tva.nombre as nombre_tipo_variable,
+                  tva.orden
                   from gem.tequipo_variable eqv
                   inner join gem.ttipo_variable tva on tva.id_tipo_variable = eqv.id_tipo_variable
                   inner join gem.tuni_cons ucons on ucons.id_uni_cons = eqv.id_uni_cons
-                  where eqv.estado_reg = ''activo'' and eqv.tipo=''numeric''
+                  where eqv.estado_reg = ''activo'' and eqv.tipo in (''numeric'',''formula'')
                   and ucons.estado_reg = ''activo''
                   and ucons.tipo_nodo = ''raiz''
-                  and ucons.id_localizacion in ('||v_ids||')
-                  order by tva.id_tipo_variable';
+                  and '||v_cond||'
+                  order by tva.orden';
          
---         raise notice '---->%',v_aux;
          --Bucle para completar las columnas de la tabla temporal a crear
          
          v_columnas = 'ucons.codigo as equipo,med.id_uni_cons, med.id_mediciones_mes, med.fecha, med.hora, med.observaciones';
---         raise exception 'fffhh: %',v_columnas;
          
           FOR g_registros in execute(v_aux) LOOP
             
               v_cod= 'col_'||g_registros.id_tipo_variable;
               
             --Verifica si existe la columna de rendimiento
-      if upper(trim(g_registros.nombre_tipo_variable)) = 'RENDIMIENTO (KM/LT)' then
+      		if upper(trim(g_registros.nombre_tipo_variable)) = 'RENDIMIENTO (KM/LT)' then
               v_col_rend = v_cod;
             elsif upper(trim(g_registros.nombre_tipo_variable)) = 'KILOMETRAJE' then
               v_col_kil = v_cod;
@@ -610,7 +692,7 @@ begin
                 on ev.id_equipo_variable = em.id_equipo_variable
                 inner join gem.tuni_cons ucons
                 on ucons.id_uni_cons = ev.id_uni_cons
-                where ucons.id_localizacion in ('||v_ids||')
+                where '||v_cond||'
                 and ev.estado_reg = ''activo'' and ev.tipo=''numeric''
                 and ucons.estado_reg = ''activo''
                 and ucons.tipo_nodo = ''raiz''
@@ -670,21 +752,40 @@ begin
     
      -- 3) consulta de la tabla temporal
     if(p_transaccion='GEM_EQMECO_SEL') then
-    --ucons.codigo || '' -> '' || ucons.nombre as equipo'||v_columnas||'
---                  ucons.codigo || '' -> '' || ucons.nombre as equipo, med.*
---        v_consulta:='select ucons.codigo || '' -> '' || ucons.nombre as equipo, med.*
+    	--Verifica si tiene fórmulas
+    	v_aux = 'select distinct
+                  tva.id_tipo_variable,
+                  tva.nombre as nombre_tipo_variable,
+                  tva.orden
+                  from gem.tequipo_variable eqv
+                  inner join gem.ttipo_variable tva on tva.id_tipo_variable = eqv.id_tipo_variable
+                  inner join gem.tuni_cons ucons on ucons.id_uni_cons = eqv.id_uni_cons
+                  where eqv.estado_reg = ''activo'' and eqv.tipo =''formula''
+                  and ucons.estado_reg = ''activo''
+                  and ucons.tipo_nodo = ''raiz''
+                  and '||v_cond||'
+                  order by tva.orden';
+        for g_registros in execute(v_aux) loop
+        	if g_registros.nombre = 'Costo Total (Bs)' then
+        		v_columnas = v_columnas || 
+			elsif  g_registros.nombre = 'Rendimiento(Km/Lt)' then
+			elsif g_registros.nombre = 'Factor Costo (Bs/Km)' then
+			end if;
+        end loop;
+    	
+    	--Define la consulta de datos
         v_consulta:='select '||v_columnas||'
                     from tt_mediciones_equipo_'||p_id_usuario||' med
                     inner join gem.tuni_cons ucons on ucons.id_uni_cons = med.id_uni_cons
                     where '||v_parametros.filtro;
        
         v_consulta:=v_consulta||' order by ' ||v_parametros.ordenacion|| ' ' ||
-        v_parametros.dir_ordenacion || ' limit ' || v_parametros.cantidad || ' offset ' || v_parametros.puntero;
+        			v_parametros.dir_ordenacion || ' limit ' || v_parametros.cantidad || ' offset ' || v_parametros.puntero;
     else
         v_consulta:='select count (id_mediciones_mes)
-              from tt_mediciones_equipo_'||p_id_usuario||' med
+              		from tt_mediciones_equipo_'||p_id_usuario||' med
                     inner join gem.tuni_cons ucons on ucons.id_uni_cons = med.id_uni_cons
-              where '||v_parametros.filtro;
+             		where '||v_parametros.filtro;
     end if; 
 
     --Devuelve la respuesta

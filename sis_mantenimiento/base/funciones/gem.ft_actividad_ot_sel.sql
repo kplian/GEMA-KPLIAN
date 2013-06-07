@@ -91,11 +91,16 @@ BEGIN
 			v_consulta:='select
                     count(acti.id_actividad)
                     from gem.tactividad acti
-			    where ';
+                    inner join segu.tusuario usu1 on usu1.id_usuario = acti.id_usuario_reg
+                    left join segu.tusuario usu2 on usu2.id_usuario = acti.id_usuario_mod
+                    inner join gem.torden_trabajo ot on ot.id_orden_trabajo = acti.id_orden_trabajo
+                    left join segu.tusuario ures on ures.id_usuario = acti.id_usuario_resp
+                    left join segu.tpersona pres on ures.id_persona = pres.id_persona
+			    where acti.id_orden_trabajo = ' || v_parametros.id_orden_trabajo || ' and ';
 			
 			--Definicion de la respuesta		    
 			v_consulta:=v_consulta||v_parametros.filtro;
-
+            
 			--Devuelve la respuesta
 			return v_consulta;
 

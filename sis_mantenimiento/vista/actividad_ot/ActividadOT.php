@@ -46,7 +46,7 @@ Phx.vista.actividad=Ext.extend(Phx.gridInterfaz,{
 	   			type: 'ComboRec',
 	   			id_grupo: 0,
 	   			filters:{	
-			        pfiltro: 'PERSON.nombre_completo1',
+			        pfiltro: 'pres.nombre',
 					type: 'string'
 				},
 	   			grid: true,

@@ -174,8 +174,8 @@ add CONSTRAINT fk_tanalisis_mant__id_tipo_mant FOREIGN KEY (id_tipo_mant)
       ON UPDATE NO ACTION ON DELETE NO ACTION;
 
 alter table gem.tanalisis_mant
-add CONSTRAINT fk_tanalisis_mant__id_empleado_rev FOREIGN KEY (id_funcionario_rev)
-      REFERENCES orga.tfuncionario (id_funcionario) MATCH SIMPLE
+add CONSTRAINT fk_tanalisis_mant__id_persona_rev FOREIGN KEY (id_persona_rev)
+      REFERENCES segu.tpersona (id_persona) MATCH SIMPLE
       ON UPDATE NO ACTION ON DELETE NO ACTION;
 
 alter table gem.tfuncion
@@ -243,15 +243,15 @@ add CONSTRAINT fk_tmodo_falla__id_funcion_falla FOREIGN KEY (id_funcion_falla)
     NOT DEFERRABLE;
     
 alter table gem.tplan_mant
-add CONSTRAINT fk_tplan_mant__id_funcionario FOREIGN KEY (id_funcionario)
-    REFERENCES orga.tfuncionario(id_funcionario)
+add CONSTRAINT fk_tplan_mant__id_persona FOREIGN KEY (id_persona)
+    REFERENCES segu.tpersona(id_persona)
     ON DELETE NO ACTION
     ON UPDATE NO ACTION
     NOT DEFERRABLE;
 
 alter table gem.tplan_mant
-add CONSTRAINT fk_tplan_mant__id_funcionario_rev FOREIGN KEY (id_funcionario_rev)
-    REFERENCES orga.tfuncionario(id_funcionario)
+add CONSTRAINT fk_tplan_mant__id_persona_rev FOREIGN KEY (id_persona_rev)
+    REFERENCES segu.tpersona(id_persona)
     ON DELETE NO ACTION
     ON UPDATE NO ACTION
     NOT DEFERRABLE;
@@ -598,8 +598,8 @@ add constraint fk_trecurso__id_orden_trabajo foreign key (id_orden_trabajo)
 references gem.torden_trabajo (id_orden_trabajo);
 
 alter table gem.tanalisis_mant
-add constraint fk_tanalisis_mant__id_funcionario_prep foreign key (id_funcionario_prep)
-references orga.tfuncionario (id_funcionario);
+add constraint fk_tanalisis_mant__id_persona_prep foreign key (id_persona_prep)
+references segu.tpersona (id_persona);
 /***********************************F-DEP-RCM-GEM-137-03/05/2013*****************************************/
 
 /***********************************I-DEP-RCM-GEM-0-24/05/2013*****************************************/
@@ -609,20 +609,6 @@ foreign key (id_uni_cons_hijo) references gem.tuni_cons (id_uni_cons);
 alter table gem.tplan_mant
 add constraint fk_tplan_mant__id_uni_cons_hijo
 foreign key (id_uni_cons_hijo) references gem.tuni_cons (id_uni_cons);
-
-alter table gem.tanalisis_mant
-add constraint fk_tanalisis_mant__id_persona_prep
-foreign key (id_persona_prep) references segu.tpersona (id_persona);
-alter table gem.tanalisis_mant
-add constraint fk_tanalisis_mant__id_persona_rev
-foreign key (id_persona_rev) references segu.tpersona (id_persona);
-
-alter table gem.tplan_mant
-add constraint fk_tplan_mant__id_persona
-foreign key (id_persona) references segu.tpersona (id_persona);
-alter table gem.tplan_mant
-add constraint fk_tplan_mant__id_persona_rev
-foreign key (id_persona_rev) references segu.tpersona (id_persona);
 /***********************************F-DEP-RCM-GEM-0-24/05/2013*****************************************/
 
 /***********************************I-DEP-RCM-GEM-141-29/05/2013*****************************************/

@@ -36,7 +36,7 @@ Phx.vista.ListarVersionesArchivo=Ext.extend(Phx.gridInterfaz,{
                 maxLength:150
             },
             type:'TextField',
-            filters:{pfiltro:'gedocu.codigo',type:'string'},
+            filters:{pfiltro:'unidoc.codigo',type:'string'},
             id_grupo:1,
             grid:true,
             form:true
@@ -51,7 +51,7 @@ Phx.vista.ListarVersionesArchivo=Ext.extend(Phx.gridInterfaz,{
                 maxLength:150
             },
             type:'TextField',
-            filters:{pfiltro:'gedocu.nombre',type:'string'},
+            filters:{pfiltro:'unidoc.nombre',type:'string'},
             id_grupo:1,
             grid:true,
             form:true
@@ -89,7 +89,7 @@ Phx.vista.ListarVersionesArchivo=Ext.extend(Phx.gridInterfaz,{
                 maxLength:1000
             },
             type:'TextField',
-            filters:{pfiltro:'gedocu.resumen',type:'string'},
+            filters:{pfiltro:'unidoc.resumen',type:'string'},
             id_grupo:1,
             grid:true,
             form:true
@@ -104,7 +104,7 @@ Phx.vista.ListarVersionesArchivo=Ext.extend(Phx.gridInterfaz,{
                 maxLength:100
             },
             type:'TextField',
-            filters:{pfiltro:'gedocu.nombre_archivo',type:'string'},
+            filters:{pfiltro:'unidoc.nombre_archivo',type:'string'},
             id_grupo:1,
             grid:true,
             form:true
@@ -119,7 +119,7 @@ Phx.vista.ListarVersionesArchivo=Ext.extend(Phx.gridInterfaz,{
                 maxLength:10
             },
             type:'TextField',
-            filters:{pfiltro:'gedocu.extension',type:'string'},
+            filters:{pfiltro:'unidoc.extension',type:'string'},
             id_grupo:1,
             grid:true,
             form:false
@@ -134,7 +134,7 @@ Phx.vista.ListarVersionesArchivo=Ext.extend(Phx.gridInterfaz,{
                 maxLength:3000
             },
             type:'TextField',
-            filters:{pfiltro:'gedocu.palabras_clave',type:'string'},
+            filters:{pfiltro:'unidoc.palabras_clave',type:'string'},
             id_grupo:1,
             grid:true,
             form:true
@@ -149,7 +149,7 @@ Phx.vista.ListarVersionesArchivo=Ext.extend(Phx.gridInterfaz,{
                 maxLength:4
             },
             type:'TextField',
-            filters:{pfiltro:'gedocu.tipo',type:'string'},
+            filters:{pfiltro:'unidoc.tipo',type:'string'},
             id_grupo:1,
             grid:true,
             form:false
@@ -164,7 +164,7 @@ Phx.vista.ListarVersionesArchivo=Ext.extend(Phx.gridInterfaz,{
                 maxLength:10
             },
             type:'TextField',
-            filters:{pfiltro:'gedocu.estado_reg',type:'string'},
+            filters:{pfiltro:'unidoc.estado_reg',type:'string'},
             id_grupo:1,
             grid:true,
             form:false
@@ -180,7 +180,7 @@ Phx.vista.ListarVersionesArchivo=Ext.extend(Phx.gridInterfaz,{
                 format:'Y-m-d'
             },
             type:'DateField',
-            filters:{pfiltro:'gedocu.fecha_reg',type:'date'},
+            filters:{pfiltro:'unidoc.fecha_reg',type:'date'},
             id_grupo:1,
             grid:true,
             form:false
@@ -211,7 +211,7 @@ Phx.vista.ListarVersionesArchivo=Ext.extend(Phx.gridInterfaz,{
                 format:'Y-m-d'
             },
             type:'DateField',
-            filters:{pfiltro:'gedocu.fecha_mod',type:'date'},
+            filters:{pfiltro:'unidoc.fecha_mod',type:'date'},
             id_grupo:1,
             grid:true,
             form:false

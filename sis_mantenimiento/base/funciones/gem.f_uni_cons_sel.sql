@@ -243,42 +243,40 @@ BEGIN
   #FECHA:   1/09/2012
     ***********************************/
     
-  elsif(p_transaccion='GEM_TUCPLAARB_SEL')then
+	elsif(p_transaccion='GEM_TUCPLAARB_SEL')then
             
-      begin
+		begin
     
-           --tenemos que uamentar un filtro , si es administros todos si no solo las unidades donde el tenga acceso
+        	--tenemos que uamentar un filtro , si es administros todos si no solo las unidades donde el tenga acceso
            
-           if p_administrador = 1 then
-           
-            v_filtro = ' 0=0 ';
-            
+			if p_administrador = 1 then
+				v_filtro = ' 0=0 ';
             else
-            v_filtro =  p_id_usuario::varchar||' = ANY (tuc.id_usuarios) ';
-            
+            	v_filtro =  p_id_usuario::varchar||' = ANY (tuc.id_usuarios) ';
             end if;
             
-        
-        --Sentencia de la consulta
-      v_consulta:='select
-            tuc.id_uni_cons,
-            tuc.nombre,
-            tuc.codigo,
-            tuc.id_localizacion as id_localizacion_fk,
-                        (tuc.id_localizacion::varchar||''_''||tuc.id_uni_cons::varchar)::varchar as id_localizacion,
-                        tuc.incluir_calgen,
-                         case
-                          when (tuc.incluir_calgen)then
-                               ''uni_cons''::varchar
-                          ELSE
-                              ''uni_cons_f''::varchar
-                          END as tipo_nodo
-            from gem.tuni_cons tuc
-            inner join segu.tusuario usu1 on usu1.id_usuario = tuc.id_usuario_reg
-            left join segu.tusuario usu2 on usu2.id_usuario = tuc.id_usuario_mod
-                        where tuc.tipo = ''uc'' and tuc.estado_reg = ''activo''
-                and tuc.tipo_nodo = ''raiz'' and (tuc.estado=''aprobado'' or tuc.estado=''registrado'') 
-                        and  '|| v_filtro ||' and  tuc.id_localizacion= '|| v_parametros.id_localizacion;
+			--Sentencia de la consulta
+      		v_consulta:='select
+			            tuc.id_uni_cons,
+			            tuc.nombre,
+			            tuc.codigo,
+			            tuc.id_localizacion as id_localizacion_fk,
+	                    (tuc.id_localizacion::varchar||''_''||tuc.id_uni_cons::varchar)::varchar as id_localizacion,
+	                    tuc.incluir_calgen,
+	                    case 
+	                    	when (tuc.incluir_calgen)then
+	                           ''uni_cons''::varchar
+	                      ELSE
+	                          ''uni_cons_f''::varchar
+	                    END as tipo_nodo
+			            from gem.tuni_cons tuc
+			            inner join segu.tusuario usu1 on usu1.id_usuario = tuc.id_usuario_reg
+			            left join segu.tusuario usu2 on usu2.id_usuario = tuc.id_usuario_mod
+			            where tuc.tipo = ''uc''
+			            and tuc.estado_reg = ''activo''
+			            and tuc.tipo_nodo = ''raiz''
+			            and (tuc.estado=''aprobado'' or tuc.estado=''registrado'') 
+			            and  '|| v_filtro ||' and  tuc.id_localizacion= '|| v_parametros.id_localizacion;
        
       --Definicion de la respuesta
       v_consulta:=v_consulta||' order by tuc.codigo';

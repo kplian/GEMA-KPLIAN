@@ -66,14 +66,14 @@ BEGIN
             tva.fecha_mod,
             usu1.cuenta as usr_reg,
             usu2.cuenta as usr_mod,
-                        um.codigo as codigo_unidad_medida,
-                        tva.observaciones 
+            um.codigo as codigo_unidad_medida,
+            tva.observaciones,
+            tva.orden 
             from gem.ttipo_variable tva
             inner join segu.tusuario usu1 on usu1.id_usuario = tva.id_usuario_reg
-                        left join param.tunidad_medida um on  um.id_unidad_medida = tva.id_unidad_medida
-                        
+            left join param.tunidad_medida um on  um.id_unidad_medida = tva.id_unidad_medida
             left join segu.tusuario usu2 on usu2.id_usuario = tva.id_usuario_mod
-                where  tva.estado_reg = ''activo''  AND tva.id_tipo_equipo ='|| v_parametros.id_tipo_equipo||' AND ';
+            where  tva.estado_reg = ''activo''  AND tva.id_tipo_equipo ='|| v_parametros.id_tipo_equipo||' AND ';
       
       --Definicion de la respuesta
       v_consulta:=v_consulta||v_parametros.filtro;

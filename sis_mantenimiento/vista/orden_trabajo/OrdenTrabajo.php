@@ -471,7 +471,7 @@ Phx.vista.OrdenTrabajo=Ext.extend(Phx.gridInterfaz,{
 					fields: ['id_mant_predef','nombre','codigo','descripcion','desc_tipo_equipo','id_unidad_medida_estimado','tiempo_estimado','desc_unidad_medida_estimado'],
 					// turn on remote sorting
 					remoteSort: true,
-					baseParams:{par_filtro:'gemapr.nombre#gemapr.codigo'}
+					baseParams:{par_filtro:'mpre.nombre#mpre.nombre'}
 				}),
 				valueField: 'id_mant_predef',
 				displayField: 'nombre',
@@ -491,7 +491,7 @@ Phx.vista.OrdenTrabajo=Ext.extend(Phx.gridInterfaz,{
 				tpl:'<tpl for="."><div class="x-combo-list-item"><p>Código: <span style="color:#1406DD">{codigo}</span></p><p>Mantenimiento: <span style="color:#1406DD">{nombre}</span></p><p>Tipo Equipo: <span style="color:#1406DD">{desc_tipo_equipo}</span></p></div></tpl>',
 			},
 			type:'ComboBox',
-			filters:{pfiltro:'gemapr.nombre',type:'string'},
+			filters:{pfiltro:'mpre.nombre',type:'string'},
 			id_grupo:0,
 			grid:true,
 			form:true
@@ -812,7 +812,7 @@ Phx.vista.OrdenTrabajo=Ext.extend(Phx.gridInterfaz,{
 	   				gdisplayField:'desc_funcionario_aprob',
 	   			    gwidth: 120,
 	   			    anchor: '100%',
-	   			    renderer:function (value, p, record){return String.format('{0}', record.data['desc_person1']);}
+	   			    renderer:function (value, p, record){return String.format('{0}', record.data['desc_funcionario_aprob']);}
 	       	     },
 	   			type:'ComboRec',
 	   			id_grupo:1,
@@ -833,7 +833,7 @@ Phx.vista.OrdenTrabajo=Ext.extend(Phx.gridInterfaz,{
 	   				gdisplayField:'desc_funcionario_recib',
 	   				anchor: '100%',
 	   			    gwidth: 120,
-	   			    renderer:function (value, p, record){return String.format('{0}', record.data['desc_person1']);}
+	   			    renderer:function (value, p, record){return String.format('{0}', record.data['desc_funcionario_recib']);}
 	       	     },
 	   			type:'ComboRec',
 	   			id_grupo:1,

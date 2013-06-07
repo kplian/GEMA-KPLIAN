@@ -153,6 +153,7 @@ class MODEquipoVariable extends MODbase{
 		$this->tipo_procedimiento='SEL';//tipo de transaccion
 		//var_dump($this->objParam);exit;
 		$this->setParametro('id_localizacion','id_localizacion','integer');
+		$this->setParametro('id_uni_cons','id_uni_cons','integer');
 				
 		//Definicion de la lista del resultado del query
 		$this->captura('id_tipo_variable','int4');
@@ -161,10 +162,12 @@ class MODEquipoVariable extends MODbase{
 		$this->captura('id_unidad_medida','int4');
 		$this->captura('key','int4');
 		$this->captura('tipo','varchar');
+		$this->captura('orden','int4');
 		
 		
 		//Ejecuta la instruccion
 		$this->armarConsulta();
+		//echo $this->consulta;exit;
 		$this->ejecutarConsulta();
 		
 		//Devuelve la respuesta

@@ -36,6 +36,7 @@ class MODTipoVariable extends MODbase{
 		$this->captura('usr_mod','varchar');
 		$this->captura('codigo_unidad_medida','varchar');
 		$this->captura('observaciones','varchar');
+		$this->captura('orden','int4');
 		
 		
 		//Ejecuta la instruccion
@@ -59,6 +60,7 @@ class MODTipoVariable extends MODbase{
 		$this->setParametro('id_unidad_medida','id_unidad_medida','int4');
 		$this->setParametro('descripcion','descripcion','varchar');
 		$this->setParametro('observaciones','observaciones','varchar');
+		$this->setParametro('orden','orden','int4');
 
 		//Ejecuta la instruccion
 		$this->armarConsulta();
@@ -82,6 +84,7 @@ class MODTipoVariable extends MODbase{
 		$this->setParametro('id_unidad_medida','id_unidad_medida','int4');
 		$this->setParametro('descripcion','descripcion','varchar');
 		$this->setParametro('observaciones','observaciones','varchar');
+		$this->setParametro('orden','orden','int4');
 
 		//Ejecuta la instruccion
 		$this->armarConsulta();
