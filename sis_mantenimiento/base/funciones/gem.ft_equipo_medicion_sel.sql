@@ -766,10 +766,10 @@ begin
                   and '||v_cond||'
                   order by tva.orden';
         for g_registros in execute(v_aux) loop
-        	if g_registros.nombre = 'Costo Total (Bs)' then
-        		v_columnas = v_columnas || 
-			elsif  g_registros.nombre = 'Rendimiento(Km/Lt)' then
-			elsif g_registros.nombre = 'Factor Costo (Bs/Km)' then
+        	if g_registros.nombre_tipo_variable = 'Costo Total (Bs)' then
+        		--v_columnas = v_columnas || 
+			elsif  g_registros.nombre_tipo_variable = 'Rendimiento(Km/Lt)' then
+			elsif g_registros.nombre_tipo_variable = 'Factor Costo (Bs/Km)' then
 			end if;
         end loop;
     	
