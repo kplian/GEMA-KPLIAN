@@ -414,6 +414,16 @@ header("content-type: text/javascript; charset=UTF-8");
 			var data = node.attributes;
 			Phx.CP.log(node);
 			if (data) {
+				var tiponodo = node.attributes.tipo_nodo;
+				if (tiponodo == 'uni_cons_f' || tiponodo == 'uni_cons' || tiponodo == 'rama') {
+					var id_nodo = node.attributes.id_uni_cons;
+					data.id_uni_cons = id_nodo;
+					data.id_localizacion='-1';	
+				} else {
+					id_nodo = node.attributes.id_localizacion;
+					data.id_localizacion = id_nodo;
+					data.id_uni_cons='-1';
+				}
 				Phx.CP.loadWindows('../../../sis_mantenimiento/vista/equipo_medicion/EquipoMedicionConsol.php', 'Consolidación Mediciones: ' + node.text, {
 					modal: true,
 					width: 900,
@@ -773,12 +783,12 @@ header("content-type: text/javascript; charset=UTF-8");
 			name: 'usr_mod',
 			type: 'string'
 		},'tipo_numeracion'],
-		east: {
+		/*east: {
 			url: '../../../sis_mantenimiento/vista/localizacion/mapaLocalizacion.php',
 			title: 'Ubicación',
 			width: '50%',
 			cls: 'mapaLocalizacion'
-		},
+		},*/
 		sortInfo: {
 			field: 'id_localizacion',
 			direction: 'ASC'

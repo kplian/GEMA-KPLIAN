@@ -47,6 +47,40 @@ DECLARE
     v_aux1 varchar;
     v_tot numeric;
     v_tot1 numeric;
+    
+    v_col_02 varchar;
+    v_col_03 varchar;
+    v_col_04 varchar;
+    v_col_05 varchar;
+    v_col_06 varchar;
+    v_col_07 varchar;
+    v_col_08 varchar;
+    v_col_09 varchar;
+    v_col_10 varchar;
+    v_col_11 varchar;
+    v_col_12 varchar;
+    v_col_13 varchar;
+    v_col_14 varchar;
+    v_col_15 varchar;
+    v_col_16 varchar;
+    v_col_17 varchar;
+    
+    v_col_val_02 numeric;
+    v_col_val_03 numeric;
+    v_col_val_04 numeric;
+    v_col_val_05 numeric;
+    v_col_val_06 numeric;
+    v_col_val_07 numeric;
+    v_col_val_08 numeric;
+    v_col_val_09 numeric;
+    v_col_val_10 numeric;
+    v_col_val_11 numeric;
+    v_col_val_12 numeric;
+    v_col_val_13 numeric;
+    v_col_val_14 numeric;
+    v_col_val_15 numeric;
+    v_col_val_16 numeric;
+    v_col_val_17 numeric;
 
 BEGIN
 
@@ -579,7 +613,7 @@ begin
           -------------------------------------------------------
           --Columnsa fijas
           v_consulta = 'create temp table tt_mediciones_equipo_'||p_id_usuario||'(
-                  id_uni_cons integer,
+                  		id_uni_cons integer,
                         id_mediciones_mes serial,
                         fecha date,
                         hora time,
@@ -588,23 +622,23 @@ begin
 			-------------------------------------------------------
 	        -- (2) OBTENCION DE LOS IDS PARA OBTENER LOS EQUIPOS
 	        -------------------------------------------------------
-         if (pxp.f_existe_parametro(p_tabla,'id_localizacion')) then
+         	if (pxp.f_existe_parametro(p_tabla,'id_localizacion')) then
               	if v_parametros.id_localizacion <> -1 then
                     v_ids = gem.f_get_id_localizaciones(v_parametros.id_localizacion);
                     v_cond = ' ucons.id_localizacion in ('||v_ids||')';
                 else
-
-                  if pxp.f_existe_parametro(p_tabla,'id_uni_cons') then
+                 	if pxp.f_existe_parametro(p_tabla,'id_uni_cons') then
                         if v_parametros.id_uni_cons<>-1 then
                             v_cond = ' ucons.id_uni_cons = ' || v_parametros.id_uni_cons;
                         end if;
                     else
-                      raise exception 'Localizacion/Equipo indefinido';
+                    	raise exception 'Localizacion/Equipo indefinido';
                     end if;
-                end if;
+				end if;
+				
             elsif (pxp.f_existe_parametro(p_tabla,'id_uni_cons')) then
-              if v_parametros.id_uni_cons<>-1 then
-                  v_cond = ' ucons.id_uni_cons = ' || v_parametros.id_uni_cons;
+				if v_parametros.id_uni_cons<>-1 then
+                	v_cond = ' ucons.id_uni_cons = ' || v_parametros.id_uni_cons;
                 else
                     raise exception 'Localizacion/Equipo indefinido';
                 end if;
@@ -612,8 +646,10 @@ begin
                 raise exception 'Localizacion/Equipo indefinido';
             end if;
          
-         --Obtiene todas las columnas de todos los equipos de la localización
-         v_aux = 'select distinct
+         	-------------------------------------------------------
+	        -- (3) OBTENCION DE LAS VARIABLES DE TODOS LOS EQUIPOS FILTRADOS
+	        -------------------------------------------------------
+         	v_aux = 'select distinct
                   tva.id_tipo_variable,
                   tva.nombre as nombre_tipo_variable,
                   tva.orden
@@ -626,134 +662,211 @@ begin
                   and '||v_cond||'
                   order by tva.orden';
          
-         --Bucle para completar las columnas de la tabla temporal a crear
-         
-         v_columnas = 'ucons.codigo as equipo,med.id_uni_cons, med.id_mediciones_mes, med.fecha, med.hora, med.observaciones';
-         
-          FOR g_registros in execute(v_aux) LOOP
+			--Bucle para completar las columnas de la tabla temporal a crear
+         	v_columnas = 'ucons.codigo as equipo,med.id_uni_cons, med.id_mediciones_mes, med.fecha, med.hora, med.observaciones';
+
+          	for g_registros in execute(v_aux) loop
+              	v_cod= 'col_'||g_registros.id_tipo_variable;
+              
+				--Verifica si existe la columna de rendimiento
+				if trim(g_registros.nombre_tipo_variable) = 'Kilometraje del mes' then
+				 	v_col_02 = v_cod;
+				elsif trim(g_registros.nombre_tipo_variable) = 'Consumo comb.(Lts)' then
+				 	v_col_03 = v_cod;
+				elsif trim(g_registros.nombre_tipo_variable) = 'Costo Comb.(Bs.)' then
+				 	v_col_04 = v_cod;
+				elsif trim(g_registros.nombre_tipo_variable) = 'Costo Parchado (Bs)' then
+				 	v_col_05 = v_cod;
+				elsif trim(g_registros.nombre_tipo_variable) = 'Costo Lubricantes (Bs)' then
+				 	v_col_06 = v_cod;
+				elsif trim(g_registros.nombre_tipo_variable) = 'Costo Lavado (Bs)' then
+				 	v_col_07 = v_cod;
+				elsif trim(g_registros.nombre_tipo_variable) = 'Costo Batería (Bs)' then
+				 	v_col_08 = v_cod;
+				elsif trim(g_registros.nombre_tipo_variable) = 'Costo Neumatico (Bs)' then
+				 	v_col_09 = v_cod;
+				elsif trim(g_registros.nombre_tipo_variable) = 'Costo Mtto1.(Bs)' then
+				 	v_col_10 = v_cod;
+				elsif trim(g_registros.nombre_tipo_variable) = 'Costo Mtto2.(Bs)' then
+				 	v_col_11 = v_cod;
+				elsif trim(g_registros.nombre_tipo_variable) = 'Costo Mtto3.(Bs)' then
+				 	v_col_12 = v_cod;
+				elsif trim(g_registros.nombre_tipo_variable) = 'Costo Mtto4.(Bs)' then
+				 	v_col_13 = v_cod;
+				elsif trim(g_registros.nombre_tipo_variable)= 'Costo Mtto5.(Bs.)' then
+				 	v_col_14 = v_cod;
+				elsif trim(g_registros.nombre_tipo_variable) = 'Costo Total (Bs)' then
+				 	v_col_15 = v_cod;
+				elsif trim(g_registros.nombre_tipo_variable) = 'Rendimiento(Km/Lt)' then
+				 	v_col_16 = v_cod;
+				elsif trim(g_registros.nombre_tipo_variable) = 'Factor Costo (Bs/Km)' then
+				 	v_col_17 = v_cod; 
+				end if;
+				 
+				v_cod2=v_cod||'_time';
+				v_consulta =v_consulta||', '||v_cod||' varchar';
+				v_consulta =v_consulta||', '||v_cod||'_key integer';
+				
+				if upper(trim(g_registros.nombre_tipo_variable)) = 'RENDIMIENTO' then
+					v_columnas = v_columnas || ',med.' ||v_cod||',rend_key';
+				else
+					v_columnas = v_columnas || ',med.' ||v_cod||',med.'||v_cod||'_key';
+				end if;
             
-              v_cod= 'col_'||g_registros.id_tipo_variable;
-              
-            --Verifica si existe la columna de rendimiento
-      		if upper(trim(g_registros.nombre_tipo_variable)) = 'RENDIMIENTO (KM/LT)' then
-              v_col_rend = v_cod;
-            elsif upper(trim(g_registros.nombre_tipo_variable)) = 'KILOMETRAJE' then
-              v_col_kil = v_cod;
-            elsif upper(trim(g_registros.nombre_tipo_variable)) = 'COMBUSTIBLE' then
-              v_col_comb = v_cod;
-            end if;
-     
-              --semana 1
-              v_cod2=v_cod||'_time';
-              v_consulta =v_consulta||', '||v_cod||' varchar';
-              
-              v_consulta =v_consulta||', '||v_cod||'_key integer';
-
-              
-           if upper(trim(g_registros.nombre_tipo_variable)) = 'RENDIMIENTO' then
-              v_columnas = v_columnas || ',med.' ||v_cod||',rend_key';
-           else
-              v_columnas = v_columnas || ',med.' ||v_cod||',med.'||v_cod||'_key';
-           end if;
-            
-    
-         end loop;
+			end loop;
          
-    --        raise exception 'fffff:%',v_columnas;         
-
-          --concatena el finald e la creacion
-           v_consulta =v_consulta||') on commit drop';
-          --crea tabla
-
-  --         raise notice 'CREA TABLA TEMPORAL,%',v_consulta;
-           execute(v_consulta);
+			--Concatena el finald e la creacion
+           	v_consulta =v_consulta||') on commit drop';
+          
+          	--Creación de la tabla con todas las columnas fijas y dinámicas
+           	execute(v_consulta);
            
             --Verifica si existe la columna Rendimiento para aumentar en la consulta
-      if v_col_rend != '' and v_col_kil != '' and v_col_comb != '' then
-              v_aux1 = 'round(med.'||v_col_kil ||'::numeric/med.'||v_col_comb || '::numeric,2)::varchar as '||v_col_rend;
+      		if v_col_rend != '' and v_col_kil != '' and v_col_comb != '' then
+            	v_aux1 = 'round(med.'||v_col_kil ||'::numeric/med.'||v_col_comb || '::numeric,2)::varchar as '||v_col_rend;
                 v_columnas = replace(v_columnas,'med.'||v_col_rend,v_aux1);
                 v_columnas = replace(v_columnas,'rend_key',v_col_rend||'_key');
---                raise exception 'REND: %',v_columnas;
-      end if;
-
+      		end if;
        
             ----------------------------------------------
-            -- (2) INSERCION DE DATOS EN LA TABLA TEMPORAL
+            -- (4) CARGADO DE DATOS EN LA TABLA TEMPORAL
             ----------------------------------------------
 
-          -- 2) FOR consulta las fechas de la tabla equipo medicion filtrados por uni_cons,
--- raise exception 'paciencia';
+			--FOR consulta las fechas de la tabla equipo medicion filtrados por uni_cons
+    		--Se obtiene la fecha, hora, observacion por equipo para llenar todas las mediciones de una hora y fecha en una fila
+    		v_aux= 'select DISTINCT ucons.id_uni_cons, em.fecha_medicion, em.hora,
+	                coalesce(em.observaciones,'''') as observaciones
+	                from gem.tequipo_medicion em
+	                inner join gem.tequipo_variable ev
+	                on ev.id_equipo_variable = em.id_equipo_variable
+	                inner join gem.tuni_cons ucons
+	                on ucons.id_uni_cons = ev.id_uni_cons
+	                where '||v_cond||'
+	                and ev.estado_reg = ''activo'' and ev.tipo=''numeric''
+	                and ucons.estado_reg = ''activo''
+	                and ucons.tipo_nodo = ''raiz''
+	                and em.fecha_medicion between '''|| v_parametros.fecha_ini||''' and '''|| v_parametros.fecha_fin||'''
+	                order by em.fecha_medicion';
 
-    --Se obtiene la fecha, hora, observacion por equipo para llenar todas las mediciones de una hora y fecha en una fila
-    v_aux= 'select DISTINCT ucons.id_uni_cons, em.fecha_medicion, em.hora,
-                coalesce(em.observaciones,'''') as observaciones
-                from gem.tequipo_medicion em
-                inner join gem.tequipo_variable ev
-                on ev.id_equipo_variable = em.id_equipo_variable
-                inner join gem.tuni_cons ucons
-                on ucons.id_uni_cons = ev.id_uni_cons
-                where '||v_cond||'
-                and ev.estado_reg = ''activo'' and ev.tipo=''numeric''
-                and ucons.estado_reg = ''activo''
-                and ucons.tipo_nodo = ''raiz''
-                and em.fecha_medicion between '''|| v_parametros.fecha_ini||''' and '''|| v_parametros.fecha_fin||'''
-                order by em.fecha_medicion';
+    		FOR g_registros in execute(v_aux) LOOP
+            	--2(atributos) arma las columnas de las columnas fijas
 
-    FOR g_registros in execute(v_aux) LOOP
-            --2.0) (atributos) arma las columnas de las columnas fijas
+      			v_consulta1= 'INSERT into tt_mediciones_equipo_'||p_id_usuario||' (
+                  			id_uni_cons,
+	                        fecha,
+	                        hora,
+	                        observaciones ';
 
-      v_consulta1= 'INSERT into tt_mediciones_equipo_'||p_id_usuario||' (
-                  id_uni_cons,
-                        fecha,
-                        hora,
-                        observaciones ';
+        		--(valores) arma los valores de las columnas fijas
+             	v_consulta2= ') values('||g_registros.id_uni_cons||','''||g_registros.fecha_medicion||''','''||g_registros.hora||''','''||g_registros.observaciones||'''';
 
-        -- (valores) arma los valores de las columnas fijas
-             v_consulta2= ') values('||g_registros.id_uni_cons||','''||g_registros.fecha_medicion||''','''||g_registros.hora||''','''||g_registros.observaciones||'''';
-
-            --2.1) FOR consulta los registros de la tabla equipo medicion agrupados por fecha y uni_cons,
-      FOR g_registros2 in (select tva.id_tipo_variable,
-                                 em.id_equipo_medicion,
-                                 em.medicion,
-                                 em.hora
-                                 from gem.tequipo_medicion em
-                                 inner join gem.tequipo_variable ev
-                                 on ev.id_equipo_variable = em.id_equipo_variable
-                                 inner join gem.ttipo_variable tva on tva.id_tipo_variable = ev.id_tipo_variable
-                                 where ev.estado_reg = 'activo' and ev.tipo='numeric'
-                                 and ev.id_uni_cons = g_registros.id_uni_cons
-                                 and em.fecha_medicion = g_registros.fecha_medicion
-                                 and em.hora = g_registros.hora) LOOP
+            	--2.1) FOR consulta los registros de la tabla equipo medicion agrupados por fecha y uni_cons,
+      			FOR g_registros2 in (select tva.id_tipo_variable,
+	                                 em.id_equipo_medicion,
+	                                 em.medicion,
+	                                 em.hora,
+	                                 tva.nombre as nombre_tipo_variable
+	                                 from gem.tequipo_medicion em
+	                                 inner join gem.tequipo_variable ev
+	                                 on ev.id_equipo_variable = em.id_equipo_variable
+	                                 inner join gem.ttipo_variable tva on tva.id_tipo_variable = ev.id_tipo_variable
+	                                 where ev.estado_reg = 'activo' and ev.tipo='numeric'
+	                                 and ev.id_uni_cons = g_registros.id_uni_cons
+	                                 and em.fecha_medicion = g_registros.fecha_medicion
+	                                 and em.hora = g_registros.hora) LOOP
             
-                -- 2.1.1) arma consulta de insercion
-                v_cod = 'col_'||g_registros2.id_tipo_variable;
-                                       
-                --revisa si la medicion no se repita para la misma fecha y hora
-                --si se repeti nos quedamos con la primera
-                v_pos = position (v_cod in v_consulta1);
-                                       
-                if(v_pos = 0) then
-                    v_consulta1=v_consulta1||','||v_cod||','||v_cod||'_key';
-                    --v_consulta2=v_consulta2||','''||quote_literal(g_registros2.medicion)||''','||g_registros2.id_equipo_medicion;
-                    v_consulta2=v_consulta2||','||quote_literal(g_registros2.medicion)||','||g_registros2.id_equipo_medicion;
-                end if;
+					--2.1.1) arma consulta de insercion
+	                v_cod = 'col_'||g_registros2.id_tipo_variable;
+	                                       
+	                --revisa si la medicion no se repita para la misma fecha y hora
+	                --si se repeti nos quedamos con la primera
+	                v_pos = position (v_cod in v_consulta1);
+	                                       
+	                if(v_pos = 0) then
+	                    v_consulta1=v_consulta1||','||v_cod||','||v_cod||'_key';
+	                    --v_consulta2=v_consulta2||','''||quote_literal(g_registros2.medicion)||''','||g_registros2.id_equipo_medicion;
+	                    v_consulta2=v_consulta2||','||quote_literal(g_registros2.medicion)||','||g_registros2.id_equipo_medicion;
+	                end if;
+	                
+	                --Guarda valores para las posibles fórmulas
+					if trim(g_registros2.nombre_tipo_variable) = 'Kilometraje del mes' then
+					 	v_col_val_02 = g_registros2.medicion;
+					elsif trim(g_registros2.nombre_tipo_variable) = 'Consumo comb.(Lts)' then
+					 	v_col_val_03 = g_registros2.medicion;
+					elsif trim(g_registros2.nombre_tipo_variable) = 'Costo Comb.(Bs.)' then
+					 	v_col_val_04 = g_registros2.medicion;
+					elsif trim(g_registros2.nombre_tipo_variable) = 'Costo Parchado (Bs)' then
+					 	v_col_val_05 = g_registros2.medicion;
+					elsif trim(g_registros2.nombre_tipo_variable) = 'Costo Lubricantes (Bs)' then
+					 	v_col_val_06 = g_registros2.medicion;
+					elsif trim(g_registros2.nombre_tipo_variable) = 'Costo Lavado (Bs)' then
+					 	v_col_val_07 = g_registros2.medicion;
+					elsif trim(g_registros2.nombre_tipo_variable) = 'Costo Batería (Bs)' then
+					 	v_col_val_08 = g_registros2.medicion;
+					elsif trim(g_registros2.nombre_tipo_variable) = 'Costo Neumatico (Bs)' then
+					 	v_col_val_09 = g_registros2.medicion;
+					elsif trim(g_registros2.nombre_tipo_variable) = 'Costo Mtto1.(Bs)' then
+					 	v_col_val_10 = g_registros2.medicion;
+					elsif trim(g_registros2.nombre_tipo_variable) = 'Costo Mtto2.(Bs)' then
+					 	v_col_val_11 = g_registros2.medicion;
+					elsif trim(g_registros2.nombre_tipo_variable) = 'Costo Mtto3.(Bs)' then
+					 	v_col_val_12 = g_registros2.medicion;
+					elsif trim(g_registros2.nombre_tipo_variable) = 'Costo Mtto4.(Bs)' then
+					 	v_col_val_13 = g_registros2.medicion;
+					elsif trim(g_registros2.nombre_tipo_variable) = 'Costo Mtto5.(Bs.)' then
+					 	v_col_val_14 = g_registros2.medicion;
+					end if;
                       
-      END LOOP;
+				END LOOP;
 
-            -- 2.2) finaliza la cadena de insercion
-            v_consulta1 = v_consulta1||v_consulta2|| ') ';
-                      
-            -- 2.3) inserta los datos en la tabla temporal
-    --        raise notice 'INSERCION %',v_consulta1;
-   
-        execute(v_consulta1);
-        
-    END LOOP;
+		      	--Verifica existencia de fórmulas
+		      	v_aux = 'select distinct
+		                  tva.id_tipo_variable,
+		                  tva.nombre as nombre_tipo_variable,
+		                  tva.orden
+		                  from gem.tequipo_variable eqv
+		                  inner join gem.ttipo_variable tva on tva.id_tipo_variable = eqv.id_tipo_variable
+		                  inner join gem.tuni_cons ucons on ucons.id_uni_cons = eqv.id_uni_cons
+		                  where eqv.estado_reg = ''activo'' and eqv.tipo =''formula''
+		                  and ucons.estado_reg = ''activo''
+		                  and ucons.tipo_nodo = ''raiz''
+		                  and '||v_cond||'
+		                  order by tva.orden';
+
+        		for g_registros in execute(v_aux) loop
+        			if g_registros.nombre_tipo_variable = 'Costo Total (Bs)' then
+		        		v_tot = v_col_val_04+v_col_val_05+v_col_val_06+v_col_val_07+v_col_val_08+v_col_val_09+v_col_val_10+v_col_val_11+v_col_val_12+v_col_val_13+v_col_val_14;
+		        		v_consulta1=v_consulta1||','||v_col_15||','||v_col_15||'_key';
+	                    v_consulta2=v_consulta2||','||quote_literal(round(v_tot,2))||',null';
+					elsif g_registros.nombre_tipo_variable = 'Rendimiento(Km/Lt)' then
+						v_tot=0;
+						if v_col_val_03 > 0 then
+							v_tot = v_col_val_02/v_col_val_03;
+						end if;
+						v_consulta1=v_consulta1||','||v_col_16||','||v_col_16||'_key';
+	                    v_consulta2=v_consulta2||','||quote_literal(round(v_tot,2))||',null';
+					elsif g_registros.nombre_tipo_variable = 'Factor Costo (Bs/Km)' then
+						v_tot=0;
+						if v_col_val_02 > 0 then
+							v_tot = (v_col_val_04+v_col_val_05+v_col_val_06+v_col_val_07+v_col_val_08+v_col_val_09+v_col_val_10+v_col_val_11+v_col_val_12+v_col_val_13+v_col_val_14)/v_col_val_02;
+						end if;
+						v_consulta1=v_consulta1||','||v_col_17||','||v_col_17||'_key';
+	                    v_consulta2=v_consulta2||','||quote_literal(round(v_tot,2))||',null';
+					end if;
+        		end loop;
+        		
+        		-- 2.2) finaliza la cadena de insercion
+		        v_consulta1 = v_consulta1||v_consulta2|| ') ';
+		                  
+		        -- 2.3) inserta los datos en la tabla temporal
+		        execute(v_consulta1);
+      
+			END LOOP;
     
      -- 3) consulta de la tabla temporal
     if(p_transaccion='GEM_EQMECO_SEL') then
     	--Verifica si tiene fórmulas
-    	v_aux = 'select distinct
+    	/*v_aux = 'select distinct
                   tva.id_tipo_variable,
                   tva.nombre as nombre_tipo_variable,
                   tva.orden
@@ -767,11 +880,13 @@ begin
                   order by tva.orden';
         for g_registros in execute(v_aux) loop
         	if g_registros.nombre_tipo_variable = 'Costo Total (Bs)' then
-        		--v_columnas = v_columnas || 
+        		v_columnas = v_columnas || ',('||v_col_04||'+'||v_col_05||'+'||v_col_06||'+'||v_col_07||'+'||v_col_08||'+'||v_col_09||'+'||v_col_10||'+'||v_col_11||'+'||v_col_12||'+'||v_col_13||'+'||v_col_14||') as costo_total'; 
 			elsif  g_registros.nombre_tipo_variable = 'Rendimiento(Km/Lt)' then
+				v_columnas = v_columnas || ',('||v_col_02||'/'||v_col_03||') as rendimiento';
 			elsif g_registros.nombre_tipo_variable = 'Factor Costo (Bs/Km)' then
+				v_columnas = v_columnas || ',(('||v_col_04||'+'||v_col_05||'+'||v_col_06||'+'||v_col_07||'+'||v_col_08||'+'||v_col_09||'+'||v_col_10||'+'||v_col_11||'+'||v_col_12||'+'||v_col_13||'+'||v_col_14||')/'||v_col_02||') as factor_costo';
 			end if;
-        end loop;
+        end loop;*/
     	
     	--Define la consulta de datos
         v_consulta:='select '||v_columnas||'

@@ -39,8 +39,6 @@ Phx.vista.EquipoMedicionConsol=Ext.extend(Phx.gridInterfaz,{
 		this.tbar.add('Desde: ',this.dteFechaIni);
 	    this.tbar.add('Hasta: ',this.dteFechaFin);
 	    
-	    console.log('FASSSSS',this.maestro);
-	    
 	    if(isNaN(this.maestro.id_localizacion)){
 	    	if(isNaN(this.maestro.id_uni_cons)){
 	    		
@@ -68,7 +66,8 @@ Phx.vista.EquipoMedicionConsol=Ext.extend(Phx.gridInterfaz,{
 	    	}
 	    } else{
 	    	this.store.baseParams={
-				'id_localizacion':this.maestro.id_localizacion,
+				id_localizacion:this.maestro.id_localizacion,
+				id_uni_cons:this.maestro.id_uni_cons,
 				fecha_desde:this.dteFechaIni.getValue().dateFormat('d/m/Y'),
 				fecha_hasta:this.dteFechaFin.getValue().dateFormat('d/m/Y') 
 			};	
@@ -171,7 +170,11 @@ Phx.vista.EquipoMedicionConsol=Ext.extend(Phx.gridInterfaz,{
 	onReloadPage:function(m)
 	{
 		this.maestro=m;	
-		this.store.baseParams={id_localizacion:this.maestro.id_localización};
+		this.store.baseParams={
+			id_localizacion:this.maestro.id_localización,
+			id_uni_cons:this.maestro.id_uni_cons,
+			fecha_desde:this.dteFechaIni.getValue().dateFormat('d/m/Y'),
+			fecha_hasta:this.dteFechaFin.getValue().dateFormat('d/m/Y')};
 		this.load({params:{start:0, limit:50}});			
 	},
 	onButtonAct:function(){

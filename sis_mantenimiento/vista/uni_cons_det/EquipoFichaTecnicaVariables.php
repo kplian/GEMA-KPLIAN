@@ -388,7 +388,9 @@ Phx.vista.EquipoFichaTecnicaVariables=Ext.extend(Phx.gridInterfaz,{
 		 },
     codReporte:'S/C',
 	codSistema:'GEM',
-	pdfOrientacion:'L'
+	pdfOrientacion:'L',
+	title1:'Formulario',
+	title2:'Detalle Operativo de Vehículos'
 		
 })
 </script>
