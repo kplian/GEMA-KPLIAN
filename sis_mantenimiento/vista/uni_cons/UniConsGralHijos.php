@@ -10,17 +10,22 @@
 header("content-type: text/javascript; charset=UTF-8");
 ?>
 <script>
-Phx.vista.UniConsGral=Ext.extend(Phx.gridInterfaz,{
+Phx.vista.UniConsGralHijos=Ext.extend(Phx.gridInterfaz,{
 	tam_pag:50,
 	constructor:function(config){
-		this.maestro=config.maestro;
+		this.maestro=config;
 		//console.log(this.maestro);
     	//llama al constructor de la clase padre
-		Phx.vista.UniConsGral.superclass.constructor.call(this,config);
+		Phx.vista.UniConsGralHijos.superclass.constructor.call(this,config);
 		this.init();
 		
-		this.grid.getTopToolbar().disable();
-		this.grid.getBottomToolbar().disable();
+		this.load({
+			params: {
+				start: 0,
+				limit: 50,
+				id_uni_cons: this.maestro.id_uni_cons
+			}
+		});
 		
 		//para definir atributos del equipo	
 		this.addButton('btnAtrib', {
@@ -55,14 +60,6 @@ Phx.vista.UniConsGral=Ext.extend(Phx.gridInterfaz,{
 				tooltip : '<b>Documentación Técnica</b><br/>Define la documentación técnica.'
 		});
 		
-		this.addButton('btnSubsis', {
-				text : '',
-				iconCls : 'bchecklist',
-				disabled : false,
-				handler : this.onBtnSubsis,
-				tooltip : '<b>Subistemas</b><br/>Subsistemas que componen al equipo'
-		});
-		
 		this.addButton('btnOT', {
 				text : '',
 				iconCls : 'bdocuments',
@@ -71,82 +68,6 @@ Phx.vista.UniConsGral=Ext.extend(Phx.gridInterfaz,{
 				tooltip : '<b>Histórico de OITs</b><br/>Despliegue de todos los mantenimientos del Equipo seleccionado.'
 		});
 		
-		
-		//Aumenta campos para filtro por caracteristicas
-		var cmb_caract = new Ext.form.ComboBox({
-			name:'cmb_caract',
-			fieldLabel:'Características',
-			allowBlank:true,
-			emptyText:'Elija una característica...',
-			store: new Ext.data.JsonStore({
-  			url: '../../sis_mantenimiento/control/UniConsDet/listarCaract',
-				id: 'id_uni_cons_det',
-				root: 'datos',
-				sortInfo:{
-					field: 'nombre',
-					direction: 'ASC'
-				},
-				totalProperty: 'total',
-				fields: ['nombre'],
-				// turn on remote sorting
-				remoteSort: true,
-				baseParams:{par_filtro:'nombre'}
-			}),
-			valueField: 'nombre',
-			displayField: 'nombre',
-			forceSelection:true,
-			typeAhead: false,
-			triggerAction: 'all',
-			lazyRender:true,
-			mode:'remote',
-			pageSize:10,
-			queryDelay:1000,
-			minChars:2,
-			width:180,
-			listWidth:300
-		});
-		
-		var txt_caract = new Ext.form.TextField({
-			name: 'txt_caract',
-			fieldLabel: 'Valor',
-			allowBlank:true,
-			emptyText:'Defina el valor de la característica...',
-			width: 200
-		});
-		
-		//Agrega eventos a los componentes creados
-		cmb_caract.on('select',function (combo, record, index){
-			//Verifica que el campo de texto tenga algun valor
-			if(Ext.util.Format.trim(txt_caract.getValue())!=''){
-				this.store.baseParams.nombre_caract=cmb_caract.getValue();
-				this.store.baseParams.valor_caract=txt_caract.getValue();	
-				this.store.load({params:{start:0, limit:this.tam_pag}});	
-			} else{
-				this.store.baseParams.nombre_caract='';
-				this.store.baseParams.valor_caract='';
-				this.store.load({params:{start:0, limit:this.tam_pag}});
-			}
-		},this);
-		
-		cmb_caract.store.on('exception', this.conexionFailure);
-		
-		txt_caract.on('blur',function (combo, record, index){
-			//Verifica que el campo de texto tenga algun valor
-			if(Ext.util.Format.trim(cmb_caract.getValue())!=''){
-				this.store.baseParams.nombre_caract=cmb_caract.getValue();
-				this.store.baseParams.valor_caract=txt_caract.getValue();	
-				this.store.load({params:{start:0, limit:this.tam_pag}});
-			} else{
-				this.store.baseParams.nombre_caract='';
-				this.store.baseParams.valor_caract='';
-				this.store.load({params:{start:0, limit:this.tam_pag}});
-			}
-		},this);
-		
-		
-		//Agrega los botones a la barra de herramientas
-		this.tbar.add(cmb_caract);
-		this.tbar.add(txt_caract);
 	},
 			
 	Atributos:[
@@ -486,7 +407,7 @@ Phx.vista.UniConsGral=Ext.extend(Phx.gridInterfaz,{
 	title:'Equipos',
 	ActSave:'../../sis_mantenimiento/control/UniCons/insertarUniConsGral',
 	ActDel:'../../sis_mantenimiento/control/UniCons/eliminarUniConsGral',
-	ActList:'../../sis_mantenimiento/control/UniCons/listarUniConsGral',
+	ActList:'../../sis_mantenimiento/control/UniCons/listarUniConsGralHijos',
 	id_store:'id_uni_cons',
 	fields: [
 		{name:'id_uni_cons', type: 'numeric'},
@@ -527,23 +448,15 @@ Phx.vista.UniConsGral=Ext.extend(Phx.gridInterfaz,{
 	bnew:false,
 	loadValoresIniciales: function() {
 		//console.log(this.maestro);
-		Phx.vista.UniConsGral.superclass.loadValoresIniciales.call(this);
+		Phx.vista.UniConsGralHijos.superclass.loadValoresIniciales.call(this);
 		this.getComponente('id_localizacion').setValue(this.maestro.id_localizacion);
+		this.getComponente('id_uni_cons').setValue(this.maestro.id_uni_cons);
 	},
 	onReloadPage: function(m) {
 		//console.log(this.maestro)
 		this.maestro=m;	
-		if(this.maestro.id!='id'){
-			var id_loc;
-			if(isNaN(this.maestro.id_localizacion)){
-				id_loc=0;
-			} else{
-				id_loc= this.maestro.id_localizacion
-			}
-			this.store.baseParams={id_localizacion:id_loc,tipo_nodo:this.maestro.tipo_nodo,id_uni_cons:this.maestro.id_uni_cons};
-		
-			this.load({params:{start:0, limit:this.tam_pag}});	
-		}
+		this.store.baseParams={id_uni_cons:this.maestro.id_uni_cons};
+		this.load({params:{start:0, limit:this.tam_pag}});	
 		
 	},
 	onBtnAtribPlan:function(){
@@ -596,19 +509,6 @@ Phx.vista.UniConsGral=Ext.extend(Phx.gridInterfaz,{
                     rec.data,this.idContenedor,'UniConsDocumentoTec')
             }
     },
-    onBtnSubsis: function() {
-    	var rec=this.sm.getSelected();
-            if(rec.data) {
-            	Phx.CP.loadWindows('../../../sis_mantenimiento/vista/uni_cons/UniConsGralHijos.php',
-                    'Subsistemas',
-                    {
-                        modal:true,
-                        width:700,
-                        height:500
-                    },
-                    rec.data,this.idContenedor,'UniConsGralHijos')
-            }
-    },
     onBtnOT: function(){
       var rec=this.sm.getSelected();
       if(rec.data){
@@ -626,7 +526,7 @@ Phx.vista.UniConsGral=Ext.extend(Phx.gridInterfaz,{
 		  title:'Atributos del Equipo', 
 		  width:400,
 		  cls:'UniConsDet'
-		 },
+	},
     codReporte:'S/C',
 	codSistema:'GEM',
 	pdfOrientacion:'L'

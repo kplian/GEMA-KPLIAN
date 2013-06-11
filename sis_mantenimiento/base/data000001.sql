@@ -948,3 +948,37 @@ select pxp.f_insert_testructura_gui ('GEM.1.12', 'GEM.1');
 select pxp.f_add_catalog('GEM','tanalisis_mant__preparado_por','Organigrama');
 select pxp.f_add_catalog('GEM','tanalisis_mant__preparado_por','Persona');
 /***********************************F-DAT-RCM-GEM-0-24/05/2013****************************************/
+
+/***********************************I-DAT-RCM-GEM-143-11/06/2013****************************************/
+select pxp.f_insert_tgui ('Presupuestos', 'Presupuestos', 'GEM.1.13', 'si', 1, 'sis_mantenimiento/vista/cuenta/Cuenta.php', 10, '', 'Cuenta', 'GEM');
+select pxp.f_insert_testructura_gui ('GEM.1.13', 'GEM.1');
+
+select pxp.f_insert_tfuncion ('gem.ft_presupuesto_ime', 'Funcion para tabla', 'GEM');
+select pxp.f_insert_tfuncion ('gem.ft_presupuesto_sel', 'Funcion para tabla', 'GEM');
+
+select pxp.f_insert_tprocedimiento ('GEM_GEPRES_INS', 'Insercion de registros', 'si', '', '', 'gem.ft_presupuesto_ime');
+select pxp.f_insert_tprocedimiento ('GEM_GEPRES_MOD', 'Modificacion de registros', 'si', '', '', 'gem.ft_presupuesto_ime');
+select pxp.f_insert_tprocedimiento ('GEM_GEPRES_ELI', 'Eliminacion de registros', 'si', '', '', 'gem.ft_presupuesto_ime');
+select pxp.f_insert_tprocedimiento ('GEM_GEPRES_SEL', 'Consulta de datos', 'si', '', '', 'gem.ft_presupuesto_sel');
+select pxp.f_insert_tprocedimiento ('GEM_GEPRES_CONT', 'Conteo de registros', 'si', '', '', 'gem.ft_presupuesto_sel');
+
+select pxp.f_insert_tprocedimiento_gui ('GEM_GEPRES_SEL', 'GEM.1.13', 'no');
+select pxp.f_insert_tprocedimiento_gui ('GEM_GEPRES_INS', 'GEM.1.13', 'no');
+select pxp.f_insert_tprocedimiento_gui ('GEM_GEPRES_MOD', 'GEM.1.13', 'no');
+select pxp.f_insert_tprocedimiento_gui ('GEM_GEPRES_ELI', 'GEM.1.13', 'no');
+
+select pxp.f_insert_tfuncion ('gem.ft_presupuesto_ime', 'Funcion para tabla', 'GEM');
+select pxp.f_insert_tfuncion ('gem.ft_presupuesto_sel', 'Funcion para tabla', 'GEM');
+
+select pxp.f_insert_tprocedimiento ('GEM_GEPRLO_INS', 'Insercion de registros', 'si', '', '', 'gem.ft_presupuesto_loc_ime');
+select pxp.f_insert_tprocedimiento ('GEM_GEPRLO_MOD', 'Modificacion de registros', 'si', '', '', 'gem.ft_presupuesto_loc_ime');
+select pxp.f_insert_tprocedimiento ('GEM_GEPRLO_ELI', 'Eliminacion de registros', 'si', '', '', 'gem.ft_presupuesto_loc_ime');
+select pxp.f_insert_tprocedimiento ('GEM_GEPRLO_SEL', 'Consulta de datos', 'si', '', '', 'gem.ft_presupuesto_loc_sel');
+select pxp.f_insert_tprocedimiento ('GEM_GEPRLO_CONT', 'Conteo de registros', 'si', '', '', 'gem.ft_presupuesto_loc_sel');
+
+select pxp.f_insert_tprocedimiento_gui ('GEM_GEPRLO_SEL', 'GEM.1.13', 'no');
+select pxp.f_insert_tprocedimiento_gui ('GEM_GEPRLO_INS', 'GEM.1.13', 'no');
+select pxp.f_insert_tprocedimiento_gui ('GEM_GEPRLO_MOD', 'GEM.1.13', 'no');
+select pxp.f_insert_tprocedimiento_gui ('GEM_GEPRLO_ELI', 'GEM.1.13', 'no');
+
+/***********************************F-DAT-RCM-GEM-143-11/06/2013****************************************/

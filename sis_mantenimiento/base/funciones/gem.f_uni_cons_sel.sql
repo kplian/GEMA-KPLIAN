@@ -508,7 +508,7 @@ BEGIN
             return v_consulta;
         end;
         
-      /*********************************
+      	/*********************************
         #TRANSACCION: 'GEM_EQGRAL_SEL'
         #DESCRIPCION: Listado plano de todos los equipos a partir de una localización padre
         #AUTOR: rcm
@@ -1087,6 +1087,133 @@ BEGIN
             return v_consulta;
 
         end;
+        
+  		/*********************************
+        #TRANSACCION: 'GEM_EQGRALH_SEL'
+        #DESCRIPCION: Listado plano de todos los subsistemas de un equipo
+        #AUTOR: rcm
+        #FECHA: 05/02/2013
+        ***********************************/
+
+        elsif(p_transaccion='GEM_EQGRALH_SEL')then
+             
+            begin
+             
+				if not pxp.f_existe_parametro(p_tabla,'id_uni_cons') then
+					raise exception 'Equipo no definido';
+				end if;
+             
+                v_consulta:=' select * from (
+                          select
+		                equipo.id_uni_cons,
+		                equipo.id_tipo_equipo,
+		                equipo.id_localizacion,
+		                equipo.tipo_unicons,
+		                equipo.id_plantilla,
+		                equipo.codigo,
+		                equipo.incluir_calgen,
+		                equipo.otros_datos_tec,
+		                equipo.estado_reg,
+		                equipo.punto_recepcion_despacho,
+		                equipo.tipo_nodo,
+		                equipo.id_usuarios,
+		                equipo.tipo,
+		                equipo.herramientas_especiales,
+		                equipo.estado,
+		                equipo.nombre,
+		                equipo.funcion,
+		                equipo.id_usuario_reg,
+		                equipo.fecha_reg,
+		                equipo.id_usuario_mod,
+		                equipo.fecha_mod,
+		                usu1.cuenta as usr_reg,
+		                usu2.cuenta as usr_mod,
+		                --gem.f_get_localizacion_nombre_predecesores(equipo.id_localizacion) as localizaciones,
+		                teq.nombre as desc_tipo_equipo,
+		                equipo.nombre as desc_plantilla,
+		                equipo.horas_dia
+		                from gem.tuni_cons_comp ucomp 
+		                inner join gem.tuni_cons equipo on equipo.id_uni_cons = ucomp.id_uni_cons_hijo
+		                inner join segu.tusuario usu1 on usu1.id_usuario = equipo.id_usuario_reg
+		                left join segu.tusuario usu2 on usu2.id_usuario = equipo.id_usuario_mod
+		                inner join gem.ttipo_equipo teq
+		                on teq.id_tipo_equipo = equipo.id_tipo_equipo
+		                where ucomp.id_uni_cons_padre = '||v_parametros.id_uni_cons||') eqgral
+		                where ';
+                
+          v_consulta:=v_consulta||v_parametros.filtro;
+          v_consulta:=v_consulta||' order by ' ||v_parametros.ordenacion|| ' ' || v_parametros.dir_ordenacion || ' limit ' || v_parametros.cantidad || ' offset ' || v_parametros.puntero;
+               
+
+           raise notice '%',v_consulta;  
+              
+            --Devuelve la respuesta
+            return v_consulta;
+        end;      
+   
+  		/*********************************
+        #TRANSACCION: 'GEM_EQGRALH_CONT'
+        #DESCRIPCION: Listado plano de todos los subsistemas de un equipo
+        #AUTOR: rcm
+        #FECHA: 05/02/2013
+        ***********************************/
+
+        elsif(p_transaccion='GEM_EQGRALH_CONT')then
+             
+            begin
+             
+				if not pxp.f_existe_parametro(p_tabla,'id_uni_cons') then
+					raise exception 'Equipo no definido';
+				end if;
+             
+                v_consulta:=' select count(id_uni_cons) from (
+                          select
+		                equipo.id_uni_cons,
+		                equipo.id_tipo_equipo,
+		                equipo.id_localizacion,
+		                equipo.tipo_unicons,
+		                equipo.id_plantilla,
+		                equipo.codigo,
+		                equipo.incluir_calgen,
+		                equipo.otros_datos_tec,
+		                equipo.estado_reg,
+		                equipo.punto_recepcion_despacho,
+		                equipo.tipo_nodo,
+		                equipo.id_usuarios,
+		                equipo.tipo,
+		                equipo.herramientas_especiales,
+		                equipo.estado,
+		                equipo.nombre,
+		                equipo.funcion,
+		                equipo.id_usuario_reg,
+		                equipo.fecha_reg,
+		                equipo.id_usuario_mod,
+		                equipo.fecha_mod,
+		                usu1.cuenta as usr_reg,
+		                usu2.cuenta as usr_mod,
+		                --gem.f_get_localizacion_nombre_predecesores(equipo.id_localizacion) as localizaciones,
+		                teq.nombre as desc_tipo_equipo,
+		                equipo.nombre as desc_plantilla,
+		                equipo.horas_dia
+		                from gem.tuni_cons_comp ucomp 
+		                inner join gem.tuni_cons equipo on equipo.id_uni_cons = ucomp.id_uni_cons_hijo
+		                inner join segu.tusuario usu1 on usu1.id_usuario = equipo.id_usuario_reg
+		                left join segu.tusuario usu2 on usu2.id_usuario = equipo.id_usuario_mod
+		                inner join gem.ttipo_equipo teq
+		                on teq.id_tipo_equipo = equipo.id_tipo_equipo
+		                where ucomp.id_uni_cons_padre = '||v_parametros.id_uni_cons||') eqgral
+		                where ';
+                
+          v_consulta:=v_consulta||v_parametros.filtro;
+
+           raise notice '%',v_consulta;  
+              
+            --Devuelve la respuesta
+            return v_consulta;
+        end;   
+   
+   
+   
   else
                
     raise exception 'Transaccion inexistente';
