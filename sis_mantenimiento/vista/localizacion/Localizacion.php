@@ -698,7 +698,7 @@ header("content-type: text/javascript; charset=UTF-8");
 					}
 			},
 			type: 'ComboRec',
-			id_grupo: 0,
+			id_grupo: 1,
 			filters:{pfiltro:'loc.tipo_numeracion',type:'string'},
 			grid: true,
 			form: true
@@ -1981,7 +1981,53 @@ header("content-type: text/javascript; charset=UTF-8");
 		var ff= Phx.vista.Localizacion.superclass.getColumnasNodo.call(this,aux);
 		//console.log(ff);
 		return aux;
-	}
+	} /*,
+	
+	Grupos: [
+            {
+                layout: 'column',
+                border: false,
+                defaults: {
+                   border: false
+                },            
+                items: [{
+					        bodyStyle: 'padding-right:5px;',
+					        items: [{
+					            xtype: 'fieldset',
+					            title: 'Datos principales',
+					            autoHeight: true,
+					            items: [],
+						        id_grupo:1
+					        }]
+					    },
+					    {
+					        bodyStyle: 'padding-right:5px;',
+					        items: [{
+					            xtype: 'fieldset',
+					            title: 'Tree',
+					            autoHeight: true,
+					            items: [
+					            {
+					                animate:true,
+					                xtype: 'treepanel',
+					                autoScroll:true,
+					                loader: new Ext.tree.TreeLoader({dataUrl:'get-nodes.php'}),
+					                enableDD:false,
+					                containerScroll: true,
+					                border: false,
+					                width: 250,
+					                height: 300,
+					                root: new Ext.tree.AsyncTreeNode({
+						                text: 'Ext JS', 
+						                draggable:false
+						            })
+					            }
+										            
+					            ]
+					        }]
+					    }]
+            }
+        ]*/
 })
 </script>
 

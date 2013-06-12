@@ -245,7 +245,9 @@ Phx.vista.UniConsInvent=Ext.extend(Phx.gridInterfaz,{
 	},
     codReporte:'GMAN-RG-SM-004',
 	codSistema:'GEM',
-	pdfOrientacion:'L'
+	pdfOrientacion:'L',
+	title1:'Formulario',
+	title2:'Inventario de Equipos'
 })
 </script>
 		

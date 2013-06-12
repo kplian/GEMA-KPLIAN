@@ -132,6 +132,7 @@ Phx.vista.OrdenTrabajo=Ext.extend(Phx.gridInterfaz,{
 		//Ocultar componentes que no se utilizarán
 		this.ocultarComponente(this.getComponente('acumulado'));
 		this.ocultarComponente(this.getComponente('nota_tecnico_equipo'));
+		
 	},
 	fheight:'80%',
 	fwidth:'80%',
