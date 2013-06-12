@@ -23,9 +23,11 @@ Phx.vista.OrdenTrabajoSol=Ext.extend(Phx.gridInterfaz,{
 		this.ocultarGrupo(1);
 		
 		//Evento para cargar la localizacion a partir del equipo
-		this.getComponente('id_uni_cons').on('select', function(e, data, index) {
-        	this.getComponente('id_localizacion').setValue(data.data.id_localizacion);
-        	this.getComponente('id_localizacion').setRawValue(data.data.desc_localizacion);
+		this.getComponente('id_localizacion').on('blur', function(e, data, index) {
+   	       		//console.log(this.getComponente('id_localizacion').getRawValue());
+	        	this.getComponente('id_uni_cons').setValue('');
+	        	this.getComponente('id_uni_cons').store.baseParams.id_localizacion=this.getComponente('id_localizacion').value;
+	        	this.getComponente('id_uni_cons').modificado=true;
         },this);
 		
 		this.addButton('btn-fin',
@@ -154,6 +156,61 @@ Phx.vista.OrdenTrabajoSol=Ext.extend(Phx.gridInterfaz,{
 			grid:true,
 			form:true
 		},
+				{
+			config:{	
+				name:'id_localizacion',
+    			tinit:true,
+    			tasignacion:true,
+    			tname:'id_localizacion',
+    			tdisplayField:'nombre',
+    			turl:'../../../sis_mantenimiento/vista/localizacion/LocalizacionLista.php',
+	   			ttitle:'Localizaciones',
+	   			tdata:{},
+	   			tcls:'LocalizacionLista',
+	   			pid:this.idContenedor,
+	   			fieldLabel:'Localizaciones',
+	   			allowBlank:false,
+	   			emptyText:'Localizaciones...',
+	   			store:new Ext.data.JsonStore(
+				{
+					url: '../../sis_mantenimiento/control/Localizacion/listarLocalizacion',
+					id: 'id_localizacion',
+					root:'datos',
+					sortInfo:{
+						field:'nombre',
+						direction:'ASC'
+					},
+					totalProperty:'total',
+					fields: ['id_localizacion','codigo','nombre'],
+					// turn on remote sorting
+					remoteSort: true,
+					baseParams:{par_filtro:'nombre#codigo'}
+				}),
+	   			tpl:'<tpl for="."><div class="x-combo-list-item"><p>Nombre: {nombre}</p><p>Código: {codigo}</p></div></tpl>',
+				valueField: 'id_localizacion',
+				hiddenValue: 'id_localizacion',
+				hiddenName:'id_localizacion',
+				displayField: 'nombre',
+				gdisplayField: 'nombre_localizacion',
+				forceSelection:true,
+				typeAhead: false,
+    			triggerAction: 'all',
+    			lazyRender:true,
+				mode:'remote',
+				pageSize:20,
+				queryDelay:500,
+				anchor: '100%',
+				gwidth:220,
+				minChars:2,
+				renderer:function (value, p, record){return String.format('{0}', record.data['nombre_localizacion']);},
+				autoSelect:true
+    		},
+			type:'TrigguerCombo',
+			filters:{pfiltro:'codigo,nombre',type:'string'},
+			id_grupo:0,
+			grid:true,
+			form:true
+		},
 		{
 			config:{
 				name: 'id_uni_cons',
@@ -162,7 +219,7 @@ Phx.vista.OrdenTrabajoSol=Ext.extend(Phx.gridInterfaz,{
 				emptyText:'Elija un equipo...',
 				store:new Ext.data.JsonStore(
 				{
-					url: '../../sis_mantenimiento/control/UniCons/listarUniConsPlano',
+					url: '../../sis_mantenimiento/control/UniCons/listarUniConsPlanoDos',
 					id: 'id_uni_cons',
 					root:'datos',
 					sortInfo:{
@@ -197,7 +254,7 @@ Phx.vista.OrdenTrabajoSol=Ext.extend(Phx.gridInterfaz,{
 			grid:true,
 			form:true
 		},
-		{
+		/*{
 			config: {
 				name: 'id_localizacion',
 				fieldLabel: 'Localización',
@@ -245,7 +302,7 @@ Phx.vista.OrdenTrabajoSol=Ext.extend(Phx.gridInterfaz,{
 			},
 			grid: true,
 			form: true
-		},
+		},*/
 		{
 			config:{
 				name: 'descripcion',

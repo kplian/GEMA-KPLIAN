@@ -568,6 +568,26 @@ class ACTUniCons extends ACTbase{
 		$this->res->imprimirRespuesta($this->res->generarJson());
 	}
 	/*Fin RCM*/
+	
+	/*
+	 * Author: RCM
+	 * Date: 30/08/2012
+	 * Description: Query that returns only the Equipments roots
+	 */		
+	function listarUniConsPlanoDos(){
+		$this->objParam->defecto('ordenacion','id_uni_cons');
+
+		$this->objParam->defecto('dir_ordenacion','asc');
+		if($this->objParam->getParametro('tipoReporte')=='excel_grid' || $this->objParam->getParametro('tipoReporte')=='pdf_grid'){
+			$this->objReporte = new Reporte($this->objParam, $this);
+			$this->res = $this->objReporte->generarReporteListado('MODUniCons','listarUniConsPlanoDos');
+		} else{
+			$this->objFunc=$this->create('MODUniCons');	
+			$this->res=$this->objFunc->listarUniConsPlanoDos();
+		}
+		$this->res->imprimirRespuesta($this->res->generarJson());
+	}
+	/*Fin RCM*/
 
 }
 ?>

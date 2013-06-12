@@ -156,12 +156,12 @@ Phx.vista.IndicadoresGraf=Ext.extend(Phx.gridInterfaz,{
         alert(nomArch);
 		
 		
-	},
+	}/*,
 	east:{
 			url: '../../../sis_mantenimiento/vista/localizacion_med/IndicadoresGrafRes.php',
 			title: 'Ubicación',
 			width: '50%' ,
 			cls: 'IndicadoresGrafRes'
-	}
+	}*/
 })
 </script>

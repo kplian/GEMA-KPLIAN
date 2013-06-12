@@ -139,8 +139,10 @@ DECLARE
            v_dias_dic =  round ((g_registros.frecuencia) * 1, 0 ); 
 	    elseif(g_registros.descripcion= 'Semana' or g_registros.descripcion= 'semana') then 
 			v_dias_dic =  round ((g_registros.frecuencia ) * 7, 0 ); 
-		elseif(g_registros.descripcion= 'Mes' or g_registros.descripcion= 'mes')then 
-			v_dias_dic =  round ((g_registros.frecuencia) * 30, 0 );     
+		elseif(g_registros.descripcion= 'Mes' or g_registros.descripcion= 'mes')then
+			--TODO (RCM 14/06/2013): se cambia el 30 por 31 días para que cuando se planifique mensual no toque mas de un mantenimiento por mes.
+			--Más adelante podría calcularse la cantidad de días por mes para no considerar siempre una cantidad constante. 
+			v_dias_dic =  round ((g_registros.frecuencia) * 31, 0 );     
 		elseif(g_registros.descripcion in ('Año','ano','año','ano')) then 
 			v_dias_dic =  round ((g_registros.frecuencia) * 365, 0 );
 		else

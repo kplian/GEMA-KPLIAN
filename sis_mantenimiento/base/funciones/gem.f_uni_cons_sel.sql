@@ -161,6 +161,9 @@ BEGIN
           if pxp.f_existe_parametro(p_tabla,'tipo') then
             v_tipo='tuc';        
           end if;
+          if pxp.f_existe_parametro(p_tabla,'id_localizacion') then
+            v_ids_loc=gem.f_get_id_localizaciones(v_parametros.id_localizacion);        
+          end if;
         
         --Sentencia de la consulta
       v_consulta:='select
@@ -188,6 +191,9 @@ BEGIN
                         left join gem.tlocalizacion loc on loc.id_localizacion = tuc.id_localizacion
                 where tuc.tipo = '''||v_tipo||'''
                 and tuc.estado_reg = ''activo'' and tuc.tipo_nodo = ''raiz'' and (tuc.estado=''aprobado'' or tuc.estado=''registrado'') and ';
+           if pxp.f_existe_parametro(p_tabla,'id_localizacion') then
+           		v_consulta = v_consulta ||' tuc.id_localizacion in (' || v_ids_loc ||') and ';
+           end if;
        
       --Definicion de la respuesta
       v_consulta:=v_consulta||v_parametros.filtro;
@@ -210,10 +216,13 @@ BEGIN
 
     begin
 
-          v_tipo='uc';        
-          if pxp.f_existe_parametro(p_tabla,'tipo') then
-        v_tipo='tuc';        
-          end if;
+        v_tipo='uc';        
+		if pxp.f_existe_parametro(p_tabla,'tipo') then
+        	v_tipo='tuc';        
+        end if;
+        if pxp.f_existe_parametro(p_tabla,'id_localizacion') then
+            v_ids_loc=gem.f_get_id_localizaciones(v_parametros.id_localizacion);        
+        end if;
         
       --Sentencia de la consulta de conteo de registros
       v_consulta:='select count(id_uni_cons)
@@ -226,6 +235,10 @@ BEGIN
                 and tuc.estado_reg = ''activo'' and tuc.tipo_nodo = ''raiz'' and (tuc.estado=''aprobado'' or tuc.estado=''registrado'') and ';
        
            -- raise exception '%', v_consulta;
+           
+		if pxp.f_existe_parametro(p_tabla,'id_localizacion') then
+        	v_consulta = v_consulta ||' tuc.id_localizacion in (' || v_ids_loc ||') and ';
+		end if;
       
       --Definicion de la respuesta        
       v_consulta:=v_consulta||v_parametros.filtro;
@@ -1210,7 +1223,109 @@ BEGIN
               
             --Devuelve la respuesta
             return v_consulta;
-        end;   
+        end;
+        
+        
+  /*********************************    
+  #TRANSACCION:  'GEM_TUCPLA2_SEL'
+  #DESCRIPCION: Consulta de datos
+  #AUTOR:   rcm 
+  #FECHA:   13/06/2013
+  ***********************************/
+    
+  elsif(p_transaccion='GEM_TUCPLA2_SEL')then
+            
+    begin
+          v_tipo='uc';        
+          if pxp.f_existe_parametro(p_tabla,'tipo') then
+            v_tipo='tuc';        
+          end if;
+          if pxp.f_existe_parametro(p_tabla,'id_localizacion') then
+            v_ids_loc=gem.f_get_id_localizaciones(v_parametros.id_localizacion);        
+          end if;
+        
+        --Sentencia de la consulta
+      v_consulta:='select
+            tuc.id_uni_cons,
+            tuc.estado_reg,
+            tuc.estado,
+            tuc.nombre,
+            tuc.tipo,
+            tuc.codigo,
+            tuc.id_tipo_equipo,
+            tuc.id_localizacion,
+            tuc.id_usuario_reg,
+            tuc.fecha_reg,
+            tuc.fecha_mod,
+            tuc.id_usuario_mod,
+            usu1.cuenta as usr_reg,
+            usu2.cuenta as usr_mod,
+            eq.nombre as nombre_tipo_equipo,
+                        gem.f_get_nombre_localizacion_rec(tuc.id_localizacion,''padres'') as padres_loc,
+                        loc.codigo || '' - '' || loc.nombre as desc_localizacion
+            from gem.tuni_cons tuc
+            inner join segu.tusuario usu1 on usu1.id_usuario = tuc.id_usuario_reg
+            left join segu.tusuario usu2 on usu2.id_usuario = tuc.id_usuario_mod
+                        left join gem.ttipo_equipo eq on eq.id_tipo_equipo= tuc.id_tipo_equipo
+                        left join gem.tlocalizacion loc on loc.id_localizacion = tuc.id_localizacion
+                where tuc.tipo = '''||v_tipo||'''
+                and tuc.estado_reg = ''activo'' and tuc.tipo_nodo = ''raiz'' and (tuc.estado=''aprobado'' or tuc.estado=''registrado'') and ';
+           if pxp.f_existe_parametro(p_tabla,'id_localizacion') then
+           		v_consulta = v_consulta ||' tuc.id_localizacion in (' || v_ids_loc ||') and ';
+           end if;
+       
+      --Definicion de la respuesta
+      v_consulta:=v_consulta||v_parametros.filtro;
+      v_consulta:=v_consulta||' order by ' ||v_parametros.ordenacion|| ' ' || v_parametros.dir_ordenacion || ' limit ' || v_parametros.cantidad || ' offset ' || v_parametros.puntero;
+      raise notice '%',v_consulta;
+      --Devuelve la respuesta
+      return v_consulta;
+            
+    end;
+        
+     
+  /*********************************    
+  #TRANSACCION:  'GEM_TUCPLA2_CONT'
+  #DESCRIPCION: Conteo de registros
+  #AUTOR:   rcm 
+  #FECHA:   13/06/2013
+  ***********************************/
+
+  elsif(p_transaccion='GEM_TUCPLA2_CONT')then
+
+    begin
+
+        v_tipo='uc';        
+		if pxp.f_existe_parametro(p_tabla,'tipo') then
+        	v_tipo='tuc';        
+        end if;
+        if pxp.f_existe_parametro(p_tabla,'id_localizacion') then
+            v_ids_loc=gem.f_get_id_localizaciones(v_parametros.id_localizacion);        
+        end if;
+        
+      --Sentencia de la consulta de conteo de registros
+      v_consulta:='select count(id_uni_cons)
+              from gem.tuni_cons tuc
+            inner join segu.tusuario usu1 on usu1.id_usuario = tuc.id_usuario_reg
+            left join segu.tusuario usu2 on usu2.id_usuario = tuc.id_usuario_mod
+                        left join gem.ttipo_equipo eq on eq.id_tipo_equipo= tuc.id_tipo_equipo
+                        left join gem.tlocalizacion loc on loc.id_localizacion = tuc.id_localizacion
+                where tuc.tipo = '''||v_tipo||'''
+                and tuc.estado_reg = ''activo'' and tuc.tipo_nodo = ''raiz'' and (tuc.estado=''aprobado'' or tuc.estado=''registrado'') and ';
+       
+           -- raise exception '%', v_consulta;
+           
+		if pxp.f_existe_parametro(p_tabla,'id_localizacion') then
+        	v_consulta = v_consulta ||' tuc.id_localizacion in (' || v_ids_loc ||') and ';
+		end if;
+      
+      --Definicion de la respuesta        
+      v_consulta:=v_consulta||v_parametros.filtro;
+
+      --Devuelve la respuesta
+      return v_consulta;
+
+    end; 
    
    
    

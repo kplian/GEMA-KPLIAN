@@ -140,7 +140,7 @@ Phx.vista.EquipoMedicionDinamico=Ext.extend(Phx.gridInterfaz,{
 									type:'NumberField',
 									filters:{pfiltro:rec[i].data.codigo_columna,type:'string'},
 									id_grupo:1,
-									egrid:true,
+									egrid:false,
 									grid:true,
 									form:true
 							});

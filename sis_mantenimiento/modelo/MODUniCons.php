@@ -80,6 +80,7 @@ class MODUniCons extends MODbase{
 		$this->tipo_procedimiento='SEL';//tipo de transaccion
 		
 		$this->setParametro('tipo','tipo','varchar');
+		$this->setParametro('id_localizacion','id_localizacion','integer');
 				
 		//Definicion de la lista del resultado del query
 		$this->captura('id_uni_cons','int4');
@@ -99,7 +100,6 @@ class MODUniCons extends MODbase{
 		$this->captura('nombre_tipo_equipo','varchar');
 		$this->captura('padres_loc','varchar');
 		$this->captura('desc_localizacion','text');
-		
 		
 		//Ejecuta la instruccion
 		$this->armarConsulta();
@@ -294,6 +294,7 @@ class MODUniCons extends MODbase{
 				
 		//Ejecuta la instruccion
 		$this->armarConsulta();
+		//echo $this->consulta;exit;
 		$this->ejecutarConsulta();
 
 		//Devuelve la respuesta
@@ -618,6 +619,50 @@ class MODUniCons extends MODbase{
 		//Devuelve la respuesta
 		return $this->respuesta;
 	}
+
+	/*
+	 * Author: RCM
+	 * Date: 30/08/2012
+	 * Description: Query that returns only the Equipments roots
+	 */	
+	function listarUniConsPlanoDos(){
+		//Definicion de variables para ejecucion del procedimientp
+		$this->procedimiento='gem.f_uni_cons_sel';
+		$this->transaccion='GEM_TUCPLA2_SEL';
+		$this->tipo_procedimiento='SEL';//tipo de transaccion
+		
+		$this->setParametro('tipo','tipo','varchar');
+		$this->setParametro('id_localizacion','id_localizacion','integer');
+				
+		//Definicion de la lista del resultado del query
+		$this->captura('id_uni_cons','int4');
+		$this->captura('estado_reg','varchar');
+		$this->captura('estado','varchar');
+		$this->captura('nombre','varchar');
+		$this->captura('tipo','varchar');
+		$this->captura('codigo','varchar');
+		$this->captura('id_tipo_equipo','int4');
+		$this->captura('id_localizacion','int4');
+		$this->captura('id_usuario_reg','int4');
+		$this->captura('fecha_reg','timestamp');
+		$this->captura('fecha_mod','timestamp');
+		$this->captura('id_usuario_mod','int4');
+		$this->captura('usr_reg','varchar');
+		$this->captura('usr_mod','varchar');
+		$this->captura('nombre_tipo_equipo','varchar');
+		$this->captura('padres_loc','varchar');
+		$this->captura('desc_localizacion','text');
+		
+		//Ejecuta la instruccion
+		$this->armarConsulta();
+		$this->ejecutarConsulta();
+		
+		//echo $this->consulta;exit; 
+		
+		//Devuelve la respuesta
+		return $this->respuesta;
+	}
+	/*Fin RCM*/
 	
 }
 ?>

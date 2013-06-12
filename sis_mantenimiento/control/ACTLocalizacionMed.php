@@ -237,7 +237,7 @@ class ACTLocalizacionMed extends ACTbase{
 	}
 
 	function graficarIndicadores(){
-		$this->listarIndicadores(0);
+		/*$this->listarIndicadores(0);
 		//var_dump($this->res);exit;
 		//GEnera el gráfico de barras
 		$arch=$this->grafIndicadores();	
@@ -247,7 +247,7 @@ class ACTLocalizacionMed extends ACTbase{
 		$this->res->setClaveValorResp('images',$datos);
 		//Devuelve la respuesta		
 		//var_dump($this->res->toJsonClaveValor());exit;
-		$this->res->imprimirRespuesta($this->res->toJsonClaveValor());	
+		$this->res->imprimirRespuesta($this->res->toJsonClaveValor());*/	
 	}
 	
 	//RCM 22-04-2013

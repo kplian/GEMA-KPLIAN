@@ -78,8 +78,8 @@ BEGIN
                          man.horas_dia,
                          un.descripcion,
                          man.id_uni_cons,
-                         man.id_mant_predef
-                         
+                         man.id_mant_predef,
+                         mp.id_tipo_mant
                       into 
                          v_id_uni_cons_mant_predef,
                          v_periodicidad,
@@ -89,7 +89,8 @@ BEGIN
                          v_horas_dia ,
                          v_desc_unidad_medida  ,
                          v_id_uni_cons,
-                         v_id_mant_predef                
+                         v_id_mant_predef,
+                         v_id_tipo_mant                
                          from gem.tuni_cons_mant_predef man 
                          inner join gem.tuni_cons uni on uni.id_uni_cons = man.id_uni_cons
                          inner join gem.tmant_predef mp on mp.id_mant_predef = man.id_mant_predef
@@ -154,8 +155,8 @@ BEGIN
          
          
            select
-           un.id_uni_cons,un.codigo,        un.nombre,         un.tipo_unicons, un.id_localizacion, un.id_tipo_mant
-           into v_uni_cons,    v_codigo_uni_cons,v_nombre_uni_cons, v_tipo_planta_estacio   , v_id_localizacion, v_id_tipo_mant
+           un.id_uni_cons,un.codigo,        un.nombre,         un.tipo_unicons, un.id_localizacion
+           into v_uni_cons,    v_codigo_uni_cons,v_nombre_uni_cons, v_tipo_planta_estacio   , v_id_localizacion 
            from gem.tuni_cons un 
            where un.id_uni_cons = v_id_uni_cons;
          

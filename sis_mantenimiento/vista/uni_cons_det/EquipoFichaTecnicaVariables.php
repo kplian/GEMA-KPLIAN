@@ -127,7 +127,7 @@ Phx.vista.EquipoFichaTecnicaVariables=Ext.extend(Phx.gridInterfaz,{
 									type:'NumberField',
 									filters:{pfiltro:rec[i].data.codigo_columna,type:'string'},
 									id_grupo:1,
-									egrid:true,
+									egrid:false,
 									grid:true,
 									form:true
 							});
@@ -310,7 +310,6 @@ Phx.vista.EquipoFichaTecnicaVariables=Ext.extend(Phx.gridInterfaz,{
 	onReloadPage:function(m)
 	{
 		this.maestro=m;	
-		console.log('reoad',this.maestro)
 		this.limit = this.cmbLimit.getValue();					
 		this.store.baseParams={
 			id_localizacion:this.maestro.id_localizacion,
@@ -393,7 +392,6 @@ Phx.vista.EquipoFichaTecnicaVariables=Ext.extend(Phx.gridInterfaz,{
 	title2:'Detalle Operativo de Vehículos',
 	addMaestro: function(data){
 		var obj=Phx.vista.EquipoFichaTecnicaVariables.superclass.addMaestro.call(this,data);
-		console.log(obj)
 		obj.push({ 
 	   	    label:'Fecha Inicio',
 			name:'fecha_desde',
@@ -410,7 +408,6 @@ Phx.vista.EquipoFichaTecnicaVariables=Ext.extend(Phx.gridInterfaz,{
 			gdisplayField:'Fecha Hasta',
 			value:this.dateFechaFin.getValue().dateFormat('d/m/Y')
 		});
-		console.log(obj)
 		return obj;
 	},
 	repFilaInicioEtiquetas:35,
