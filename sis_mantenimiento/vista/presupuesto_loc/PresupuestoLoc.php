@@ -16,8 +16,9 @@ Phx.vista.PresupuestoLoc=Ext.extend(Phx.gridInterfaz,{
 		this.maestro=config.maestro;
     	//llama al constructor de la clase padre
 		Phx.vista.PresupuestoLoc.superclass.constructor.call(this,config);
+		this.grid.getTopToolbar().disable();
+		this.grid.getBottomToolbar().disable();
 		this.init();
-		this.load({params:{start:0, limit:this.tam_pag}})
 	},
 	tam_pag:50,
 			
@@ -34,83 +35,84 @@ Phx.vista.PresupuestoLoc=Ext.extend(Phx.gridInterfaz,{
 		},
 		{
 			config:{
-				name: 'id_localizacion',
-				fieldLabel: 'id_localizacion',
-				allowBlank: true,
-				anchor: '80%',
-				gwidth: 100,
-				maxLength:4
-			},
-			type:'NumberField',
-			filters:{pfiltro:'geprlo.id_localizacion',type:'numeric'},
-			id_grupo:1,
-			grid:true,
-			form:true
-		},
-		{
-			config:{
-				name: 'mes',
-				fieldLabel: 'mes',
-				allowBlank: true,
-				anchor: '80%',
-				gwidth: 100,
-				maxLength:4
-			},
-			type:'NumberField',
-			filters:{pfiltro:'geprlo.mes',type:'numeric'},
-			id_grupo:1,
-			grid:true,
-			form:true
-		},
-		{
-			config:{
 				name: 'id_presupuesto',
-				fieldLabel: 'id_presupuesto',
-				allowBlank: true,
-				anchor: '80%',
-				gwidth: 100,
-				maxLength:4
+				inputType:'hidden'
 			},
-			type:'NumberField',
-			filters:{pfiltro:'geprlo.id_presupuesto',type:'numeric'},
-			id_grupo:1,
+			type:'Field',
+			id_grupo:1
+		},
+		{			
+			config:{
+				name: 'id_localizacion',
+				fieldLabel: 'Localización',
+				allowBlank: true,
+				emptyText:'Localización',
+				store:new Ext.data.JsonStore(
+				{
+					url: '../../sis_mantenimiento/control/Localizacion/listarLocalizacion',
+					id: 'id_localizacion',
+					root:'datos',
+					sortInfo:{
+						field:'nombre',
+						direction:'ASC'
+					},
+					totalProperty:'total',
+					fields: ['id_localizacion','codigo','nombre'],
+					// turn on remote sorting
+					remoteSort: true,
+					baseParams:{par_filtro:'nombre#codigo'}
+				}),
+				tpl:'<tpl for="."><div class="x-combo-list-item"><p>Nombre: {nombre}</p><p>Código: {codigo}</p></div></tpl>',
+				valueField: 'id_localizacion',
+				hiddenValue: 'id_localizacion',
+				displayField: 'nombre',
+				gdisplayField: 'nombre_localizacion',
+				forceSelection:true,
+				typeAhead: false,
+    			triggerAction: 'all',
+    			lazyRender:true,
+				mode:'remote',
+				pageSize:20,
+				queryDelay:500,
+				anchor: '100%',
+				gwidth:220,
+				minChars:2,
+				renderer:function (value, p, record){return String.format('{0}', record.data['nombre_localizacion']);},
+				autoSelect:true
+			},
+			type:'ComboBox',
+			filters:{pfiltro:'geprlo.nombre',type:'string'},
+			id_grupo:0,
 			grid:true,
 			form:true
 		},
 		{
-			config:{
-				name: 'monto_ejec',
-				fieldLabel: 'monto_ejec',
-				allowBlank: true,
-				anchor: '80%',
+			config: {
+				name: 'mes',
+				fieldLabel: 'Mes',
+				anchor: '100%',
+				tinit: true,
+				allowBlank: false,
+				origen: 'CATALOGO',
+				gdisplayField: 'mes',
 				gwidth: 100,
-				maxLength:1179650
+				baseParams:{
+						cod_subsistema:'PARAM',
+						catalogo_tipo:'tgral__mes'
+				},
+				renderer:function (value, p, record){return String.format('{0}', record.data['mes']);}
 			},
-			type:'NumberField',
-			filters:{pfiltro:'geprlo.monto_ejec',type:'numeric'},
-			id_grupo:1,
-			grid:true,
-			form:true
+			type: 'ComboRec',
+			id_grupo: 0,
+			filters:{pfiltro:'geprlo.cat_prior',type:'string'},
+			grid: true,
+			form: true
 		},
-		{
-			config:{
-				name: 'porcen_prog_techo',
-				fieldLabel: 'porcen_prog_techo',
-				allowBlank: true,
-				anchor: '80%',
-				gwidth: 100,
-				maxLength:1179650
-			},
-			type:'NumberField',
-			filters:{pfiltro:'geprlo.porcen_prog_techo',type:'numeric'},
-			id_grupo:1,
-			grid:true,
-			form:true
-		},
+
 		{
 			config:{
 				name: 'monto_prog',
-				fieldLabel: 'monto_prog',
+				fieldLabel: 'Prog. Jefes Mantto.',
 				allowBlank: true,
 				anchor: '80%',
 				gwidth: 100,
@@ -125,7 +127,7 @@ Phx.vista.PresupuestoLoc=Ext.extend(Phx.gridInterfaz,{
 		{
 			config:{
 				name: 'monto_techo',
-				fieldLabel: 'monto_techo',
+				fieldLabel: 'Techo',
 				allowBlank: true,
 				anchor: '80%',
 				gwidth: 100,
@@ -139,8 +141,23 @@ Phx.vista.PresupuestoLoc=Ext.extend(Phx.gridInterfaz,{
 		},
 		{
 			config:{
+				name: 'porcen_prog_techo',
+				fieldLabel: '% Prog./Techo',
+				allowBlank: true,
+				anchor: '80%',
+				gwidth: 100,
+				maxLength:1179650
+			},
+			type:'NumberField',
+			filters:{pfiltro:'geprlo.porcen_prog_techo',type:'numeric'},
+			id_grupo:1,
+			grid:true,
+			form:true
+		},
+		{
+			config:{
 				name: 'monto_presup',
-				fieldLabel: 'monto_presup',
+				fieldLabel: 'Presup. Mensual',
 				allowBlank: true,
 				anchor: '80%',
 				gwidth: 100,
@@ -152,6 +169,23 @@ Phx.vista.PresupuestoLoc=Ext.extend(Phx.gridInterfaz,{
 			grid:true,
 			form:true
 		},
+		
+		{
+			config:{
+				name: 'monto_ejec',
+				fieldLabel: 'Ejec.Mensual',
+				allowBlank: true,
+				anchor: '80%',
+				gwidth: 100,
+				maxLength:1179650
+			},
+			type:'NumberField',
+			filters:{pfiltro:'geprlo.monto_ejec',type:'numeric'},
+			id_grupo:1,
+			grid:true,
+			form:true
+		},
+		
 		{
 			config:{
 				name: 'estado_reg',
@@ -236,6 +270,16 @@ Phx.vista.PresupuestoLoc=Ext.extend(Phx.gridInterfaz,{
 	ActDel:'../../sis_mantenimiento/control/PresupuestoLoc/eliminarPresupuestoLoc',
 	ActList:'../../sis_mantenimiento/control/PresupuestoLoc/listarPresupuestoLoc',
 	id_store:'id_presupuesto_loc',
+	loadValoresIniciales:function(){
+		Phx.vista.PresupuestoLoc.superclass.loadValoresIniciales.call(this);
+		this.getComponente('id_presupuesto').setValue(this.maestro.id_presupuesto);		
+	},
+	tam_pag:30,
+	onReloadPage:function(m){
+		this.maestro=m;						
+		this.store.baseParams={id_presupuesto:this.maestro.id_presupuesto};
+		this.load({params:{start:0, limit:this.tam_pag}});			
+	},
 	fields: [
 		{name:'id_presupuesto_loc', type: 'numeric'},
 		{name:'id_localizacion', type: 'numeric'},
@@ -253,6 +297,7 @@ Phx.vista.PresupuestoLoc=Ext.extend(Phx.gridInterfaz,{
 		{name:'id_usuario_mod', type: 'numeric'},
 		{name:'usr_reg', type: 'string'},
 		{name:'usr_mod', type: 'string'},
+		{name:'nombre_localizacion', type: 'string'}
 		
 	],
 	sortInfo:{

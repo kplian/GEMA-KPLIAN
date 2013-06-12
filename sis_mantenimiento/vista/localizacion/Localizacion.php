@@ -1958,7 +1958,30 @@ header("content-type: text/javascript; charset=UTF-8");
 			if (nodo) {
 				this.wFTV.show()
 			}
-		}
+	},
+	getColumnasNodo: function(){
+		var nodo = this.sm.getSelectedNode();
+		var data = nodo.attributes;
+		
+		var aux=[{ 
+		   	    label:'Código',
+				name:'codigo',
+				width:'100',
+				type:'string',
+				gdisplayField:'Código',
+				value:data.codigo
+			},{
+				label:'Nombre',
+				name:'nombre',
+				width:'200',
+				type:'string',
+				gdisplayField:'Código',
+				value:data.nombre
+			}]
+		var ff= Phx.vista.Localizacion.superclass.getColumnasNodo.call(this,aux);
+		//console.log(ff);
+		return aux;
+	}
 })
 </script>
 

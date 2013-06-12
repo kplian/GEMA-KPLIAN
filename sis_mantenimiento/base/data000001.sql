@@ -950,7 +950,7 @@ select pxp.f_add_catalog('GEM','tanalisis_mant__preparado_por','Persona');
 /***********************************F-DAT-RCM-GEM-0-24/05/2013****************************************/
 
 /***********************************I-DAT-RCM-GEM-143-11/06/2013****************************************/
-select pxp.f_insert_tgui ('Presupuestos', 'Presupuestos', 'GEM.1.13', 'si', 1, 'sis_mantenimiento/vista/cuenta/Cuenta.php', 10, '', 'Cuenta', 'GEM');
+select pxp.f_insert_tgui ('Presupuestos', 'Presupuestos', 'GEM.1.13', 'si', 1, 'sis_mantenimiento/vista/presupuesto/Presupuesto.php', 10, '', 'Cuenta', 'GEM');
 select pxp.f_insert_testructura_gui ('GEM.1.13', 'GEM.1');
 
 select pxp.f_insert_tfuncion ('gem.ft_presupuesto_ime', 'Funcion para tabla', 'GEM');
@@ -982,3 +982,16 @@ select pxp.f_insert_tprocedimiento_gui ('GEM_GEPRLO_MOD', 'GEM.1.13', 'no');
 select pxp.f_insert_tprocedimiento_gui ('GEM_GEPRLO_ELI', 'GEM.1.13', 'no');
 
 /***********************************F-DAT-RCM-GEM-143-11/06/2013****************************************/
+
+select pxp.f_add_catalog('PARAM','tgral__mes','01 - Enero');
+select pxp.f_add_catalog('PARAM','tgral__mes','02 - Febrero');
+select pxp.f_add_catalog('PARAM','tgral__mes','03 - Marzo');
+select pxp.f_add_catalog('PARAM','tgral__mes','04 - Abril');
+select pxp.f_add_catalog('PARAM','tgral__mes','05 - Mayo');
+select pxp.f_add_catalog('PARAM','tgral__mes','06 - Junio');
+select pxp.f_add_catalog('PARAM','tgral__mes','07 - Julio');
+select pxp.f_add_catalog('PARAM','tgral__mes','08 - Agosto');
+select pxp.f_add_catalog('PARAM','tgral__mes','09 - Septiembre');
+select pxp.f_add_catalog('PARAM','tgral__mes','10 - Octubre');
+select pxp.f_add_catalog('PARAM','tgral__mes','11 - Noviembre');
+select pxp.f_add_catalog('PARAM','tgral__mes','12 - Diciembre');

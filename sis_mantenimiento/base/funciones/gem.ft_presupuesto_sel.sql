@@ -1,13 +1,13 @@
-CREATE OR REPLACE FUNCTION "gem"."f_presupuesto_loc_sel"(	
+CREATE OR REPLACE FUNCTION "gem"."ft_presupuesto_sel"(	
 				p_administrador integer, p_id_usuario integer, p_tabla character varying, p_transaccion character varying)
 RETURNS character varying AS
 $BODY$
 /**************************************************************************
  SISTEMA:		Mantenimiento Industrial - Plantas y Estaciones
- FUNCION: 		gem.f_presupuesto_loc_sel
- DESCRIPCION:   Funcion que devuelve conjuntos de registros de las consultas relacionadas con la tabla 'gem.tpresupuesto_loc'
+ FUNCION: 		gem.ft_presupuesto_sel
+ DESCRIPCION:   Funcion que devuelve conjuntos de registros de las consultas relacionadas con la tabla 'gem.tpresupuesto'
  AUTOR: 		 (admin)
- FECHA:	        11-06-2013 19:38:04
+ FECHA:	        12-06-2013 08:25:14
  COMENTARIOS:	
 ***************************************************************************
  HISTORIAL DE MODIFICACIONES:
@@ -26,42 +26,35 @@ DECLARE
 			    
 BEGIN
 
-	v_nombre_funcion = 'gem.f_presupuesto_loc_sel';
+	v_nombre_funcion = 'gem.ft_presupuesto_sel';
     v_parametros = pxp.f_get_record(p_tabla);
 
 	/*********************************    
- 	#TRANSACCION:  'GM_GEPRLO_SEL'
+ 	#TRANSACCION:  'GM_GEPRES_SEL'
  	#DESCRIPCION:	Consulta de datos
  	#AUTOR:		admin	
- 	#FECHA:		11-06-2013 19:38:04
+ 	#FECHA:		12-06-2013 08:25:14
 	***********************************/
 
-	if(p_transaccion='GM_GEPRLO_SEL')then
+	if(p_transaccion='GM_GEPRES_SEL')then
      				
     	begin
     		--Sentencia de la consulta
 			v_consulta:='select
-						geprlo.id_presupuesto_loc,
-						geprlo.id_localizacion,
-						geprlo.mes,
-						geprlo.id_presupuesto,
-						geprlo.monto_ejec,
-						geprlo.porcen_prog_techo,
-						geprlo.monto_prog,
-						geprlo.monto_techo,
-						geprlo.monto_presup,
-						geprlo.estado_reg,
-						geprlo.fecha_reg,
-						geprlo.id_usuario_reg,
-						geprlo.fecha_mod,
-						geprlo.id_usuario_mod,
+						gepres.id_presupuesto,
+						gepres.estado_reg,
+						gepres.codigo,
+						gepres.gestion,
+						gepres.nombre,
+						gepres.id_usuario_reg,
+						gepres.fecha_reg,
+						gepres.id_usuario_mod,
+						gepres.fecha_mod,
 						usu1.cuenta as usr_reg,
-						usu2.cuenta as usr_mod,
-						loc.nombre as nombre_localizacion	
-						from gem.tpresupuesto_loc geprlo
-						inner join segu.tusuario usu1 on usu1.id_usuario = geprlo.id_usuario_reg
-						left join segu.tusuario usu2 on usu2.id_usuario = geprlo.id_usuario_mod
-						inner join gem.tlocalizacion loc on loc.id_localizacion = geprlo.id_localizacion
+						usu2.cuenta as usr_mod	
+						from gem.tpresupuesto gepres
+						inner join segu.tusuario usu1 on usu1.id_usuario = gepres.id_usuario_reg
+						left join segu.tusuario usu2 on usu2.id_usuario = gepres.id_usuario_mod
 				        where  ';
 			
 			--Definicion de la respuesta
@@ -74,21 +67,20 @@ BEGIN
 		end;
 
 	/*********************************    
- 	#TRANSACCION:  'GM_GEPRLO_CONT'
+ 	#TRANSACCION:  'GM_GEPRES_CONT'
  	#DESCRIPCION:	Conteo de registros
  	#AUTOR:		admin	
- 	#FECHA:		11-06-2013 19:38:04
+ 	#FECHA:		12-06-2013 08:25:14
 	***********************************/
 
-	elsif(p_transaccion='GM_GEPRLO_CONT')then
+	elsif(p_transaccion='GM_GEPRES_CONT')then
 
 		begin
 			--Sentencia de la consulta de conteo de registros
-			v_consulta:='select count(id_presupuesto_loc)
-					    from gem.tpresupuesto_loc geprlo
-					    inner join segu.tusuario usu1 on usu1.id_usuario = geprlo.id_usuario_reg
-						left join segu.tusuario usu2 on usu2.id_usuario = geprlo.id_usuario_mod
-						inner join gem.tlocalizacion loc on loc.id_localizacion = geprlo.id_localizacion
+			v_consulta:='select count(id_presupuesto)
+					    from gem.tpresupuesto gepres
+					    inner join segu.tusuario usu1 on usu1.id_usuario = gepres.id_usuario_reg
+						left join segu.tusuario usu2 on usu2.id_usuario = gepres.id_usuario_mod
 					    where ';
 			
 			--Definicion de la respuesta		    
@@ -117,4 +109,4 @@ END;
 $BODY$
 LANGUAGE 'plpgsql' VOLATILE
 COST 100;
-ALTER FUNCTION "gem"."f_presupuesto_loc_sel"(integer, integer, character varying, character varying) OWNER TO postgres;
+ALTER FUNCTION "gem"."ft_presupuesto_sel"(integer, integer, character varying, character varying) OWNER TO postgres;

@@ -390,7 +390,30 @@ Phx.vista.EquipoFichaTecnicaVariables=Ext.extend(Phx.gridInterfaz,{
 	codSistema:'GEM',
 	pdfOrientacion:'L',
 	title1:'Formulario',
-	title2:'Detalle Operativo de Vehículos'
+	title2:'Detalle Operativo de Vehículos',
+	addMaestro: function(data){
+		var obj=Phx.vista.EquipoFichaTecnicaVariables.superclass.addMaestro.call(this,data);
+		console.log(obj)
+		obj.push({ 
+	   	    label:'Fecha Inicio',
+			name:'fecha_desde',
+			width:100,
+			type:'string',
+			gdisplayField:'Fecha Inicio',
+			value:this.dateFechaIni.getValue().dateFormat('d/m/Y')
+		});
+		obj.push({ 
+	   	    label:'Fecha Fin',
+			name:'fecha_hasta',
+			width:100,
+			type:'string',
+			gdisplayField:'Fecha Hasta',
+			value:this.dateFechaFin.getValue().dateFormat('d/m/Y')
+		});
+		console.log(obj)
+		return obj;
+	},
+	repFilaInicioDatos:40
 		
 })
 </script>

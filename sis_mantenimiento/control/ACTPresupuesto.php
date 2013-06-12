@@ -3,7 +3,7 @@
 *@package pXP
 *@file gen-ACTPresupuesto.php
 *@author  (admin)
-*@date 11-06-2013 19:38:00
+*@date 12-06-2013 08:25:14
 *@description Clase que recibe los parametros enviados por la vista para mandar a la capa de Modelo
 */
 

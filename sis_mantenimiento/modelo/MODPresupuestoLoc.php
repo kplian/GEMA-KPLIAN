@@ -22,7 +22,7 @@ class MODPresupuestoLoc extends MODbase{
 		//Definicion de la lista del resultado del query
 		$this->captura('id_presupuesto_loc','int4');
 		$this->captura('id_localizacion','int4');
-		$this->captura('mes','int4');
+		$this->captura('mes','varchar');
 		$this->captura('id_presupuesto','int4');
 		$this->captura('monto_ejec','numeric');
 		$this->captura('porcen_prog_techo','numeric');
@@ -36,6 +36,7 @@ class MODPresupuestoLoc extends MODbase{
 		$this->captura('id_usuario_mod','int4');
 		$this->captura('usr_reg','varchar');
 		$this->captura('usr_mod','varchar');
+		$this->captura('nombre_localizacion','varchar');
 		
 		//Ejecuta la instruccion
 		$this->armarConsulta();
@@ -53,7 +54,7 @@ class MODPresupuestoLoc extends MODbase{
 				
 		//Define los parametros para la funcion
 		$this->setParametro('id_localizacion','id_localizacion','int4');
-		$this->setParametro('mes','mes','int4');
+		$this->setParametro('mes','mes','varchar');
 		$this->setParametro('id_presupuesto','id_presupuesto','int4');
 		$this->setParametro('monto_ejec','monto_ejec','numeric');
 		$this->setParametro('porcen_prog_techo','porcen_prog_techo','numeric');
@@ -79,7 +80,7 @@ class MODPresupuestoLoc extends MODbase{
 		//Define los parametros para la funcion
 		$this->setParametro('id_presupuesto_loc','id_presupuesto_loc','int4');
 		$this->setParametro('id_localizacion','id_localizacion','int4');
-		$this->setParametro('mes','mes','int4');
+		$this->setParametro('mes','mes','varchar');
 		$this->setParametro('id_presupuesto','id_presupuesto','int4');
 		$this->setParametro('monto_ejec','monto_ejec','numeric');
 		$this->setParametro('porcen_prog_techo','porcen_prog_techo','numeric');

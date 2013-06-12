@@ -1386,25 +1386,26 @@ add column ficha_tecnica varchar(2) default 'Si';
 
 /***********************************I-SCP-RCM-GEM-143-04/06/2013*****************************************/
 create table gem.tpresupuesto(
-	id_presupuesto integer,
+	id_presupuesto serial,
 	codigo varchar(30),
 	nombre varchar(100),
+	gestion integer,
 	constraint pk_tpresupuesto__id_presupuesto primary key (id_presupuesto)
 ) INHERITS (pxp.tbase)
 WITH OIDS;
 ALTER TABLE gem.tpresupuesto OWNER TO postgres;
 
 create table gem.tpresupuesto_loc(
-	id_presupuesto_loc integer,
+	id_presupuesto_loc serial,
 	id_presupuesto integer,
 	id_localizacion integer,
-	mes integer,
+	mes varchar(20),
 	monto_prog numeric(18,2),
 	monto_techo numeric(18,2),
 	porcen_prog_techo numeric(18,2),
 	monto_presup numeric(18,2),
 	monto_ejec numeric(18,2),
-        constraint pk_tpresupuesto_loc__id_presupuesto_loc primary key (id_presupuesto_loc)
+    constraint pk_tpresupuesto_loc__id_presupuesto_loc primary key (id_presupuesto_loc)
 ) INHERITS (pxp.tbase)
 WITH OIDS;
 ALTER TABLE gem.tpresupuesto_loc OWNER TO postgres;
