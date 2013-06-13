@@ -72,6 +72,7 @@ Phx.vista.OrdenTrabajoCosto=Ext.extend(Phx.gridInterfaz,{
 	bdel:false,
 	bsave:false,
 	bedit:false,
+	bnew:false,
 	fwidth: 450,
 	fheight: 250,
     codReporte:'S/C',

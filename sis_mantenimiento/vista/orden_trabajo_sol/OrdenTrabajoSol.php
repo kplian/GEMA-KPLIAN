@@ -23,12 +23,20 @@ Phx.vista.OrdenTrabajoSol=Ext.extend(Phx.gridInterfaz,{
 		this.ocultarGrupo(1);
 		
 		//Evento para cargar la localizacion a partir del equipo
-		this.getComponente('id_localizacion').on('blur', function(e, data, index) {
+		this.getComponente('id_localizacion_buscar').on('select', function(e, data, index) {
    	       		//console.log(this.getComponente('id_localizacion').getRawValue());
 	        	this.getComponente('id_uni_cons').setValue('');
-	        	this.getComponente('id_uni_cons').store.baseParams.id_localizacion=this.getComponente('id_localizacion').value;
+	        	this.getComponente('id_uni_cons').store.baseParams.id_localizacion=this.getComponente('id_localizacion_buscar').value;
 	        	this.getComponente('id_uni_cons').modificado=true;
         },this);
+        
+        this.getComponente('id_uni_cons').on('select', function(e, data, index) {
+			this.getComponente('id_localizacion').setValue(data.data.id_localizacion);
+			this.getComponente('id_localizacion').setRawValue(data.data.desc_localizacion);
+			this.getComponente('id_mant_predef').store.baseParams.id_uni_cons=e.value;
+			this.getComponente('id_mant_predef').modificado=true;
+			this.getComponente('id_mant_predef').setValue('');
+		},this);
 		
 		this.addButton('btn-fin',
 			{
@@ -156,9 +164,9 @@ Phx.vista.OrdenTrabajoSol=Ext.extend(Phx.gridInterfaz,{
 			grid:true,
 			form:true
 		},
-				{
+		{
 			config:{	
-				name:'id_localizacion',
+				name:'id_localizacion_buscar',
     			tinit:true,
     			tasignacion:true,
     			tname:'id_localizacion',
@@ -168,9 +176,9 @@ Phx.vista.OrdenTrabajoSol=Ext.extend(Phx.gridInterfaz,{
 	   			tdata:{},
 	   			tcls:'LocalizacionLista',
 	   			pid:this.idContenedor,
-	   			fieldLabel:'Localizaciones',
-	   			allowBlank:false,
-	   			emptyText:'Localizaciones...',
+	   			fieldLabel:'Buscar Equipo x Localización}',
+	   			allowBlank:true,
+	   			emptyText:'Buscar Equipo po Localización ...',
 	   			store:new Ext.data.JsonStore(
 				{
 					url: '../../sis_mantenimiento/control/Localizacion/listarLocalizacion',
@@ -189,7 +197,7 @@ Phx.vista.OrdenTrabajoSol=Ext.extend(Phx.gridInterfaz,{
 	   			tpl:'<tpl for="."><div class="x-combo-list-item"><p>Nombre: {nombre}</p><p>Código: {codigo}</p></div></tpl>',
 				valueField: 'id_localizacion',
 				hiddenValue: 'id_localizacion',
-				hiddenName:'id_localizacion',
+				hiddenName:'id_localizacion_buscar',
 				displayField: 'nombre',
 				gdisplayField: 'nombre_localizacion',
 				forceSelection:true,
@@ -206,9 +214,9 @@ Phx.vista.OrdenTrabajoSol=Ext.extend(Phx.gridInterfaz,{
 				autoSelect:true
     		},
 			type:'TrigguerCombo',
-			filters:{pfiltro:'codigo,nombre',type:'string'},
+			filters:{pfiltro:'local.nombre',type:'string'},
 			id_grupo:0,
-			grid:true,
+			grid:false,
 			form:true
 		},
 		{
@@ -254,7 +262,7 @@ Phx.vista.OrdenTrabajoSol=Ext.extend(Phx.gridInterfaz,{
 			grid:true,
 			form:true
 		},
-		/*{
+		{
 			config: {
 				name: 'id_localizacion',
 				fieldLabel: 'Localización',
@@ -302,7 +310,7 @@ Phx.vista.OrdenTrabajoSol=Ext.extend(Phx.gridInterfaz,{
 			},
 			grid: true,
 			form: true
-		},*/
+		},
 		{
 			config:{
 				name: 'descripcion',

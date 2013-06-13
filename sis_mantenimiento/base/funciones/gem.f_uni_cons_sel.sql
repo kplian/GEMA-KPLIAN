@@ -1262,7 +1262,8 @@ BEGIN
             usu2.cuenta as usr_mod,
             eq.nombre as nombre_tipo_equipo,
                         gem.f_get_nombre_localizacion_rec(tuc.id_localizacion,''padres'') as padres_loc,
-                        loc.codigo || '' - '' || loc.nombre as desc_localizacion
+                        loc.codigo || '' - '' || loc.nombre as desc_localizacion,
+            tuc.codigo || '' - '' ||tuc.nombre as desc_equipo
             from gem.tuni_cons tuc
             inner join segu.tusuario usu1 on usu1.id_usuario = tuc.id_usuario_reg
             left join segu.tusuario usu2 on usu2.id_usuario = tuc.id_usuario_mod

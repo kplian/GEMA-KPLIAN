@@ -20,9 +20,17 @@ Phx.vista.EstructuraUoGem = {
        	Phx.vista.EstructuraUo.superclass.constructor.call(this,config);
 		this.init();
 		//Creación de menú contextual
-		this.crearCtxMenu();
+		//this.crearCtxMenu();
 		//Adiciona los botones
-		this.addBotones();
+		//this.addBotones();
+		this.addButton('btnReporteFun',	{
+				text: 'Funcionarios',
+				//iconCls: 'bchecklist',
+				disabled: false,
+				handler: this.onBtnReporteFun,
+				tooltip: '<b>Funcionarios</b><br/>Listado de funcionarios por unidad organizacional'
+			}
+		);	
 		
 		//coloca elementos en la barra de herramientas
 		this.tbar.add('->');
@@ -37,6 +45,20 @@ Phx.vista.EstructuraUoGem = {
 	codSistema:'GEM',
 	pdfOrientacion:'L',
 	dirReporte: '../../../sis_mantenimiento/vista/funcionario/RepFuncionarioUoGem.php',
-	clsReporte: 'RepFuncionarioUoGem'
+	clsReporte: 'RepFuncionarioUoGem',
+	onBtnReporteFun: function(){
+		var node = this.sm.getSelectedNode();
+			var data = node.attributes;
+			Phx.CP.loadWindows('../../../sis_mantenimiento/vista/funcionario/RepFuncionarioUoGem.php',
+					'Funcionarios',
+					{
+						width:1000,
+						height:600
+				    },
+				    data,
+				    this.idContenedor,
+				    'RepFuncionarioUoGem'
+			);
+	}
 };
 </script>

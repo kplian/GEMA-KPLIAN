@@ -133,10 +133,8 @@ BEGIN
             
             --honorarios por actividad y funcionario
             for v_rec in (select *
-                    from gem.trecurso rec
-                            inner join gem.tactividad act
-                            on act.id_actividad = rec.id_actividad
-                            where act.id_orden_trabajo = v_parametros.id_orden_trabajo
+                      		from gem.trecurso rec
+                            where rec.id_orden_trabajo = v_parametros.id_orden_trabajo
                             and rec.id_funcionario is not null) loop
                 raise notice '%, %, %',v_rec.hh_normal,v_rec.hh_extras,v_rec.hh_ext_mov;
                 if coalesce(v_rec.hh_normal,0) > 0 then
@@ -146,7 +144,7 @@ BEGIN
                     inner join orga.ttipo_horario hor
                     on hor.id_tipo_horario = fho.id_tipo_horario
                     where id_funcionario = v_rec.id_funcionario
-                    and codigo = 'HN';
+                    and codigo = 'HH Normal';
                     v_hn = v_hn + coalesce(v_aux,0);
                     raise notice 'cant horas:%, costo: %',v_rec.hh_normal,v_aux;
                 end if;
@@ -157,7 +155,7 @@ BEGIN
                     inner join orga.ttipo_horario hor
                     on hor.id_tipo_horario = fho.id_tipo_horario
                     where id_funcionario = v_rec.id_funcionario
-                    and codigo = 'HE1';
+                    and codigo = 'HH Extra';
                     v_he1 = v_he1 + coalesce(v_aux,0);
                     raise notice 'cant horas:%, costo: %',v_rec.hh_extras,v_aux;                    
                 end if;
@@ -168,7 +166,7 @@ BEGIN
                     inner join orga.ttipo_horario hor
                     on hor.id_tipo_horario = fho.id_tipo_horario
                     where id_funcionario = v_rec.id_funcionario
-                    and codigo = 'HE2';
+                    and codigo = 'HH Nocturno';
                     v_he2 = v_he2 + coalesce(v_aux,0);
                     raise notice 'cant horas:%, costo: %',v_rec.hh_ext_mov,v_aux;                    
                 end if;
@@ -179,7 +177,7 @@ BEGIN
                     inner join orga.ttipo_horario hor
                     on hor.id_tipo_horario = fho.id_tipo_horario
                     where id_funcionario = v_rec.id_funcionario
-                    and codigo = 'HE3';
+                    and codigo = 'HH Fer.y Dom.';
                     v_he3 = v_he3 + coalesce(v_aux,0);
                     raise notice 'cant horas:%, costo: %',v_rec.hh_fer_dom,v_aux;                    
                 end if;

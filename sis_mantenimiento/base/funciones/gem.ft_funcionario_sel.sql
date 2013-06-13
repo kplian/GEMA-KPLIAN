@@ -72,9 +72,9 @@ BEGIN
                             PERSON.correo,
                             FUNCIO.telefono_ofi,
                             coalesce((select costo_hora from gem.tfuncionario_honorario where id_funcionario = FUNCIO.id_funcionario and id_tipo_horario = 3),0) as horario1,
-                            coalesce((select costo_hora from gem.tfuncionario_honorario where id_funcionario = FUNCIO.id_funcionario and id_tipo_horario = 6),0) as horario2,
-                            coalesce((select costo_hora from gem.tfuncionario_honorario where id_funcionario = FUNCIO.id_funcionario and id_tipo_horario = 4),0) as horario3,
-                            coalesce((select costo_hora from gem.tfuncionario_honorario where id_funcionario = FUNCIO.id_funcionario and id_tipo_horario = 5),0) as horario4
+                            coalesce((select costo_hora from gem.tfuncionario_honorario where id_funcionario = FUNCIO.id_funcionario and id_tipo_horario = 4),0) as horario2,
+                            coalesce((select costo_hora from gem.tfuncionario_honorario where id_funcionario = FUNCIO.id_funcionario and id_tipo_horario = 5),0) as horario3,
+                            coalesce((select costo_hora from gem.tfuncionario_honorario where id_funcionario = FUNCIO.id_funcionario and id_tipo_horario = 6),0) as horario4
                             FROM orga.tfuncionario FUNCIO
                             INNER JOIN SEGU.vpersona PERSON ON PERSON.id_persona=FUNCIO.id_persona
                             inner join segu.tusuario usu1 on usu1.id_usuario = FUNCIO.id_usuario_reg

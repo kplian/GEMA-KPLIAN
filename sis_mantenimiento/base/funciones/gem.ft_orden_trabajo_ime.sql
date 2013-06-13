@@ -323,9 +323,7 @@ BEGIN
                 
       elsif v_parametros.cat_estado = 'Cerrado' then
               if not exists(select 1 from gem.trecurso rec
-                            inner join gem.tactividad ac
-                                on ac.id_actividad = rec.id_actividad
-                                where ac.id_orden_trabajo = v_parametros.id_orden_trabajo) then
+                            where rec.id_orden_trabajo = v_parametros.id_orden_trabajo) then
                   raise exception 'Para Cerrar la OIT previamente debe registrar los Recursos utilizados.';
                 end if;
                 

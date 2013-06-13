@@ -364,12 +364,12 @@ Phx.vista.gridCalendario=Ext.extend(Phx.gridInterfaz,{
 									  renderer:function (value, p, record){
 										if(value=='1'){
 										
-												return "<div style='text-align:center'><img src = '../../../lib/imagenes/ball_red.png' align='center' width='18' height='18'/></div>"
+												return "<div style='text-align:center'><img src = '../../../lib/imagenes/ball_red.png' align='center' width='12' height='12'/></div>"
 									   		
 									   		}
 									   	if(value=='2'){
 										
-												return "<div style='text-align:center'><img src = '../../../lib/imagenes/ball_blue.png' align='center' width='18' height='18'/></div>"
+												return "<div style='text-align:center'><img src = '../../../lib/imagenes/ball_blue.png' align='center' width='12' height='12'/></div>"
 									   		
 									   		}	
 										}

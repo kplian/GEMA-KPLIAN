@@ -652,6 +652,7 @@ class MODUniCons extends MODbase{
 		$this->captura('nombre_tipo_equipo','varchar');
 		$this->captura('padres_loc','varchar');
 		$this->captura('desc_localizacion','text');
+		$this->captura('desc_equipo','text');
 		
 		//Ejecuta la instruccion
 		$this->armarConsulta();

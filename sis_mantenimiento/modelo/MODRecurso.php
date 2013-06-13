@@ -154,6 +154,7 @@ class MODRecurso extends MODbase {
 		$this->setParametro('existencias','existencias','varchar');
 		$this->setParametro('recurso','recurso','varchar');
 		$this->setParametro('hh_fer_dom','hh_fer_dom','numeric');
+		$this->setParametro('id_orden_trabajo','id_orden_trabajo','int4');
 		
 		$this->armarConsulta();
 		$this->ejecutarConsulta();

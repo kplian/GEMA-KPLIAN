@@ -57,6 +57,25 @@ Phx.vista.recurso=Ext.extend(Phx.gridInterfaz,{
    		
    		//listener to combo box 
    		this.getComponente('recurso').on('select', this.onRecursoSelect,this);
+   		
+   		//Oculta campos de inicio
+   		this.getComponente('id_item');
+		this.getComponente('id_funcionario');
+		this.getComponente('id_especialidad');
+		this.getComponente('id_servicio');
+		this.getComponente('hh_normal');
+		this.getComponente('hh_extras');
+		this.getComponente('hh_ext_mov');
+		this.getComponente('hh_fer_dom');
+		this.getComponente('id_moneda');
+		this.getComponente('costo');
+		this.getComponente('id_unidad_medida');
+		this.getComponente('cantidad');
+		
+		this.getComponente('id_item').on('select', function(e, data, index) {
+			this.getComponente('id_unidad_medida').setValue(data.data.id_unidad_medida);
+			this.getComponente('id_unidad_medida').setRawValue(data.data.codigo_unidad);
+		},this);
 	},
 	Atributos: [
 		{
@@ -130,11 +149,11 @@ Phx.vista.recurso=Ext.extend(Phx.gridInterfaz,{
 						direction: 'ASC'
 					},
 					totalProperty: 'total',
-					fields: ['id_item','nombre'],
+					fields: ['id_item','nombre','codigo_unidad','id_unidad_medida'],
 					remoteSort: true,
 					baseParams: {par_filtro:'item.nombre'}
 				}),
-				hidden: true,
+				//hidden: true,
 				valueField: 'id_item',
 				displayField: 'nombre',
 				gdisplayField: 'nombre_item',
@@ -180,7 +199,7 @@ Phx.vista.recurso=Ext.extend(Phx.gridInterfaz,{
 					remoteSort: true,
 					baseParams: {par_filtro:'desc_person'}
 				}),
-				hidden: true,
+				//hidden: true,
 				valueField: 'id_funcionario',
 				displayField: 'desc_person',
 				gdisplayField: 'nombre_funcionario',
@@ -226,7 +245,7 @@ Phx.vista.recurso=Ext.extend(Phx.gridInterfaz,{
 					remoteSort: true,
 					baseParams: {par_filtro:'nombre'}
 				}),
-				hidden: true,
+				//hidden: true,
 				valueField: 'id_especialidad',
 				displayField: 'nombre',
 				gdisplayField: 'nombre_especialidad',
@@ -272,7 +291,7 @@ Phx.vista.recurso=Ext.extend(Phx.gridInterfaz,{
 					remoteSort: true,
 					baseParams: {par_filtro:'nombre'}
 				}),
-				hidden: true,
+				//hidden: true,
 				valueField: 'id_servicio',
 				displayField: 'nombre',
 				gdisplayField: 'nombre_servicio',
@@ -307,8 +326,8 @@ Phx.vista.recurso=Ext.extend(Phx.gridInterfaz,{
 				allowBlank: true,
 				width: '100%',
 				gwidth: 100,
-				maxLength: 100,
-				hidden: true
+				maxLength: 100
+				//hidden: true
 			},
 			type: 'NumberField',
 			filters: {
@@ -325,8 +344,8 @@ Phx.vista.recurso=Ext.extend(Phx.gridInterfaz,{
 				allowBlank: true,
 				width: '100%',
 				gwidth: 100,
-				maxLength: 100,
-				hidden: true
+				maxLength: 100
+				//hidden: true
 			},
 			type: 'NumberField',
 			filters: {
@@ -343,8 +362,8 @@ Phx.vista.recurso=Ext.extend(Phx.gridInterfaz,{
 				allowBlank: true,
 				width: '100%',
 				gwidth: 100,
-				maxLength: 100,
-				hidden: true
+				maxLength: 100
+				//hidden: true
 			},
 			type: 'NumberField',
 			filters: {
@@ -361,8 +380,8 @@ Phx.vista.recurso=Ext.extend(Phx.gridInterfaz,{
 				allowBlank: true,
 				width: '100%',
 				gwidth: 100,
-				maxLength: 100,
-				hidden: true
+				maxLength: 100
+				//hidden: true
 			},
 			type: 'NumberField',
 			filters: {
@@ -397,7 +416,8 @@ Phx.vista.recurso=Ext.extend(Phx.gridInterfaz,{
 				allowBlank: true,
 				width: '100%',
 				gwidth: 150,
-				maxLength: 2000
+				maxLength: 2000,
+				hidden:true
 			},
 			type: 'TextArea',
 			filters: {
@@ -427,7 +447,7 @@ Phx.vista.recurso=Ext.extend(Phx.gridInterfaz,{
 					remoteSort: true,
 					baseParams: {par_filtro:'codigo'}
 				}),
-				hidden: true,
+				//hidden: true,
 				valueField: 'id_moneda',
 				displayField: 'codigo',
 				gdisplayField: 'codigo_moneda',
@@ -461,8 +481,8 @@ Phx.vista.recurso=Ext.extend(Phx.gridInterfaz,{
 				allowBlank: true,
 				width: 150,
 				gwidth: 70,
-				maxLength: 100,
-				hidden: true
+				maxLength: 100
+				//hidden: true
 			},
 			type: 'NumberField',
 			filters: {
@@ -491,7 +511,7 @@ Phx.vista.recurso=Ext.extend(Phx.gridInterfaz,{
 					remoteSort: true,
 					baseParams: {par_filtro:'ume.codigo'}
 				}),
-				hidden: true,
+				//hidden: true,
 				valueField: 'id_unidad_medida',
 				displayField: 'codigo',
 				gdisplayField: 'codigo_unidad_medida',
@@ -507,7 +527,8 @@ Phx.vista.recurso=Ext.extend(Phx.gridInterfaz,{
 				minChars: 2,
 				renderer: function (value, p, record) {
 					return String.format('{0}', value?record.data['codigo_unidad_medida']:'');
-				}
+				},
+				disabled:true
 			},
 			type: 'ComboBox',
 			filters: {
@@ -525,8 +546,8 @@ Phx.vista.recurso=Ext.extend(Phx.gridInterfaz,{
 				allowBlank: true,
 				width: 150,
 				gwidth: 70,
-				maxLength: 100,
-				hidden: true
+				maxLength: 100
+				//hidden: true
 			},
 			type: 'NumberField',
 			filters: {
@@ -660,8 +681,8 @@ Phx.vista.recurso=Ext.extend(Phx.gridInterfaz,{
      		this.getComponente('cantidad').setVisible(true);
      		this.getComponente('id_moneda').setVisible(true);
      		this.getComponente('costo').setVisible(true);
-     		this.getComponente('codigo').setVisible(true);
-     		this.getComponente('existencias').setVisible(true);
+     		//this.getComponente('codigo').setVisible(true);
+     		//this.getComponente('existencias').setVisible(true);
      		
      		this.getComponente('id_funcionario').setVisible(false);
      		this.getComponente('id_especialidad').setVisible(false);
@@ -693,8 +714,8 @@ Phx.vista.recurso=Ext.extend(Phx.gridInterfaz,{
      		this.getComponente('cantidad').setVisible(false);
      		this.getComponente('id_moneda').setVisible(false);
      		this.getComponente('costo').setVisible(false);
-     		this.getComponente('codigo').setVisible(false);
-     		this.getComponente('existencias').setVisible(false);
+     		//this.getComponente('codigo').setVisible(false);
+     		//this.getComponente('existencias').setVisible(false);
      		this.getComponente('id_item').reset();
      		this.getComponente('id_especialidad').reset();
      		this.getComponente('id_servicio').reset();
@@ -702,8 +723,8 @@ Phx.vista.recurso=Ext.extend(Phx.gridInterfaz,{
      		this.getComponente('cantidad').reset();
      		this.getComponente('id_moneda').reset();
      		this.getComponente('costo').reset();
-     		this.getComponente('codigo').reset();
-     		this.getComponente('existencias').reset();
+     		//this.getComponente('codigo').reset();
+     		//this.getComponente('existencias').reset();
      	}
      	else if(e.value == 'especialidad') {
      		this.getComponente('id_especialidad').setVisible(true);
@@ -719,8 +740,8 @@ Phx.vista.recurso=Ext.extend(Phx.gridInterfaz,{
      		this.getComponente('cantidad').setVisible(false);
      		this.getComponente('id_moneda').setVisible(false);
      		this.getComponente('costo').setVisible(false);
-     		this.getComponente('codigo').setVisible(false);
-     		this.getComponente('existencias').setVisible(false);
+     		//this.getComponente('codigo').setVisible(false);
+     		//this.getComponente('existencias').setVisible(false);
      		
      		this.getComponente('id_item').reset();
      		this.getComponente('id_funcionario').reset();
@@ -733,8 +754,8 @@ Phx.vista.recurso=Ext.extend(Phx.gridInterfaz,{
      		this.getComponente('cantidad').reset();
      		this.getComponente('id_moneda').reset();
      		this.getComponente('costo').reset();
-     		this.getComponente('codigo').reset();
-     		this.getComponente('existencias').reset();
+     		//this.getComponente('codigo').reset();
+     		//this.getComponente('existencias').reset();
      	}
      	else if(e.value == 'servicio') {
      		this.getComponente('id_servicio').setVisible(true);
@@ -750,8 +771,8 @@ Phx.vista.recurso=Ext.extend(Phx.gridInterfaz,{
      		this.getComponente('cantidad').setVisible(false);
      		this.getComponente('id_moneda').setVisible(true);
      		this.getComponente('costo').setVisible(true);
-     		this.getComponente('codigo').setVisible(false);
-     		this.getComponente('existencias').setVisible(false);
+     		//this.getComponente('codigo').setVisible(false);
+     		//this.getComponente('existencias').setVisible(false);
      		
      		this.getComponente('id_item').reset();
      		this.getComponente('id_funcionario').reset();
@@ -764,8 +785,8 @@ Phx.vista.recurso=Ext.extend(Phx.gridInterfaz,{
      		this.getComponente('cantidad').reset();
      		this.getComponente('id_moneda').reset();
      		this.getComponente('costo').reset();
-     		this.getComponente('codigo').reset();
-     		this.getComponente('existencias').reset();
+     		//this.getComponente('codigo').reset();
+     		//this.getComponente('existencias').reset();
      	} else if(e.value=='hotel'||e.value=='alimentacion'){
      		this.getComponente('id_item').setVisible(false);
      		this.getComponente('id_funcionario').setVisible(false);
@@ -779,8 +800,8 @@ Phx.vista.recurso=Ext.extend(Phx.gridInterfaz,{
      		this.getComponente('cantidad').setVisible(false);
      		this.getComponente('id_moneda').setVisible(true);
      		this.getComponente('costo').setVisible(true);
-     		this.getComponente('codigo').setVisible(false);
-     		this.getComponente('existencias').setVisible(false);
+     		//this.getComponente('codigo').setVisible(false);
+     		//this.getComponente('existencias').setVisible(false);
      		
      		this.getComponente('id_item').reset();
      		this.getComponente('id_funcionario').reset();
@@ -794,8 +815,8 @@ Phx.vista.recurso=Ext.extend(Phx.gridInterfaz,{
      		this.getComponente('cantidad').reset();
      		this.getComponente('id_moneda').reset();
      		this.getComponente('costo').reset();
-     		this.getComponente('codigo').reset();
-     		this.getComponente('existencias').reset();
+     		//this.getComponente('codigo').reset();
+     		//this.getComponente('existencias').reset();
      		
      	} else if(e.value=='servicios_ott'){
      		this.getComponente('id_item').setVisible(false);
@@ -810,8 +831,8 @@ Phx.vista.recurso=Ext.extend(Phx.gridInterfaz,{
      		this.getComponente('cantidad').setVisible(false);
      		this.getComponente('id_moneda').setVisible(true);
      		this.getComponente('costo').setVisible(true);
-     		this.getComponente('codigo').setVisible(true);
-     		this.getComponente('existencias').setVisible(false);
+     		//this.getComponente('codigo').setVisible(true);
+     		//this.getComponente('existencias').setVisible(false);
      		
      		this.getComponente('id_item').reset();
      		this.getComponente('id_funcionario').reset();
@@ -825,8 +846,8 @@ Phx.vista.recurso=Ext.extend(Phx.gridInterfaz,{
      		this.getComponente('cantidad').reset();
      		this.getComponente('id_moneda').reset();
      		this.getComponente('costo').reset();
-     		this.getComponente('codigo').reset();
-     		this.getComponente('existencias').reset();
+     		//this.getComponente('codigo').reset();
+     		//this.getComponente('existencias').reset();
      		
      	} else {
      		this.getComponente('id_item').setVisible(false);
@@ -841,8 +862,8 @@ Phx.vista.recurso=Ext.extend(Phx.gridInterfaz,{
      		this.getComponente('cantidad').setVisible(false);
      		this.getComponente('id_moneda').setVisible(false);
      		this.getComponente('costo').setVisible(false);
-     		this.getComponente('codigo').setVisible(false);
-     		this.getComponente('existencias').setVisible(false);
+     		//this.getComponente('codigo').setVisible(false);
+     		//this.getComponente('existencias').setVisible(false);
      	}
     },
     codReporte:'S/C',

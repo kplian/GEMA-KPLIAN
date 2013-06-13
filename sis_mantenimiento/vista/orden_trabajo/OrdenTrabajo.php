@@ -25,12 +25,22 @@ Phx.vista.OrdenTrabajo=Ext.extend(Phx.gridInterfaz,{
         },
         this);
 
-       this.getComponente('id_localizacion').on('blur', function(e, data, index) {
+       this.getComponente('id_localizacion_buscar').on('select', function(e, data, index) {
    	       		//console.log(this.getComponente('id_localizacion').getRawValue());
 	        	this.getComponente('id_uni_cons').setValue('');
-	        	this.getComponente('id_uni_cons').store.baseParams.id_localizacion=this.getComponente('id_localizacion').value;
+	        	this.getComponente('id_uni_cons').store.baseParams.id_localizacion=this.getComponente('id_localizacion_buscar').value;
 	        	this.getComponente('id_uni_cons').modificado=true;
         },this);
+        
+        this.getComponente('id_uni_cons').on('select', function(e, data, index) {
+			this.getComponente('id_localizacion').setValue(data.data.id_localizacion);
+			this.getComponente('id_localizacion').setRawValue(data.data.desc_localizacion);
+			this.getComponente('id_mant_predef').store.baseParams.id_uni_cons=e.value;
+			this.getComponente('id_mant_predef').modificado=true;
+			this.getComponente('id_mant_predef').setValue('');
+		},this);
+		
+		this.ocultarComponente(this.getComponente('cat_estado'));
         
         this.crearMensajeEstadoForm();
 		
@@ -40,7 +50,8 @@ Phx.vista.OrdenTrabajo=Ext.extend(Phx.gridInterfaz,{
 				iconCls: 'bchecklist',
 				disabled: true,
 				handler: loadActividadesOT,
-				tooltip: '<b>Actividades</b><br/>Ver las actividades de la Orden de Trabajo Actual'
+				tooltip: '<b>Actividades</b><br/>Ver las actividades de la Orden de Trabajo Actual',
+				hidden:true
 			}
 		);
 		
@@ -109,8 +120,8 @@ Phx.vista.OrdenTrabajo=Ext.extend(Phx.gridInterfaz,{
 			Phx.CP.loadWindows('../../../sis_mantenimiento/vista/orden_trabajo/OrdenTrabajoCosto.php',
 					'Costo OIT',
 					{
-						width:1000,
-						height:600
+						width:'50%',
+						height:'50%'
 				    },
 				    rec.data,
 				    this.idContenedor,
@@ -160,7 +171,7 @@ Phx.vista.OrdenTrabajo=Ext.extend(Phx.gridInterfaz,{
 				name: 'cat_estado',
 				fieldLabel: 'Estado',
 				gwidth: 60,
-				hidden: true,
+				//hidden: true,
 				renderer: function (value,p,record,otro, otro2) {
 					var result;
 					if(value == "Borrador") {
@@ -210,7 +221,7 @@ Phx.vista.OrdenTrabajo=Ext.extend(Phx.gridInterfaz,{
 			config:{
 				name: 'id_tipo_mant',
 				fieldLabel: 'Tipo de OIT',
-				allowBlank: true,
+				allowBlank: false,
 				emptyText:'Tipo de mantenimiento...',
 				store:new Ext.data.JsonStore(
 				{
@@ -250,7 +261,7 @@ Phx.vista.OrdenTrabajo=Ext.extend(Phx.gridInterfaz,{
 		},
 		{
 			config:{	
-				name:'id_localizacion',
+				name:'id_localizacion_buscar',
     			tinit:true,
     			tasignacion:true,
     			tname:'id_localizacion',
@@ -260,9 +271,9 @@ Phx.vista.OrdenTrabajo=Ext.extend(Phx.gridInterfaz,{
 	   			tdata:{},
 	   			tcls:'LocalizacionLista',
 	   			pid:this.idContenedor,
-	   			fieldLabel:'Localizaciones',
-	   			allowBlank:false,
-	   			emptyText:'Localizaciones...',
+	   			fieldLabel:'Buscar Equipo x Localización}',
+	   			allowBlank:true,
+	   			emptyText:'Buscar Equipo po Localización ...',
 	   			store:new Ext.data.JsonStore(
 				{
 					url: '../../sis_mantenimiento/control/Localizacion/listarLocalizacion',
@@ -281,7 +292,7 @@ Phx.vista.OrdenTrabajo=Ext.extend(Phx.gridInterfaz,{
 	   			tpl:'<tpl for="."><div class="x-combo-list-item"><p>Nombre: {nombre}</p><p>Código: {codigo}</p></div></tpl>',
 				valueField: 'id_localizacion',
 				hiddenValue: 'id_localizacion',
-				hiddenName:'id_localizacion',
+				hiddenName:'id_localizacion_buscar',
 				displayField: 'nombre',
 				gdisplayField: 'nombre_localizacion',
 				forceSelection:true,
@@ -300,7 +311,7 @@ Phx.vista.OrdenTrabajo=Ext.extend(Phx.gridInterfaz,{
 			type:'TrigguerCombo',
 			filters:{pfiltro:'local.nombre',type:'string'},
 			id_grupo:0,
-			grid:true,
+			grid:false,
 			form:true
 		},
 		{
@@ -319,14 +330,14 @@ Phx.vista.OrdenTrabajo=Ext.extend(Phx.gridInterfaz,{
 						direction:'ASC'
 					},
 					totalProperty:'total',
-					fields: ['id_uni_cons','codigo','nombre','nombre_tipo_equipo','padres_loc', 'id_localizacion','desc_localizacion'],
+					fields: ['id_uni_cons','codigo','nombre','nombre_tipo_equipo','padres_loc', 'id_localizacion','desc_localizacion','desc_equipo'],
 					remoteSort: true,
 					baseParams:{par_filtro:'tuc.nombre#tuc.codigo#eq.nombre'}
 				}),
 				tpl:'<tpl for="."><div class="x-combo-list-item"><p>Nombre: {nombre}</p><p>Código: {codigo}</p><p>Tipo Equipo: {nombre_tipo_equipo}</p><p>Localización: {padres_loc}</p></div></tpl>',
 				valueField: 'id_uni_cons',
 				hiddenValue: 'id_uni_cons',
-				displayField: 'codigo',
+				displayField: 'desc_equipo',
 				gdisplayField:'equipo',
 				forceSelection:true,
 				typeAhead: false,
@@ -346,12 +357,12 @@ Phx.vista.OrdenTrabajo=Ext.extend(Phx.gridInterfaz,{
 			grid:true,
 			form:true
 		},
-		/*{			
+		{			
 			config:{
 				name: 'id_localizacion',
 				fieldLabel: 'Localización',
 				allowBlank: true,
-				emptyText:'Solicitante Sector...',
+				emptyText:'Localización...',
 				store:new Ext.data.JsonStore(
 				{
 					url: '../../sis_mantenimiento/control/Localizacion/listarLocalizacion',
@@ -391,7 +402,7 @@ Phx.vista.OrdenTrabajo=Ext.extend(Phx.gridInterfaz,{
 			id_grupo:0,
 			grid:true,
 			form:true
-		},*/
+		},
 		{
 			config:{
 				name: 'id_centro_costo',
@@ -413,7 +424,7 @@ Phx.vista.OrdenTrabajo=Ext.extend(Phx.gridInterfaz,{
 					remoteSort: true,
 					baseParams:{par_filtro:'codigo'}
 				}),
-				tpl:'<tpl for="."><div class="x-combo-list-item"><p>Cuenta: {codigo}</p><p>Desc.: {descripcion}</p></div></tpl>',
+				tpl:'<tpl for="."><div class="x-combo-list-item"><p>Centro de Costo: {codigo}</p><p>Desc.: {descripcion}</p></div></tpl>',
 				valueField: 'id_centro_costo',
 				displayField: 'codigo',
 				gdisplayField:'codigo_centro_costo',
@@ -482,7 +493,7 @@ Phx.vista.OrdenTrabajo=Ext.extend(Phx.gridInterfaz,{
 			config:{
 				name: 'descripcion',
 				fieldLabel: 'Descripción',
-				allowBlank: true,
+				allowBlank: false,
 				anchor: '100%',
 				gwidth: 300,
 				maxLength:5000
