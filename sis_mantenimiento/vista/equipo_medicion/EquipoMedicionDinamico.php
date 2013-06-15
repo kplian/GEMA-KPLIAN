@@ -399,7 +399,7 @@ Phx.vista.EquipoMedicionDinamico=Ext.extend(Phx.gridInterfaz,{
 	pdfOrientacion:'L',
 	desplegarMaestro:'si',
 	repFilaInicioEtiquetas:35,
-	repFilaInicioDatos:22 
+	repFilaInicioDatos:6.5 
 })
 </script>
 		

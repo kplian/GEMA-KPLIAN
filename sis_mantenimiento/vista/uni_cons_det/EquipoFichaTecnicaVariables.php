@@ -411,7 +411,7 @@ Phx.vista.EquipoFichaTecnicaVariables=Ext.extend(Phx.gridInterfaz,{
 		return obj;
 	},
 	repFilaInicioEtiquetas:35,
-	repFilaInicioDatos:18,
+	repFilaInicioDatos:6.5,
 	desplegarMaestro:'si'	
 })
 </script>
