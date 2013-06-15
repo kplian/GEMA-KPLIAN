@@ -18,6 +18,8 @@ class MODOrdenTrabajoSol extends MODbase{
 		$this->procedimiento='gem.ft_orden_trabajo_sol_sel';
 		$this->transaccion='GM_SOLORD_SEL';
 		$this->tipo_procedimiento='SEL';//tipo de transaccion
+		
+		$this->setParametro('estado','estado','varchar');
 				
 		//Definicion de la lista del resultado del query
 		$this->captura('id_orden_trabajo_sol','int4');
@@ -63,6 +65,7 @@ class MODOrdenTrabajoSol extends MODbase{
 		
 		//Ejecuta la instruccion
 		$this->armarConsulta();
+		//echo $this->consulta;exit;
 		$this->ejecutarConsulta();
 		
 		//Devuelve la respuesta
@@ -175,6 +178,7 @@ class MODOrdenTrabajoSol extends MODbase{
 				
 		//Define los parametros para la funcion
 		$this->setParametro('id_orden_trabajo_sol','id_orden_trabajo_sol','int4');
+		$this->setParametro('estado','estado','varchar');
 
 		//Ejecuta la instruccion
 		$this->armarConsulta();

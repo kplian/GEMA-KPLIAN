@@ -91,9 +91,9 @@ BEGIN
 						inner join orga.vfuncionario funsol on funsol.id_funcionario = solord.id_solicitante
 						inner join gem.tlocalizacion locali on locali.id_localizacion = solord.id_localizacion
 						inner join gem.tuni_cons unicon on unicon.id_uni_cons = solord.id_uni_cons
-						inner join orga.vfuncionario funres on funres.id_funcionario = solord.id_responsable
+						left join orga.vfuncionario funres on funres.id_funcionario = solord.id_responsable
 						left join param.tunidad_medida unimed on unimed.id_unidad_medida = solord.id_unidad_medida_req
-						inner join orga.tuo uniorg on uniorg.id_uo = solord.id_uo
+						left join orga.tuo uniorg on uniorg.id_uo = solord.id_uo
 				        where ';
 			
 			--Definicion de la respuesta
@@ -165,9 +165,9 @@ BEGIN
 						inner join orga.vfuncionario funsol on funsol.id_funcionario = solord.id_solicitante
 						inner join gem.tlocalizacion locali on locali.id_localizacion = solord.id_localizacion
 						inner join gem.tuni_cons unicon on unicon.id_uni_cons = solord.id_uni_cons
-						inner join orga.vfuncionario funres on funres.id_funcionario = solord.id_responsable
+						left join orga.vfuncionario funres on funres.id_funcionario = solord.id_responsable
 						left join param.tunidad_medida unimed on unimed.id_unidad_medida = solord.id_unidad_medida_req
-						inner join orga.tuo uniorg on uniorg.id_uo = solord.id_uo
+						left join orga.tuo uniorg on uniorg.id_uo = solord.id_uo
 				        where solord.id_orden_trabajo_sol='||v_parametros.id_orden_trabajo_sol||' and ';
 			
 			--Definicion de la respuesta
@@ -197,9 +197,9 @@ BEGIN
 						inner join orga.vfuncionario funsol on funsol.id_funcionario = solord.id_solicitante
 						inner join gem.tlocalizacion locali on locali.id_localizacion = solord.id_localizacion
 						inner join gem.tuni_cons unicon on unicon.id_uni_cons = solord.id_uni_cons
-						inner join orga.vfuncionario funres on funres.id_funcionario = solord.id_responsable
+						left join orga.vfuncionario funres on funres.id_funcionario = solord.id_responsable
 						left join param.tunidad_medida unimed on unimed.id_unidad_medida = solord.id_unidad_medida_req
-						inner join orga.tuo uniorg on uniorg.id_uo = solord.id_uo
+						left join orga.tuo uniorg on uniorg.id_uo = solord.id_uo
 					    where ';
 			
 			--Definicion de la respuesta		    

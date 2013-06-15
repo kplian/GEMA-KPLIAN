@@ -209,35 +209,54 @@ BEGIN
 	elsif(p_transaccion='GM_SOLFIN_MOD')then
 
 		begin
+		
 			if not exists(select 1 from gem.torden_trabajo_sol
 						where id_orden_trabajo_sol = v_parametros.id_orden_trabajo_sol) then
 				raise exception 'Solicitud no enviada: no existe el registro';
 			end if;
-			
-			if exists(select 1 from gem.torden_trabajo_sol
+		
+			if v_parametros.estado = 'pendiente' then
+				if exists(select 1 from gem.torden_trabajo_sol
 						where id_orden_trabajo_sol = v_parametros.id_orden_trabajo_sol
-						and estado = 'finalizado') then
-				raise exception 'Esta solicitud ya fue finalizada';
+						and estado != 'borrador') then
+					raise exception 'Esta solicitud debe estar en Borrador para ser Finalizada';
+				end if;
+				select id_uni_cons, fecha
+				into v_id_uni_cons, v_fecha
+				from gem.torden_trabajo_sol
+				where id_orden_trabajo_sol = v_parametros.id_orden_trabajo_sol; 
+				
+				--Obtención del correlativo
+				v_nro = gem.f_get_correlativo(v_id_uni_cons,'sol_oit',v_fecha);
+				
+				update gem.torden_trabajo_sol set
+				nro_sol = v_nro
+				where id_orden_trabajo_sol=v_parametros.id_orden_trabajo_sol;
+				
+			elsif v_parametros.estado = 'finalizado' then
+				if exists(select 1 from gem.torden_trabajo_sol
+						where id_orden_trabajo_sol = v_parametros.id_orden_trabajo_sol
+						and estado != 'pendiente') then
+					raise exception 'Esta solicitud debe estar Pendiente para ser Aprobada';
+				end if;
+			
+			elsif v_parametros.estado = 'no_aprobado' then
+				if exists(select 1 from gem.torden_trabajo_sol
+						where id_orden_trabajo_sol = v_parametros.id_orden_trabajo_sol
+						and estado != 'pendiente') then
+					raise exception 'Esta solicitud debe estar Pendiente para ser Rechazada';
+				end if;
 			end if;
-			
-			select id_uni_cons, fecha
-			into v_id_uni_cons, v_fecha
-			from gem.torden_trabajo_sol
-			where id_orden_trabajo_sol = v_parametros.id_orden_trabajo_sol; 
-			
-			--Obtención del correlativo
-			v_nro = gem.f_get_correlativo(v_id_uni_cons,'sol_oit',v_fecha);
-			
-			--Sentencia de la modificacion
+		
+			--Sentencia de la modificación
 			update gem.torden_trabajo_sol set
-			estado = 'finalizado',
+			estado = v_parametros.estado,
 			id_usuario_mod = p_id_usuario,
-			fecha_mod = now(),
-			nro_sol = v_nro
+			fecha_mod = now()
 			where id_orden_trabajo_sol=v_parametros.id_orden_trabajo_sol;
 
 			--Definicion de la respuesta
-            v_resp = pxp.f_agrega_clave(v_resp,'mensaje','Solicitud de Orden de Trabajo finalizada'); 
+            v_resp = pxp.f_agrega_clave(v_resp,'mensaje','Solicitud de Orden de Trabajo en estado '||v_parametros.estado); 
             v_resp = pxp.f_agrega_clave(v_resp,'id_orden_trabajo_sol',v_parametros.id_orden_trabajo_sol::varchar);
                
             --Devuelve la respuesta
