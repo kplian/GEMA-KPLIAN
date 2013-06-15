@@ -254,7 +254,8 @@ BEGIN
                                 cat_estado,
                                 id_localizacion,
                                 fecha_emision,
-                                id_tipo_mant
+                                id_tipo_mant,
+                                id_mant_predef
                               ) 
                               VALUES (
                                 p_id_usuario,
@@ -269,7 +270,8 @@ BEGIN
                                 'generado',
                                 v_id_localizacion,
                                 now()::date,
-                                v_id_tipo_mant
+                                v_id_tipo_mant,
+                                v_id_mant_predef
                                
                               )RETURNING id_orden_trabajo   into v_id_orden_trabajo;
                             

@@ -71,7 +71,7 @@ BEGIN
                         on tman.id_tipo_mant = ot.id_tipo_mant
                         inner join gem.tuni_cons ucons
                         on ucons.id_uni_cons = ot.id_uni_cons
-                        where ot.cat_estado = ''Revisado''
+                        where ot.cat_estado in (''Revisado'',''Cerrado'')
                         and ot.fecha_eje_ini between ''' || v_fecha_ini || ''' and ''' || v_fecha_fin || '''';
             v_consulta:=v_consulta || v_cond || '
                         group by tman.nombre';
@@ -96,32 +96,33 @@ BEGIN
             v_fecha_ini = pxp.f_get_fecha_ult_pri(v_parametros.mes_ini,v_parametros.gestion_ini,'primero');
             v_fecha_fin = pxp.f_get_fecha_ult_pri(v_parametros.mes_fin,v_parametros.gestion_fin,'ultimo');
 
-        --Sentencia de la consulta
-      v_consulta:='select
-                        ''Materiales'' as tipo, coalesce(sum(rec.costo),0) as total
+		--Sentencia de la consulta
+      	v_consulta:='select
+                        ''Materiales'' as tipo, coalesce(sum(coalesce(rec.costo,0)*coalesce(rec.cantidad,0)),0) as total
                         from gem.torden_trabajo ot
                         inner join gem.tuni_cons ucons
                         on ucons.id_uni_cons = ot.id_uni_cons
-                        inner join gem.tactividad act
-                        on act.id_orden_trabajo = ot.id_orden_trabajo
                         inner join gem.trecurso rec
-                        on rec.id_actividad = act.id_actividad
-                        where ot.cat_estado = ''Revisado''
+                        on rec.id_orden_trabajo = ot.id_orden_trabajo
+                        where ot.cat_estado in (''Revisado'',''Cerrado'')
                         and rec.id_item is not null
                         and ot.fecha_eje_fin between ''' || v_fecha_ini || ''' and ''' || v_fecha_fin || '''';
                         
             v_consulta:=v_consulta || v_cond || '
                         union
                         select
-                        ''Mano de Obra'' as tipo,coalesce(sum(coalesce(rec.hh_normal,0)+coalesce(rec.hh_extras,0)+coalesce(rec.hh_ext_mov,0)),0) as total
+                        ''Mano de Obra'' as tipo, 
+                        coalesce(sum(gem.f_get_funcionario_honorario(rec.id_funcionario,''HH Normal'')*coalesce(rec.hh_normal,0)+
+                        gem.f_get_funcionario_honorario(rec.id_funcionario,''HH Extra'')*coalesce(rec.hh_extras,0)+
+                        gem.f_get_funcionario_honorario(rec.id_funcionario,''HH Nocturno'')*coalesce(rec.hh_ext_mov,0)+
+                        gem.f_get_funcionario_honorario(rec.id_funcionario,''HH Fer.y Dom.'')*coalesce(rec.hh_fer_dom,0)
+                        ),0) as total
                         from gem.torden_trabajo ot
                         inner join gem.tuni_cons ucons
                         on ucons.id_uni_cons = ot.id_uni_cons
-                        inner join gem.tactividad act
-                        on act.id_orden_trabajo = ot.id_orden_trabajo
                         inner join gem.trecurso rec
-                        on rec.id_actividad = act.id_actividad
-                        where ot.cat_estado = ''Revisado''
+                        on rec.id_orden_trabajo = ot.id_orden_trabajo
+                        where ot.cat_estado in (''Revisado'',''Cerrado'')
                         and rec.id_funcionario is not null
                         and ot.fecha_eje_fin between ''' || v_fecha_ini || ''' and ''' || v_fecha_fin || '''';
                         
@@ -132,13 +133,11 @@ BEGIN
                         from gem.torden_trabajo ot
                         inner join gem.tuni_cons ucons
                         on ucons.id_uni_cons = ot.id_uni_cons
-                        inner join gem.tactividad act
-                        on act.id_orden_trabajo = ot.id_orden_trabajo
                         inner join gem.trecurso rec
-                        on rec.id_actividad = act.id_actividad
+                        on rec.id_orden_trabajo = ot.id_orden_trabajo
                         left join param.tservicio ser
                         on ser.id_servicio = rec.id_servicio
-                        where ot.cat_estado = ''Revisado''
+                        where ot.cat_estado in (''Revisado'',''Cerrado'')
                         and rec.concepto = ''servicios_ott''
                         and ot.fecha_eje_fin between ''' || v_fecha_ini || ''' and ''' || v_fecha_fin || '''';
             
@@ -149,13 +148,11 @@ BEGIN
                         from gem.torden_trabajo ot
                         inner join gem.tuni_cons ucons
                         on ucons.id_uni_cons = ot.id_uni_cons
-                        inner join gem.tactividad act
-                        on act.id_orden_trabajo = ot.id_orden_trabajo
                         inner join gem.trecurso rec
-                        on rec.id_actividad = act.id_actividad
+                        on rec.id_orden_trabajo = ot.id_orden_trabajo
                         left join param.tservicio ser
                         on ser.id_servicio = rec.id_servicio
-                        where ot.cat_estado = ''Revisado''
+                        where ot.cat_estado in (''Revisado'',''Cerrado'')
                         and (rec.id_servicio is not null or rec.concepto = ''hotel'' or rec.concepto = ''alimentacion'')
                         and ot.fecha_eje_fin between ''' || v_fecha_ini || ''' and ''' || v_fecha_fin || '''';
                         
@@ -212,7 +209,7 @@ BEGIN
                     on tman.id_tipo_mant = ot.id_tipo_mant
                     inner join gem.tuni_cons ucons
                     on ucons.id_uni_cons = ot.id_uni_cons
-                    where ot.cat_estado = ''Revisado''
+                    where ot.cat_estado in (''Revisado'',''Cerrado'')
                     and ot.fecha_emision between ''' || v_fecha_ini || ''' and ''' || v_fecha_fin || '''';
             v_consulta:=v_consulta || v_cond;
             
@@ -221,17 +218,18 @@ BEGIN
             v_consulta = 'select 
                 PLA.fecha, sum(PLA.total) as total_pla, sum(EJE.total) as total_eje
                 from (select
-                to_char(fecha,''mm/yyyy'') as fecha,count(id_orden_trabajo) as total
-                from tt_graf_indicadores
+                	to_char(fecha,''mm/yyyy'') as fecha,count(id_orden_trabajo) as total
+                	from tt_graf_indicadores
                     where estado = ''Planificado''
                     group by to_char(fecha,''mm/yyyy'')) PLA
-                    left join (select
-                to_char(fecha,''mm/yyyy'') as fecha,count(id_orden_trabajo) as total
-                from tt_graf_indicadores
+                left join (select
+                	to_char(fecha,''mm/yyyy'') as fecha,count(id_orden_trabajo) as total
+                	from tt_graf_indicadores
+                	where estado = ''Ejecutado''
                     group by to_char(fecha,''mm/yyyy'')) EJE
-                    on PLA.fecha = EJE.fecha
-                    group by PLA.fecha
-                    order by 1';
+                on PLA.fecha = EJE.fecha
+                group by PLA.fecha
+                order by 1';
 
       --Devuelve la respuesta
       return v_consulta;

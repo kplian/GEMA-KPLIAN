@@ -1197,7 +1197,7 @@ header("content-type: text/javascript; charset=UTF-8");
             
             this.ctxMenu.addMenuItem({
                 id: 'mni-grafInd-'+this.idContenedor,
-                text : 'Gráficos de Indicadores',
+                text : 'Gráficos de Indicadores (OITs)',
                 handler : this.onBtnGrafInd,
                 scope : this
             });

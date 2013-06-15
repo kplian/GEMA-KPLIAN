@@ -192,7 +192,7 @@ class RGraficoIndicadores extends Report {
 			$pdf->SetFont('', '');
 			$pdf->setTextColor(0,0,0);
 			foreach($dataSource->getParameter('detalle') as $datarow) {
-				$pdf->MultiCell($w = $wHHExtras, $h = $hMedium, $txt = $datarow['total'], $border = 1, $align = 'C', $fill = false, $ln = 0, $x = '',$y = '', $reseth = true, $stretch = 0, $ishtml = false, $autopadding = true, $maxh = $hMedium, $valign = 'T', $fitcell = false);
+				$pdf->MultiCell($w = $wHHExtras, $h = $hMedium, $txt = number_format($datarow['total'],2), $border = 1, $align = 'R', $fill = false, $ln = 0, $x = '',$y = '', $reseth = true, $stretch = 0, $ishtml = false, $autopadding = true, $maxh = $hMedium, $valign = 'T', $fitcell = false);
 			}
 		}
 
