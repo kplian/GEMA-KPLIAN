@@ -124,6 +124,7 @@ class ACTOrdenTrabajo extends ACTbase{
 		$dataSource->putParameter('ubicacion_tecnica', $datosOT[0]['ubicacion_tecnica']);
 		$dataSource->putParameter('nota_tecnico_loc', $datosOT[0]['nota_tecnico_loc']);
 		$dataSource->putParameter('desc_mant_predef', $datosOT[0]['desc_mant_predef']);
+		$dataSource->putParameter('cat_estado', $datosOT[0]['cat_estado']);
 		
 		
 		$this->objParam->addParametroConsulta('filtro', ' 0 = 0');
@@ -157,7 +158,16 @@ class ACTOrdenTrabajo extends ACTbase{
 		$mantPredefDataSource = new DataSource();
 		$mantPredefDataSource->setDataset($resultMantPredef->getDatos());
 		$dataSource->putParameter('mantPredefDataSource', $mantPredefDataSource);
-		//var_dump($resultMantPredef->getDatos());exit;
+		
+		//Costos
+		$this->objParam->addParametro('id_orden_trabajo', $this->objParam->getParametro('id_orden_trabajo'));
+		$this->objParam->addParametro('sw_oit', "'si'");
+		$modCosto = $this->create('MODOrdenTrabajo');
+		$resultCosto = $modCosto->listarCostoOIT();
+		$mantCostoDataSource = new DataSource();
+		$mantCostoDataSource->setDataset($resultCosto->getDatos());
+		$dataSource->putParameter('mantCostoDataSource', $mantCostoDataSource);
+		//var_dump($resultCosto->getDatos());exit;
 		
 		
 		$reporte = new ROrdenTrabajo();

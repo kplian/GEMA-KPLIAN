@@ -394,7 +394,7 @@ Phx.vista.recurso=Ext.extend(Phx.gridInterfaz,{
 		{
 			config: {
 				name: 'codigo',
-				fieldLabel: 'Codigo',
+				fieldLabel: 'Código/Pedido',
 				allowBlank: true,
 				width: '100%',
 				gwidth: 100,
@@ -681,8 +681,8 @@ Phx.vista.recurso=Ext.extend(Phx.gridInterfaz,{
      		this.getComponente('cantidad').setVisible(true);
      		this.getComponente('id_moneda').setVisible(true);
      		this.getComponente('costo').setVisible(true);
-     		//this.getComponente('codigo').setVisible(true);
-     		//this.getComponente('existencias').setVisible(true);
+     		this.getComponente('codigo').setVisible(true);
+     		this.getComponente('existencias').setVisible(true);
      		
      		this.getComponente('id_funcionario').setVisible(false);
      		this.getComponente('id_especialidad').setVisible(false);
@@ -714,8 +714,8 @@ Phx.vista.recurso=Ext.extend(Phx.gridInterfaz,{
      		this.getComponente('cantidad').setVisible(false);
      		this.getComponente('id_moneda').setVisible(false);
      		this.getComponente('costo').setVisible(false);
-     		//this.getComponente('codigo').setVisible(false);
-     		//this.getComponente('existencias').setVisible(false);
+     		this.getComponente('codigo').setVisible(false);
+     		this.getComponente('existencias').setVisible(false);
      		this.getComponente('id_item').reset();
      		this.getComponente('id_especialidad').reset();
      		this.getComponente('id_servicio').reset();
@@ -723,8 +723,8 @@ Phx.vista.recurso=Ext.extend(Phx.gridInterfaz,{
      		this.getComponente('cantidad').reset();
      		this.getComponente('id_moneda').reset();
      		this.getComponente('costo').reset();
-     		//this.getComponente('codigo').reset();
-     		//this.getComponente('existencias').reset();
+     		this.getComponente('codigo').reset();
+     		this.getComponente('existencias').reset();
      	}
      	else if(e.value == 'especialidad') {
      		this.getComponente('id_especialidad').setVisible(true);
@@ -740,8 +740,8 @@ Phx.vista.recurso=Ext.extend(Phx.gridInterfaz,{
      		this.getComponente('cantidad').setVisible(false);
      		this.getComponente('id_moneda').setVisible(false);
      		this.getComponente('costo').setVisible(false);
-     		//this.getComponente('codigo').setVisible(false);
-     		//this.getComponente('existencias').setVisible(false);
+     		this.getComponente('codigo').setVisible(false);
+     		this.getComponente('existencias').setVisible(false);
      		
      		this.getComponente('id_item').reset();
      		this.getComponente('id_funcionario').reset();
@@ -754,8 +754,8 @@ Phx.vista.recurso=Ext.extend(Phx.gridInterfaz,{
      		this.getComponente('cantidad').reset();
      		this.getComponente('id_moneda').reset();
      		this.getComponente('costo').reset();
-     		//this.getComponente('codigo').reset();
-     		//this.getComponente('existencias').reset();
+     		this.getComponente('codigo').reset();
+     		this.getComponente('existencias').reset();
      	}
      	else if(e.value == 'servicio') {
      		this.getComponente('id_servicio').setVisible(true);
@@ -771,8 +771,8 @@ Phx.vista.recurso=Ext.extend(Phx.gridInterfaz,{
      		this.getComponente('cantidad').setVisible(false);
      		this.getComponente('id_moneda').setVisible(true);
      		this.getComponente('costo').setVisible(true);
-     		//this.getComponente('codigo').setVisible(false);
-     		//this.getComponente('existencias').setVisible(false);
+     		this.getComponente('codigo').setVisible(false);
+     		this.getComponente('existencias').setVisible(false);
      		
      		this.getComponente('id_item').reset();
      		this.getComponente('id_funcionario').reset();
@@ -785,8 +785,8 @@ Phx.vista.recurso=Ext.extend(Phx.gridInterfaz,{
      		this.getComponente('cantidad').reset();
      		this.getComponente('id_moneda').reset();
      		this.getComponente('costo').reset();
-     		//this.getComponente('codigo').reset();
-     		//this.getComponente('existencias').reset();
+     		this.getComponente('codigo').reset();
+     		this.getComponente('existencias').reset();
      	} else if(e.value=='hotel'||e.value=='alimentacion'){
      		this.getComponente('id_item').setVisible(false);
      		this.getComponente('id_funcionario').setVisible(false);
@@ -800,8 +800,8 @@ Phx.vista.recurso=Ext.extend(Phx.gridInterfaz,{
      		this.getComponente('cantidad').setVisible(false);
      		this.getComponente('id_moneda').setVisible(true);
      		this.getComponente('costo').setVisible(true);
-     		//this.getComponente('codigo').setVisible(false);
-     		//this.getComponente('existencias').setVisible(false);
+     		this.getComponente('codigo').setVisible(false);
+     		this.getComponente('existencias').setVisible(false);
      		
      		this.getComponente('id_item').reset();
      		this.getComponente('id_funcionario').reset();
@@ -815,8 +815,8 @@ Phx.vista.recurso=Ext.extend(Phx.gridInterfaz,{
      		this.getComponente('cantidad').reset();
      		this.getComponente('id_moneda').reset();
      		this.getComponente('costo').reset();
-     		//this.getComponente('codigo').reset();
-     		//this.getComponente('existencias').reset();
+     		this.getComponente('codigo').reset();
+     		this.getComponente('existencias').reset();
      		
      	} else if(e.value=='servicios_ott'){
      		this.getComponente('id_item').setVisible(false);
@@ -831,8 +831,8 @@ Phx.vista.recurso=Ext.extend(Phx.gridInterfaz,{
      		this.getComponente('cantidad').setVisible(false);
      		this.getComponente('id_moneda').setVisible(true);
      		this.getComponente('costo').setVisible(true);
-     		//this.getComponente('codigo').setVisible(true);
-     		//this.getComponente('existencias').setVisible(false);
+     		this.getComponente('codigo').setVisible(true);
+     		this.getComponente('existencias').setVisible(false);
      		
      		this.getComponente('id_item').reset();
      		this.getComponente('id_funcionario').reset();
@@ -846,8 +846,8 @@ Phx.vista.recurso=Ext.extend(Phx.gridInterfaz,{
      		this.getComponente('cantidad').reset();
      		this.getComponente('id_moneda').reset();
      		this.getComponente('costo').reset();
-     		//this.getComponente('codigo').reset();
-     		//this.getComponente('existencias').reset();
+     		this.getComponente('codigo').reset();
+     		this.getComponente('existencias').reset();
      		
      	} else {
      		this.getComponente('id_item').setVisible(false);
@@ -862,8 +862,8 @@ Phx.vista.recurso=Ext.extend(Phx.gridInterfaz,{
      		this.getComponente('cantidad').setVisible(false);
      		this.getComponente('id_moneda').setVisible(false);
      		this.getComponente('costo').setVisible(false);
-     		//this.getComponente('codigo').setVisible(false);
-     		//this.getComponente('existencias').setVisible(false);
+     		this.getComponente('codigo').setVisible(false);
+     		this.getComponente('existencias').setVisible(false);
      	}
     },
     codReporte:'S/C',

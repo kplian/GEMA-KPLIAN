@@ -295,6 +295,7 @@ class MODOrdenTrabajo extends MODbase{
 		$this->setTipoRetorno('record');
 
 		$this->setParametro('id_orden_trabajo','id_orden_trabajo','int4');
+		$this->setParametro('sw_oit','sw_oit','varchar');
 		//Definicion de la lista del resultado del query
 		$this->captura('descripcion','varchar');
 		$this->captura('costo','numeric');

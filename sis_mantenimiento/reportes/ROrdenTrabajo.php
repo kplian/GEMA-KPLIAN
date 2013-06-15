@@ -378,7 +378,9 @@ Class ROrdenTrabajo extends Report {
 		
 		$pdf->setTextColor(0,0,0);
 		$totMateriales=0;
+		$swRep=0;
 		foreach($dataSource->getParameter('repuestosDataSource')->getDataset() as $datarow) {
+			$swRep=1;
 			$pdf->MultiCell($w = $wPedidoCodigo, $h = $hMedium, $txt = $datarow['codigo'], $border = 1, $align = 'C', $fill = false, $ln = 0, $x = '',$y = '', $reseth = true, $stretch = 0, $ishtml = false, $autopadding = true, $maxh = $hMedium, $valign = 'T', $fitcell = false);
 			$pdf->MultiCell($w = $wExistencias, $h = $hMedium, $txt = $datarow['existencias'], $border = 1, $align = 'C', $fill = false, $ln = 0, $x = '',$y = '', $reseth = true, $stretch = 0, $ishtml = false, $autopadding = true, $maxh = $hMedium, $valign = 'T', $fitcell = false);
 			$pdf->MultiCell($w = $wMateriales, $h = $hMedium, $txt = $datarow['nombre_item'], $border = 1, $align = 'L', $fill = false, $ln = 0, $x = '',$y = '', $reseth = true, $stretch = 0, $ishtml = false, $autopadding = true, $maxh = $hMedium, $valign = 'T', $fitcell = false);
@@ -389,8 +391,10 @@ Class ROrdenTrabajo extends Report {
 			$counter++;
 			$totMateriales+=$datarow['costo_total'];
 		}
-		$pdf->Cell($w = $wPedidoCodigo+$wExistencias+$wMateriales+$wUnidad+$wPrecio+$wCantUtiliz, $h = 5, $txt = 'TOTAL REPUESTOS Y/O MATERIALES:', $border = 0, $ln = 0, $align = 'R', $fill = false, $link = '', $stretch = 0, $ignore_min_height = false, $calign = 'T', $valign = 'M');
-		$pdf->Cell($w = $wObservaciones, $h = 5, $txt = number_format($totMateriales,2), $border = 0, $ln = 1, $align = 'R', $fill = false, $link = '', $stretch = 0, $ignore_min_height = false, $calign = 'T', $valign = 'M');
+		if($swRep){
+			$pdf->Cell($w = $wPedidoCodigo+$wExistencias+$wMateriales+$wUnidad+$wPrecio+$wCantUtiliz, $h = 5, $txt = 'TOTAL REPUESTOS Y/O MATERIALES:', $border = 0, $ln = 0, $align = 'R', $fill = false, $link = '', $stretch = 0, $ignore_min_height = false, $calign = 'T', $valign = 'M');
+			$pdf->Cell($w = $wObservaciones, $h = 5, $txt = number_format($totMateriales,2), $border = 0, $ln = 1, $align = 'R', $fill = false, $link = '', $stretch = 0, $ignore_min_height = false, $calign = 'T', $valign = 'M');
+		}
 	
 		$pdf->SetFillColor(51,51,153, true);
 		$pdf->setTextColor(255,255,255);
@@ -412,23 +416,27 @@ Class ROrdenTrabajo extends Report {
 		$pdf->MultiCell($w = $wExtMov, $h = $hMedium, $txt = 'HH. FER. Y DOM.', $border = 1, $align = 'C', $fill = true, $ln = 0, $x = '',$y = '', $reseth = true, $stretch = 0, $ishtml = false, $autopadding = true, $maxh = $hMedium, $valign = 'M', $fitcell = false);
 		$pdf->MultiCell($w = $wNombre, $h = $hMedium, $txt = 'NOMBRE', $border = 1, $align = 'C', $fill = true, $ln = 0, $x = '',$y = '', $reseth = true, $stretch = 0, $ishtml = false, $autopadding = true, $maxh = $hMedium, $valign = 'M', $fitcell = false);
 		$pdf->MultiCell($w = $wCargo, $h = $hMedium, $txt = 'CARGO', $border = 1, $align = 'C', $fill = true, $ln = 0, $x = '',$y = '', $reseth = true, $stretch = 0, $ishtml = false, $autopadding = true, $maxh = $hMedium, $valign = 'M', $fitcell = false);
-		$pdf->MultiCell($w = $wObservaciones, $h = $hMedium, $txt = 'COSTO TOTAL', $border = 1, $align = 'R', $fill = true, $ln = 1, $x = '',$y = '', $reseth = true, $stretch = 0, $ishtml = false, $autopadding = true, $maxh = $hMedium, $valign = 'M', $fitcell = false);
+		$pdf->MultiCell($w = $wObservaciones, $h = $hMedium, $txt = 'COSTO TOTAL', $border = 1, $align = 'C', $fill = true, $ln = 1, $x = '',$y = '', $reseth = true, $stretch = 0, $ishtml = false, $autopadding = true, $maxh = $hMedium, $valign = 'M', $fitcell = false);
 		
 		$pdf->setTextColor(0,0,0);
 		$totManoObra=0;
+		$swManoObra=0;
 		foreach($dataSource->getParameter('funcionariosDataSource')->getDataset() as $datarow) {
+			$swManoObra=1;
 			$pdf->MultiCell($w = $wHHNormal, $h = $hMedium, $txt = $datarow['hh_normal'], $border = 1, $align = 'C', $fill = false, $ln = 0, $x = '',$y = '', $reseth = true, $stretch = 0, $ishtml = false, $autopadding = true, $maxh = $hMedium, $valign = 'T', $fitcell = false);
 			$pdf->MultiCell($w = $wHHExtras, $h = $hMedium, $txt = $datarow['hh_extras'], $border = 1, $align = 'C', $fill = false, $ln = 0, $x = '',$y = '', $reseth = true, $stretch = 0, $ishtml = false, $autopadding = true, $maxh = $hMedium, $valign = 'T', $fitcell = false);
 			$pdf->MultiCell($w = $wExtMov, $h = $hMedium, $txt = $datarow['hh_ext_mov'], $border = 1, $align = 'C', $fill = false, $ln = 0, $x = '',$y = '', $reseth = true, $stretch = 0, $ishtml = false, $autopadding = true, $maxh = $hMedium, $valign = 'T', $fitcell = false);
 			$pdf->MultiCell($w = $wExtMov, $h = $hMedium, $txt = $datarow['hh_fer_dom'], $border = 1, $align = 'C', $fill = false, $ln = 0, $x = '',$y = '', $reseth = true, $stretch = 0, $ishtml = false, $autopadding = true, $maxh = $hMedium, $valign = 'T', $fitcell = false);
 			$pdf->MultiCell($w = $wNombre, $h = $hMedium, $txt = $datarow['nombre_funcionario'], $border = 1, $align = 'C', $fill = false, $ln = 0, $x = '',$y = '', $reseth = true, $stretch = 0, $ishtml = false, $autopadding = true, $maxh = $hMedium, $valign = 'T', $fitcell = false);
 			$pdf->MultiCell($w = $wCargo, $h = $hMedium, $txt = $datarow['cargo_funcionario'], $border = 1, $align = 'C', $fill = false, $ln = 0, $x = '',$y = '', $reseth = true, $stretch = 0, $ishtml = false, $autopadding = true, $maxh = $hMedium, $valign = 'T', $fitcell = false);
-			$pdf->MultiCell($w = $wObservaciones, $h = $hMedium, $txt = number_format($datarow['costo_total'],2), $border = 1, $align = 'C', $fill = false, $ln = 1, $x = '',$y = '', $reseth = true, $stretch = 0, $ishtml = false, $autopadding = true, $maxh = $hMedium, $valign = 'T', $fitcell = false);
+			$pdf->MultiCell($w = $wObservaciones, $h = $hMedium, $txt = number_format($datarow['costo_total'],2), $border = 1, $align = 'R', $fill = false, $ln = 1, $x = '',$y = '', $reseth = true, $stretch = 0, $ishtml = false, $autopadding = true, $maxh = $hMedium, $valign = 'T', $fitcell = false);
 			$i++;
 			$totManoObra+=$datarow['costo_total'];
 		}
-		$pdf->Cell($w = $wHHNormal+$wHHExtras+$wExtMov+$wExtMov+$wNombre+$wCargo, $h = 5, $txt = 'TOTAL MANO DE OBRA:', $border = 0, $ln = 0, $align = 'R', $fill = false, $link = '', $stretch = 0, $ignore_min_height = false, $calign = 'T', $valign = 'M');
-		$pdf->Cell($w = $wObservaciones, $h = 5, $txt = number_format($totManoObra,2), $border = 0, $ln = 1, $align = 'R', $fill = false, $link = '', $stretch = 0, $ignore_min_height = false, $calign = 'T', $valign = 'M');
+		if($swManoObra){
+			$pdf->Cell($w = $wHHNormal+$wHHExtras+$wExtMov+$wExtMov+$wNombre+$wCargo, $h = 5, $txt = 'TOTAL MANO DE OBRA:', $border = 0, $ln = 0, $align = 'R', $fill = false, $link = '', $stretch = 0, $ignore_min_height = false, $calign = 'T', $valign = 'M');
+			$pdf->Cell($w = $wObservaciones, $h = 5, $txt = number_format($totManoObra,2), $border = 0, $ln = 1, $align = 'R', $fill = false, $link = '', $stretch = 0, $ignore_min_height = false, $calign = 'T', $valign = 'M');
+		}
 
 		/*for($i = $counter; $i < 6; $i++) {
 			$pdf->MultiCell($w = $wHHNormal, $h = $hMedium, $txt = '', $border = 1, $align = 'C', $fill = false, $ln = 0, $x = '',$y = '', $reseth = true, $stretch = 0, $ishtml = false, $autopadding = true, $maxh = $hMedium, $valign = 'T', $fitcell = false);
@@ -439,13 +447,26 @@ Class ROrdenTrabajo extends Report {
 			$pdf->MultiCell($w = $wCargo, $h = $hMedium, $txt = '', $border = 1, $align = 'C', $fill = false, $ln = 0, $x = '',$y = '', $reseth = true, $stretch = 0, $ishtml = false, $autopadding = true, $maxh = $hMedium, $valign = 'T', $fitcell = false);
 			$pdf->MultiCell($w = $wObservaciones, $h = $hMedium, $txt = '', $border = 1, $align = 'C', $fill = false, $ln = 1, $x = '',$y = '', $reseth = true, $stretch = 0, $ishtml = false, $autopadding = true, $maxh = $hMedium, $valign = 'T', $fitcell = false);
 		}*/
+		
+		
+		//Costos
+		$pdf->setTextColor(255,255,255);
+		$pdf->Cell($w = 185, $h = $hGlobal, $txt = 'OTROS COSTOS', $border = 1, $ln = 1, $align = 'C', $fill = true, $link = '', $stretch = 0, $ignore_min_height = false, $calign = 'T', $valign = 'M');
+		$pdf->MultiCell($w = $wPedidoCodigo+$wExistencias+$wMateriales+$wUnidad+$wPrecio+$wCantUtiliz, $h = $hMedium, $txt = 'DESCRIPCIÓN COSTO', $border = 1, $align = 'C', $fill = true, $ln = 0, $x = '',$y = '', $reseth = true, $stretch = 0, $ishtml = false, $autopadding = true, $maxh = $hMedium, $valign = 'M', $fitcell = false);
+		$pdf->MultiCell($w = 35, $h = $hMedium, $txt = 'COSTO TOTAL', $border = 1, $align = 'C', $fill = true, $ln = 1, $x = '',$y = '', $reseth = true, $stretch = 0, $ishtml = false, $autopadding = true, $maxh = $hMedium, $valign = 'M', $fitcell = false);
+		$pdf->setTextColor(0,0,0);
+		foreach($dataSource->getParameter('mantCostoDataSource')->getDataset() as $datarow) {
+			$pdf->MultiCell($w = $wPedidoCodigo+$wExistencias+$wMateriales+$wUnidad+$wPrecio+$wCantUtiliz, $h = 4, $txt = $datarow['descripcion'], $border = 1, $align = 'R', $fill = false, $ln = 0, $x = '',$y = '', $reseth = true, $stretch = 0, $ishtml = false, $autopadding = true, $maxh = $hMedium, $valign = 'T', $fitcell = false);
+			$pdf->MultiCell($w = 35, $h = 4, $txt = number_format($datarow['costo'],2), $border = 1, $align = 'R', $fill = false, $ln = 1, $x = '',$y = '', $reseth = true, $stretch = 0, $ishtml = false, $autopadding = true, $maxh = $hMedium, $valign = 'T', $fitcell = false);
+		}
+		
+		
 
 		//Produjo paro
 		$pdf->setTextColor(255,255,255);
 		$pdf->Cell(140, $height+5, '¿EL EQUIPO PRODUJO PARO?      SI              NO', 1, 0, 'C', true, '', 0, false, 'T', 'C');
 		$checkBoxSi;
         $checkBoxNo;
-		
 		
         if($dataSource->getParameter('ubicacion_tecnica')=='Si'){
             $checkBoxSi='<input type="checkbox" name="boxLugarSi" value="1" checked="checked">';
@@ -619,6 +640,71 @@ Class ROrdenTrabajo extends Report {
 		//var_dump($dataSource->getParameter('mantPredefDataSource')->getDataset());exit;
 		$data=$dataSource->getParameter('mantPredefDataSource')->getDataset();
 		$pdf->MultiRow($dataSource->getParameter('mantPredefDataSource')->getDataset(),$anchos,$aligns);
+		
+		
+		$imprimirMaterialLista=0;
+		$imprimirManoObraLista=0;
+		//Verifica impresión de hoja adicional de repuestos
+		if($dataSource->getParameter('cat_estado')=='generado'||$dataSource->getParameter('cat_estado')=='Borrador'){
+			$imprimirMaterialLista=1;
+		} else if($dataSource->getParameter('cat_estado')=='Abierto'&&$swRep==0){
+			$imprimirMaterialLista=1;
+		}
+		
+		//Verifica impresión de hoja adicional de mano de obra
+		if($dataSource->getParameter('cat_estado')=='generado'||$dataSource->getParameter('cat_estado')=='Borrador'){
+			$imprimirManoObraLista=1;
+		} else if($dataSource->getParameter('cat_estado')=='Abierto'&&$swManoObra==0){
+			$imprimirManoObraLista=1;
+		}
+		
+		
+		if($imprimirMaterialLista){
+			$pdf->AddPage();
+			$pdf->setTextColor(255,255,255);
+			$pdf->Cell($w = 185, $h = $hGlobal, $txt = 'DETALLE DE REPUESTOS Y/O MATERIALES', $border = 1, $ln = 1, $align = 'C', $fill = true, $link = '', $stretch = 0, $ignore_min_height = false, $calign = 'T', $valign = 'M');
+			$pdf->MultiCell($w = $wPedidoCodigo, $h = $hMedium, $txt = 'PEDIDO O CÓDIGO', $border = 1, $align = 'C', $fill = true, $ln = 0, $x = '',$y = '', $reseth = true, $stretch = 0, $ishtml = false, $autopadding = true, $maxh = $hMedium, $valign = 'M', $fitcell = false);
+			$pdf->MultiCell($w = $wExistencias, $h = $hMedium, $txt = 'EXISTENCIAS', $border = 1, $align = 'C', $fill = true, $ln = 0, $x = '',$y = '', $reseth = true, $stretch = 0, $ishtml = false, $autopadding = true, $maxh = $hMedium, $valign = 'M', $fitcell = false);
+			$pdf->MultiCell($w = $wMateriales, $h = $hMedium, $txt = 'MATERIALES/ REPUESTOS', $border = 1, $align = 'C', $fill = true, $ln = 0, $x = '',$y = '', $reseth = true, $stretch = 0, $ishtml = false, $autopadding = true, $maxh = $hMedium, $valign = 'M', $fitcell = false);
+			$pdf->MultiCell($w = $wUnidad, $h = $hMedium, $txt = 'UNIDAD', $border = 1, $align = 'C', $fill = true, $ln = 0, $x = '',$y = '', $reseth = true, $stretch = 0, $ishtml = false, $autopadding = true, $maxh = $hMedium, $valign = 'M', $fitcell = false);
+			$pdf->MultiCell($w = $wPrecio, $h = $hMedium, $txt = 'PRECIO', $border = 1, $align = 'C', $fill = true, $ln = 0, $x = '',$y = '', $reseth = true, $stretch = 0, $ishtml = false, $autopadding = true, $maxh = $hMedium, $valign = 'M', $fitcell = false);
+			$pdf->MultiCell($w = $wCantUtiliz, $h = $hMedium, $txt = 'CANT. UTILIZ.', $border = 1, $align = 'C', $fill = true, $ln = 0, $x = '',$y = '', $reseth = true, $stretch = 0, $ishtml = false, $autopadding = true, $maxh = $hMedium, $valign = 'M', $fitcell = false);
+			$pdf->MultiCell($w = 35, $h = $hMedium, $txt = 'COSTO TOTAL', $border = 1, $align = 'C', $fill = true, $ln = 1, $x = '',$y = '', $reseth = true, $stretch = 0, $ishtml = false, $autopadding = true, $maxh = $hMedium, $valign = 'M', $fitcell = false);
+			$pdf->setTextColor(0,0,0);
+					
+			for($i = $counter; $i < 28; $i++) {
+				$pdf->MultiCell($w = $wPedidoCodigo, $h = $hMedium+3, $txt = '', $border = 1, $align = 'C', $fill = false, $ln = 0, $x = '',$y = '', $reseth = true, $stretch = 0, $ishtml = false, $autopadding = true, $maxh = $hMedium, $valign = 'T', $fitcell = false);
+				$pdf->MultiCell($w = $wExistencias, $h = $hMedium+3, $txt = '', $border = 1, $align = 'C', $fill = false, $ln = 0, $x = '',$y = '', $reseth = true, $stretch = 0, $ishtml = false, $autopadding = true, $maxh = $hMedium, $valign = 'T', $fitcell = false);
+				$pdf->MultiCell($w = $wMateriales, $h = $hMedium+3, $txt = '', $border = 1, $align = 'C', $fill = false, $ln = 0, $x = '',$y = '', $reseth = true, $stretch = 0, $ishtml = false, $autopadding = true, $maxh = $hMedium, $valign = 'T', $fitcell = false);
+				$pdf->MultiCell($w = $wUnidad, $h = $hMedium+3, $txt = '', $border = 1, $align = 'C', $fill = false, $ln = 0, $x = '',$y = '', $reseth = true, $stretch = 0, $ishtml = false, $autopadding = true, $maxh = $hMedium, $valign = 'T', $fitcell = false);
+				$pdf->MultiCell($w = $wPrecio, $h = $hMedium+3, $txt = '', $border = 1, $align = 'C', $fill = false, $ln = 0, $x = '',$y = '', $reseth = true, $stretch = 0, $ishtml = false, $autopadding = true, $maxh = $hMedium, $valign = 'T', $fitcell = false);
+				$pdf->MultiCell($w = $wCantUtiliz, $h = $hMedium+3, $txt = '', $border = 1, $align = 'C', $fill = false, $ln = 0, $x = '',$y = '', $reseth = true, $stretch = 0, $ishtml = false, $autopadding = true, $maxh = $hMedium, $valign = 'T', $fitcell = false);
+				$pdf->MultiCell($w = 35, $h = $hMedium+3, $txt = '', $border = 1, $align = 'C', $fill = false, $ln = 1, $x = '',$y = '', $reseth = true, $stretch = 0, $ishtml = false, $autopadding = true, $maxh = $hMedium, $valign = 'T', $fitcell = false);
+			}
+		}
+	if($imprimirManoObraLista){
+		$pdf->AddPage();
+		$pdf->setTextColor(255,255,255);
+		$pdf->Cell($w = 185, $h = $hGlobal, $txt = 'DETALLE DE MANO DE OBRA', $border = 1, $ln = 1, $align = 'C', $fill = true, $link = '', $stretch = 0, $ignore_min_height = false, $calign = 'T', $valign = 'M');
+		$pdf->MultiCell($w = $wHHNormal, $h = $hMedium, $txt = 'HH NORMAL', $border = 1, $align = 'C', $fill = true, $ln = 0, $x = '',$y = '', $reseth = true, $stretch = 0, $ishtml = false, $autopadding = true, $maxh = $hMedium, $valign = 'M', $fitcell = false);
+		$pdf->MultiCell($w = $wHHNormal, $h = $hMedium, $txt = 'HH EXTRA', $border = 1, $align = 'C', $fill = true, $ln = 0, $x = '',$y = '', $reseth = true, $stretch = 0, $ishtml = false, $autopadding = true, $maxh = $hMedium, $valign = 'M', $fitcell = false);
+		$pdf->MultiCell($w = $wHHExtras, $h = $hMedium, $txt = 'HH NOCTURNO', $border = 1, $align = 'C', $fill = true, $ln = 0, $x = '',$y = '', $reseth = true, $stretch = 0, $ishtml = false, $autopadding = true, $maxh = $hMedium, $valign = 'M', $fitcell = false);
+		$pdf->MultiCell($w = $wExtMov, $h = $hMedium, $txt = 'HH. FER. Y DOM.', $border = 1, $align = 'C', $fill = true, $ln = 0, $x = '',$y = '', $reseth = true, $stretch = 0, $ishtml = false, $autopadding = true, $maxh = $hMedium, $valign = 'M', $fitcell = false);
+		$pdf->MultiCell($w = $wNombre, $h = $hMedium, $txt = 'NOMBRE', $border = 1, $align = 'C', $fill = true, $ln = 0, $x = '',$y = '', $reseth = true, $stretch = 0, $ishtml = false, $autopadding = true, $maxh = $hMedium, $valign = 'M', $fitcell = false);
+		$pdf->MultiCell($w = $wCargo, $h = $hMedium, $txt = 'CARGO', $border = 1, $align = 'C', $fill = true, $ln = 0, $x = '',$y = '', $reseth = true, $stretch = 0, $ishtml = false, $autopadding = true, $maxh = $hMedium, $valign = 'M', $fitcell = false);
+		$pdf->MultiCell($w = $wObservaciones, $h = $hMedium, $txt = 'COSTO TOTAL', $border = 1, $align = 'C', $fill = true, $ln = 1, $x = '',$y = '', $reseth = true, $stretch = 0, $ishtml = false, $autopadding = true, $maxh = $hMedium, $valign = 'M', $fitcell = false);
+		$pdf->setTextColor(0,0,0);
+				
+		for($i = $counter; $i < 28; $i++) {
+			$pdf->MultiCell($w = $wHHNormal, $h = $hMedium+3, $txt = '', $border = 1, $align = 'C', $fill = false, $ln = 0, $x = '',$y = '', $reseth = true, $stretch = 0, $ishtml = false, $autopadding = true, $maxh = $hMedium, $valign = 'T', $fitcell = false);
+			$pdf->MultiCell($w = $wHHExtras, $h = $hMedium+3, $txt = '', $border = 1, $align = 'C', $fill = false, $ln = 0, $x = '',$y = '', $reseth = true, $stretch = 0, $ishtml = false, $autopadding = true, $maxh = $hMedium, $valign = 'T', $fitcell = false);
+			$pdf->MultiCell($w = $wExtMov, $h = $hMedium+3, $txt = '', $border = 1, $align = 'C', $fill = false, $ln = 0, $x = '',$y = '', $reseth = true, $stretch = 0, $ishtml = false, $autopadding = true, $maxh = $hMedium, $valign = 'T', $fitcell = false);
+			$pdf->MultiCell($w = $wExtMov, $h = $hMedium+3, $txt = '', $border = 1, $align = 'C', $fill = false, $ln = 0, $x = '',$y = '', $reseth = true, $stretch = 0, $ishtml = false, $autopadding = true, $maxh = $hMedium, $valign = 'T', $fitcell = false);
+			$pdf->MultiCell($w = $wNombre, $h = $hMedium+3, $txt = '', $border = 1, $align = 'C', $fill = false, $ln = 0, $x = '',$y = '', $reseth = true, $stretch = 0, $ishtml = false, $autopadding = true, $maxh = $hMedium, $valign = 'T', $fitcell = false);
+			$pdf->MultiCell($w = $wCargo, $h = $hMedium+3, $txt = '', $border = 1, $align = 'C', $fill = false, $ln = 0, $x = '',$y = '', $reseth = true, $stretch = 0, $ishtml = false, $autopadding = true, $maxh = $hMedium, $valign = 'T', $fitcell = false);
+			$pdf->MultiCell($w = $wObservaciones, $h = $hMedium+3, $txt = '', $border = 1, $align = 'R', $fill = false, $ln = 1, $x = '',$y = '', $reseth = true, $stretch = 0, $ishtml = false, $autopadding = true, $maxh = $hMedium, $valign = 'T', $fitcell = false);
+		}
+	}
 
 		$pdf->Output($fileName, 'F');
 	}

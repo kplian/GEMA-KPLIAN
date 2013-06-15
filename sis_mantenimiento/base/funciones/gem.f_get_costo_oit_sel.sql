@@ -68,6 +68,7 @@ DECLARE
     v_alimentacion_rec numeric;
     v_servicio_ott numeric;
     v_servicio_ott_rec numeric;
+    v_sw_oit varchar;
 
 BEGIN
 
@@ -94,6 +95,12 @@ BEGIN
             v_aux=0;
             v_tot_func=0;
             v_alimentacion = 0;
+            
+            --Verifica el parametro de OIT
+            v_sw_oit='no';
+            if pxp.f_existe_parametro(p_tabla,'sw_oit') then
+            	v_sw_oit = v_parametros.sw_oit;
+            end if;
             
             select 
             coalesce(sum(rec.cantidad*rec.costo),0)
@@ -299,13 +306,15 @@ BEGIN
       ) on commit drop;
             
             --Inserción de los datos
-            insert into tt_costo_oit(descripcion, costo) values('Repuestos',v_repuestos);
-            insert into tt_costo_oit(descripcion, costo) values('Mano de Obra',v_tot_func);
+            if v_sw_oit = 'no' then
+	            insert into tt_costo_oit(descripcion, costo) values('Repuestos',v_repuestos);
+	            insert into tt_costo_oit(descripcion, costo) values('Mano de Obra',v_tot_func);
+            end if;
             insert into tt_costo_oit(descripcion, costo) values('Servicios OTT',v_servicio_ott);
             insert into tt_costo_oit(descripcion, costo) values('Otros servicios',v_servicio);
             insert into tt_costo_oit(descripcion, costo) values('Hotel',v_hotel);
             insert into tt_costo_oit(descripcion, costo) values('Alimentación',v_alimentacion);
-            insert into tt_costo_oit(descripcion, costo) values('TOTAL',v_total);
+            insert into tt_costo_oit(descripcion, costo) values('TOTAL COSTO OIT',v_total);
             
             raise notice '%',v_parametros.id_orden_trabajo;
             
