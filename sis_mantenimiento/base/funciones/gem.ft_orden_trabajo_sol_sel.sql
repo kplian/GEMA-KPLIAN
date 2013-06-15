@@ -156,7 +156,9 @@ BEGIN
 						uniorg.codigo as codigo_uo,
                         uniorg.nombre_unidad as nombre_uo,
                         uniorg.nombre_cargo as nombre_cargo,
-                        solord.nro_sol
+                        solord.nro_sol,
+                        (select nombre_cargo from orga.tuo where id_uo = orga.f_obtener_uo_x_funcionario(solord.id_solicitante,''funcionario'',now()::date)) as cargo_solicitante,
+                        (select nombre_cargo from orga.tuo where id_uo = orga.f_obtener_uo_x_funcionario(solord.id_responsable,''funcionario'',now()::date)) as cargo_responsable
 						from gem.torden_trabajo_sol solord
 						inner join segu.tusuario usu1 on usu1.id_usuario = solord.id_usuario_reg
 						left join segu.tusuario usu2 on usu2.id_usuario = solord.id_usuario_mod

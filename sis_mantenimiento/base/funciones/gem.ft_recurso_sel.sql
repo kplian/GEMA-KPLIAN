@@ -161,7 +161,7 @@ BEGIN
             hh_fer_dom numeric
             ) on commit drop;
             
-            --inserta los recursos por actividad
+            --inserta los recursos directos de las OTS
             insert into trecurso_oit
             select
             rec.id_recurso,
@@ -190,8 +190,8 @@ BEGIN
             from gem.trecurso rec
             where rec.id_orden_trabajo = v_parametros.id_orden_trabajo::integer;
             
-            --inserta los recursos directos de las OTS
-          insert into trecurso_oit
+            --inserta los recursos por actividad
+          	insert into trecurso_oit
             select
             rec.id_recurso,rec.id_usuario_reg,rec.id_usuario_mod,rec.fecha_reg,
             rec.fecha_mod,rec.estado_reg,rec.id_actividad,rec.id_item,
@@ -217,8 +217,8 @@ BEGIN
                 rec.id_item,
                 itm.nombre as nombre_item,
                 rec.id_funcionario,
-                (pers.nombre || '' '' || pers.apellido_paterno)::varchar as nombre_funcionario,
-                uo.nombre_cargo as cargo_funcionario,
+                (pers.nombre || '' '' || pers.apellido_paterno || '' '' || pers.apellido_materno)::varchar as nombre_funcionario,
+                (select nombre_cargo from orga.tuo where id_uo = orga.f_obtener_uo_x_funcionario(rec.id_funcionario,''funcionario'',now()::date)) as cargo_funcionario,
                 rec.id_especialidad,
                 esp.nombre as nombre_especialidad,
                 rec.id_servicio,
@@ -236,7 +236,17 @@ BEGIN
                 rec.codigo,
                 rec.existencias,
                 rec.id_orden_trabajo,
-                rec.hh_fer_dom
+                rec.hh_fer_dom,
+                case 
+                	when rec.id_item is not null then
+                		rec.costo * rec.cantidad
+                	when rec.id_funcionario is not null then
+                		(select gem.f_get_funcionario_honorario(rec.id_funcionario,''HH Normal'') * coalesce(rec.hh_normal,0))+
+                		(select gem.f_get_funcionario_honorario(rec.id_funcionario,''HH Extra'') * coalesce(rec.hh_extras,0))+
+                		(select gem.f_get_funcionario_honorario(rec.id_funcionario,''HH Nocturno'') * coalesce(rec.hh_ext_mov,0))+
+                		(select gem.f_get_funcionario_honorario(rec.id_funcionario,''HH Fer.y Dom.'') * coalesce(rec.hh_fer_dom,0))
+                	else rec.costo
+                end as costo_total
                 from trecurso_oit rec
                 left join segu.tusuario usu1 on usu1.id_usuario = rec.id_usuario_reg
                 left join segu.tusuario usu2 on usu2.id_usuario = rec.id_usuario_mod
@@ -244,8 +254,8 @@ BEGIN
                 left join orga.tespecialidad esp on rec.id_especialidad = esp.id_especialidad
                 left join param.tservicio serv on rec.id_servicio = serv.id_servicio
                 left join orga.tfuncionario func on rec.id_funcionario = func.id_funcionario
-                left join orga.tuo_funcionario uofun on rec.id_funcionario = uofun.id_funcionario
-                left join orga.tuo uo on uofun.id_uo = uo.id_uo
+                /*left join orga.tuo_funcionario uofun on rec.id_funcionario = uofun.id_funcionario
+                left join orga.tuo uo on uofun.id_uo = uo.id_uo*/
                 left join segu.tpersona pers on func.id_persona = pers.id_persona
                 left join param.tmoneda mon on rec.id_moneda = mon.id_moneda
                 left join param.tunidad_medida unimed on rec.id_unidad_medida = unimed.id_unidad_medida

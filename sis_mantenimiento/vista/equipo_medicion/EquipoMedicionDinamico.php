@@ -396,10 +396,10 @@ Phx.vista.EquipoMedicionDinamico=Ext.extend(Phx.gridInterfaz,{
 	},
     codReporte:'S/C',
 	codSistema:'GEM',
-	pdfOrientacion:'L' 
-	    
-	
-		
+	pdfOrientacion:'L',
+	desplegarMaestro:'si',
+	repFilaInicioEtiquetas:35,
+	repFilaInicioDatos:22 
 })
 </script>
 		

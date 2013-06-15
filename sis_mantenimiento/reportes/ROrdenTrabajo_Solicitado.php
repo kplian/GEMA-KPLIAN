@@ -140,11 +140,15 @@ Class ROrdenTrabajoSolicitado extends Report {
 		$pdf->SetFillColor(51,51,153, true);
 		$pdf->Cell($width2-10, $height, 'Solicitado por:', 1, 0, 'L', true, '', 0, true, 'T', 'C');
 		$pdf->setTextColor(0,0,0);
-		$pdf->Cell($width2+50, $height, $dataset[0]['desc_solicitante'], 1, 0, 'L', false, '', 0, false, 'T', 'C');
+		$pdf->Cell($width2+27, $height, $dataset[0]['desc_solicitante'], 1, 0, 'L', false, '', 0, false, 'T', 'C');
 		$pdf->setTextColor(255,255,255);
 		$pdf->Cell($width1, $height, 'Cargo:', 1, 0, 'L', true, '', 0, true, 'T', 'C');
 		$pdf->setTextColor(0,0,0);
-		$pdf->Cell($width1+50, $height, $dataset[0]['nombre_cargo'], 1, 0, 'L', false, 'L', 0, false, 'T', 'C');
+		$pdf->Cell($width1+36, $height, $dataset[0]['cargo_solicitante'], 1, 0, 'L', false, 'L', 0, false, 'T', 'C');
+		$pdf->setTextColor(255,255,255);
+		$pdf->Cell($width1-9, $height, 'Nro.:', 1, 0, 'L', true, '', 0, true, 'T', 'C');
+		$pdf->setTextColor(0,0,0);
+		$pdf->Cell($width1+11, $height, $dataset[0]['nro_sol'], 1, 0, 'L', false, 'L', 0, false, 'T', 'C');
 		$pdf->Ln();
 
 		$pdf->setTextColor(255,255,255);
@@ -502,7 +506,7 @@ Class ROrdenTrabajoSolicitado extends Report {
         $pdf->MultiCell($width2*2+$width1,$height*2,$dataset[0]['nota'],0,'L',false,0);
         $pdf->Ln($height*3);
 		$pdf->setTextColor(0,0,0);
-        $pdf->MultiCell($width2*4,$height,'SEÑOR '. strtoupper($dataset[0]['desc_solicitante']).", FAVOR IMPRIMIR, HACER FIRMAR CON EL JEFE DE MANTENIMIENTO Y ARCHIVAR JUNTO A OIT/OTT GENERADA",0,'C',false,0);
+        $pdf->MultiCell($width2*4,$height,'SEÑOR '. strtoupper($dataset[0]['desc_responsable']).", FAVOR IMPRIMIR, HACER FIRMAR CON EL JEFE DE MANTENIMIENTO Y ARCHIVAR JUNTO A OIT/OTT GENERADA",0,'C',false,0);
         $pdf->Cell($width1, $height, '', 0, 0, 'R',false, '', 1, false, 'T', 'C');
         $pdf->setXY($pdf->getX(),$pdf->getY()+$height);
 		$pdf->setTextColor(0,0,0);

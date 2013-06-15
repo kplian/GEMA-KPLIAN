@@ -1,4 +1,4 @@
-<?php
+x<?php
 /**
 *@package pXP
 *@file gen-OrdenTrabajoSol.php
@@ -24,7 +24,6 @@ Phx.vista.OrdenTrabajoSol=Ext.extend(Phx.gridInterfaz,{
 		
 		//Evento para cargar la localizacion a partir del equipo
 		this.getComponente('id_localizacion_buscar').on('select', function(e, data, index) {
-   	       		//console.log(this.getComponente('id_localizacion').getRawValue());
 	        	this.getComponente('id_uni_cons').setValue('');
 	        	this.getComponente('id_uni_cons').store.baseParams.id_localizacion=this.getComponente('id_localizacion_buscar').value;
 	        	this.getComponente('id_uni_cons').modificado=true;
@@ -313,8 +312,23 @@ Phx.vista.OrdenTrabajoSol=Ext.extend(Phx.gridInterfaz,{
 		},
 		{
 			config:{
+				name: 'observacion',
+				fieldLabel: 'Observación/Falla',
+				allowBlank: false,
+				anchor: '100%',
+				gwidth: 100,
+				maxLength:1000
+			},
+			type:'TextArea',
+			filters:{pfiltro:'solord.observacion',type:'string'},
+			id_grupo:0,
+			grid:true,
+			form:true
+		},
+		{
+			config:{
 				name: 'descripcion',
-				fieldLabel: 'Descripción',
+				fieldLabel: 'Descripción Puntual',
 				allowBlank: false,
 				anchor: '100%',
 				gwidth: 100,
@@ -326,21 +340,6 @@ Phx.vista.OrdenTrabajoSol=Ext.extend(Phx.gridInterfaz,{
 			grid:true,
 			form:true
 		},
-		{
-			config:{
-				name: 'observacion',
-				fieldLabel: 'Observación',
-				allowBlank: true,
-				anchor: '100%',
-				gwidth: 100,
-				maxLength:1000
-			},
-			type:'TextArea',
-			filters:{pfiltro:'solord.observacion',type:'string'},
-			id_grupo:0,
-			grid:true,
-			form:true
-		},	
 		{
 			config: {
 				name: 'id_responsable',

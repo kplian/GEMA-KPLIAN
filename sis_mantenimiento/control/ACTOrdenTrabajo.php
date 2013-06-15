@@ -139,6 +139,7 @@ class ACTOrdenTrabajo extends ACTbase{
 		$resultRepuestos = $modRepuestos->listarRecursoOT();
 		$repuestosDataSource = new DataSource();
 		$repuestosDataSource->setDataset($resultRepuestos->getDatos());
+		//var_dump($resultRepuestos->getDatos());exit;
 		$dataSource->putParameter('repuestosDataSource', $repuestosDataSource);
 		
 		$this->objParam->addParametroConsulta('filtro', ' rec.id_funcionario is not null ');

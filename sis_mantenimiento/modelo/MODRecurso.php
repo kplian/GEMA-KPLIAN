@@ -95,6 +95,7 @@ class MODRecurso extends MODbase {
 		$this->captura('existencias','varchar');
 		$this->captura('id_orden_trabajo','int4');
 		$this->captura('hh_fer_dom','numeric');
+		$this->captura('costo_total','numeric');
 		
 		$this->armarConsulta();
 		//echo $this->consulta;exit;

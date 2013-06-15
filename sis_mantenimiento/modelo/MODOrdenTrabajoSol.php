@@ -233,6 +233,8 @@ class MODOrdenTrabajoSol extends MODbase{
         $this->captura('nombre_uo','varchar');
         $this->captura('nombre_cargo','varchar');
 		$this->captura('nro_sol','varchar');
+		$this->captura('cargo_solicitante','varchar');
+		$this->captura('cargo_responsable','varchar');
         //Ejecuta la instruccion
         $this->armarConsulta();
 		//echo $this->consulta;exit;
