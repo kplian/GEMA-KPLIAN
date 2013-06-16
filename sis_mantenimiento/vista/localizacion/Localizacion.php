@@ -1079,6 +1079,7 @@ header("content-type: text/javascript; charset=UTF-8");
 		},
 
 		EnableSelect: function(n) {
+			//alert('hola')
 			var tiponodo = n.attributes.tipo_nodo;
 			if (tiponodo != 'uni_cons_f' && tiponodo != 'uni_cons' && tiponodo != 'rama') {
 				var nivel = n.getDepth();

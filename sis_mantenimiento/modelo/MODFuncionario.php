@@ -15,7 +15,7 @@ class MODFuncionario extends MODbase{
 	function listarFuncionario(){
 		//Definicion de variables para ejecucion del procedimiento
 		$this->procedimiento='gem.ft_funcionario_sel';// nombre procedimiento almacenado
-		$this->transaccion='RH_FUNCIO_SEL';//nombre de la transaccion
+		$this->transaccion='GE_FUNCIO_SEL';//nombre de la transaccion
 		$this->tipo_procedimiento='SEL';//tipo de transaccion
 		
 		//Definicion de la lista del resultado del query
@@ -140,7 +140,7 @@ class MODFuncionario extends MODbase{
 	
 	function listarFuncionarioUo(){
 		$this->procedimiento='gem.ft_estructura_uo_sel';
-		$this->transaccion='GEM_FUNUO_SEL';
+		$this->transaccion='GE_FUNUO_SEL';
 		$this->tipo_procedimiento='SEL';
 		
 		$this->setParametro('id_uo','id_uo','integer');

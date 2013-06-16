@@ -305,8 +305,6 @@ class ACTLocalizacionMed extends ACTbase{
 			$rutaComp.=$graphName;
 			$rutaCorta.=$graphName;
 			
-			
-			
 			//Generación del gráfico
 			$data=array();
 			$legend=array();

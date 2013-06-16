@@ -133,7 +133,7 @@ class MODDocumento extends MODbase{
         //Define los parametros para la funcion 
         $this->setParametro('id_documento','id_documento','integer');   
         $this->setParametro('extension','extension','varchar');
-        $this->setParametro('archivo','archivo','bytea',false,'',false,array('doc','pdf','docx','jpeg','jpg','bmp','gif','avi','mp3','xls','xlsx','dwg'));
+        $this->setParametro('archivo','archivo','bytea',false,'',false,array('doc','pdf','docx','jpeg','jpg','bmp','gif','avi','mp3','xls','xlsx','dwg','txt'));
                 
         //Ejecuta la instruccion
         $this->armarConsulta();
@@ -153,7 +153,7 @@ class MODDocumento extends MODbase{
         //Define los parametros para la funcion 
         $this->setParametro('id_documento','id_documento','integer');   
         $this->setParametro('extension','extension','varchar');
-        $this->setParametro('archivo','archivo','bytea',false,'',false,array('doc','pdf','docx','jpeg','jpg','bmp','gif','avi','mp3','xls','xlsx','dwg'));
+        $this->setParametro('archivo','archivo','bytea',false,'',false,array('doc','pdf','docx','jpeg','jpg','bmp','gif','avi','mp3','xls','xlsx','dwg','txt'));
                         
         //Ejecuta la instruccion
         $this->armarConsulta();
