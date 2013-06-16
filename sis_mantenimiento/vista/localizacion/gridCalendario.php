@@ -76,30 +76,13 @@ Phx.vista.gridCalendario=Ext.extend(Phx.gridInterfaz,{
 		    
 		  
 		     this.wCP2 = new Ext.Window({
-		     	
-                    //id: this.idContenedor + '_WCP2',
-                   
-                    //autoEl:this.idContenedor,
-                    //autoLoad:false,
-                   //border: false,
-                    // title: 'Checkbox Groups',
-                    //autowidth: true,
-                    layout: 'fit',
-		     	
-		     	
-		     
-		        collapsible: true,
+		     	layout: 'fit',
+		     	collapsible: true,
 		        maximizable: true,
-		         autoDestroy: true,
+		        autoDestroy: true,
 		        width: 400,
 		        height: 350,
-		       //layout: 'form',
-		        //plain: true,
-		        
-		        //buttonAlign: 'center',
 		        items: this.formCP2,
-		        //modal:false,
-		        //autoShow:true,
 		        closeAction: 'hide',
 		        buttons: [{
 		            text: 'Guardar',
@@ -108,7 +91,7 @@ Phx.vista.gridCalendario=Ext.extend(Phx.gridInterfaz,{
 		            
 		        },{
 		            text: 'Cancelar',
-		            handler:function(){this.wCP2.hide()},
+		             handler:function(){this.wCP2.hide()},
 		            scope:this
 		        }]
 		    });
@@ -117,23 +100,14 @@ Phx.vista.gridCalendario=Ext.extend(Phx.gridInterfaz,{
 	        //crea una ventana de parametrizacion de fechas
 	        
 		    this.formUCCL = new Ext.form.FormPanel({
-		        //baseCls: 'x-plain',
 		        bodyStyle: 'padding:10 20px 10;',
 		        autoDestroy: true,
-		         border: false,
-                    // title: 'Checkbox Groups',
-                    //autowidth: true,
-                 layout: 'form',
-		      
+		        border: false,
+                layout: 'form',
 		        autoScroll: true,
-		        /*layout: {
-		            type: 'vbox',
-		            align: 'stretch'  // Child items are stretched to full width
-		        },*/
 		        defaults: {
 		            xtype: 'textfield'
 		        },
-		
 		        items: [{
 						xtype: 'datefield',
 						
@@ -154,81 +128,70 @@ Phx.vista.gridCalendario=Ext.extend(Phx.gridInterfaz,{
 		    
 		  
 		     this.wUCCL = new Ext.Window({
-		     	
-                 
-                    border: false,
-                    // title: 'Checkbox Groups',
-                    //autowidth: true,
-                    layout: 'fit',
-		     	
-		     	
-		     
-		        collapsible: true,
+		     	border: false,
+                layout: 'fit',
+		     	collapsible: true,
 		        maximizable: true,
-		         autoDestroy: true,
+		        autoDestroy: true,
 		        width: 400,
 		        height: 350,
-		       //layout: 'form',
 		        plain: true,
-		        
 		        buttonAlign: 'center',
 		        items: this.formUCCL,
 		        modal:true,
 		        closeAction: 'hide',
 		        buttons: [{
-		            text: 'Guardar',
-		             handler:this.onCalGen,
+		            text: 'Generar Calendario',
+		            handler:this.onCalGen,
 		            scope:this
 		            
-		        },{
+		        },
+                {
+                    text: 'Genrar OT',
+                    hidden:true,
+                    argument:{todo:false},
+                    handler:this.submitGenOT,
+                    scope:this
+                    
+                },{
 		            text: 'Cancelar',
-		            handler:function(){
-		            	this.wUCCL.hide();
-		            	
-		            	 this.panel.close();
-		            	
-		            	},
+		            argument:{cerrartodo:true},
+                    handler:function(res){
+		                 this.wUCCL.hide();
+		                 if(res.argument.cerrartodo){
+		            	   this.panel.close();
+		            	 }
+		            },
 		            scope:this
 		        }]
 		    });
-	      this.wUCCL.show(); 
-	      
-	      
 	    
-	     	
-	
-	
+	      this.wUCCL.show(); 
+	  
 	},
 	
 	CellSelectionModel:true,		
-	onCalGen:function(){
+	onCalGen:function(resp){
 		
 		if (this.formUCCL.getForm().isValid()) {
-		
-		Phx.CP.loadingShow(this.idContenedor);
-		
-		 var dateFechaIni =this.formUCCL.getForm().findField('fecha_ini');
-		 var dateFechaFin =this.formUCCL.getForm().findField('fecha_fin');
-		
-		//suponemos que no hay mas de 50 meses
-		this.storeAtributos.load({
-			 params:{
-		     fecha_ini:dateFechaIni.getValue().dateFormat('d-m-Y'),
-		     fecha_fin:dateFechaFin.getValue().dateFormat('d-m-Y'),
-             start:0, 
-             limit:450},
-             callback:this.successConstructor,
-             scope:this})			
- 
-          }     
-               
-	},
+		        Phx.CP.loadingShow(this.idContenedor);
+        		 var dateFechaIni =this.formUCCL.getForm().findField('fecha_ini');
+        		 var dateFechaFin =this.formUCCL.getForm().findField('fecha_fin');
+        		
+        		//suponemos que no hay mas de 50 meses
+        		this.storeAtributos.load({
+        			 params:{
+        		     fecha_ini:dateFechaIni.getValue().dateFormat('d-m-Y'),
+        		     fecha_fin:dateFechaFin.getValue().dateFormat('d-m-Y'),
+                     start:0, 
+                     limit:450},
+                     callback:this.successConstructor,
+                     scope:this})			
+         
+                  }     
+   },
 	
 	successConstructor:function(rec,con,res){
-		
-		
-		
-		
 		this.Atributos=[];
 		this.fields=[];
 		this.id_store='id_sem_mes'
@@ -450,14 +413,6 @@ Phx.vista.gridCalendario=Ext.extend(Phx.gridInterfaz,{
 		}
 		
 	},
-	
-	
-	
-	
-	
-		
-	
-	
 	title:'Calendario de Planificacion',
 	ActSave:'../../sis_hidrologia/control/TipoSensorCodigo/insertarTipoSensorCodigo',
 	ActDel:'../../sis_hidrologia/control/TipoSensorCodigo/eliminarTipoSensorCodigo',
@@ -479,8 +434,7 @@ Phx.vista.gridCalendario=Ext.extend(Phx.gridInterfaz,{
 		this.maestro=m;						
 		//this.store.baseParams={id_sensor:this.maestro.id_sensor};
 		this.load({params:{start:0, limit:50}});			
-	}
-	,
+	},
 	
 	EnableSelect:function(n,b,c){
 		//recuperar datos
@@ -527,12 +481,8 @@ Phx.vista.gridCalendario=Ext.extend(Phx.gridInterfaz,{
 		var regreso = Ext.util.JSON.decode(Ext.util.Format.trim(r.responseText));
 		 
 		if(!regreso.ROOT.error){
-			console.log(regreso.ROOT.datos)
-			
 			var cpFechaIni =this.formCP2.getForm().findField('cp2_fecha_ini');
 			var cpIdCal =this.formCP2.getForm().findField('id_calendario_plan');
-			
-			
 			cpIdCal.setValue(regreso.ROOT.datos.id_calendario_planificado);
 			cpFechaIni.setValue(regreso.ROOT.datos.fecha_ini);
 			
@@ -598,7 +548,16 @@ Phx.vista.gridCalendario=Ext.extend(Phx.gridInterfaz,{
 
     },
     
-    onBtnGenAllOt:function(a){
+     onBtnGenAllOt:function(){
+        this.wUCCL.show();
+        this.wUCCL.buttons[0].hide();
+        this.wUCCL.buttons[1].show();
+        this.wUCCL.buttons[1].argument.todo=true;
+        this.wUCCL.buttons[2].argument.cerrartodo=false;
+        this.wUCCL.setTitle('Generar OT para todos los equipos')
+     },
+    
+    onSubmitGenAllOt:function(a){
     	
     	Phx.CP.loadingShow();
     	var dateFechaIni =this.formUCCL.getForm().findField('fecha_ini');
@@ -627,36 +586,48 @@ Phx.vista.gridCalendario=Ext.extend(Phx.gridInterfaz,{
     
     
     onBtnGenOt:function(a){
-    	Phx.CP.loadingShow();
-    	var dateFechaIni =this.formUCCL.getForm().findField('fecha_ini');
-		var dateFechaFin =this.formUCCL.getForm().findField('fecha_fin');
-	
-		 Ext.Ajax.request({
-		                    form: this.form.getForm().getEl(),
-		                    url: '../../sis_mantenimiento/control/OrdenTrabajo/generarOT',
-		                    params: {
-		                         	fecha_ini:dateFechaIni.getValue().dateFormat('d-m-Y'),
-		    						fecha_fin:dateFechaFin.getValue().dateFormat('d-m-Y'),
-			                        id_uni_cons_mant_predef:this.sel_id_uni_cons_mant_predef
-		                         	},		                    	
-		                    success: this.successGenOT,
-		                    failure:this.conexionFailure,
-		                    timeout: this.timeout,
-		                    scope: this
-		               });
-    	
-    	
-    	
-    	
-    	
+    	this.wUCCL.show();
+    	this.wUCCL.buttons[0].hide();
+    	this.wUCCL.buttons[1].show();
+    	this.wUCCL.buttons[1].argument.todo=false;
+    	this.wUCCL.buttons[2].argument.cerrartodo=false;
+    	this.wUCCL.setTitle('Generar OT específica');
     },
+    
+    submitGenOT:function(resp){
+        
+        if(!resp.argument.todo){
+            Phx.CP.loadingShow();
+            var dateFechaIni =this.formUCCL.getForm().findField('fecha_ini');
+            var dateFechaFin =this.formUCCL.getForm().findField('fecha_fin');
+            
+            Ext.Ajax.request({
+                                form: this.form.getForm().getEl(),
+                                url: '../../sis_mantenimiento/control/OrdenTrabajo/generarOT',
+                                params: {
+                                        fecha_ini:dateFechaIni.getValue().dateFormat('d-m-Y'),
+                                        fecha_fin:dateFechaFin.getValue().dateFormat('d-m-Y'),
+                                        id_uni_cons_mant_predef:this.sel_id_uni_cons_mant_predef
+                                        },                              
+                                success: this.successGenOT,
+                                failure:this.conexionFailure,
+                                timeout: this.timeout,
+                                scope: this
+                           });
+        
+        }
+        else{
+            this.onSubmitGenAllOt()
+        }
+     },
+    
+    
+    
     successGenOT:function(){
     	
     	Phx.CP.loadingHide();
+    	this.wUCCL.hide();
 	    this.reload();
-    	
-    	
-    	
     }
         	
 		

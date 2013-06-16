@@ -56,7 +56,8 @@ Phx.vista.UniConsDet=Ext.extend(Phx.gridInterfaz,{
 			filters:{pfiltro:'ucdet.codigo',type:'string'},
 			id_grupo:1,
 			grid:true,
-			form:true
+			form:true,
+			egrid:true
 		},
 		{
 			config:{
