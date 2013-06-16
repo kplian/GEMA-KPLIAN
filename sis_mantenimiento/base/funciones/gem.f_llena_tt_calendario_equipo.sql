@@ -119,7 +119,7 @@ BEGIN
    
    --1)   for listado de los mantenimientos correspondientes al equipo indicado
    
-    FOR g_registros in  (select  man.frecuencia, 
+    FOR g_registros in  (select (man.frecuencia ||' '||coalesce(um.codigo,'S/U)'))::varchar as frecuencia,
                          man.horas_dia, 
                          man.id_uni_cons_mant_predef,
                          uni.id_uni_cons, 
@@ -131,6 +131,7 @@ BEGIN
                          from gem.tuni_cons_mant_predef man 
                          inner join gem.tuni_cons uni on uni.id_uni_cons = man.id_uni_cons
                          inner join gem.tmant_predef mp on mp.id_mant_predef = man.id_mant_predef
+                         left join param.tunidad_medida um on um.id_unidad_medida = man.id_unidad_medida
                          where   man.id_uni_cons = v_id_uni_cons 
                          and man.estado_reg='activo') LOOP
    
@@ -143,14 +144,15 @@ BEGIN
                                                        nombre_uni_cons ,
                                                        nombre_mant ,
                                                        codigo_man,
-                                                       codigo_equipo  ';
+                                                       codigo_equipo,
+                                                       frecuencia  ';
                                                        
  -- 1.0.B)  (valores)   arma la cadena de insercion de valores 
          
-         
-            v_consulta2= ') values('||g_registros.id_uni_cons||','||g_registros.id_uni_cons_mant_predef||','''||v_nombre||''','''||g_registros.nombre||''','''||g_registros.codigo_man||''','''||v_codigo||'''';                  
+
+            v_consulta2= ') values('||g_registros.id_uni_cons||','||g_registros.id_uni_cons_mant_predef||','''||v_nombre||''','''||g_registros.nombre||''','''||g_registros.codigo_man||''','''||v_codigo||''','''|| g_registros.frecuencia||'''';
                                                                               
-                                                       
+
    
     
                

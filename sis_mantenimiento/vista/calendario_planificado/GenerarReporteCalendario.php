@@ -81,14 +81,15 @@ Phx.vista.GenerarReporteCalendario=Ext.extend(Phx.frmInterfaz,{
     
     constructor: function(config){
         Phx.vista.GenerarReporteCalendario.superclass.constructor.call(this,config);
-        this.init();        
-        this.getComponente('id_localizacion').setValue(this.id_localizacion);
+        this.init();           
+        var id_localizacion=(this.tipo_nodo=='uni_cons'||this.tipo_nodo=='rama')?undefined:this.id_localizacion;
+        this.getComponente('id_localizacion').setValue(id_localizacion);
         this.getComponente('tipo_nodo').setValue(this.tipo_nodo);
         this.getComponente('id_uni_cons').setValue(this.id_uni_cons);
         this.getComponente('localizacion').setValue(this.nombre);      
     },
     
-    loadValoresIniciales:function(){        
+    loadValoresIniciales:function(){       
         this.getComponente('id_localizacion').setValue(this.id_localizacion);
         this.getComponente('tipo_nodo').setValue(this.tipo_nodo);
         this.getComponente('id_uni_cons').setValue(this.id_uni_cons);

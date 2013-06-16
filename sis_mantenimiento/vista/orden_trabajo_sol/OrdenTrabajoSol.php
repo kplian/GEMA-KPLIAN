@@ -39,9 +39,6 @@ Phx.vista.OrdenTrabajoSol=Ext.extend(Phx.gridInterfaz,{
         this.getComponente('id_uni_cons').on('select', function(e, data, index) {
 			this.getComponente('id_localizacion').setValue(data.data.id_localizacion);
 			this.getComponente('id_localizacion').setRawValue(data.data.desc_localizacion);
-			this.getComponente('id_mant_predef').store.baseParams.id_uni_cons=e.value;
-			this.getComponente('id_mant_predef').modificado=true;
-			this.getComponente('id_mant_predef').setValue('');
 		},this);
 		
 		this.addButton('btn-fin',
@@ -153,7 +150,7 @@ Phx.vista.OrdenTrabajoSol=Ext.extend(Phx.gridInterfaz,{
 				anchor: '90%',
 				tinit: true,
 				allowBlank: false,
-				origen: 'FUNCIONARIOCAR',
+				origen: 'FUNCIONARIO',
 				gdisplayField: 'desc_solicitante',
 				gwidth: 200,
 				renderer: function(value, p, record) {
@@ -368,7 +365,7 @@ Phx.vista.OrdenTrabajoSol=Ext.extend(Phx.gridInterfaz,{
 				anchor: '90%',
 				tinit: true,
 				allowBlank: true,
-				origen: 'FUNCIONARIOCAR',
+				origen: 'FUNCIONARIO',
 				gdisplayField: 'desc_responsable',
 				gwidth: 200,
 				renderer: function(value, p, record) {
@@ -883,9 +880,16 @@ Phx.vista.OrdenTrabajoSol=Ext.extend(Phx.gridInterfaz,{
 	preparaMenu: function(n) {
 		var tb = Phx.vista.OrdenTrabajoSol.superclass.preparaMenu.call(this);
 	  	var data = this.getSelectedData();
-	  	this.getBoton('btn-fin').setDisabled(false);
-	  	this.getBoton('btn-reporte').setDisabled(false);
-	  	this.getBoton('btn-subirFoto').enable();
+	  	if(data){
+		  	this.getBoton('btn-reporte').enable();
+		  	if(data.estado=='borrador'){
+			  	this.getBoton('btn-fin').enable();
+			  	this.getBoton('btn-subirFoto').enable();
+		  	} else{
+		  		this.getBoton('btn-fin').disable();
+			  	this.getBoton('btn-subirFoto').disable();
+		  	}
+	  	}
   		return tb;
 	},
 	liberaMenu: function() {

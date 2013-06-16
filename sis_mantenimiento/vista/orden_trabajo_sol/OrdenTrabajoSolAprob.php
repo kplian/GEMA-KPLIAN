@@ -80,7 +80,7 @@ Phx.vista.OrdenTrabajoSolAprob = {
 			scope:this
 		});
 	},
-	aprobarSolOT: function() {
+	onBtnCancelarSolOT: function() {
 		var rec = this.sm.getSelected();
 		var data = rec.data;
 		Ext.Ajax.request({

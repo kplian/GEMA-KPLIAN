@@ -262,8 +262,9 @@ class MODEquipoMedicion extends MODbase{
 	
 		//Ejecuta la instruccion
 		$this->armarConsulta();
-		$this->ejecutarConsulta();
 		//echo $this->consulta;exit;
+		$this->ejecutarConsulta();
+		
 		
 		//Devuelve la respuesta
 		return $this->respuesta;

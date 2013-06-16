@@ -166,10 +166,10 @@ Class RCalendarioPlanificado extends Report {
         $pdf->setTextColor(0,0,0);
         
         //$pdf->Cell($widthMarginLeft, $height, '', 0, 0, 'C', false, '', 0, false, 'T', 'C');
-        $pdf->Cell($width1, $height, 'UNI', 1, 0, 'C', true, '', 1, false, 'T', 'C');        
+        $pdf->Cell($width1, $height, 'Nro.', 1, 0, 'C', true, '', 1, false, 'T', 'C');        
         $pdf->Cell($width2+$width1, $height, 'Cod. Maquina', 1, 0, 'C', true, '', 1, false, 'T', 'C');
-        $pdf->Cell($width2, $height, 'Frecuencia', 1, 0, 'C', true, '', 1, false, 'T', 'C');
-        $pdf->Cell($width2, $height, 'Contador', 1, 0, 'C', true, '', 1, false, 'T', 'C');
+        $pdf->Cell($width2*2, $height, 'Frecuencia', 1, 0, 'C', true, '', 1, false, 'T', 'C');
+        //$pdf->Cell($width2, $height, 'Contador', 1, 0, 'C', true, '', 1, false, 'T', 'C');
         $pdf->Cell($width3+$width2+$width1, $height, 'Tarea', 1, 0, 'C', true, '', 1, false, 'T', 'C');
         $x=$pdf->getX();
         $y=$pdf->getY();
@@ -231,13 +231,13 @@ Class RCalendarioPlanificado extends Report {
         $pdf->SetFontSize(6.5);
         //$colorRojo=array(255,0,0);
         //$style = array('width' => 0.5, 'cap' => 'butt', 'join' => 'miter', 'dash' => 0, 'color' => array(255, 0, 0));
-         
+         $cont=1;
         foreach($dataSource->getDataset() as $row) {
             //$pdf->Cell($widthMarginLeft, $height, '', 0, 0, 'C', false, '', 0, false, 'T', 'C');
-            $pdf->Cell($width1, $height/2, $row['id_uni_cons'], 1, 0, 'L', false, '', 0, false, 'T', 'C');
+            $pdf->Cell($width1, $height/2, $cont, 1, 0, 'L', false, '', 0, false, 'T', 'C');
             $pdf->Cell($width2+$width1, $height/2, $row['codigo_equipo'], 1, 0, 'L', false, '', 1, false, 'T', 'C');
-            $pdf->Cell($width2, $height/2, '', 1, 0, 'L', false, '', 1, false, 'T', 'C');
-            $pdf->Cell($width2, $height/2, '', 1, 0, 'L', false, '', 1, false, 'T', 'C');
+            $pdf->Cell($width2*2, $height/2, $row['frecuencia'], 1, 0, 'L', false, '', 1, false, 'T', 'C');
+            //$pdf->Cell($width2, $height/2, '', 1, 0, 'L', false, '', 1, false, 'T', 'C');
             $pdf->Cell($width3+$width2+$width1, $height/2, $row['nombre_mant'], 1, 0, 'L', false, '', 1, false, 'T', 'C');
             $pdf->SetFillColor(140,190,230, true);
             $pdf->setTextColor(0,0,0);
@@ -313,7 +313,7 @@ Class RCalendarioPlanificado extends Report {
             $pdf->Cell($width2/2, $height/2, ($row['december_'.$this->ano.'_s2']==1)?'X':'', 1, 0, 'C', true, '', 0, false, 'T', 'C');
             $pdf->Cell($width2/2, $height/2, ($row['december_'.$this->ano.'_s3']==1)?'X':'', 1, 0, 'C', true, '', 0, false, 'T', 'C');
             $pdf->Cell($width2/2, $height/2, ($row['december_'.$this->ano.'_s4']==1)?'X':'', 1, 0, 'C', true, '', 0, false, 'T', 'C');
-                        
+            $cont++;
             $pdf->Ln();
         }
     }

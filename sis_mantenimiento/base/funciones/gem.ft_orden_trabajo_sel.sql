@@ -60,7 +60,7 @@ BEGIN
             elseif v_cargo = 'Gerente' or v_cargo = 'Ingeniero' or v_cargo = 'Jefe' then
 	            v_filtro =  p_id_usuario::varchar||' = ANY (unicons.id_usuarios) and ';
             elseif (v_cargo = 'Operador' and (v_id_funcionario is not null)) then
-            	v_filtro =  v_id_funcionario||' = geoott.id_funcionario_asig and ';
+            	v_filtro =  '('||v_id_funcionario||' = geoott.id_funcionario_asig or geoott.id_usuario_reg = '||p_id_usuario||') and ';
             else 
             	raise exception 'Debes ser un funcionario para poder ver estas ordenes de trabajo';
             end if;
@@ -180,7 +180,7 @@ raise notice '%',v_consulta;
             elseif v_cargo = 'Gerente' or v_cargo = 'Ingeniero' or v_cargo = 'Jefe' then
 	            v_filtro =  p_id_usuario::varchar||' = ANY (unicons.id_usuarios) and ';
             elseif (v_cargo = 'Operador' and (v_id_funcionario is not null)) then
-            	v_filtro =  v_id_funcionario||' = geoott.id_funcionario_asig and ';
+            	v_filtro =  '('||v_id_funcionario||' = geoott.id_funcionario_asig or geoott.id_usuario_reg = '||p_id_usuario||') and ';
             else 
             	raise exception 'Debes ser un funcionario para poder ver estas ordenes de trabajo';
             end if;

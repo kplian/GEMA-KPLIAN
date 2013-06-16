@@ -19,7 +19,7 @@ class ACTOrdenTrabajoSol extends ACTbase{
 		
 		if($this->objParam->getParametro('estado')!=''){
 			if($this->objParam->getParametro('estado')=='solicitud'){
-				$this->objParam->addFiltro("solord.estado = ''borrador''");
+				$this->objParam->addFiltro("solord.estado in (''borrador'',''pendiente'',''finalizado'',''no_aprobado'')");
 			} else if($this->objParam->getParametro('estado')=='finalizacion'){
 				$this->objParam->addFiltro("solord.estado in (''pendiente'',''finalizado'',''no_aprobado'')");
 			} 
