@@ -15,8 +15,17 @@ class ACTOrdenTrabajoSol extends ACTbase{
 			
 	function listarOrdenTrabajoSol(){
 		$this->objParam->defecto('ordenacion','id_orden_trabajo_sol');
-
 		$this->objParam->defecto('dir_ordenacion','asc');
+		
+		if($this->objParam->getParametro('estado')!=''){
+			if($this->objParam->getParametro('estado')=='solicitud'){
+				$this->objParam->addFiltro("solord.estado = ''borrador''");
+			} else if($this->objParam->getParametro('estado')=='finalizacion'){
+				$this->objParam->addFiltro("solord.estado in (''pendiente'',''finalizado'',''no_aprobado'')");
+			} 
+				
+		}
+		
 		if($this->objParam->getParametro('tipoReporte')=='excel_grid' || $this->objParam->getParametro('tipoReporte')=='pdf_grid'){
 			$this->objReporte = new Reporte($this->objParam,$this);
 			$this->res = $this->objReporte->generarReporteListado('MODOrdenTrabajoSol','listarOrdenTrabajoSol');

@@ -1,4 +1,4 @@
-x<?php
+<?php
 /**
 *@package pXP
 *@file gen-OrdenTrabajoSol.php
@@ -17,10 +17,17 @@ Phx.vista.OrdenTrabajoSol=Ext.extend(Phx.gridInterfaz,{
     	//llama al constructor de la clase padre
 		Phx.vista.OrdenTrabajoSol.superclass.constructor.call(this,config);
 		this.init();
-		this.load({params:{start:0, limit:50}});
+		this.load({params:{start:0, limit:50, estado:this.estado}});
 		
 		//Oculta el grupo de los insumos que ya es obsoleto
 		this.ocultarGrupo(1);
+		
+		this.readOnlyGroup(1, true);
+		this.readOnlyGroup(2, true);
+		this.readOnlyGroup(3, true);
+		this.blockGroup(1);
+		this.blockGroup(2);
+		this.blockGroup(3);
 		
 		//Evento para cargar la localizacion a partir del equipo
 		this.getComponente('id_localizacion_buscar').on('select', function(e, data, index) {
@@ -97,11 +104,25 @@ Phx.vista.OrdenTrabajoSol=Ext.extend(Phx.gridInterfaz,{
 			type:'Field',
 			form:true 
 		},
+				{
+			//configuracion del componente
+			config:{
+					labelSeparator:'',
+					inputType:'hidden',
+					fieldLabel: 'Estado',
+					name: 'estado'
+			},
+			type:'Field',
+			filters:{pfiltro:'solord.estado',type:'string'},
+			id_grupo:1,
+			grid: true,
+			form:true 
+		},
 		{
 			config:{
 				name: 'fecha',
 				fieldLabel: 'Fecha',
-				allowBlank: true,
+				allowBlank: false,
 				gwidth: 100,
 				format: 'd/m/Y',
 				renderer:function (value,p,record){return value?value.dateFormat('d/m/Y'):''}
@@ -242,7 +263,7 @@ Phx.vista.OrdenTrabajoSol=Ext.extend(Phx.gridInterfaz,{
 				valueField: 'id_uni_cons',
 				hiddenValue: 'id_uni_cons',
 				displayField: 'codigo',
-				gdisplayField:'equipo',
+				gdisplayField:'desc_equipo',
 				forceSelection:true,
 				typeAhead: false,
     			triggerAction: 'all',
@@ -346,7 +367,7 @@ Phx.vista.OrdenTrabajoSol=Ext.extend(Phx.gridInterfaz,{
 				fieldLabel: 'Responsable Elaboración OIT-OTT',
 				anchor: '90%',
 				tinit: true,
-				allowBlank: false,
+				allowBlank: true,
 				origen: 'FUNCIONARIOCAR',
 				gdisplayField: 'desc_responsable',
 				gwidth: 200,
@@ -383,8 +404,8 @@ Phx.vista.OrdenTrabajoSol=Ext.extend(Phx.gridInterfaz,{
 		{
 			config: {
 				name: 'id_uo',
-				fieldLabel: 'Atendido Por.',
-				allowBlank: false,
+				fieldLabel: 'Atendido Por',
+				allowBlank: true,
 				origen: 'UO',
 				gdisplayField: 'desc_uo',
 				gwidth: 200,
@@ -449,20 +470,6 @@ Phx.vista.OrdenTrabajoSol=Ext.extend(Phx.gridInterfaz,{
 			id_grupo:3,
 			grid:true,
 			form:true
-		},
-		{
-			//configuracion del componente
-			config:{
-					labelSeparator:'',
-					inputType:'hidden',
-					fieldLabel: 'Estado',
-					name: 'estado'
-			},
-			type:'Field',
-			filters:{pfiltro:'solord.estado',type:'string'},
-			id_grupo:1,
-			grid: true,
-			form:true 
 		},
 		{
 			config:{
@@ -864,7 +871,8 @@ Phx.vista.OrdenTrabajoSol=Ext.extend(Phx.gridInterfaz,{
 		Ext.Ajax.request({
 			url:'../../sis_mantenimiento/control/OrdenTrabajoSol/finalizarOrdenTrabajoSol',
 			params: {
-				'id_orden_trabajo_sol': data.id_orden_trabajo_sol
+				'id_orden_trabajo_sol': data.id_orden_trabajo_sol,
+				estado: 'pendiente'
 			},
 			success:this.successSave,
 			failure: this.conexionFailure,
@@ -896,6 +904,7 @@ Phx.vista.OrdenTrabajoSol=Ext.extend(Phx.gridInterfaz,{
 	},
     codReporte:'S/C',
 	codSistema:'GEM',
-	pdfOrientacion:'L'
+	pdfOrientacion:'L',
+	estado: 'solicitud'
 })
 </script>

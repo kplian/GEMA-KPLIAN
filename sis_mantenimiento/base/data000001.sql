@@ -967,22 +967,9 @@ select pxp.f_insert_tprocedimiento_gui ('GEM_GEPRES_INS', 'GEM.1.13', 'no');
 select pxp.f_insert_tprocedimiento_gui ('GEM_GEPRES_MOD', 'GEM.1.13', 'no');
 select pxp.f_insert_tprocedimiento_gui ('GEM_GEPRES_ELI', 'GEM.1.13', 'no');
 
-select pxp.f_insert_tfuncion ('gem.ft_presupuesto_ime', 'Funcion para tabla', 'GEM');
-select pxp.f_insert_tfuncion ('gem.ft_presupuesto_sel', 'Funcion para tabla', 'GEM');
-
-select pxp.f_insert_tprocedimiento ('GEM_GEPRLO_INS', 'Insercion de registros', 'si', '', '', 'gem.ft_presupuesto_loc_ime');
-select pxp.f_insert_tprocedimiento ('GEM_GEPRLO_MOD', 'Modificacion de registros', 'si', '', '', 'gem.ft_presupuesto_loc_ime');
-select pxp.f_insert_tprocedimiento ('GEM_GEPRLO_ELI', 'Eliminacion de registros', 'si', '', '', 'gem.ft_presupuesto_loc_ime');
-select pxp.f_insert_tprocedimiento ('GEM_GEPRLO_SEL', 'Consulta de datos', 'si', '', '', 'gem.ft_presupuesto_loc_sel');
-select pxp.f_insert_tprocedimiento ('GEM_GEPRLO_CONT', 'Conteo de registros', 'si', '', '', 'gem.ft_presupuesto_loc_sel');
-
-select pxp.f_insert_tprocedimiento_gui ('GEM_GEPRLO_SEL', 'GEM.1.13', 'no');
-select pxp.f_insert_tprocedimiento_gui ('GEM_GEPRLO_INS', 'GEM.1.13', 'no');
-select pxp.f_insert_tprocedimiento_gui ('GEM_GEPRLO_MOD', 'GEM.1.13', 'no');
-select pxp.f_insert_tprocedimiento_gui ('GEM_GEPRLO_ELI', 'GEM.1.13', 'no');
-
 /***********************************F-DAT-RCM-GEM-143-11/06/2013****************************************/
 
+/***********************************I-DAT-RCM-GEM-144-11/06/2013****************************************/
 select pxp.f_add_catalog('PARAM','tgral__mes','01 - Enero');
 select pxp.f_add_catalog('PARAM','tgral__mes','02 - Febrero');
 select pxp.f_add_catalog('PARAM','tgral__mes','03 - Marzo');
@@ -995,3 +982,16 @@ select pxp.f_add_catalog('PARAM','tgral__mes','09 - Septiembre');
 select pxp.f_add_catalog('PARAM','tgral__mes','10 - Octubre');
 select pxp.f_add_catalog('PARAM','tgral__mes','11 - Noviembre');
 select pxp.f_add_catalog('PARAM','tgral__mes','12 - Diciembre');
+
+select pxp.f_insert_tgui ('Aprobación Solicitud de Orden de Trabajo', 'Aprobación Solicitud de Orden de Trabajo', 'GEM.2.7.5', 'si', 5, 'sis_mantenimiento/vista/orden_trabajo_sol/OrdenTrabajoSolAprob.php', 4, '', 'OrdenTrabajoSolAprob', 'GEM');
+select pxp.f_insert_testructura_gui ('GEM.2.7.5', 'GEM.2.7');
+
+select pxp.f_insert_tprocedimiento ('GEM_SOLAPR_MOD', '	Modificacion de registros', 'si', '', '', 'gem.ft_orden_trabajo_sol_ime');
+
+select pxp.f_insert_tprocedimiento_gui ('GEM_SOLORD_SEL', 'GEM.2.7.5', 'si');
+select pxp.f_insert_tprocedimiento_gui ('GEM_SOLORD_MOD', 'GEM.2.7.5', 'si');
+select pxp.f_insert_tprocedimiento_gui ('GEM_SOLORD_CONT', 'GEM.2.7.5', 'si');
+select pxp.f_insert_tprocedimiento_gui ('GEM_SOLAPR_MOD', 'GEM.2.7.5', 'si');
+
+
+/***********************************F-DAT-RCM-GEM-144-11/06/2013****************************************/
