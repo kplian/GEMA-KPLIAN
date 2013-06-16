@@ -1,3 +1,5 @@
+--------------- SQL ---------------
+
 CREATE OR REPLACE FUNCTION gem.f_genera_calendario_equipo (
   p_id_uni_cons integer,
   p_fecha_fin date,
@@ -109,6 +111,24 @@ DECLARE
     */
    
  
+  --si el equipo esta marcod para no entra a generacion retorna directamente TRUE
+  SELECT 
+     uc2.id_uni_cons, 
+     uc2.id_uni_cons_padre, 
+     uc2.id_uni_cons_hijo,
+     uc2.codigo ,
+     uc2.incluir_calgen 
+     into
+     g_registros 
+     FROM gem.tuni_cons uc2    
+     WHERE uc2.id_uni_cons = p_id_uni_cons;
+     
+     
+     IF  not  g_registros.incluir_calgen  THEN
+       RETURN TRUE;
+     END IF;
+     
+     
  	----------------
     -- (1)GENERACION DEL CALENDARIO
     ----------------
