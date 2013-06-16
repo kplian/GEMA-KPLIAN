@@ -548,43 +548,62 @@ Phx.vista.UniConsGral=Ext.extend(Phx.gridInterfaz,{
 	},
 	onBtnAtribPlan:function(){
 		var rec=this.sm.getSelected();
-		Phx.CP.loadWindows('../../../sis_mantenimiento/vista/equipo_variable/EquipoVariable.php',
-			'Variables de Medición',
-			{
-				width:800,
-				height:400
-			},rec.data,this.idContenedor,'EquipoVariable')
-		
-		
+		if(rec){
+			if(rec.data){
+				Phx.CP.loadWindows('../../../sis_mantenimiento/vista/equipo_variable/EquipoVariable.php',
+					'Variables de Medición',
+					{
+						width:800,
+						height:400
+					},rec.data,this.idContenedor,'EquipoVariable')
+			} else {
+				Ext.Msg.alert('Mensaje','Seleccione un registro y vuelva a intentarlo');
+			}
+		} else{
+			Ext.Msg.alert('Mensaje','Seleccione un registro y vuelva a intentarlo');
+		}
 	},
     onButtonUpload: function(){
        var rec=this.sm.getSelected();
-       if(rec.data){
-           Phx.CP.loadWindows('../../../sis_mantenimiento/vista/uni_cons_archivo/UniConsArchivo.php',
-                               'Archivos de Unidades Constructoras',
-                               {
-                                   modal:true,
-                                   width:900,
-                                   height:500
-                               },
-                               rec.data,this.idContenedor,'UniConsArchivo');
-           
-       }  
+       if(rec){
+	       if(rec.data){
+	           Phx.CP.loadWindows('../../../sis_mantenimiento/vista/uni_cons_archivo/UniConsArchivo.php',
+	                               'Archivos de Unidades Constructoras',
+	                               {
+	                                   modal:true,
+	                                   width:900,
+	                                   height:500
+	                               },
+	                               rec.data,this.idContenedor,'UniConsArchivo');
+	           
+	       	} else{
+				Ext.Msg.alert('Mensaje','Seleccione un registro y vuelva a intentarlo');
+			} 
+       	} else{
+			Ext.Msg.alert('Mensaje','Seleccione un registro y vuelva a intentarlo');
+		} 
     },
     onButtonItems: function(){
       var rec=this.sm.getSelected();
-      if(rec.data){
-          Phx.CP.loadWindows('../../../sis_mantenimiento/vista/uni_cons_item/UniConsItem.php',
-          'Registro de items por equipo',{
-              modal:true,
-              width:900,
-              height:400
-          },
-          rec.data,this.idContenedor,'UniConsItem');
-      }  
+      if(rec){
+	      if(rec.data){
+	          Phx.CP.loadWindows('../../../sis_mantenimiento/vista/uni_cons_item/UniConsItem.php',
+	          'Registro de items por equipo',{
+	              modal:true,
+	              width:900,
+	              height:400
+	          },
+	          rec.data,this.idContenedor,'UniConsItem');
+	      } else{
+				Ext.Msg.alert('Mensaje','Seleccione un registro y vuelva a intentarlo');
+			}
+      } else{
+			Ext.Msg.alert('Mensaje','Seleccione un registro y vuelva a intentarlo');
+		}
     },
     onBtnDocTecnica: function() {
     	var rec=this.sm.getSelected();
+    	if(rec){
             if(rec.data) {
             	Phx.CP.loadWindows('../../../sis_mantenimiento/vista/uni_cons_doc_tec/UniConsDocumentoTec.php',
                     'Documentacion Técnica',
@@ -595,9 +614,13 @@ Phx.vista.UniConsGral=Ext.extend(Phx.gridInterfaz,{
                     },
                     rec.data,this.idContenedor,'UniConsDocumentoTec')
             }
+		} else{
+			Ext.Msg.alert('Mensaje','Seleccione un registro y vuelva a intentarlo');
+		}
     },
     onBtnSubsis: function() {
     	var rec=this.sm.getSelected();
+    	if(rec){
             if(rec.data) {
             	Phx.CP.loadWindows('../../../sis_mantenimiento/vista/uni_cons/UniConsGralHijos.php',
                     'Subsistemas',
@@ -607,19 +630,30 @@ Phx.vista.UniConsGral=Ext.extend(Phx.gridInterfaz,{
                         height:500
                     },
                     rec.data,this.idContenedor,'UniConsGralHijos')
-            }
+            } else{
+				Ext.Msg.alert('Mensaje','Seleccione un registro y vuelva a intentarlo');
+			}
+        } else{
+			Ext.Msg.alert('Mensaje','Seleccione un registro y vuelva a intentarlo');
+		}
     },
     onBtnOT: function(){
       var rec=this.sm.getSelected();
-      if(rec.data){
-          Phx.CP.loadWindows('../../../sis_mantenimiento/vista/orden_trabajo/ListadoGeneralOT.php',
-          'Histórico OITs: ['+rec.data.codigo+']',{
-              modal:true,
-              width:900,
-              height:400
-          },
-          rec.data,this.idContenedor,'ListadoGeneralOT');
-      }  
+      if(rec){
+	      if(rec.data){
+	          Phx.CP.loadWindows('../../../sis_mantenimiento/vista/orden_trabajo/ListadoGeneralOT.php',
+	          'Histórico OITs: ['+rec.data.codigo+']',{
+	              modal:true,
+	              width:900,
+	              height:400
+	          },
+	          rec.data,this.idContenedor,'ListadoGeneralOT');
+	      } else{
+			Ext.Msg.alert('Mensaje','Seleccione un registro y vuelva a intentarlo');
+		} 
+      } else{
+			Ext.Msg.alert('Mensaje','Seleccione un registro y vuelva a intentarlo');
+		} 
     },
     east:{
 		  url:'../../../sis_mantenimiento/vista/uni_cons_det/UniConsDet.php',

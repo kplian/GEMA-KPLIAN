@@ -352,7 +352,8 @@ Phx.vista.Documento=Ext.extend(Phx.gridInterfaz,{
         {name:'usr_reg', type: 'string'},
         {name:'usr_mod', type: 'string'},
         {name:'tipo_doc', type: 'string'},
-        {name:'fecha_autoriz', type: 'date'}
+        {name:'fecha_autoriz', type: 'date'},
+        'revision'
         
     ],
     sortInfo:{

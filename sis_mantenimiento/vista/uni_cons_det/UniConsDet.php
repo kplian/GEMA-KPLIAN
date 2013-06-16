@@ -56,7 +56,8 @@ Phx.vista.UniConsDet=Ext.extend(Phx.gridInterfaz,{
 			filters:{pfiltro:'ucdet.codigo',type:'string'},
 			id_grupo:1,
 			grid:true,
-			form:true
+			form:true,
+			egrid:true
 		},
 		{
 			config:{
@@ -257,6 +258,11 @@ Phx.vista.UniConsDet=Ext.extend(Phx.gridInterfaz,{
 	bsave:true,
 	fwidth: 450,
 	fheight: 330,
+	loadValoresIniciales: function() {
+		//console.log(this.maestro);
+		Phx.vista.UniConsDet.superclass.loadValoresIniciales.call(this);
+		this.getComponente('id_uni_cons').setValue(this.maestro.id_uni_cons);
+	},
 	onReloadPage:function(m){
         this.maestro=m;
 		this.Atributos[1].valorInicial=this.maestro.id_uni_cons;

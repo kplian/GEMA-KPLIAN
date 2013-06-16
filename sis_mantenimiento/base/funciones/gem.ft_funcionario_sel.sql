@@ -45,7 +45,7 @@ BEGIN
  #AUTOR:    
  #FECHA:    23/05/11  
 ***********************************/
-     if(par_transaccion='RH_FUNCIO_SEL')then
+     if(par_transaccion='GE_FUNCIO_SEL')then
 
           --consulta:=';
           BEGIN
@@ -96,7 +96,7 @@ BEGIN
  #AUTOR:    
  #FECHA:    23/05/11  
 ***********************************/
-     elsif(par_transaccion='RH_FUNCIO_CONT')then
+     elsif(par_transaccion='GE_FUNCIO_CONT')then
 
           --consulta:=';
           BEGIN
@@ -118,7 +118,7 @@ BEGIN
      #AUTOR:    KPLIAN (RAC)
      #FECHA:    29/10/11  
     ***********************************/
-     elseif(par_transaccion='RH_FUNCIOCAR_SEL')then
+     elseif(par_transaccion='GE_FUNCIOCAR_SEL')then
 
           --consulta:=';
           BEGIN
@@ -163,7 +163,7 @@ raise notice '%',v_consulta;
  #AUTOR:    KPLIAN (rac)
  #FECHA:    23/05/11  
 ***********************************/
-     elsif(par_transaccion='RH_FUNCIOCAR_CONT')then
+     elsif(par_transaccion='GE_FUNCIOCAR_CONT')then
 
           --consulta:=';
           BEGIN

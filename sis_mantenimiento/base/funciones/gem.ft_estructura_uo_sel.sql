@@ -47,7 +47,7 @@ BEGIN
      #AUTOR:    RCM
      #FECHA:    17/05/2013  
      ***********************************/
-     if(par_transaccion='GEM_FUNUO_SEL')then
+     if(par_transaccion='GE_FUNUO_SEL')then
 
           
           BEGIN
@@ -105,7 +105,7 @@ BEGIN
      #AUTOR:    RCM
      #FECHA:    17/05/2013  
     ***********************************/
-     elsif(par_transaccion='GEM_FUNUO_CONT')then
+     elsif(par_transaccion='GE_FUNUO_CONT')then
 
           BEGIN
           

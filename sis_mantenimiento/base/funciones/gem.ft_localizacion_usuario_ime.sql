@@ -44,7 +44,7 @@ BEGIN
 					
         begin
         	--Validación para que solamente se defina un Gerente, Ingeniero y Jefe por localización
-        	if v_parametros.tipo in ('Gerente','Ingeniero','Jefe') then
+        	if v_parametros.tipo in ('Gerente') then --,'Ingeniero','Jefe') then
         		if exists(select 1 from gem.tlocalizacion_usuario
         				where id_localizacion = v_parametros.id_localizacion
         				and tipo = v_parametros.tipo) then
@@ -93,7 +93,7 @@ BEGIN
 
 		begin
 			--Validación para que solamente se defina un Gerente, Ingeniero y Jefe por localización
-        	if v_parametros.tipo in ('Gerente','Ingeniero','Jefe') then
+        	if v_parametros.tipo in ('Gerente') then --,'Ingeniero','Jefe') then
         		if exists(select 1 from gem.tlocalizacion_usuario
         				where id_localizacion = v_parametros.id_localizacion
         				and tipo = v_parametros.tipo
