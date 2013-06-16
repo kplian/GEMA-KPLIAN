@@ -249,13 +249,13 @@ BEGIN
   #FECHA:   05-12-2012 03:58:00
   ***********************************/
 
-  elsif(p_transaccion='GEM_PROCESSOT_MOD')then
+	elsif(p_transaccion='GEM_PROCESSOT_MOD')then
 
-    begin
-        --raise exception '%',v_parametros.cat_estado;
+    	begin
+        	--raise exception '%',v_parametros.cat_estado;
             v_mensaje_estado='';
-          if pxp.f_existe_parametro(p_tabla,'mensaje_estado') then
-              v_mensaje_estado = v_parametros.mensaje_estado;
+          	if pxp.f_existe_parametro(p_tabla,'mensaje_estado') then
+            	v_mensaje_estado = v_parametros.mensaje_estado;
             end if;
             
             --Obtención de datos de la orden de trabajo para validación previa al pasar de estado
@@ -266,25 +266,25 @@ BEGIN
             where id_orden_trabajo = v_parametros.id_orden_trabajo;
             
             v_observaciones = '';
-          if v_parametros.cat_estado = 'Pendiente' then
-              --Verificación de datos completados
-                if v_rec_ot.id_tipo_mant is null then
-                  raise exception 'No es posible continuar porque no se ha definido el Tipo de Mantenimiento. Presione el botón Editar y complete los datos faltantes';
+          	if v_parametros.cat_estado = 'Pendiente' then
+            	--Verificación de datos completados
+				if v_rec_ot.id_tipo_mant is null then
+                	raise exception 'No es posible continuar porque no se ha definido el Tipo de Mantenimiento. Presione el botón Editar y complete los datos faltantes';
                 end if;
                 if v_rec_ot.cat_prior is null then
-                  raise exception 'No es posible continuar porque no se ha definido la Prioridad. Presione el botón Editar y complete los datos faltantes';
+                	raise exception 'No es posible continuar porque no se ha definido la Prioridad. Presione el botón Editar y complete los datos faltantes';
                 end if;
                 if v_rec_ot.descripcion_lugar is null then
-                  raise exception 'No es posible continuar porque no se ha definido el Sector. Presione el botón Editar y complete los datos faltantes';
+                	raise exception 'No es posible continuar porque no se ha definido el Sector. Presione el botón Editar y complete los datos faltantes';
                 end if;
                 if v_rec_ot.id_centro_costo is null then
-                  raise exception 'No es posible continuar porque no se ha definido la Cuenta. Presione el botón Editar y complete los datos faltantes';
+                  	raise exception 'No es posible continuar porque no se ha definido la Cuenta. Presione el botón Editar y complete los datos faltantes';
                 end if;
                 if v_rec_ot.id_funcionario_sol is null then
-                  raise exception 'No es posible continuar porque no se ha definido al Solicitante. Presione el botón Editar y complete los datos faltantes';
+                  	raise exception 'No es posible continuar porque no se ha definido al Solicitante. Presione el botón Editar y complete los datos faltantes';
                 end if;
                 if v_rec_ot.id_funcionario_asig is null then
-                  raise exception 'No es posible continuar porque no se ha definido al funcionario Asignado. Presione el botón Editar y complete los datos faltantes';
+                  	raise exception 'No es posible continuar porque no se ha definido al funcionario Asignado. Presione el botón Editar y complete los datos faltantes';
                 end if;
       
                 select id_uni_cons, num_oit
@@ -297,14 +297,14 @@ BEGIN
                 
                 --Obtención del correlativo
                 if coalesce(v_num_oit,'') = '' then
-                  --Obtención del correlativo
+					--Obtención del correlativo
                     v_nro = gem.f_get_correlativo(v_id_uni_cons,'oit',v_fecha);
                   
                     update gem.torden_trabajo set
                     num_oit = v_nro
                     where id_orden_trabajo = v_parametros.id_orden_trabajo;
                 else
-                        --raise exception 'error: %',v_num_oit;
+                    --raise exception 'error: %',v_num_oit;
                 end if;
                 
                 --Verifica el parámetro para saltar el estado de Apertura (estado Pendiente)
@@ -321,10 +321,10 @@ BEGIN
                 fecha_emision = v_fecha
                 where id_orden_trabajo = v_parametros.id_orden_trabajo;  
                 
-      elsif v_parametros.cat_estado = 'Cerrado' then
-              if not exists(select 1 from gem.trecurso rec
+			elsif v_parametros.cat_estado = 'Cerrado' then
+            	if not exists(select 1 from gem.trecurso rec
                             where rec.id_orden_trabajo = v_parametros.id_orden_trabajo) then
-                  raise exception 'Para Cerrar la OIT previamente debe registrar los Recursos utilizados.';
+                	raise exception 'Para Cerrar la OIT previamente debe registrar los Recursos utilizados.';
                 end if;
                 
                 --Verifica el parámetro para saltar el estado de Apertura (estado Pendiente) para habilitar el registro manual de la fecha de inicio y fin d ejecución
@@ -347,10 +347,15 @@ BEGIN
                     where id_orden_trabajo = v_parametros.id_orden_trabajo;  
                 end if;
                 
-                
-                
+                --Actualiza el estado del calendario
+                update gem.tcalendario_planificado set
+                estado = 'finalizado'
+                from gem.torden_trabajo ot
+                where ot.id_calendario_planificado = gem.tcalendario_planificado.id_calendario_planificado
+                and ot.id_orden_trabajo = v_parametros.id_orden_trabajo;
+
             elsif v_parametros.cat_estado = 'Abierto' then
-              update gem.torden_trabajo set
+				update gem.torden_trabajo set
                 cat_estado = v_parametros.cat_estado,
                 id_usuario_mod = p_id_usuario,
                 fecha_mod = now(),
@@ -358,7 +363,7 @@ BEGIN
                 fecha_eje_ini = now()
                 where id_orden_trabajo = v_parametros.id_orden_trabajo; 
             else
-              --Sentencia de la actualización
+				--Sentencia de la actualización
                 update gem.torden_trabajo set
                 cat_estado = v_parametros.cat_estado,
                 id_usuario_mod = p_id_usuario,

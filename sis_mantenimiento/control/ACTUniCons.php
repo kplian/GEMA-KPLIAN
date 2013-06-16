@@ -402,6 +402,7 @@ class ACTUniCons extends ACTbase{
 		$repuestoDataSource = new DataSource();
 		$repuestoDataSource->setDataSet($resultRepuestos->getDatos());
 		$dataSource->putParameter('repuestoDataSource', $repuestoDataSource);
+		//var_dump($resultRepuestos->getDatos());exit;
 		
 		//get hijos
 		$this->objParam->addParametroConsulta('ordenacion', 'id_uni_cons');

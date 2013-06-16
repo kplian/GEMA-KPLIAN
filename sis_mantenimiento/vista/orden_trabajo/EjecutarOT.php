@@ -48,7 +48,7 @@ Phx.vista.EjecutarOT = {
 				iconCls: 'block',
 				disabled: true,
 				handler: btncloseOT,
-				tooltip: '<b>Cierra la Orde de Trabajo para su revisión</b>'
+				tooltip: '<b>Cierra la Orden de Trabajo para su revisión</b>'
 			}
 		);
 		this.addButton('btnEjecucionPendienteOT', 

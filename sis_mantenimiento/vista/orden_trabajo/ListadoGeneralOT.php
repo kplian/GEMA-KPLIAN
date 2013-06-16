@@ -15,7 +15,7 @@ Phx.vista.ListadoGeneralOT = {
 	title:'Lista General de Ordenes de Trabajo',
 	nombreVista: 'revisarOT',
 	bdel: false,
-	bedit: true,
+	bedit: false,
 	bnew: false,
 	constructor: function(config) {
 		Phx.vista.ListadoGeneralOT.superclass.constructor.call(this,config);

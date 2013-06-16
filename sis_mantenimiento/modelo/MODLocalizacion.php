@@ -58,7 +58,6 @@ class MODLocalizacion extends MODbase{
 						
         $this->setParametro('id_padre','id_padre','varchar');		
 		
-		
 		//Definicion de la lista del resultado del query
 		$this->captura('id_localizacion','int4');
 		$this->captura('codigo','varchar');

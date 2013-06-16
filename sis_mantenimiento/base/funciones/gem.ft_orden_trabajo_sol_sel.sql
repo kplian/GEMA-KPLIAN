@@ -27,6 +27,9 @@ DECLARE
 	v_parametros  		record;
 	v_nombre_funcion   	text;
 	v_resp				varchar;
+	v_tipo				varchar;
+	v_perfil			varchar;
+	v_cond				varchar;
 			    
 BEGIN
 
@@ -43,6 +46,19 @@ BEGIN
 	if(p_transaccion='GM_SOLORD_SEL')then
      				
     	begin
+    	
+    		--Verifica permisos
+    		v_cond='';
+    		if p_administrador!=1 then
+    			--Obtención del perfil
+    			v_perfil = gem.f_get_perfil_usuario(p_id_usuario);
+    			if v_perfil = 'Operador' then
+    				v_cond = ' and solord.id_usuario_reg = ' ||p_id_usuario;
+    			else
+    				v_cond = ' and ' || p_id_usuario||' = ANY (unicon.id_usuarios) ';
+    			end if;
+    		end if;
+    	
     		--Sentencia de la consulta
 			v_consulta:='select
 						solord.id_orden_trabajo_sol,
@@ -98,6 +114,11 @@ BEGIN
 			
 			--Definicion de la respuesta
 			v_consulta:=v_consulta||v_parametros.filtro;
+			
+			if v_cond != '' then
+				v_consulta = v_consulta || v_cond;
+			end if;
+			
 			v_consulta:=v_consulta||' order by ' ||v_parametros.ordenacion|| ' ' || v_parametros.dir_ordenacion || ' limit ' || v_parametros.cantidad || ' offset ' || v_parametros.puntero;
 
 			--Devuelve la respuesta
@@ -189,6 +210,18 @@ BEGIN
 	elsif(p_transaccion='GM_SOLORD_CONT')then
 
 		begin
+			--Verifica permisos
+    		v_cond='';
+    		if p_administrador!=1 then
+    			--Obtención del perfil
+    			v_perfil = gem.f_get_perfil_usuario(p_id_usuario);
+    			if v_perfil = 'Operador' then
+    				v_cond = ' and solord.id_usuario_reg = ' ||p_id_usuario;
+    			else
+    				v_cond = ' and ' || p_id_usuario||' = ANY (unicon.id_usuarios) ';
+    			end if;
+    		end if;
+    		
 			--Sentencia de la consulta de conteo de registros
 			v_consulta:='select count(id_orden_trabajo_sol)
 					    from gem.torden_trabajo_sol solord

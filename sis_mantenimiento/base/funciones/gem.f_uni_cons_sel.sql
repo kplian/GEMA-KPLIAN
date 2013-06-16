@@ -33,6 +33,7 @@ DECLARE
     v_tipo varchar;
     v_filtro varchar;
     v_ids_loc     varchar;
+    v_cond varchar;
           
 BEGIN
 
@@ -1243,6 +1244,11 @@ BEGIN
           if pxp.f_existe_parametro(p_tabla,'id_localizacion') then
             v_ids_loc=gem.f_get_id_localizaciones(v_parametros.id_localizacion);        
           end if;
+          
+          v_cond='';
+          	if p_administrador!=1 then
+          		v_cond = ' and ' || p_id_usuario||' = ANY (tuc.id_usuarios) ';
+			end if;
         
         --Sentencia de la consulta
       v_consulta:='select
@@ -1277,6 +1283,9 @@ BEGIN
        
       --Definicion de la respuesta
       v_consulta:=v_consulta||v_parametros.filtro;
+      if v_cond !='' then
+      	v_consulta = v_consulta || v_cond;
+      end if;
       v_consulta:=v_consulta||' order by ' ||v_parametros.ordenacion|| ' ' || v_parametros.dir_ordenacion || ' limit ' || v_parametros.cantidad || ' offset ' || v_parametros.puntero;
       raise notice '%',v_consulta;
       --Devuelve la respuesta
@@ -1304,6 +1313,11 @@ BEGIN
             v_ids_loc=gem.f_get_id_localizaciones(v_parametros.id_localizacion);        
         end if;
         
+        v_cond='';
+        if p_administrador!=1 then
+          		v_cond = ' and ' || p_id_usuario||' = ANY (tuc.id_usuarios) ';
+		end if;
+        
       --Sentencia de la consulta de conteo de registros
       v_consulta:='select count(id_uni_cons)
               from gem.tuni_cons tuc
@@ -1322,6 +1336,10 @@ BEGIN
       
       --Definicion de la respuesta        
       v_consulta:=v_consulta||v_parametros.filtro;
+      
+      if v_cond !='' then
+      	v_consulta = v_consulta || v_cond;
+      end if;
 
       --Devuelve la respuesta
       return v_consulta;

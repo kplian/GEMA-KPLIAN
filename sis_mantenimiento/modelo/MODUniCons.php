@@ -349,6 +349,7 @@ class MODUniCons extends MODbase{
 		$this->captura('loc_padre','varchar');
 		
 		$this->armarConsulta();
+		//echo $this->consulta;exit; 
 		$this->ejecutarConsulta();
 		
 		return $this->respuesta;
