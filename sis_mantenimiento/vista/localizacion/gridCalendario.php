@@ -395,12 +395,11 @@ Phx.vista.gridCalendario=Ext.extend(Phx.gridInterfaz,{
 				});	
 			
 			var id_l = (this.tipo_nodo=='uni_cons')?this.id_uni_cons:this.id_localizacion;
-			
 			this.store.baseParams={
 				fecha_ini:dateFechaIni.getValue().dateFormat('d-m-Y'),
 		        fecha_fin:dateFechaFin.getValue().dateFormat('d-m-Y'),
-		        tipo_nodo:this.tipo_nodo,
-		        id_localizacion:(this.tipo_nodo=='uni_cons'||this.tipo_nodo=='rama')?undefined:this.id_localizacion,
+		        tipo_nodo:(this.tipo_nodo=='uni_cons'||this.tipo_nodo=='uni_cons_f')?'uni_cons':this.tipo_nodo, 
+		        id_localizacion:(this.tipo_nodo=='uni_cons'||this.tipo_nodo=='rama'||this.tipo_nodo=='uni_cons_f')?undefined:this.id_localizacion,
 		        id_uni_cons:this.id_uni_cons,
 				datos:recText};			               
 			

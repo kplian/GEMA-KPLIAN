@@ -35,8 +35,9 @@ Phx.vista.mapaLocalizacion=Ext.extend(Phx.gmapInterfaz,{
 	    this.definirRegiones();
     	this.gm.expand(true);
         this.panel.doLayout(true,true)
-        this.geocoder = new google.maps.Geocoder();
-	
+         if( typeof google!= 'undefined' ){
+            this.geocoder = new google.maps.Geocoder();
+	    }
 			
 		
 			  
@@ -73,6 +74,12 @@ Phx.vista.mapaLocalizacion=Ext.extend(Phx.gmapInterfaz,{
 		
 		
 	ubicarPos:function(direc,zoom,n){
+	    
+	        if( typeof google== 'undefined' ){
+	            alert('No hay acceso a Internet');
+	            return false;
+	        }
+	    
 			var myMapa = this.gm.getMap()
 			var address = direc;
 			
