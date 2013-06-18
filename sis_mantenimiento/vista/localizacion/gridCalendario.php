@@ -294,7 +294,7 @@ Phx.vista.gridCalendario=Ext.extend(Phx.gridInterfaz,{
                     align: 'center'
                 });					 		
 						
-			var recText = this.id_store + '#integer@id_uni_cons#integer@id_uni_cons_mant_predef#integer@nombre_uni_cons#text@nombre_mant#varchar@codigo_man#varchar@codigo_equipo#text';			
+			var recText = this.id_store + '#integer@id_uni_cons#integer@id_uni_cons_mant_predef#integer@nombre_uni_cons#text@nombre_mant#varchar@codigo_man#varchar@codigo_equipo#text@frecuencia#varchar';			
 				//console.log('this.id_store: ', this.id_store);		
 			
 			for (var i=0;i<rec.length;i++){

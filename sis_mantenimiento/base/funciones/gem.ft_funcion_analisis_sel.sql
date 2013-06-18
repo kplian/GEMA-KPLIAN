@@ -202,7 +202,11 @@ BEGIN
       begin
 
 		if pxp.f_existe_parametro(p_tabla,'id_uni_cons_hijo') then
-			v_cond = 'amant.id_uni_cons_hijo = ' || v_parametros.id_uni_cons_hijo;
+        	if v_parametros.id_uni_cons_hijo is null then
+            	v_cond = 'amant.id_uni_cons = ' || v_parametros.id_uni_cons;
+            else
+            	v_cond = 'amant.id_uni_cons_hijo = ' || v_parametros.id_uni_cons_hijo;
+            end if;
 		else
 			v_cond = 'amant.id_uni_cons = ' || v_parametros.id_uni_cons;
 		end if;
@@ -246,7 +250,11 @@ BEGIN
       begin
 
 		if pxp.f_existe_parametro(p_tabla,'id_uni_cons_hijo') then
-			v_cond = 'amant.id_uni_cons_hijo = ' || v_parametros.id_uni_cons_hijo;
+        	if v_parametros.id_uni_cons_hijo is null then
+            	v_cond = 'amant.id_uni_cons = ' || v_parametros.id_uni_cons;
+            else
+            	v_cond = 'amant.id_uni_cons_hijo = ' || v_parametros.id_uni_cons_hijo;
+            end if;
 		else
 			v_cond = 'amant.id_uni_cons = ' || v_parametros.id_uni_cons;
 		end if;
