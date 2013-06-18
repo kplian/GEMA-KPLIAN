@@ -210,7 +210,8 @@ BEGIN
                         nombre_uni_cons text,
                         nombre_mant varchar,
                         codigo_man  varchar,
-                        codigo_equipo text
+                        codigo_equipo text,
+                        frecuencia varchar
           ';  
           
          
@@ -384,7 +385,7 @@ BEGIN
         
          --  2.1) llamada a la funcion para llenar la tabla temporal          
                 raise NOTICE '>>>> Lamada directa a genera calendario';   
-                        
+
                            v_bool = gem.f_llena_tt_calendario_equipo (
                                       v_parametros.id_uni_cons,
                                       v_fecha_ini,

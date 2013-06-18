@@ -105,7 +105,7 @@ class ACTCalendarioPlanificado extends ACTbase{
         
         $dataSource->putParameter('localizacion', $this->objParam->getParametro('localizacion'));
         
-        $recText = 'id_sem_mes#integer@id_uni_cons#integer@id_uni_cons_mant_predef#integer@nombre_uni_cons#text@nombre_mant#varchar@codigo_man#varchar@codigo_equipo#text';
+        $recText = 'id_sem_mes#integer@id_uni_cons#integer@id_uni_cons_mant_predef#integer@nombre_uni_cons#text@nombre_mant#varchar@codigo_man#varchar@codigo_equipo#text@frecuencia#varchar';
         
         $datos;
         for ($i=0;$i<count($primeraConsulta);$i++) { 
