@@ -126,29 +126,33 @@ Class RCalendarioPlanificado extends Report {
         $width4 = 75;
         
         $dataset = $this->getDataSource()->getDataset();
-        //$ano=NULL;
-        foreach ($dataset[0] as $key => $value) {
-            if(preg_match("/^c+.+[1-4]$/",$key))                
-                $recuperado = explode('_', $key);
-            $this->ano=$recuperado[2];
-        }
-        
-        $pdf->SetFontSize(7.5);
-        $pdf->SetFont('', 'B');                
-        $pdf->setTextColor(0,0,0);
-        $pdf->Cell($height, $height, '', 0, 0, 'R', false, '', 0, false, 'T', 'C');
-        $pdf->Cell($width1, $height, 'Estación:', 0, 0, 'R', false, '', 0, false, 'T', 'C');
-        $pdf->SetFont('', 'B');
-        $pdf->setTextColor(51,51,153);
-        $pdf->Cell($width2, $height, $this->getDataSource()->getParameter('localizacion'), 'B', 0, 'L', false, '', 0, false, 'T', 'C');
-        $pdf->Cell($width3+$width1, $height, '', 0, 0, 'L', false, '', 0, false, 'T', 'C');
-        $pdf->SetFont('', 'B');
-        $pdf->SetFillColor(51,51,153, true);
-        $pdf->setTextColor(255,255,255);
-        $pdf->Cell($width4*3+$width1, $height, 'GESTION '.$this->ano, 1, 0, 'C', true, '', 0, false, 'T', 'C');
-        
-        $this->writeDetalles($this->getDataSource(), $pdf);
-        
+								
+								if(count($dataset)!==0){
+			        //$ano=NULL;
+			        foreach ($dataset[0] as $key => $value) {
+			            if(preg_match("/^c+.+[1-4]$/",$key))                
+			                $recuperado = explode('_', $key);
+			            $this->ano=$recuperado[2];
+			        }
+			        
+			        $pdf->SetFontSize(7.5);
+			        $pdf->SetFont('', 'B');                
+			        $pdf->setTextColor(0,0,0);
+			        $pdf->Cell($height, $height, '', 0, 0, 'R', false, '', 0, false, 'T', 'C');
+			        $pdf->Cell($width1, $height, 'Estación:', 0, 0, 'R', false, '', 0, false, 'T', 'C');
+			        $pdf->SetFont('', 'B');
+			        $pdf->setTextColor(51,51,153);
+			        $pdf->Cell($width2, $height, $this->getDataSource()->getParameter('localizacion'), 'B', 0, 'L', false, '', 0, false, 'T', 'C');
+			        $pdf->Cell($width3+$width1, $height, '', 0, 0, 'L', false, '', 0, false, 'T', 'C');
+			        $pdf->SetFont('', 'B');
+			        $pdf->SetFillColor(51,51,153, true);
+			        $pdf->setTextColor(255,255,255);
+			        $pdf->Cell($width4*3+$width1, $height, 'GESTION '.$this->ano, 1, 0, 'C', true, '', 0, false, 'T', 'C');
+			        
+			        $this->writeDetalles($this->getDataSource(), $pdf);
+			     }else{
+			     			$pdf->Cell($width2, $height, 'NO EXISTE NADA PLANIFICADO', 0, 0, 'L', false, '', 0, false, 'T', 'C');
+			     }
         $pdf->Output($fileName, 'F');
     }
     
