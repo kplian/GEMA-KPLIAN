@@ -37,6 +37,7 @@ class MODPresupuestoLoc extends MODbase{
 		$this->captura('usr_reg','varchar');
 		$this->captura('usr_mod','varchar');
 		$this->captura('nombre_localizacion','varchar');
+		$this->captura('desc_localizacion','varchar');
 		
 		//Ejecuta la instruccion
 		$this->armarConsulta();
@@ -110,6 +111,43 @@ class MODPresupuestoLoc extends MODbase{
 		$this->armarConsulta();
 		$this->ejecutarConsulta();
 
+		//Devuelve la respuesta
+		return $this->respuesta;
+	}
+	
+	function listarPresupuestoLocRegistro(){
+		//Definicion de variables para ejecucion del procedimientp
+		$this->procedimiento='gem.f_presupuesto_loc_sel';
+		$this->transaccion='GM_GEPRLOEX_SEL';
+		$this->tipo_procedimiento='SEL';//tipo de transaccion
+				
+		//Definicion de la lista del resultado del query
+		$this->captura('id_presupuesto_loc','int4');
+		$this->captura('id_localizacion','int4');
+		$this->captura('mes','varchar');
+		$this->captura('id_presupuesto','int4');
+		$this->captura('monto_ejec','numeric');
+		$this->captura('porcen_prog_techo','numeric');
+		$this->captura('monto_prog','numeric');
+		$this->captura('monto_techo','numeric');
+		$this->captura('monto_presup','numeric');
+		$this->captura('estado_reg','varchar');
+		$this->captura('fecha_reg','timestamp');
+		$this->captura('id_usuario_reg','int4');
+		$this->captura('fecha_mod','timestamp');
+		$this->captura('id_usuario_mod','int4');
+		$this->captura('usr_reg','varchar');
+		$this->captura('usr_mod','varchar');
+		$this->captura('nombre_localizacion','varchar');
+		$this->captura('desc_localizacion','varchar');
+		$this->captura('desc_presupuesto','text');
+		$this->captura('gestion','integer');
+		$this->captura('estado_pres','varchar');
+		
+		//Ejecuta la instruccion
+		$this->armarConsulta();
+		$this->ejecutarConsulta();
+		
 		//Devuelve la respuesta
 		return $this->respuesta;
 	}

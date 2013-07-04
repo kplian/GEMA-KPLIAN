@@ -41,13 +41,22 @@ Phx.vista.PresupuestoLoc=Ext.extend(Phx.gridInterfaz,{
 			type:'Field',
 			id_grupo:1
 		},
-		{			
-			config:{
-				name: 'id_localizacion',
-				fieldLabel: 'Localización',
-				allowBlank: true,
-				emptyText:'Localización',
-				store:new Ext.data.JsonStore(
+		{
+			config:{	
+				name:'id_localizacion',
+    			tinit:true,
+    			tasignacion:true,
+    			tname:'id_localizacion',
+    			tdisplayField:'nombre',
+    			turl:'../../../sis_mantenimiento/vista/localizacion/LocalizacionLista.php',
+	   			ttitle:'Localizaciones',
+	   			tdata:{},
+	   			tcls:'LocalizacionLista',
+	   			pid:this.idContenedor,
+	   			fieldLabel:'Localización',
+	   			allowBlank:false,
+	   			emptyText:'Buscar Equipo po Localización ...',
+	   			store:new Ext.data.JsonStore(
 				{
 					url: '../../sis_mantenimiento/control/Localizacion/listarLocalizacion',
 					id: 'id_localizacion',
@@ -62,11 +71,12 @@ Phx.vista.PresupuestoLoc=Ext.extend(Phx.gridInterfaz,{
 					remoteSort: true,
 					baseParams:{par_filtro:'nombre#codigo'}
 				}),
-				tpl:'<tpl for="."><div class="x-combo-list-item"><p>Nombre: {nombre}</p><p>Código: {codigo}</p></div></tpl>',
+	   			tpl:'<tpl for="."><div class="x-combo-list-item"><p>Nombre: {nombre}</p><p>Código: {codigo}</p></div></tpl>',
 				valueField: 'id_localizacion',
 				hiddenValue: 'id_localizacion',
+				hiddenName:'id_localizacion',
 				displayField: 'nombre',
-				gdisplayField: 'nombre_localizacion',
+				gdisplayField: 'desc_localizacion',
 				forceSelection:true,
 				typeAhead: false,
     			triggerAction: 'all',
@@ -77,11 +87,11 @@ Phx.vista.PresupuestoLoc=Ext.extend(Phx.gridInterfaz,{
 				anchor: '100%',
 				gwidth:220,
 				minChars:2,
-				renderer:function (value, p, record){return String.format('{0}', record.data['nombre_localizacion']);},
+				renderer:function (value, p, record){return String.format('{0}', record.data['desc_localizacion']);},
 				autoSelect:true
-			},
-			type:'ComboBox',
-			filters:{pfiltro:'geprlo.nombre',type:'string'},
+    		},
+			type:'TrigguerCombo',
+			filters:{pfiltro:'gprlo.nombre',type:'string'},
 			id_grupo:0,
 			grid:true,
 			form:true
@@ -297,7 +307,8 @@ Phx.vista.PresupuestoLoc=Ext.extend(Phx.gridInterfaz,{
 		{name:'id_usuario_mod', type: 'numeric'},
 		{name:'usr_reg', type: 'string'},
 		{name:'usr_mod', type: 'string'},
-		{name:'nombre_localizacion', type: 'string'}
+		{name:'nombre_localizacion', type: 'string'},
+		{name:'desc_localizacion', type: 'string'}
 		
 	],
 	sortInfo:{
@@ -306,8 +317,7 @@ Phx.vista.PresupuestoLoc=Ext.extend(Phx.gridInterfaz,{
 	},
 	bdel:true,
 	bsave:true
-	}
-)
+})
 </script>
 		
 		

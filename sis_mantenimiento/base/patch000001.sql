@@ -1415,3 +1415,26 @@ ALTER TABLE gem.tpresupuesto_loc OWNER TO postgres;
 alter table gem.ttipo_variable
 add column orden integer;
 /***********************************F-SCP-RCM-GEM-143-07/06/2013*****************************************/
+
+/***********************************I-SCP-RCM-GEM-143-01/07/2013*****************************************/
+create table gem.tpresupuesto_localizacion(
+	id_presupuesto_localizacion serial not null,
+	id_presupuesto integer,
+	id_localizacion integer,
+	constraint pk_tpresupuesto_localizacion__id_presupuesto_localizacion primary key (id_presupuesto_localizacion)
+) INHERITS (pxp.tbase)
+WITH OIDS;
+ALTER TABLE gem.tpresupuesto_localizacion OWNER TO postgres;
+
+ALTER TABLE gem.tpresupuesto
+  ADD UNIQUE (codigo, gestion);
+  
+create table gem.tpresupuesto_localizacion_usuario(
+	id_presupuesto_localizacion_usuario serial not null,
+	id_presupuesto_localizacion integer,
+	id_usuario integer,
+	constraint pk_tpresupuesto_localizacion_usuario__id_presupuesto_localizacion_usuario primary key (id_presupuesto_localizacion_usuario)
+) INHERITS (pxp.tbase)
+WITH OIDS;
+ALTER TABLE gem.tpresupuesto_localizacion_usuario OWNER TO postgres;
+/***********************************F-SCP-RCM-GEM-143-01/07/2013*****************************************/

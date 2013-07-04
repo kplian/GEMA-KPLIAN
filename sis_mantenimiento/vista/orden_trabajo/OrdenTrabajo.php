@@ -271,7 +271,7 @@ Phx.vista.OrdenTrabajo=Ext.extend(Phx.gridInterfaz,{
 	   			tdata:{},
 	   			tcls:'LocalizacionLista',
 	   			pid:this.idContenedor,
-	   			fieldLabel:'Buscar Equipo x Localización}',
+	   			fieldLabel:'Buscar Equipo x Localización',
 	   			allowBlank:true,
 	   			emptyText:'Buscar Equipo po Localización ...',
 	   			store:new Ext.data.JsonStore(

@@ -616,3 +616,22 @@ alter table gem.torden_trabajo
 add constraint fk_torden_trabajo__id_mant_predef
 foreign key (id_mant_predef) references gem.tmant_predef (id_mant_predef);
 /***********************************F-DEP-RCM-GEM-141-29/05/2013*****************************************/
+
+/***********************************I-DEP-RCM-GEM-0-01/07/2013*****************************************/
+alter table gem.tpresupuesto_loc
+add constraint fk_tpresupuesto_loc__id_presupuesto
+foreign key (id_presupuesto) references gem.tpresupuesto (id_presupuesto);
+
+alter table gem.tpresupuesto_loc
+add constraint fk_tpresupuesto_loc__id_localizacion
+foreign key (id_localizacion) references gem.tlocalizacion (id_localizacion);
+
+alter table gem.tpresupuesto_localizacion
+add constraint fk_tpresupuesto_localizacion__id_presupuesto
+foreign key (id_presupuesto) references gem.tpresupuesto (id_presupuesto);
+
+alter table gem.tpresupuesto_localizacion
+add constraint fk_tpresupuesto_localizacion__id_localizacion
+foreign key (id_localizacion) references gem.tlocalizacion (id_localizacion);
+
+/***********************************F-DEP-RCM-GEM-0-01/07/2013*****************************************/

@@ -43,6 +43,14 @@ BEGIN
 	if(p_transaccion='GM_GEPRLO_INS')then
 					
         begin
+        
+        	--Validación de existencia previa del presupuesto
+        	if exists(select 1 from gem.tpresupuesto_loc
+        			where id_presupuesto = v_parametros.id_presupuesto
+        			and mes = v_parametros.mes
+        			and id_localizacion = v_parametros.id_localizacion) then
+        		raise exception 'Ya se registró el presupuesto para ese Mes y Localización';
+        	end if;
         	--Sentencia de la insercion
         	insert into gem.tpresupuesto_loc(
 			id_localizacion,
