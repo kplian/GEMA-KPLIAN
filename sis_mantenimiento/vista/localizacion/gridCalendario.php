@@ -147,7 +147,7 @@ Phx.vista.gridCalendario=Ext.extend(Phx.gridInterfaz,{
 		            
 		        },
                 {
-                    text: 'Genrar OT',
+                    text: 'Generar OT',
                     hidden:true,
                     argument:{todo:false},
                     handler:this.submitGenOT,

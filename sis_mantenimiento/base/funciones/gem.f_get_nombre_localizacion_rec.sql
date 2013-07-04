@@ -20,7 +20,7 @@ BEGIN
     					from gem.tlocalizacion
                         where id_localizacion in ('||v_ids||')
                         order by id_localizacion') loop
-    	v_loc = v_loc || '=>'|| coalesce(v_rec.nombre,'S/N');
+    	v_loc = v_loc || '::'|| coalesce(v_rec.nombre,'S/N');
     
     end loop;
     
