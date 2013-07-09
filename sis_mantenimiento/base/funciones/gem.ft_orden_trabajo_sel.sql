@@ -47,17 +47,28 @@ BEGIN
      				
     	begin
         	
-        	select tipo into v_cargo from gem.tlocalizacion_usuario 
-            where id_usuario = p_id_usuario and estado_reg = 'activo' offset 0 limit 1;
+        	select tipo
+        	into v_cargo
+        	from gem.tlocalizacion_usuario 
+            where id_usuario = p_id_usuario
+            and estado_reg = 'activo'
+            offset 0 limit 1;
+            
+            if v_cargo is null then
+            	v_cargo = 'Operador';
+            end if;
 
-            select tf.id_funcionario into v_id_funcionario from orga.tfuncionario tf
+            select tf.id_funcionario
+            into v_id_funcionario
+            from orga.tfuncionario tf
             inner join segu.tusuario tu on tf.id_persona = tu.id_persona
             where tu.id_usuario = p_id_usuario 
-            and tf.estado_reg = 'activo' offset 0 limit 1;
+            and tf.estado_reg = 'activo'
+            offset 0 limit 1;
             
         	if p_administrador = 1 then
            		v_filtro = ' 0=0 and ';
-            elseif v_cargo = 'Gerente' or v_cargo = 'Ingeniero' or v_cargo = 'Jefe' then
+            elseif v_cargo in('Gerente','Ingeniero','Jefe','Asistente') then
 	            v_filtro =  p_id_usuario::varchar||' = ANY (unicons.id_usuarios) and ';
             elseif (v_cargo = 'Operador' and (v_id_funcionario is not null)) then
             	v_filtro =  '('||v_id_funcionario||' = geoott.id_funcionario_asig or geoott.id_usuario_reg = '||p_id_usuario||') and ';

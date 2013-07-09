@@ -15,14 +15,16 @@ $body$
 ***************************************************************************/
 DECLARE
 
-	v_id_calendario_planificacion integer;
-    v_cat_estado varchar;
-    v_estado	varchar;
+	v_id_calendario_planificacion 	integer;
+    v_cat_estado 					varchar;
+    v_estado						varchar;
+    v_id_alarma						integer[];
 
 BEGIN
 	v_estado='';
     IF TG_OP = 'INSERT' THEN
           BEGIN
+          	--(1)Registro en el Log de OTs
             insert into gem.torden_trabajo_log(
                 estado_reg,
                 id_usuario_reg,
@@ -44,27 +46,7 @@ BEGIN
                 NEW.cat_estado,
                 now()
             );
-            
-            --Verifica estados para actualizar el calendario si lo tiene
-            select id_calendario_planificacion, cat_estado
-            into v_id_calendario_planificacion, v_cat_estado
-            from gem.torden_trabajo
-            where id_orden_trabajo = NEW.id_orden_trabajo;
-            
-            if v_id_calendario_planificacion is not null then
-            	if v_cat_estado = 'Abierto' then
-                	v_estado = 'abierto';
-                elsif v_cat_estado = 'Cerrado' then
-                	v_estado = 'cerrado';
-                end if;
-            end if;
-            
-            if v_estado !='' then
-            	update gem.tcalendario_planificado set
-                estado = v_estado
-                where id_calendario_planificado = v_id_calendario_planificacion;
-            end if;
-            
+ 
         END;
 	ELSIF TG_OP = 'UPDATE' THEN
         BEGIN
@@ -94,12 +76,13 @@ BEGIN
                 );
             END IF;
             
-            --Verifica estados para actualizar el calendario si lo tiene
-            select id_calendario_planificacion, cat_estado
-            into v_id_calendario_planificacion, v_cat_estado
+            --Obtención de datos de la orden de trabajo
+            select id_calendario_planificacion, cat_estado, id_alarma
+            into v_id_calendario_planificacion, v_cat_estado, v_id_alarma
             from gem.torden_trabajo
             where id_orden_trabajo = OLD.id_orden_trabajo;
             
+            --(2)Actualización del calendario, si corresponde
             if v_id_calendario_planificacion is not null then
             	if v_cat_estado = 'Abierto' then
                 	v_estado = 'abierto';
@@ -113,6 +96,14 @@ BEGIN
                 estado = v_estado
                 where id_calendario_planificado = v_id_calendario_planificacion;
             end if;
+            
+            --(3)Actualización de alarma
+            --Finaliza la alarma si es que se la cierra
+            if v_cat_estado in ('Cerrado','Revisado') then
+	            delete from param.talarma a
+                where  a.id_alarma = ANY (v_id_alarma);
+        	end if;
+            
        END;
    
    END IF;

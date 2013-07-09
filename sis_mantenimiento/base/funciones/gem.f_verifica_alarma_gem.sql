@@ -5,7 +5,7 @@ CREATE OR REPLACE FUNCTION gem.f_verifica_alarma_gem (
 )
 RETURNS varchar AS
 $body$
-/**************************************************************************
+/**********************************************************************************************
  FUNCION: 		f_verifica_alarma_gem
  DESCRIPCION:   Verifica las alarmas correspondientes al subsistema enviado 
                 desde el control si no existe la alarma la inserta,
@@ -95,7 +95,8 @@ BEGIN
                         uc.codigo,
                         uc.nombre,
                         mp.codigo as codigo_mantenimiento,
-                        mp.nombre as nombre_mantenimiento
+                        mp.nombre as nombre_mantenimiento,
+                        gem.f_get_nombre_localizacion_rec(uc.id_localizacion,'padres') as localizacion
                         from gem.tcalendario_planificado cp
                         inner join gem.tuni_cons_mant_predef ucm
                         on ucm.id_uni_cons_mant_predef = cp.id_uni_cons_mant_predef
@@ -194,7 +195,7 @@ BEGIN
                         g_registros.id_uni_cons,
                         g_registros2.id_localizacion_usuario,
                         g_registros.codigo,
-                        v_codigo_localizacion,
+                        g_registros.localizacion,
                         g_registros2.id_usuario,
                         g_registros2.tipo,
                         v_id_uni_cons_raiz
@@ -215,7 +216,7 @@ BEGIN
                                  from  tt_genera_alarmas_gema tt
                 				where tt.id_uni_cons_raiz= v_id_uni_cons_raiz) LOOP
 				--Arma la descripcion de la alarma
-				v_desc_alarma='Atención, en fecha '||coalesce(g_registros.fecha_ini::varchar,'NR')||' debe realizarse el mantenimiento programado  '||coalesce(g_registros.codigo_mantenimiento::varchar,'NR')||' ('||coalesce(g_registros.nombre_mantenimiento::varchar,'NR')||')   para el equipo '||coalesce(g_registros.nombre::varchar,'NR') ||' ('||coalesce(g_registros.codigo::varchar,'NR')||') en la localizacion '||coalesce(g_registros2.codigo,'NR');
+				v_desc_alarma='<b>Acción:</b> Generación de Órden de Trabajo<br><b>Fecha Mantenimiento:</b> '||coalesce(g_registros.fecha_ini::varchar,'NR')||'<br><b>TAG: '||coalesce(g_registros.codigo,'NR')||'<br><b>Equipo:</b> '||coalesce(g_registros.nombre,'NR')||'<br><b>Mantenimiento: ('||coalesce(g_registros.codigo_mantenimiento::varchar,'NR') ||') '||coalesce(g_registros.nombre_mantenimiento::varchar,'NR')||'<br><b>Localización:</b> '||coalesce(g_registros2.localizacion,'NR');
                                
 				IF g_registros2.id_usuario is NULL THEN                                  
                 	raise exception  'El Usuario no Puede ser NULL,  %',  g_registros2.id_usuario ;                                
@@ -227,13 +228,13 @@ BEGIN
                                      '../../../sis_mantenimiento/vista/localizacion/Localizacion.php',
                                       g_registros.fecha_ini,
                                      'alarma',
-                                     'GEM-Calendario',
+                                     'GMAN-Calendario',
                                       p_id_usuario,
                                      'Localizacion',
-                                     'Mantenimiento sin OT',
+                                     'Localizaciones',
                                      '{}',
                                      g_registros2.id_usuario,
-                                     'Ordenes de Trabajo Pendientes'
+                                     'Mantenimientos Pendientes'
                                      ); 
                                      
                     v_alarmas_con[v_indice]:=v_id_alarma;                        
@@ -254,78 +255,74 @@ BEGIN
          
          
      
-        -----------------------------------------------------------------------------------  
-        --  revisar alertas de ordenes de trabajo pendientes y alertasr al responsables 
-        --------------------------------------------------------------------------------
+	-------------------------------------------------------------------------------------  
+    --(2)Alarma por generación de ordenes de trabajo pendientes y alertas al responsables 
+    -------------------------------------------------------------------------------------
+    --obtenemos configuracion de las alertas de OT
         
-       --obtenemos configuracion de las alertas de OT
-        
-       SELECT descripcion,dias INTO v_descrip_ot, v_dias_ot
-       FROM param.tconfig_alarma 
-       WHERE codigo='torden_trabajo' AND id_subsistema=v_id_subsistema; 
+	SELECT descripcion,dias
+   	INTO v_descrip_ot, v_dias_ot
+   	FROM param.tconfig_alarma 
+   	WHERE codigo='torden_trabajo'
+   	AND id_subsistema=v_id_subsistema; 
        
-        
-        FOR g_registros IN ( SELECT 
-                               ot.id_orden_trabajo,
-                               ot.fecha_plan_ini,
-                               ot.id_funcionario_asig,
-                               ot.num_oit,
-                               ot.descripcion,
-                               ot.id_uni_cons_mant_predef,
-                               uc.id_uni_cons,
-                               uc.codigo,
-                               uc.nombre,
-                               mp.codigo as codigo_mantenimiento,
-                               mp.nombre as nombre_mantenimiento,
-             				   ot.ubicacion_tecnica
-                             FROM gem.torden_trabajo ot 
-                             INNER JOIN gem.tuni_cons_mant_predef ucm on  ucm.id_uni_cons_mant_predef = ot.id_uni_cons_mant_predef
-                             INNER JOIN gem.tuni_cons uc on uc.id_uni_cons       = ucm.id_uni_cons
-                             INNER JOIN gem.tmant_predef mp on mp.id_mant_predef = ucm.id_mant_predef   
-                           
-                            WHERE ot.id_alarma IS NULL and uc.estado_reg='activo' and ot.estado_reg='activo'  
-                             and ((ot.fecha_plan_ini-now()::date)<=v_dias_ot)
-                             and ot.cat_estado = 'Pendiente' )LOOP               
-                             
-       
-               -- raise exception 'ALLARRRRRRRMA'; 
-         
-           IF(g_registros.id_funcionario is not null) THEN
+	FOR g_registros IN (SELECT 
+                        ot.id_orden_trabajo,
+                        ot.fecha_plan_ini,
+                        ot.id_funcionario_asig,
+                        ot.num_oit,
+                        ot.descripcion,
+                        ot.id_uni_cons_mant_predef,
+                        uc.id_uni_cons,
+                        uc.codigo,
+                        uc.nombre,
+                        mp.codigo as codigo_mantenimiento,
+                        mp.nombre as nombre_mantenimiento,
+             			ot.ubicacion_tecnica,
+             			gem.f_get_nombre_localizacion_rec(ot.id_localizacion,'padres') as localizacion,
+             			ot.cat_prior
+                        FROM gem.torden_trabajo ot 
+                        INNER JOIN gem.tuni_cons_mant_predef ucm on  ucm.id_uni_cons_mant_predef = ot.id_uni_cons_mant_predef
+                        INNER JOIN gem.tuni_cons uc on uc.id_uni_cons       = ucm.id_uni_cons
+                        INNER JOIN gem.tmant_predef mp on mp.id_mant_predef = ucm.id_mant_predef   
+                        WHERE ot.id_alarma IS NULL and uc.estado_reg='activo' and ot.estado_reg='activo'  
+                        and ((ot.fecha_plan_ini-now()::date)<=v_dias_ot)
+                        and ot.cat_estado in ('Pendiente','Abierto')) LOOP               
+
+		IF(g_registros.id_funcionario_asig is not null) THEN
            
-               v_desc_alarma= 'Tiene que ejecutar la OT '||coalesce(g_registros.num_oit::varchar,'NR')||' que le fue asignada para el mantenimiento '||coalesce(g_registros.codigo_mantenimiento::varchar,'NR')||'('||coalesce(g_registros.nombre_mantenimineto::varchar,'NR')||') del equipo '||coalesce(g_registros.nombre::varchar,'NR')||' codigo ('||coalesce(g_registros.codigo::varchar,'NR')||') en la ubicación técnica '||coalesce(g_registros.fecha_ini::varchar,'NR');
+        	v_desc_alarma= '<b>Acción:</b> Ejecutar Orden de Trabajo<br>Fecha asignación: '||to_char(now(),'dd/mm/yyyy')||'<br><b>Fecha Planificada:</b> '||to_char(g_registros.fecha_plan_ini,'dd/mm/yyyy') ||'<br><b>Prioridad:</b> '||g_registros.cat_prior||'<br><b>Nro. OIT:</b> '||coalesce(g_registros.num_oit::varchar,'NR')||'<br><b>Mantenimiento:</b> ('||coalesce(g_registros.codigo_mantenimiento::varchar,'NR')||') '||coalesce(g_registros.nombre_mantenimiento::varchar,'NR')||'<br><b>TAG: '||coalesce(g_registros.codigo::varchar,'NR')||'</b><br><b>Equipo:</b> '||coalesce(g_registros.nombre::varchar,'NR')||'<br><b>Localización:</b> '||coalesce(g_registros.localizacion::varchar,'NR');
            
-               v_id_alarma:=param.f_inserta_alarma(
-                                     g_registros.id_funcionario,
+            v_id_alarma:=param.f_inserta_alarma(
+                                     g_registros.id_funcionario_asig,
                                      v_desc_alarma,
                                      '../../../sis_mantenimiento/orden_trabajo/orden_trabajo/EjecutarOT.php',
-                                      g_registros.fecha_ini,
+                                      g_registros.fecha_plan_ini,
                                      'alarma',--notificacion
-                                     'GEM-OT',
+                                     'GMAN-OIT',
                                       p_id_usuario,
                                      'EjecutarOT',
                                      'OT pendiente',
                                      '{}',
                                       NULL,
-                                     'Ordenes de Trabajo Pendientes'
+                                     'Orden de Trabajo Pendiente'
                                      ); 
         
-              END IF;
+		END IF;
               
-              
-              
-             --Actualizamos la tabla boleta con el array de alarmas
-               Update gem.torden_trabajo SET
-                  id_alarma[1]=v_id_alarma
-               WHERE id_orden_trabajo=g_registros.id_calendario_planificado;  
+        --Actualizamos la tabla con el array de alarmas
+        Update gem.torden_trabajo SET
+        id_alarma[1]=v_id_alarma
+        WHERE id_orden_trabajo=g_registros.id_orden_trabajo;  
 
-         END LOOP;
-       --------------------------------------- 
-       -- para otras alertas continuar abajo  
-       -----------------------------------------  
+	END LOOP;
+    
+    -------------------------------- 
+    -- Inclusión de otras alarmas  
+    --------------------------------  
          
-     
-           
-       return 'exito';
+    --Respuesta
+	return 'exito';
 
 END;
 $body$

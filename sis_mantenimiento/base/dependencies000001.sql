@@ -635,3 +635,25 @@ add constraint fk_tpresupuesto_localizacion__id_localizacion
 foreign key (id_localizacion) references gem.tlocalizacion (id_localizacion);
 
 /***********************************F-DEP-RCM-GEM-0-01/07/2013*****************************************/
+
+/***********************************I-DEP-RCM-GEM-0-09/07/2013*****************************************/
+alter table gem.torden_trabajo
+add constraint fk_torden_trabajo__id_calendario_planificacion
+foreign key (id_calendario_planificacion) references gem.tcalendario_planificado (id_calendario_planificado);
+
+alter table gem.torden_trabajo
+add constraint fk_torden_trabajo__id_centro_costo
+foreign key (id_centro_costo) references gem.tcentro_costo (id_centro_costo);
+
+alter table gem.torden_trabajo
+add constraint fk_torden_trabajo__id_funcionario_aprob
+foreign key (id_funcionario_aprob) references orga.tfuncionario (id_funcionario);
+
+alter table gem.torden_trabajo
+add constraint fk_torden_trabajo__id_funcionario_recib
+foreign key (id_funcionario_recib) references orga.tfuncionario (id_funcionario);
+
+alter table gem.torden_trabajo
+add constraint fk_torden_trabajo__id_localizacion
+foreign key (id_localizacion) references gem.tlocalizacion (id_localizacion);
+/***********************************F-DEP-RCM-GEM-0-09/07/2013*****************************************/
