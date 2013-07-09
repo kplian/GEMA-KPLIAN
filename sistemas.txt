@@ -1,3 +1,2 @@
 ../../../sis_almacenes/
 ../../../sis_mantenimiento/
-../../../sis_presupuestos/
