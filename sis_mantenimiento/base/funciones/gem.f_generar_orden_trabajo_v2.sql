@@ -1,11 +1,3 @@
-CREATE OR REPLACE FUNCTION gem.f_generar_orden_trabajo_v2 (
-  p_id_usuario integer,
-  p_id_uni_cons_mant_predef integer,
-  p_fecha_ini date,
-  p_fecha_fin date
-)
-RETURNS varchar AS
-$body$
 /**************************************************************************
  SISTEMA:		SISTEMA DE GESTION DE MANTENIMIENTO
  FUNCION: 		gem.f_generar_orden_trabajo_v2
@@ -119,13 +111,13 @@ BEGIN
                
           
           IF v_fecha_inicial is not NULL THEN
-                raise exception 'Exiten Mantenimeinto planificados en fecha anterior si Orden de Trabajo desde el %',v_fecha_inicial;
+                raise exception 'Existen Mantenimientos planificados en fecha anterior sin Orden de Trabajo desde el %',v_fecha_inicial;
            END IF ;   
            
            
            
            --validar que no existan ordenes de trabajo en el periodo selecionado
-                v_fecha_inicial = NULL;
+              v_fecha_inicial = NULL;
               SELECT  cp.fecha_ini 
               into    v_fecha_inicial 
               from gem.tcalendario_planificado cp 
@@ -137,12 +129,12 @@ BEGIN
               LIMIT 1 OFFSET 0 ;
            
             IF v_fecha_inicial is not NULL THEN
-                raise exception 'Exiten  alguna Orden de Trabajo desde el %',v_fecha_inicial;
+                raise exception 'Existen Ordenes de Trabajo desde el %',v_fecha_inicial;
             END IF ;   
            
            
          
-         --2) obteine datos del mantenimiento apra realizar la insercion de las OT's
+         --2) obtiene datos del mantenimiento para realizar la insercion de las OT's
          
              --  *id_uni_cons  equipo                       <-v_parametros
              --  *equipo, codigo                            <- tuni_cons
@@ -171,9 +163,10 @@ BEGIN
              -- recuperar un registro  con los nomres y descripcion de  tmant_predef_det correspondientes al id_mant_predef
              --dentro de un array 
              v_cont_actividades = 0;
-           FOR g_registros in (select  mp.nombre ,mp.descripcion    from gem.tmant_predef_det  mp 
-                               where mp.id_mant_predef = v_id_mant_predef
-                                     and mp.estado_reg='activo') LOOP
+           FOR g_registros in (select  mp.nombre ,mp.descripcion
+           						from gem.tmant_predef_det  mp 
+                               	where mp.id_mant_predef = v_id_mant_predef
+                              	and mp.estado_reg='activo') LOOP
            
            
                   va_codigos_actividades = array_append( va_codigos_actividades,g_registros.nombre);
@@ -186,13 +179,13 @@ BEGIN
          
           --3)FOR listar todos lo calendarios ee estado generado entre las fechas senhaladas 
           
-          FOR g_registros in ( SELECT  cp.fecha_ini, cp.id_alarma 
-                                      from gem.tcalendario_planificado cp 
-                              WHERE    	cp.id_uni_cons_mant_predef = v_id_uni_cons_mant_predef
-                                      and cp.fecha_ini >=  p_fecha_ini 
-                                      and cp.fecha_ini <=  p_fecha_fin
-                                      and cp.estado = 'generado'
-                              ORDER BY cp.fecha_ini) LOOP
+          FOR g_registros in (SELECT  cp.fecha_ini, cp.id_alarma, cp.id_calendario_planificado 
+          						from gem.tcalendario_planificado cp 
+                              	WHERE cp.id_uni_cons_mant_predef = v_id_uni_cons_mant_predef
+                                and cp.fecha_ini >=  p_fecha_ini 
+                                and cp.fecha_ini <=  p_fecha_fin
+                                and cp.estado = 'generado'
+                              	ORDER BY cp.fecha_ini) LOOP
                     
           
           
@@ -255,7 +248,8 @@ BEGIN
                                 id_localizacion,
                                 fecha_emision,
                                 id_tipo_mant,
-                                id_mant_predef
+                                id_mant_predef,
+                                id_calendario_planificacion
                               ) 
                               VALUES (
                                 p_id_usuario,
@@ -271,7 +265,8 @@ BEGIN
                                 v_id_localizacion,
                                 now()::date,
                                 v_id_tipo_mant,
-                                v_id_mant_predef
+                                v_id_mant_predef,
+                                g_registros.id_calendario_planificado
                                
                               )RETURNING id_orden_trabajo   into v_id_orden_trabajo;
                             
@@ -348,9 +343,3 @@ EXCEPTION
 		raise exception '%',v_resp;
 				        
 END;
-$body$
-LANGUAGE 'plpgsql'
-VOLATILE
-CALLED ON NULL INPUT
-SECURITY INVOKER
-COST 100;

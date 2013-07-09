@@ -57,7 +57,7 @@ Phx.vista.LocalizacionUsuario=Ext.extend(Phx.gridInterfaz,{
 		{
 			config: {
 				name: 'tipo',
-				fieldLabel: 'Responsabilidad',
+				fieldLabel: 'Nivel de Acceso',
 				anchor: '100%',
 				tinit: false,
 				allowBlank: false,

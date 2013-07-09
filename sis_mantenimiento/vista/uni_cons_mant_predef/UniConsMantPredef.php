@@ -18,6 +18,8 @@ Phx.vista.UniConsMantPredef=Ext.extend(Phx.gridInterfaz,{
 		this.init();
 		this.iniciarEventos();
 		this.load({params:{start:0, limit:50, id_uni_cons:this.maestro.id_uni_cons}})
+		this.getComponente('id_uni_cons').setValue(this.maestro.id_uni_cons);
+		this.getComponente('id_mant_predef').store.baseParams={par_filtro:'gemapr.nombre#gemapr.codigo',id_uni_cons:this.maestro.id_uni_cons};
 	},
 			
 	Atributos:[

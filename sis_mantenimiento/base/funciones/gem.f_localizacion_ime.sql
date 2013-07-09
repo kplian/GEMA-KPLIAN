@@ -31,12 +31,13 @@ DECLARE
 	v_resp		            varchar;
 	v_nombre_funcion        text;
 	v_mensaje_error         text;
-	v_id_localizacion	integer;
+	v_id_localizacion		integer;
     
-    v_codigo_largo  varchar;
-    v_usuarios_tmp integer[];
-    g_registros record;
-    g_reg_usu_loc record;
+    v_codigo_largo  		varchar;
+    v_usuarios_tmp 			integer[];
+    g_registros 			record;
+    g_reg_usu_loc 			record;
+    v_aux					varchar;
 			    
 BEGIN
 
@@ -170,47 +171,11 @@ BEGIN
 
 		begin
 			
-             
-             for g_registros in ( select l.id_localizacion 
-                                  from gem.tlocalizacion l 
-                                  where l.id_localizacion_fk is null 
-                                  and l.estado_reg = 'activo') loop
-             
-                 v_usuarios_tmp = NULL;
-                 -- listo lso usarios
-                 FOR g_reg_usu_loc in ( select DISTINCT ul.id_usuario  
-                                from gem.tlocalizacion_usuario ul 
-                                where ul.id_localizacion = g_registros.id_localizacion 
-                                and ul.estado_reg = 'activo') LOOP
-         
-         
-                   v_usuarios_tmp= array_append(v_usuarios_tmp, g_reg_usu_loc.id_usuario);
-                   END LOOP;
-               
-             
-                   update gem.tuni_cons set
-                   id_usuarios = v_usuarios_tmp
-                     where id_localizacion =g_registros.id_localizacion 
-                                       and tipo = 'uc' and tipo_nodo = 'raiz' and estado_reg='activo';
-                         --llamada a la funcion recursiva
-                         
-                 
-                 
-                 IF (select  gem.f_sinc_usuarios_uni_cons(g_registros.id_localizacion,v_usuarios_tmp)) THEN
-                 
-                 ELSE
-                 
-                 raise exception 'Error al sincronizar usarios (0)';
-                 
-                 END IF;            
-            
-            
-             end loop;  
-           
-        
+             --Llamada a la función que dispara la sincronización de usuarios por localización
+             v_aux = gem.f_sincronizacion_loc();
         
             --Definicion de la respuesta
-            v_resp = pxp.f_agrega_clave(v_resp,'mensaje','Sincronizacion de usarios realizada para todas las localizaciones)'); 
+            v_resp = pxp.f_agrega_clave(v_resp,'mensaje',v_aux); 
           
               
             --Devuelve la respuesta

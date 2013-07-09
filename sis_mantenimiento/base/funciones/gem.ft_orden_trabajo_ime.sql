@@ -346,13 +346,6 @@ BEGIN
                     fecha_eje_fin = now()
                     where id_orden_trabajo = v_parametros.id_orden_trabajo;  
                 end if;
-                
-                --Actualiza el estado del calendario
-                update gem.tcalendario_planificado set
-                estado = 'finalizado'
-                from gem.torden_trabajo ot
-                where ot.id_calendario_planificado = gem.tcalendario_planificado.id_calendario_planificado
-                and ot.id_orden_trabajo = v_parametros.id_orden_trabajo;
 
             elsif v_parametros.cat_estado = 'Abierto' then
 				update gem.torden_trabajo set

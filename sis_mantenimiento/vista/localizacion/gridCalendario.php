@@ -324,18 +324,17 @@ Phx.vista.gridCalendario=Ext.extend(Phx.gridInterfaz,{
 									 gwidth: 25,
 									 maxLength:100,
 									 sortable:false,
-									  renderer:function (value, p, record){
+									renderer:function (value, p, record){
 										if(value=='1'){
-										
-												return "<div style='text-align:center'><img src = '../../../lib/imagenes/ball_red.png' align='center' width='12' height='12'/></div>"
-									   		
-									   		}
-									   	if(value=='2'){
-										
+											return "<div style='text-align:center'><img src = '../../../lib/imagenes/ball_red.png' align='center' width='12' height='12'/></div>"
+									   	} else if(value=='2'){
 												return "<div style='text-align:center'><img src = '../../../lib/imagenes/ball_blue.png' align='center' width='12' height='12'/></div>"
-									   		
-									   		}	
-										}
+									  	} else if(value=='3'){
+												return "<div style='text-align:center'><img src = '../../../lib/imagenes/ball_yellow.png' align='center' width='12' height='12'/></div>"
+									  	} else if(value=='4'){
+												return "<div style='text-align:center'><img src = '../../../lib/imagenes/ball_green.png' align='center' width='12' height='12'/></div>"
+									  	}	
+									}
 									 
 									},
 									type:'Field',
@@ -387,7 +386,7 @@ Phx.vista.gridCalendario=Ext.extend(Phx.gridInterfaz,{
 				});
 				
 			this.addButton('GenAllOT', {
-					text : 'Generar Totas las OT',
+					text : 'Generar Todtas las OT',
 					iconCls : 'bgear',
 					disabled : false,
 					handler : this.onBtnGenAllOt,

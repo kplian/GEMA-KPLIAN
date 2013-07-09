@@ -1438,3 +1438,11 @@ create table gem.tpresupuesto_localizacion_usuario(
 WITH OIDS;
 ALTER TABLE gem.tpresupuesto_localizacion_usuario OWNER TO postgres;
 /***********************************F-SCP-RCM-GEM-143-01/07/2013*****************************************/
+
+/***********************************I-SCP-RCM-GEM-35-08/07/2013*****************************************/
+alter table gem.tlocalizacion_usuario
+drop constraint chk_tlocalizacion_usuario__tipo;
+
+alter table gem.tlocalizacion_usuario
+add constraint chk_tlocalizacion_usuario__tipo check (tipo in ('Gerente','Ingeniero','Jefe','Operador','Asistente'));
+/***********************************F-SCP-RCM-GEM-35-08/07/2013*****************************************/

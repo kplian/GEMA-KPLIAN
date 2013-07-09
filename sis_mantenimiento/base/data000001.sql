@@ -995,3 +995,10 @@ select pxp.f_insert_tprocedimiento_gui ('GEM_SOLAPR_MOD', 'GEM.2.7.5', 'si');
 
 
 /***********************************F-DAT-RCM-GEM-144-11/06/2013****************************************/
+
+/***********************************I-DAT-RCM-GEM-0-08/07/2013****************************************/
+ALTER TABLE gem.tuni_cons
+  ALTER COLUMN horas_dia SET DEFAULT 24;
+  
+select pxp.f_add_catalog('GEM','tlocalizacion_usuario','Asistente');
+/***********************************F-DAT-RCM-GEM-0-08/07/2013****************************************/

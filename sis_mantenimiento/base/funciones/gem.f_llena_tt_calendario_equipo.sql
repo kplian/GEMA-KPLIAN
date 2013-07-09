@@ -214,10 +214,17 @@ BEGIN
                 --         arma cadena de insercion de valroes   (valor id col_semana)
                 
                 --segun el estado cambia de color la bola que se muestra en la grilla
+                --1: generado
+                --2: orden_trabajo
+                --3: abierto
+                --4: cerrado
+                
                     IF(g_registros2.estado = 'orden_trabajo') THEN
                    		 v_consulta2=v_consulta2||(',''2'',')::varchar||g_registros2.id_calendario_planificado;
-                    ELSEIF(g_registros2.estado = 'ejecutado') THEN
+                    ELSEIF(g_registros2.estado = 'abierto') THEN
                     	v_consulta2=v_consulta2||(',''3'',')::varchar||g_registros2.id_calendario_planificado;
+                    ELSEIF(g_registros2.estado = 'cerrado') THEN
+                    	v_consulta2=v_consulta2||(',''4'',')::varchar||g_registros2.id_calendario_planificado;
                     ELSE
                     	v_consulta2=v_consulta2||(',''1'',')::varchar||g_registros2.id_calendario_planificado;
                     END IF;

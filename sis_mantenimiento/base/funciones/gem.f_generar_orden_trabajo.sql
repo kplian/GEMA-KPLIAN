@@ -1,5 +1,3 @@
---------------- SQL ---------------
-
 CREATE OR REPLACE FUNCTION gem.f_generar_orden_trabajo (
   p_administrador integer,
   p_id_usuario integer,
@@ -87,7 +85,7 @@ BEGIN
       
       IF v_resp != 'TRUE'  THEN
       
-        raise exception 'Error al generar OT''s';
+        raise exception 'Error al generar OTs';
       
       END IF;
       

@@ -20,13 +20,14 @@ $BODY$
 
 DECLARE
 
-	v_nro_requerimiento    	integer;
-	v_parametros           	record;
-	v_id_requerimiento     	integer;
-	v_resp		            varchar;
-	v_nombre_funcion        text;
-	v_mensaje_error         text;
+	v_nro_requerimiento    		integer;
+	v_parametros           		record;
+	v_id_requerimiento     		integer;
+	v_resp		            	varchar;
+	v_nombre_funcion        	text;
+	v_mensaje_error         	text;
 	v_id_localizacion_usuario	integer;
+	v_aux 						varchar;
 			    
 BEGIN
 
@@ -72,6 +73,9 @@ BEGIN
 			null,
 			null
 			)RETURNING id_localizacion_usuario into v_id_localizacion_usuario;
+			
+			 --Llamada a función de sincronzación de usuarios por localización
+            v_aux = gem.f_sincronizacion_loc();
                
 			--Definicion de la respuesta
 			v_resp = pxp.f_agrega_clave(v_resp,'mensaje','Localización - Usuario almacenado(a) con exito (id_localizacion_usuario'||v_id_localizacion_usuario||')'); 
@@ -109,6 +113,9 @@ BEGIN
 			id_usuario_mod = p_id_usuario,
 			fecha_mod = now()
 			where id_localizacion_usuario=v_parametros.id_localizacion_usuario;
+			
+			--Llamada a función de sincronzación de usuarios por localización
+            v_aux = gem.f_sincronizacion_loc();
                
 			--Definicion de la respuesta
             v_resp = pxp.f_agrega_clave(v_resp,'mensaje','Localización - Usuario modificado(a)'); 
