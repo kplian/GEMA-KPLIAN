@@ -130,7 +130,7 @@ BEGIN
                         from gem.tlocalizacion loc
 						inner join segu.tusuario usu1 
                         on usu1.id_usuario = loc.id_usuario_reg
-					    where  '||v_where|| '  
+					    where loc.estado_reg = ''activo'' and '||v_where|| '  
                         ORDER BY loc.id_localizacion';
 			
 			

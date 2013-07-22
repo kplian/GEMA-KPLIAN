@@ -194,10 +194,25 @@ BEGIN
 	elsif(p_transaccion='GEM_loc_ELI')then
 
 		begin
-			--Sentencia de la eliminacion
-			delete from gem.tlocalizacion
-            where id_localizacion=v_parametros.id_localizacion;
-               
+		
+			if not exists(select 1 from gem.tlocalizacion
+						where id_localizacion = v_parametros.id_localizacion) then
+				raise exception 'Localización inexistente';
+			end if;
+			
+			--Verifica que no tenga nodos activos
+			if exists(select 1 from gem.tuni_cons
+					where id_localizacion = v_parametros.id_localizacion
+					and estado_reg = 'activo'
+					and tipo_nodo = 'raiz'
+					and estado in ('aprobado','registrado')) then
+				raise exception 'No puede eliminar la Localización porque tiene Equipos activos';
+			end if;
+		
+			update gem.tlocalizacion set
+			estado_reg = 'inactivo'
+			where id_localizacion = v_parametros.id_localizacion;
+			   
             --Definicion de la respuesta
             v_resp = pxp.f_agrega_clave(v_resp,'mensaje','Localizacion eliminado(a)'); 
             v_resp = pxp.f_agrega_clave(v_resp,'id_localizacion',v_parametros.id_localizacion::varchar);
