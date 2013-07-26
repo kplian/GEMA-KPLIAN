@@ -98,7 +98,8 @@ BEGIN
             prevension,
             descripcion_progresiva,
             id_cuenta,
-            id_mant_predef
+            id_mant_predef,
+            id_orden_trabajo_sol
             ) values(
       'activo',
       v_parametros.fecha_plan_ini,
@@ -143,7 +144,8 @@ BEGIN
             v_parametros.prevension,
             v_parametros.descripcion_progresiva,
             v_parametros.id_cuenta,
-            v_parametros.id_mant_predef
+            v_parametros.id_mant_predef,
+            v_parametros.id_orden_trabajo_sol
       )RETURNING id_orden_trabajo into v_id_orden_trabajo;
                
       --Definicion de la respuesta
@@ -206,7 +208,8 @@ BEGIN
             prevension = v_parametros.prevension,
             descripcion_progresiva = v_parametros.descripcion_progresiva,
             id_cuenta = v_parametros.id_cuenta,
-            id_mant_predef = v_parametros.id_mant_predef
+            id_mant_predef = v_parametros.id_mant_predef,
+            id_orden_trabajo_sol = v_parametros.id_orden_trabajo_sol
       where id_orden_trabajo=v_parametros.id_orden_trabajo;
             
       --Definicion de la respuesta

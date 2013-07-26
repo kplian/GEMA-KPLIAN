@@ -219,6 +219,49 @@ Phx.vista.OrdenTrabajo=Ext.extend(Phx.gridInterfaz,{
 		},
 		{
 			config:{
+				name: 'id_orden_trabajo_sol',
+				fieldLabel: 'Nro.Sol. OIT',
+				allowBlank: true,
+				emptyText:'Nro. Solicitud...',
+				store:new Ext.data.JsonStore(
+				{
+					url: '../../sis_mantenimiento/control/OrdenTrabajoSol/listarOrdenTrabajoSol',
+					id: 'id_orden_trabajo_sol',
+					root:'datos',
+					sortInfo:{
+						field:'nro_sol',
+						direction:'ASC'
+					},
+					totalProperty:'total',
+					fields: ['id_orden_trabajo_sol','nro_sol'],
+					// turn on remote sorting
+					remoteSort: true,
+					baseParams:{par_filtro:'nro_sol',estado:'finalizado'}
+				}),
+				valueField: 'id_orden_trabajo_sol',
+				displayField: 'nro_sol',
+				gdisplayField:'desc_ot_sol',
+				forceSelection:false,
+				hiddenName:'id_orden_trabajo_sol',
+				typeAhead: false,
+    			triggerAction: 'all',
+    			lazyRender:true,
+				mode:'remote',
+				pageSize:20,
+				queryDelay:500,
+				anchor: '100%',
+				gwidth:220,
+				minChars:2,
+				renderer:function (value, p, record){return String.format('{0}', record.data['desc_ot_sol']);}
+			},
+			type:'ComboBox',
+			filters:{pfiltro:'otsol.nro_sol',type:'string'},
+			id_grupo:0,
+			grid:true,
+			form:true
+		},
+		{
+			config:{
 				name: 'id_tipo_mant',
 				fieldLabel: 'Tipo de OIT',
 				allowBlank: false,
@@ -1247,7 +1290,9 @@ Phx.vista.OrdenTrabajo=Ext.extend(Phx.gridInterfaz,{
 		'desc_cuenta',
 		{name:'fecha_server', type: 'date', dateFormat:'Y-m-d'},
 		'id_mant_predef',
-		'desc_mant_predef'
+		'desc_mant_predef',
+		'id_orden_trabajo_sol',
+		'desc_ot_sol'
 	],
 	sortInfo:{
 		field: 'id_orden_trabajo',

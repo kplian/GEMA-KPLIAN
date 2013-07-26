@@ -109,6 +109,7 @@ Phx.vista.UniConsProveedor=Ext.extend(Phx.gridInterfaz,{
             grid:true,
             form:true
         },
+       
 		{
 			config:{
 				name: 'usr_reg',

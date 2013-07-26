@@ -41,7 +41,7 @@ Phx.vista.Documento=Ext.extend(Phx.gridInterfaz,{
             },rec.data,this.idContenedor,'SubirDocumento')
         };
         
-        this.ocultarColumna(3);
+        //this.ocultarColumna(3);
         this.ocultarColumna(4);    
         this.ocultarColumna(5);
         this.ocultarColumna(6);
@@ -130,7 +130,7 @@ Phx.vista.Documento=Ext.extend(Phx.gridInterfaz,{
                 anchor:'100%',
                 renderer:function (value, p, record){                      
                             if(record.data['extension'].length!=0)
-                            return  String.format('{0}',"<div style='text-align:center'><a href = '../../../documentos/"+ record.data['archivo']+"' align='center' width='70' height='70'>documento</a></div>");
+                            return  String.format('{0}',"<div style='text-align:center'><a href = '../../../documentos/"+ record.data['archivo']+"' align='center' width='70' height='70' target='_blank'>Descargar Archivo ...</a></div>");
                         },  
                 buttonCfg: {
                     iconCls: 'upload-icon'

@@ -22,6 +22,8 @@ class ACTOrdenTrabajoSol extends ACTbase{
 				$this->objParam->addFiltro("solord.estado in (''borrador'',''pendiente'',''finalizado'',''no_aprobado'')");
 			} else if($this->objParam->getParametro('estado')=='finalizacion'){
 				$this->objParam->addFiltro("solord.estado in (''pendiente'',''finalizado'',''no_aprobado'')");
+			} else if($this->objParam->getParametro('estado')=='finalizado'){
+				$this->objParam->addFiltro("solord.estado = ''finalizado''  ");
 			} 
 				
 		}

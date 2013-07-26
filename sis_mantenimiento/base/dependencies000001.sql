@@ -657,3 +657,12 @@ alter table gem.torden_trabajo
 add constraint fk_torden_trabajo__id_localizacion
 foreign key (id_localizacion) references gem.tlocalizacion (id_localizacion);
 /***********************************F-DEP-RCM-GEM-0-09/07/2013*****************************************/
+
+/***********************************I-DEP-RCM-GEM-0-25/07/2013*****************************************/
+ALTER TABLE gem.torden_trabajo
+  ADD CONSTRAINT fk_torden_trabajo__id_orden_trabajo_sol FOREIGN KEY (id_orden_trabajo_sol)
+    REFERENCES gem.torden_trabajo_sol(id_orden_trabajo_sol)
+    ON DELETE NO ACTION
+    ON UPDATE NO ACTION
+    NOT DEFERRABLE;
+/***********************************F-DEP-RCM-GEM-0-25/07/2013*****************************************/

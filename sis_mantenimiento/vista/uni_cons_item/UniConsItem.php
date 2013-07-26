@@ -11,13 +11,16 @@ header("content-type: text/javascript; charset=UTF-8");
 ?>
 <script>
 Phx.vista.UniConsItem=Ext.extend(Phx.gridInterfaz,{
-
 	constructor:function(config){
 		this.maestro=config.maestro;
 		Phx.vista.UniConsItem.superclass.constructor.call(this,config);
 		this.init();
 		this.load({params:{start:0, limit:50, id_uni_cons:this.id_uni_cons}})
 		this.loadValoresIniciales();
+		
+		//Eventos
+		this.Cmp.id_lugar.on('select',this.filtrarProveedor,this);
+		this.Cmp.id_lugar.on('blur',this.filtrarProveedor,this);
 	},
 	
 	loadValoresIniciales:function()
@@ -81,10 +84,59 @@ Phx.vista.UniConsItem=Ext.extend(Phx.gridInterfaz,{
             form:true
         },
         {
+			config:{	
+				name:'id_lugar',
+    			tinit:true,
+    			tasignacion:true,
+    			tname:'id_lugar',
+    			tdisplayField:'nombre',
+    			turl:'../../../sis_parametros/vista/lugar/Lugar.php',
+	   			ttitle:'Lugares',
+	   			tdata:{},
+	   			tcls:'Lugar',
+	   			pid:this.idContenedor,
+	   			fieldLabel:'Lugar x Proveedor',
+	   			allowBlank:true,
+	   			emptyText:'Lugar ...',
+	   			store: new Ext.data.JsonStore({
+                    url: '../../sis_parametros/control/Lugar/listarLugar',
+                    id: 'id_lugar',
+                    root: 'datos',
+                    sortInfo:{
+                        field: 'nombre',
+                        direction: 'ASC'
+                    },
+                    fields: ['id_lugar','codigo','nombre'],
+                    remoteSort: true,
+                    baseParams:{par_filtro:'nombre'}
+                }),
+	   			tpl:'<tpl for="."><div class="x-combo-list-item"><p>Nombre: {nombre}</p><p>Código: {codigo}</p></div></tpl>',
+				valueField: 'id_lugar',
+				hiddenValue: 'id_lugar',
+				hiddenName:'id_lugar',
+				displayField: 'nombre',
+				typeAhead: false,
+    			triggerAction: 'all',
+    			lazyRender:true,
+				mode:'remote',
+				pageSize:20,
+				queryDelay:500,
+				anchor: '100%',
+				gwidth:220,
+				minChars:2,
+				renderer:function(value, p, record){return String.format('{0}', record.data['nombre']);},
+				autoSelect:true
+    		},
+			type:'TrigguerCombo',
+			id_grupo:0,
+			grid:false,
+			form:true
+		},
+        {
           config:{
                 name:'id_proveedor',
                 fieldLabel:'Proveedor',
-                allowBlank:true,
+                allowBlank:false,
                 emptyText:'Proveedor...',
                 store: new Ext.data.JsonStore({
                     url: '../../sis_parametros/control/Proveedor/listarProveedorCombos',
@@ -266,7 +318,13 @@ Phx.vista.UniConsItem=Ext.extend(Phx.gridInterfaz,{
 	fheight: 250,
     codReporte:'S/C',
 	codSistema:'GEM',
-	pdfOrientacion:'L'
+	pdfOrientacion:'L',
+	filtrarProveedor: function(a){
+		this.Cmp.id_proveedor.store.baseParams.id_lugar=a.value;
+		this.Cmp.id_proveedor.setValue('');
+		this.Cmp.id_proveedor.modificado=true;
+	}
+	
 })
 </script>
 		

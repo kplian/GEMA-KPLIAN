@@ -138,7 +138,9 @@ BEGIN
 						now()::date as fecha_server,
 						cue.nro_cuenta as cuenta,
 						geoott.id_mant_predef,
-						coalesce(mpre.codigo,'''') || '' - '' || coalesce(mpre.nombre,'''')  as desc_mant_predef
+						coalesce(mpre.codigo,'''') || '' - '' || coalesce(mpre.nombre,'''')  as desc_mant_predef,
+						geoott.id_orden_trabajo_sol,
+						otsol.nro_sol as desc_ot_sol
 						from gem.torden_trabajo geoott
 						inner join segu.tusuario usu1 on usu1.id_usuario = geoott.id_usuario_reg
 						left join segu.tusuario usu2 on usu2.id_usuario = geoott.id_usuario_mod
@@ -153,6 +155,7 @@ BEGIN
                         left join gem.tcentro_costo cencost on cencost.id_centro_costo = geoott.id_centro_costo
             			left join gem.tcuenta cue on cue.id_cuenta = geoott.id_cuenta
             			left join gem.tmant_predef mpre on mpre.id_mant_predef = geoott.id_mant_predef
+            			left join gem.torden_trabajo_sol otsol on otsol.id_orden_trabajo_sol = geoott.id_orden_trabajo_sol
 				        where geoott.estado_reg = ''activo''
 				        and unicons.tipo = ''uc''
 				        and unicons.estado_reg = ''activo''
@@ -197,7 +200,7 @@ raise notice '%',v_consulta;
             end if;
 	       --Sentencia de la consulta de conteo de registros
             
-			v_consulta:='select count(id_orden_trabajo)
+			v_consulta:='select count(geoott.id_orden_trabajo)
 					    from gem.torden_trabajo geoott
 					    inner join segu.tusuario usu1 on usu1.id_usuario = geoott.id_usuario_reg
 						left join segu.tusuario usu2 on usu2.id_usuario = geoott.id_usuario_mod
@@ -212,6 +215,7 @@ raise notice '%',v_consulta;
                         left join gem.tcentro_costo cencost on cencost.id_centro_costo = geoott.id_centro_costo
                         left join gem.tcuenta cue on cue.id_cuenta = geoott.id_cuenta
                         left join gem.tmant_predef mpre on mpre.id_mant_predef = geoott.id_mant_predef
+                        left join gem.torden_trabajo_sol otsol on otsol.id_orden_trabajo_sol = geoott.id_orden_trabajo_sol
 					    where geoott.estado_reg = ''activo''
 					    and unicons.tipo = ''uc''
 				        and unicons.estado_reg = ''activo''

@@ -1446,3 +1446,6 @@ drop constraint chk_tlocalizacion_usuario__tipo;
 alter table gem.tlocalizacion_usuario
 add constraint chk_tlocalizacion_usuario__tipo check (tipo in ('Gerente','Ingeniero','Jefe','Operador','Asistente'));
 /***********************************F-SCP-RCM-GEM-35-08/07/2013*****************************************/
+
+/***********************************I-SCP-RCM-GEM-0-25/07/2013*****************************************/
+/***********************************F-SCP-RCM-GEM-0-25/07/2013*****************************************/

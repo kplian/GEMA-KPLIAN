@@ -39,7 +39,7 @@ Phx.vista.UniConsGralHijos=Ext.extend(Phx.gridInterfaz,{
 		this.addButton('btnUpload',{
            text :'',
            iconCls : 'bupload',
-           disabled : true,
+           disabled : false,
            handler : this.onButtonUpload,
            tooltip : '<b>Archivos</b><br/>Archivos del Equipo'
         });
@@ -47,7 +47,7 @@ Phx.vista.UniConsGralHijos=Ext.extend(Phx.gridInterfaz,{
         this.addButton('btnItems',{
             text : '',
             iconCls : 'bengine',
-            disabled : true,
+            disabled : false,
             handler : this.onButtonItems,
             tooltip : '<b>Repuestos/Proveedores</b><br/>Registro de Repuestos y Proveedores del Equipo'
         });

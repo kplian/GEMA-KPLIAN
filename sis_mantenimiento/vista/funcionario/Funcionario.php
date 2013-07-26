@@ -16,44 +16,7 @@ Phx.vista.FuncionarioGem = {
 	bdel: true,
 	bedit: true,
 	bnew: true,
-	AtributosExtra:[{
-       			config:{
-       				name:'id_especialidades',
-       				fieldLabel:'Especialidades Técnicas',
-       				allowBlank:true,
-       				emptyText:'Especialidades...',
-       				store: new Ext.data.JsonStore({
-              			url: '../../sis_organigrama/control/Especialidad/listarEspecialidad',
-       					id: 'id_especialidad',
-       					root: 'datos',
-       					sortInfo:{
-       						field: 'nombre',
-       						direction: 'ASC'
-       					},
-       					totalProperty: 'total',
-       					fields: ['id_especialidad','codigo','nombre','desc_especialidad_nivel'],
-       					remoteSort: true,
-       					baseParams:{par_filtro:'espcia.nombre#espcia.codigo#espniv.nombre'}
-       				}),
-       				valueField: 'id_especialidad',
-       				displayField: 'nombre',
-       				forceSelection:true,
-       				typeAhead: true,
-           			triggerAction: 'all',
-           			lazyRender:true,
-       				mode:'remote',
-       				pageSize:10,
-       				queryDelay:1000,
-       				anchor: '90%',
-       				minChars:2,
-	       			enableMultiSelect:true,
-	       			hiddenName:'id_especialidades'
-       			},
-       			type:'AwesomeCombo',
-       			id_grupo:0,
-       			grid:false,
-       			form:true
-       	},
+	AtributosExtra:[
        	{
 	       	config:{
 	       			name: 'horario1',
@@ -110,13 +73,77 @@ Phx.vista.FuncionarioGem = {
 	       		id_grupo:0,
 	       		grid:true,
 	       		form:true
-	     }
+	     },
+	     {
+       			config:{
+       				name:'id_especialidades',
+       				fieldLabel:'Especialidades Técnicas',
+       				allowBlank:true,
+       				tinit:true,
+	    			tasignacion:true,
+	    			tname:'id_especialidades',
+	    			tdisplayField:'nombre',
+	    			turl:'../../../sis_mantenimiento/vista/especialidad_tecnica/EspecialidadTecnica.php',
+       				emptyText:'Especialidades...',
+       				store: new Ext.data.JsonStore({
+              			url: '../../sis_organigrama/control/Especialidad/listarEspecialidad',
+       					id: 'id_especialidad',
+       					root: 'datos',
+       					sortInfo:{
+       						field: 'nombre',
+       						direction: 'ASC'
+       					},
+       					totalProperty: 'total',
+       					fields: ['id_especialidad','codigo','nombre','desc_especialidad_nivel'],
+       					remoteSort: true,
+       					baseParams:{par_filtro:'espcia.nombre#espcia.codigo#espniv.nombre'}
+       				}),
+       				valueField: 'id_especialidad',
+       				displayField: 'nombre',
+       				forceSelection:true,
+       				typeAhead: true,
+           			triggerAction: 'all',
+           			lazyRender:true,
+       				mode:'remote',
+       				pageSize:10,
+       				queryDelay:1000,
+       				anchor: '90%',
+       				minChars:2,
+	       			enableMultiSelect:true,
+	       			hiddenName:'id_especialidades'
+       			},
+       			type:'AwesomeCombo',
+       			id_grupo:0,
+       			grid:false,
+       			form:true
+       	}
 	],
 
 	constructor: function(config) {
        	Phx.vista.FuncionarioGem.superclass.constructor.call(this,config);
 		this.init();
 		this.load({params:{start:0, limit:50}});
+		
+		this.form.add( 
+                new Ext.Button(
+                {fieldLabel:'Nueva especialidad',
+                 text:'...',
+                 icon:'key.gif',
+                 cls:'x-form-trigger',
+                 handler:function(){
+                 	var data;
+                 	Phx.CP.loadWindows('../../../sis_organigrama/vista/especialidad/Especialidad.php',
+						'Especialidades',
+						{
+							width:'60%',
+							height:'70%'
+					    },
+					    data,
+					    this.idContenedor,
+					    'Especialidad'
+						);
+                 	}
+                 }));  
 	},
 	tabsouth:[{
 		  url:'../../../sis_organigrama/vista/funcionario_especialidad/FuncionarioEspecialidad.php',
