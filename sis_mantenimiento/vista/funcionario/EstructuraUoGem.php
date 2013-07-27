@@ -17,7 +17,7 @@ Phx.vista.EstructuraUoGem = {
 	bedit: true,
 	bnew: true,
 	constructor: function(config) {
-       	Phx.vista.EstructuraUo.superclass.constructor.call(this,config);
+       	Phx.vista.EstructuraUoGem.superclass.constructor.call(this,config);
 		this.init();
 		//Creación de menú contextual
 		//this.crearCtxMenu();
