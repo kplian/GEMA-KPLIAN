@@ -1,5 +1,3 @@
---------------- SQL ---------------
-
 CREATE OR REPLACE FUNCTION gem.f_localizacion_sel (
   p_administrador integer,
   p_id_usuario integer,
@@ -130,10 +128,20 @@ BEGIN
                         from gem.tlocalizacion loc
 						inner join segu.tusuario usu1 
                         on usu1.id_usuario = loc.id_usuario_reg
-					    where loc.estado_reg = ''activo'' and '||v_where|| '  
+                        where   loc.estado_reg = ''activo'' and '||v_where; 
+                        
+                 if pxp.f_existe_parametro(p_tabla,'vista') then
+                 	if(v_parametros.vista = 'loc') then
+	                 	v_consulta = v_consulta || ' and loc.codigo != ''VEH''';
+	                 elsif v_parametros.vista = 'vehiculos' then
+	                 	v_consulta = v_consulta || ' and loc.codigo in (''VEH'',''YPFB'')';
+	                 end if;
+                 end if;
+
+				v_consulta = v_consulta || '  
                         ORDER BY loc.id_localizacion';
 			
-			
+			raise notice 'CONS: %',v_consulta;
 			--Devuelve la respuesta
 			return v_consulta;
 						

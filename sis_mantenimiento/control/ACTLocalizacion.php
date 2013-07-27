@@ -34,6 +34,12 @@ class ACTLocalizacion extends ACTbase{
 
 		$id_localizacion=$this->objParam->getParametro('id_localizacion');
 		$tipo_nodo=$this->objParam->getParametro('tipo_nodo');
+		//RCM: solo por requerimiento de YPFB, no mostrar vehiculos
+		/*if($this->objParam->getParametro('vista')=='loc'){
+			$this->objParam->addFiltro("loc.codigo != ''VEH'' ");
+		} else if($this->objParam->getParametro('vista')=='vehiculos'){
+			$this->objParam->addFiltro("loc.codigo = ''VEH'' ");
+		}*/  
 		
 	
 		if($tipo_nodo != 'uni_cons' && $tipo_nodo != 'uni_cons_f'){
@@ -45,10 +51,10 @@ class ACTLocalizacion extends ACTbase{
 						$this->objParam->addParametro('id_padre',$id_localizacion);
 					}
 
+					
+		            
 		            $this->objFunc=$this->create('MODLocalizacion');
 					$this->res=$this->objFunc->listarLocalizacionArb($this->objParam);
-
-					
 					$this->res->setTipoRespuestaArbol();
 					
 					$arreglo=array();

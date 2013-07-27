@@ -40,6 +40,7 @@ header("content-type: text/javascript; charset=UTF-8");
 		onBeforeLoad: function(treeLoader, node) {
 			var tiponodo = node.attributes.tipo_nodo;
 			treeLoader.baseParams.tipo_nodo = tiponodo;
+			treeLoader.baseParams.vista=this.vista
 			if (tiponodo == 'uni_cons' || tiponodo == 'uni_cons_f') {
 				treeLoader.baseParams.id_uni_cons = node.attributes.id_uni_cons;
 			}
@@ -1982,7 +1983,16 @@ header("content-type: text/javascript; charset=UTF-8");
 		var ff= Phx.vista.Localizacion.superclass.getColumnasNodo.call(this,aux);
 		//console.log(ff);
 		return aux;
-	} /*,
+	},
+	vista:'loc',
+	agregarArgsExtraSubmit: function(){
+		//Inicializa el objeto de los argumentos extra
+		this.argumentExtraSubmit={};
+
+		//Añade los parámetros extra para mandar por submit
+		this.argumentExtraSubmit.vista=this.vista;
+	}
+	 /*,
 	
 	Grupos: [
             {

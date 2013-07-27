@@ -1002,3 +1002,8 @@ ALTER TABLE gem.tuni_cons
   
 select pxp.f_add_catalog('GEM','tlocalizacion_usuario','Asistente');
 /***********************************F-DAT-RCM-GEM-0-08/07/2013****************************************/
+
+/***********************************I-DAT-RCM-GEM-0-29/07/2013****************************************/
+select pxp.f_insert_tgui ('Vehículos', 'Vehículos', 'GEM.2.8', 'si', 1, 'sis_mantenimiento/vista/localizacion/LocalizacionVeh.php', 3, '', 'LocalizacionVeh', 'GEM');
+select pxp.f_insert_testructura_gui ('GEM.2.8', 'GEM.2');
+/***********************************F-DAT-RCM-GEM-0-29/07/2013****************************************/

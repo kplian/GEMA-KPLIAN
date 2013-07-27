@@ -57,6 +57,7 @@ class MODLocalizacion extends MODbase{
 		
 						
         $this->setParametro('id_padre','id_padre','varchar');		
+		$this->setParametro('vista','vista','varchar');
 		
 		//Definicion de la lista del resultado del query
 		$this->captura('id_localizacion','int4');
@@ -84,6 +85,7 @@ class MODLocalizacion extends MODbase{
 		
 		$this->armarConsulta();
 	    $consulta=$this->getConsulta();
+		//echo $consulta;exit;
 		$this->ejecutarConsulta();
         
         
