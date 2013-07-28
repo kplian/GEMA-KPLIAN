@@ -46,7 +46,6 @@ BEGIN
   #AUTOR:   rac 
   #FECHA:   09-08-2012 00:42:57
   ***********************************/
-   
   if(p_transaccion='GEM_TUC_SEL')then
             
   begin
@@ -1345,12 +1344,105 @@ BEGIN
       return v_consulta;
 
     end; 
+    
+    /*********************************
+    #TRANSACCION: 'GEM_EQOPER_SEL'
+    #DESCRIPCION: Listado plano de todos los equipos que tiene asignado una persona
+    #AUTOR: rcm
+    #FECHA: 01/08/2013
+    ***********************************/
+
+    elsif(p_transaccion='GEM_EQOPER_SEL')then
+         
+         begin
+         
+         	if p_administrador != 1  then
+		      	v_filtro = p_id_usuario||' = ANY (equipo.id_usuarios) ';
+		    else 
+		        v_filtro = '  0=0 ';
+		    end if;
+         
+         	v_consulta:=' select
+                  equipo.id_uni_cons,
+                  equipo.id_tipo_equipo,
+                  equipo.id_localizacion,
+                  equipo.tipo_unicons,
+                  equipo.id_plantilla,
+                  equipo.codigo,
+                  equipo.incluir_calgen,
+                  equipo.otros_datos_tec,
+                  equipo.estado_reg,
+                  equipo.punto_recepcion_despacho,
+                  equipo.tipo_nodo,
+                  equipo.id_usuarios,
+                  equipo.tipo,
+                  equipo.herramientas_especiales,
+                  equipo.estado,
+                  equipo.nombre,
+                  equipo.funcion,
+                  equipo.id_usuario_reg,
+                  equipo.fecha_reg,
+                  equipo.id_usuario_mod,
+                  equipo.fecha_mod,
+                  usu1.cuenta as usr_reg,
+                  usu2.cuenta as usr_mod,
+                  equipo.horas_dia,
+                  gem.f_get_nombre_localizacion_rec(equipo.id_localizacion,''padres'') as desc_localizacion
+                  from gem.tuni_cons equipo
+                  inner join segu.tusuario usu1 on usu1.id_usuario = equipo.id_usuario_reg
+                  left join segu.tusuario usu2 on usu2.id_usuario = equipo.id_usuario_mod
+                  inner join gem.ttipo_equipo teq
+                  on teq.id_tipo_equipo = equipo.id_tipo_equipo
+                  inner join gem.tuni_cons plant
+                  on plant.id_uni_cons = equipo.id_plantilla
+                  where equipo.estado_reg=''activo'' and equipo.tipo_nodo = ''raiz'' and (equipo.estado=''aprobado'' or equipo.estado=''registrado'') and ' || v_filtro ||' and ';
+                    
+  			v_consulta:=v_consulta||v_parametros.filtro;
+			v_consulta:=v_consulta||' order by ' ||v_parametros.ordenacion|| ' ' || v_parametros.dir_ordenacion || ' limit ' || v_parametros.cantidad || ' offset ' || v_parametros.puntero;
+			
+			--Devuelve la respuesta
+			return v_consulta;
+         	
+         end;
+             
+	/*********************************    
+  	#TRANSACCION:  'GEM_EQOPER_CONT'
+  	#DESCRIPCION: Conteo de registros
+  	#AUTOR:   rcm 
+  	#FECHA:   01/08/2013
+  	***********************************/
+
+  	elsif(p_transaccion='GEM_EQOPER_CONT')then
+
+    	begin
+    	
+    		if p_administrador != 1  then
+		      	v_filtro = p_id_usuario||' = ANY (equipo.id_usuarios) ';
+		    else 
+		        v_filtro = '  0=0 ';
+		    end if;
    
+   			--Sentencia de la consulta de conteo de registros
+			v_consulta:='select count(equipo.id_uni_cons)
+					    from gem.tuni_cons equipo
+	                  inner join segu.tusuario usu1 on usu1.id_usuario = equipo.id_usuario_reg
+	                  left join segu.tusuario usu2 on usu2.id_usuario = equipo.id_usuario_mod
+	                  inner join gem.ttipo_equipo teq
+	                  on teq.id_tipo_equipo = equipo.id_tipo_equipo
+	                  inner join gem.tuni_cons plant
+	                  on plant.id_uni_cons = equipo.id_plantilla
+	                  where equipo.estado_reg=''activo'' and equipo.tipo_nodo = ''raiz'' and (equipo.estado=''aprobado'' or equipo.estado=''registrado'') and ' || v_filtro ||' and ';
+			
+			--Definicion de la respuesta		    
+			v_consulta:=v_consulta||v_parametros.filtro;
+
+			--Devuelve la respuesta
+			return v_consulta;
    
-   
-  else
+   		end;
+	else
                
-    raise exception 'Transaccion inexistente';
+    	raise exception 'Transaccion inexistente';
                    
   end if;
           

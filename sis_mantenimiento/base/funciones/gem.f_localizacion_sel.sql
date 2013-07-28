@@ -141,7 +141,6 @@ BEGIN
 				v_consulta = v_consulta || '  
                         ORDER BY loc.id_localizacion';
 			
-			raise notice 'CONS: %',v_consulta;
 			--Devuelve la respuesta
 			return v_consulta;
 						

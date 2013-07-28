@@ -589,6 +589,26 @@ class ACTUniCons extends ACTbase{
 		$this->res->imprimirRespuesta($this->res->generarJson());
 	}
 	/*Fin RCM*/
+	
+	/*
+	 * Author: RCM
+	 * Date: 01/08/2013
+	 * Description: listado de los equipos por operador
+	 */		
+	function listarUniConsOperador(){
+		$this->objParam->defecto('ordenacion','codigo');
+		$this->objParam->defecto('dir_ordenacion','asc');
+		
+		if($this->objParam->getParametro('tipoReporte')=='excel_grid' || $this->objParam->getParametro('tipoReporte')=='pdf_grid'){
+			$this->objReporte = new Reporte($this->objParam, $this);
+			$this->res = $this->objReporte->generarReporteListado('MODUniCons','listarUniConsOperador');
+		} else{
+			$this->objFunc=$this->create('MODUniCons');	
+			$this->res=$this->objFunc->listarUniConsOperador();
+		}
+		$this->res->imprimirRespuesta($this->res->generarJson());
+	}
+	/*Fin RCM*/
 
 }
 ?>

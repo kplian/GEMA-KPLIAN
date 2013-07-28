@@ -1004,6 +1004,9 @@ select pxp.f_add_catalog('GEM','tlocalizacion_usuario','Asistente');
 /***********************************F-DAT-RCM-GEM-0-08/07/2013****************************************/
 
 /***********************************I-DAT-RCM-GEM-0-29/07/2013****************************************/
-select pxp.f_insert_tgui ('Vehículos', 'Vehículos', 'GEM.2.8', 'si', 1, 'sis_mantenimiento/vista/localizacion/LocalizacionVeh.php', 3, '', 'LocalizacionVeh', 'GEM');
+select pxp.f_insert_tgui ('Vehículos', 'Vehículos', 'GEM.2.8', 'si', 7, 'sis_mantenimiento/vista/localizacion/LocalizacionVeh.php', 3, '', 'LocalizacionVeh', 'GEM');
 select pxp.f_insert_testructura_gui ('GEM.2.8', 'GEM.2');
+
+select pxp.f_insert_tgui ('Registro de Mediciones', 'Registro de Mediciones', 'GEM.2.9', 'si', 8, 'sis_mantenimiento/vista/uni_cons/UniConsOperador.php', 3, '', 'UniConsOperador', 'GEM');
+select pxp.f_insert_testructura_gui ('GEM.2.9', 'GEM.2');
 /***********************************F-DAT-RCM-GEM-0-29/07/2013****************************************/

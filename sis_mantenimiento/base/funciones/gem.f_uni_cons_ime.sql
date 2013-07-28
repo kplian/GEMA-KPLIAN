@@ -107,17 +107,38 @@ BEGIN
 
             end if;
 
-            --Verificar duplicidad de codigo de uo
-            if exists(select distinct 1 
-                   	from gem.tuni_cons uc 
-                   	where lower(uc.codigo)=lower(v_parametros.codigo) and uc.estado_reg='activo') then
-            	raise exception 'Código duplicado';
-			end if;
+
                 
 			if(v_parametros.tipo = 'tuc') then
             	v_estado = 'borrador';  --falta validar
+                	
+            	--Verificar duplicidad de codigo, solo en caso de TUC padres
+            	if v_parametros.id_uni_cons_padre='1' then
+            		if exists(select 1
+                              from gem.tuni_cons uc
+                              inner join gem.tuni_cons_comp ucomp
+                              on ucomp.id_uni_cons_hijo = uc.id_uni_cons
+                              and ucomp.id_uni_cons_padre = 1
+                              where lower(uc.codigo)=lower(v_parametros.codigo)
+                              and uc.tipo = 'tuc'
+                              and uc.estado_reg='activo') then
+                        raise exception 'Código duplicado';
+                    end if;                
+            	end if;
+
+            	
 			else
 				v_estado = 'registrado';  -- falta confirma el proceso de alta ,si ya no necesita modificaciones
+				--Verificar duplicidad de codigo de uo
+	            if exists(select distinct 1 
+	                   	from gem.tuni_cons uc 
+	                   	where lower(uc.codigo)=lower(v_parametros.codigo)
+                        and uc.estado_reg='activo'
+                        and uc.tipo = 'uc') then
+	            	raise exception 'Código duplicado';
+				end if;
+				
+				
 			end if;
                 
             --verifica el tipo_nodo
@@ -403,9 +424,11 @@ BEGIN
              --el codigo tiene que ser unico para la UC
              
              
-             IF exists( select 1 from  gem.tuni_cons  uc 
-                      where  upper(uc.codigo) = upper(v_parametros.codigo_uni_cons )) THEN
-              raise exception 'El codigo de equipo ya existe';
+             IF exists(select 1 from  gem.tuni_cons  uc 
+                       where upper(uc.codigo) = upper(v_parametros.codigo_uni_cons )
+                       and estado_reg = 'activo'
+                       and tipo = 'uc') THEN
+              raise exception 'Código de Equipo Duplicado';
              END IF;
               
              

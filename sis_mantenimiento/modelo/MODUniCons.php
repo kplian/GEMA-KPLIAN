@@ -158,6 +158,7 @@ class MODUniCons extends MODbase{
 
 		//Ejecuta la instruccion
 		$this->armarConsulta();
+		//echo $this->consulta;exit;
 		$this->ejecutarConsulta();
 
 		//Devuelve la respuesta
@@ -665,6 +666,48 @@ class MODUniCons extends MODbase{
 		return $this->respuesta;
 	}
 	/*Fin RCM*/
+	
+	function listarUniConsOperador(){
+		//Definicion de variables para ejecucion del procedimientp
+		$this->procedimiento='gem.f_uni_cons_sel';
+		$this->transaccion='GEM_EQOPER_SEL';
+		$this->tipo_procedimiento='SEL';//tipo de transaccion
+				
+		//Definicion de la lista del resultado del query
+		$this->captura('id_uni_cons','int4');
+		$this->captura('id_tipo_equipo','int4');
+		$this->captura('id_localizacion','int4');
+		$this->captura('tipo_unicons','varchar');
+		$this->captura('id_plantilla','int4');
+		$this->captura('codigo','varchar');
+		$this->captura('incluir_calgen','bool');
+		$this->captura('otros_datos_tec','varchar');
+		$this->captura('estado_reg','varchar');
+		$this->captura('punto_recepcion_despacho','varchar');
+		$this->captura('tipo_nodo','varchar');
+		$this->captura('id_usuarios','_int4');
+		$this->captura('tipo','varchar');
+		$this->captura('herramientas_especiales','varchar');
+		$this->captura('estado','varchar');
+		$this->captura('nombre','varchar');
+		$this->captura('funcion','varchar');
+		$this->captura('id_usuario_reg','int4');
+		$this->captura('fecha_reg','timestamp');
+		$this->captura('id_usuario_mod','int4');
+		$this->captura('fecha_mod','timestamp');
+		$this->captura('usr_reg','varchar');
+		$this->captura('usr_mod','varchar');
+		$this->captura('horas_dia','integer');
+		$this->captura('desc_localizacion','varchar');
+		
+		//Ejecuta la instruccion
+		$this->armarConsulta();
+		//echo $this->consulta;exit;
+		$this->ejecutarConsulta();
+		
+		//Devuelve la respuesta
+		return $this->respuesta;
+	}
 	
 }
 ?>
