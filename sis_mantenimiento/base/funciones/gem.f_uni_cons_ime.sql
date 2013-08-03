@@ -53,6 +53,7 @@ DECLARE
     
     v_id_usuarios_tmp integer[];
 	v_horas_dia integer;
+    v_tipo	varchar;
    
 BEGIN
 
@@ -289,13 +290,47 @@ BEGIN
              END IF;
         
          -- verificar duplicidad de codigo de uo
-               if exists (
+               /*if exists (
                    select distinct 1 
                    from gem.tuni_cons uc 
                    where lower(uc.codigo)=lower(v_parametros.codigo) 
                    and uc.estado_reg='activo' and uc.id_uni_cons!=v_parametros.id_uni_cons) then
                    raise exception 'CODIGO DUPLICADO';
-                end if;
+                end if;*/
+                
+                select tipo
+                into v_tipo
+                from gem.tuni_cons
+                where id_uni_cons = v_parametros.id_uni_cons;
+                
+        	if(v_tipo = 'tuc') then
+            	--Verificar duplicidad de codigo, solo en caso de TUC padres
+            	if v_parametros.id_uni_cons_padre='1' then
+            		if exists(select 1
+                              from gem.tuni_cons uc
+                              inner join gem.tuni_cons_comp ucomp
+                              on ucomp.id_uni_cons_hijo = uc.id_uni_cons
+                              and ucomp.id_uni_cons_padre = 1
+                              where lower(uc.codigo)=lower(v_parametros.codigo)
+                              and uc.tipo = 'tuc'
+                              and uc.estado_reg='activo') then
+                        raise exception 'Código duplicado';
+                    end if;                
+            	end if;
+
+            	
+			else
+				--Verificar duplicidad de codigo de uo
+	            if exists(select distinct 1 
+	                   	from gem.tuni_cons uc 
+	                   	where lower(uc.codigo)=lower(v_parametros.codigo)
+                        and uc.estado_reg='activo'
+                        and uc.tipo = 'uc') then
+	            	raise exception 'Código duplicado';
+				end if;
+				
+				
+			end if;
         
 			--Sentencia de la modificacion
 			update    gem.tuni_cons set

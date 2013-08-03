@@ -186,6 +186,7 @@ class MODUniCons extends MODbase{
 		$this->setParametro('funcion','funcion','varchar');
 		$this->setParametro('punto_recepcion_despacho','punto_recepcion_despacho','varchar');
 		$this->setParametro('ficha_tecnica','ficha_tecnica','varchar');
+		$this->setParametro('id_uni_cons_padre','id_uni_cons_padre','varchar');
 		
 		//Ejecuta la instruccion
 		$this->armarConsulta();
