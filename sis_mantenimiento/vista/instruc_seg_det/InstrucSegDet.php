@@ -49,7 +49,7 @@ Phx.vista.InstrucSegDet=Ext.extend(Phx.gridInterfaz,{
 				fieldLabel: 'Nro.',
 				allowBlank: true,
 				anchor: '80%',
-				gwidth: 100,
+				gwidth: 70,
 				maxLength:4
 			},
 			type:'NumberField',
@@ -64,7 +64,7 @@ Phx.vista.InstrucSegDet=Ext.extend(Phx.gridInterfaz,{
 				fieldLabel: 'Descripción',
 				allowBlank: true,
 				anchor: '80%',
-				gwidth: 250,
+				gwidth: 400,
 				maxLength:1000
 			},
 			type:'TextField',
