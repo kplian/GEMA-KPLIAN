@@ -1448,4 +1448,6 @@ add constraint chk_tlocalizacion_usuario__tipo check (tipo in ('Gerente','Ingeni
 /***********************************F-SCP-RCM-GEM-35-08/07/2013*****************************************/
 
 /***********************************I-SCP-RCM-GEM-0-25/07/2013*****************************************/
+alter table gem.torden_trabajo
+add column id_orden_trabajo_sol integer;
 /***********************************F-SCP-RCM-GEM-0-25/07/2013*****************************************/
