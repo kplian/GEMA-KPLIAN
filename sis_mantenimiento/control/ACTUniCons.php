@@ -609,6 +609,26 @@ class ACTUniCons extends ACTbase{
 		$this->res->imprimirRespuesta($this->res->generarJson());
 	}
 	/*Fin RCM*/
+	
+	/*
+	 * Author: RCM
+	 * Date: 14/08/2013
+	 * Description: Adicionar una plantilla existente a otra plantilla
+	 *  */
+	 	
+	function addPlantilla(){
+		$this->objFunc=$this->create('MODUniCons');	
+		
+		$this->res=$this->objFunc->addPlantilla();			
+		$this->res->imprimirRespuesta($this->res->generarJson());
+	}
+	
+	function clonePlantilla(){
+		$this->objFunc=$this->create('MODUniCons');	
+		
+		$this->res=$this->objFunc->clonePlantilla();			
+		$this->res->imprimirRespuesta($this->res->generarJson());
+	}
 
 }
 ?>

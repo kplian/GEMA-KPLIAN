@@ -221,13 +221,25 @@ header("content-type: text/javascript; charset=UTF-8");
 				var cmbUC = this.formUC.getForm().findField('id_uni_cons');
 				var codigo = this.formUC.getForm().findField('codigo_uni_cons');
 				var codigo_loc = nodo.parentNode.attributes.codigo + '-' + nodo.attributes.codigo
+				var id_localizacion, txtCodigo
+				
+				var nombreAccion='addUniCons';
+				
+				id_localizacion =  nodo.attributes.id_localizacion
+				txtCodigo=codigo.getValue()
+				
+				if(this.swAdd=='plantilla'){
+					nombreAccion='clonePlantilla'
+					id_localizacion = nodo.attributes.id_uni_cons,
+					txtCodigo=null
+				}
 
 				Ext.Ajax.request({
-					url: '../../sis_mantenimiento/control/UniCons/addUniCons',
+					url: '../../sis_mantenimiento/control/UniCons/'+nombreAccion,
 					params: {
 						id_uni_cons : cmbUC.getValue(),
-						codigo_uni_cons : codigo.getValue(),
-						id_localizacion : nodo.attributes.id_localizacion,
+						codigo_uni_cons : txtCodigo,
+						id_localizacion : id_localizacion,
 						codigo_localizacion : codigo_loc,
 						nombre : nodo.attributes.nombre
 					},
@@ -281,8 +293,12 @@ header("content-type: text/javascript; charset=UTF-8");
 
 		onBtnAddEquipo: function() {
 			var nodo = this.sm.getSelectedNode();
+			this.swAdd='unicons';
 			this.formUC.form.reset()
 			if (nodo) {
+				this.formUC.getForm().findField('codigo_uni_cons').show();
+				this.formUC.getForm().findField('codigo_uni_cons').allowBlanck=false;
+				this.wUC.setTitle('Agregar Equipo');
 				this.wUC.show()
 			}
 		},
@@ -1145,7 +1161,6 @@ header("content-type: text/javascript; charset=UTF-8");
 				});
 			}
 		},
-
 		onEqMantClick: function() {
 			var node = this.sm.getSelectedNode();
 			var data = node.attributes;
@@ -1258,6 +1273,18 @@ header("content-type: text/javascript; charset=UTF-8");
 				text: 'Equipos',
 				menu: {
 					items: [{
+						id:'mni-addSubsist-'+this.idContenedor,
+						text: 'Agregar Subsistema',
+						handler: this.onAddSubsist,
+						scope: this
+					}, {
+						id:'mni-delSubsist-'+this.idContenedor,
+						text: 'Eliminar Subsistema',
+						handler: this.onDelSubsist,
+						scope: this
+					},
+					'-',
+					{
 						id:'mni-ficTec-'+this.idContenedor,
 						text: 'Ficha Técnica',
 						handler: this.onFichaTecnicaClick,
@@ -1272,12 +1299,16 @@ header("content-type: text/javascript; charset=UTF-8");
 						text: 'Medición de Variables',
 						handler: this.onClickMed,
 						scope: this
-					}, {
+					},
+					'-',
+					{
 						id:'mni-upArch-'+this.idContenedor,
 						text: 'Upload archivos',
 						handler: this.onClickUp,
 						scope: this
-					}, {
+					},
+					'-',
+					{
 						id:'mni-tpm-'+this.idContenedor,
 						text: 'TPM',
 						menu: {
@@ -1496,7 +1527,7 @@ header("content-type: text/javascript; charset=UTF-8");
 				items: [{
 					xtype: 'combo',
 					name: 'id_uni_cons',
-					fieldLabel: 'Equipo',
+					fieldLabel: 'Plantilla',
 					allowBlank: false,
 					emptyText: 'Elija un equipo...',
 					store: new Ext.data.JsonStore({
@@ -1991,54 +2022,23 @@ header("content-type: text/javascript; charset=UTF-8");
 
 		//Añade los parámetros extra para mandar por submit
 		this.argumentExtraSubmit.vista=this.vista;
-	}
-	 /*,
-	
-	Grupos: [
-            {
-                layout: 'column',
-                border: false,
-                defaults: {
-                   border: false
-                },            
-                items: [{
-					        bodyStyle: 'padding-right:5px;',
-					        items: [{
-					            xtype: 'fieldset',
-					            title: 'Datos principales',
-					            autoHeight: true,
-					            items: [],
-						        id_grupo:1
-					        }]
-					    },
-					    {
-					        bodyStyle: 'padding-right:5px;',
-					        items: [{
-					            xtype: 'fieldset',
-					            title: 'Tree',
-					            autoHeight: true,
-					            items: [
-					            {
-					                animate:true,
-					                xtype: 'treepanel',
-					                autoScroll:true,
-					                loader: new Ext.tree.TreeLoader({dataUrl:'get-nodes.php'}),
-					                enableDD:false,
-					                containerScroll: true,
-					                border: false,
-					                width: 250,
-					                height: 300,
-					                root: new Ext.tree.AsyncTreeNode({
-						                text: 'Ext JS', 
-						                draggable:false
-						            })
-					            }
-										            
-					            ]
-					        }]
-					    }]
-            }
-        ]*/
+	},
+	swAdd:'unicons',
+	onAddSubsist: function() {
+		var nodo = this.sm.getSelectedNode();
+		this.swAdd='plantilla';
+		this.formUC.form.reset()
+		if (nodo) {
+			this.formUC.getForm().findField('codigo_uni_cons').hide();
+			this.formUC.getForm().findField('codigo_uni_cons').allowBlanck=true;
+			this.wUC.setTitle('Agregar Plantilla');
+			this.wUC.show()
+		}
+	},
+	onDelSubsist: function(){
+		alert('Eliminar subsistema')
+	} 
+
 })
 </script>
 

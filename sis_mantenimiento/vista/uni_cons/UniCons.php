@@ -102,6 +102,14 @@ Phx.vista.UniCons=Ext.extend(Phx.arbInterfaz,{
 				handler : this.onBtnDocTecnica,
 				tooltip : '<b>Documentación Técnica</b><br/>Define la documentación técnica.'
 		});
+		
+		this.addButton('btnAddPlantilla', {
+				text : '',
+				iconCls : 'bengineadd',
+				disabled : false,
+				handler : this.onBtnAddPlantilla,
+				tooltip : '<b>Agregar Plantilla</b><br/>Permite agregar una plantilla ya existente.'
+		});
     	
     	// initButtons:[this.cmbTipo],
 		/*this.tbar.add('->');
@@ -123,6 +131,9 @@ Phx.vista.UniCons=Ext.extend(Phx.arbInterfaz,{
 		
         this.tbar.items.get('b-new-' + this.idContenedor).disable();
 		this.getBoton('btnAtrib').disable();
+		
+		//Creación de ventana para adición de plantillas
+		this.createWindowAddPlantilla()
 	},
 	expanded:false,
 
@@ -709,17 +720,17 @@ Phx.vista.UniCons=Ext.extend(Phx.arbInterfaz,{
     },
     onBtnDocTecnica: function() {
     	var rec=this.sm.getSelectedNode();
-            var data = rec.attributes;
-            if(data) {
-            	Phx.CP.loadWindows('../../../sis_mantenimiento/vista/uni_cons_doc_tec/UniConsDocumentoTec.php',
-                    'Documentacion Técnica',
-                    {
-                        modal:true,
-                        width:700,
-                        height:500
-                    },
-                    data,this.idContenedor,'UniConsDocumentoTec')
-            }
+        var data = rec.attributes;
+        if(data) {
+        	Phx.CP.loadWindows('../../../sis_mantenimiento/vista/uni_cons_doc_tec/UniConsDocumentoTec.php',
+                'Documentacion Técnica',
+                {
+                    modal:true,
+                    width:700,
+                    height:500
+                },
+                data,this.idContenedor,'UniConsDocumentoTec')
+        }
     },
 	successBU:function(resp){
 			Phx.CP.loadingHide();
@@ -747,7 +758,122 @@ Phx.vista.UniCons=Ext.extend(Phx.arbInterfaz,{
 		},
 	
 	fwidth: 450,
-	fheight: 500
+	fheight: 500,
+	createWindowAddPlantilla : function() {
+		this.formUC = new Ext.form.FormPanel({
+			baseCls: 'x-plain-' + this.idContenedor,
+			bodyStyle: 'padding:10 20px 10;',
+			autoDestroy: true,
+			border: false,
+			layout: 'form',
+			items: [{
+				xtype: 'combo',
+				name: 'id_uni_cons',
+				fieldLabel: 'Plantilla',
+				allowBlank: false,
+				emptyText: 'Elija una Plantilla...',
+				store: new Ext.data.JsonStore({
+					url: '../../sis_mantenimiento/control/UniCons/listarUniConsPlano',
+					id: 'id_uni_cons',
+					root: 'datos',
+					sortInfo: {
+						field: 'nombre',
+						direction: 'ASC'
+					},
+					totalProperty: 'total',
+					fields: ['id_uni_cons', 'codigo', 'nombre'],
+					// turn on remote sorting
+					remoteSort: true,
+					baseParams: {
+						par_filtro: 'tuc.nombre#tuc.codigo',
+						tipo: 'tuc'
+					}
+				}),
+				valueField: 'id_uni_cons',
+				displayField: 'nombre',
+				forceSelection: true,
+				typeAhead: false,
+				triggerAction: 'all',
+				lazyRender: true,
+				mode: 'remote',
+				pageSize: 20,
+				queryDelay: 500,
+				width: 250,
+				listWidth: '280',
+				minChars: 2
+			}]
+		});
+
+		var cmbUC = this.formUC.getForm().findField('id_uni_cons');
+		cmbUC.store.on('exception', this.conexionFailure, this)
+
+		this.wUC = new Ext.Window({
+			title: 'Agregar Plantilla',
+			collapsible: true,
+			maximizable: true,
+			autoDestroy: true,
+			width: 450,
+			height: 250,
+			layout: 'fit',
+			plain: true,
+			bodyStyle: 'padding:5px;',
+			buttonAlign: 'center',
+			items: this.formUC,
+			modal: true,
+			closeAction: 'hide',
+			buttons: [{
+				text: 'Guardar',
+				handler: this.onAddPlantilla,
+				scope: this
+
+			}, {
+				text: 'Cancelar',
+				handler: function() {
+					this.wUC.hide()
+				},
+				scope: this
+			}]
+		});
+	},
+	onAddPlantilla: function() {
+		if (this.formUC.getForm().isValid()) {
+			//Phx.CP.loadingShow();
+			var nodo = this.sm.getSelectedNode();
+			var cmbUC = this.formUC.getForm().findField('id_uni_cons');
+			console.log(nodo)
+
+			Ext.Ajax.request({
+				url: '../../sis_mantenimiento/control/UniCons/addPlantilla',
+				params: {
+					id_plantilla : cmbUC.getValue(),
+					id_uni_cons : nodo.attributes.id_uni_cons
+				},
+				success: this.successAddPlantilla,
+				failure: this.conexionFailure,
+				timeout: this.timeout,
+				scope: this
+			});
+		}
+	},
+	onBtnAddPlantilla: function(){
+    	var nodo = this.sm.getSelectedNode();
+			this.formUC.form.reset()
+			if (nodo) {
+				this.wUC.show()
+			}
+   },
+   successAddPlantilla: function(resp) {
+		Phx.CP.loadingHide();
+		var reg = Ext.util.JSON.decode(Ext.util.Format.trim(resp.responseText));
+		if (reg.ROOT.error) {
+			alert("ERROR no esperado")
+		} else {
+			this.wUC.hide();
+			var nodo = this.sm.getSelectedNode();
+			nodo.reload();
+		}
+	}
+		
 })
 </script>
 		

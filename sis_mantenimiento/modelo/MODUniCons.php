@@ -249,6 +249,7 @@ class MODUniCons extends MODbase{
 		
 		//Ejecuta la instruccion
 		$this->armarConsulta();
+		//echo $this->consulta;exit;
 		$this->ejecutarConsulta();
 
 		//Devuelve la respuesta
@@ -706,6 +707,45 @@ class MODUniCons extends MODbase{
 		//echo $this->consulta;exit;
 		$this->ejecutarConsulta();
 		
+		//Devuelve la respuesta
+		return $this->respuesta;
+	}
+
+	function addPlantilla(){
+		//Definicion de variables para ejecucion del procedimiento
+		$this->procedimiento='gem.f_uni_cons_ime';
+		$this->transaccion='GEM_ADDPLA_MOD';
+		$this->tipo_procedimiento='IME';
+				
+		//Define los parametros para la funcion
+		$this->setParametro('id_uni_cons','id_uni_cons','int4');
+		$this->setParametro('id_plantilla','id_plantilla','int4');
+		
+		//Ejecuta la instruccion
+		$this->armarConsulta();
+		$this->ejecutarConsulta();
+
+		//Devuelve la respuesta
+		return $this->respuesta;
+	}
+
+	function clonePlantilla(){
+		//Definicion de variables para ejecucion del procedimiento
+		$this->procedimiento='gem.f_uni_cons_ime';
+		$this->transaccion='GEM_CLONEPLA_MOD';
+		$this->tipo_procedimiento='IME';
+				
+		//Define los parametros para la funcion
+		$this->setParametro('id_uni_cons','id_uni_cons','int4');
+		$this->setParametro('codigo_uni_cons','codigo_uni_cons','varchar');
+		$this->setParametro('id_localizacion','id_localizacion','int4');
+		$this->setParametro('codigo_localizacion','codigo_localizacion','varchar');
+		$this->setParametro('nombre','nombre','varchar');
+		
+		//Ejecuta la instruccion
+		$this->armarConsulta();
+		$this->ejecutarConsulta();
+
 		//Devuelve la respuesta
 		return $this->respuesta;
 	}
