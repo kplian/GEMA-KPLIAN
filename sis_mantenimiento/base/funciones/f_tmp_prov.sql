@@ -81,8 +81,8 @@ BEGIN
                 apellido_paterno, apellido_materno,direccion,
                 telefono1, telefono2,celular1,correo
                 ) values(
-                1, now(), 'activo', v_nom,
-                v_pat, v_mat, v_rec.direccion,
+                1, now(), 'activo', initcap(v_nom),
+                initcap(v_pat), initcap(v_mat), v_rec.direccion,
                 substr(v_rec.telefono,1,15), v_rec.fax, substr(v_rec.celular,1,15), v_rec.correo
                 )RETURNING id_persona into v_id_persona;
             end if;
@@ -118,8 +118,8 @@ BEGIN
                     apellido_paterno, apellido_materno,direccion,
                     telefono1, telefono2,celular1,correo
                     ) values(
-                    1, now(), 'activo', v_nom,
-                    v_pat, v_mat, v_rec.direccion,
+                    1, now(), 'activo', initcap(v_nom),
+                    initcap(v_pat), initcap(v_mat), v_rec.direccion,
                     substr(v_rec.telefono,1,15), substr(v_rec.fax,1,15),
                     substr(v_rec.celular,1,15), substr(v_rec.correo,1,50)
                     ) RETURNING id_persona into v_id_persona;
@@ -147,7 +147,7 @@ BEGIN
                 codigo
                 ) values(
                 1, now(), 'activo', v_rec.nit,
-                v_rec.razon_social, substr(v_rec.telefono,1,15),
+                initcap(v_rec.razon_social), substr(v_rec.telefono,1,15),
                 substr(v_rec.fax,1,15), substr(v_rec.celular,1,15),
                 substr(v_rec.correo,1,50), v_cod
                 ) RETURNING id_institucion into v_id_institucion;
