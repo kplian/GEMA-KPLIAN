@@ -1451,3 +1451,23 @@ add constraint chk_tlocalizacion_usuario__tipo check (tipo in ('Gerente','Ingeni
 alter table gem.torden_trabajo
 add column id_orden_trabajo_sol integer;
 /***********************************F-SCP-RCM-GEM-0-07/08/2013*****************************************/
+
+/***********************************I-SCP-RCM-GEM-0-16/08/2013*****************************************/
+CREATE TABLE gem.prov_aux (
+  id SERIAL, 
+  razon_social VARCHAR(200), 
+  tipo VARCHAR(30), 
+  nit VARCHAR(30) NOT NULL, 
+  responsable VARCHAR(200), 
+  direccion VARCHAR(1000), 
+  telefono VARCHAR(50), 
+  fax VARCHAR(50), 
+  celular VARCHAR(50), 
+  correo VARCHAR(300), 
+  localidad VARCHAR(50), 
+  id_lugar INTEGER, 
+  id_persona INTEGER, 
+  id_institucion INTEGER, 
+  CONSTRAINT prov_aux_pkey PRIMARY KEY(id)
+) WITHOUT OIDS;
+/***********************************F-SCP-RCM-GEM-0-16/08/2013*****************************************/
