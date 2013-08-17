@@ -229,9 +229,8 @@ header("content-type: text/javascript; charset=UTF-8");
 				txtCodigo=codigo.getValue()
 				
 				if(this.swAdd=='plantilla'){
-					nombreAccion='clonePlantilla'
-					id_localizacion = nodo.attributes.id_uni_cons,
-					txtCodigo=null
+					nombreAccion='clonePlantilla';
+					id_localizacion = nodo.attributes.id_uni_cons;
 				}
 
 				Ext.Ajax.request({
@@ -1564,6 +1563,7 @@ header("content-type: text/javascript; charset=UTF-8");
 					name: 'codigo_uni_cons',
 					fieldLabel: 'Código',
 					allowBlank: false,
+					width:250
 				}]
 			});
 
@@ -2029,14 +2029,14 @@ header("content-type: text/javascript; charset=UTF-8");
 		this.swAdd='plantilla';
 		this.formUC.form.reset()
 		if (nodo) {
-			this.formUC.getForm().findField('codigo_uni_cons').hide();
-			this.formUC.getForm().findField('codigo_uni_cons').allowBlanck=true;
+			//this.formUC.getForm().findField('codigo_uni_cons').hide();
+			//this.formUC.getForm().findField('codigo_uni_cons').allowBlanck=true;
 			this.wUC.setTitle('Agregar Plantilla');
 			this.wUC.show()
 		}
 	},
 	onDelSubsist: function(){
-		alert('Eliminar subsistema')
+		//alert('Eliminar subsistema')
 	} 
 
 })
