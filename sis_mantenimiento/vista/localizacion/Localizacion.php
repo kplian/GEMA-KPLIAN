@@ -1571,8 +1571,13 @@ header("content-type: text/javascript; charset=UTF-8");
 			var codigo = this.formUC.getForm().findField('codigo_uni_cons');
 
 			cmbUC.on('select', function(c, a, d) {
-				var nodo = this.sm.getSelectedNode();
-				codigo.setValue(nodo.parentNode.attributes.codigo + '-' + nodo.attributes.codigo + '-' + a.data.codigo)
+				if(this.swAdd=='plantilla'){
+					var nodo = this.sm.getSelectedNode();
+					codigo.setValue(nodo.attributes.codigo + '-' + a.data.codigo)
+				} else {
+					var nodo = this.sm.getSelectedNode();
+					codigo.setValue(nodo.parentNode.attributes.codigo + '-' + nodo.attributes.codigo + '-' + a.data.codigo)
+				}
 			}, this);
 
 			this.wUC = new Ext.Window({
