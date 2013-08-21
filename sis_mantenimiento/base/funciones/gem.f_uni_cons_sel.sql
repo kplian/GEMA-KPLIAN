@@ -533,7 +533,7 @@ BEGIN
              begin
              
 --             raise exception '%,%',v_parametros.tipo_nodo,v_parametros.id_uni_cons;
-              if v_parametros.tipo_nodo in ('uni_cons','uni_cons_f','rama') then
+              if v_parametros.tipo_nodo in ('uni_cons','uni_cons_f','rama','raiz_registrado') then
                 --equipo
                 v_consulta:=' select * from (
                           select
@@ -703,7 +703,7 @@ BEGIN
 
         begin
         
-          if v_parametros.tipo_nodo in ('uni_cons','uni_cons_f','rama') then
+          if v_parametros.tipo_nodo in ('uni_cons','uni_cons_f','rama','raiz_registrado') then
             --unicons
             v_consulta:=' select count(id_uni_cons)
                        from (

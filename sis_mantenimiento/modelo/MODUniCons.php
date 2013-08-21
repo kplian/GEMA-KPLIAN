@@ -750,5 +750,22 @@ class MODUniCons extends MODbase{
 		return $this->respuesta;
 	}
 	
+	function eliminarUniConsComp(){
+		//Definicion de variables para ejecucion del procedimiento
+		$this->procedimiento='gem.f_uni_cons_ime';
+		$this->transaccion='GEM_TUCCOM_ELI';
+		$this->tipo_procedimiento='IME';
+				
+		//Define los parametros para la funcion
+		$this->setParametro('id_uni_cons_comp','id_uni_cons_comp','int4');
+
+		//Ejecuta la instruccion
+		$this->armarConsulta();
+		$this->ejecutarConsulta();
+
+		//Devuelve la respuesta
+		return $this->respuesta;
+	}
+	
 }
 ?>

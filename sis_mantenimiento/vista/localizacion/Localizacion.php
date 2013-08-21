@@ -744,10 +744,14 @@ header("content-type: text/javascript; charset=UTF-8");
 
 		onButtonDel: function() {
 			var nodo = this.sm.getSelectedNode();
+			console.log(nodo.attributes.tipo_nodo)
 			if (nodo.attributes.tipo_nodo == 'uni_cons' || nodo.attributes.tipo_nodo == 'uni_cons_f') {
 				nodo.attributes.tipo_meta = nodo.attributes.tipo_nodo;
 				nodo.attributes.id_localizacion = nodo.attributes.id_uni_cons;
 				//Phx.CP.log('fas',nodo)
+			} else if(nodo.attributes.tipo_nodo == 'rama'||nodo.attributes.tipo_nodo == 'raiz_registrado'){
+				nodo.attributes.tipo_meta = nodo.attributes.tipo_nodo;
+				nodo.attributes.id_localizacion = nodo.attributes.id_uni_cons_comp;
 			}
 			Phx.vista.Localizacion.superclass.onButtonDel.call(this);
 			Phx.CP.getPagina(this.idContenedor + '-east').setMarkerDragableOn();
@@ -1276,12 +1280,7 @@ header("content-type: text/javascript; charset=UTF-8");
 						text: 'Agregar Subsistema',
 						handler: this.onAddSubsist,
 						scope: this
-					}, {
-						id:'mni-delSubsist-'+this.idContenedor,
-						text: 'Eliminar Subsistema',
-						handler: this.onDelSubsist,
-						scope: this
-					},
+					}, 
 					'-',
 					{
 						id:'mni-ficTec-'+this.idContenedor,
@@ -2034,11 +2033,7 @@ header("content-type: text/javascript; charset=UTF-8");
 			this.wUC.setTitle('Agregar Plantilla');
 			this.wUC.show()
 		}
-	},
-	onDelSubsist: function(){
-		//alert('Eliminar subsistema')
-	} 
-
+	}
 })
 </script>
 

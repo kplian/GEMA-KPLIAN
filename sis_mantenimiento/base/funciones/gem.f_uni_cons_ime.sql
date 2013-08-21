@@ -1385,6 +1385,36 @@ BEGIN
             --Devuelve la respuesta
             return v_resp;
 
+		end;
+		
+	/*********************************    
+ 	#TRANSACCION:  'GEM_TUCCOM_ELI'
+ 	#DESCRIPCION:	Eliminación de uni_cons_comp
+ 	#AUTOR:			rcm
+ 	#FECHA:			20/08/2013
+	***********************************/
+
+	elsif (p_transaccion='GEM_TUCCOM_ELI') then
+
+		begin
+			
+			if not exists(select 1 from gem.tuni_cons_comp
+						where id_uni_cons_comp = v_parametros.id_uni_cons_comp) then
+				raise exception 'Registro inexistente';
+			end if;
+			
+
+			--Sentencia de la modificacion
+			delete from gem.tuni_cons_comp
+			where id_uni_cons_comp=v_parametros.id_uni_cons_comp;
+               
+			--Definicion de la respuesta
+            v_resp = pxp.f_agrega_clave(v_resp,'mensaje','Eliminación del componente'); 
+            v_resp = pxp.f_agrega_clave(v_resp,'id_uni_cons_comp',v_parametros.id_uni_cons_comp::varchar);
+               
+            --Devuelve la respuesta
+            return v_resp;
+            
 		end;   
 		
 	else
