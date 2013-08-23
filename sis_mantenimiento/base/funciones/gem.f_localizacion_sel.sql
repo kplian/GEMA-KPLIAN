@@ -27,9 +27,10 @@ DECLARE
 	v_parametros  		record;
 	v_nombre_funcion   	text;
 	v_resp				varchar;
-    
-    v_where varchar;
-    v_join varchar;
+    v_where 			varchar;
+    v_join 				varchar;
+    v_id_loc			integer;
+    v_ids				varchar;
 			    
 BEGIN
 
@@ -131,10 +132,20 @@ BEGIN
                         where   loc.estado_reg = ''activo'' and '||v_where; 
                         
                  if pxp.f_existe_parametro(p_tabla,'vista') then
-                 	if(v_parametros.vista = 'loc') then
-	                 	v_consulta = v_consulta || ' and loc.codigo != ''VEH''';
-	                 elsif v_parametros.vista = 'vehiculos' then
-	                 	v_consulta = v_consulta || ' and loc.codigo in (''VEH'',''YPFB'')';
+                 	--Obtiene el ID de la localizacion de VEHICULOS
+                 	select id_localizacion
+                 	into v_id_loc
+                 	from gem.tlocalizacion
+                 	where codigo = 'VEH';
+                 	if v_id_loc is not null then
+                 		v_ids = gem.f_get_id_localizaciones(v_id_loc);
+	                 	if(v_parametros.vista = 'loc') then
+		                 	v_consulta = v_consulta || ' and loc.codigo != ''VEH''';
+		                 elsif v_parametros.vista = 'vehiculos' then
+		                 	v_consulta = v_consulta || ' and (loc.codigo in (''VEH'',''YPFB'')
+									                 		   or loc.id_localizacion in ('||v_ids||') 
+									                 		)';
+		                 end if;
 	                 end if;
                  end if;
 
