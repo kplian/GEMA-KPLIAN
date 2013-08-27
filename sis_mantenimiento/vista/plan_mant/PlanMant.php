@@ -444,7 +444,7 @@ Phx.vista.PlanMant=Ext.extend(Phx.gridInterfaz,{
 		this.getBoton('btnReporte').setDisabled(true);
 		return tb;
 	},
-    codReporte:'S/C',
+    codReporte:'GMAN-RG-SM-010',
 	codSistema:'GEM',
 	pdfOrientacion:'L',
 	onButtonEdit: function(){
@@ -466,6 +466,8 @@ Phx.vista.PlanMant=Ext.extend(Phx.gridInterfaz,{
     		this.getComponente('id_uo').setRawValue('');
 		}
 		
-	}
+	},
+	title1:'REGISTRO',
+	title2:'Requerimiento de Mantenimiento'
 })
 </script>

@@ -56,7 +56,7 @@ class ACTTpmTarjeta extends ACTbase{
         $datosTpmTarjeta = $resultTpmTarjeta->getDatos();
         //armamos el array parametros y metemos ahi los data sets de las otras tablas
         
-        $dataSource->putParameter('codigo', $datosTpmTarjeta[0]['codigo']);
+        $dataSource->putParameter('codigo', 'GMAN-RG-SM-014');
         $dataSource->putParameter('tipo', $datosTpmTarjeta[0]['tipo']);
         $dataSource->putParameter('revision', $datosTpmTarjeta[0]['revision']);
         $dataSource->putParameter('localizacion', $datosTpmTarjeta[0]['localizacion']);

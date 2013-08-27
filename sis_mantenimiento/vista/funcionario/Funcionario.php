@@ -183,9 +183,12 @@ Phx.vista.FuncionarioGem = {
 		this.mostrarComponente(this.getComponente('horario4'));
 		Phx.vista.FuncionarioGem.superclass.onButtonNew.call(this);
 	},
-    codReporte:'S/C',
+    codReporte:'GMAN-RG-SM-030',
 	codSistema:'GEM',
-	pdfOrientacion:'L'
+	pdfOrientacion:'L',
+	title1: 'REGISTRO',
+	title2:'Funcionarios',
+	fechaRep:'26/05/2012'
 
 };
 </script>

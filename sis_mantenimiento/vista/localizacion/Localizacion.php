@@ -363,7 +363,7 @@ header("content-type: text/javascript; charset=UTF-8");
             var data = node.attributes;
             Phx.CP.log(node);
             if (data) {
-                Phx.CP.loadWindows('../../../sis_mantenimiento/vista/localizacion_med/GenerarReporteIndicadores.php', 'Reporte Indicadores por Mes' + node.text, {
+                Phx.CP.loadWindows('../../../sis_mantenimiento/vista/localizacion_med/GenerarReporteIndicadores.php', 'Reporte Indicadores Mtto Mes' + node.text, {
                     modal : true,
                     width : 900,
                     height : 400
@@ -376,7 +376,7 @@ header("content-type: text/javascript; charset=UTF-8");
             var data = node.attributes;
             Phx.CP.log(node);
             if (data) {
-                Phx.CP.loadWindows('../../../sis_mantenimiento/vista/localizacion_med/GenerarReporteAnualIndicadores.php', 'Reporte Anual Indicadores' + node.text, {
+                Phx.CP.loadWindows('../../../sis_mantenimiento/vista/localizacion_med/GenerarReporteAnualIndicadores.php', 'Reporte Indicadores Mtto Anual' + node.text, {
                     modal : true,
                     width : 900,
                     height : 400
@@ -440,7 +440,7 @@ header("content-type: text/javascript; charset=UTF-8");
 					data.id_localizacion = id_nodo;
 					data.id_uni_cons='-1';
 				}
-				Phx.CP.loadWindows('../../../sis_mantenimiento/vista/equipo_medicion/EquipoMedicionConsol.php', 'Consolidación Mediciones: ' + node.text, {
+				Phx.CP.loadWindows('../../../sis_mantenimiento/vista/equipo_medicion/EquipoMedicionConsol.php', 'Reporte consolidado vehiculos: ' + node.text, {
 					modal: true,
 					width: 900,
 					height: 400
@@ -1189,21 +1189,21 @@ header("content-type: text/javascript; charset=UTF-8");
 			});
 			this.ctxMenu.addMenuItem({
 				id: 'mni-indicad-'+this.idContenedor,
-				text: 'Indicadores',
+				text: 'Indicadores de Clase Mundial',
 				handler: this.onBtnMed,
 				scope: this
 			});
 			
             this.ctxMenu.addMenuItem({
                 id: 'mni-repInd-'+this.idContenedor,
-                text : 'Reporte Indicadores por Mes',
+                text : 'Reporte Indicadores Mtto Mes',
                 handler : this.onBtnRepInd,
                 scope : this
             });
             
             this.ctxMenu.addMenuItem({
                 id: 'mni-repAnualInd-'+this.idContenedor,
-                text : 'Reporte Anual Indicadores',
+                text : 'Reporte Indicadores Mtto Anual',
                 handler : this.onBtnRepAnualInd,
                 scope : this
             });
@@ -1217,14 +1217,14 @@ header("content-type: text/javascript; charset=UTF-8");
             
             this.ctxMenu.addMenuItem({
                 id: 'mni-grafInd-'+this.idContenedor,
-                text : 'Gráficos de Indicadores (OITs)',
+                text : 'Reporte Indicadores Tareas Mtto.',
                 handler : this.onBtnGrafInd,
                 scope : this
             });
             
 			this.ctxMenu.addMenuItem({
 				id: 'mni-tarTPM-'+this.idContenedor,
-				text: 'Tarjetas TPM',
+				text: 'Control Tarjetas TPM',
 				handler: this.onBtnTarjetasTPM,
 				scope: this
 			});
@@ -1232,7 +1232,7 @@ header("content-type: text/javascript; charset=UTF-8");
 			this.ctxMenu.add('-');			
 			this.ctxMenu.addMenuItem({
 				id: 'mni-consolEqMed-'+this.idContenedor,
-				text: 'Consolidación Mediciones',
+				text: 'Reporte consolidado vehiculos',
 				handler: this.onConsolEqMed,
 				scope: this
 			});
@@ -1245,7 +1245,7 @@ header("content-type: text/javascript; charset=UTF-8");
 			});
 			this.ctxMenu.addMenuItem({
 				id: 'mni-detFichaTecVar-' + this.idContenedor,
-				text: 'Reporte Ficha Técnica Variables',
+				text: 'Reporte Operativo Vehiculos',
 				handler: this.onBtnFichaTecVar,
 				scope: this
 			});
@@ -1390,18 +1390,18 @@ header("content-type: text/javascript; charset=UTF-8");
 					scope: this
 				}, {
 					id:'btn-tarTPM-' + this.idContenedor,
-					text: 'Tarjetas TPM',
+					text: 'Control Tarjetas TPM',
 					disabled: true,
 					handler: this.onBtnTarjetasTPM,
-					tooltip: '<b>Tarjetas TPM</b>',
+					tooltip: '<b>Control Tarjetas TPM</b>',
 					scope: this
 				}, 
 				{
 					id:'btn-consolEqMed-' + this.idContenedor,
-					text: 'Consolidación Mediciones',
+					text: 'Reporte consolidado vehiculos',
 					disabled: true,
 					handler: this.onConsolEqMed,
-					tooltip: '<b>Consolidación Mediciones</b>',
+					tooltip: '<b>Reporte consolidado vehiculos</b>',
 					scope: this
 				}
 			]}

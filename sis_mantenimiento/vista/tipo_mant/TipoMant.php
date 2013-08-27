@@ -195,7 +195,9 @@ Phx.vista.TipoMant=Ext.extend(Phx.gridInterfaz,{
 	fheight: 230,
     codReporte:'S/C',
 	codSistema:'GEM',
-	pdfOrientacion:'L'
+	pdfOrientacion:'L',
+	title1: 'REGISTRO',
+	title2:'Tipos de Mantenimiento'
 })
 </script>
 		

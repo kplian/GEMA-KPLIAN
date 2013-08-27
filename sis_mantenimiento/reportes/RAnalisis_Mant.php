@@ -26,7 +26,7 @@ require_once dirname(__FILE__).'/pxpReport/Report.php';
         $this->SetFontSize(14);
         $this->SetFont('','B');        
         $this->Cell(170, $height/2, 'REGISTRO', 1, 2, 'C', false, '', 0, false, 'T', 'C');        
-        $this->Cell(170,$height/2, 'PLANILLA DE ANALISIS RCM',1,0,'C',false,'',0,false,'T','C');
+        $this->Cell(170,$height/2, 'Análisis RCM',1,0,'C',false,'',0,false,'T','C');
         
         $this->setXY($x+170,$y);
         $this->SetFont('','');
@@ -41,7 +41,7 @@ require_once dirname(__FILE__).'/pxpReport/Report.php';
         $this->setCellPaddings(2);
         $this->Cell($width1, $height/4, 'Codigo:', "B", 0, '', false, '', 0, false, 'T', 'C');
         $this->SetFont('','B');
-        $this->Cell($width2, $height/4, $this->dataSource->getParameter('codigo'), "B", 0, 'C', false, '', 0, false, 'T', 'C');
+        $this->Cell($width2, $height/4, 'GMAN-RG-SM-009', "B", 0, 'C', false, '', 0, false, 'T', 'C');
         
         $this->SetFont('','');
         $y += 5;
@@ -49,7 +49,7 @@ require_once dirname(__FILE__).'/pxpReport/Report.php';
         $this->setCellPaddings(2);
         $this->Cell($width1, $height/4, 'Revisión:', "B", 0, '', false, '', 0, false, 'T', 'C');
         $this->SetFont('','B');
-        $this->Cell($width2, $height/4, '1', "B", 0, 'C', false, '', 0, false, 'T', 'C');
+        $this->Cell($width2, $height/4, '1.0', "B", 0, 'C', false, '', 0, false, 'T', 'C');
         
         $this->SetFont('','');
         $y += 5;
@@ -57,7 +57,7 @@ require_once dirname(__FILE__).'/pxpReport/Report.php';
         $this->setCellPaddings(2);
         $this->Cell($width1, $height/4, 'Fecha Emisión:', "B", 0, '', false, '', 0, false, 'T', 'C');
         $this->SetFont('','B');
-        $this->Cell($width2, $height/4, '29/06/2012', "B", 0, 'C', false, '', 0, false, 'T', 'C');
+        $this->Cell($width2, $height/4, '26/05/2012', "B", 0, 'C', false, '', 0, false, 'T', 'C');
         
         $this->SetFont('','');
         $y += 5;

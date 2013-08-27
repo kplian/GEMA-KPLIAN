@@ -906,9 +906,11 @@ Phx.vista.OrdenTrabajoSol=Ext.extend(Phx.gridInterfaz,{
 		  //width:'50%',		//ancho de la ventana hjo
 		  cls:'OrdenTrabajoSolInsumo'
 	},
-    codReporte:'S/C',
+    codReporte:'GMAN-RG-SM-017',
 	codSistema:'GEM',
 	pdfOrientacion:'L',
-	estado: 'solicitud'
+	estado: 'solicitud',
+	title1:'REGISTRO',
+	title2:'Solicitud de Mantenimiento'
 })
 </script>

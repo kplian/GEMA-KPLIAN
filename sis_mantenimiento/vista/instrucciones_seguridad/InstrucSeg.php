@@ -172,7 +172,9 @@ Phx.vista.InstrucSeg=Ext.extend(Phx.gridInterfaz,{
 		  height:'50%',	//altura de la ventana hijo
 		  //width:'50%',		//ancho de la ventana hjo
 		  cls:'InstrucSegDet'
-	}
+	},
+	title1:'REGISTRO',
+	title2:'Instrucciones de Seguridad'
 })
 </script>
 		

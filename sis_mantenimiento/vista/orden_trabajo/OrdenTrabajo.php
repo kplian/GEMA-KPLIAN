@@ -1441,9 +1441,11 @@ Phx.vista.OrdenTrabajo=Ext.extend(Phx.gridInterfaz,{
 		this.getComponente('id_mant_predef').store.baseParams.id_uni_cons=rec.data.id_uni_cons;
     	this.getComponente('id_mant_predef').modificado=true;
 	},
-    codReporte:'S/C',
+    codReporte:'GMAN-RG-SM-015',
 	codSistema:'GEM',
-	pdfOrientacion:'L'
+	pdfOrientacion:'L',
+	title1:'REGISTRO',
+	title2:'Orden Interna de Trabajo'
 })
 </script>
 		

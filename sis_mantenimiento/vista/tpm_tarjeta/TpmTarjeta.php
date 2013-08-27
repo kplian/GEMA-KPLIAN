@@ -249,7 +249,9 @@ Phx.vista.TpmTarjeta=Ext.extend(Phx.gridInterfaz,{
     },
     codReporte:'S/C',
 	codSistema:'GEM',
-	pdfOrientacion:'L'
+	pdfOrientacion:'L',
+	title1:'REGISTRO',
+	title2:'Control Tarjetas TPM'
 })
 </script>
 		

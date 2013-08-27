@@ -211,7 +211,9 @@ Phx.vista.CentroCosto=Ext.extend(Phx.gridInterfaz,{
 	bsave:true,
     codReporte:'S/C',
 	codSistema:'GEM',
-	pdfOrientacion:'L'
+	pdfOrientacion:'L',
+	title1:'REGISTRO',
+	title2:'Centro de Costos'
 })
 </script>
 		

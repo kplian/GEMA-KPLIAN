@@ -311,7 +311,9 @@ Phx.vista.MantPredef=Ext.extend(Phx.gridInterfaz,{
 	fheight: 300,
     codReporte:'S/C',
 	codSistema:'GEM',
-	pdfOrientacion:'L'
+	pdfOrientacion:'L',
+	title1:'REGISTRO',
+	title2:'Mantenimientos Predefinidos'
 })
 </script>
 		

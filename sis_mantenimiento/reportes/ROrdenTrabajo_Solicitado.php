@@ -25,17 +25,19 @@ require_once dirname(__FILE__).'/pxpReport/Report.php';
         $y = $this->GetY();
         $this->SetFontSize(14);
         $this->SetFont('','B');        
-        $this->Cell(105, $height, ' SOLICITUD DE TRABAJO DE MANTENIMIENTO ', 1, 2, 'C', false, '', 1, false, 'T', 'C');    
+        $this->Cell(115, $height/2, 'REGISTRO', 1, 2, 'C', false, '', 0, false, 'T', 'C');        
+        $this->Cell(115,$height/2, 'Solicitud de Mantenimiento',1,0,'C',false,'',0,false,'T','C');
         
-        $this->setXY($x+105,$y);
+        $this->setXY($x+115,$y);
         $this->SetFont('','');
-        $this->Cell(50, $height, '', 1, 0, 'C', false, '', 0, false, 'T', 'C');
+        $this->Cell(40, $height, '', 1, 0, 'C', false, '', 0, false, 'T', 'C');
+        
         
         $this->SetFontSize(7);
         
         $width1 = 17;
-        $width2 = 33;
-        $this->SetXY($x+105, $y);
+        $width2 = 23;
+        $this->SetXY($x+115, $y);
         $this->setCellPaddings(2);
         $this->Cell($width1, $height/4, 'Código:', "B", 0, '', false, '', 0, false, 'T', 'C');
         $this->SetFont('','B');
@@ -43,27 +45,27 @@ require_once dirname(__FILE__).'/pxpReport/Report.php';
         
         $this->SetFont('','');
         $y += 5;
-        $this->SetXY($x+105, $y);
+        $this->SetXY($x+115, $y);
         $this->setCellPaddings(2);
         $this->Cell($width1, $height/4, 'Revisión:', "B", 0, '', false, '', 0, false, 'T', 'C');
         $this->SetFont('','B');
-        $this->Cell($width2, $height/4, '1', "B", 0, 'C', false, '', 0, false, 'T', 'C');
+        $this->Cell($width2, $height/4, '1.0', "B", 0, 'C', false, '', 0, false, 'T', 'C');
         
         $this->SetFont('','');
         $y += 5;
-        $this->SetXY($x+105, $y);
+        $this->SetXY($x+115, $y);
         $this->setCellPaddings(2);
-        $this->Cell($width1, $height/4, 'Fecha Emisión:', "B", 0, '', false, '', 0, false, 'T', 'C');
+        $this->Cell($width1, $height/4, 'Fecha Emision:', "B", 0, '', false, '', 0, false, 'T', 'C');
         $this->SetFont('','B');
-        $this->Cell($width2, $height/4, '29/06/2012', "B", 0, 'C', false, '', 0, false, 'T', 'C');
+        $this->Cell($width2, $height/4, '26/05/2012', "B", 0, 'C', false, '', 0, false, 'T', 'C');
         
         $this->SetFont('','');
         $y += 5;
-        $this->SetXY($x+105, $y);
+        $this->SetXY($x+115, $y);
         $this->setCellPaddings(2);
         $this->Cell($width1, $height/4, 'Página:', "B", 0, '', false, '', 0, false, 'T', 'C');
         $this->SetFont('','B');
-        $this->Cell($width2, $height/4, '                  '.$this->getAliasNumPage().' de '.$this->getAliasNbPages(), "B", 0, 'C', false, '', 0, false, 'T', 'C');
+        $this->Cell($width2, $height/4,  '                  '.$this->getAliasNumPage().' de '.$this->getAliasNbPages(), "B", 0, 'C', false, '', 0, false, 'T', 'C');
         
     }
     

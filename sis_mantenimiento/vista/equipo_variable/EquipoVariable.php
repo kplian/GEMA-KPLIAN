@@ -374,7 +374,9 @@ Phx.vista.EquipoVariable=Ext.extend(Phx.gridInterfaz,{
 	fheight: 350,
     codReporte:'S/C',
 	codSistema:'GEM',
-	pdfOrientacion:'L'
+	pdfOrientacion:'L',
+	title1:'REGISTRO',
+	title2:'Variables de Medición'
 })
 </script>
 		

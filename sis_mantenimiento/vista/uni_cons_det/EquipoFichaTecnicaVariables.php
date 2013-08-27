@@ -412,7 +412,12 @@ Phx.vista.EquipoFichaTecnicaVariables=Ext.extend(Phx.gridInterfaz,{
 	},
 	repFilaInicioEtiquetas:35,
 	repFilaInicioDatos:6.5,
-	desplegarMaestro:'si'	
+	desplegarMaestro:'si',
+	title1:'REGISTRO',
+	title2:'Detalle Operativo de Vehículos',
+	codReporte:'GMAN-RG-SM-007',
+	codSistema:'GEM',
+	pdfOrientacion:'L'	
 })
 </script>
 		

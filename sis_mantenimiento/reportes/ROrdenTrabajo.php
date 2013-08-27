@@ -23,46 +23,48 @@ require_once dirname(__FILE__).'/pxpReport/Report.php';
 		
 		$this->SetFontSize(14);
 		$this->SetFont('','B');
-		$this->Cell(105, $height, 'ORDEN INTERNA DE TRABAJO', 1, 0, 'C', false, '', 0, false, 'T', 'C');
-		$x = $this->GetX();
-		$y = $this->GetY();
-		
-		$this->SetFont('','');
-		$this->Cell(40, $height, '', 1, 0, 'C', false, '', 0, false, 'T', 'C');
-		
-		
-		$this->SetFontSize(7);
-		$width1 = 17;
-		$width2 = 23;
-		$this->SetXY($x, $y);
-		$this->setCellPaddings(2);
-		$this->Cell($width1, $height/4, 'Código:', "B", 0, '', false, '', 0, false, 'T', 'C');
-		$this->SetFont('','B');
-		$this->Cell($width2, $height/4, 'GMAN-RG-SM-015', "B", 0, 'C', false, '', 0, false, 'T', 'C');
-		
-		$this->SetFont('','');
-		$y += 5;
-		$this->SetXY($x, $y);
-		$this->setCellPaddings(2);
-		$this->Cell($width1, $height/4, 'Revisión:', "B", 0, '', false, '', 0, false, 'T', 'C');
-		$this->SetFont('','B');
-		$this->Cell($width2, $height/4, '1', "B", 0, 'C', false, '', 0, false, 'T', 'C');
-		
-		$this->SetFont('','');
-		$y += 5;
-		$this->SetXY($x, $y);
-		$this->setCellPaddings(2);
-		$this->Cell($width1, $height/4, 'Fecha Emision:', "B", 0, '', false, '', 0, false, 'T', 'C');
-		$this->SetFont('','B');
-		$this->Cell($width2, $height/4, '29/06/2012', "B", 0, 'C', false, '', 0, false, 'T', 'C');
-		
-		$this->SetFont('','');
-		$y += 5;
-		$this->SetXY($x, $y);
-		$this->setCellPaddings(2);
-		$this->Cell($width1, $height/4, 'Página:', "B", 0, '', false, '', 0, false, 'T', 'C');
-		$this->SetFont('','B');
-		$this->Cell($width2, $height/4, '                  '.$this->getAliasNumPage().' de '.$this->getAliasNbPages(), "B", 0, 'C', false, '', 0, false, 'T', 'C');
+		$this->Cell(115, $height/2, 'REGISTRO', 1, 2, 'C', false, '', 0, false, 'T', 'C');        
+        $this->Cell(115,$height/2, 'Orden Interna de Trabajo',1,0,'C',false,'',0,false,'T','C');
+        
+        $this->setXY($x+115,$y);
+        $this->SetFont('','');
+        $this->Cell(40, $height, '', 1, 0, 'C', false, '', 0, false, 'T', 'C');
+        
+        
+        $this->SetFontSize(7);
+        
+        $width1 = 17;
+        $width2 = 23;
+        $this->SetXY($x+145, $y);
+        $this->setCellPaddings(2);
+        $this->Cell($width1, $height/4, 'Código:', "B", 0, '', false, '', 0, false, 'T', 'C');
+        $this->SetFont('','B');
+        $this->Cell($width2, $height/4, 'GMAN-RG-SM-015', "B", 0, 'C', false, '', 0, false, 'T', 'C');
+        
+        $this->SetFont('','');
+        $y += 5;
+        $this->SetXY($x+145, $y);
+        $this->setCellPaddings(2);
+        $this->Cell($width1, $height/4, 'Revisión:', "B", 0, '', false, '', 0, false, 'T', 'C');
+        $this->SetFont('','B');
+        $this->Cell($width2, $height/4, '1.0', "B", 0, 'C', false, '', 0, false, 'T', 'C');
+        
+        $this->SetFont('','');
+        $y += 5;
+        $this->SetXY($x+145, $y);
+        $this->setCellPaddings(2);
+        $this->Cell($width1, $height/4, 'Fecha Emision:', "B", 0, '', false, '', 0, false, 'T', 'C');
+        $this->SetFont('','B');
+        $this->Cell($width2, $height/4, '26/05/2012', "B", 0, 'C', false, '', 0, false, 'T', 'C');
+        
+        $this->SetFont('','');
+        $y += 5;
+        $this->SetXY($x+115, $y);
+        $this->setCellPaddings(2);
+        $this->Cell($width1, $height/4, 'Página:', "B", 0, '', false, '', 0, false, 'T', 'C');
+        $this->SetFont('','B');
+        $this->Cell($width2, $height/4,  '                  '.$this->getAliasNumPage().' de '.$this->getAliasNbPages(), "B", 0, 'C', false, '', 0, false, 'T', 'C');
+        
 	}
 	
 	public function Footer() {
