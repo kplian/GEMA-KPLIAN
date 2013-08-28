@@ -529,8 +529,10 @@ Phx.vista.LocalizacionMed=Ext.extend(Phx.gridInterfaz,{
 	successReloadGrid:function(rec,con,res){
 		
 	},
-    codReporte:'S/C',
+    codReporte:'GMAN-RG-SM-028',
 	codSistema:'GEM',
-	pdfOrientacion:'L'
+	pdfOrientacion:'L',
+	title1:'REGISTRO',
+	title2:'Indicadores de Mantenimiento'
 })
 </script>

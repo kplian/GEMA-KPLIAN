@@ -25,9 +25,10 @@ require_once dirname(__FILE__).'/pxpReport/Report.php';
         $y = $this->GetY();
         $this->SetFontSize(12);
         $this->SetFont('','B');        
-        $this->Cell(245, $height/2, 'PROGRAMA DE MANTENIMIENTO DE EQUIPOS ROTATIVOS', 1, 2, 'C', false, '', 1, false, 'T', 'C');        
+        $this->Cell(245, $height/2, 'PLAN', 1, 2, 'C', false, '', 1, false, 'T', 'C');        
         $this->setXY($x,$y+$height/2);
-        $this->Cell(245, $height/2, 'ESTACION '.strtoupper($this->getDataSource()->getParameter('localizacion')),1,0,'C',false,'',1,false,'T','C');
+		$this->Cell(245, $height/2, 'Programa de Mantenimiento',1,0,'C',false,'',1,false,'T','C');
+        //$this->Cell(245, $height/2, 'ESTACION '.strtoupper($this->getDataSource()->getParameter('localizacion')),1,0,'C',false,'',1,false,'T','C');
                 
         $this->setXY($x+245,$y);
         $this->SetFont('','');
@@ -41,7 +42,7 @@ require_once dirname(__FILE__).'/pxpReport/Report.php';
         $this->setCellPaddings(2);
         $this->SetFont('','B');
         $this->Cell($width1, $height/4, 'Código:', "B", 0, '', false, '', 0, false, 'T', 'C');
-        $this->Cell($width2, $height/4, '', "B", 0, 'C', false, '', 0, false, 'T', 'C');
+        $this->Cell($width2, $height/4, 'GMAN-PL-SM-001', "B", 0, 'C', false, '', 0, false, 'T', 'C');
         
         $this->SetFont('','');
         $y += 5;
@@ -57,7 +58,7 @@ require_once dirname(__FILE__).'/pxpReport/Report.php';
         $this->setCellPaddings(2);
         $this->SetFont('','B');
         $this->Cell($width1, $height/4, 'Fecha de Emisión:', "B", 0, '', false, '', 0, false, 'T', 'C');
-        $this->Cell($width2, $height/4, '29/06/2012', "B", 0, 'C', false, '', 0, false, 'T', 'C');
+        $this->Cell($width2, $height/4, '26/05/2012', "B", 0, 'C', false, '', 0, false, 'T', 'C');
         
         $this->SetFont('','');
         $y += 5;

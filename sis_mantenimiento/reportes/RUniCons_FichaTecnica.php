@@ -25,7 +25,7 @@ require_once dirname(__FILE__).'/pxpReport/Report.php';
 		
 		$this->SetFontSize(14);
 		$this->SetFont('','B');
-		//$this->Cell(105, $height, 'FICHA TÉCNICA', 1, 0, 'C', false, '', 0, false, 'T', 'C');
+		
 		$this->Cell(105, $height/2, 'REGISTRO', 1, 2, 'C', false, '', 0, false, 'T', 'C');        
         $this->Cell(105,$height/2, 'Ficha Técnica',1,0,'C',false,'',0,false,'T','C');
         
