@@ -147,7 +147,7 @@ Phx.vista.EquipoMedicionConsol=Ext.extend(Phx.gridInterfaz,{
 			form:false
 		}
 	],
-	title:'Consolidación de Mediciones de Equipos',
+	title:'Consolidacion de Mediciones de Equipos',
 	ActList:'../../sis_mantenimiento/control/EquipoMedicion/listarMedicionConsol',
 	id_store:'id_localizacion',
 	fields: [
