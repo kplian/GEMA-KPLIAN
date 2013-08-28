@@ -314,7 +314,8 @@ BEGIN
                               and ucomp.id_uni_cons_padre = 1
                               where lower(uc.codigo)=lower(v_parametros.codigo)
                               and uc.tipo = 'tuc'
-                              and uc.estado_reg='activo') then
+                              and uc.estado_reg='activo'
+                              and uc.id_uni_cons != v_parametros.id_uni_cons) then
                         raise exception 'Código duplicado';
                     end if;                
             	end if;
@@ -326,7 +327,8 @@ BEGIN
 	                   	from gem.tuni_cons uc 
 	                   	where lower(uc.codigo)=lower(v_parametros.codigo)
                         and uc.estado_reg='activo'
-                        and uc.tipo = 'uc') then
+                        and uc.tipo = 'uc'
+                        and uc.id_uni_cons != v_parametros.id_uni_cons) then
 	            	raise exception 'Código duplicado';
 				end if;
 				
