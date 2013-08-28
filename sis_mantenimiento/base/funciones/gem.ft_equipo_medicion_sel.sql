@@ -611,7 +611,7 @@ begin
           -------------------------------------------------------
           -- (1) CREACION DE LA TABLA TEMPORAL CON COLUMNAS DINAMICAS
           -------------------------------------------------------
-          --Columnsa fijas
+          --Columnaa fijas
           v_consulta = 'create temp table tt_mediciones_equipo_'||p_id_usuario||'(
                   		id_uni_cons integer,
                         id_mediciones_mes serial,
@@ -774,7 +774,6 @@ begin
 	                                 and ev.id_uni_cons = g_registros.id_uni_cons
 	                                 and em.fecha_medicion = g_registros.fecha_medicion
 	                                 and em.hora = g_registros.hora) LOOP
-            
 					--2.1.1) arma consulta de insercion
 	                v_cod = 'col_'||g_registros2.id_tipo_variable;
 	                                       
@@ -835,29 +834,30 @@ begin
 
         		for g_registros in execute(v_aux) loop
         			if g_registros.nombre_tipo_variable = 'Costo Total (Bs)' then
-		        		v_tot = v_col_val_04+v_col_val_05+v_col_val_06+v_col_val_07+v_col_val_08+v_col_val_09+v_col_val_10+v_col_val_11+v_col_val_12+v_col_val_13+v_col_val_14;
+		        		v_tot = coalesce(v_col_val_04,0)+coalesce(v_col_val_05,0)+coalesce(v_col_val_06,0)+coalesce(v_col_val_07,0)+coalesce(v_col_val_08,0)+coalesce(v_col_val_09,0)+coalesce(v_col_val_10,0)+coalesce(v_col_val_11,0)+coalesce(v_col_val_12,0)+coalesce(v_col_val_13,0)+coalesce(v_col_val_14,0);
 		        		v_consulta1=v_consulta1||','||v_col_15||','||v_col_15||'_key';
 	                    v_consulta2=v_consulta2||','||quote_literal(round(v_tot,2))||',null';
 					elsif g_registros.nombre_tipo_variable = 'Rendimiento(Km/Lt)' then
 						v_tot=0;
 						if v_col_val_03 > 0 then
-							v_tot = v_col_val_02/v_col_val_03;
+							v_tot = coalesce(v_col_val_02,0)/coalesce(v_col_val_03,0);
 						end if;
 						v_consulta1=v_consulta1||','||v_col_16||','||v_col_16||'_key';
 	                    v_consulta2=v_consulta2||','||quote_literal(round(v_tot,2))||',null';
 					elsif g_registros.nombre_tipo_variable = 'Factor Costo (Bs/Km)' then
 						v_tot=0;
 						if v_col_val_02 > 0 then
-							v_tot = (v_col_val_04+v_col_val_05+v_col_val_06+v_col_val_07+v_col_val_08+v_col_val_09+v_col_val_10+v_col_val_11+v_col_val_12+v_col_val_13+v_col_val_14)/v_col_val_02;
+							v_tot = (coalesce(v_col_val_04,0)+coalesce(v_col_val_05,0)+coalesce(v_col_val_06,0)+coalesce(v_col_val_07,0)+coalesce(v_col_val_08,0)+coalesce(v_col_val_09,0)+coalesce(v_col_val_10,0)+coalesce(v_col_val_11,0)+coalesce(v_col_val_12,0)+coalesce(v_col_val_13,0)+coalesce(v_col_val_14,0))/coalesce(v_col_val_02,0);
 						end if;
 						v_consulta1=v_consulta1||','||v_col_17||','||v_col_17||'_key';
 	                    v_consulta2=v_consulta2||','||quote_literal(round(v_tot,2))||',null';
 					end if;
+
         		end loop;
         		
         		-- 2.2) finaliza la cadena de insercion
 		        v_consulta1 = v_consulta1||v_consulta2|| ') ';
-		                  
+                 
 		        -- 2.3) inserta los datos en la tabla temporal
 		        execute(v_consulta1);
       
