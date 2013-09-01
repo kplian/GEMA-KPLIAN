@@ -23,8 +23,8 @@ class CustomReportGI extends TCPDF {
 		
 		$this->SetFontSize(12);
 		$this->SetFont('','B');
-		$this->Cell(105, $height, 'REGISTRO', 0, 0, 'C', false, '', 0, false, 'T', 'C');
-		$this->Cell(105, $height, 'Indicadores de Mantenimiento', 1, 0, 'C', false, '', 0, false, 'T', 'C');
+		$this->Cell(115, $height/2, 'REGISTRO', 1, 2, 'C', false, '', 0, false, 'T', 'C');        
+        $this->Cell(115,$height/2, 'Indicadores de Mantenimiento',1,0,'C',false,'',0,false,'T','C');
 		$x = $this->GetX();
 		$y = $this->GetY();
 		
