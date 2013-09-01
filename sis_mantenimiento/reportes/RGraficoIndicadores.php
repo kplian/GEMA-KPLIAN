@@ -21,11 +21,12 @@ class CustomReportGI extends TCPDF {
 		$this->Cell(40, $height, '', 1, 0, 'C', false, '', 0, false, 'T', 'C');
 		$this->Image(dirname(__FILE__).'/logo-ypfb-logistica.png', 16, 12, 36);
 		
-		$this->SetFontSize(12);
+		$this->SetFontSize(14);
 		$this->SetFont('','B');
 		$this->Cell(115, $height/2, 'REGISTRO', 1, 2, 'C', false, '', 0, false, 'T', 'C');        
         $this->Cell(115,$height/2, 'Indicadores de Mantenimiento',1,0,'C',false,'',0,false,'T','C');
-		$this->setXY($x+115,$y);
+        
+        $this->setXY($x+115,$y);
         $this->SetFont('','');
         $this->Cell(40, $height, '', 1, 0, 'C', false, '', 0, false, 'T', 'C');
         
@@ -63,7 +64,7 @@ class CustomReportGI extends TCPDF {
         $this->Cell($width1, $height/4, 'Página:', "B", 0, '', false, '', 0, false, 'T', 'C');
         $this->SetFont('','B');
         $this->Cell($width2, $height/4,  '                  '.$this->getAliasNumPage().' de '.$this->getAliasNbPages(), "B", 0, 'C', false, '', 0, false, 'T', 'C');
-       
+        
 	}
 	
 	public function Footer() {
