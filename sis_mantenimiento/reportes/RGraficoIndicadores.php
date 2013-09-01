@@ -15,15 +15,17 @@ class CustomReportGI extends TCPDF {
 	
 	public function Header() {
 		$height = 20;
-		$x = $this->GetX();
-		$y = $this->GetY();
-		$this->SetXY($x, $y);
-		$this->Cell(40, $height, '', 1, 0, 'C', false, '', 0, false, 'T', 'C');
-		$this->Image(dirname(__FILE__).'/logo-ypfb-logistica.png', 16, 12, 36);
-		
-		$this->SetFontSize(14);
-		$this->SetFont('','B');
-		$this->Cell(115, $height/2, 'REGISTRO', 1, 2, 'C', false, '', 0, false, 'T', 'C');        
+        $x = $this->GetX();
+        $y = $this->GetY();
+        $this->SetXY($x, $y);
+        $this->Cell(30, $height, '', 1, 0, 'C', false, '', 0, false, 'T', 'C');
+        $this->Image(dirname(__FILE__).'/logo-ypfb-logistica.png', 16, 14, 28);
+        
+        $x = $this->GetX();
+        $y = $this->GetY();
+        $this->SetFontSize(14);
+        $this->SetFont('','B');        
+        $this->Cell(115, $height/2, 'REGISTRO', 1, 2, 'C', false, '', 0, false, 'T', 'C');        
         $this->Cell(115,$height/2, 'Indicadores de Mantenimiento',1,0,'C',false,'',0,false,'T','C');
         
         $this->setXY($x+115,$y);
@@ -35,7 +37,7 @@ class CustomReportGI extends TCPDF {
         
         $width1 = 17;
         $width2 = 23;
-        $this->SetXY($x+145, $y);
+        $this->SetXY($x+115, $y);
         $this->setCellPaddings(2);
         $this->Cell($width1, $height/4, 'Código:', "B", 0, '', false, '', 0, false, 'T', 'C');
         $this->SetFont('','B');
@@ -43,7 +45,7 @@ class CustomReportGI extends TCPDF {
         
         $this->SetFont('','');
         $y += 5;
-        $this->SetXY($x+145, $y);
+        $this->SetXY($x+115, $y);
         $this->setCellPaddings(2);
         $this->Cell($width1, $height/4, 'Revisión:', "B", 0, '', false, '', 0, false, 'T', 'C');
         $this->SetFont('','B');
@@ -51,7 +53,7 @@ class CustomReportGI extends TCPDF {
         
         $this->SetFont('','');
         $y += 5;
-        $this->SetXY($x+145, $y);
+        $this->SetXY($x+115, $y);
         $this->setCellPaddings(2);
         $this->Cell($width1, $height/4, 'Fecha Emision:', "B", 0, '', false, '', 0, false, 'T', 'C');
         $this->SetFont('','B');
