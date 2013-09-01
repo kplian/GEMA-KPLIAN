@@ -23,7 +23,8 @@ class CustomReportGI extends TCPDF {
 		
 		$this->SetFontSize(12);
 		$this->SetFont('','B');
-		$this->Cell(105, $height, $this->titulo, 1, 0, 'C', false, '', 0, false, 'T', 'C');
+		$this->Cell(105, $height, 'REGISTRO', 1, 0, 'C', false, '', 0, false, 'T', 'C');
+		$this->Cell(105, $height, 'Indicadores de Mantenimiento', 1, 0, 'C', false, '', 0, false, 'T', 'C');
 		$x = $this->GetX();
 		$y = $this->GetY();
 		
@@ -39,7 +40,7 @@ class CustomReportGI extends TCPDF {
 		$this->setCellPaddings(2);
 		$this->Cell($width1, $height/4, 'Código:', "B", 0, '', false, '', 0, false, 'T', 'C');
 		$this->SetFont('','B');
-		$this->Cell($width2, $height/4, 'S/C', "B", 0, 'C', false, '', 0, false, 'T', 'C');
+		$this->Cell($width2, $height/4, 'GMAN-RG-SM-028', "B", 0, 'C', false, '', 0, false, 'T', 'C');
 		
 		$this->SetFont('','');
 		$y += 5;
@@ -47,7 +48,7 @@ class CustomReportGI extends TCPDF {
 		$this->setCellPaddings(2);
 		$this->Cell($width1, $height/4, 'Revisión:', "B", 0, '', false, '', 0, false, 'T', 'C');
 		$this->SetFont('','B');
-		$this->Cell($width2, $height/4, '1', "B", 0, 'C', false, '', 0, false, 'T', 'C');
+		$this->Cell($width2, $height/4, '1.0', "B", 0, 'C', false, '', 0, false, 'T', 'C');
 		
 		$this->SetFont('','');
 		$y += 5;
