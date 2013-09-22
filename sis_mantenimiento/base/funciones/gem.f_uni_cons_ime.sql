@@ -53,8 +53,6 @@ DECLARE
     
     v_id_usuarios_tmp integer[];
 	v_horas_dia integer;
-    v_tipo	varchar;
-    v_rec_equipo record;
    
 BEGIN
 
@@ -109,38 +107,17 @@ BEGIN
 
             end if;
 
-
+            --Verificar duplicidad de codigo de uo
+            if exists(select distinct 1 
+                   	from gem.tuni_cons uc 
+                   	where lower(uc.codigo)=lower(v_parametros.codigo) and uc.estado_reg='activo') then
+            	raise exception 'Código duplicado';
+			end if;
                 
 			if(v_parametros.tipo = 'tuc') then
             	v_estado = 'borrador';  --falta validar
-                	
-            	--Verificar duplicidad de codigo, solo en caso de TUC padres
-            	if v_parametros.id_uni_cons_padre='1' then
-            		if exists(select 1
-                              from gem.tuni_cons uc
-                              inner join gem.tuni_cons_comp ucomp
-                              on ucomp.id_uni_cons_hijo = uc.id_uni_cons
-                              and ucomp.id_uni_cons_padre = 1
-                              where lower(uc.codigo)=lower(v_parametros.codigo)
-                              and uc.tipo = 'tuc'
-                              and uc.estado_reg='activo') then
-                        raise exception 'Código duplicado';
-                    end if;                
-            	end if;
-
-            	
 			else
 				v_estado = 'registrado';  -- falta confirma el proceso de alta ,si ya no necesita modificaciones
-				--Verificar duplicidad de codigo de uo
-	            if exists(select distinct 1 
-	                   	from gem.tuni_cons uc 
-	                   	where lower(uc.codigo)=lower(v_parametros.codigo)
-                        and uc.estado_reg='activo'
-                        and uc.tipo = 'uc') then
-	            	raise exception 'Código duplicado';
-				end if;
-				
-				
 			end if;
                 
             --verifica el tipo_nodo
@@ -291,49 +268,13 @@ BEGIN
              END IF;
         
          -- verificar duplicidad de codigo de uo
-               /*if exists (
+               if exists (
                    select distinct 1 
                    from gem.tuni_cons uc 
                    where lower(uc.codigo)=lower(v_parametros.codigo) 
                    and uc.estado_reg='activo' and uc.id_uni_cons!=v_parametros.id_uni_cons) then
                    raise exception 'CODIGO DUPLICADO';
-                end if;*/
-                
-                select tipo
-                into v_tipo
-                from gem.tuni_cons
-                where id_uni_cons = v_parametros.id_uni_cons;
-                
-        	if(v_tipo = 'tuc') then
-            	--Verificar duplicidad de codigo, solo en caso de TUC padres
-            	if v_parametros.id_uni_cons_padre='1' then
-            		if exists(select 1
-                              from gem.tuni_cons uc
-                              inner join gem.tuni_cons_comp ucomp
-                              on ucomp.id_uni_cons_hijo = uc.id_uni_cons
-                              and ucomp.id_uni_cons_padre = 1
-                              where lower(uc.codigo)=lower(v_parametros.codigo)
-                              and uc.tipo = 'tuc'
-                              and uc.estado_reg='activo'
-                              and uc.id_uni_cons != v_parametros.id_uni_cons) then
-                        raise exception 'Código duplicado';
-                    end if;                
-            	end if;
-
-            	
-			else
-				--Verificar duplicidad de codigo de uo
-	            if exists(select distinct 1 
-	                   	from gem.tuni_cons uc 
-	                   	where lower(uc.codigo)=lower(v_parametros.codigo)
-                        and uc.estado_reg='activo'
-                        and uc.tipo = 'uc'
-                        and uc.id_uni_cons != v_parametros.id_uni_cons) then
-	            	raise exception 'Código duplicado';
-				end if;
-				
-				
-			end if;
+                end if;
         
 			--Sentencia de la modificacion
 			update    gem.tuni_cons set
@@ -411,7 +352,7 @@ BEGIN
             --then, check the node type root
             if v_tipo_nodo!='raiz' then
             
-                raise exception 'solo los nodo raiz pueden ser bloqueados';
+                raise exception 'Solo pueden ser bloqueados los nodos Raiz';
             
             end if;
             
@@ -462,11 +403,9 @@ BEGIN
              --el codigo tiene que ser unico para la UC
              
              
-             IF exists(select 1 from  gem.tuni_cons  uc 
-                       where upper(uc.codigo) = upper(v_parametros.codigo_uni_cons )
-                       and estado_reg = 'activo'
-                       and tipo = 'uc') THEN
-             	raise exception 'Código de Equipo Duplicado';
+             IF exists( select 1 from  gem.tuni_cons  uc 
+                      where  upper(uc.codigo) = upper(v_parametros.codigo_uni_cons )) THEN
+              raise exception 'El codigo de equipo ya existe';
              END IF;
               
              
@@ -662,11 +601,9 @@ BEGIN
              -- (1) VERIFICACION PARA GENERAR EL CALENDARIO
              --------------------
              --si es el nodo es de tipo localizacion
-             
              if v_parametros.tipo_nodo <> 'uni_cons' and v_parametros.tipo_nodo <> 'rama' THEN
-             
                    -- 1)  busca recursivamente los equipos que correponden a la localizacion indicada
-                       
+                    --rcm 21/09/2013: se aumenta inner join con tmant_predef    
                     FOR g_registros in  (
                      WITH RECURSIVE sub_localizacion(id_localizacion, id_localizacion_fk, nombre) 
                           AS (
@@ -677,32 +614,34 @@ BEGIN
                               FROM sub_localizacion subl, gem.tlocalizacion l
                               WHERE l.id_localizacion_fk = subl.id_localizacion
                              )
-                          SELECT unicon.id_uni_cons,unicon.codigo  FROM gem.tuni_cons unicon 
+                          SELECT unicon.id_uni_cons,unicon.codigo
+                          FROM gem.tuni_cons unicon 
                           WHERE unicon.id_localizacion 
                           IN ( SELECT id_localizacion FROM sub_localizacion ORDER BY id_localizacion) 
-                          AND unicon.tipo_nodo ilike 'raiz' and unicon.tipo = 'uc') LOOP
+                          AND unicon.tipo_nodo ilike 'raiz' and unicon.tipo = 'uc' and unicon.estado_reg = 'activo'
+                          AND unicon.id_uni_cons in (select id_uni_cons from gem.tuni_cons_mant_predef)) LOOP
                    
                        --por cada unidad raiz vamos verificar sus partes para determinar si es necesario generar el calendario
                    
                    
-                     
+                     --rcm 21/09/2013: se aumenta inner join con tmant_predef    
                           FOR g_registros2 in (
                                WITH RECURSIVE arbol (id_uni_cons,id_uni_cons_padre, id_uni_cons_hijo, codigo, incluir_calgen) AS (  
-                                   select  uc.id_uni_cons, ucc.id_uni_cons_padre, ucc.id_uni_cons_hijo, uc.codigo , uc.incluir_calgen
-
-                                    from gem.tuni_cons uc
-                                    LEFT join  gem.tuni_cons_comp ucc 
-                                                on ucc.id_uni_cons_padre = uc.id_uni_cons
-                                    where    uc.id_uni_cons = g_registros.id_uni_cons   
-                                      UNION ALL  
-                                       SELECT uc2.id_uni_cons, ucc2.id_uni_cons_padre, ucc2.id_uni_cons_hijo,uc2.codigo ,uc2.incluir_calgen  
-                                        FROM arbol a 
-                                        INNER JOIN  gem.tuni_cons uc2   ON uc2.id_uni_cons = a.id_uni_cons_hijo
-                                        LEFT JOIN   gem.tuni_cons_comp ucc2 on ucc2.id_uni_cons_padre = uc2.id_uni_cons
-                                      )  
-                                     SELECT distinct id_uni_cons, codigo,incluir_calgen FROM arbol 
-                        
-                        
+                                   select  uc.id_uni_cons, ucc.id_uni_cons_padre, ucc.id_uni_cons_hijo,
+                                   uc.codigo , uc.incluir_calgen
+                                   from gem.tuni_cons uc
+                                   left join gem.tuni_cons_comp ucc 
+                                   on ucc.id_uni_cons_padre = uc.id_uni_cons
+                                   where uc.id_uni_cons = g_registros.id_uni_cons
+                                   and uc.id_uni_cons in (select id_uni_cons from gem.tuni_cons_mant_predef)   
+                                   UNION ALL  
+                                   SELECT uc2.id_uni_cons, ucc2.id_uni_cons_padre, ucc2.id_uni_cons_hijo,
+                                   uc2.codigo ,uc2.incluir_calgen  
+                                   FROM arbol a 
+                                   INNER JOIN gem.tuni_cons uc2 ON uc2.id_uni_cons = a.id_uni_cons_hijo
+                                   LEFT JOIN gem.tuni_cons_comp ucc2 on ucc2.id_uni_cons_padre = uc2.id_uni_cons
+                                   WHERE uc2.id_uni_cons in (select id_uni_cons from gem.tuni_cons_mant_predef))  
+                               SELECT distinct id_uni_cons, codigo,incluir_calgen FROM arbol 
                            ) LOOP
                                 
                                  --    llama a una funcion para generar el calendaio para el equipo indicado
@@ -726,7 +665,7 @@ BEGIN
                                      END IF;
                                      
                                      v_contador = v_contador + 1;
-                          
+
                                  END IF;
                   
              				END LOOP;
@@ -790,15 +729,15 @@ BEGIN
                              v_resul = v_resul||','||v_resul_par;
                           END IF;
                       END IF;
-               
-               
-               v_contador = v_contador + 1;  
+            
+     			if exists(select 1 from gem.tuni_cons_mant_predef
+                		where id_uni_cons = v_parametros.id_uni_cons) then
+               		v_contador = v_contador + 1;   
+                end if;
              
              END IF;
              
              --armar un vector de uni_cons
-               
-            -- raise exception '%',v_resul; 
             
             ---------------------------
             -- (2)GENERACIÓN DEL CALENDARIO
@@ -808,7 +747,7 @@ BEGIN
 			IF  v_resul!='' THEN
 
             	--Existen, por lo tanto se despliega el detalle de los equipos afectados
-                v_resp = pxp.f_agrega_clave(v_resp,'mensaje','La verificacion se realizado con exito, existen calendarios '||v_resul); 
+                v_resp = pxp.f_agrega_clave(v_resp,'mensaje','La verificacion se ha realizado con exito, existen calendarios '||v_resul); 
                 v_resp = pxp.f_agrega_clave(v_resp,'unidades',v_resul); 
                 v_resp = pxp.f_agrega_clave(v_resp,'generado','false');
                 v_resp = pxp.f_agrega_clave(v_resp,'contador',v_contador::varchar); 
@@ -858,9 +797,8 @@ BEGIN
              
              --si es el nodo es de tipo localizacion
              if v_parametros.tipo_nodo <> 'uni_cons' and v_parametros.tipo_nodo <> 'rama' THEN
-             
                    -- 1)  busca recursivamente los equipos que correponden a la localizacion indicada
-                       
+                    --rcm 21/09/2013: se aumenta inner join con tmant_predef       
                     FOR g_registros in  (
                      WITH RECURSIVE sub_localizacion(id_localizacion, id_localizacion_fk, nombre) 
                           AS (
@@ -871,28 +809,31 @@ BEGIN
                               FROM sub_localizacion subl, gem.tlocalizacion l
                               WHERE l.id_localizacion_fk = subl.id_localizacion
                              )
-                          SELECT unicon.id_uni_cons FROM gem.tuni_cons unicon 
+                          SELECT unicon.id_uni_cons
+                          FROM gem.tuni_cons unicon 
                           WHERE unicon.id_localizacion 
                           IN ( SELECT id_localizacion FROM sub_localizacion ORDER BY id_localizacion) 
-                          AND unicon.tipo_nodo ilike 'raiz' and unicon.tipo = 'uc') LOOP
+                          AND unicon.tipo_nodo ilike 'raiz' and unicon.tipo = 'uc' and unicon.estado_reg = 'activo'
+                          AND unicon.id_uni_cons in (select id_uni_cons from gem.tuni_cons_mant_predef)) LOOP
                    
                        --por cada unidad raiz vamos verificar sus partes para determinar si es necesario generar el calendario
                    
                    
-                     
+                     		--rcm 21/09/2013: se aumenta inner join con tmant_predef    
                           FOR g_registros2 in (
                                WITH RECURSIVE arbol (id_uni_cons,id_uni_cons_padre, id_uni_cons_hijo, codigo, incluir_calgen) AS (  
                                    select  uc.id_uni_cons, ucc.id_uni_cons_padre, ucc.id_uni_cons_hijo, uc.codigo , uc.incluir_calgen
-
                                     from gem.tuni_cons uc
                                     LEFT join  gem.tuni_cons_comp ucc 
-                                                on ucc.id_uni_cons_padre = uc.id_uni_cons
-                                    where    uc.id_uni_cons = g_registros.id_uni_cons   
+                                    on ucc.id_uni_cons_padre = uc.id_uni_cons
+                                    where uc.id_uni_cons = g_registros.id_uni_cons   
+                                    and uc.id_uni_cons in (select id_uni_cons from gem.tuni_cons_mant_predef)
                                       UNION ALL  
                                        SELECT uc2.id_uni_cons, ucc2.id_uni_cons_padre, ucc2.id_uni_cons_hijo,uc2.codigo ,uc2.incluir_calgen  
                                         FROM arbol a 
                                         INNER JOIN  gem.tuni_cons uc2   ON uc2.id_uni_cons = a.id_uni_cons_hijo
                                         LEFT JOIN   gem.tuni_cons_comp ucc2 on ucc2.id_uni_cons_padre = uc2.id_uni_cons
+                                        where uc2.id_uni_cons in (select id_uni_cons from gem.tuni_cons_mant_predef)
                                       )  
                                      SELECT distinct id_uni_cons, codigo,incluir_calgen FROM arbol 
                         
@@ -907,7 +848,7 @@ BEGIN
                                      v_contador = v_contador + 1;
                           
                                     IF NOT v_bool THEN
-                                     raise exception 'error al generar calendario para %',g_registros.id_uni_cons;
+                                     raise exception 'Error al generar calendario para %',g_registros.id_uni_cons;
                                     END IF;
                                     
                                  END IF;
@@ -944,7 +885,7 @@ BEGIN
                          v_bool =  gem.f_genera_calendario_equipo (g_registros.id_uni_cons,v_parametros.fecha_fin,p_id_usuario);
                         
                         IF NOT v_bool THEN
-                         raise exception 'error al generar calendario para %',g_registros.id_uni_cons;
+                         raise exception 'Error al generar calendario para %',g_registros.id_uni_cons;
                         END IF;
                      
                        v_contador = v_contador + 1;
@@ -955,10 +896,13 @@ BEGIN
              ELSE
               --si no es localizacion es la unidad constructiva, generamos directamente
                v_bool =  gem.f_genera_calendario_equipo (v_parametros.id_uni_cons,v_parametros.fecha_fin,p_id_usuario);
-               v_contador = v_contador + 1;  
+               
+               if exists(select 1 from gem.tuni_cons_mant_predef
+                		where id_uni_cons = v_parametros.id_uni_cons) then
+               		v_contador = v_contador + 1;   
+                end if;
              
              END IF;
-             
              
              
              -- 3) retonra exito
@@ -1181,243 +1125,6 @@ BEGIN
             return v_resp;
 
 		end;
-		
-	/*********************************    
- 	#TRANSACCION:  'GEM_ADDPLA_MOD'
- 	#DESCRIPCION:	Agregar una plantilla existente dentro de otr plantilla
- 	#AUTOR:			RCM	
- 	#FECHA:			14/08/2013
-	***********************************/
-    
-     elseif(p_transaccion='GEM_ADDPLA_MOD')then
-     
-		BEGIN   
-             /*
-             1) Verificar existencia de la plantilla base y de la plantilla a agregar
-             2) Verificar que la plantilla a agregar no se igual que la plantilla base
-             3) Verificar problema de recursioón: que no se pueda agregar una plantilla que sea un antecesor de la plantilla base (TODO)
-             4) Agregar la plantilla
-             */
-             
-            --1
-            if not exists(select 1 from  gem.tuni_cons  uc 
-	                      where id_uni_cons = v_parametros.id_uni_cons) THEN
-            		raise exception 'Plantilla inexistente';
-            end if;
-
-            if not exists(select 1 from  gem.tuni_cons  uc 
-	                      where id_uni_cons = v_parametros.id_plantilla) THEN
-            		raise exception 'Plantilla a agregar inexistente';
-            end if;
-            
-            --2
-            if v_parametros.id_uni_cons = v_parametros.id_plantilla then
-            	raise exception 'La plantilla a agregar no puede ser igual que la plantilla base';
-            end if;
-              
-            --4
-			insert into gem.tuni_cons_comp(
-			id_usuario_reg, fecha_reg, estado_reg, id_uni_cons_padre,
-			id_uni_cons_hijo, cantidad, opcional
-			) values(
-			p_id_usuario, now(), 'activo', v_parametros.id_uni_cons,
-			v_parametros.id_plantilla, 1, 'no'
-			) RETURNING id_uni_cons_comp into v_id_uni_cons_comp; 
-    
-			--Definicion de la respuesta
-			v_resp = pxp.f_agrega_clave(v_resp,'mensaje','Plantilla agregada  (id_uni_cons_comp'||v_id_uni_cons_comp||')'); 
-            v_resp = pxp.f_agrega_clave(v_resp,'id_uni_cons_comp',v_id_uni_cons_comp::varchar);
-
-            --Devuelve la respuesta
-            return v_resp;
-
-		end;   
-		
-	/*********************************    
- 	#TRANSACCION:  'GEM_CLONEPLA_MOD'
- 	#DESCRIPCION:	Clona una plantilla
- 	#AUTOR:			rcm	
- 	#FECHA:			14/08/2013
-	***********************************/
-    
-     elseif(p_transaccion='GEM_CLONEPLA_MOD')then
-     
-		BEGIN   
-
-             /*
-             1) busca los datos del primer nodo raiz
-             2)  los inserta con UC
-             3) busca recursivamente hijos pxp.f_addunicon_recursivo
-             
-             NOTA: id_localizacion contienen el id_uni_Cons del equipo al que le aumentará un subsistema
-             */
-            
-            --Obtiene datos del equipo
-            select * into v_rec_equipo
-            from gem.tuni_cons
-            where id_uni_cons = v_parametros.id_localizacion;
-             
-             
-             -- 1) busca los datos del primer nodo raiz
-             
-			FOR g_registros in (
-            	select  
-                	tuc.codigo,
-                    tuc.estado,
-                    tuc.id_tipo_equipo,
-                    tuc.nombre,
-                    tuc.tipo_nodo,
-                    tuc.id_uni_cons,
-                    tuc.herramientas_especiales,
-                    tuc.otros_datos_tec,
-                    tuc.funcion,
-                    tuc.punto_recepcion_despacho,
-                    tuc.ficha_tecnica
-                from gem.tuni_cons tuc 
-                where tuc.id_uni_cons = v_parametros.id_uni_cons  
-                and tuc.estado_reg='activo'
-			) LOOP
-               
-             --  busca los usarios con acceso a esta nueva_unidad constructiva
-             
-              WITH RECURSIVE arbol (id_localizacion,id_localizacion_fk) AS (  
-                        select lo.id_localizacion,lo.id_localizacion_fk
-                        from gem.tlocalizacion lo
-                        where lo.id_localizacion = v_parametros.id_localizacion
-                      UNION ALL
-                         SELECT lo2.id_localizacion, lo2.id_localizacion_fk
-                         FROM arbol a
-                         INNER JOIN gem.tlocalizacion lo2 on lo2.id_localizacion =  a.id_localizacion_fk)  
-                                       
-                                       
-               SELECT pxp.aggarray( lu.id_usuario) into v_id_usuarios_tmp
-              FROM arbol a 
-              inner join gem.tlocalizacion_usuario lu on lu.id_localizacion = a.id_localizacion; 
-                
-                -- 2)  los inserta como UC
-                      
-                       --Sentencia de la insercion
-						insert into gem.tuni_cons (
-                        	estado_reg,
-                        	estado,
-                        	nombre,
-                        	tipo,
-                        	codigo,
-                        	id_tipo_equipo,
-                        	id_usuario_reg,
-                        	fecha_reg,
-                        	tipo_nodo,
-                         	id_plantilla,
-                         	id_usuarios,
-                            herramientas_especiales,
-                            otros_datos_tec,
-                            funcion,
-                            punto_recepcion_despacho,
-                            ficha_tecnica
-                        ) values (
-                        	'activo',
-                       		'registrado',
-                        	upper(g_registros.nombre),
-                        	'uc',
-                        	--v_rec_equipo.codigo||'-'||g_registros.codigo,
-                        	v_parametros.codigo_uni_cons,
-                        	g_registros.id_tipo_equipo,
-                        	p_id_usuario,
-                        	now(),
-                        	'raiz',
-                         	v_parametros.id_uni_cons,
-                         	v_id_usuarios_tmp,
-                            g_registros.herramientas_especiales,
-                            g_registros.otros_datos_tec,
-                            g_registros.funcion,
-                            g_registros.punto_recepcion_despacho,
-                            g_registros.ficha_tecnica
-                        ) RETURNING id_uni_cons into v_id_uni_cons;
-                        
-                        
-                     --insertamos la relacion con el nodo relacionador
-                     
-                      --inseta la relacion con el padre    
-                    
-                
-                
-            insert into gem.tuni_cons_comp(
-                        estado_reg,
-                        opcional,
-                        id_uni_cons_padre,
-                        cantidad,
-                        id_uni_cons_hijo,
-                        id_usuario_reg,
-                        fecha_reg,
-                        id_usuario_mod,
-                        fecha_mod
-                        ) values(
-                        'activo',
-                        'no',
-                        v_rec_equipo.id_uni_cons,  --padre
-                        '1',
-                        v_id_uni_cons,--hijo
-                        p_id_usuario,
-                        now(),
-                        null,
-                        null
-                        )RETURNING id_uni_cons_comp into v_id_uni_cons_comp; 
-                        
-                   
-           
-                        
-      END LOOP;
-            -- 3) busca recursivamente hijos pxp.f_addunicon_recursivo
-      
-             v_resp_bool = gem.f_addunicon_recursivo(v_parametros.id_uni_cons,v_id_uni_cons,p_id_usuario,'raiz',v_parametros.codigo_uni_cons);
-             
-            -- 3.1) llamada a la clonacion de datos
-            
-             -- LLAMADA A LA FUNCION CLONAR DATOS UNICONS  PARA 
-                    --  v_id_uni_cons              CLONADO
-                    --  v_parametros.id_uni_cons   ORIGINAL      
-                    --  p_id_usuario
-      
-             v_resp_bool = gem.f_clon_unicons(g_registros.id_uni_cons ,v_id_uni_cons,p_id_usuario);
-          
-			--Definicion de la respuesta
-			v_resp = pxp.f_agrega_clave(v_resp,'mensaje','Dulicado desde plantilla  el uni_con  (id_uni_cons'||v_id_uni_cons||')'); 
-            v_resp = pxp.f_agrega_clave(v_resp,'id_uni_cons',v_id_uni_cons::varchar);
-
-            --Devuelve la respuesta
-            return v_resp;
-
-		end;
-		
-	/*********************************    
- 	#TRANSACCION:  'GEM_TUCCOM_ELI'
- 	#DESCRIPCION:	Eliminación de uni_cons_comp
- 	#AUTOR:			rcm
- 	#FECHA:			20/08/2013
-	***********************************/
-
-	elsif (p_transaccion='GEM_TUCCOM_ELI') then
-
-		begin
-			
-			if not exists(select 1 from gem.tuni_cons_comp
-						where id_uni_cons_comp = v_parametros.id_uni_cons_comp) then
-				raise exception 'Registro inexistente';
-			end if;
-			
-
-			--Sentencia de la modificacion
-			delete from gem.tuni_cons_comp
-			where id_uni_cons_comp=v_parametros.id_uni_cons_comp;
-               
-			--Definicion de la respuesta
-            v_resp = pxp.f_agrega_clave(v_resp,'mensaje','Eliminación del componente'); 
-            v_resp = pxp.f_agrega_clave(v_resp,'id_uni_cons_comp',v_parametros.id_uni_cons_comp::varchar);
-               
-            --Devuelve la respuesta
-            return v_resp;
-            
-		end;   
 		
 	else
      

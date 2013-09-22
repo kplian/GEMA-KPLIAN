@@ -287,7 +287,8 @@ Phx.vista.Documento=Ext.extend(Phx.gridInterfaz,{
                 allowBlank: true,
                 anchor: '80%',
                 gwidth: 100,
-                maxLength:4
+                maxLength:4,
+				hidden:true
             },
             type:'NumberField',
             filters:{pfiltro:'usu1.cuenta',type:'string'},
@@ -303,7 +304,8 @@ Phx.vista.Documento=Ext.extend(Phx.gridInterfaz,{
                 anchor: '80%',
                 //gwidth: 109,
                 //renderer:function (value,p,record){return value?value.dateFormat('d/m/Y h:i:s'):''}
-                format:'Y-m-d'
+                format:'Y-m-d',
+				hidden:true
             },
             type:'DateField',
             filters:{pfiltro:'gedocu.fecha_mod',type:'date'},
@@ -318,7 +320,8 @@ Phx.vista.Documento=Ext.extend(Phx.gridInterfaz,{
                 allowBlank: true,
                 anchor: '80%',
                 gwidth: 100,
-                maxLength:4
+                maxLength:4,
+				hidden:true
             },
             type:'NumberField',
             filters:{pfiltro:'usu2.cuenta',type:'string'},

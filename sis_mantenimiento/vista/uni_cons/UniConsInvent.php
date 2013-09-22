@@ -148,7 +148,8 @@ Phx.vista.UniConsInvent=Ext.extend(Phx.gridInterfaz,{
 			config:{
 				name: 'usr_reg',
 				fieldLabel: 'Creado por',
-				gwidth: 100
+				gwidth: 100,
+				hidden:true
 			},
 			type:'NumberField',
 			filters:{pfiltro:'usu1.cuenta',type:'string'},
@@ -162,7 +163,8 @@ Phx.vista.UniConsInvent=Ext.extend(Phx.gridInterfaz,{
 				fieldLabel: 'Fecha creación',
 				gwidth: 100,
 				format: 'd/m/Y', 
-				renderer:function (value,p,record){return value?value.dateFormat('d/m/Y H:i:s'):''}
+				renderer:function (value,p,record){return value?value.dateFormat('d/m/Y H:i:s'):''},
+				hidden:true
 			},
 			type:'DateField',
 			filters:{pfiltro:'equipo.fecha_reg',type:'date'},
@@ -174,7 +176,8 @@ Phx.vista.UniConsInvent=Ext.extend(Phx.gridInterfaz,{
 			config:{
 				name: 'usr_mod',
 				fieldLabel: 'Modificado por',
-				gwidth: 100
+				gwidth: 100,
+				hidden:true
 			},
 			type:'NumberField',
 			filters:{pfiltro:'usu2.cuenta',type:'string'},
@@ -188,7 +191,8 @@ Phx.vista.UniConsInvent=Ext.extend(Phx.gridInterfaz,{
 				fieldLabel: 'Fecha Modif.',
 				gwidth: 100,
 				format: 'd/m/Y', 
-				renderer:function (value,p,record){return value?value.dateFormat('d/m/Y H:i:s'):''}
+				renderer:function (value,p,record){return value?value.dateFormat('d/m/Y H:i:s'):''},
+				hidden:true
 			},
 			type:'DateField',
 			filters:{pfiltro:'equipo.fecha_mod',type:'date'},

@@ -128,7 +128,8 @@ Phx.vista.CalendarioPlanificado=Ext.extend(Phx.gridInterfaz,{
 				allowBlank: true,
 				anchor: '80%',
 				gwidth: 100,
-				maxLength:4
+				maxLength:4,
+				hidden:true
 			},
 			type:'NumberField',
 			filters:{pfiltro:'usu1.cuenta',type:'string'},
@@ -143,7 +144,8 @@ Phx.vista.CalendarioPlanificado=Ext.extend(Phx.gridInterfaz,{
 				allowBlank: true,
 				anchor: '80%',
 				gwidth: 100,
-				renderer:function (value,p,record){return value?value.dateFormat('d/m/Y h:i:s'):''}
+				renderer:function (value,p,record){return value?value.dateFormat('d/m/Y h:i:s'):''},
+				hidden:true
 			},
 			type:'DateField',
 			filters:{pfiltro:'cale.fecha_reg',type:'date'},
@@ -158,7 +160,8 @@ Phx.vista.CalendarioPlanificado=Ext.extend(Phx.gridInterfaz,{
 				allowBlank: true,
 				anchor: '80%',
 				gwidth: 100,
-				maxLength:4
+				maxLength:4,
+				hidden:true
 			},
 			type:'NumberField',
 			filters:{pfiltro:'usu2.cuenta',type:'string'},
@@ -173,7 +176,8 @@ Phx.vista.CalendarioPlanificado=Ext.extend(Phx.gridInterfaz,{
 				allowBlank: true,
 				anchor: '80%',
 				gwidth: 100,
-				renderer:function (value,p,record){return value?value.dateFormat('d/m/Y h:i:s'):''}
+				renderer:function (value,p,record){return value?value.dateFormat('d/m/Y h:i:s'):''},
+				hidden:true
 			},
 			type:'DateField',
 			filters:{pfiltro:'cale.fecha_mod',type:'date'},

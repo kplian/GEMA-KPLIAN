@@ -1181,7 +1181,8 @@ Phx.vista.OrdenTrabajo=Ext.extend(Phx.gridInterfaz,{
 				fieldLabel: 'Creado por',
 				allowBlank: true,
 				gwidth: 100,
-				maxLength:4
+				maxLength:4,
+				hidden:true
 			},
 			type:'NumberField',
 			filters:{pfiltro:'usu1.cuenta',type:'string'},
@@ -1193,7 +1194,8 @@ Phx.vista.OrdenTrabajo=Ext.extend(Phx.gridInterfaz,{
 				name: 'fecha_reg',
 				fieldLabel: 'Fecha creación',
 				allowBlank: true,
-				gwidth: 100
+				gwidth: 100,
+				hidden:true
 			},
 			type:'DateField',
 			filters:{pfiltro:'geoott.fecha_reg',type:'date'},
@@ -1206,7 +1208,8 @@ Phx.vista.OrdenTrabajo=Ext.extend(Phx.gridInterfaz,{
 				fieldLabel: 'Modificado por',
 				allowBlank: true,
 				gwidth: 100,
-				maxLength:4
+				maxLength:4,
+				hidden:true
 			},
 			type:'NumberField',
 			filters:{pfiltro:'usu2.cuenta',type:'string'},
@@ -1217,7 +1220,8 @@ Phx.vista.OrdenTrabajo=Ext.extend(Phx.gridInterfaz,{
 			config:{
 				name: 'fecha_mod',
 				fieldLabel: 'Fecha Modif.',
-				gwidth: 100
+				gwidth: 100,
+				hidden:true
 			},
 			type:'DateField',
 			filters:{pfiltro:'geoott.fecha_mod',type:'date'},

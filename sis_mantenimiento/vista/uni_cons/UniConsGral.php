@@ -426,7 +426,8 @@ Phx.vista.UniConsGral=Ext.extend(Phx.gridInterfaz,{
 				allowBlank: true,
 				anchor: '80%',
 				gwidth: 100,
-				maxLength:4
+				maxLength:4,
+				hidden:true
 			},
 			type:'NumberField',
 			filters:{pfiltro:'usr_reg',type:'string'},
@@ -442,7 +443,8 @@ Phx.vista.UniConsGral=Ext.extend(Phx.gridInterfaz,{
 				anchor: '80%',
 				gwidth: 100,
 				format: 'd/m/Y', 
-				renderer:function (value,p,record){return value?value.dateFormat('d/m/Y H:i:s'):''}
+				renderer:function (value,p,record){return value?value.dateFormat('d/m/Y H:i:s'):''},
+				hidden:true
 			},
 			type:'DateField',
 			filters:{pfiltro:'fecha_reg',type:'date'},
@@ -457,7 +459,8 @@ Phx.vista.UniConsGral=Ext.extend(Phx.gridInterfaz,{
 				allowBlank: true,
 				anchor: '80%',
 				gwidth: 100,
-				maxLength:4
+				maxLength:4,
+				hidden:true
 			},
 			type:'NumberField',
 			filters:{pfiltro:'usr_mod',type:'string'},
@@ -473,7 +476,8 @@ Phx.vista.UniConsGral=Ext.extend(Phx.gridInterfaz,{
 				anchor: '80%',
 				gwidth: 100,
 						format: 'd/m/Y', 
-						renderer:function (value,p,record){return value?value.dateFormat('d/m/Y H:i:s'):''}
+						renderer:function (value,p,record){return value?value.dateFormat('d/m/Y H:i:s'):''},
+				hidden:true
 			},
 			type:'DateField',
 			filters:{pfiltro:'fecha_mod',type:'date'},

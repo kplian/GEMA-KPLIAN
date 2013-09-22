@@ -151,7 +151,8 @@ Phx.vista.AnalisisPorqueSol=Ext.extend(Phx.gridInterfaz,{
 				allowBlank: true,
 				anchor: '80%',
 				gwidth: 100,
-				maxLength:4
+				maxLength:4,
+				hidden:true
 			},
 			type:'NumberField',
 			filters:{pfiltro:'usu1.cuenta',type:'string'},
@@ -166,7 +167,8 @@ Phx.vista.AnalisisPorqueSol=Ext.extend(Phx.gridInterfaz,{
 				allowBlank: true,
 				anchor: '80%',
 				gwidth: 100,
-				format:'Y-m-d'
+				renderer:function (value,p,record){return value?value.dateFormat('d/m/Y h:i:s'):''},
+				hidden:true
 			},
 			type:'DateField',
 			filters:{pfiltro:'porsol.fecha_reg',type:'date'},
@@ -181,7 +183,8 @@ Phx.vista.AnalisisPorqueSol=Ext.extend(Phx.gridInterfaz,{
 				allowBlank: true,
 				anchor: '80%',
 				gwidth: 100,
-				maxLength:4
+				maxLength:4,
+				hidden:true
 			},
 			type:'NumberField',
 			filters:{pfiltro:'usu2.cuenta',type:'string'},
@@ -196,7 +199,8 @@ Phx.vista.AnalisisPorqueSol=Ext.extend(Phx.gridInterfaz,{
 				allowBlank: true,
 				anchor: '80%',
 				gwidth: 100,
-				format:'Y-m-d'
+				renderer:function (value,p,record){return value?value.dateFormat('d/m/Y h:i:s'):''},
+				hidden:true
 			},
 			type:'DateField',
 			filters:{pfiltro:'porsol.fecha_mod',type:'date'},

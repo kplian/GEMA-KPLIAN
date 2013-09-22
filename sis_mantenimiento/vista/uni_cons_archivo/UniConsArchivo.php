@@ -255,7 +255,8 @@ Phx.vista.UniConsArchivo=Ext.extend(Phx.gridInterfaz,{
 				anchor: '80%',
 				//gwidth: 100,
 				//renderer:function (value,p,record){return value?value.dateFormat('d/m/Y h:i:s'):''},
-				format : 'Y-m-d'
+				format : 'Y-m-d',
+				hidden:true
 			},
 			type:'DateField',
 			filters:{pfiltro:'unidoc.fecha_reg',type:'date'},
@@ -270,7 +271,8 @@ Phx.vista.UniConsArchivo=Ext.extend(Phx.gridInterfaz,{
 				allowBlank: true,
 				anchor: '80%',
 				gwidth: 109,
-				maxLength:4
+				maxLength:4,
+				hidden:true
 			},
 			type:'NumberField',
 			filters:{pfiltro:'usu1.cuenta',type:'string'},
@@ -285,7 +287,8 @@ Phx.vista.UniConsArchivo=Ext.extend(Phx.gridInterfaz,{
 				allowBlank: true,
 				anchor: '80%',
 				gwidth: 100,
-				maxLength:4
+				maxLength:4,
+				hidden:true
 			},
 			type:'NumberField',
 			filters:{pfiltro:'usu2.cuenta',type:'string'},
@@ -301,7 +304,8 @@ Phx.vista.UniConsArchivo=Ext.extend(Phx.gridInterfaz,{
 				anchor: '80%',
 				//gwidth: 109,
 				//renderer:function (value,p,record){return value?value.dateFormat('d/m/Y h:i:s'):''}
-				format:'Y-m-d'
+				format:'Y-m-d',
+				hidden:true
 			},
 			type:'DateField',
 			filters:{pfiltro:'unidoc.fecha_mod',type:'date'},

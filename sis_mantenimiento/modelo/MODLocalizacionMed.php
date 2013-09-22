@@ -179,6 +179,7 @@ class MODLocalizacionMed extends MODbase{
         $this->captura('tiempo_mpp_hrs','numeric');
         $this->captura('fecha_reg','text');
         $this->captura('fecha_mod','text');
+		$this->captura('num_paros_planif','int4');
         
         //Ejecuta la instruccion
         $this->armarConsulta();
@@ -211,6 +212,7 @@ class MODLocalizacionMed extends MODbase{
         $this->captura('nombre_sistema','varchar');
         $this->captura('nombre_localizacion','varchar');
         $this->captura('codigo','varchar');
+		$this->captura('num_paros_planif','varchar');
         
         //Ejecuta la instruccion
         $this->armarConsulta();

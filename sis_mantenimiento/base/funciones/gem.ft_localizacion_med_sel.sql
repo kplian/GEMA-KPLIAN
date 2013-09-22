@@ -136,7 +136,8 @@ BEGIN
 						replace(to_char(locmed.fecha_med,''dd-Month-YYYY''),'' '','''') as fecha_med,
 						locmed.tiempo_mpp_hrs,
 						to_char(locmed.fecha_reg,''dd-mm-YYYY'') as fecha_reg,
-						to_char(locmed.fecha_mod,''dd-mm-YYYY'') as fecha_mod	
+						to_char(locmed.fecha_mod,''dd-mm-YYYY'') as fecha_mod,
+						locmed.num_paros_planif	
 						from gem.tlocalizacion_med locmed
                         inner join gem.tlocalizacion loc on loc.id_localizacion = locmed.id_localizacion
                         inner join gem.tlocalizacion locpad on locpad.id_localizacion = loc.id_localizacion_fk
@@ -188,7 +189,8 @@ BEGIN
                         (count(locmed.id_localizacion_med))::varchar as dias,
 						loc.nombre as nombre_sistema,
                         locpad.nombre as nombre_localizacion,
-                        loc.codigo						
+                        loc.codigo,
+                        (sum(locmed.num_paros_planif))::varchar as num_paros_planif						
 						from gem.tlocalizacion_med locmed
                         inner join gem.tlocalizacion loc on loc.id_localizacion = locmed.id_localizacion
                         inner join gem.tlocalizacion locpad on locpad.id_localizacion = loc.id_localizacion_fk

@@ -466,7 +466,8 @@ Phx.vista.TpmTarjetaDet=Ext.extend(Phx.gridInterfaz,{
 				allowBlank: true,
 				anchor: '80%',
 				gwidth: 100,
-				maxLength:4
+				maxLength:4,
+				hidden:true
 			},
 			type:'NumberField',
 			filters:{pfiltro:'usu1.cuenta',type:'string'},
@@ -481,7 +482,8 @@ Phx.vista.TpmTarjetaDet=Ext.extend(Phx.gridInterfaz,{
 				allowBlank: true,
 				anchor: '80%',
 				gwidth: 100,
-				format:'Y-m-d'
+				format:'Y-m-d',
+				hidden:true
 			},
 			type:'DateField',
 			filters:{pfiltro:'tardet.fecha_reg',type:'date'},
@@ -496,7 +498,8 @@ Phx.vista.TpmTarjetaDet=Ext.extend(Phx.gridInterfaz,{
 				allowBlank: true,
 				anchor: '80%',
 				gwidth: 100,
-				format:'Y-m-d'
+				format:'Y-m-d',
+				hidden:true
 			},
 			type:'DateField',
 			filters:{pfiltro:'tardet.fecha_mod',type:'date'},
@@ -511,7 +514,8 @@ Phx.vista.TpmTarjetaDet=Ext.extend(Phx.gridInterfaz,{
 				allowBlank: true,
 				anchor: '80%',
 				gwidth: 120,
-				maxLength:4
+				maxLength:4,
+				hidden:true
 			},
 			type:'NumberField',
 			filters:{pfiltro:'usu2.cuenta',type:'string'},

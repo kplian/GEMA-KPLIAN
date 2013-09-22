@@ -93,6 +93,7 @@ require_once dirname(__FILE__).'/pxpReport/Report.php';
 Class RMedicionIndicadores extends Report {
         
     private $totalNumParos=0;
+	private $totalNumParosPl=0;
     private $totalTiempoOpHrs=0.00;
     private $totalTiempoStandByHrs=0.00;
     private $totalTiempoMnpHrs=0.00;
@@ -158,14 +159,15 @@ Class RMedicionIndicadores extends Report {
         $pdf->Ln();
                 
         $pdf->setTextColor(0,0,0);
-        $pdf->Cell($width1+$width0, $height, '', 0, 0, 'R', false, '', 0, false, 'T', 'C');
+        $pdf->Cell($width1+$width0+7, $height, '', 0, 0, 'R', false, '', 0, false, 'T', 'C');
         $pdf->SetFont('', 'B');
         $pdf->SetFillColor(175,238,238, true);
         $pdf->Cell($width0*4, $height, 'Tiempo en Horas', '1', 0, 'C', true, '', 1, false, 'T', 'C');
         $pdf->Ln();      
         $pdf->Cell($width1, $height, 'MES', '1', 0, 'C', true, '', 1, false, 'T', 'C');
         $pdf->setTextColor(0,0,255);
-        $pdf->Cell($width0, $height, 'Nº PARO', '1', 0, 'C', true, '', 1, false, 'T', 'C');
+        $pdf->Cell($width0-3, $height, 'PAROS NPL', '1', 0, 'C', true, '', 1, false, 'T', 'C');
+		$pdf->Cell($width0-3, $height, 'PAROS PL', '1', 0, 'C', true, '', 1, false, 'T', 'C');
         $pdf->setTextColor(208,32,144);
         $pdf->Cell($width0, $height, 'OPERATIVO', '1', 0, 'C', true, '', 1, false, 'T', 'C');
         $pdf->setTextColor(255,215,0);
@@ -315,7 +317,8 @@ Class RMedicionIndicadores extends Report {
                 $mayor=max(array($row['num_paros'],$row['tiempo_op_hrs'],$row['tiempo_standby_hrs'],$row['tiempo_mnp_hrs'],$row['tiempo_mpp_hrs']));
                 $this->maximo=($this->maximo<$mayor)?$mayor:$this->maximo;
                 $pdf->setTextColor(0,0,255);
-                $pdf->Cell($width0, $height, $row['num_paros'], 1, 0, 'C', false, '', 1, false, 'T', 'C');
+                $pdf->Cell($width0-3, $height, $row['num_paros'], 1, 0, 'C', false, '', 1, false, 'T', 'C');
+				$pdf->Cell($width0-3, $height, $row['num_paros_planif'], 1, 0, 'C', false, '', 1, false, 'T', 'C');
                 $pdf->setTextColor(208,32,144);
                 $pdf->Cell($width0, $height, $row['tiempo_op_hrs'], 1, 0, 'C', false, '', 1, false, 'T', 'C');
                 $pdf->setTextColor(255,215,0);
@@ -325,6 +328,7 @@ Class RMedicionIndicadores extends Report {
                 $pdf->setTextColor(0,100,0);
                 $pdf->Cell($width0, $height, $row['tiempo_mpp_hrs'], 1, 0, 'C', false, '', 1, false, 'T', 'C');
                 $this->totalNumParos=$this->totalNumParos+$row['num_paros'];
+				$this->totalNumParosPl=$this->totalNumParosPl+$row['num_paros_planif'];
                 $this->totalTiempoOpHrs=$this->totalTiempoOpHrs+$row['tiempo_op_hrs'];
                 $this->totalTiempoStandByHrs=$this->totalTiempoStandByHrs+$row['tiempo_standby_hrs'];
                 $this->totalTiempoMnpHrs=$this->totalTiempoMnpHrs+$row['tiempo_mnp_hrs'];
@@ -333,7 +337,8 @@ Class RMedicionIndicadores extends Report {
                 next($dataset);    
             }else{
                 $pdf->setTextColor(0,0,255);
-                $pdf->Cell($width0, $height, '0', 1, 0, 'C', false, '', 1, false, 'T', 'C');
+                $pdf->Cell($width0-3, $height, '0', 1, 0, 'C', false, '', 1, false, 'T', 'C');
+				$pdf->Cell($width0-3, $height, '0', 1, 0, 'C', false, '', 1, false, 'T', 'C');
                 $pdf->setTextColor(208,32,144);
                 $pdf->Cell($width0, $height, '0.00', 1, 0, 'C', false, '', 1, false, 'T', 'C');
                 $pdf->setTextColor(255,215,0);
@@ -346,12 +351,13 @@ Class RMedicionIndicadores extends Report {
             $pdf->Ln();    
         }
         $pdf->setTextColor(0,0,0);
-        $pdf->Cell($width1, $height, "Dias = $this->dias", 1, 0, 'C', false, '', 1, false, 'T', 'C');
+        $pdf->Cell($width1+7, $height, "Dias = $this->dias", 1, 0, 'C', false, '', 1, false, 'T', 'C');
         $pdf->Cell($width0*5, $height, "", 1, 0, 'C', false, '', 1, false, 'T', 'C');
         $pdf->Ln();
         $pdf->Cell($width1, $height, $this->dias*24, 1, 0, 'C', false, '', 1, false, 'T', 'C');
         $pdf->setTextColor(0,0,255);
-        $pdf->Cell($width0, $height, $this->totalNumParos, 1, 0, 'C', false, '', 1, false, 'T', 'C');
+        $pdf->Cell($width0-3, $height, $this->totalNumParos, 1, 0, 'C', false, '', 1, false, 'T', 'C');
+		$pdf->Cell($width0-3, $height, $this->totalNumParosPl, 1, 0, 'C', false, '', 1, false, 'T', 'C');
         $pdf->setTextColor(208,32,144);
         $pdf->Cell($width0, $height, $this->totalTiempoOpHrs, 1, 0, 'C', false, '', 1, false, 'T', 'C');
         $pdf->setTextColor(255,215,0);
@@ -363,7 +369,8 @@ Class RMedicionIndicadores extends Report {
         $pdf->Ln();
         $pdf->setTextColor(0,0,0);
         $pdf->Cell($width1, $height, "Horas Totales Mes", 1, 0, 'C', false, '', 1, false, 'T', 'C');
-        $pdf->Cell($width0, $height, "Número de Paros", 1, 0, 'C', false, '', 1, false, 'T', 'C');
+        $pdf->Cell($width0-3, $height, "Paros NPL", 1, 0, 'C', false, '', 1, false, 'T', 'C');
+		$pdf->Cell($width0-3, $height, "Paros PL", 1, 0, 'C', false, '', 1, false, 'T', 'C');
         $pdf->Cell($width0*2, $height, "Total Horas de trabajo", 1, 0, 'C', false, '', 1, false, 'T', 'C');
         $pdf->Cell($width0, $height, "Total Hrs. MNP", 1, 0, 'C', false, '', 1, false, 'T', 'C');
         $pdf->Cell($width0, $height, "Total Hrs. MPP", 1, 0, 'C', false, '', 1, false, 'T', 'C');        
