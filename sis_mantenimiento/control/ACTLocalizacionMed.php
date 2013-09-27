@@ -316,9 +316,7 @@ class ACTLocalizacionMed extends ACTbase{
 			// Create the Pie Graph. 
 			$graph = new PieGraph(500,300);
 			
-			//Obtiene las leyendas
-			//$graph->SetLegends($legend);
-			
+		
 			$theme_class= new VividTheme;
 			$graph->SetTheme($theme_class);
 		
@@ -327,7 +325,13 @@ class ACTLocalizacionMed extends ACTbase{
 			
 			// Create
 			$p1 = new PiePlot3D($data);
+			$p1->SetLegends($legend);
+			
 			$graph->Add($p1);
+			
+			//Borde y ubicación de la leyenda
+			$graph->legend->SetFrameWeight(1);
+			$graph->legend->Pos(0.05,0.92);
 			
 			$p1->ShowBorder();
 			$p1->SetColor('black');
@@ -349,6 +353,7 @@ class ACTLocalizacionMed extends ACTbase{
 			$fil=0;
 			$aTotalPla=array();
 			$aTotalEje=array();
+			
 			
 			foreach($this->res->datos as $item){
 				$aTotalPla[]=intval($item['total_pla']);
@@ -404,6 +409,9 @@ class ACTLocalizacionMed extends ACTbase{
 			$b2plot->SetColor("white");
 			$b2plot->SetFillColor("#11cccc");
 			
+			$b1plot->SetLegend("Planificado");
+			$b2plot->SetLegend("Ejecutado");
+			
 			$graph->title->Set("% Ejecución de Mantenimiento");
 			
 			// Display the graph
@@ -422,6 +430,8 @@ class ACTLocalizacionMed extends ACTbase{
 			//Generación del gráfico
 			$data=array();
 			$legend=array();
+			
+			//var_dump($this->res->datos);exit;
 			foreach($this->res->datos as $item){
 				$data[]=$item['total'];
 				$legend[]=$item['tipo'];
@@ -441,7 +451,13 @@ class ACTLocalizacionMed extends ACTbase{
 			
 			// Create
 			$p1 = new PiePlot3D($data);
+			$p1->SetLegends($legend);
+			
 			$graph->Add($p1);
+			
+			//Borde y ubicación de la leyenda
+			$graph->legend->SetFrameWeight(1);
+			$graph->legend->Pos(0.05,0.94);
 			
 			$p1->ShowBorder();
 			$p1->SetColor('black');
