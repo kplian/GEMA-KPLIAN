@@ -1471,3 +1471,14 @@ CREATE TABLE gem.prov_aux (
   CONSTRAINT prov_aux_pkey PRIMARY KEY(id)
 ) WITHOUT OIDS;
 /***********************************F-SCP-RCM-GEM-0-16/08/2013*****************************************/
+
+/***********************************I-SCP-RCM-GEM-0-10/10/2013*****************************************/
+CREATE TABLE gem.tmant_predef_item(
+  id_mant_predef_item serial not null, 
+  id_mant_predef integer,
+  id_item integer,
+  cantidad_item numeric(18,2),
+  CONSTRAINT tmant_predef_item__id_mant_predef_item PRIMARY KEY(id_mant_predef_item)
+) INHERITS(pxp.tbase) 
+WITHOUT OIDS;
+/***********************************F-SCP-RCM-GEM-0-10/10/2013*****************************************/

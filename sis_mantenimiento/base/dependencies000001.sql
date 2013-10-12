@@ -666,3 +666,19 @@ ALTER TABLE gem.torden_trabajo
     ON UPDATE NO ACTION
     NOT DEFERRABLE;
 /***********************************F-DEP-RCM-GEM-0-25/07/2013*****************************************/
+
+/***********************************I-DEP-RCM-GEM-0-10/10/2013*****************************************/
+ALTER TABLE gem.tmant_predef_item
+  ADD CONSTRAINT fk_tmant_predef_item__id_mant_predef FOREIGN KEY (id_mant_predef)
+    REFERENCES gem.tmant_predef(id_mant_predef)
+    ON DELETE NO ACTION
+    ON UPDATE NO ACTION
+    NOT DEFERRABLE;
+    
+ALTER TABLE gem.tmant_predef_item
+  ADD CONSTRAINT fk_tmant_predef_item__id_item FOREIGN KEY (id_item)
+    REFERENCES alm.titem(id_item)
+    ON DELETE NO ACTION
+    ON UPDATE NO ACTION
+    NOT DEFERRABLE;
+/***********************************F-DEP-RCM-GEM-0-10/10/2013*****************************************/

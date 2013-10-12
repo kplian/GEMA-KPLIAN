@@ -30,13 +30,14 @@ DECLARE
   v_nombre_funcion        text;
   v_mensaje_error         text;
   v_id_orden_trabajo    integer;
-    v_mensaje_estado    varchar;
-    v_id_uni_cons       integer;
-    v_fecha         date;
-    v_nro         varchar;
-    v_num_oit       varchar;
-    v_rec_ot        record;
-    v_observaciones     varchar;
+  v_mensaje_estado    varchar;
+  v_id_uni_cons       integer;
+  v_fecha         date;
+  v_nro         varchar;
+  v_num_oit       varchar;
+  v_rec_ot        record;
+  v_observaciones     varchar;
+  v_id_moneda		integer;
           
 BEGIN
 
@@ -147,6 +148,41 @@ BEGIN
             v_parametros.id_mant_predef,
             v_parametros.id_orden_trabajo_sol
       )RETURNING id_orden_trabajo into v_id_orden_trabajo;
+      
+      --REgistra los items del mantenimiento selccionado
+      if v_parametros.id_mant_predef is not null then
+			if not exists(select 1 from gem.trecurso
+						where id_orden_trabajo = v_id_orden_trabajo
+						and id_item is not null) then
+						
+				v_id_moneda = param.f_get_moneda_base();
+				insert into gem.trecurso(
+				  id_usuario_reg,
+				  fecha_reg,
+				  estado_reg,
+				  id_item,
+				  id_moneda,
+				  cantidad,
+				  costo,
+				  id_unidad_medida,
+				  existencias,
+				  id_orden_trabajo)
+				select
+				p_id_usuario,
+				now(),
+				'activo',
+				mit.id_item,
+				v_id_moneda,
+				mit.cantidad_item,
+				itm.precio_ref,
+				itm.id_unidad_medida,
+				'Si',
+				v_id_orden_trabajo
+				from gem.tmant_predef_item mit
+				inner join alm.titem itm on itm.id_item = mit.id_item
+				where mit.id_mant_predef = v_parametros.id_mant_predef;
+			end if;
+      end if;
                
       --Definicion de la respuesta
       v_resp = pxp.f_agrega_clave(v_resp,'mensaje','Orden Interna de Trabajo almacenado(a) con exito (id_orden_trabajo'||v_id_orden_trabajo||')'); 
@@ -211,6 +247,41 @@ BEGIN
             id_mant_predef = v_parametros.id_mant_predef,
             id_orden_trabajo_sol = v_parametros.id_orden_trabajo_sol
       where id_orden_trabajo=v_parametros.id_orden_trabajo;
+      
+      --REgistra los items del mantenimiento selccionado
+      if v_parametros.id_mant_predef is not null then
+			if not exists(select 1 from gem.trecurso
+						where id_orden_trabajo = v_id_orden_trabajo
+						and id_item is not null) then
+						
+				v_id_moneda = param.f_get_moneda_base();
+				insert into gem.trecurso(
+				  id_usuario_reg,
+				  fecha_reg,
+				  estado_reg,
+				  id_item,
+				  id_moneda,
+				  cantidad,
+				  costo,
+				  id_unidad_medida,
+				  existencias,
+				  id_orden_trabajo)
+				select
+				p_id_usuario,
+				now(),
+				'activo',
+				mit.id_item,
+				v_id_moneda,
+				mit.cantidad_item,
+				itm.precio_ref,
+				itm.id_unidad_medida,
+				'Si',
+				v_parametros.id_orden_trabajo
+				from gem.tmant_predef_item mit
+				inner join alm.titem itm on itm.id_item = mit.id_item
+				where mit.id_mant_predef = v_parametros.id_mant_predef;
+			end if;
+      end if;
             
       --Definicion de la respuesta
             v_resp = pxp.f_agrega_clave(v_resp,'mensaje','Orden Interna de Trabajo modificado(a)'); 

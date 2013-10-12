@@ -298,13 +298,18 @@ Phx.vista.MantPredef=Ext.extend(Phx.gridInterfaz,{
 		{name:'id_tipo_mant', type: 'numeric'},
 		{name:'desc_tipo_mant', type: 'string'}
 	],
-	south:{
-		  url:'../../../sis_mantenimiento/vista/mant_predef_det/MantPredefDet.php',
-		  title:'Detalle actividades', 
-		  height:'50%',	//altura de la ventana hijo
-		  //width:'50%',		//ancho de la ventana hjo
-		  cls:'MantPredefDet'
-	},	
+	tabsouth:[{
+	  url:'../../../sis_mantenimiento/vista/mant_predef_det/MantPredefDet.php',
+	  title:'Detalle actividades', 
+	  height:'50%',	//altura de la ventana hijo
+	  cls:'MantPredefDet'
+	}, {
+		url:'../../../sis_mantenimiento/vista/mant_predef_item/MantPredefItem.php',
+		title:'Repuestos', 
+		//width:'50%',
+		height:'50%',
+		cls:'MantPredefItem'
+	 }],	
 	sortInfo:{
 		field: 'id_mant_predef',
 		direction: 'ASC'
