@@ -1,3 +1,11 @@
+CREATE OR REPLACE FUNCTION gem.f_generar_orden_trabajo_v2 (
+  p_id_usuario integer,
+  p_id_uni_cons_mant_predef integer,
+  p_fecha_ini date,
+  p_fecha_fin date
+)
+RETURNS varchar AS
+$body$
 /**************************************************************************
  SISTEMA:		SISTEMA DE GESTION DE MANTENIMIENTO
  FUNCION: 		gem.f_generar_orden_trabajo_v2
@@ -343,3 +351,9 @@ EXCEPTION
 		raise exception '%',v_resp;
 				        
 END;
+$body$
+LANGUAGE 'plpgsql'
+VOLATILE
+CALLED ON NULL INPUT
+SECURITY INVOKER
+COST 100;
