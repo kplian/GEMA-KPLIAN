@@ -199,8 +199,8 @@ BEGIN
                         group by date_part(''month'',locmed.fecha_med), loc.codigo,nombre_sistema,nombre_localizacion, loc.codigo ';
 			
 			--Definicion de la respuesta
-			v_consulta:=v_consulta||' order by ' ||v_parametros.ordenacion|| ' ' || v_parametros.dir_ordenacion || ' limit ' || v_parametros.cantidad || ' offset ' || v_parametros.puntero;
-
+			v_consulta:=v_consulta||' order by (date_part(''month'',locmed.fecha_med)) ' || v_parametros.dir_ordenacion || ' limit ' || v_parametros.cantidad || ' offset ' || v_parametros.puntero;
+raise notice '%', v_consulta;
 			--Devuelve la respuesta
 			return v_consulta;
 						

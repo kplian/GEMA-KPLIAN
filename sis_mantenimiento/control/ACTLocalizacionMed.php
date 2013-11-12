@@ -150,6 +150,9 @@ class ACTLocalizacionMed extends ACTbase{
         $this->objFunc = $this->create('MODLocalizacionMed');
         $resultReporteAnual = $this->objFunc->reporteAnualLocalizacionMed();
         $datosLocalizacionMed = $resultReporteAnual->getDatos();
+		/*echo '<pre>';
+		var_dump($resultReporteAnual->getDatos());
+		echo '</pre>';exit;*/
         
         //armamos el array parametros y metemos ahi los data sets de las otras tablas
         $dataSource->putParameter('numMeses',12);

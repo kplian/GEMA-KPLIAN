@@ -177,6 +177,9 @@ Class RAnualMedicionIndicadores extends Report {
         $this->mesLiteral = $dataSource->getParameter('mesLiteral');
         
         $dataset = $dataSource->getDataSet();
+		/*echo '<pre>';
+		var_dump($dataset);
+		echo '</pre>';exit;*/
         
         for ($i=1; $i < 13; $i++) { 
             $pdf->setTextColor(0,0,0);
@@ -350,7 +353,7 @@ Class RAnualMedicionIndicadores extends Report {
     }
 
     function dibujarLineas($x, $y,$widthCelda,$heightCelda, $numLineas, DataSource $dataSource, TCPDF $pdf){
-        $blue = array('width' => 0.35, 'cap' => 'butt', 'join' => 'miter', 'dash' => 0, 'color' => array(0, 0, 255));
+        /*$blue = array('width' => 0.35, 'cap' => 'butt', 'join' => 'miter', 'dash' => 0, 'color' => array(0, 0, 255));
         $magent = array('width' => 0.35, 'cap' => 'butt', 'join' => 'miter', 'dash' => 0, 'color' => array(208,32,144));   
         $gold = array('width' => 0.35, 'cap' => 'butt', 'join' => 'miter', 'dash' => 0, 'color' => array(255,215,0));
         $red = array('width' => 0.35, 'cap' => 'butt', 'join' => 'miter', 'dash' => 0, 'color' => array(255,0,0));
@@ -404,7 +407,7 @@ Class RAnualMedicionIndicadores extends Report {
                 $xMPP=$xMPP+$widthCelda;
                 $yMPP=$yOrigen+0.3;
             }    
-        }        
+        }*/        
     }
 
     function nombreMes($mes){
@@ -496,7 +499,7 @@ Class RAnualMedicionIndicadores extends Report {
     }
 
     function dibujarLineasCuadroEstadistico($x, $y,$widthCelda,$heightCelda, $numLineas, DataSource $dataSource, TCPDF $pdf){
-        $blue = array('width' => 0.35, 'cap' => 'butt', 'join' => 'miter', 'dash' => 0, 'color' => array(0, 0, 255));
+        /*$blue = array('width' => 0.35, 'cap' => 'butt', 'join' => 'miter', 'dash' => 0, 'color' => array(0, 0, 255));
         $red = array('width' => 0.35, 'cap' => 'butt', 'join' => 'miter', 'dash' => 0, 'color' => array(255,0,0));
         $xConfiabilidad=$x;
         $yConfiabilidad=$y-0.30;
@@ -536,7 +539,7 @@ Class RAnualMedicionIndicadores extends Report {
                 $xConfiabilidad=$xConfiabilidad+$widthCelda;
                 $yConfiabilidad=$yOrigen-0.3;                
             }    
-        }        
+        }  */      
     } 
 }
 ?>
