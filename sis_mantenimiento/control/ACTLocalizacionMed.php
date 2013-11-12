@@ -85,6 +85,9 @@ class ACTLocalizacionMed extends ACTbase{
         $anio = $this->objParam->getParametro('anio');
         $mesNumeral = $this->getMesNumeral($mesLiteral); 
         $diasMes = $this->diasMes($mesNumeral, $anio);
+		$mesLiteralAbrev = $this->getMesNumeralAbrev($mesLiteral);
+		
+		//echo $mesLiteral;exit;
         
         $dataSource = new DataSource();
         $this->objParam->defecto('ordenacion','fecha_med');
@@ -102,6 +105,7 @@ class ACTLocalizacionMed extends ACTbase{
         $dataSource->putParameter('mesLiteral',$mesLiteral);
         $dataSource->putParameter('mes',$mesNumeral);
         $dataSource->putParameter('anio',$anio);
+		$dataSource->putParameter('mesLiteralAbrev',$mesLiteralAbrev);
         if($datosLocalizacionMed[0]['nombre_sistema']!=null){
             $dataSource->putParameter('sistema', $datosLocalizacionMed[0]['nombre_sistema']);      
         }else{
@@ -179,8 +183,12 @@ class ACTLocalizacionMed extends ACTbase{
     }
     
     function getMesNumeral($mes){
-        $meses = array('January' => 01,'February'=>"02",'March'=>03,'April'=>04,'May'=>05,'June'=>06,
-                    'July'=>07,'August'=>08,'September'=>09,'October'=>10,'November'=>11,'December'=>12);        
+		$meses = array('January'=>1,'February'=>2,'March'=>3,'April'=>4,'May'=>5,'June'=>6,'July'=>7,'August'=>8,'September'=>9,'October'=>10,'November'=>11,'December'=>12);
+        return $meses["$mes"];
+    }
+	
+	function getMesNumeralAbrev($mes){
+		$meses = array('January'=>'Jan','February'=>'Feb','March'=>'Mar','April'=>'Apr','May'=>'May','June'=>'Jun','July'=>'Jul','August'=>'Aug','September'=>'Sep','October'=>'Oct','November'=>'Nov','December'=>'Dec');
         return $meses["$mes"];
     }
 
@@ -264,7 +272,7 @@ class ACTLocalizacionMed extends ACTbase{
 			//var_dump($this->res->datos);
 			
 			
-			try{
+			//try{
 				//Verificacion de datos para la graficacion
 				$this->verificaDatosGrafico($this->objParam->getParametro('tipo_indicador'));
 				//Creación del gráfico
@@ -276,13 +284,13 @@ class ACTLocalizacionMed extends ACTbase{
 				//Respuesta
 				$this->res = $mensajeExito;
 				
-			} catch(Exception $e){
+			/*} catch(Exception $e){
 				$mensajeExito = new Mensaje();
 				$mensajeExito->setMensaje('ERROR','Reporte.php','Reporte no generado, no existen datos en el periodo seleccionado','No existen datos para el calculo y graficacion de los datos, no existen datos en el periodo seleccionado','control');
 				
 				//Respuesta
 				$this->res = $mensajeExito;
-			}
+			}*/
 
 		}
 		$this->res->imprimirRespuesta($this->res->generarJson());

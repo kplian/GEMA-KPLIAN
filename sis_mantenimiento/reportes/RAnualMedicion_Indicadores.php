@@ -70,16 +70,16 @@ Class RAnualMedicionIndicadores extends Report {
         $pdf->Ln();
                 
         $pdf->setTextColor(0,0,0);
-        $pdf->Cell($width1+$width0+7, $height, '', 0, 0, 'R', false, '', 0, false, 'T', 'C');
+        $pdf->Cell($width1+$width0+4, $height, '', 0, 0, 'R', false, '', 0, false, 'T', 'C');
         $pdf->SetFont('', 'B');
         $pdf->SetFillColor(175,238,238, true);
-        $pdf->Cell($width0*4, $height, 'Tiempo en Horas', '1', 0, 'C', true, '', 1, false, 'T', 'C');
+        $pdf->Cell(($width0*4), $height, 'Tiempo en Horas', '1', 0, 'C', true, '', 1, false, 'T', 'C');
         $pdf->Cell($width0*2, $height, 'En %', '1', 0, 'C', true, '', 1, false, 'T', 'C');
         $pdf->Ln();      
         $pdf->Cell($width1, $height, 'MES', '1', 0, 'C', true, '', 1, false, 'T', 'C');
         $pdf->setTextColor(0,0,255);
-        $pdf->Cell($width0, $height, 'PAROS NPL', '1', 0, 'C', true, '', 1, false, 'T', 'C');
-		$pdf->Cell($width0, $height, 'PAROS PL', '1', 0, 'C', true, '', 1, false, 'T', 'C');
+        $pdf->Cell($width0-3, $height, 'PAROS NPL', '1', 0, 'C', true, '', 1, false, 'T', 'C');
+		$pdf->Cell($width0-3, $height, 'PAROS PL', '1', 0, 'C', true, '', 1, false, 'T', 'C');
         $pdf->setTextColor(208,32,144);
         $pdf->Cell($width0, $height, 'OPERATIVO', '1', 0, 'C', true, '', 1, false, 'T', 'C');
         $pdf->setTextColor(255,215,0);
@@ -241,7 +241,7 @@ Class RAnualMedicionIndicadores extends Report {
 
         $pdf->setTextColor(0,0,0);
         $pdf->Cell($width1, $height, "Dias = $this->dias", 1, 0, 'C', false, '', 1, false, 'T', 'C');
-        $pdf->Cell($width0*5, $height, "", 1, 0, 'C', false, '', 1, false, 'T', 'C');
+        $pdf->Cell($width0*5+24, $height, "", 1, 0, 'C', false, '', 1, false, 'T', 'C');
         $pdf->Ln();
         $pdf->Cell($width1, $height, $this->dias*24, 1, 0, 'C', false, '', 1, false, 'T', 'C');
         $pdf->setTextColor(0,0,255);
@@ -257,12 +257,12 @@ Class RAnualMedicionIndicadores extends Report {
         $pdf->Cell($width0, $height, $this->totalTiempoMppHrs, 1, 0, 'C', false, '', 1, false, 'T', 'C');
         $pdf->Ln();
         $pdf->setTextColor(0,0,0);
-        $pdf->Cell($width1, $height, "Horas Totales Año", 1, 0, 'C', false, '', 1, false, 'T', 'C');
-        $pdf->Cell($width0-3, $height, "Paros NPL", 1, 0, 'C', false, '', 1, false, 'T', 'C');
-		$pdf->Cell($width0-3, $height, "Paros PL", 1, 0, 'C', false, '', 1, false, 'T', 'C');
-        $pdf->Cell($width0*2, $height, "Total Horas de trabajo gestion", 1, 0, 'C', false, '', 1, false, 'T', 'C');
-        $pdf->Cell($width0, $height, "Total Hrs. MNP", 1, 0, 'C', false, '', 1, false, 'T', 'C');
-        $pdf->Cell($width0, $height, "Total Hrs. MPP", 1, 0, 'C', false, '', 1, false, 'T', 'C');        
+        $pdf->Cell($width1, $height, "Horas Tot. Año", 1, 0, 'C', false, '', 1, false, 'T', 'C');
+        $pdf->Cell($width0-3, $height, "NPL", 1, 0, 'C', false, '', 1, false, 'T', 'C');
+		$pdf->Cell($width0-3, $height, "PL", 1, 0, 'C', false, '', 1, false, 'T', 'C');
+        $pdf->Cell($width0*2, $height, "Tot.Horas de trabajo gestion", 1, 0, 'C', false, '', 1, false, 'T', 'C');
+        $pdf->Cell($width0, $height, "Tot.Hrs.MNP", 1, 0, 'C', false, '', 1, false, 'T', 'C');
+        $pdf->Cell($width0, $height, "Tot.Hrs.MPP", 1, 0, 'C', false, '', 1, false, 'T', 'C');        
     }
     
     function dibujarEjeCartesiano($x, $y, $max, $numDias, $titulo, $mes, $anio, $nombreEjeX, $nombreEjeY, TCPDF $pdf){
@@ -305,12 +305,12 @@ Class RAnualMedicionIndicadores extends Report {
         for ($i=0; $i <= $numDias; $i++) {             
             $pdf->Cell($widthDias, 1, $i, '0', 0, 'L', false, '', 1, true, 'T', 'C');            
         }
-        $black = array('width' => 0.25, 'cap' => 'butt', 'join' => 'miter', 'dash' => 0, 'color' => array(0, 0, 0));
-        $blue = array('width' => 0.25, 'cap' => 'butt', 'join' => 'miter', 'dash' => 0, 'color' => array(0, 0, 255));
-        $magent = array('width' => 0.25, 'cap' => 'butt', 'join' => 'miter', 'dash' => 0, 'color' => array(208,32,144));   
-        $gold = array('width' => 0.25, 'cap' => 'butt', 'join' => 'miter', 'dash' => 0, 'color' => array(255,215,0));
-        $red = array('width' => 0.25, 'cap' => 'butt', 'join' => 'miter', 'dash' => 0, 'color' => array(255,0,0));
-        $green = array('width' => 0.25, 'cap' => 'butt', 'join' => 'miter', 'dash' => 0, 'color' => array(0,100,0));
+        $black = array('width' => 0.35, 'cap' => 'butt', 'join' => 'miter', 'dash' => 0, 'color' => array(0, 0, 0));
+        $blue = array('width' => 0.35, 'cap' => 'butt', 'join' => 'miter', 'dash' => 0, 'color' => array(0, 0, 255));
+        $magent = array('width' => 0.35, 'cap' => 'butt', 'join' => 'miter', 'dash' => 0, 'color' => array(208,32,144));   
+        $gold = array('width' => 0.35, 'cap' => 'butt', 'join' => 'miter', 'dash' => 0, 'color' => array(255,215,0));
+        $red = array('width' => 0.35, 'cap' => 'butt', 'join' => 'miter', 'dash' => 0, 'color' => array(255,0,0));
+        $green = array('width' => 0.35, 'cap' => 'butt', 'join' => 'miter', 'dash' => 0, 'color' => array(0,100,0));
         //MARCO PARA LAS ETIQUETAS
         $pdf->setXY($x+11,$y+6);
         $pdf->Cell($width-18, $height, '', '1', 0, 'C', false, '', 1, false, 'T', 'C');
@@ -350,11 +350,11 @@ Class RAnualMedicionIndicadores extends Report {
     }
 
     function dibujarLineas($x, $y,$widthCelda,$heightCelda, $numLineas, DataSource $dataSource, TCPDF $pdf){
-        $blue = array('width' => 0.15, 'cap' => 'butt', 'join' => 'miter', 'dash' => 0, 'color' => array(0, 0, 255));
-        $magent = array('width' => 0.15, 'cap' => 'butt', 'join' => 'miter', 'dash' => 0, 'color' => array(208,32,144));   
-        $gold = array('width' => 0.15, 'cap' => 'butt', 'join' => 'miter', 'dash' => 0, 'color' => array(255,215,0));
-        $red = array('width' => 0.15, 'cap' => 'butt', 'join' => 'miter', 'dash' => 0, 'color' => array(255,0,0));
-        $green = array('width' => 0.15, 'cap' => 'butt', 'join' => 'miter', 'dash' => 0, 'color' => array(0,100,0));
+        $blue = array('width' => 0.35, 'cap' => 'butt', 'join' => 'miter', 'dash' => 0, 'color' => array(0, 0, 255));
+        $magent = array('width' => 0.35, 'cap' => 'butt', 'join' => 'miter', 'dash' => 0, 'color' => array(208,32,144));   
+        $gold = array('width' => 0.35, 'cap' => 'butt', 'join' => 'miter', 'dash' => 0, 'color' => array(255,215,0));
+        $red = array('width' => 0.35, 'cap' => 'butt', 'join' => 'miter', 'dash' => 0, 'color' => array(255,0,0));
+        $green = array('width' => 0.35, 'cap' => 'butt', 'join' => 'miter', 'dash' => 0, 'color' => array(0,100,0));
         $xNumParos=$x;
         $yNumParos=$y-0.30;
         $xOperativo=$x;
@@ -415,12 +415,12 @@ Class RAnualMedicionIndicadores extends Report {
     
     function dibujarCuadroEstaditico($x, $y, $numDias, $titulo, $mes, $anio, $nombreEjeX, $nombreEjeY, TCPDF $pdf){
         //ESTILOS
-        $black = array('width' => 0.25, 'cap' => 'butt', 'join' => 'miter', 'dash' => 0, 'color' => array(0, 0, 0));
-        $blue = array('width' => 0.25, 'cap' => 'butt', 'join' => 'miter', 'dash' => 0, 'color' => array(0, 0, 255));
-        $magent = array('width' => 0.25, 'cap' => 'butt', 'join' => 'miter', 'dash' => 0, 'color' => array(208,32,144));   
-        $gold = array('width' => 0.25, 'cap' => 'butt', 'join' => 'miter', 'dash' => 0, 'color' => array(255,215,0));
-        $red = array('width' => 0.25, 'cap' => 'butt', 'join' => 'miter', 'dash' => 0, 'color' => array(255,0,0));
-        $green = array('width' => 0.25, 'cap' => 'butt', 'join' => 'miter', 'dash' => 0, 'color' => array(0,100,0));
+        $black = array('width' => 0.15, 'cap' => 'butt', 'join' => 'miter', 'dash' => 0, 'color' => array(0, 0, 0));
+        $blue = array('width' => 0.15, 'cap' => 'butt', 'join' => 'miter', 'dash' => 0, 'color' => array(0, 0, 255));
+        $magent = array('width' => 0.15, 'cap' => 'butt', 'join' => 'miter', 'dash' => 0, 'color' => array(208,32,144));   
+        $gold = array('width' => 0.15, 'cap' => 'butt', 'join' => 'miter', 'dash' => 0, 'color' => array(255,215,0));
+        $red = array('width' => 0.15, 'cap' => 'butt', 'join' => 'miter', 'dash' => 0, 'color' => array(255,0,0));
+        $green = array('width' => 0.15, 'cap' => 'butt', 'join' => 'miter', 'dash' => 0, 'color' => array(0,100,0));
             
         $pdf->setLineStyle($black);    
         $xOrig = $x;
@@ -496,8 +496,8 @@ Class RAnualMedicionIndicadores extends Report {
     }
 
     function dibujarLineasCuadroEstadistico($x, $y,$widthCelda,$heightCelda, $numLineas, DataSource $dataSource, TCPDF $pdf){
-        $blue = array('width' => 0.15, 'cap' => 'butt', 'join' => 'miter', 'dash' => 0, 'color' => array(0, 0, 255));
-        $red = array('width' => 0.15, 'cap' => 'butt', 'join' => 'miter', 'dash' => 0, 'color' => array(255,0,0));
+        $blue = array('width' => 0.35, 'cap' => 'butt', 'join' => 'miter', 'dash' => 0, 'color' => array(0, 0, 255));
+        $red = array('width' => 0.35, 'cap' => 'butt', 'join' => 'miter', 'dash' => 0, 'color' => array(255,0,0));
         $xConfiabilidad=$x;
         $yConfiabilidad=$y-0.30;
         $xDisponibilidad=$x;
