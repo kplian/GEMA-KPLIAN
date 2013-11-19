@@ -1,8 +1,11 @@
-CREATE OR REPLACE FUNCTION "gem"."ft_localizacion_med_ime" (	
-				p_administrador integer, p_id_usuario integer, p_tabla character varying, p_transaccion character varying)
-RETURNS character varying AS
-$BODY$
-
+CREATE OR REPLACE FUNCTION gem.ft_localizacion_med_ime (
+  p_administrador integer,
+  p_id_usuario integer,
+  p_tabla varchar,
+  p_transaccion varchar
+)
+RETURNS varchar AS
+$body$
 /**************************************************************************
  SISTEMA:		Mantenimiento Industrial - Plantas y Estaciones
  FUNCION: 		gem.ft_localizacion_med_ime
@@ -55,8 +58,8 @@ BEGIN
         	--Verifica que se esté registrando al menos un valor
         	--v_tot = coalesce(v_parametros.tiempo_op_hrs,0) + coalesce(v_parametros.tiempo_standby_hrs,0) + coalesce(v_parametros.tiempo_mnp_hrs,0) + coalesce(v_parametros.tiempo_mpp_hrs,0);
         	v_tot = coalesce(v_parametros.tiempo_op_hrs,0) + coalesce(v_parametros.tiempo_mnp_hrs,0) + coalesce(v_parametros.tiempo_mpp_hrs,0);
-        	if (v_tot) = 0 then
-        		raise exception 'Debe registrarse al menos una de las columnas de medición.';
+        	if (v_tot) < 0 then
+        		raise exception 'Debe registrarse solamente cantidad positivas.';
         	end if; 
         	
         	--Verifica que las horas totales no sobrepasen las 24 horas
@@ -84,13 +87,13 @@ BEGIN
           	) values(
 			v_parametros.id_localizacion,
 			v_parametros.id_uni_cons,
-			v_parametros.tiempo_mnp_hrs,
+			coalesce(v_parametros.tiempo_mnp_hrs,0),
 			'activo',
 			v_parametros.tiempo_standby_hrs,
 			v_parametros.num_paros,
-			v_parametros.tiempo_op_hrs,
+			coalesce(v_parametros.tiempo_op_hrs,0),
 			v_parametros.fecha_med,
-			v_parametros.tiempo_mpp_hrs,
+			coalesce(v_parametros.tiempo_mpp_hrs,0),
 			now(),
 			p_id_usuario,
 			null,
@@ -202,7 +205,9 @@ EXCEPTION
 		raise exception '%',v_resp;
 				        
 END;
-$BODY$
-LANGUAGE 'plpgsql' VOLATILE
+$body$
+LANGUAGE 'plpgsql'
+VOLATILE
+CALLED ON NULL INPUT
+SECURITY INVOKER
 COST 100;
-ALTER FUNCTION "gem"."ft_localizacion_med_ime"(integer, integer, character varying, character varying) OWNER TO postgres;

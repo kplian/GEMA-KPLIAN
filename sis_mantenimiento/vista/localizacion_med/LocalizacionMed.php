@@ -149,7 +149,7 @@ Phx.vista.LocalizacionMed=Ext.extend(Phx.gridInterfaz,{
 			config:{
 				name: 'num_paros',
 				fieldLabel: 'Nro. Paros No Planif.',
-				allowBlank: true,
+				allowBlank: false,
 				anchor: '100%',
 				gwidth: 150,
 				maxLength:4
@@ -164,7 +164,7 @@ Phx.vista.LocalizacionMed=Ext.extend(Phx.gridInterfaz,{
 			config:{
 				name: 'num_paros_planif',
 				fieldLabel: 'Nro. Paros Planif.',
-				allowBlank: true,
+				allowBlank: false,
 				anchor: '100%',
 				gwidth: 150,
 				maxLength:4
@@ -179,7 +179,7 @@ Phx.vista.LocalizacionMed=Ext.extend(Phx.gridInterfaz,{
 			config:{
 				name: 'tiempo_op_hrs',
 				fieldLabel: 'Operativo',
-				allowBlank: true,
+				allowBlank: false,
 				anchor: '100%',
 				gwidth: 100,
 				maxLength:1179650
