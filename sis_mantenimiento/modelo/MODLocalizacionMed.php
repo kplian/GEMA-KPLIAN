@@ -73,6 +73,7 @@ class MODLocalizacionMed extends MODbase{
 
 		//Ejecuta la instruccion
 		$this->armarConsulta();
+		//echo $this->consulta;exit;
 		$this->ejecutarConsulta();
 
 		//Devuelve la respuesta
@@ -180,6 +181,7 @@ class MODLocalizacionMed extends MODbase{
         $this->captura('fecha_reg','text');
         $this->captura('fecha_mod','text');
 		$this->captura('num_paros_planif','int4');
+		$this->captura('fecha_med_real','text');
         
         //Ejecuta la instruccion
         $this->armarConsulta();

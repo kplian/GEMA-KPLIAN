@@ -10,16 +10,6 @@
 */
  
  /* (1) Table creation*/
-CREATE TABLE param.tproveedor_item_servicio (  
-  id_proveedor_item serial NOT NULL,
-  id_proveedor integer NOT NULL,
-  id_item integer,
-  id_servicio integer,
-  CONSTRAINT pk_tproveedor_item_servicio___id_proveedor_item PRIMARY KEY (id_proveedor_item),
-  CONSTRAINT chk_tproveedor_item_servivio__id_item__id_servicio CHECK (id_item IS NULL AND id_servicio IS NOT NULL OR id_servicio IS NULL AND id_item IS NOT NULL)
-) INHERITS (pxp.tbase)
-WITH OIDS;
-ALTER TABLE param.tproveedor_item_servicio OWNER TO postgres;
 
 CREATE TABLE gem.ttipo_mant (
   id_tipo_mant serial NOT NULL,

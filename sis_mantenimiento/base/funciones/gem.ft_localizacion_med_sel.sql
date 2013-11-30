@@ -137,7 +137,8 @@ BEGIN
 						locmed.tiempo_mpp_hrs,
 						to_char(locmed.fecha_reg,''dd-mm-YYYY'') as fecha_reg,
 						to_char(locmed.fecha_mod,''dd-mm-YYYY'') as fecha_mod,
-						locmed.num_paros_planif	
+						locmed.num_paros_planif,
+                        to_char(locmed.fecha_med,''dd-mm-YYYY'') as fecha_med_real
 						from gem.tlocalizacion_med locmed
                         inner join gem.tlocalizacion loc on loc.id_localizacion = locmed.id_localizacion
                         inner join gem.tlocalizacion locpad on locpad.id_localizacion = loc.id_localizacion_fk

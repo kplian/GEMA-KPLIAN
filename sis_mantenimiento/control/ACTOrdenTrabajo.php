@@ -110,7 +110,7 @@ class ACTOrdenTrabajo extends ACTbase{
 		$dataSource->putParameter('fechaEjecIni', $datosOT[0]['fecha_eje_ini']);
 		$dataSource->putParameter('fechaEjecFin', $datosOT[0]['fecha_eje_fin']);
 		$dataSource->putParameter('nombreSolicitante', $datosOT[0]['desc_person']);
-		$dataSource->putParameter('nombreAprobado', $datosOT[0]['desc_funcionaro_aprob']);
+		$dataSource->putParameter('nombreAprobado', $datosOT[0]['desc_funcionario_aprob']);
 		$dataSource->putParameter('nombreEjecutado', $datosOT[0]['desc_person1']);
 		$dataSource->putParameter('nombreRecibido', $datosOT[0]['desc_funcionario_recib']);
 		$dataSource->putParameter('comentarios', $datosOT[0]['comentarios']);

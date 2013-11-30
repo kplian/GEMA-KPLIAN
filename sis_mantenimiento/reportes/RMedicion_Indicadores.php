@@ -308,8 +308,10 @@ Class RMedicionIndicadores extends Report {
         for ($i=1; $i < $this->numDias+1; $i++) {        	 
             $pdf->setTextColor(0,0,0);
             //$pdf->Cell($width1, $height, "$i-$this->mesLiteral-$this->anio", 1, 0, 'C', false, '', 1, false, 'T', 'C');
-            $pdf->Cell($width1-4, $height, $dataSource->getParameter('mesLiteralAbrev').'/'.$this->anio, 1, 0, 'C', false, '', 1, false, 'T', 'C');
+            //$pdf->Cell($width1-4, $height, $dataSource->getParameter('mesLiteralAbrev').'/'.$this->anio, 1, 0, 'C', false, '', 1, false, 'T', 'C');
             $row=current($dataset); 
+            $pdf->Cell($width1-4, $height, $row['fecha_med_real'], 1, 0, 'C', false, '', 1, false, 'T', 'C');
+            
             //var_dump($row['fecha_med']);
             //var_dump(str_pad($i, 2, '0',STR_PAD_LEFT)."-$this->mesLiteral-$this->anio");           
             if($row['fecha_med']==str_pad($i, 2, '0',STR_PAD_LEFT)."-$this->mesLiteral-$this->anio"){
