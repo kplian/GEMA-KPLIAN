@@ -245,14 +245,14 @@ BEGIN
     
  return v_resp;  
 
-/*EXCEPTION
+EXCEPTION
 
       WHEN OTHERS THEN
     	v_resp='';
 		v_resp = pxp.f_agrega_clave(v_resp,'mensaje',SQLERRM);
     	v_resp = pxp.f_agrega_clave(v_resp,'codigo_error',SQLSTATE);
   		v_resp = pxp.f_agrega_clave(v_resp,'procedimientos',v_nombre_funcion);
-		raise exception '%',v_resp;*/
+		raise exception '%',v_resp;
 
 
 END;
