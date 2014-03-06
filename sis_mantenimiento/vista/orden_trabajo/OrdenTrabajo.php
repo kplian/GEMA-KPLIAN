@@ -66,7 +66,7 @@ Phx.vista.OrdenTrabajo=Ext.extend(Phx.gridInterfaz,{
 		);
 		
 		this.addButton('reporteOT',{
-			text:'Report OIT',
+			text:'Reporte OIT',
 			iconCls: 'bpdf32',
 			disabled: true,
 			handler:function() {
@@ -142,6 +142,19 @@ Phx.vista.OrdenTrabajo=Ext.extend(Phx.gridInterfaz,{
 		//Ocultar componentes que no se utilizarán
 		this.ocultarComponente(this.getComponente('acumulado'));
 		this.ocultarComponente(this.getComponente('nota_tecnico_equipo'));
+
+		this.Cmp.id_orden_trabajo_sol.on('select', function(cmb,rec,ind){
+			this.Cmp.id_uni_cons.fireEvent('expand',this.Cmp.id_uni_cons);
+			
+			var rec1=new Array();
+			rec['id_uni_cons']=rec.data.id_uni_cons;
+			rec['desc_equipo']=rec.data.desc_equipo;
+			var rec2 = new Ext.data.Record(rec,rec.data.id_uni_cons);
+			this.Cmp.id_uni_cons.store.add(rec2);
+			this.Cmp.id_uni_cons.setRawValue(rec.data.desc_equipo);
+			
+			
+		},this);
 		
 	},
 	fheight:'80%',
@@ -223,7 +236,7 @@ Phx.vista.OrdenTrabajo=Ext.extend(Phx.gridInterfaz,{
 				name: 'id_tipo_mant',
 				fieldLabel: 'Tipo de OIT',
 				allowBlank: false,
-				emptyText:'Tipo de mantenimiento...',
+				emptyText:'Tipo de OIT...',
 				store:new Ext.data.JsonStore(
 				{
 					url: '../../sis_mantenimiento/control/TipoMant/listarTipoMant',
@@ -256,6 +269,49 @@ Phx.vista.OrdenTrabajo=Ext.extend(Phx.gridInterfaz,{
 			},
 			type:'ComboBox',
 			filters:{pfiltro:'tipman.nombre',type:'string'},
+			id_grupo:0,
+			grid:true,
+			form:true
+		},
+		{
+			config:{
+				name: 'id_orden_trabajo_sol',
+				fieldLabel: 'Nro.Sol. OIT',
+				allowBlank: true,
+				emptyText:'Nro. Solicitud...',
+				store:new Ext.data.JsonStore(
+				{
+					url: '../../sis_mantenimiento/control/OrdenTrabajoSol/listarOrdenTrabajoSol',
+					id: 'id_orden_trabajo_sol',
+					root:'datos',
+					sortInfo:{
+						field:'nro_sol',
+						direction:'ASC'
+					},
+					totalProperty:'total',
+					fields: ['id_orden_trabajo_sol','nro_sol','id_uni_cons','desc_equipo'],
+					// turn on remote sorting
+					remoteSort: true,
+					baseParams:{par_filtro:'nro_sol',estado:'finalizado'}
+				}),
+				valueField: 'id_orden_trabajo_sol',
+				displayField: 'nro_sol',
+				gdisplayField:'desc_ot_sol',
+				forceSelection:false,
+				hiddenName:'id_orden_trabajo_sol',
+				typeAhead: false,
+    			triggerAction: 'all',
+    			lazyRender:true,
+				mode:'remote',
+				pageSize:20,
+				queryDelay:500,
+				anchor: '100%',
+				gwidth:220,
+				minChars:2,
+				renderer:function (value, p, record){return String.format('{0}', record.data['desc_ot_sol']);}
+			},
+			type:'ComboBox',
+			filters:{pfiltro:'otsol.nro_sol',type:'string'},
 			id_grupo:0,
 			grid:true,
 			form:true
@@ -400,49 +456,6 @@ Phx.vista.OrdenTrabajo=Ext.extend(Phx.gridInterfaz,{
 			},
 			type:'ComboBox',
 			filters:{pfiltro:'local.nombre',type:'string'},
-			id_grupo:0,
-			grid:true,
-			form:true
-		},
-		{
-			config:{
-				name: 'id_orden_trabajo_sol',
-				fieldLabel: 'Nro.Sol. OIT',
-				allowBlank: true,
-				emptyText:'Nro. Solicitud...',
-				store:new Ext.data.JsonStore(
-				{
-					url: '../../sis_mantenimiento/control/OrdenTrabajoSol/listarOrdenTrabajoSol',
-					id: 'id_orden_trabajo_sol',
-					root:'datos',
-					sortInfo:{
-						field:'nro_sol',
-						direction:'ASC'
-					},
-					totalProperty:'total',
-					fields: ['id_orden_trabajo_sol','nro_sol'],
-					// turn on remote sorting
-					remoteSort: true,
-					baseParams:{par_filtro:'nro_sol',estado:'finalizado'}
-				}),
-				valueField: 'id_orden_trabajo_sol',
-				displayField: 'nro_sol',
-				gdisplayField:'desc_ot_sol',
-				forceSelection:false,
-				hiddenName:'id_orden_trabajo_sol',
-				typeAhead: false,
-    			triggerAction: 'all',
-    			lazyRender:true,
-				mode:'remote',
-				pageSize:20,
-				queryDelay:500,
-				anchor: '100%',
-				gwidth:220,
-				minChars:2,
-				renderer:function (value, p, record){return String.format('{0}', record.data['desc_ot_sol']);}
-			},
-			type:'ComboBox',
-			filters:{pfiltro:'otsol.nro_sol',type:'string'},
 			id_grupo:0,
 			grid:true,
 			form:true
@@ -689,7 +702,7 @@ Phx.vista.OrdenTrabajo=Ext.extend(Phx.gridInterfaz,{
 		{
 			config: {
 				name: 'cat_prior',
-				fieldLabel: 'Prioridad',
+				fieldLabel: 'Criticidad',
 				anchor: '100%',
 				tinit: true,
 				allowBlank: false,

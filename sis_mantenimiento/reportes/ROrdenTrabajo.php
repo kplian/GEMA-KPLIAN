@@ -306,13 +306,13 @@ Class ROrdenTrabajo extends Report {
 		$pdf->Cell($w = 185, $h = $hGlobal, $txt = 'DESCRIPCIÓN DE FALLA', $border = 1, $ln = 1, $align = 'C', $fill = true, $link = '', $stretch = 0, $ignore_min_height = false, $calign = 'T', $valign = 'M');
 		$pdf->setTextColor(0,0,0);
 		//$pdf->MultiCell($w = 185, $h = $hMedium, $txt = $dataSource->getParameter('descripcion'), $border = 1, $align = 'L', $fill = false, $ln = 1, $x = '', $y = '', $reseth = true, $stretch = 0, $ishtml = false, $autopadding = true, $maxh = $hMedium, $valign = 'T', $fitcell = false);
-		$pdf->MultiCell($w = 185, 0, $txt = $dataSource->getParameter('descripcion'), $border = 1, $align = 'L', $fill = false, $ln = 1, $x = '', $y = '', $reseth = true, $stretch = 0, $ishtml = false, $autopadding = true, $maxh = $hMedium, $valign = 'T', $fitcell = false);
+		$pdf->MultiCell($w = 185, 0, $txt = $dataSource->getParameter('descripcion'), $border = 1, $align = 'L', $fill = false, $ln = 1, $x = '', $y = '', $reseth = true, $stretch = 0, $ishtml = false, $autopadding = true, $maxh = 0, $valign = 'T', $fitcell = false);
 		
 		$pdf->setTextColor(255,255,255);
 		$pdf->Cell($w = 185, $h = $hGlobal, $txt = 'DESCRIPCIÓN DETALLADA DEL SERVICIO Y/O REPARACIÓN A REALIZAR', $border = 1, $ln = 1, $align = 'C', $fill = true, $link = '', $stretch = 0, $ignore_min_height = false, $calign = 'T', $valign = 'M');
 		$pdf->setTextColor(0,0,0);
 		
-		$pdf->MultiCell($w = 185, 0, $txt = $dataSource->getParameter('observacion'), $border = 1, $align = 'L', $fill = false, $ln = 1, $x = '', $y = '', $reseth = true, $stretch = 0, $ishtml = false, $autopadding = true, $maxh = $hMedium, $valign = 'T', $fitcell = true);
+		$pdf->MultiCell($w = 185, 0, $txt = $dataSource->getParameter('observacion'), $border = 1, $align = 'L', $fill = false, $ln = 1, $x = '', $y = '', $reseth = true, $stretch = 0, $ishtml = false, $autopadding = true, $maxh = 0, $valign = 'T', $fitcell = true);
 		$pdf->Ln();
 		
 		$wDescProceso = 85;
@@ -553,19 +553,19 @@ Class ROrdenTrabajo extends Report {
 		$pdf->setTextColor(0,0,255);
 		$pdf->Cell($w = ($wBlock-25)/2, $h = $hGlobal, $txt = 'Nombre:', $border = 'LB', $ln = 0, $align = 'L', $fill = false, $link = '', $stretch = 0, $ignore_min_height = false, $calign = 'T', $valign = 'M');
 		$pdf->setTextColor(0,0,0);
-		$pdf->Cell($w = 35.5, $h = $hGlobal, $txt = $dataSource->getParameter('nombreSolicitante'), $border = 'B', $ln = 0, $align = 'L', $fill = false, $link = '', $stretch = 0, $ignore_min_height = false, $calign = 'T', $valign = 'M');
+		$pdf->Cell($w = 35.5, $h = $hGlobal, $txt = $dataSource->getParameter('nombreSolicitante'), $border = 'B', $ln = 0, $align = 'L', $fill = false, $link = '', $stretch = 1, $ignore_min_height = false, $calign = 'T', $valign = 'M');
 		$pdf->setTextColor(0,0,255);
 		$pdf->Cell($w = ($wBlock-25)/2, $h = $hGlobal, $txt = 'Nombre:', $border = 'LB', $ln = 0, $align = 'L', $fill = false, $link = '', $stretch = 0, $ignore_min_height = false, $calign = 'T', $valign = 'M');
 		$pdf->setTextColor(0,0,0);
-		$pdf->Cell($w = 35.5, $h = $hGlobal, $txt = $dataSource->getParameter('nombreAprobado'), $border = 'B', $ln = 0, $align = 'L', $fill = false, $link = '', $stretch = 0, $ignore_min_height = false, $calign = 'T', $valign = 'M');
+		$pdf->Cell($w = 35.5, $h = $hGlobal, $txt = $dataSource->getParameter('nombreAprobado'), $border = 'B', $ln = 0, $align = 'L', $fill = false, $link = '', $stretch = 1, $ignore_min_height = false, $calign = 'T', $valign = 'M');
 		$pdf->setTextColor(0,0,255);
 		$pdf->Cell($w = ($wBlock-25)/2, $h = $hGlobal, $txt = 'Nombre:', $border = 'LB', $ln = 0, $align = 'L', $fill = false, $link = '', $stretch = 0, $ignore_min_height = false, $calign = 'T', $valign = 'M');
 		$pdf->setTextColor(0,0,0);
-		$pdf->Cell($w = 35.5, $h = $hGlobal, $txt = $dataSource->getParameter('nombreEjecutado'), $border = 'B', $ln = 0, $align = 'L', $fill = false, $link = '', $stretch = 0, $ignore_min_height = false, $calign = 'T', $valign = 'M');
+		$pdf->Cell($w = 35.5, $h = $hGlobal, $txt = $dataSource->getParameter('nombreEjecutado'), $border = 'B', $ln = 0, $align = 'L', $fill = false, $link = '', $stretch = 1, $ignore_min_height = false, $calign = 'T', $valign = 'M');
 		$pdf->setTextColor(0,0,255);
 		$pdf->Cell($w = ($wBlock-25)/2, $h = $hGlobal, $txt = 'Nombre:', $border = 'LB', $ln = 0, $align = 'L', $fill = false, $link = '', $stretch = 0, $ignore_min_height = false, $calign = 'T', $valign = 'M');
 		$pdf->setTextColor(0,0,0);
-		$pdf->Cell($w = 35.5 + 1, $h = $hGlobal, $txt = $dataSource->getParameter('nombreRecibido'), $border = 'BR', $ln = 0, $align = 'L', $fill = false, $link = '', $stretch = 0, $ignore_min_height = false, $calign = 'T', $valign = 'M');
+		$pdf->Cell($w = 35.5 + 1, $h = $hGlobal, $txt = $dataSource->getParameter('nombreRecibido'), $border = 'BR', $ln = 0, $align = 'L', $fill = false, $link = '', $stretch = 1, $ignore_min_height = false, $calign = 'T', $valign = 'M');
 		$pdf->Ln();
 		
 		$pdf->setTextColor(0,0,255);
@@ -591,7 +591,8 @@ Class ROrdenTrabajo extends Report {
 		$pdf->Cell($w = 185, $h = $hGlobal, $txt = 'COMENTARIOS SOBRE EL TRABAJO REALIZADO', $border = 1, $ln = 0, $align = 'C', $fill = true, $link = '', $stretch = 0, $ignore_min_height = false, $calign = 'T', $valign = 'M');
 		$pdf->Ln();
 		$pdf->setTextColor(0,0,0);
-		$pdf->MultiCell($w = 185, $h = $hMedium, $txt = $dataSource->getParameter('comentarios'), $border = 1, $align = 'L', $fill = false, $ln = 1, $x = '',$y = '', $reseth = true, $stretch = 0, $ishtml = false, $autopadding = true, $maxh = $hMedium, $valign = 'T', $fitcell = true);
+		//$pdf->MultiCell($w = 185, $h = $hMedium, $txt = $dataSource->getParameter('comentarios'), $border = 1, $align = 'L', $fill = false, $ln = 1, $x = '', $y = '', $reseth = true, $stretch = 0, $ishtml = false, $autopadding = true, $maxh = $hMedium, $valign = 'T', $fitcell = true);
+		$pdf->MultiCell($w = 185, 0, $txt = $dataSource->getParameter('comentarios'), $border = 1, $align = 'L', $fill = false, $ln = 1, $x = '', $y = '', $reseth = true, $stretch = 0, $ishtml = false, $autopadding = true, $maxh = 0, $valign = 'T', $fitcell = false);
 		
 		$wTercio = 62;
 		$hDouble = 16;

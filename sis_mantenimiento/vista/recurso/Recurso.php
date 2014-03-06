@@ -197,7 +197,7 @@ Phx.vista.recurso=Ext.extend(Phx.gridInterfaz,{
 					totalProperty: 'total',
 					fields: ['id_funcionario','desc_person'],
 					remoteSort: true,
-					baseParams: {par_filtro:'desc_person'}
+					baseParams: {par_filtro:'PERSON.nombre_completo1'}
 				}),
 				//hidden: true,
 				valueField: 'id_funcionario',

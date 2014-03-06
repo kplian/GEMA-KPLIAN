@@ -173,7 +173,7 @@ Class ROrdenTrabajoSolicitado extends Report {
         $pdf->MultiCell(185,$height*3,$dataset[0]['observacion'],1,'J',false);
         $pdf->Ln(0);
 		$pdf->setTextColor(255,255,255);
-        $pdf->Cell($width2*2+$width1, $height, 'DESCRIPCIÓN PUNTUAL DE LO QUE SE DESEA OBTENER:', 'LTB', 0, 'C', true, '', 0, false, 'T', 'C');
+        $pdf->Cell($width2*2+$width1, $height, 'ACCIÓN A REALIZAR', 'LTB', 0, 'C', true, '', 0, false, 'T', 'C');
 		$pdf->setTextColor(0,0,0);
         $pdf->Cell($width2, $height, '', 'TBR', 0, 'L', true, '', 0, false, 'T', 'C');
 		$pdf->setTextColor(255,255,255);
@@ -201,8 +201,8 @@ Class ROrdenTrabajoSolicitado extends Report {
 		//$pdf->SetXY($x, $y);
         
 		$pdf->setTextColor(255,255,255);
-        $pdf->Cell(185, $height, 'INSUMOS - CANTIDAD REQUERIDA', 1, 0, 'C', true, '', 0, false, 'T', 'C');
-        $pdf->setXY($x-108,$y+$height*10);
+        $pdf->Cell(185, $height, 'INSUMOS - CANTIDAD REQUERIDA', 1, 1, 'C', true, '', 0, false, 'T', 'C');
+        //$pdf->setXY($x-108,$y+$height*10);
         $pdf->Cell(127.5, $height, 'DESCRIPCIÓN', 1, 0, 'C', true, '', 0, false, 'T', 'C');
         $pdf->Cell($width1+10, $height, 'UNIDAD', 1, 0, 'C', true, '', 0, false, 'T', 'C');
         $pdf->Cell($width2, $height, 'CANTIDAD', 1, 0, 'C', true, '', 0, false, 'T', 'C');

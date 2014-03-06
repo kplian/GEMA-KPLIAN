@@ -50,7 +50,8 @@ Phx.vista.OrdenTrabajoCosto=Ext.extend(Phx.gridInterfaz,{
 		    config:{
 		        name:'costo',
 		        fieldLabel:'Costo (Bs.)',
-		        gwidth:120		        
+		        gwidth:120,
+		        decimalPrecision:2	        
 		    },
 		    type:'Field',
 		    grid:true,

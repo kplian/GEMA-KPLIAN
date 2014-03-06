@@ -346,7 +346,7 @@ Phx.vista.OrdenTrabajoSol=Ext.extend(Phx.gridInterfaz,{
 		{
 			config:{
 				name: 'descripcion',
-				fieldLabel: 'Descripción Puntual',
+				fieldLabel: 'Acción a realizar',
 				allowBlank: false,
 				anchor: '100%',
 				gwidth: 100,
@@ -557,7 +557,7 @@ Phx.vista.OrdenTrabajoSol=Ext.extend(Phx.gridInterfaz,{
 		{
 			config: {
 				name: 'importancia',
-				fieldLabel: 'Importancia',
+				fieldLabel: 'Criticidad',
 				anchor: '90%',
 				tinit: false,
 				allowBlank: false,
@@ -582,7 +582,8 @@ Phx.vista.OrdenTrabajoSol=Ext.extend(Phx.gridInterfaz,{
 				allowBlank: true,
 				gwidth: 100,
 				format: 'd/m/Y',
-				renderer:function (value,p,record){return value?value.dateFormat('d/m/Y'):''}
+				renderer:function (value,p,record){return value?value.dateFormat('d/m/Y'):''},
+				hidden:true
 			},
 			type:'DateField',
 			filters:{pfiltro:'solord.fecha_real',type:'date'},

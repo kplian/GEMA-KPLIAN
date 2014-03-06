@@ -318,7 +318,7 @@ BEGIN
             
             raise notice '%',v_parametros.id_orden_trabajo;
             
-            for v_rec in (select descripcion,costo from tt_costo_oit) loop
+            for v_rec in (select descripcion,round(costo,2) from tt_costo_oit) loop
               return next v_rec;
             end loop;
             
