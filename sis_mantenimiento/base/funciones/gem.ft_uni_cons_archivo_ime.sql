@@ -1,5 +1,3 @@
---------------- SQL ---------------
-
 CREATE OR REPLACE FUNCTION gem.ft_uni_cons_archivo_ime (
   p_administrador integer,
   p_id_usuario integer,
@@ -51,9 +49,10 @@ BEGIN
 	
         begin
         	if(v_parametros.reporte='si') then
-              select * into v_reporte from gem.tuni_cons_archivo where reporte='si';
+				--Vuelve a reporte a No de todos sus imágenes
               update gem.tuni_cons_archivo set 
-              reporte='no' where id_uni_cons_archivo=v_reporte.id_uni_cons_archivo;
+              reporte='no'
+              where id_uni_cons = v_parametros.id_uni_cons;
             end if;
         	--Sentencia de la insercion
         	insert into gem.tuni_cons_archivo(
@@ -115,6 +114,15 @@ BEGIN
 			fecha_mod = now(),
             id_uni_cons = v_parametros.id_uni_cons
 			where id_uni_cons_archivo=v_parametros.id_uni_cons_archivo;
+            
+            if(v_parametros.reporte='si') then
+				--Vuelve a reporte a No de todos sus imágenes
+              update gem.tuni_cons_archivo set 
+              reporte='no'
+              where id_uni_cons = v_parametros.id_uni_cons
+              and id_uni_cons_archivo != v_parametros.id_uni_cons_archivo;
+              
+            end if;
                
 			--Definicion de la respuesta
             v_resp = pxp.f_agrega_clave(v_resp,'mensaje','Archivos de Unidades Constructoras modificado(a)'); 
@@ -161,7 +169,9 @@ BEGIN
         end;
      elsif(p_transaccion='GEM_UPARCHVER_MOD')then
      	begin
-			select * into v_transferencia from gem.tuni_cons_archivo uniarc where uniarc.id_uni_cons_archivo=v_parametros.id_uni_cons_archivo;         	
+			select * into v_transferencia
+            from gem.tuni_cons_archivo uniarc where uniarc.id_uni_cons_archivo=v_parametros.id_uni_cons_archivo;         	
+            
             insert into gem.tuni_cons_archivo(
             id_uni_cons_archivo_padre, codigo,
             nombre, nombre_archivo,
