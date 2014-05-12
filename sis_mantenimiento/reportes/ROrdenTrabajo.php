@@ -605,7 +605,7 @@ Class ROrdenTrabajo extends Report {
 		$pdf->setTextColor(0,0,0);
 		$pdf->MultiCell($w = $wTercio, $h = $hMedium, $txt = $dataSource->getParameter('accidentes'), $border = 1, $align = 'L', $fill = false, $ln = 0, $x = '',$y = '', $reseth = true, $stretch = 0, $ishtml = false, $autopadding = true, $maxh = $hMedium, $valign = 'T', $fitcell = true);
 		$pdf->MultiCell($w = $wTercio, $h = $hMedium, $txt = $dataSource->getParameter('reclamos'), $border = 1, $align = 'L', $fill = false, $ln = 0, $x = '',$y = '', $reseth = true, $stretch = 0, $ishtml = false, $autopadding = true, $maxh = $hMedium, $valign = 'T', $fitcell = true);
-		$pdf->MultiCell($w = $wTercio - 1, $h = $hMedium, $txt = $dataSource->getParameter('otros'), $border = 1, $align = 'L', $fill = false, $ln = 1, $x = '',$y = '', $reseth = true, $stretch = 0, $ishtml = false, $autopadding = true, $maxh = $hMedium, $valign = 'T', $fitcell = true);
+		$pdf->MultiCell($w = $wTercio - 1, $h = $hMedium, $txt = $dataSource->getParameter('otros'), $border = 1, $align = 'L', $fill = false, $ln = 1, $x = '',$y = '', $reseth = true, $stretch = 0, $ishtml = false, $autopadding = true, $maxh = $hMedium, $valign = 'T', $fitcell = false);
 		
 		//Mantenimientos predefinidos
 		//Titulos
