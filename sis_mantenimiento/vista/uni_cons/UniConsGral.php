@@ -22,6 +22,17 @@ Phx.vista.UniConsGral=Ext.extend(Phx.gridInterfaz,{
 		this.grid.getTopToolbar().disable();
 		this.grid.getBottomToolbar().disable();
 		
+		this.crearVentanaCambioCodigo();
+		
+		//Para cambio de código
+		this.addButton('btnCambiarCodigo', {
+				text : '',
+				iconCls : 'binfo',
+				disabled : false,
+				handler : this.onAbrirVentana,
+				tooltip : '<b>Cambiar Tag</b><br/>Opción restringida para el cambio de Tag de un equipo'
+		});
+		
 		//para definir atributos del equipo	
 		this.addButton('btnAtrib', {
 				text : '',
@@ -667,7 +678,133 @@ Phx.vista.UniConsGral=Ext.extend(Phx.gridInterfaz,{
 		 },
     codReporte:'S/C',
 	codSistema:'GEM',
-	pdfOrientacion:'L'
+	pdfOrientacion:'L',
+
+	crearVentanaCambioCodigo : function() {
+		this.formUC = new Ext.form.FormPanel({
+			baseCls: 'x-plain-' + this.idContenedor,
+			bodyStyle: 'padding:10 20px 10;',
+			autoDestroy: true,
+			border: false,
+			layout: 'form',
+			items: [{
+				xtype: 'textfield',
+				name: 'codigo_uni_cons',
+				fieldLabel: 'Código Actual',
+				width:'80%',
+				disabled: true,
+				maxLength: 150
+			}, {
+				xtype: 'textfield',
+				name: 'codigo_uni_cons_nuevo',
+				fieldLabel: 'Código Nuevo',
+				allowBlank: false,
+				width:'80%',
+				maxLength: 150
+			}]
+		});
+
+		this.wUC = new Ext.Window({
+			title: 'Cambiar Código',
+			collapsible: true,
+			maximizable: false,
+			autoDestroy: true,
+			width: 450,
+			height: 160,
+			layout: 'fit',
+			plain: true,
+			bodyStyle: 'padding:5px;',
+			buttonAlign: 'center',
+			items: this.formUC,
+			modal: true,
+			closeAction: 'hide',
+			buttons: [{
+				text: 'Guardar',
+				handler: this.onCambiarCodigo,
+				scope: this
+			}, {
+				text: 'Cancelar',
+				handler: function() {
+					this.wUC.hide()
+				},
+				scope: this
+			}]
+		});
+
+	},
+	
+	onCambiarCodigo: function() {
+		if (this.formUC.getForm().isValid()) {
+			var rec = this.sm.getSelected();
+			var CodAnt = this.formUC.getForm().findField('codigo_uni_cons');
+			var CodNuevo = this.formUC.getForm().findField('codigo_uni_cons_nuevo');
+			var IdUniCons = rec.data.id_uni_cons;
+			var global = this;
+			
+			//Verifica si los códigos son distintos para recién hacer la llamada ajax
+			if(CodAnt.getValue()==CodNuevo.getValue()){
+				//Códigos iguales
+				Ext.Msg.alert('Mensaje','El código nuevo es igual al anterior. Nada que hacer.');
+			} else {
+				//Códigos distintos: se hace la llamada ajax
+				Ext.Msg.confirm('Confirmación','¿Está seguro de realizar el cambio de Tag del equipo?',function(btn){
+					if(btn=='yes'){
+						Phx.CP.loadingShow();
+						Ext.Ajax.request({
+							url: '../../sis_mantenimiento/control/UniCons/CambiarCodigo',
+							params: {
+								id_uni_cons : IdUniCons,
+								codigo_uni_cons : CodNuevo.getValue()
+							},
+							success: function(resp) {
+								Phx.CP.loadingHide();
+								var reg = Ext.util.JSON.decode(Ext.util.Format.trim(resp.responseText));
+								if (reg.ROOT.error) {
+									alert("ERROR no esperado")
+								} else {
+									global.wUC.hide();
+									global.reload();
+								}
+							}, 
+							failure: this.conexionFailure,
+							timeout: this.timeout,
+							scope: this
+						});		
+					}
+				});
+					
+			}
+			
+		}
+	},
+	
+	onAbrirVentana:function(){
+		var rec=this.sm.getSelected();
+		if(rec){
+			if(rec.data){
+				this.wUC.show();
+				//Setea el valor del códgio actual en el componente
+				this.formUC.getForm().findField('codigo_uni_cons').setValue(rec.data.codigo);
+				this.formUC.getForm().findField('codigo_uni_cons_nuevo').setValue(rec.data.codigo);
+			} else {
+				Ext.Msg.alert('Mensaje','Seleccione un registro y vuelva a intentarlo');
+			}
+		} else{
+			Ext.Msg.alert('Mensaje','Seleccione un registro y vuelva a intentarlo');
+		}
+	},
+	
+	successCambio: function(resp) {
+		Phx.CP.loadingHide();
+		var reg = Ext.util.JSON.decode(Ext.util.Format.trim(resp.responseText));
+		if (reg.ROOT.error) {
+			alert("ERROR no esperado")
+		} else {
+			this.wUC.hide();
+			this.reload();
+		}
+	}
+	
 })
 </script>
 		

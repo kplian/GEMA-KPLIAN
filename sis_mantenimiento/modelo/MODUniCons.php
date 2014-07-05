@@ -767,5 +767,23 @@ class MODUniCons extends MODbase{
 		return $this->respuesta;
 	}
 	
+	function CambiarCodigo(){
+		//Definicion de variables para ejecucion del procedimiento
+		$this->procedimiento='gem.f_uni_cons_ime';
+		$this->transaccion='GEM_CAMCOD_MOD';
+		$this->tipo_procedimiento='IME';
+				
+		//Define los parametros para la funcion
+		$this->setParametro('id_uni_cons','id_uni_cons','int4');
+		$this->setParametro('codigo_uni_cons','codigo_uni_cons','varchar');
+
+		//Ejecuta la instruccion
+		$this->armarConsulta();
+		$this->ejecutarConsulta();
+
+		//Devuelve la respuesta
+		return $this->respuesta;
+	}
+	
 }
 ?>

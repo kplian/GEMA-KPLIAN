@@ -1126,6 +1126,39 @@ BEGIN
 
 		end;
 		
+	/*********************************    
+ 	#TRANSACCION:  'GEM_CAMCOD_MOD'
+ 	#DESCRIPCION:	Cambio de código del equipo
+ 	#AUTOR:		RCM
+ 	#FECHA:		03/07/2014
+	***********************************/
+
+	elsif(p_transaccion='GEM_CAMCOD_MOD')then
+
+		begin
+			--Verifica si el código es nuevo
+			if exists(select 1 from gem.tuni_cons
+					where id_uni_cons = v_parametros.id_uni_cons
+					and codigo = v_parametros.codigo_uni_cons) then
+				raise exception 'El código nuevo es igual al anterior. Nada que hacer.';
+			end if;
+			
+			--Sentencia de la eliminacion
+			update gem.tuni_cons set
+			codigo = v_parametros.codigo_uni_cons,
+			fecha_mod = now(),
+			id_usuario_mod = p_id_usuario
+            where id_uni_cons=v_parametros.id_uni_cons;
+               
+            --Definicion de la respuesta
+            v_resp = pxp.f_agrega_clave(v_resp,'mensaje','Cambio de código del equipo realizado'); 
+            v_resp = pxp.f_agrega_clave(v_resp,'id_uni_cons',v_parametros.id_uni_cons::varchar);
+              
+            --Devuelve la respuesta
+            return v_resp;
+
+		end;
+		
 	else
      
     	raise exception 'Transaccion inexistente: %',p_transaccion;

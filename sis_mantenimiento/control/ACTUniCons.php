@@ -630,5 +630,17 @@ class ACTUniCons extends ACTbase{
 		$this->res->imprimirRespuesta($this->res->generarJson());
 	}
 
+	/*
+	 * Author: RCM
+	 * Date: 03/07/2014
+	 * Description: Cambio controlado del código del equipo
+	 *  */
+	 	
+	function CambiarCodigo(){
+		$this->objFunc=$this->create('MODUniCons');	
+		$this->res=$this->objFunc->CambiarCodigo();			
+		$this->res->imprimirRespuesta($this->res->generarJson());
+	}
+
 }
 ?>
