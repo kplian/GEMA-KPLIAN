@@ -758,6 +758,7 @@ Phx.vista.UniConsGral=Ext.extend(Phx.gridInterfaz,{
 							},
 							success: function(resp) {
 								Phx.CP.loadingHide();
+								console.log(resp)
 								var reg = Ext.util.JSON.decode(Ext.util.Format.trim(resp.responseText));
 								if (reg.ROOT.error) {
 									alert("ERROR no esperado")
@@ -766,8 +767,8 @@ Phx.vista.UniConsGral=Ext.extend(Phx.gridInterfaz,{
 									global.reload();
 								}
 							}, 
-							failure: this.conexionFailure,
-							timeout: this.timeout,
+							failure: global.conexionFailure,
+							timeout: global.timeout,
 							scope: this
 						});		
 					}
